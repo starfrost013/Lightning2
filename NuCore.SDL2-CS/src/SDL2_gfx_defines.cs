@@ -73,8 +73,10 @@ namespace NuCore.SDL2
 		[DllImport(NativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int aalineRGBA(IntPtr renderer, int x1, int y1, int x2, int y2, byte r, byte g, byte b, byte a);
 
+		// 2022-2-26: Changed from uint8 to uint16 for really thick lines in C++
+		// So changing this here. Don't fix this for mainline gfx
 		[DllImport(NativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern int thickLineRGBA(IntPtr renderer, int x1, int y1, int x2, int y2, byte width, byte r, byte g, byte b, byte a);
+		public static extern int thickLineRGBA(IntPtr renderer, int x1, int y1, int x2, int y2, short width, byte r, byte g, byte b, byte a);
 
 		[DllImport(NativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int circleRGBA(IntPtr renderer, int x, int y, int rad, byte r, byte g, byte b, byte a);
@@ -208,8 +210,9 @@ namespace NuCore.SDL2
 
 		#endregion
 
-		#region SDL2_imageFilter.h
+#region SDL2_imageFilter.h
 
+#if X86 // MMX supported for X64 only with GCC. As this is C# code...
 		[DllImport(NativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_imageFilterMMXdetect();
 
@@ -218,6 +221,7 @@ namespace NuCore.SDL2
 
 		[DllImport(NativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_imageFilterMMXon();
+#endif
 
 		[DllImport(NativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_imageFilterAdd([In] byte[] src1, [In] byte[] src2, [Out] byte[] dest, uint length);
@@ -300,6 +304,6 @@ namespace NuCore.SDL2
 		[DllImport(NativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_imageFilterNormalizeLinear([In] byte[] src1, [Out] byte[] dest, uint length, int cmin, int cmax, int nmin, int nmax);
 
-		#endregion
+#endregion
 	}
 }
