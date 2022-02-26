@@ -5,7 +5,7 @@ using System;
 namespace Lightning2
 {
     /// <summary>
-    /// Lightning2 Accelerated Rendering Pipeline
+    /// Lightning2 (temporary name) Accelerated Rendering Pipeline
     /// 
     /// © 2022 starfrost
     /// </summary>
