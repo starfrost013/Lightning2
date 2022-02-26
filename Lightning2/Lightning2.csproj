@@ -1,0 +1,108 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyVersion>1.0.1.22034</AssemblyVersion>
+    <FileVersion>1.0.1.22034</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Content\NativeLibraries\libFLAC-8.dll" />
+    <None Remove="Content\NativeLibraries\libfreetype-6.dll" />
+    <None Remove="Content\NativeLibraries\libjpeg-9.dll" />
+    <None Remove="Content\NativeLibraries\libmodplug-1.dll" />
+    <None Remove="Content\NativeLibraries\libmpg123-0.dll" />
+    <None Remove="Content\NativeLibraries\libogg-0.dll" />
+    <None Remove="Content\NativeLibraries\libopus-0.dll" />
+    <None Remove="Content\NativeLibraries\libopusfile-0.dll" />
+    <None Remove="Content\NativeLibraries\libpng16-16.dll" />
+    <None Remove="Content\NativeLibraries\libtiff-5.dll" />
+    <None Remove="Content\NativeLibraries\libvorbis-0.dll" />
+    <None Remove="Content\NativeLibraries\libvorbisfile-3.dll" />
+    <None Remove="Content\NativeLibraries\libwebp-7.dll" />
+    <None Remove="Content\NativeLibraries\SDL2-v2.0.16-x64.dll" />
+    <None Remove="Content\NativeLibraries\SDL2_gfx-v1.0.5-x64.dll" />
+    <None Remove="Content\NativeLibraries\SDL2_image-v2.0.5-x64.dll" />
+    <None Remove="Content\NativeLibraries\SDL2_mixer-v2.0.4-x64.dll" />
+    <None Remove="Content\NativeLibraries\SDL2_ttf-v2.0.15-x64.dll" />
+    <None Remove="Content\NativeLibraries\zlib1.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Content\NativeLibraries\libFLAC-8.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\NativeLibraries\libfreetype-6.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\NativeLibraries\libjpeg-9.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\NativeLibraries\libmodplug-1.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\NativeLibraries\libmpg123-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\NativeLibraries\libogg-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\NativeLibraries\libopus-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\NativeLibraries\libopusfile-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\NativeLibraries\libpng16-16.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\NativeLibraries\libtiff-5.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\NativeLibraries\libvorbis-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\NativeLibraries\libvorbisfile-3.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\NativeLibraries\libwebp-7.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\NativeLibraries\SDL2-v2.0.16-x64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Link>Content\NativeLibraries\SDL2.dll</Link>
+    </Content>
+    <Content Include="Content\NativeLibraries\SDL2_gfx-v1.0.5-x64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  
+    </Content>
+    <Content Include="Content\NativeLibraries\SDL2_image-v2.0.5-x64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\NativeLibraries\SDL2_mixer-v2.0.4-x64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\NativeLibraries\SDL2_ttf-v2.0.15-x64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\NativeLibraries\zlib1.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NuCore.SDL2-CS\NuCore.SDL2.csproj" />
+    <ProjectReference Include="..\NuCore.Utilities\NuCore.Utilities.csproj" />
+  </ItemGroup>
+
+</Project>

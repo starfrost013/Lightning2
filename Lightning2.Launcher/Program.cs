@@ -1,0 +1,62 @@
+﻿// See https://aka.ms/new-console-template for more information
+
+// Lightning2 Test Launcher
+
+// Test Lightning2 application
+// © 2022 starfrost
+using NuCore.SDL2;
+using Lightning2;
+
+Lightning2.Lightning2.Init(); // Initialise Lightning2
+
+Window Window = new Window();
+WindowSettings WS = new WindowSettings();
+
+WS.Title = "Lightning2 Example";
+WS.Position = new Vector2(350, 100);
+WS.Size = new Vector2(960, 640);
+
+Window.AddWindow(WS);
+
+Texture Texture = new Texture(256, 256);
+
+Texture.Create(Window);
+
+// TEST time
+for (int x = 0; x < 256; x++)
+{
+    for (int y = 0; y < 256; y++)
+    {
+        Texture.SetPixel(x, y, new Color4(255, 0, 0, 255));
+    }
+}
+
+bool Running = true;
+
+while (Running)
+{
+    SDL.SDL_RenderClear(Window.Settings.RendererHandle);
+
+    SDL.SDL_Event Event = new SDL.SDL_Event();
+
+    if (SDL.SDL_PollEvent(out Event) > 0) 
+    {
+        switch (Event.type)
+        {
+            case SDL.SDL_EventType.SDL_QUIT:
+                Running = false;
+                return;
+            case SDL.SDL_EventType.SDL_KEYDOWN:
+                return;
+        }
+    }
+    else
+    {
+        SDL.SDL_Rect Src = new SDL.SDL_Rect(0, 0, 256, 256);
+        SDL.SDL_Rect Dst = new SDL.SDL_Rect(0, 0, 256, 256);
+
+        SDL.SDL_RenderCopy(Window.Settings.RendererHandle, Texture.TextureHandle, ref Src, ref Dst);
+
+        SDL.SDL_RenderPresent(Window.Settings.RendererHandle);
+    }
+}

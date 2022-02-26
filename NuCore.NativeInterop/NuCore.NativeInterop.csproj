@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyVersion>2.0.1.22034</AssemblyVersion>
+    <FileVersion>2.0.1.22034</FileVersion>
+    <Configurations>Debug;Release</Configurations>
+    <AssemblyName>NuCore.NativeInterop</AssemblyName>
+    <RootNamespace>NuCore.NativeInterop</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;WINDOWS,X64</DefineConstants>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Linux\" />
+    <Folder Include="Properties\" />
+    <Folder Include="Properties\" />
+    <Folder Include="OSX\" />
+  </ItemGroup>
+
+</Project>
