@@ -45,18 +45,42 @@ namespace NuCore.SDL2
     {
 		#region SDL_messagebox.h
 
+		/// <summary>
+		/// Flags that indicate which icons will be used for an SDL messagebox.
+		/// </summary>
 		[Flags]
 		public enum SDL_MessageBoxFlags : uint
 		{
+			/// <summary>
+			/// If set, an error icon will be used.
+			/// </summary>
 			SDL_MESSAGEBOX_ERROR = 0x00000010,
+
+			/// <summary>
+			/// If set, a warning icon will be used.
+			/// </summary>
 			SDL_MESSAGEBOX_WARNING = 0x00000020,
+
+			/// <summary>
+			/// If set, an information icon will be used.
+			/// </summary>
 			SDL_MESSAGEBOX_INFORMATION = 0x00000040
 		}
 
+		/// <summary>
+		/// Flags that control the behaviour of an SDL messagebox.
+		/// </summary>
 		[Flags]
 		public enum SDL_MessageBoxButtonFlags : uint
 		{
+			/// <summary>
+			/// If set, indicates that this button will be the default when the return key is pressed.
+			/// </summary>
 			SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT = 0x00000001,
+
+			/// <summary>
+			/// If set, indicates that this button will be the default when the Escape key is pressed.
+			/// </summary>
 			SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT = 0x00000002
 		}
 

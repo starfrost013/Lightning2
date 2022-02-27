@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NuCore.NativeInterop\NuCore.NativeInterop.csproj" />
+    <ProjectReference Include="..\NuCore.SDL2-CS\NuCore.SDL2.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,6 +5,7 @@
 // Test Lightning2 application
 // © 2022 starfrost
 using NuCore.SDL2;
+using NuCore.Utilities;
 using Lightning2;
 
 Lightning2.Lightning2.Init(); // Initialise Lightning2
