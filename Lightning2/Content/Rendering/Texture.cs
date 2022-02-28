@@ -170,9 +170,9 @@ namespace Lightning2
             {
                 throw new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({X},{Y}), min (0,0). max ({Size.X},{Size.Y}) ", 15, "Texture.GetPixel", NCExceptionSeverity.FatalError);
             }
-
-            int PixelToGet = (X / Pitch) * Y;
-            int MaxPixelID = (Pitch / 4) * Y;
+            
+            int MaxPixelID = (Pitch / 4) * Size.Y;
+            int PixelToGet = (Y * Size.X) + X; 
 
             if (PixelToGet > MaxPixelID)
             {
@@ -181,16 +181,12 @@ namespace Lightning2
 
             // CS0211 
             // does not matter as still points to same place
-            IntPtr npixels = Pixels;
-            IntPtr* PixelPtr = &npixels;
+            uint* npixels = (uint*)Pixels.ToPointer();
 
-            NCLogging.Log($"DEBUG: Setting pixel {X},{Y} for tex {Path}, size {Size.X},{Size.Y} to colour {Colour.R},{Colour.G},{Colour.B},{Colour.A} (RGBA)...");
             // oh god
-            PixelPtr[PixelToGet] = (IntPtr)(uint)Colour;
+            npixels[PixelToGet] = (uint)Colour;
 
             if (UnlockNow) Unlock(); // unlock the texture
-
-            
         }
 
         public void Lock()
@@ -222,9 +218,9 @@ namespace Lightning2
             if (!Locked) return;
             Locked = false;
 
-            IntPtr npixels = Pixels;
-
-            SDL.SDL_UnlockTexture(npixels);
+            SDL.SDL_UnlockTexture(TextureHandle);
+            Pixels = IntPtr.Zero; // now invalid
+            Pitch = 0;
 
         }
 

@@ -18,9 +18,6 @@ namespace NuCore.NativeInterop.Win32
     public static class NativeMethodsWin32
     {
 
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
         /// <summary>
         /// Imported from Tiralen 2022/01/03
         /// 

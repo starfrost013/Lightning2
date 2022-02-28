@@ -23,7 +23,7 @@ Texture Texture = new Texture(256, 256);
 
 Texture.Create(Window);
 
-// TEST time
+// TextureAPI test
 for (int x = 0; x < 256; x++)
 {
     for (int y = 0; y < 256; y++)
@@ -32,11 +32,13 @@ for (int x = 0; x < 256; x++)
     }
 }
 
+Texture.Unlock();
+
 bool Running = true;
 
 while (Running)
 {
-    SDL.SDL_RenderClear(Window.Settings.RendererHandle);
+    Window.Update();
 
     SDL.SDL_Event Event = new SDL.SDL_Event();
 
@@ -58,6 +60,6 @@ while (Running)
 
         SDL.SDL_RenderCopy(Window.Settings.RendererHandle, Texture.TextureHandle, ref Src, ref Dst);
 
-        SDL.SDL_RenderPresent(Window.Settings.RendererHandle);
+        Window.Present();
     }
 }

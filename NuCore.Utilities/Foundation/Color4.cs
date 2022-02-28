@@ -36,10 +36,10 @@ namespace NuCore.Utilities
         public static explicit operator uint(Color4 Colour)
         {
             uint NewColour = 0;
-            NewColour &= Colour.R;
-            NewColour &= Colour.G;
-            NewColour &= Colour.B;
-            NewColour &= Colour.A;
+            NewColour |= (uint)(Colour.R << 24);
+            NewColour |= (uint)(Colour.G << 16);
+            NewColour |= (uint)(Colour.B << 8);
+            NewColour |= Colour.A;
 
             return NewColour;
         }
@@ -47,12 +47,16 @@ namespace NuCore.Utilities
         public static explicit operator Color4(uint Colour)
         {
             return new Color4(
-                (byte)Colour,
-                (byte)(Colour >> 8),
-                (byte)(Colour >> 16),
-                (byte)(Colour >> 24)
+                (byte)(Colour & 0xFF),
+                (byte)((Colour >> 8) & 0xFF),
+                (byte)((Colour >> 16) & 0xFF),
+                (byte)((Colour >> 24) & 0xFF)
                 );
         }
 
+        public override string ToString()
+        {
+            return $"{R},{G},{B},{A}";
+        }
     }
 }
