@@ -21,14 +21,6 @@ namespace NuCore.NativeInterop.Win32
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
-
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern int MessageBoxA(IntPtr Hwnd,
-            string lpText,
-            string lpCaption,
-            [MarshalAs(UnmanagedType.U4)]
-            MessageBoxType uType);
-
         /// <summary>
         /// Imported from Tiralen 2022/01/03
         /// 
