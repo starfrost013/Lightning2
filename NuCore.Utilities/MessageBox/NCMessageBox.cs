@@ -17,7 +17,7 @@ namespace NuCore.Utilities
     /// </summary>
     public class NCMessageBox
     {
-        public SDL.SDL_MessageBoxFlags Flags { get; set; }
+        public SDL.SDL_MessageBoxFlags Icon { get; set; }
 
         public string Title { get; set; }  
 
@@ -68,7 +68,7 @@ namespace NuCore.Utilities
             mb_data.numbuttons = button_array.Length;
             mb_data.title = Title;
             mb_data.message = Message;
-            mb_data.flags = Flags;
+            mb_data.flags = Icon;
 
             int button_id;
 

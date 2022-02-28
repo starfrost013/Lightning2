@@ -1,4 +1,5 @@
-﻿using NuCore.SDL2; 
+﻿using NuCore.SDL2;
+using NuCore.Utilities; 
 using System;
 using System.Collections.Generic;
 using System.Linq;
