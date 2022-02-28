@@ -23,12 +23,22 @@ Texture Texture = new Texture(256, 256);
 
 Texture.Create(Window);
 
+Random Rnd = new Random();
+
 // TextureAPI test
+byte R = (byte)Rnd.Next(0, 256);
+byte G = (byte)Rnd.Next(0, 256);
+byte B = (byte)Rnd.Next(0, 256);
+
 for (int x = 0; x < 256; x++)
 {
+
     for (int y = 0; y < 256; y++)
     {
-        Texture.SetPixel(x, y, new Color4(255, 0, 0, 255));
+        B += (byte)Rnd.Next(-5, 5);
+        G += (byte)Rnd.Next(-5, 5);
+        B += (byte)Rnd.Next(-5, 5);
+        Texture.SetPixel(x, y, new Color4(R, G, B, 255));
     }
 }
 
@@ -50,7 +60,7 @@ while (Running)
                 Running = false;
                 return;
             case SDL.SDL_EventType.SDL_KEYDOWN:
-                return;
+                continue; // TEMP Code
         }
     }
     else
