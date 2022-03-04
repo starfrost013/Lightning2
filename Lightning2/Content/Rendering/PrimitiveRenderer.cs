@@ -32,9 +32,10 @@ namespace Lightning2
 
             // 2022-02-25: Changed SDL2_gfx in C++
             // to support 16-bit thickness instead of 8-bit
-            
+
             // nobody will ever need more than 65,536 pixels wide
             // (he says, regretting this in the future). If we do we can just change to sint32 in c++.
+            
             if (Thickness < 1
                 || Thickness > short.MaxValue) throw new NCException($"Cannot draw a line with a thickness between 1 and {short.MaxValue}! (thickness = {Thickness})", 18, "PrimitiveRenderer.DrawLine Thickness paraemeter <1!", NCExceptionSeverity.FatalError);
 
@@ -49,9 +50,9 @@ namespace Lightning2
                     SDL_gfx.lineRGBA(Win.Settings.RendererHandle, Start.X, Start.Y, End.X, End.Y, Colour.R, Colour.G, Colour.B, Colour.A);
                 }
             }
-            else // sdl2_gfx limitaitons, can't be bothered to rebuild my @!{!@!@!@! SDL2-gfx 
+            else // sdl2_gfx limitaitons, can't be bothered to rebuild my SDL2-gfx 
             {
-                SDL_gfx.thickLineRGBA(Win.Settings.RendererHandle, Start.X, Start.Y, End.X, End.Y, (byte)Thickness, Colour.R, Colour.G, Colour.B, Colour.A);
+                SDL_gfx.thickLineRGBA(Win.Settings.RendererHandle, Start.X, Start.Y, End.X, End.Y, (short)Thickness, Colour.R, Colour.G, Colour.B, Colour.A);
             }
             
         }

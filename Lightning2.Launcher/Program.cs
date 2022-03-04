@@ -19,6 +19,7 @@ WS.Size = new Vector2(960, 640);
 
 Window.AddWindow(WS);
 
+
 Texture Texture = new Texture(256, 256);
 
 Texture.Create(Window);
@@ -29,26 +30,31 @@ Random Rnd = new Random();
 byte R = (byte)Rnd.Next(0, 256);
 byte G = (byte)Rnd.Next(0, 256);
 byte B = (byte)Rnd.Next(0, 256);
+byte A = (byte)Rnd.Next(0, 256);
 
-for (int x = 0; x < 256; x++)
+for (int x = 0; x < Texture.Size.X; x++)
 {
+    B += (byte)Rnd.Next(-5, 5);
+    G += (byte)Rnd.Next(-5, 5);
+    B += (byte)Rnd.Next(-5, 5);
+    A += (byte)Rnd.Next(-5, 5);
 
-    for (int y = 0; y < 256; y++)
+    for (int y = 0; y < Texture.Size.Y; y++)
     {
-        B += (byte)Rnd.Next(-5, 5);
-        G += (byte)Rnd.Next(-5, 5);
-        B += (byte)Rnd.Next(-5, 5);
-        Texture.SetPixel(x, y, new Color4(R, G, B, 255));
+        Texture.SetPixel(x, y, new Color4(R, G, B, A));
     }
 }
 
 Texture.Unlock();
+
 
 bool Running = true;
 
 while (Running)
 {
     Window.Update();
+
+    PrimitiveRenderer.DrawLine(Window, new Vector2(500, 300), new Vector2(600, 300), 1, new Color4(255, 255, 255, 255), false);
 
     SDL.SDL_Event Event = new SDL.SDL_Event();
 
@@ -65,8 +71,26 @@ while (Running)
     }
     else
     {
+        for (int x = 0; x < Texture.Size.X; x++)
+        {
+            // TextureAPI test
+            B += (byte)Rnd.Next(-1, 1);
+            G += (byte)Rnd.Next(-1, 1);
+            B += (byte)Rnd.Next(-1, 1);
+            A += (byte)Rnd.Next(-1, 1);
+
+            for (int y = 0; y < Texture.Size.Y; y++)
+            {
+                Texture.SetPixel(x, y, new Color4(R, G, B, A));
+            }
+        }
+
+        Texture.Unlock();
+
         SDL.SDL_Rect Src = new SDL.SDL_Rect(0, 0, 256, 256);
         SDL.SDL_Rect Dst = new SDL.SDL_Rect(0, 0, 256, 256);
+
+        //PrimitiveRenderer.DrawLine(Window, new Vector2(256, 0), new Vector2(356, 67), 1, new Color4(255, 54, 255, 255), false);
 
         SDL.SDL_RenderCopy(Window.Settings.RendererHandle, Texture.TextureHandle, ref Src, ref Dst);
 
