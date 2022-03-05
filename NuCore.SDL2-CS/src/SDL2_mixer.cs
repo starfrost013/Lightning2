@@ -688,6 +688,25 @@ namespace NuCore.SDL2
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Mix_CloseAudio();
+		
+		// New from upstream - March 5, 2022
+
+		public static string Mix_GetError()
+		{
+			return SDL.SDL_GetError();
+		}
+
+		public static void Mix_SetError(string fmtAndArglist)
+		{
+			SDL.SDL_SetError(fmtAndArglist);
+		}
+
+		public static void Mix_ClearError()
+		{
+			SDL.SDL_ClearError();
+		}
+
+
 
 		#endregion
 	}

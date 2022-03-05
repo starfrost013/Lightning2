@@ -65,6 +65,12 @@ namespace NuCore.SDL2
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt32 SDL_GetTicks();
 
+		/* Returns the milliseconds that have passed since SDL was initialized
+		 * Only available in 2.0.18 or higher.
+		 */
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern UInt64 SDL_GetTicks64();
+
 		/* Get the current value of the high resolution counter */
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt64 SDL_GetPerformanceCounter();

@@ -96,6 +96,15 @@ namespace NuCore.SDL2
 			SDL_ScaleModeBest
 		}
 
+		/* Only available in 2.0.18 or higher. */
+		[StructLayout(LayoutKind.Sequential)]
+		public struct SDL_Vertex
+		{
+			public SDL_FPoint position;
+			public SDL_Color color;
+			public SDL_FPoint tex_coord;
+		}
+
 		/* IntPtr refers to an SDL_Renderer*, window to an SDL_Window* */
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_CreateRenderer(
@@ -164,6 +173,22 @@ namespace NuCore.SDL2
 			IntPtr texture,
 			out SDL_ScaleMode scaleMode
 		);
+
+		/* texture refers to an SDL_Texture*
+		* userdata refers to a void*
+		* Only available in 2.0.18 or higher.
+		*/
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int SDL_SetTextureUserData(
+			IntPtr texture,
+			IntPtr userdata
+		);
+
+		/* IntPtr refers to a void*, texture refers to an SDL_Texture*
+		 * Only available in 2.0.18 or higher.
+		 */
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SDL_GetTextureUserData(IntPtr texture);
 
 		/* renderer refers to an SDL_Renderer* */
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -920,6 +945,41 @@ namespace NuCore.SDL2
 			IntPtr texture
 		);
 
+		/* renderer refers to an SDL_Renderer*
+	 * texture refers to an SDL_Texture*
+	 * Only available in 2.0.18 or higher.
+	 */
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int SDL_RenderGeometry(
+			IntPtr renderer,
+			IntPtr texture,
+			[In] SDL_Vertex[] vertices,
+			int num_vertices,
+			[In] int[] indices,
+			int num_indices
+		);
+
+		/* renderer refers to an SDL_Renderer*
+		 * texture refers to an SDL_Texture*
+		 * indices refers to a void*
+		 * Only available in 2.0.18 or higher.
+		 */
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int SDL_RenderGeometryRaw(
+			IntPtr renderer,
+			IntPtr texture,
+			[In] float[] xy,
+			int xy_stride,
+			[In] int[] color,
+			int color_stride,
+			[In] float[] uv,
+			int uv_stride,
+			int num_vertices,
+			IntPtr indices,
+			int num_indices,
+			int size_indices
+		);
+
 		/* texture refers to an SDL_Texture* */
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetTextureAlphaMod(
@@ -1031,6 +1091,36 @@ namespace NuCore.SDL2
 		 */
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderFlush(IntPtr renderer);
+
+		/* renderer refers to an SDL_Renderer*
+		* Only available in 2.0.18 or higher.
+		 */
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SDL_RenderWindowToLogical(
+			IntPtr renderer,
+			int windowX,
+			int windowY,
+			out float logicalX,
+			out float logicalY
+		);
+
+		/* renderer refers to an SDL_Renderer*
+		 * Only available in 2.0.18 or higher.
+		 */
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SDL_RenderLogicalToWindow(
+			IntPtr renderer,
+			float logicalX,
+			float logicalY,
+			out int windowX,
+			out int windowY
+		);
+
+		/* renderer refers to an SDL_Renderer*
+		* Only available in 2.0.18 or higher.
+		*/
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int SDL_RenderSetVSync(IntPtr renderer, int vsync);
 
 		#endregion
 	}

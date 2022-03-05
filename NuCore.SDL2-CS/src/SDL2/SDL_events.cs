@@ -149,6 +149,10 @@ namespace NuCore.SDL2
 			/* Only available in SDL 2.0.4 or higher. */
 			SDL_RENDER_DEVICE_RESET,
 
+			/* Internal events */
+			/* Only available in 2.0.18 or higher. */
+			SDL_POLLSENTINEL = 0x7F00,
+
 			/* Events SDL_USEREVENT through SDL_LASTEVENT are for
 			 * your use, and should be allocated with
 			 * SDL_RegisterEvents()
@@ -296,6 +300,8 @@ namespace NuCore.SDL2
 			public Int32 x; /* amount scrolled horizontally */
 			public Int32 y; /* amount scrolled vertically */
 			public UInt32 direction; /* Set to one of the SDL_MOUSEWHEEL_* defines */
+			public float preciseX; /* Requires >= 2.0.18 */
+			public float preciseY; /* Requires >= 2.0.18 */
 		}
 
 		// Ignore private members used for padding in this struct

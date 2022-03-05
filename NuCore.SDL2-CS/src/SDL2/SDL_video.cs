@@ -112,7 +112,10 @@ namespace NuCore.SDL2
 			SDL_WINDOWEVENT_CLOSE,
 			/* Only available in 2.0.5 or higher. */
 			SDL_WINDOWEVENT_TAKE_FOCUS,
-			SDL_WINDOWEVENT_HIT_TEST
+			SDL_WINDOWEVENT_HIT_TEST,
+			/* Only available in 2.0.18 or higher. */
+			SDL_WINDOWEVENT_ICCPROF_CHANGED,
+			SDL_WINDOWEVENT_DISPLAY_CHANGED
 		}
 
 		public enum SDL_DisplayEventID : byte
@@ -915,6 +918,46 @@ namespace NuCore.SDL2
 		public static extern int SDL_FlashWindow(
 			IntPtr window,
 			SDL_FlashOperation operation
+		);
+
+		/* IntPtr refers to a void*
+		* window refers to an SDL_Window*
+		* mode refers to a size_t*
+		* Only available in 2.0.18 or higher.
+		*/
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SDL_GetWindowICCProfile(
+			IntPtr window,
+			out IntPtr mode
+		);
+
+		/* window refers to an SDL_Window*
+ * Only available in 2.0.18 or higher.
+ */
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int SDL_SetWindowMouseRect(
+			IntPtr window,
+			ref SDL_Rect rect
+		);
+
+		/* window refers to an SDL_Window*
+		 * rect refers to an SDL_Rect*
+		 * This overload allows for IntPtr.Zero (null) to be passed for rect.
+		 * Only available in 2.0.18 or higher.
+		 */
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int SDL_SetWindowMouseRect(
+			IntPtr window,
+			IntPtr rect
+		);
+
+		/* window refers to an SDL_Window*
+		 * IntPtr refers to an SDL_Rect*
+		 * Only available in 2.0.18 or higher.
+		 */
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SDL_GetWindowMouseRect(
+			IntPtr window
 		);
 
 		#endregion

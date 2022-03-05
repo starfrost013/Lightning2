@@ -518,6 +518,22 @@ namespace NuCore.SDL2
 		);
 
 		/* gamecontroller refers to an SDL_GameController*.
+		 * Only available in 2.0.18 or higher.
+		 */
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern SDL_bool SDL_GameControllerHasRumble(
+			IntPtr gamecontroller
+		);
+
+		/* gamecontroller refers to an SDL_GameController*.
+		 * Only available in 2.0.18 or higher.
+		 */
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern SDL_bool SDL_GameControllerHasRumbleTriggers(
+			IntPtr gamecontroller
+		);
+
+		/* gamecontroller refers to an SDL_GameController*.
 		 * Only available in 2.0.14 or higher.
 		 */
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -636,6 +652,43 @@ namespace NuCore.SDL2
 			IntPtr data,
 			int size
 		);
+
+		/* gamecontroller refers to an SDL_GameController*
+		* Only available in 2.0.18 or higher.
+		*/
+		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetAppleSFSymbolsNameForButton", CallingConvention = CallingConvention.Cdecl)]
+		private static extern IntPtr INTERNAL_SDL_GameControllerGetAppleSFSymbolsNameForButton(
+			IntPtr gamecontroller,
+			SDL_GameControllerButton button
+		);
+		public static string SDL_GameControllerGetAppleSFSymbolsNameForButton(
+			IntPtr gamecontroller,
+			SDL_GameControllerButton button
+		)
+		{
+			return UTF8_ToManaged(
+				INTERNAL_SDL_GameControllerGetAppleSFSymbolsNameForButton(gamecontroller, button)
+			);
+		}
+
+		/* gamecontroller refers to an SDL_GameController*
+		 * Only available in 2.0.18 or higher.
+		 */
+		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetAppleSFSymbolsNameForAxis", CallingConvention = CallingConvention.Cdecl)]
+		private static extern IntPtr INTERNAL_SDL_GameControllerGetAppleSFSymbolsNameForAxis(
+			IntPtr gamecontroller,
+			SDL_GameControllerAxis axis
+		);
+		public static string SDL_GameControllerGetAppleSFSymbolsNameForAxis(
+			IntPtr gamecontroller,
+			SDL_GameControllerAxis axis
+		)
+		{
+			return UTF8_ToManaged(
+				INTERNAL_SDL_GameControllerGetAppleSFSymbolsNameForAxis(gamecontroller, axis)
+			);
+		}
+
 
 		#endregion
 	}

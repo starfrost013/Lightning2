@@ -395,6 +395,19 @@ namespace NuCore.SDL2
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_JoystickHasLED(IntPtr joystick);
 
+
+		/* IntPtr refers to an SDL_Joystick*.
+		 * Only available in 2.0.18 or higher.
+		 */
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern SDL_bool SDL_JoystickHasRumble(IntPtr joystick);
+
+		/* IntPtr refers to an SDL_Joystick*.
+		 * Only available in 2.0.18 or higher.
+		 */
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern SDL_bool SDL_JoystickHasRumbleTriggers(IntPtr joystick);
+
 		/* IntPtr refers to an SDL_Joystick*.
 		 * Only available in 2.0.14 or higher.
 		 */

@@ -294,6 +294,28 @@ namespace NuCore.SDL2
 		public const string SDL_HINT_VIDEO_WAYLAND_ALLOW_LIBDECOR =
 			"SDL_VIDEO_WAYLAND_ALLOW_LIBDECOR";
 
+		/* Only available in 2.0.18 or higher. */
+		public const string SDL_HINT_VIDEO_EGL_ALLOW_TRANSPARENCY =
+			"SDL_VIDEO_EGL_ALLOW_TRANSPARENCY";
+		public const string SDL_HINT_APP_NAME =
+			"SDL_APP_NAME";
+		public const string SDL_HINT_SCREENSAVER_INHIBIT_ACTIVITY_NAME =
+			"SDL_SCREENSAVER_INHIBIT_ACTIVITY_NAME";
+		public const string SDL_HINT_IME_SHOW_UI =
+			"SDL_IME_SHOW_UI";
+		public const string SDL_HINT_WINDOW_NO_ACTIVATION_WHEN_SHOWN =
+			"SDL_WINDOW_NO_ACTIVATION_WHEN_SHOWN";
+		public const string SDL_HINT_POLL_SENTINEL =
+			"SDL_POLL_SENTINEL";
+		public const string SDL_HINT_JOYSTICK_DEVICE =
+			"SDL_JOYSTICK_DEVICE";
+		public const string SDL_HINT_LINUX_JOYSTICK_CLASSIC =
+			"SDL_LINUX_JOYSTICK_CLASSIC";
+
+		/* Only available in 2.0.20 or higher. */
+		public const string SDL_HINT_RENDER_LINE_METHOD =
+			"SDL_RENDER_LINE_METHOD";
+
 		public enum SDL_HintPriority
 		{
 			SDL_HINT_DEFAULT,
