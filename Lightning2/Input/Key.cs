@@ -16,10 +16,18 @@ namespace Lightning2
         /// </summary>
         public SDL.SDL_Keymod KeyMod => SDL.SDL_GetModState();
 
-        public static explicit operator Key(SDL.SDL_Keysym NKeySym)
+        public bool Repeated { get; set; }
+
+        public static explicit operator Key(SDL.SDL_KeyboardEvent NKeySym)
         {
-            return new Key { KeySym = NKeySym };
+            return new Key
+            {
+                KeySym = NKeySym.keysym,
+                Repeated = (NKeySym.repeat > 0)
+            };
         }
+
+        public override string ToString() => KeySym.ToString();
 
     }
 }

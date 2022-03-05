@@ -1,6 +1,7 @@
 ﻿using NuCore.Utilities;
 using NuCore.SDL2;
 using System;
+using System.Globalization;
 
 namespace Lightning2
 {
@@ -34,6 +35,18 @@ namespace Lightning2
             NCLogging.Settings = new NCLoggingSettings();
             NCLogging.Settings.WriteToLog = true;
             NCLogging.Init();
+        }
+
+        private static void Init_SetSDLLocale()
+        {
+            NCLogging.Log("Setting invariant culture...");
+            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+
+            NCLogging.Log("Attempting to find user's preferred SDL locale...");
+
+            IntPtr sdl_locale = SDL.SDL_GetPreferredLocales();
+
+            
         }
     }
 }

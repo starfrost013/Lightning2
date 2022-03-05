@@ -22,7 +22,7 @@ namespace Lightning2
         /// 
         /// Lower values are more precise but slower, higher values are less precise but faster
         /// </summary>
-        private const int PRIMITIVE_RENDERER_CIRCLE_PRECISION = 5; 
+        private const double PRIMITIVE_RENDERER_CIRCLE_PRECISION = 3; 
 
         public static void DrawLine(Window Win, Vector2 Start, Vector2 End, int Thickness, Color4 Colour, bool AntiAliased)
         {
@@ -50,9 +50,10 @@ namespace Lightning2
                     SDL_gfx.lineRGBA(Win.Settings.RendererHandle, Start.X, Start.Y, End.X, End.Y, Colour.R, Colour.G, Colour.B, Colour.A);
                 }
             }
-            else // sdl2_gfx limitaitons, can't be bothered to rebuild my SDL2-gfx 
+            else // sdl2_gfx limitaitons, can't be bothered to rebuild SDL2-gfx 
             {
                 SDL_gfx.thickLineRGBA(Win.Settings.RendererHandle, Start.X, Start.Y, End.X, End.Y, (short)Thickness, Colour.R, Colour.G, Colour.B, Colour.A);
+                SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, 0, 0, 0, 255);
             }
             
         }
@@ -67,6 +68,8 @@ namespace Lightning2
             {
                 SDL_gfx.rectangleRGBA(Win.Settings.RendererHandle, Position.X, Position.Y, Position.X + Size.X, Position.Y + Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
             }
+
+            SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, 0, 0, 0, 255);
         }
 
         public static void DrawRoundedRectangle(Window Win, Vector2 Position, Vector2 Size, Color4 Colour, int CornerRadius, bool Filled)
@@ -79,6 +82,8 @@ namespace Lightning2
             {
                 SDL_gfx.rectangleRGBA(Win.Settings.RendererHandle, Position.X, Position.Y, Position.X + Size.X, Position.Y + Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
             }
+
+            SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, 0, 0, 0, 255);
         }
 
         public static void DrawTriangle(Window Win, Vector2 Point1, Vector2 Point2, Vector2 Point3, Color4 Colour, bool Filled)
@@ -91,6 +96,8 @@ namespace Lightning2
             {
                 SDL_gfx.trigonRGBA(Win.Settings.RendererHandle, Point1.X, Point1.Y, Point2.X, Point2.Y, Point3.X, Point3.Y, Colour.R, Colour.G, Colour.B, Colour.A);
             }
+
+            SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, 0, 0, 0, 255);
         }
 
         public static void DrawCircle(Window Win, Vector2 Position, Vector2 Size, Color4 Colour, bool Filled)
@@ -103,22 +110,28 @@ namespace Lightning2
             {
                 DrawCircle_DrawUnfilledCircle(Win, Position, Size, Colour);
             }
+
+            SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, 0, 0, 0, 255);
         }
 
         private static void DrawCircle_DrawUnfilledCircle(Window Win, Vector2 Position, Vector2 Size, Color4 Colour)
         {
+            SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, Colour.R, Colour.G, Colour.B, Colour.A);
+
             // Test code to see if i can do this properly
-            int max = 360 / PRIMITIVE_RENDERER_CIRCLE_PRECISION;
+            int max = (int)(360 / PRIMITIVE_RENDERER_CIRCLE_PRECISION);
 
             Vector2 initial_pos = new Vector2(Position.X, Position.Y);
 
-            for (int i = 0; i < max; i += PRIMITIVE_RENDERER_CIRCLE_PRECISION)
+
+            for (int i = 0; i < max; i ++)
             {
                 Vector2 next_pos = new Vector2(Position.X + (int)(Size.X * Math.Sin(i)), Position.Y + (int)(Size.Y * Math.Cos(i)));
 
                 SDL.SDL_RenderDrawLine(Win.Settings.RendererHandle, initial_pos.X, initial_pos.Y, next_pos.X, next_pos.Y);
 
-                initial_pos = next_pos; 
+                initial_pos = next_pos;
+
             }
         }
 

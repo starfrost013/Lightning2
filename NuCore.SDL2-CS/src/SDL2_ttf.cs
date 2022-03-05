@@ -769,6 +769,19 @@ namespace NuCore.SDL2
 			ushort ch
 		);
 
+		// New from upstream - March 5th, 2022
+		public static string TTF_GetError()
+		{
+			return SDL.SDL_GetError();
+		}
+
+		public static void TTF_SetError(string fmtAndArglist)
+		{
+			SDL.SDL_SetError(fmtAndArglist);
+		}
+
+
+
 		#endregion
 	}
 }
