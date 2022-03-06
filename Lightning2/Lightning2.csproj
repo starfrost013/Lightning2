@@ -4,6 +4,10 @@
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyVersion>1.0.1.22034</AssemblyVersion>
     <FileVersion>1.0.1.22034</FileVersion>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<TransformOnBuild>true</TransformOnBuild>
+	<OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
+	<TransformOutOfDateOnly>false</TransformOutOfDateOnly>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -30,7 +34,7 @@
     <None Remove="Content\NativeLibraries\libvorbis-0.dll" />
     <None Remove="Content\NativeLibraries\libvorbisfile-3.dll" />
     <None Remove="Content\NativeLibraries\libwebp-7.dll" />
-    <None Remove="Content\NativeLibraries\SDL2-v2.0.16-x64.dll" />
+    <None Remove="Content\NativeLibraries\SDL2-v2.0.20-x64.dll" />
     <None Remove="Content\NativeLibraries\SDL2_gfx-v1.0.5-x64.dll" />
     <None Remove="Content\NativeLibraries\SDL2_image-v2.0.5-x64.dll" />
     <None Remove="Content\NativeLibraries\SDL2_mixer-v2.0.4-x64.dll" />
@@ -78,13 +82,15 @@
     <Content Include="Content\NativeLibraries\libwebp-7.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\NativeLibraries\SDL2-v2.0.16-x64.dll">
+    <Content Include="Content\NativeLibraries\SDL2-v2.0.20-x64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  <Link>Content\NativeLibraries\SDL2.dll</Link>
     </Content>
+    <Content Include="Content\NativeLibraries\SDL2-v2.0.20-x64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\NativeLibraries\SDL2_gfx-v1.0.5-x64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  
     </Content>
     <Content Include="Content\NativeLibraries\SDL2_image-v2.0.5-x64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -101,8 +107,45 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Tools\AssemblyInfo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AssemblyInfo.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\NuCore.SDL2-CS\NuCore.SDL2.csproj" />
     <ProjectReference Include="..\NuCore.Utilities\NuCore.Utilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Tools\AssemblyInfo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Tools\AssemblyInfo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AssemblyInfo.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Tools\Lightning2Build.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Lightning2Build.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Tools\Lightning2_Build.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Lightning2_Build.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

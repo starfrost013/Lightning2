@@ -20,7 +20,7 @@ WS.Size = new Vector2(960, 640);
 Window.AddWindow(WS);
 
 
-Texture Texture = new Texture(256, 256);
+Texture Texture = new Texture(64, 64);
 
 Texture.Create(Window);
 
@@ -46,6 +46,9 @@ for (int x = 0; x < Texture.Size.X; x++)
 }
 
 Texture.Unlock();
+
+Texture.Position = new Vector2(0, 0);
+Texture.Repeat = new Vector2(3, 3);
 
 
 bool Running = true;
@@ -98,11 +101,7 @@ while (Running)
         }
 
         Texture.Unlock();
-
-        SDL.SDL_Rect Src = new SDL.SDL_Rect(0, 0, 256, 256);
-        SDL.SDL_Rect Dst = new SDL.SDL_Rect(0, 0, 256, 256);
-
-        SDL.SDL_RenderCopy(Window.Settings.RendererHandle, Texture.TextureHandle, ref Src, ref Dst);
+        Texture.Draw(Window);
 
         Window.Present();
     }

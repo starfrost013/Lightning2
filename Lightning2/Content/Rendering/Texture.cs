@@ -57,19 +57,46 @@ namespace Lightning2
         public IntPtr Pixels { get; set; }
 
         /// <summary>
+        /// The position of this texture.
+        /// Must be valid to draw.
+        /// </summary>
+        public Vector2 Position { get; set; }
+
+        /// <summary>
         /// The size of this texture. 
         /// Does not have to be equal to image size.
         /// </summary>
         public Vector2 Size { get; set; }
+
+        /// <summary>
+        /// Determines if this texture repeats, and if so
+        /// by how many tiles. 
+        /// 
+        /// If NULL or zero, the texture will be drawn only once.
+        /// </summary>
+        public Vector2 Repeat { get; set; }
+
+        /// <summary>
+        /// The start of the viewport of this texture.
+        /// 
+        /// If either ViewportStart or ViewportEnd are null or (0, 0), the entire texture will be drawn.
+        /// Otherwise, will draw the texture from (ViewportStart) to (ViewportEnd)
+        /// </summary>
+        public Vector2 ViewportStart { get; set; }
+
+        /// <summary>
+        /// The viewport of this texture.
+        /// 
+        /// If either ViewportStart or ViewportEnd are null or (0, 0), the entire texture will be drawn.
+        /// Otherwise, will draw the texture from (ViewportStart) to (ViewportEnd)
+        /// </summary>
+        public Vector2 ViewportEnd { get; set; }
+
         /// <summary>
         /// Updated when the texture is locked in C++. Used to determine if the pixels can be acquired.
         /// </summary>
         public bool Locked { get; set; }
 
-        /// <summary>
-        /// Alias for <see cref="SDL.SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING"/>. Determines if the texture is modifiable after it loads.
-        /// </summary>
-        public bool Modifiable { get; set; }
 
         /// <summary>
         /// The pitch of this texture
@@ -81,13 +108,17 @@ namespace Lightning2
         /// </summary>
         private bool Destroyed { get; set; }
 
+        /// <summary>
+        /// Private: Texture format allocated for tAPI use
+        /// </summary>
         private IntPtr CFormat { get; set; }
 
-        public Texture()
-        {
-
-        }
-
+        
+        /// <summary>
+        /// Initialises a new texture with a size.
+        /// </summary>
+        /// <param name="X">The width of the texture in pixels.</param>
+        /// <param name="Y">The height of the texture in pixels.</param>
         public Texture(int X, int Y)
         {
             Size = new Vector2(X, Y);
@@ -95,12 +126,14 @@ namespace Lightning2
 
         public void Create(Window CWindow)
         {
+            if (Size == null) throw new NCException($"Error creating texture: Must have a size!", 20, "Texture.Create", NCExceptionSeverity.FatalError);
+
             TextureHandle = SDL.SDL_CreateTexture(CWindow.Settings.RendererHandle, SDL.SDL_PIXELFORMAT_RGBA8888, SDL.SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, Size.X, Size.Y);
 
             // check if texture failed to load
             if (TextureHandle == IntPtr.Zero)
             {
-                throw new NCException($"Error creating texture {SDL.SDL_GetError()}: {SDL.SDL_GetError()}", 11, "Texture.Create", NCExceptionSeverity.FatalError);
+                throw new NCException($"Error creating texture: {SDL.SDL_GetError()}", 11, "Texture.Create", NCExceptionSeverity.FatalError);
             }
 
             Init_AllocFormat(CWindow);
@@ -112,8 +145,6 @@ namespace Lightning2
             TextureHandle = SDL_image.IMG_LoadTexture(CWindow.Settings.RendererHandle, Path);
 
             if (TextureHandle == IntPtr.Zero) throw new NCException($"Failed to load texture at {Path} - {SDL.SDL_GetError()}", 10, "Error in SDL_image.IMG_LoadTexture", NCExceptionSeverity.Error);
-            
-
         }
 
         private void Init_AllocFormat(Window CWindow)
@@ -138,7 +169,7 @@ namespace Lightning2
             if (X < 0 || Y < 0
                 || X > Size.X || Y > Size.Y)
             {
-                throw new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({X},{Y}), min (0,0). max ({Size.X},{Size.Y}) ", 12, "Texture.GetPixel", NCExceptionSeverity.FatalError);
+                throw new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({X},{Y}), min (0,0). max ({Size.X},{Size.Y})!", 12, "Texture.GetPixel", NCExceptionSeverity.FatalError);
             }
 
             int PixelToGet = (X / 4) * Y;
@@ -224,5 +255,69 @@ namespace Lightning2
 
         }
 
+        public void Draw(Window Win)
+        {
+            if (Position == null) throw new NCException("Invalid texture draw pos!", 21, $"Position null for texture {Path}!", NCExceptionSeverity.Error);
+            
+            SDL.SDL_Rect src_rect = new SDL.SDL_Rect();
+            SDL.SDL_Rect dst_rect = new SDL.SDL_Rect();
+
+            // Draw to the viewpoint
+            if (ViewportStart == null
+                || ViewportEnd == null)
+            {
+                src_rect.x = 0;
+                src_rect.y = 0;
+                src_rect.w = Size.X;
+                src_rect.h = Size.Y;
+
+                dst_rect.x = Position.X;
+                dst_rect.y = Position.Y;
+                dst_rect.w = Position.X + Size.X;
+                dst_rect.h = Position.Y + Size.Y;
+            }
+            else
+            {
+                src_rect.x = ViewportStart.X;
+                src_rect.y = ViewportStart.Y;
+                src_rect.w = Size.X - ViewportEnd.X;
+                src_rect.h = Size.Y - ViewportEnd.Y; 
+
+                dst_rect.x = Position.X;
+                dst_rect.y = Position.Y;
+                dst_rect.w = Position.X + ViewportEnd.X;
+                dst_rect.h = Position.Y + ViewportEnd.Y;
+            }
+
+            if (Repeat == null)
+            {
+                // call to SDL - we are simply drawing it once.
+                SDL.SDL_RenderCopy(Win.Settings.RendererHandle, TextureHandle, ref src_rect, ref dst_rect);
+            }
+            else
+            {
+                SDL.SDL_Rect new_rect = new SDL.SDL_Rect(dst_rect.x, dst_rect.y, dst_rect.w, dst_rect.h);
+
+                // Draws a tiled texture.
+                for (int y = 0; y < Repeat.Y; y++)
+                {
+
+                    SDL.SDL_RenderCopy(Win.Settings.RendererHandle, TextureHandle, ref src_rect, ref new_rect);
+
+                    for (int x = 0; x < Repeat.X; x++)
+                    {
+                        SDL.SDL_RenderCopy(Win.Settings.RendererHandle, TextureHandle, ref src_rect, ref new_rect);
+
+                        new_rect.x += dst_rect.w;
+
+
+                    }
+
+                    new_rect.y += dst_rect.h; // we already set it up
+                    new_rect.x = dst_rect.x;
+                }
+            }
+            
+        }
     }
 }

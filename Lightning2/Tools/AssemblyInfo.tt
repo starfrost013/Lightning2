@@ -1,0 +1,43 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Text" #>
+<#@ output extension=".cs" #>
+// This file defines the version information - generated using the AssemblyInfo.tt T4 template.
+
+using System;
+using System.Reflection;
+
+[assembly: AssemblyVersion("<#= LIGHTNING2_VERSION_MAJOR #>.<#= LIGHTNING2_VERSION_MINOR #>.<#= LIGHTNING2_VERSION_REVISION #>.<#= LIGHTNING2_VERSION_BUILD #>")]
+[assembly: AssemblyFileVersion("<#= LIGHTNING2_VERSION_MAJOR #>.<#= LIGHTNING2_VERSION_MINOR #>.<#= LIGHTNING2_VERSION_REVISION #>.<#= LIGHTNING2_VERSION_BUILD #>")]
+[assembly: AssemblyInformationalVersion("<#= LIGHTNING2_VERSION_EXTENDED_STRING #>")]
+[assembly: AssemblyTitle("Lightning2")]
+
+namespace Lightning2
+{
+	public static class L2Version
+	{
+		public static int LIGHTNING2_VERSION_MAJOR = <#= LIGHTNING2_VERSION_MAJOR #>;
+		public static int LIGHTNING2_VERSION_MINOR = <#= LIGHTNING2_VERSION_MINOR #>; 
+		public static int LIGHTNING2_VERSION_REVISION = <#= LIGHTNING2_VERSION_REVISION #>;
+		public static int LIGHTNING2_VERSION_BUILD = <#= LIGHTNING2_VERSION_BUILD #>;
+
+		public static string LIGHTNING2_VERSION_STRING = "<#= LIGHTNING2_VERSION_STRING #>";
+		public static string LIGHTNING2_VERSION_EXTENDED_STRING = "<#= LIGHTNING2_VERSION_EXTENDED_STRING #>";
+	}
+}
+
+<#+
+
+public static int LIGHTNING2_VERSION_MAJOR = 1;
+public static int LIGHTNING2_VERSION_MINOR = 0; 
+public static int LIGHTNING2_VERSION_REVISION = 0;
+public static int LIGHTNING2_VERSION_BUILD = (DateTime.UtcNow - new DateTime(2022, 02, 26)).Days;
+
+public static string LIGHTNING2_VERSION_STRING = $"{LIGHTNING2_VERSION_MAJOR}.{LIGHTNING2_VERSION_MINOR}.{LIGHTNING2_VERSION_REVISION}";
+public static string LIGHTNING2_VERSION_EXTENDED_STRING = $"{LIGHTNING2_VERSION_STRING} build {LIGHTNING2_VERSION_BUILD}, built {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}";
+
+#>
+

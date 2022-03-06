@@ -14,6 +14,7 @@ namespace Lightning2
     {
         public static void Init()
         {
+            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
             Init_InitLogging();
             NCLogging.Log("Initialising SDL...");
 
@@ -35,18 +36,6 @@ namespace Lightning2
             NCLogging.Settings = new NCLoggingSettings();
             NCLogging.Settings.WriteToLog = true;
             NCLogging.Init();
-        }
-
-        private static void Init_SetSDLLocale()
-        {
-            NCLogging.Log("Setting invariant culture...");
-            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
-
-            NCLogging.Log("Attempting to find user's preferred SDL locale...");
-
-            IntPtr sdl_locale = SDL.SDL_GetPreferredLocales();
-
-            
         }
     }
 }
