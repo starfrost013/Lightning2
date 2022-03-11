@@ -160,6 +160,14 @@ namespace Lightning2
             }
         }
 
+        /// <summary>
+        /// Gets the pixel at coordinates <see cref="X"/>,<see cref="Y"/>.
+        /// </summary>
+        /// <param name="X">The coordinate was supplied.</param>
+        /// <param name="Y"></param>
+        /// <param name="UnlockNow"></param>
+        /// <returns></returns>
+        /// <exception cref="NCException">An invalid coordinate was supplied.</exception>
         public Pixel GetPixel(int X, int Y, bool UnlockNow = false)
         {
             if (Size == null) throw new NCException($"Invalid size - cannot get pixel!", 16, "Texture.GetPixel", NCExceptionSeverity.FatalError);
@@ -309,8 +317,6 @@ namespace Lightning2
                         SDL.SDL_RenderCopy(Win.Settings.RendererHandle, TextureHandle, ref src_rect, ref new_rect);
 
                         new_rect.x += dst_rect.w;
-
-
                     }
 
                     new_rect.y += dst_rect.h; // we already set it up

@@ -16,6 +16,7 @@ namespace Lightning2
         {
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
             Init_InitLogging();
+            NCLogging.Log($"Lightning2 {L2Version.LIGHTNING2_VERSION_EXTENDED_STRING}");
             NCLogging.Log("Initialising SDL...");
 
             if (SDL.SDL_Init(SDL.SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) throw new NCException($"Error initialising SDL2: {SDL.SDL_GetError()}", 0, "Lightning2.Init();", NCExceptionSeverity.FatalError);
@@ -29,6 +30,8 @@ namespace Lightning2
             NCLogging.Log("Initialising SDL_mixer...");
             if (SDL_mixer.Mix_Init(SDL_mixer.MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) throw new NCException($"Error initialising SDL2_mixer: {SDL.SDL_GetError()}", 3, "Lightning2.Init();", NCExceptionSeverity.FatalError);
 
+            NCLogging.Log("Loading Engine.ini...");
+            GlobalSettings.Load();
         }
 
         private static void Init_InitLogging()

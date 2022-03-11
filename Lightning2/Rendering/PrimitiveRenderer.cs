@@ -100,7 +100,7 @@ namespace Lightning2
             SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, 0, 0, 0, 255);
         }
 
-        public static void DrawCircle(Window Win, Vector2 Position, Vector2 Size, Color4 Colour, bool Filled)
+        public static void DrawCircle(Window Win, Vector2 Position, Vector2 Size, Color4 Colour, bool Filled, bool Antialiased = false)
         {
             if (Filled)
             {
@@ -108,14 +108,24 @@ namespace Lightning2
             }
             else
             {
-                DrawCircle_DrawUnfilledCircle(Win, Position, Size, Colour);
+                DrawCircle_DrawUnfilledCircle(Win, Position, Size, Colour, Antialiased);
             }
 
             SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, 0, 0, 0, 255);
         }
 
-        private static void DrawCircle_DrawUnfilledCircle(Window Win, Vector2 Position, Vector2 Size, Color4 Colour)
+        private static void DrawCircle_DrawUnfilledCircle(Window Win, Vector2 Position, Vector2 Size, Color4 Colour, bool Antialiased = false)
         {
+            if (!Antialiased)
+            {
+                SDL_gfx.ellipseRGBA(Win.Settings.RendererHandle, Position.X, Position.Y, Size.X, Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+            }
+            else
+            {
+                SDL_gfx.aaellipseRGBA(Win.Settings.RendererHandle, Position.X, Position.Y, Size.X, Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+            }
+
+            /*
             SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, Colour.R, Colour.G, Colour.B, Colour.A);
 
             // Test code to see if i can do this properly
@@ -133,6 +143,7 @@ namespace Lightning2
                 initial_pos = next_pos;
 
             }
+            */
         }
 
         private static void DrawCircle_DrawFilledCircle(Window Win, Vector2 Position, Vector2 Size, Color4 Colour)

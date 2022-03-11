@@ -2,14 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <AssemblyVersion>1.0.1.22034</AssemblyVersion>
-    <FileVersion>1.0.1.22034</FileVersion>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	<TransformOnBuild>true</TransformOnBuild>
 	<OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
 	<TransformOutOfDateOnly>false</TransformOutOfDateOnly>
   </PropertyGroup>
-
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
+	
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget>x64</PlatformTarget>
@@ -21,6 +20,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Content\Engine.ini" />
+    <None Remove="Content\Localisation\en-GB-test.ini" />
+    <None Remove="Content\Localisation\pseudo.ini" />
     <None Remove="Content\NativeLibraries\libFLAC-8.dll" />
     <None Remove="Content\NativeLibraries\libfreetype-6.dll" />
     <None Remove="Content\NativeLibraries\libjpeg-9.dll" />
@@ -43,6 +45,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Content\Engine.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Localisation\en-GB-test.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Localisation\pseudo.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\NativeLibraries\libFLAC-8.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
