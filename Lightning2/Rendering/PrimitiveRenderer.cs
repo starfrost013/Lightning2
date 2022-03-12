@@ -150,6 +150,22 @@ namespace Lightning2
         {
             SDL_gfx.filledEllipseRGBA(Win.Settings.RendererHandle, Position.X, Position.Y, Size.X, Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
         }
-        
+
+        /// <summary>
+        /// Draws simple text using SDL2_gfx.
+        /// </summary>
+        /// <param name="Win">The window to draw the text to.</param>
+        /// <param name="Text">The text to draw.</param>
+        /// <param name="Position">The position to draw the text to. </param>
+        /// <param name="Colour">The colour to draw the text as.</param>
+        /// <param name="Localise">If true, the text will be localised with <see cref="LocalisationManager"/> before being drawn.</param>
+        public static void DrawText(Window Win, string Text, Vector2 Position, Color4 Colour, bool Localise = true)
+        {
+            if (Localise) Text = LocalisationManager.ProcessString(Text);
+
+            // todo: in c++: recompile sdl2_gfx to use sint32, not sint16, and modify pinvoke accordingly
+            SDL_gfx.stringRGBA(Win.Settings.RendererHandle, (short)Position.X, (short)Position.Y, Text, Colour.R, Colour.G, Colour.B, Colour.A);
+        }
+
     }
 }

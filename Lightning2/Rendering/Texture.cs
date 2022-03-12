@@ -163,12 +163,12 @@ namespace Lightning2
         /// <summary>
         /// Gets the pixel at coordinates <see cref="X"/>,<see cref="Y"/>.
         /// </summary>
-        /// <param name="X">The coordinate was supplied.</param>
-        /// <param name="Y"></param>
-        /// <param name="UnlockNow"></param>
-        /// <returns></returns>
-        /// <exception cref="NCException">An invalid coordinate was supplied.</exception>
-        public Pixel GetPixel(int X, int Y, bool UnlockNow = false)
+        /// <param name="X">The X coordinate of the pixel to acquire.</param>
+        /// <param name="Y">The Y coordinate of the pixel to acquire.</param>
+        /// <param name="UnlockNow">Unlocks the texture immediately - use this if you do not need to draw any more pixels</param>
+        /// <returns>A <see cref="Color4"/> instance containing the colour data of the pixel acquired</returns>
+        /// <exception cref="NCException">An invalid coordinate was supplied or the texture does not have a valid size.</exception>
+        public Color4 GetPixel(int X, int Y, bool UnlockNow = false)
         {
             if (Size == null) throw new NCException($"Invalid size - cannot get pixel!", 16, "Texture.GetPixel", NCExceptionSeverity.FatalError);
 
@@ -197,9 +197,16 @@ namespace Lightning2
 
             if (UnlockNow) Unlock();
 
-            return new Pixel((Color4)NP);
+            return (Color4)NP;
         }
 
+        /// <summary>
+        /// Sets the pixel at coordinates <see cref="X"/>,<see cref="Y"/> to the colour specified by the <see cref="Colour"/> parameter.
+        /// </summary>
+        /// <param name="X">The X coordinate of the pixel to set.</param>
+        /// <param name="Y">The Y coordinate of the pixel to set.</param>
+        /// <param name="UnlockNow">Unlocks the texture immediately - use this if you do not need to draw any more pixels</param>
+        /// <exception cref="NCException">An invalid coordinate was supplied or the texture does not have a valid size.</exception>
         public void SetPixel(int X, int Y, Color4 Colour, bool UnlockNow = false)
         {
             if (!Locked) Lock();
@@ -217,15 +224,15 @@ namespace Lightning2
             {
                 throw new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({X},{Y}), min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {PixelToGet} > {MaxPixelID}!", 16, "Texture.GetPixel", NCExceptionSeverity.FatalError);
             }
-
-            // CS0211 
-            // does not matter as still points to same place
+            
+            // convert to C pointer
             uint* npixels = (uint*)Pixels.ToPointer();
 
-            // oh god
+            // use pixeltoget to twiddle the pixel that we need using the number we calculated before
             npixels[PixelToGet] = (uint)Colour;
 
-            if (UnlockNow) Unlock(); // unlock the texture
+            // unlock the texture if unlocknow specified
+            if (UnlockNow) Unlock();
         }
 
         public void Lock()
@@ -263,9 +270,14 @@ namespace Lightning2
 
         }
 
+        /// <summary>
+        /// Draws this texture instance.
+        /// </summary>
+        /// <param name="Win">The window to draw this texture to.</param>
+        /// <exception cref="NCException">An error occurred rendering the texture. Extended information is available in <see cref="NCException.Description"/></exception>
         public void Draw(Window Win)
         {
-            if (Position == null) throw new NCException("Invalid texture draw pos!", 21, $"Position null for texture {Path}!", NCExceptionSeverity.Error);
+            if (Position == null) throw new NCException("Invalid texture draw pos!", 27, $"Position null for texture {Path}!", NCExceptionSeverity.Error);
             
             SDL.SDL_Rect src_rect = new SDL.SDL_Rect();
             SDL.SDL_Rect dst_rect = new SDL.SDL_Rect();

@@ -32,6 +32,9 @@ namespace Lightning2
 
             NCLogging.Log("Loading Engine.ini...");
             GlobalSettings.Load();
+
+            NCLogging.Log("Loading localisation...");
+            LocalisationManager.Load();
         }
 
         private static void Init_InitLogging()

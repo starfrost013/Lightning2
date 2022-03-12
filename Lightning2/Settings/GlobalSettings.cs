@@ -1,6 +1,7 @@
 ﻿using NuCore.Utilities; 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +31,10 @@ namespace Lightning2
 
             if (engine_section == null) throw new NCException("Engine.ini must have a Localisation section!", 29, "GlobalSettings.Load()", NCExceptionSeverity.FatalError);
 
-            LocalisationFile = engine_section.GetValue("Language");
+            string loc_lang = engine_section.GetValue("Language");
+            LocalisationFile = @$"Content\Localisation\{loc_lang}.ini";
+
+            if (!File.Exists(LocalisationFile)) throw new NCException("Engine.ini's Localisation section must have a valid Language value!", 30, "GlobalSettings.Load()", NCExceptionSeverity.FatalError);
         }
 
     }

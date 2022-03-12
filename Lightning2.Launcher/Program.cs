@@ -19,7 +19,6 @@ WS.Size = new Vector2(960, 640);
 
 Window.AddWindow(WS);
 
-
 Texture Texture = new Texture(64, 64);
 
 Texture.Create(Window);
@@ -50,10 +49,7 @@ Texture.Unlock();
 Texture.Position = new Vector2(0, 0);
 Texture.Repeat = new Vector2(3, 3);
 
-
 bool Running = true;
-
-
 
 while (Running)
 {
@@ -67,6 +63,10 @@ while (Running)
 
     PrimitiveRenderer.DrawCircle(Window, new Vector2(500, 10), new Vector2(50, 50), new Color4(255, 0, 0, 255), true);
     PrimitiveRenderer.DrawCircle(Window, new Vector2(500, 309), new Vector2(50, 50), new Color4(255, 255, 255, 127), false) ;
+
+    PrimitiveRenderer.DrawText(Window, "#{STRING_TEST}", new Vector2(500, 90), new Color4(0, 0, 255, 255));
+    PrimitiveRenderer.DrawText(Window, "Loc string test: #{STRING_TEST}", new Vector2(500, 120), new Color4(0, 0, 255, 255));
+    PrimitiveRenderer.DrawText(Window, "Loc string test: #{STRING_TEST} aaaaaa", new Vector2(500, 150), new Color4(0, 0, 255, 255));
 
     SDL.SDL_Event cur_event = new SDL.SDL_Event();
 

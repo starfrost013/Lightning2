@@ -159,4 +159,8 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Text\" />
+  </ItemGroup>
+
 </Project>
