@@ -29,8 +29,6 @@
     <None Remove="Content\NativeLibraries\libmodplug-1.dll" />
     <None Remove="Content\NativeLibraries\libmpg123-0.dll" />
     <None Remove="Content\NativeLibraries\libogg-0.dll" />
-    <None Remove="Content\NativeLibraries\libopus-0.dll" />
-    <None Remove="Content\NativeLibraries\libopusfile-0.dll" />
     <None Remove="Content\NativeLibraries\libpng16-16.dll" />
     <None Remove="Content\NativeLibraries\libtiff-5.dll" />
     <None Remove="Content\NativeLibraries\libvorbis-0.dll" />

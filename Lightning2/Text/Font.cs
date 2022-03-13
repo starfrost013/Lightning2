@@ -11,6 +11,8 @@ namespace Lightning2
 {
     public class Font
     {
+        public string FriendlyName { get; set; }
+
         public string Name { get; set; }
 
         public int Size { get; set; }
@@ -19,18 +21,28 @@ namespace Lightning2
 
         public IntPtr Handle { get; private set; }
 
-        public static Font Load(string FriendlyName, int Size, string Path = null, int Index = -1) // probably static
+        public static Font Load(string Name, int Size, string FriendlyName = null, string Path = null, int Index = -1) // probably static
         {
             Font temp_font = new Font();
 
-            temp_font.Name = FriendlyName;
+            temp_font.Name = Name;
+
+            if (FriendlyName == null)
+            {
+                temp_font.FriendlyName = Name;
+            }
+            else
+            {
+                temp_font.FriendlyName = FriendlyName;
+            }
+
             temp_font.Size = Size;
 
             string temp_path = null;
 
             if (Path == null) // default to system load path 
             {
-                temp_path = @$"{Environment.GetFolderPath(Environment.SpecialFolder.Fonts)}\{FriendlyName}.ttf";
+                temp_path = @$"{Environment.GetFolderPath(Environment.SpecialFolder.Fonts)}\{Name}.ttf";
             }
             else
             {

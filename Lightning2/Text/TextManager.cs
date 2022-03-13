@@ -21,7 +21,7 @@ namespace Lightning2
         {
             foreach (Font F in Fonts)
             {
-                if (F.Name == FriendlyName)
+                if (F.FriendlyName == FriendlyName)
                 {
                     return F;
                 }
@@ -30,11 +30,11 @@ namespace Lightning2
             return null;    
         }
 
-        public static void LoadFont(string FriendlyName, int Size, string Path = null, int Index = -1)
+        public static void LoadFont(string Name, int Size, string FriendlyName = null, string Path = null, int Index = -1)
         {
             try
             {
-                Font temp_font = Font.Load(FriendlyName, Size, Path, Index);
+                Font temp_font = Font.Load(Name, Size, FriendlyName, Path, Index);
                 Fonts.Add(temp_font);
             }
             catch (Exception) // NC Exception
@@ -43,7 +43,7 @@ namespace Lightning2
             }
         }
 
-        public static void DrawTextTTF(Window Win, string Text, string Font, Vector2 Position, Color4 Foreground, Color4 Background = null, SDL_ttf.TTF_FontStyle Style = SDL_ttf.TTF_FontStyle.Normal, int ResizeFont = -1, int OutlinePixels = -1, uint LineLength = 0, FontSmoothingType Smoothing = FontSmoothingType.Default)
+        public static void DrawTextTTF(Window Win, string Text, string Font, Vector2 Position, Color4 Foreground, SDL_ttf.TTF_FontStyle Style = SDL_ttf.TTF_FontStyle.Normal, Color4 Background = null, int ResizeFont = -1, int OutlinePixels = -1, uint LineLength = 0, FontSmoothingType Smoothing = FontSmoothingType.Default)
         {
             Text = LocalisationManager.ProcessString(Text);
 
@@ -51,7 +51,7 @@ namespace Lightning2
 
             if (temp_font == null) throw new NCException($"Attempted to acquire invalid font with name {Font}", 39, "TextManager.DrawText", NCExceptionSeverity.FatalError);
             
-            SDL.SDL_Color font_colour = new SDL.SDL_Color(Foreground.R, Foreground.G, Foreground.R, Background.A);
+            SDL.SDL_Color font_colour = new SDL.SDL_Color(Foreground.R, Foreground.G, Foreground.R, Foreground.A);
 
             // default to entirely transparent background (if the user has specified shasded for some reason, we still need a BG colour...)
             SDL.SDL_Color bg_colour = new SDL.SDL_Color(0, 0, 0, 0); 
@@ -69,7 +69,7 @@ namespace Lightning2
 
             SDL_ttf.TTF_SizeUTF8(temp_font.Handle, Text, out font_size_x, out font_size_y);
 
-            if (font_size_x == -1 || font_size_y > -1) throw new NCException($"Error sizing font: {SDL_ttf.TTF_GetError()}", 40, "TextManager.DrawText", NCExceptionSeverity.FatalError);
+            if (font_size_x == -1 || font_size_y == -1) throw new NCException($"Error sizing font: {SDL_ttf.TTF_GetError()}", 40, "TextManager.DrawText", NCExceptionSeverity.FatalError);
 
             if (Background != null)
             {

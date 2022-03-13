@@ -18,9 +18,10 @@ WS.Size = new Vector2(960, 640);
 
 Window.AddWindow(WS);
 
-TextManager.LoadFont("Arial", 18);
-TextManager.LoadFont("Arial", 24);
-TextManager.LoadFont("Arial", 36);
+TextManager.LoadFont("Arial", 11, "Arial.11pt");
+TextManager.LoadFont("Arial", 18, "Arial.18pt");
+TextManager.LoadFont("Arial", 24, "Arial.24pt");
+TextManager.LoadFont("Arial", 36, "Arial.36pt");
 
 Texture Texture = new Texture(64, 64);
 
@@ -70,7 +71,17 @@ while (Running)
     PrimitiveRenderer.DrawText(Window, "Loc string test: #{STRING_TEST}", new Vector2(500, 120), new Color4(0, 0, 255, 255));
     PrimitiveRenderer.DrawText(Window, "Loc string test: #{STRING_TEST} aaaaaa", new Vector2(500, 150), new Color4(0, 0, 255, 255));
 
-    
+    TextManager.DrawTextTTF(Window, "Test", "Arial.11pt", new Vector2(700, 10), new Color4(255, 255, 255, 255));
+    TextManager.DrawTextTTF(Window, "Test", "Arial.11pt", new Vector2(700, 30), new Color4(255, 255, 255, 255), SDL_ttf.TTF_FontStyle.Bold);
+    TextManager.DrawTextTTF(Window, "Test", "Arial.11pt", new Vector2(700, 50), new Color4(255, 255, 255, 255), SDL_ttf.TTF_FontStyle.Bold, new Color4(255, 0, 0, 255));
+    TextManager.DrawTextTTF(Window, "Test", "Arial.11pt", new Vector2(700, 70), new Color4(255, 255, 255, 255), SDL_ttf.TTF_FontStyle.Bold, new Color4(255, 0, 0, 255));
+    TextManager.DrawTextTTF(Window, "Test", "Arial.11pt", new Vector2(700, 90), new Color4(255, 255, 255, 255), SDL_ttf.TTF_FontStyle.Bold, new Color4(255, 0, 0, 255), 15);
+    TextManager.DrawTextTTF(Window, "Test", "Arial.11pt", new Vector2(700, 110), new Color4(255, 255, 255, 255), SDL_ttf.TTF_FontStyle.Bold, new Color4(255, 0, 0, 255), -1, 50);
+    TextManager.DrawTextTTF(Window, "Test", "Arial.11pt", new Vector2(700, 130), new Color4(255, 255, 255, 255), SDL_ttf.TTF_FontStyle.Bold, new Color4(255, 0, 0, 255), 15, 50);
+    TextManager.DrawTextTTF(Window, "Test", "Arial.11pt", new Vector2(700, 150), new Color4(255, 255, 255, 255), SDL_ttf.TTF_FontStyle.Bold, new Color4(255, 0, 0, 255), -1, 50, 30);
+    TextManager.DrawTextTTF(Window, "Test", "Arial.11pt", new Vector2(700, 170), new Color4(255, 255, 255, 255), SDL_ttf.TTF_FontStyle.Bold, new Color4(255, 0, 0, 255), -1, -1, 0, FontSmoothingType.Shaded);
+    TextManager.DrawTextTTF(Window, "Test", "Arial.11pt", new Vector2(700, 190), new Color4(255, 255, 255, 255), SDL_ttf.TTF_FontStyle.Bold, new Color4(255, 0, 0, 255), -1, -1, 0, FontSmoothingType.Solid);
+
     SDL.SDL_Event cur_event = new SDL.SDL_Event();
 
     if (SDL.SDL_PollEvent(out cur_event) > 0) 
