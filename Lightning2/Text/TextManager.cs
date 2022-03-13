@@ -12,7 +12,7 @@ namespace Lightning2
     {
         public static List<Font> Fonts { get; set; }
 
-        public static TextManager()
+        static TextManager()
         {
             Fonts = new List<Font>();
         }
@@ -43,7 +43,7 @@ namespace Lightning2
             }
         }
 
-        public static void DrawTextTTF(Window Win, string Text, string Font, Vector2 Position, Color4 Foreground, Color4 Background = null, SDL_ttf.TTF_FontStyle Style = SDL_ttf.TTF_FontStyle.Normal, int OutlinePixels = -1, uint LineLength = 0, FontSmoothingType Smoothing = FontSmoothingType.Default)
+        public static void DrawTextTTF(Window Win, string Text, string Font, Vector2 Position, Color4 Foreground, Color4 Background = null, SDL_ttf.TTF_FontStyle Style = SDL_ttf.TTF_FontStyle.Normal, int ResizeFont = -1, int OutlinePixels = -1, uint LineLength = 0, FontSmoothingType Smoothing = FontSmoothingType.Default)
         {
             Text = LocalisationManager.ProcessString(Text);
 
@@ -80,6 +80,9 @@ namespace Lightning2
             if (OutlinePixels > 0) SDL_ttf.TTF_SetFontOutline(temp_font.Handle, OutlinePixels);
 
             SDL_ttf.TTF_SetFontStyle(temp_font.Handle, Style);
+
+            // Resize font if specified
+            if (ResizeFont > 0) SDL_ttf.TTF_SetFontSize(temp_font.Handle, ResizeFont);
 
             IntPtr text_ptr = IntPtr.Zero;
             IntPtr text_texture_ptr = IntPtr.Zero;

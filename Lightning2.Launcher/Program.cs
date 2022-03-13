@@ -9,7 +9,6 @@ using NuCore.Utilities;
 using Lightning2;
 
 Lightning2.Lightning2.Init(); // Initialise Lightning2
-
 Window Window = new Window();
 WindowSettings WS = new WindowSettings();
 
@@ -18,6 +17,10 @@ WS.Position = new Vector2(350, 100);
 WS.Size = new Vector2(960, 640);
 
 Window.AddWindow(WS);
+
+TextManager.LoadFont("Arial", 18);
+TextManager.LoadFont("Arial", 24);
+TextManager.LoadFont("Arial", 36);
 
 Texture Texture = new Texture(64, 64);
 

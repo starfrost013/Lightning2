@@ -52,7 +52,7 @@ namespace Lightning2
             }
 
 #if DEBUG
-            NCLogging.Log($"Loaded language: {Metadata.Description} ({Metadata.Version}");
+            NCLogging.Log($"Loaded language: {Metadata.Description} (Version {Metadata.Version})");
 #endif
         }
 

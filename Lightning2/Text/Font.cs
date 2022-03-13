@@ -30,14 +30,14 @@ namespace Lightning2
 
             if (Path == null) // default to system load path 
             {
-                temp_path = @$"{Environment.SpecialFolder.Fonts}\{FriendlyName}.ttf";
+                temp_path = @$"{Environment.GetFolderPath(Environment.SpecialFolder.Fonts)}\{FriendlyName}.ttf";
             }
             else
             {
                 temp_path = $"{Path}.ttf";
             }
 
-            if (!File.Exists(temp_path)) throw new NCException($"Error loading font: Attempted to load nonexistent font at {Path}", 35, "Font.Load()", NCExceptionSeverity.Error);
+            if (!File.Exists(temp_path)) throw new NCException($"Error loading font: Attempted to load nonexistent font at {temp_path}", 35, "Font.Load()", NCExceptionSeverity.Error);
             
             if (!temp_path.Contains(".ttf")) throw new NCException($"Error loading font: Only TTF fonts are supported!", 36, "Font.Load()", NCExceptionSeverity.Error);
 
@@ -54,6 +54,7 @@ namespace Lightning2
 
             if (temp_font.Handle == IntPtr.Zero) throw new NCException($"Error loading font at {Path}: {SDL_ttf.TTF_GetError()}", 38, "Font.Load()", NCExceptionSeverity.Error);
 
+            NCLogging.Log($"Loaded font {temp_font.Name}, size {temp_font.Size} at {temp_path}");
             return temp_font; 
         }
     }
