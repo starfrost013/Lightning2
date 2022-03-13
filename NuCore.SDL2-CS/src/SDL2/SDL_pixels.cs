@@ -505,6 +505,16 @@ namespace NuCore.SDL2
 			public byte g;
 			public byte b;
 			public byte a;
+
+			public SDL_Color(byte nr, byte ng, byte nb, byte na)
+			{
+				r = nr;
+				g = ng;
+				b = nb;
+				a = na;
+			
+			}
+
 		}
 
 		[StructLayout(LayoutKind.Sequential)]

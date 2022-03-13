@@ -45,14 +45,17 @@ namespace Lightning2
             Metadata.Description = meta_section.GetValue("Description");
             Metadata.Version = meta_section.GetValue("Version");
 
-
             foreach (var Values in strings_section.Values)
             {
                 // Set up all the strings
                 Strings.Add(Values.Key, Values.Value);  
             }
+
+#if DEBUG
+            NCLogging.Log($"Loaded language: {Metadata.Description} ({Metadata.Version}");
+#endif
         }
-        
+
         public static string GetString(string Key)
         {
             foreach (var Value in Strings)
@@ -73,7 +76,8 @@ namespace Lightning2
 
             string[] string_split_with_hash = StringProcess.Split(start);
 
-            if (string_split_with_hash.Length == 0) return StringProcess; // no strings that need to be processed
+            // no strings that need to be processed
+            if (string_split_with_hash.Length == 0) return StringProcess; 
 
             // remove the indicators
             StringProcess = StringProcess.Replace(start, "");

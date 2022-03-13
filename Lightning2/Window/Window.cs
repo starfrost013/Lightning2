@@ -29,7 +29,6 @@ namespace Lightning2
 
             if (Settings.RendererHandle == IntPtr.Zero) throw new NCException($"Failed to create Renderer: {SDL.SDL_GetError}", 9, "Window.AddWindow", NCExceptionSeverity.FatalError);
 
-
         }
 
         public void Update() => SDL.SDL_RenderClear(Settings.RendererHandle);

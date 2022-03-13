@@ -52,7 +52,7 @@ namespace Lightning2
 
         public WindowSettings()
         {
-            Flags = (SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
+            Flags = SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN;
         }
     }
 }

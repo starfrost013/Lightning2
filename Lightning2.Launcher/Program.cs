@@ -55,7 +55,6 @@ while (Running)
 {
     Window.Update();
 
-
     PrimitiveRenderer.DrawLine(Window, new Vector2(500, 300), new Vector2(600, 300), 1, new Color4(255, 255, 255, 255), false);
     PrimitiveRenderer.DrawLine(Window, new Vector2(500, 270), new Vector2(600, 270), 3, new Color4(255, 255, 255, 255), true);
     PrimitiveRenderer.DrawLine(Window, new Vector2(500, 240), new Vector2(600, 240), 7, new Color4(255, 255, 255, 255), false);
@@ -68,6 +67,7 @@ while (Running)
     PrimitiveRenderer.DrawText(Window, "Loc string test: #{STRING_TEST}", new Vector2(500, 120), new Color4(0, 0, 255, 255));
     PrimitiveRenderer.DrawText(Window, "Loc string test: #{STRING_TEST} aaaaaa", new Vector2(500, 150), new Color4(0, 0, 255, 255));
 
+    
     SDL.SDL_Event cur_event = new SDL.SDL_Event();
 
     if (SDL.SDL_PollEvent(out cur_event) > 0) 

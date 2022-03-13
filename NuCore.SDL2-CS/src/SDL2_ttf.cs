@@ -39,11 +39,11 @@ namespace NuCore.SDL2
 
 		/* Used by DllImport to load the native library. */
 #if X64 // Lightning Win64 / Mac64 / Linux64
-		private const string nativeLibName = @"Content\NativeLibraries\SDL2_ttf-v2.0.15-x64";
+		private const string nativeLibName = $@"Content\NativeLibraries\SDL2_ttf-v2.0.18-x64";
 #elif ARM32 // Lightning LinuxARM32
-		private const string nativeLibName = @"Content\NativeLibraries\SDL2_ttf-v2.0.15-ARM32";
+		private const string nativeLibName = $@"Content\NativeLibraries\SDL2_ttf-v2.0.18-ARM32";
 #elif ARM64 // Lightning LinuxARM64 / MacARM64e (11.0+) (open question: what do we do about Xtajit64 (ARM64X - Windows 10 Cobalt 21277+) - does Lightning compiled for x64 run well using ARM64X on Cobalt? Need to acquire ARM device for testing.)
-		private const string nativeLibName = @"Content\NativeLibraries\SDL2_ttf-v2.0.15-ARM64";
+		private const string nativeLibName = $@"Content\NativeLibraries\SDL2_ttf-v2.0.18-ARM64";
 #endif
 
 		#endregion
@@ -56,22 +56,37 @@ namespace NuCore.SDL2
 		 */
 		public const int SDL_TTF_MAJOR_VERSION = 2;
 		public const int SDL_TTF_MINOR_VERSION = 0;
-		public const int SDL_TTF_PATCHLEVEL = 16;
+		public const int SDL_TTF_PATCHLEVEL = 18;
 
 		public const int UNICODE_BOM_NATIVE = 0xFEFF;
 		public const int UNICODE_BOM_SWAPPED = 0xFFFE;
 
-		public const int TTF_STYLE_NORMAL = 0x00;
-		public const int TTF_STYLE_BOLD = 0x01;
-		public const int TTF_STYLE_ITALIC = 0x02;
-		public const int TTF_STYLE_UNDERLINE = 0x04;
-		public const int TTF_STYLE_STRIKETHROUGH = 0x08;
+        [Flags]
+        public enum TTF_FontStyle
+        { 
+			Normal = 0x0,
 
-		public const int TTF_HINTING_NORMAL = 0;
-		public const int TTF_HINTING_LIGHT = 1;
-		public const int TTF_HINTING_MONO = 2;
-		public const int TTF_HINTING_NONE = 3;
-		public const int TTF_HINTING_LIGHT_SUBPIXEL = 4; /* >= 2.0.16 */
+			Bold = 0x1,
+
+			Italic = 0x2,
+
+			Underline = 0x4,
+
+			Strikeout = 0x8,
+		}
+
+        public enum TTF_FontHinting
+        {
+			Normal = 0x0,
+
+			Light = 0x1,
+
+			Mono = 0x2,
+
+			None = 0x3,
+
+			LightSubpixel = 0x4 /* >= 2.0.16 */
+		}
 
 		public static void SDL_TTF_VERSION(out SDL.SDL_version X)
 		{
@@ -172,8 +187,11 @@ namespace NuCore.SDL2
 		public static extern int TTF_GetFontStyle(IntPtr font);
 
 		/* font refers to a TTF_Font* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void TTF_SetFontStyle(IntPtr font, int style);
+		[DllImport(nativeLibName, EntryPoint = "TTF_SetFontStyle", CallingConvention = CallingConvention.Cdecl)]
+		private static extern void INTERNAL_TTF_SetFontStyle(IntPtr font, int style);
+
+		/* font refers to a TTF_Font* */
+		public static void TTF_SetFontStyle(IntPtr font, TTF_FontStyle style) => INTERNAL_TTF_SetFontStyle(font, (int)style);
 
 		/* font refers to a TTF_Font* */
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -188,8 +206,10 @@ namespace NuCore.SDL2
 		public static extern int TTF_GetFontHinting(IntPtr font);
 
 		/* font refers to a TTF_Font* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void TTF_SetFontHinting(IntPtr font, int hinting);
+		[DllImport(nativeLibName, EntryPoint = "TTF_SetFontHinting", CallingConvention = CallingConvention.Cdecl)]
+		private static extern void INTERNAL_TTF_SetFontHinting(IntPtr font, int hinting);
+
+		public static void TTF_SetFontHinting(IntPtr font, TTF_FontHinting hinting) => INTERNAL_TTF_SetFontHinting(font, (int)hinting);
 
 		/* font refers to a TTF_Font* */
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]

@@ -4,8 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>NuCore.SDL2</RootNamespace>
     <Configurations>Debug;Release</Configurations>
-    <AssemblyVersion>3.0.3.22034</AssemblyVersion>
-    <FileVersion>3.0.3.22034</FileVersion>
+    <AssemblyVersion>3.0.6.0</AssemblyVersion>
+    <FileVersion>3.0.6.0</FileVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PackageId>NuCore.SDL2-CS</PackageId>
     <Description>NuCore SDL2 Bindings</Description>

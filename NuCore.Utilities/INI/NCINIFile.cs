@@ -49,7 +49,6 @@ namespace NuCore.Utilities
 
             try
             {
-
                 StreamReader ini_stream = new StreamReader(new FileStream(Path, FileMode.Open));
 
                 while (!ini_stream.EndOfStream)
@@ -85,9 +84,6 @@ namespace NuCore.Utilities
                                 ini_section.Name = ini_line.Substring(beginning + 1, ini_line.Length - (ini_line.Length - end) - 1);
                                 ini_section.Name = ini_section.Name.Trim();
 
-#if DEBUG
-                                NCLogging.Log($"Found INI section, name: {ini_section.Name}");
-#endif
                                 ini_file.Sections.Add(ini_section);
 
                             }
@@ -95,7 +91,6 @@ namespace NuCore.Utilities
                             {
                                 error_occurred = true;
                                 throw new NCException("INI parsing error: Section name must terminate with [!", 24, "NCINIFile.Parse()", NCExceptionSeverity.Error);
-                                
                             }
                             continue;
                         case ';': // Comment
@@ -111,6 +106,7 @@ namespace NuCore.Utilities
 
                                 string[] ini_value = ini_line.Split('=');
 
+                                // we just ignore anything after the first one. this also works for comments i guess. as long as they are after
                                 string ini_value_name = ini_value[0];
                                 string ini_value_value = ini_value[1];
 
@@ -122,11 +118,7 @@ namespace NuCore.Utilities
                                 ini_value_name = ini_value_name.Trim();
                                 ini_value_value = ini_value_value.Trim(); 
 
-                                // we just ignore anything after the first one. this also works for comments i guess. as long as they are after
 
-#if DEBUG
-                                NCLogging.Log($"Found INI value in section {ini_file.CurSection.Name}, name: {ini_value_name}, value: {ini_value_value}");
-#endif
                                 // add it to the values
                                 ini_file.CurSection.Values.Add(ini_value_name, ini_value_value);
                             }
@@ -136,7 +128,6 @@ namespace NuCore.Utilities
                                 throw new NCException("INI parsing error: INI item with no value!", 23, "NCINIFile.Parse()", NCExceptionSeverity.Error);
                             }
                             continue;
-
                     }
 
                 }

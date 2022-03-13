@@ -54,6 +54,11 @@ namespace NuCore.Utilities
                 );
         }
 
+        public static explicit operator Color4(SDL.SDL_Color Colour)
+        {
+            return new Color4(Colour.r, Colour.g, Colour.b, Colour.a);
+        }
+
         public override string ToString()
         {
             return $"{R},{G},{B},{A}";
