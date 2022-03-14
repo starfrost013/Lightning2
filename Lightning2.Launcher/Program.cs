@@ -119,6 +119,9 @@ while (Running)
         Texture.Unlock();
         Texture.Draw(Window);
 
+        // draw fps on top always
+        PrimitiveRenderer.DrawText(Window, $"FPS: {Window.CurFPS}", new Vector2(0, 0), new Color4(255, 255, 255, 255));
+
         Window.Present();
     }
 }

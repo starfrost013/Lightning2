@@ -2,9 +2,10 @@
 using NuCore.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Timers;
 
 namespace Lightning2
 {
@@ -14,6 +15,25 @@ namespace Lightning2
     public class Window
     {
         public WindowSettings Settings { get; set; }
+
+        private long LastTime { get; set; }
+
+        public double DeltaTime { get; set; }
+
+        private long ThisTime { get; set; }
+
+        private Stopwatch DeltaTimer { get; set; }
+
+        public double CurFPS { get; set; }
+
+        public Window()
+        {
+            DeltaTimer = new Stopwatch();
+            // Start the delta timer.
+            DeltaTimer.Start();
+            LastTime = 0;
+            ThisTime = 0; 
+        }
 
         public void AddWindow(WindowSettings Ws)
         {
@@ -31,8 +51,24 @@ namespace Lightning2
 
         }
 
-        public void Update() => SDL.SDL_RenderClear(Settings.RendererHandle);
+        public void Update()
+        {
+            // Set the last frame time.
+            LastTime = DeltaTimer.ElapsedMilliseconds;
+            SDL.SDL_RenderClear(Settings.RendererHandle);
+        }
 
-        public void Present() => SDL.SDL_RenderPresent(Settings.RendererHandle);
+        public void Present()
+        {
+            // Set the current frame time.
+            ThisTime = DeltaTimer.ElapsedMilliseconds;
+
+            DeltaTime = (ThisTime - LastTime) / (double)1000;
+
+            CurFPS = DeltaTime * ((double)1000 / GlobalSettings.TargetFPS) * (double)1000;
+
+            SDL.SDL_RenderPresent(Settings.RendererHandle);
+        }
+
     }
 }
