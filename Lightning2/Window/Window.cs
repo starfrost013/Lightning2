@@ -65,7 +65,7 @@ namespace Lightning2
 
             DeltaTime = (ThisTime - LastTime) / (double)1000;
 
-            CurFPS = DeltaTime * ((double)1000 / GlobalSettings.TargetFPS) * (double)1000;
+            CurFPS = 1 / DeltaTime;
 
             SDL.SDL_RenderPresent(Settings.RendererHandle);
         }
