@@ -51,14 +51,14 @@ namespace Lightning2
 
             if (temp_font == null) throw new NCException($"Attempted to acquire invalid font with name {Font}", 39, "TextManager.DrawText", NCExceptionSeverity.FatalError);
             
-            SDL.SDL_Color font_colour = new SDL.SDL_Color(Foreground.R, Foreground.G, Foreground.R, Foreground.A);
+            SDL.SDL_Color font_colour = new SDL.SDL_Color(Foreground.R, Foreground.G, Foreground.B, Foreground.A);
 
             // default to entirely transparent background (if the user has specified shasded for some reason, we still need a BG colour...)
             SDL.SDL_Color bg_colour = new SDL.SDL_Color(0, 0, 0, 0); 
 
             if (Background != null)
             {
-                bg_colour = new SDL.SDL_Color(Background.R, Background.G, Background.R, Background.A);
+                bg_colour = new SDL.SDL_Color(Background.R, Background.G, Background.B, Background.A);
             }
 
             // Draw a background for the user if they have not specified shaded and they want a background
@@ -77,7 +77,9 @@ namespace Lightning2
             }
 
             // Set the font outline size and style
-            if (OutlinePixels > 0) SDL_ttf.TTF_SetFontOutline(temp_font.Handle, OutlinePixels);
+
+            // >=15 causes issues 
+            if (OutlinePixels > 0 || OutlinePixels < 15) SDL_ttf.TTF_SetFontOutline(temp_font.Handle, OutlinePixels);
 
             SDL_ttf.TTF_SetFontStyle(temp_font.Handle, Style);
 
@@ -88,7 +90,7 @@ namespace Lightning2
             IntPtr text_texture_ptr = IntPtr.Zero;
 
             SDL.SDL_Rect font_src_rect = new SDL.SDL_Rect(0, 0, font_size_x, font_size_y);
-            SDL.SDL_Rect font_dst_rect = new SDL.SDL_Rect(Position.X, Position.Y, Position.X + font_size_x, Position.Y + font_size_y);
+            SDL.SDL_Rect font_dst_rect = new SDL.SDL_Rect(Position.X, Position.Y, font_size_x, font_size_y);
 
             switch (Smoothing)
             {
