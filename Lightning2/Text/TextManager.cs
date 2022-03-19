@@ -61,6 +61,13 @@ namespace Lightning2
                 bg_colour = new SDL.SDL_Color(Background.R, Background.G, Background.B, Background.A);
             }
 
+            // Resize font if specified
+            if (ResizeFont > 0)
+            {
+                SDL_ttf.TTF_SetFontSize(temp_font.Handle, ResizeFont);
+                temp_font.Size = ResizeFont; 
+            }
+
             // Draw a background for the user if they have not specified shaded and they want a background
             // To do this we need to size the text.
 
@@ -78,13 +85,10 @@ namespace Lightning2
 
             // Set the font outline size and style
 
-            // >=15 causes issues 
-            if (OutlinePixels > 0 || OutlinePixels < 15) SDL_ttf.TTF_SetFontOutline(temp_font.Handle, OutlinePixels);
+            // Too much larger than the font size in pt causes C++ exceptions in SDL2 (probably larger than the surface it's being drawn to...) so we just use that as a limit
+            if (OutlinePixels > 0 || OutlinePixels <= temp_font.Size) SDL_ttf.TTF_SetFontOutline(temp_font.Handle, OutlinePixels);
 
             SDL_ttf.TTF_SetFontStyle(temp_font.Handle, Style);
-
-            // Resize font if specified
-            if (ResizeFont > 0) SDL_ttf.TTF_SetFontSize(temp_font.Handle, ResizeFont);
 
             IntPtr text_ptr = IntPtr.Zero;
             IntPtr text_texture_ptr = IntPtr.Zero;

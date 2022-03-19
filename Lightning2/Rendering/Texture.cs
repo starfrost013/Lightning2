@@ -79,7 +79,7 @@ namespace Lightning2
         /// <summary>
         /// The start of the viewport of this texture.
         /// 
-        /// If either ViewportStart or ViewportEnd are null or (0, 0), the entire texture will be drawn.
+        /// If either ViewportStart or ViewportEnd are null, the entire texture will be drawn.
         /// Otherwise, will draw the texture from (ViewportStart) to (ViewportEnd)
         /// </summary>
         public Vector2 ViewportStart { get; set; }
@@ -87,7 +87,7 @@ namespace Lightning2
         /// <summary>
         /// The viewport of this texture.
         /// 
-        /// If either ViewportStart or ViewportEnd are null or (0, 0), the entire texture will be drawn.
+        /// If either ViewportStart or ViewportEnd are null, the entire texture will be drawn.
         /// Otherwise, will draw the texture from (ViewportStart) to (ViewportEnd)
         /// </summary>
         public Vector2 ViewportEnd { get; set; }

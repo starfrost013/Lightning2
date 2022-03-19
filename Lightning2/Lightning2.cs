@@ -6,7 +6,7 @@ using System.Globalization;
 namespace Lightning2
 {
     /// <summary>
-    /// Lightning2 (temporary name) Accelerated Rendering Pipeline
+    /// Lightning2 
     /// 
     /// © 2022 starfrost
     /// </summary>

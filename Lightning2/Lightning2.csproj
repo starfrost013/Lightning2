@@ -158,8 +158,4 @@
     </Compile>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Rendering\Animation\" />
-  </ItemGroup>
-
 </Project>

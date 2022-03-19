@@ -1,9 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
-
-// Lightning2 Test Launcher
-
 // Test Lightning2 application
+
 // © 2022 starfrost
+
 using NuCore.SDL2;
 using NuCore.Utilities;
 using Lightning2;
@@ -52,6 +51,13 @@ Texture.Unlock();
 
 Texture.Position = new Vector2(0, 0);
 Texture.Repeat = new Vector2(3, 3);
+
+AtlasTexture atlas_texture = new AtlasTexture();
+
+atlas_texture.Path = @"Content\AtlasTextureTest.png";
+atlas_texture.Position = new Vector2(256, 256);
+atlas_texture.FrameSize = new Vector2(64, 64); // 
+atlas_texture.Load(Window, 4, 4);
 
 bool Running = true;
 
