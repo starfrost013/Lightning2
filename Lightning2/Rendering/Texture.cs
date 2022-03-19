@@ -300,13 +300,13 @@ namespace Lightning2
             {
                 src_rect.x = ViewportStart.X;
                 src_rect.y = ViewportStart.Y;
-                src_rect.w = Size.X - ViewportEnd.X;
-                src_rect.h = Size.Y - ViewportEnd.Y; 
+                src_rect.w = ViewportEnd.X - ViewportStart.X;
+                src_rect.h = ViewportEnd.Y - ViewportStart.Y; 
 
                 dst_rect.x = Position.X;
                 dst_rect.y = Position.Y;
-                dst_rect.w = Position.X + ViewportEnd.X;
-                dst_rect.h = Position.Y + ViewportEnd.Y;
+                dst_rect.w = ViewportEnd.X - ViewportStart.X;
+                dst_rect.h = ViewportEnd.Y - ViewportStart.Y;
             }
 
             if (Repeat == null)

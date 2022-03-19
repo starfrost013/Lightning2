@@ -89,7 +89,9 @@ while (Running)
     TextManager.DrawTextTTF(Window, "Test", "Arial.11pt", new Vector2(700, 190), new Color4(255, 255, 255, 255), SDL_ttf.TTF_FontStyle.Bold, new Color4(255, 0, 0, 255), -1, -1, 0, FontSmoothingType.Solid);
     TextManager.DrawTextTTF(Window, "Test", "Arial.11pt", new Vector2(700, 210), new Color4(255, 255, 255, 255), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline);
     TextManager.DrawTextTTF(Window, "#{STRING_TEST}", "Arial.11pt", new Vector2(700, 210), new Color4(255, 255, 255, 255), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline);
-
+    
+    atlas_texture.Index = new Vector2(3, 1);
+    atlas_texture.DrawFrame(Window);
     SDL.SDL_Event cur_event = new SDL.SDL_Event();
 
     if (SDL.SDL_PollEvent(out cur_event) > 0) 

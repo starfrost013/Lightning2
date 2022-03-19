@@ -17,7 +17,6 @@ namespace Lightning2
     /// </summary>
     public class AtlasTexture
     {
-        public int FrameCount { get; set; }
 
         public Vector2 Index { get; set; }
 
@@ -70,7 +69,7 @@ namespace Lightning2
             new_texture.Position = Position;
             new_texture.Load(Win);
 
-            if (Atlas.TextureHandle != IntPtr.Zero) Atlas = new_texture; 
+            if (new_texture.TextureHandle != IntPtr.Zero) Atlas = new_texture; 
 
         }
 
@@ -78,11 +77,11 @@ namespace Lightning2
         {
             if (Index.X < 0
                 || Index.Y < 0
-                || Index.X > FrameCount
-                || Index.Y > FrameCount) throw new NCException($"Cannot draw invalid AnimatedTexture ({Name}) frame! ({Index}, range (0,{FrameCount})!)", 47, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
+                || Index.X > FrameSize.X
+                || Index.Y > FrameSize.Y) throw new NCException($"Cannot draw invalid AnimatedTexture ({Name}) frame! ({Index}, range (0,0 to {FrameSize.X},{FrameSize.Y})!)", 47, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
 
-            Atlas.ViewportStart = new Vector2(FrameSize.X * Index.X, FrameSize.Y * Index.X);
-            Atlas.ViewportEnd = new Vector2((FrameSize.X * Index.Y) + FrameSize.X, (FrameSize.Y * Index.Y) + FrameSize.Y);
+            Atlas.ViewportStart = new Vector2(FrameSize.X * Index.X, FrameSize.Y * Index.Y);
+            Atlas.ViewportEnd = new Vector2((FrameSize.X * Index.X) + FrameSize.X, (FrameSize.Y * Index.Y) + FrameSize.Y);
 
             Atlas.Draw(Win); 
         }

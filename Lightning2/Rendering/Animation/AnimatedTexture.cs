@@ -26,6 +26,8 @@ namespace Lightning2
 
         public Vector2 Position { get; set; }
 
+        public Vector2 Repeat { get; set; }
+
         public Vector2 Size { get; set; }
 
         public AnimatedTexture()
@@ -41,7 +43,8 @@ namespace Lightning2
             {
                 Texture new_texture = new Texture(Size.X, Size.Y);
                 new_texture.Path = TexturePath;
-
+                new_texture.Position = Position;
+                new_texture.Repeat = Repeat;  // do this in the getter/setter?
                 // Texture will only load current or throw fatal error. Maybe add Loaded attribute that checks if TextureHandle isn't a nullptr?
                 new_texture.Load(Win);
 
@@ -56,7 +59,6 @@ namespace Lightning2
                 Index > Frames.Count) throw new NCException($"Cannot draw invalid AnimatedTexture frame! ({Index}, max {Frames.Count}!)", 48, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
 
             CurrentFrame = Frames[Index];
-        
         }
 
         public void DrawCurrentFrame(Window Win)
