@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -57,7 +58,7 @@ namespace Lightning2
 
         public void Load(Window Win, int FramesX = 0, int FramesY = 0)
         {
-            if (FrameSize == null) throw new NCException("Cannot load a texture with no texture frame size!", 45, "AtlasTexture.LoadAtlas", NCExceptionSeverity.FatalError);
+            if (FrameSize == default(Vector2)) throw new NCException("Cannot load a texture with no texture frame size!", 45, "AtlasTexture.LoadAtlas", NCExceptionSeverity.FatalError);
 
             if (FramesX < 1 || FramesY < 1) throw new NCException($"A texture atlas must have at least one frame, set to {FramesX},{FramesY}!", 46, "AtlasTexture.LoadAtlas", NCExceptionSeverity.FatalError);
 
@@ -90,11 +91,11 @@ namespace Lightning2
         {
             if (Relative)
             {
-                GetPixel((FrameSize.X * Index.X) + X, (FrameSize.Y * Index.Y) + Y);
+                Atlas.GetPixel((int)(FrameSize.X * Index.X) + X, (int)(FrameSize.Y * Index.Y) + Y);
             }
             else
             {
-               GetPixel(X, Y);
+                Atlas.GetPixel(X, Y);
             }
         }
 
@@ -102,11 +103,11 @@ namespace Lightning2
         {
             if (Relative)
             {
-                SetPixel((FrameSize.X * Index.X) + X, (FrameSize.Y * Index.Y) + Y, Colour);
+                Atlas.SetPixel((int)(FrameSize.X * Index.X) + X, (int)(FrameSize.Y * Index.Y) + Y, Colour);
             }
             else
             {
-                SetPixel(X, Y, Colour);
+                Atlas.SetPixel(X, Y, Colour);
             }
         }
 

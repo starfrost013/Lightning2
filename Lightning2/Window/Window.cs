@@ -41,7 +41,7 @@ namespace Lightning2
 
             Settings = Ws;
 
-            Settings.WindowHandle = SDL.SDL_CreateWindow(Settings.Title, Settings.Position.X, Settings.Position.Y, Settings.Size.X, Settings.Size.Y, Settings.Flags);
+            Settings.WindowHandle = SDL.SDL_CreateWindow(Settings.Title, (int)Settings.Position.X, (int)Settings.Position.Y, (int)Settings.Size.X, (int)Settings.Size.Y, Settings.Flags);
             
             if (Settings.WindowHandle == IntPtr.Zero) throw new NCException($"Failed to create Window: {SDL.SDL_GetError}", 8, "Window.AddWindow", NCExceptionSeverity.FatalError);
 

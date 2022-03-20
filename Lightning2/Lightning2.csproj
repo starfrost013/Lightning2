@@ -145,16 +145,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AssemblyInfo.tt</DependentUpon>
     </Compile>
-    <Compile Update="Tools\Lightning2Build.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Lightning2Build.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Tools\Lightning2_Build.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Lightning2_Build.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
 
 </Project>

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics; 
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,6 +25,8 @@ namespace Lightning2
 
         public string Name { get; set; }
 
+        public List<string> FramePath { get; set; }
+
         public Vector2 Position { get; set; }
 
         public Vector2 Repeat { get; set; }
@@ -33,11 +36,12 @@ namespace Lightning2
         public AnimatedTexture()
         {
             Frames = new List<Texture>();
+            FramePath = new List<string>();
         }
 
         public void Load(Window Win, string[] Path)
         {
-            if (Size == null) throw new NCException("Cannot load a texture with no texture size!", 44, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
+            if (Size == default(Vector2)) throw new NCException("Cannot load a texture with no texture size!", 44, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
 
             foreach (string TexturePath in Path)
             {

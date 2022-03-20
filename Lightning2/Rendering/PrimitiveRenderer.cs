@@ -3,6 +3,7 @@ using NuCore.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics; 
 using System.Text;
 using System.Threading.Tasks;
 
@@ -43,16 +44,16 @@ namespace Lightning2
             {
                 if (AntiAliased)
                 {
-                    SDL_gfx.aalineRGBA(Win.Settings.RendererHandle, Start.X, Start.Y, End.X, End.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+                    SDL_gfx.aalineRGBA(Win.Settings.RendererHandle, (int)Start.X, (int)Start.Y, (int)End.X, (int)End.Y, Colour.R, Colour.G, Colour.B, Colour.A);
                 }
                 else
                 {
-                    SDL_gfx.lineRGBA(Win.Settings.RendererHandle, Start.X, Start.Y, End.X, End.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+                    SDL_gfx.lineRGBA(Win.Settings.RendererHandle, (int)Start.X, (int)Start.Y, (int)End.X, (int)End.Y, Colour.R, Colour.G, Colour.B, Colour.A);
                 }
             }
             else // sdl2_gfx limitaitons, can't be bothered to rebuild SDL2-gfx 
             {
-                SDL_gfx.thickLineRGBA(Win.Settings.RendererHandle, Start.X, Start.Y, End.X, End.Y, (short)Thickness, Colour.R, Colour.G, Colour.B, Colour.A);
+                SDL_gfx.thickLineRGBA(Win.Settings.RendererHandle, (int)Start.X, (int)Start.Y, (int)End.X, (int)End.Y, (short)Thickness, Colour.R, Colour.G, Colour.B, Colour.A);
                 SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, 0, 0, 0, 255);
             }
             
@@ -62,11 +63,13 @@ namespace Lightning2
         {
             if (Filled)
             {
-                SDL_gfx.boxRGBA(Win.Settings.RendererHandle, Position.X, Position.Y, Position.X + Size.X, Position.Y + Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+                SDL_gfx.boxRGBA(Win.Settings.RendererHandle, (int)Position.X, (int)Position.Y, 
+                    (int)Position.X + (int)Size.X, (int)Position.Y + (int)Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
             }
             else
             {
-                SDL_gfx.rectangleRGBA(Win.Settings.RendererHandle, Position.X, Position.Y, Position.X + Size.X, Position.Y + Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+                SDL_gfx.rectangleRGBA(Win.Settings.RendererHandle, (int)Position.X, (int)Position.Y, 
+                    (int)Position.X + (int)Size.X, (int)Position.Y + (int)Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
             }
 
             SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, 0, 0, 0, 255);
@@ -76,11 +79,13 @@ namespace Lightning2
         {
             if (Filled)
             {
-                SDL_gfx.roundedBoxRGBA(Win.Settings.RendererHandle, Position.X, Position.Y, Position.X + Size.X, Position.Y + Size.Y, CornerRadius, Colour.R, Colour.G, Colour.B, Colour.A);
+                SDL_gfx.roundedBoxRGBA(Win.Settings.RendererHandle, (int)Position.X, (int)Position.Y, (int)Position.X + (int)Size.X, 
+                    (int)Position.Y + (int)Size.Y, CornerRadius, Colour.R, Colour.G, Colour.B, Colour.A);
             }
             else
             {
-                SDL_gfx.rectangleRGBA(Win.Settings.RendererHandle, Position.X, Position.Y, Position.X + Size.X, Position.Y + Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+                SDL_gfx.rectangleRGBA(Win.Settings.RendererHandle, (int)Position.X, (int)Position.Y, 
+                    (int)Position.X + (int)Size.X, (int)Position.Y + (int)Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
             }
 
             SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, 0, 0, 0, 255);
@@ -90,11 +95,11 @@ namespace Lightning2
         {
             if (Filled)
             {
-                SDL_gfx.filledTrigonRGBA(Win.Settings.RendererHandle, Point1.X, Point1.Y, Point2.X, Point2.Y, Point3.X, Point3.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+                SDL_gfx.filledTrigonRGBA(Win.Settings.RendererHandle, (int)Point1.X, (int)Point1.Y, (int)Point2.X, (int)Point2.Y, (int)Point3.X, (int)Point3.Y, Colour.R, Colour.G, Colour.B, Colour.A);
             }
             else
             {
-                SDL_gfx.trigonRGBA(Win.Settings.RendererHandle, Point1.X, Point1.Y, Point2.X, Point2.Y, Point3.X, Point3.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+                SDL_gfx.trigonRGBA(Win.Settings.RendererHandle, (int)Point1.X, (int)Point1.Y, (int)Point2.X, (int)Point2.Y, (int)Point3.X, (int)Point3.Y, Colour.R, Colour.G, Colour.B, Colour.A);
             }
 
             SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, 0, 0, 0, 255);
@@ -118,37 +123,18 @@ namespace Lightning2
         {
             if (!Antialiased)
             {
-                SDL_gfx.ellipseRGBA(Win.Settings.RendererHandle, Position.X, Position.Y, Size.X, Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+                SDL_gfx.ellipseRGBA(Win.Settings.RendererHandle, (int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
             }
             else
             {
-                SDL_gfx.aaellipseRGBA(Win.Settings.RendererHandle, Position.X, Position.Y, Size.X, Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+                SDL_gfx.aaellipseRGBA(Win.Settings.RendererHandle, (int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
             }
 
-            /*
-            SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, Colour.R, Colour.G, Colour.B, Colour.A);
-
-            // Test code to see if i can do this properly
-            int max = (int)(360 / PRIMITIVE_RENDERER_CIRCLE_PRECISION);
-
-            Vector2 initial_pos = new Vector2(Position.X, Position.Y);
-
-
-            for (int i = 0; i < max; i ++)
-            {
-                Vector2 next_pos = new Vector2(Position.X + (int)(Size.X * Math.Sin(i)), Position.Y + (int)(Size.Y * Math.Cos(i)));
-
-                SDL.SDL_RenderDrawLine(Win.Settings.RendererHandle, initial_pos.X, initial_pos.Y, next_pos.X, next_pos.Y);
-
-                initial_pos = next_pos;
-
-            }
-            */
         }
 
         private static void DrawCircle_DrawFilledCircle(Window Win, Vector2 Position, Vector2 Size, Color4 Colour)
         {
-            SDL_gfx.filledEllipseRGBA(Win.Settings.RendererHandle, Position.X, Position.Y, Size.X, Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+            SDL_gfx.filledEllipseRGBA(Win.Settings.RendererHandle, (int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
         }
 
         /// <summary>

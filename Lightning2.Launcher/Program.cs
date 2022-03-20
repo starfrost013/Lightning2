@@ -6,6 +6,7 @@
 using NuCore.SDL2;
 using NuCore.Utilities;
 using Lightning2;
+using System.Numerics; 
 
 Lightning2.Lightning2.Init(); // Initialise Lightning2
 Window Window = new Window();

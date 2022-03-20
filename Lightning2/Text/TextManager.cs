@@ -3,6 +3,7 @@ using NuCore.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -94,7 +95,7 @@ namespace Lightning2
             IntPtr text_texture_ptr = IntPtr.Zero;
 
             SDL.SDL_Rect font_src_rect = new SDL.SDL_Rect(0, 0, font_size_x, font_size_y);
-            SDL.SDL_Rect font_dst_rect = new SDL.SDL_Rect(Position.X, Position.Y, font_size_x, font_size_y);
+            SDL.SDL_Rect font_dst_rect = new SDL.SDL_Rect((int)Position.X, (int)Position.Y, font_size_x, font_size_y);
 
             switch (Smoothing)
             {
