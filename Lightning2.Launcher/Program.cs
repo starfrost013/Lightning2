@@ -57,10 +57,22 @@ AtlasTexture atlas_texture = new AtlasTexture();
 
 atlas_texture.Path = @"Content\AtlasTextureTest.png";
 atlas_texture.Position = new Vector2(256, 256);
-atlas_texture.FrameSize = new Vector2(64, 64); // 
+atlas_texture.FrameSize = new Vector2(64, 64); // size of one tile
 atlas_texture.Load(Window, 4, 4);
 
 bool Running = true;
+
+AnimatedTexture at = new AnimatedTexture();
+at.FramesPath.Add(@"Content\AnimTextureTest\AnimTextureTestF0.png");
+at.FramesPath.Add(@"Content\AnimTextureTest\AnimTextureTestF1.png");
+at.FramesPath.Add(@"Content\AnimTextureTest\AnimTextureTestF2.png");
+at.FramesPath.Add(@"Content\AnimTextureTest\AnimTextureTestF3.png");
+at.Cycle = new AnimationCycle(0, 3, 60);
+
+at.Position = new Vector2(320, 256);
+at.Size = new Vector2(256, 256);
+
+at.Load(Window);
 
 while (Running)
 {
@@ -90,7 +102,7 @@ while (Running)
     TextManager.DrawTextTTF(Window, "Test", "Arial.11pt", new Vector2(700, 190), new Color4(255, 255, 255, 255), SDL_ttf.TTF_FontStyle.Bold, new Color4(255, 0, 0, 255), -1, -1, 0, FontSmoothingType.Solid);
     TextManager.DrawTextTTF(Window, "Test", "Arial.11pt", new Vector2(700, 210), new Color4(255, 255, 255, 255), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline);
     TextManager.DrawTextTTF(Window, "#{STRING_TEST}", "Arial.11pt", new Vector2(700, 210), new Color4(255, 255, 255, 255), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline);
-    
+
     atlas_texture.Index = new Vector2(3, 1);
     atlas_texture.DrawFrame(Window);
     SDL.SDL_Event cur_event = new SDL.SDL_Event();
@@ -124,6 +136,8 @@ while (Running)
                 Texture.SetPixel(x, y, new Color4(R, G, B, A));
             }
         }
+
+        at.DrawCurrentFrame(Window);
 
         Texture.Unlock();
         Texture.Draw(Window);

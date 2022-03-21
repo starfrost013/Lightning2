@@ -19,63 +19,126 @@ namespace Lightning2
     /// </summary>
     public class AnimatedTexture
     {
+        /// <summary>
+        /// The frames of this texture. A list of <see cref="Texture"/> objects.
+        /// </summary>
         public List<Texture> Frames { get; set; }
 
-        public Texture CurrentFrame { get; set; }
+        /// <summary>
+        /// The current frame in the animationcycle.
+        /// </summary>
+        internal uint CurrentFrame { get; set; }
 
+        /// <summary>
+        /// The name of this texture.
+        /// </summary>
         public string Name { get; set; }
 
-        public List<string> FramePath { get; set; }
+        /// <summary>
+        /// The list of paths to load the string from.
+        /// </summary>
+        public List<string> FramesPath { get; set; }
 
+        /// <summary>
+        /// The position of this texture.
+        /// Must be valid to draw.
+        /// </summary>
         public Vector2 Position { get; set; }
 
-        public Vector2 Repeat { get; set; }
+        /// <summary>
+        /// Determines if this texture repeats, and if so
+        /// by how many tiles. 
+        /// 
+        /// If NULL or zero, the texture will be drawn only once.
+        /// </summary>
+        public Vector2 TextureRepeat { get; set; }
 
+        /// <summary>
+        /// Determines the number of times the animation repeats.
+        /// 0 makes the animation repeat infintiely.
+        /// </summary>
+        public int Repeat { get; set; }
+
+        /// <summary>
+        /// Internal: the number of times the animation has repeated.
+        /// </summary>
+        private int CurRepeats { get; set; }
+
+        /// <summary>
+        /// Internal: determines if the animatin is finished.
+        /// </summary>
+        private bool AnimationFinished { get; set; }
+
+        /// <summary>
+        /// The size of this texture.
+        /// </summary>
         public Vector2 Size { get; set; }
+
+        /// <summary>
+        /// The current animation cycle.that is being used
+        /// </summary>
+        public AnimationCycle Cycle { get; set; }
 
         public AnimatedTexture()
         {
             Frames = new List<Texture>();
-            FramePath = new List<string>();
+            FramesPath = new List<string>();
         }
 
-        public void Load(Window Win, string[] Path)
+        public void Load(Window Win)
         {
-            if (Size == default(Vector2)) throw new NCException("Cannot load a texture with no texture size!", 44, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
+            if (Size == default(Vector2)) throw new NCException("Cannot load an animated texture with no texture size!", 44, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
 
-            foreach (string TexturePath in Path)
+            foreach (string TexturePath in FramesPath)
             {
                 Texture new_texture = new Texture(Size.X, Size.Y);
                 new_texture.Path = TexturePath;
                 new_texture.Position = Position;
-                new_texture.Repeat = Repeat;  // do this in the getter/setter?
+                new_texture.Repeat = TextureRepeat;  // do this in the getter/setter?
                 // Texture will only load current or throw fatal error. Maybe add Loaded attribute that checks if TextureHandle isn't a nullptr?
                 new_texture.Load(Win);
 
-                if (new_texture.TextureHandle != IntPtr.Zero) Frames.Add(CurrentFrame);
+                if (new_texture.TextureHandle != IntPtr.Zero) Frames.Add(new_texture);
 
             }
         }
 
-        public void SetCurrentFrame(int Index)
-        {
-            if (Index < 0 ||
-                Index > Frames.Count) throw new NCException($"Cannot draw invalid AnimatedTexture frame! ({Index}, max {Frames.Count}!)", 48, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
-
-            CurrentFrame = Frames[Index];
-        }
-
         public void DrawCurrentFrame(Window Win)
         {
-            CurrentFrame.Draw(Win);
+            if (Cycle == null) throw new NCException("AnimatedTextures must have a cycle!", 54, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
+
+            if (AnimationFinished) return;
+
+            Texture cur_frame = Frames[(int)CurrentFrame];
+            cur_frame.Draw(Win);
+
+            if (Win.FrameNumber % Cycle.FrameLength == 0)
+            {
+                if (Cycle.StartFrame > Cycle.EndFrame)
+                {
+                    CurrentFrame--; ; // default is 1
+                }
+                else
+                {
+                    CurrentFrame++; ; // default is 1
+                }
+
+                if (CurrentFrame > Cycle.EndFrame)
+                {
+                    CurrentFrame = Cycle.StartFrame;
+                    CurRepeats++;
+                    if (CurRepeats > Repeat && (Repeat != 0)) AnimationFinished = true; 
+                }
+
+                if (CurrentFrame < Cycle.StartFrame)
+                {
+                    CurrentFrame = Cycle.EndFrame;
+                    CurRepeats++;
+                    if (CurRepeats > Repeat && (Repeat != 0)) AnimationFinished = true;
+                }
+
+            }
+
         }
-
-        public Color4 GetPixel(int X, int Y) => CurrentFrame.GetPixel(X, Y);
-
-        public void SetPixel(int X, int Y, Color4 Colour) => CurrentFrame.SetPixel(X, Y, Colour);
-
-        public void Lock() => CurrentFrame.Lock();
-
-        public void Unlock() => CurrentFrame.Unlock();  
     }
 }

@@ -26,6 +26,7 @@ namespace Lightning2
 
         public double CurFPS { get; set; }
 
+        public int FrameNumber { get; set; }
         public Window()
         {
             DeltaTimer = new Stopwatch();
@@ -48,7 +49,6 @@ namespace Lightning2
             Settings.RendererHandle = SDL.SDL_CreateRenderer(Settings.WindowHandle, Settings.ID, Settings.RenderFlags);
 
             if (Settings.RendererHandle == IntPtr.Zero) throw new NCException($"Failed to create Renderer: {SDL.SDL_GetError}", 9, "Window.AddWindow", NCExceptionSeverity.FatalError);
-
         }
 
         public void Update()
@@ -67,6 +67,7 @@ namespace Lightning2
 
             CurFPS = 1 / DeltaTime;
 
+            FrameNumber++;
             SDL.SDL_RenderPresent(Settings.RendererHandle);
         }
 
