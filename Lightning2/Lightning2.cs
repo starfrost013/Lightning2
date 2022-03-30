@@ -30,6 +30,9 @@ namespace Lightning2
             NCLogging.Log("Initialising SDL_mixer...");
             if (SDL_mixer.Mix_Init(SDL_mixer.MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) throw new NCException($"Error initialising SDL2_mixer: {SDL.SDL_GetError()}", 3, "Lightning2.Init();", NCExceptionSeverity.FatalError);
 
+            NCLogging.Log("Initialising audio device...");
+            if (SDL_mixer.Mix_OpenAudio(44100, SDL_mixer.Mix_AudioFormat.MIX_DEFAULT_FORMAT, 2, 2048) < 0) throw new NCException($"Error initialising audio device: {SDL.SDL_GetError()}", 56, "Lightning2.Init();", NCExceptionSeverity.FatalError);
+
             NCLogging.Log("Loading Engine.ini...");
             GlobalSettings.Load();
 

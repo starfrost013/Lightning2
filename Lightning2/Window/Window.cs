@@ -36,13 +36,13 @@ namespace Lightning2
             ThisTime = 0; 
         }
 
-        public void AddWindow(WindowSettings Ws)
+        public void Start(WindowSettings Ws)
         {
             if (Ws == null) throw new NCException("Passed null WindowSettings to Window init method!", 7, "Window.AddWindow", NCExceptionSeverity.FatalError);
 
             Settings = Ws;
 
-            Settings.WindowHandle = SDL.SDL_CreateWindow(Settings.Title, (int)Settings.Position.X, (int)Settings.Position.Y, (int)Settings.Size.X, (int)Settings.Size.Y, Settings.Flags);
+            Settings.WindowHandle = SDL.SDL_CreateWindow(Settings.Title, (int)Settings.Position.X, (int)Settings.Position.Y, (int)Settings.Size.X, (int)Settings.Size.Y, Settings.WindowFlags);
             
             if (Settings.WindowHandle == IntPtr.Zero) throw new NCException($"Failed to create Window: {SDL.SDL_GetError}", 8, "Window.AddWindow", NCExceptionSeverity.FatalError);
 

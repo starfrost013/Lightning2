@@ -16,14 +16,14 @@ namespace Lightning2
     public class AnimationCycle
     {
         /// <summary>
-        /// The beginning frame
+        /// The beginning frame of the animation cycle.
         /// </summary>
-        public uint StartFrame { get; set; } 
+        public int StartFrame { get; set; } 
 
         /// <summary>
-        /// The end frame
+        /// The end frame of the animation cycle.
         /// </summary>
-        public uint EndFrame { get; set; }
+        public int EndFrame { get; set; }
 
         /// <summary>
         /// The number of frames between switching each animation frame. Default is 1.
@@ -35,7 +35,7 @@ namespace Lightning2
             FrameLength = 1; 
         }
 
-        public AnimationCycle(uint NStartFrame, uint NEndFrame, uint NFrameLength)
+        public AnimationCycle(int NStartFrame, int NEndFrame, uint NFrameLength)
         {
             StartFrame = NStartFrame;
             EndFrame = NEndFrame;

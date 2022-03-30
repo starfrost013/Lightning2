@@ -29,7 +29,7 @@ namespace Lightning2
         /// <summary>
         /// The SDL window flags of this flag.
         /// </summary>
-        public SDL.SDL_WindowFlags Flags { get; set; }
+        public SDL.SDL_WindowFlags WindowFlags { get; set; }
         
         /// <summary>
         /// The SDL renderer flags of this window.
@@ -53,7 +53,7 @@ namespace Lightning2
 
         public WindowSettings()
         {
-            Flags = SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN;
+            WindowFlags = SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN;
         }
     }
 }

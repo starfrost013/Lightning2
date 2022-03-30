@@ -27,7 +27,7 @@ namespace Lightning2
         /// <summary>
         /// The current frame in the animationcycle.
         /// </summary>
-        internal uint CurrentFrame { get; set; }
+        internal int CurrentFrame { get; set; }
 
         /// <summary>
         /// The name of this texture.
@@ -88,6 +88,7 @@ namespace Lightning2
         public void Load(Window Win)
         {
             if (Size == default(Vector2)) throw new NCException("Cannot load an animated texture with no texture size!", 44, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
+            if (Cycle == null) throw new NCException("AnimatedTextures must have a cycle!", 54, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
 
             foreach (string TexturePath in FramesPath)
             {
@@ -99,14 +100,15 @@ namespace Lightning2
                 new_texture.Load(Win);
 
                 if (new_texture.TextureHandle != IntPtr.Zero) Frames.Add(new_texture);
-
             }
+
+            CurrentFrame = Cycle.StartFrame;
         }
 
         public void DrawCurrentFrame(Window Win)
         {
-            if (Cycle == null) throw new NCException("AnimatedTextures must have a cycle!", 54, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
 
+            bool reverse_animation = (Cycle.StartFrame > Cycle.EndFrame);
             if (AnimationFinished) return;
 
             Texture cur_frame = Frames[(int)CurrentFrame];
@@ -114,31 +116,34 @@ namespace Lightning2
 
             if (Win.FrameNumber % Cycle.FrameLength == 0)
             {
-                if (Cycle.StartFrame > Cycle.EndFrame)
+                // will be set to true if the cycle is to end.
+                bool end_cycle = false;
+
+                if (reverse_animation)
                 {
-                    CurrentFrame--; ; // default is 1
+                    CurrentFrame--; 
                 }
                 else
                 {
-                    CurrentFrame++; ; // default is 1
+                    CurrentFrame++; 
                 }
 
-                if (CurrentFrame > Cycle.EndFrame)
+                if (reverse_animation)
                 {
-                    CurrentFrame = Cycle.StartFrame;
-                    CurRepeats++;
-                    if (CurRepeats > Repeat && (Repeat != 0)) AnimationFinished = true; 
+                    if (CurrentFrame < Cycle.EndFrame) CurrentFrame = Cycle.StartFrame;
+                }
+                else
+                {
+                    if (CurrentFrame > Cycle.EndFrame) CurrentFrame = Cycle.StartFrame;
                 }
 
-                if (CurrentFrame < Cycle.StartFrame)
+                if (end_cycle)
                 {
-                    CurrentFrame = Cycle.EndFrame;
                     CurRepeats++;
                     if (CurRepeats > Repeat && (Repeat != 0)) AnimationFinished = true;
+                    end_cycle = false; 
                 }
-
             }
-
         }
     }
 }

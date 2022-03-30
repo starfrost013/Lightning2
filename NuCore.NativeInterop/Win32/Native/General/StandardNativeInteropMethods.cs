@@ -13,7 +13,7 @@ using System.Text;
 /// 
 /// March 5, 2021   Move from Emerald to Lightning
 /// </summary>
-namespace NuCore.NativeInterop.Win32
+namespace NuCore.NativeInterop
 {
     public static class NativeMethodsWin32
     {

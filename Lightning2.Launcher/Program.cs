@@ -16,7 +16,7 @@ WS.Title = "Lightning2 Example";
 WS.Position = new Vector2(350, 100);
 WS.Size = new Vector2(960, 640);
 
-Window.AddWindow(WS);
+Window.Start(WS);
 
 TextManager.LoadFont("Arial", 11, "Arial.11pt");
 TextManager.LoadFont("Arial", 18, "Arial.18pt");
@@ -73,6 +73,27 @@ at.Position = new Vector2(320, 256);
 at.Size = new Vector2(256, 256);
 
 at.Load(Window);
+
+AudioManager.LoadFile(@"Content\xm_boot.mp3");
+AudioManager.LoadFile(@"Content\xm_boot_ogg.ogg");
+AudioManager.LoadFile(@"Content\xm_title.mp3");
+AudioManager.LoadFile(@"Content\xm_title_ogg.ogg");
+
+AudioFile xm_boot = AudioManager.GetFileWithName("xm_boot");
+AudioFile xm_boot_ogg = AudioManager.GetFileWithName("xm_boot_ogg");
+AudioFile xm_title = AudioManager.GetFileWithName("xm_title");
+AudioFile xm_title_ogg = AudioManager.GetFileWithName("xm_title_ogg");
+
+
+
+xm_boot.Play();
+
+xm_title.SetVolume(0.5);
+xm_title.Repeat = -1;
+xm_title.Play();
+
+xm_boot_ogg.Play();
+xm_title_ogg.Play();
 
 while (Running)
 {
