@@ -71,5 +71,11 @@ namespace Lightning2
             SDL.SDL_RenderPresent(Settings.RendererHandle);
         }
 
+        public void Shutdown()
+        {
+            SDL.SDL_DestroyRenderer(Settings.RendererHandle);
+            SDL.SDL_DestroyWindow(Settings.WindowHandle);
+        }
+
     }
 }

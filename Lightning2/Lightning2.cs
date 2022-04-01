@@ -1,6 +1,7 @@
 ﻿using NuCore.Utilities;
 using NuCore.SDL2;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace Lightning2
@@ -45,6 +46,48 @@ namespace Lightning2
             NCLogging.Settings = new NCLoggingSettings();
             NCLogging.Settings.WriteToLog = true;
             NCLogging.Init();
+        }
+
+        public static void Shutdown(Window Win)
+        {
+
+            NCLogging.Log("Shutdown requested. Destroying renderer and window...");
+            Win.Shutdown();
+
+            NCLogging.Log("Unloading fonts...");
+
+            int font_count = TextManager.Fonts.Count;
+            int audio_file_count = AudioManager.AudioFiles.Count;
+
+            // create a list of fonts and audiofiles to unload
+            // just foreaching through each font and audiofile doesn't work as collection is being modified 
+            List<Font> fonts_to_unload = new List<Font>();
+            List<AudioFile> audio_files_to_unload = new List<AudioFile>();
+            
+            foreach (Font font_to_unload in TextManager.Fonts) fonts_to_unload.Add(font_to_unload);
+            foreach (AudioFile audio_file_to_unload in AudioManager.AudioFiles) audio_files_to_unload.Add(audio_file_to_unload);
+
+            NCLogging.Log("Unloading fonts...");
+            foreach (Font font_to_unload in fonts_to_unload) TextManager.UnloadFont(font_to_unload);
+
+            NCLogging.Log("Unloading loaded audio...");
+            foreach (AudioFile audio_file_to_unload in audio_files_to_unload) AudioManager.UnloadFile(audio_file_to_unload);
+
+
+            // Shut everything down in reverse order.
+
+            NCLogging.Log("Shutting down SDL_ttf...");
+            SDL_ttf.TTF_Quit();
+
+            NCLogging.Log("Shutting down SDL_mixer...");
+            SDL_mixer.Mix_Quit();
+
+            NCLogging.Log("Shutting down SDL_image..");
+            SDL_image.IMG_Quit();
+
+            NCLogging.Log("Shutting down SDL...");
+            SDL.SDL_Quit();
+
         }
     }
 }

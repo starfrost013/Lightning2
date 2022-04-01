@@ -75,6 +75,8 @@ namespace Lightning2
             if (AudioHandle == IntPtr.Zero) throw new NCException($"Error loading audio file at {Path}: {SDL_mixer.Mix_GetError()}", 51, "AudioFile.Load", NCExceptionSeverity.Error);
         }
 
+        internal void Unload() => SDL_mixer.Mix_FreeChunk(AudioHandle); // loadmus used therefore we are freeing chunks
+
         public void Play()
         {
             if (!PositionalSound)

@@ -44,6 +44,21 @@ namespace Lightning2
             }
         }
 
+        public static void UnloadFont(Font NFont)
+        {
+            try
+            {
+                NCLogging.Log($"Unloading font {NFont.Name}, size {NFont.Size}...");
+                NFont.Unload();
+                Fonts.Remove(NFont);
+            }
+            catch (Exception) // NC Exception
+            {
+                return;
+            }
+        }
+
+
         public static void DrawTextTTF(Window Win, string Text, string Font, Vector2 Position, Color4 Foreground, SDL_ttf.TTF_FontStyle Style = SDL_ttf.TTF_FontStyle.Normal, Color4 Background = null, int ResizeFont = -1, int OutlinePixels = -1, uint LineLength = 0, FontSmoothingType Smoothing = FontSmoothingType.Default)
         {
             Text = LocalisationManager.ProcessString(Text);

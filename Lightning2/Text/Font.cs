@@ -69,5 +69,7 @@ namespace Lightning2
             NCLogging.Log($"Loaded font {temp_font.Name}, size {temp_font.Size} at {temp_path}");
             return temp_font; 
         }
+
+        public void Unload() => SDL_ttf.TTF_CloseFont(Handle);
     }
 }

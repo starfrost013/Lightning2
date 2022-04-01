@@ -88,7 +88,8 @@ AudioFile xm_title_ogg = AudioManager.GetFileWithName("xm_title_ogg");
 
 xm_boot.Play();
 
-xm_title.SetVolume(0.5);
+xm_title.SetVolume(0.1);
+xm_title_ogg.SetVolume(0.1);
 xm_title.Repeat = -1;
 xm_title.Play();
 
@@ -134,6 +135,7 @@ while (Running)
         {
             case SDL.SDL_EventType.SDL_QUIT:
                 Running = false;
+                Lightning2.Lightning2.Shutdown(Window);
                 return;
             case SDL.SDL_EventType.SDL_KEYDOWN:
                 Key nkey = (Key)cur_event.key;
@@ -169,3 +171,5 @@ while (Running)
         Window.Present();
     }
 }
+
+// running is now false so shutdown

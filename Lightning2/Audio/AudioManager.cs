@@ -24,6 +24,12 @@ namespace Lightning2
             AudioFiles = new List<AudioFile>();
         }
 
+        /// <summary>
+        /// Loads the audio file at path <see cref="Path"/>, if it exists.
+        /// </summary>
+        /// <param name="Path">The path of the file to load.</param>
+        /// <param name="Name">A name to assign to the audio file. Optional, will be automatically generated from the file path (extension and directory removed) if not supplied.</param>
+        /// <exception cref="NCException">An error occurred loading the file.</exception>
         public static void LoadFile(string Path, string Name = null)
         {
             if (!File.Exists(Path)) if (!File.Exists(Path)) throw new NCException($"Error loading audio file: The path {Path} does not exist!", 52, "AudioFile.Load", NCExceptionSeverity.FatalError);
@@ -53,9 +59,6 @@ namespace Lightning2
                 {
                     temp_audio.Name = path_dir_split[path_dir_split.Length - 1];
                 }
-
-
-
             }
             else
             {
@@ -72,6 +75,18 @@ namespace Lightning2
             }
         }
 
+        public static void UnloadFile(AudioFile File)
+        {
+            NCLogging.Log($"Unloading audio file {File.Name}...");
+            File.Unload();
+            AudioFiles.Remove(File);
+        }
+
+        /// <summary>
+        /// Acquires the <see cref="AudioFile"/> with the name <see cref="Name"/>.
+        /// </summary>
+        /// <param name="Name">The name of the audio file to obtain.</param>
+        /// <returns>The first instance of <see cref="AudioFile"/> in <see cref="AudioFiles"/> with the name <see cref="Name"/>, or <c>null</c> if there is no audio file with that name.</returns>
         public static AudioFile GetFileWithName(string Name)
         {
             foreach (AudioFile file in AudioFiles)
@@ -85,6 +100,11 @@ namespace Lightning2
             return null;
         }
 
+        /// <summary>
+        /// Acquires the <see cref="AudioFile"/> with path <see cref="Path"/>.
+        /// </summary>
+        /// <param name="Name">The path of the audio file to obtain.</param>
+        /// <returns>The first instance of <see cref="AudioFile"/> in <see cref="AudioFiles"/> with the path <see cref="Name"/>, or <c>null</c> if there is no audio file with that path.</returns>
         public static AudioFile GetFileWithPath(string Name)
         {
             foreach (AudioFile file in AudioFiles)

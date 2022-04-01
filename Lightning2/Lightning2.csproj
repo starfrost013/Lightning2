@@ -146,4 +146,8 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Rendering\Camera\" />
+  </ItemGroup>
+
 </Project>
