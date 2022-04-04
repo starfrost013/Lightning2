@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuCore.SDL2", "NuCore.SDL2-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuCore.Utilities", "NuCore.Utilities\NuCore.Utilities.csproj", "{2DA5C8F3-4F36-4C05-B2D7-09CEF107210C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lightning2.Launcher", "Lightning2.Launcher\Lightning2.Launcher.csproj", "{BBB9BEBA-D492-454A-A542-072C5F49A041}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lightning2.Test", "Lightning2.Launcher\Lightning2.Test.csproj", "{BBB9BEBA-D492-454A-A542-072C5F49A041}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

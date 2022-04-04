@@ -42,14 +42,19 @@ namespace Lightning2
         public int ID { get; internal set; }
 
         /// <summary>
-        /// The window handle for this window.
+        /// The native window handle for this window.
         /// </summary>
         public IntPtr WindowHandle { get; internal set; }
 
         /// <summary>
-        /// The renderer handle for this window.
+        /// The native renderer handle for this window.
         /// </summary>
         public IntPtr RendererHandle { get; internal set; }
+
+        /// <summary>
+        /// The current <see cref="Camera"/> used.
+        /// </summary>
+        public Camera Camera { get; internal set; }
 
         public WindowSettings()
         {

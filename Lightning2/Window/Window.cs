@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics; 
 using System.Text;
 using System.Timers;
 
@@ -75,6 +76,16 @@ namespace Lightning2
         {
             SDL.SDL_DestroyRenderer(Settings.RendererHandle);
             SDL.SDL_DestroyWindow(Settings.WindowHandle);
+        }
+
+        public void SetCurrentCamera(Camera ncamera)
+        {
+            if (ncamera.Type == CameraType.Chase)
+            {
+                if (ncamera.FocusDelta == default(Vector2)) ncamera.FocusDelta = new Vector2(-(Settings.Size.X / 2), 0);
+            }
+
+            Settings.Camera = ncamera; 
         }
 
     }

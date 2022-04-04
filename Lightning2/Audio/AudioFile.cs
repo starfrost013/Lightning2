@@ -2,6 +2,7 @@
 using NuCore.Utilities; 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO; 
 using System.Linq;
 using System.Numerics; 
@@ -13,7 +14,7 @@ namespace Lightning2
     /// <summary>
     /// AudioFile
     /// 
-    /// March 24, 2022
+    /// March 24, 2022 (modified April 4, 2022: add positional sound)
     /// 
     /// Defines an audio file.
     /// </summary>
@@ -66,6 +67,13 @@ namespace Lightning2
         /// </summary>
         public Vector2 Size { get; set; }
 
+        /// <summary>
+        /// Private: The real volume of this sound.
+        /// 
+        /// Used for positional sound calculations.
+        /// </summary>
+        private double RealVolume { get; set; }
+
         internal void Load()
         {
             if (!File.Exists(Path)) throw new NCException($"Error loading audio file: The path {Path} does not exist!", 50, "AudioFile.Load", NCExceptionSeverity.FatalError);
@@ -73,15 +81,45 @@ namespace Lightning2
             AudioHandle = SDL_mixer.Mix_LoadWAV(Path);
 
             if (AudioHandle == IntPtr.Zero) throw new NCException($"Error loading audio file at {Path}: {SDL_mixer.Mix_GetError()}", 51, "AudioFile.Load", NCExceptionSeverity.Error);
+
+            RealVolume = 1; // make sure there is always a value
         }
 
         internal void Unload() => SDL_mixer.Mix_FreeChunk(AudioHandle); // loadmus used therefore we are freeing chunks
 
         public void Play()
         {
-            if (!PositionalSound)
+            SDL_mixer.Mix_PlayChannel(Channel, AudioHandle, Repeat);
+        }
+
+        /// <summary>
+        /// Update positional sound volume based on current main camera position.
+        /// 
+        /// Only call if <see cref="PositionalSound"/> is true.
+        /// </summary>
+        /// <param name="Win"></param>
+        public void Update(Window Win)
+        {
+            if (!PositionalSound) return;
+
+            Vector2 cam_main_pos = Win.Settings.Camera.Position;
+            Vector2 audio_pos = Position;
+
+            Vector2 distance = audio_pos - cam_main_pos;
+
+            // faster than math.pow
+            double magnitude = Math.Abs(Math.Sqrt((distance.X * distance.X) + (distance.Y * distance.Y)));
+
+            if (magnitude == 0)
             {
-                SDL_mixer.Mix_PlayChannel(Channel, AudioHandle, Repeat); 
+                int volume_to_set = (int)(RealVolume) * 128;
+                SDL_mixer.Mix_Volume(Channel, volume_to_set);
+            }
+            else
+            {
+                // /12 to make sounds fade out slower.
+                int volume_to_set = (int)(RealVolume / (magnitude / 15) * 128);
+                SDL_mixer.Mix_Volume(Channel, volume_to_set);
             }
         }
 
@@ -91,9 +129,9 @@ namespace Lightning2
 
         public void SetVolume(double Volume)
         {
-            int real_volume = (int)Math.Clamp(Volume * 128, 0, 128);
+            RealVolume = Volume;
 
-            SDL_mixer.Mix_Volume(Channel, real_volume);
+            SDL_mixer.Mix_Volume(Channel, (int)(RealVolume * 128));
 
         }
     }
