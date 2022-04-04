@@ -21,7 +21,7 @@ namespace Lightning2
 
         public IntPtr Handle { get; private set; }
 
-        public static Font Load(string Name, int Size, string FriendlyName = null, string Path = null, int Index = -1) // probably static
+        public static Font Load(string Name, int Size, string Path = null, string FriendlyName = null, int Index = -1) // probably static
         {
             Font temp_font = new Font();
 

@@ -72,10 +72,21 @@ namespace Lightning2
             SDL.SDL_RenderPresent(Settings.RendererHandle);
         }
 
-        public void Shutdown()
+        /// <summary>
+        /// Internal - used as a part of Lightning2.Shutdown
+        /// </summary>
+        internal void Shutdown()
         {
             SDL.SDL_DestroyRenderer(Settings.RendererHandle);
             SDL.SDL_DestroyWindow(Settings.WindowHandle);
+        }
+
+        public void Clear(Color4 colour)
+        {
+            SDL.SDL_SetRenderDrawColor(Settings.RendererHandle, colour.R, colour.G, colour.B, colour.A);
+            SDL.SDL_RenderClear(Settings.RendererHandle);
+            Settings.Background = colour;
+            //SDL.SDL_RenderPresent(Settings.RendererHandle);
         }
 
         public void SetCurrentCamera(Camera ncamera)

@@ -18,11 +18,12 @@ window_settings.Size = new Vector2(960, 640);
 
 window.Start(window_settings);
 
-TextManager.LoadFont("Arial", 11, "Arial.11pt");
-TextManager.LoadFont("Arial", 18, "Arial.18pt");
-TextManager.LoadFont("Arial", 24, "Arial.24pt");
-TextManager.LoadFont("Arial", 36, "Arial.36pt");
+TextManager.LoadFont("Arial", 11, null, "Arial.11pt");
+TextManager.LoadFont("Arial", 18, null, "Arial.18pt");
+TextManager.LoadFont("Arial", 24, null, "Arial.24pt");
+TextManager.LoadFont("Arial", 36, null, "Arial.36pt");
 
+window.Clear(new Color4(127, 127, 127, 255));
 Texture texture = new Texture(64, 64);
 
 texture.Create(window);
@@ -77,7 +78,6 @@ at.Load(window);
 AudioManager.LoadFile(@"Content\xm_boot.mp3");
 AudioManager.LoadFile(@"Content\xm_boot_ogg.ogg");
 AudioManager.LoadFile(@"Content\xm_title.mp3");
-AudioManager.LoadFile(@"Content\xm_title_ogg.ogg");
 
 AudioFile xm_boot = AudioManager.GetFileWithName("xm_boot");
 AudioFile xm_boot_ogg = AudioManager.GetFileWithName("xm_boot_ogg");

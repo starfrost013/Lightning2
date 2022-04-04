@@ -31,11 +31,11 @@ namespace Lightning2
             return null;    
         }
 
-        public static void LoadFont(string Name, int Size, string FriendlyName = null, string Path = null, int Index = -1)
+        public static void LoadFont(string Name, int Size, string Path = null, string FriendlyName = null, int Index = -1)
         {
             try
             {
-                Font temp_font = Font.Load(Name, Size, FriendlyName, Path, Index);
+                Font temp_font = Font.Load(Name, Size, Path, FriendlyName, Index);
                 Fonts.Add(temp_font);
             }
             catch (Exception) // NC Exception

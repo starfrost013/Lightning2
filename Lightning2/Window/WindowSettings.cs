@@ -56,9 +56,16 @@ namespace Lightning2
         /// </summary>
         public Camera Camera { get; internal set; }
 
+        /// <summary>
+        /// The background colour of this window.
+        /// </summary>
+        public Color4 Background { get; internal set; }
+
         public WindowSettings()
         {
+            // Show the window by default and set its colour to RGBA 0,0,0,255 (solid black).
             WindowFlags = SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN;
+            Background = new Color4(0, 0, 0, 255);
         }
     }
 }
