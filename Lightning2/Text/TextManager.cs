@@ -198,16 +198,6 @@ namespace Lightning2
                             font_dst_rect.y += LineLength;
                         }
 
-                        // increment by the line length
-                        if (LineLength < 0)
-                        {
-                            font_dst_rect.y += font_size_y;
-                        }
-                        else
-                        {
-                            font_dst_rect.y += LineLength;
-                        }
-
                         continue;
                     case FontSmoothingType.Solid: // No processing done
                         text_ptr = SDL_ttf.TTF_RenderUTF8_Solid(temp_font.Handle, line, font_colour);
@@ -218,6 +208,15 @@ namespace Lightning2
                         SDL.SDL_FreeSurface(text_ptr);
                         SDL.SDL_DestroyTexture(text_texture_ptr);
 
+                        // increment by the line length
+                        if (LineLength < 0)
+                        {
+                            font_dst_rect.y += font_size_y;
+                        }
+                        else
+                        {
+                            font_dst_rect.y += LineLength;
+                        }
 
                         continue;
                 }
