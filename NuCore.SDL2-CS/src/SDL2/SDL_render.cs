@@ -987,6 +987,7 @@ namespace NuCore.SDL2
 			byte alpha
 		);
 
+
 		/* texture refers to an SDL_Texture* */
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetTextureBlendMode(

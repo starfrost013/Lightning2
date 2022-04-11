@@ -1,4 +1,4 @@
-﻿using NuCore.SDL2;
+﻿using static NuCore.SDL2.SDL;
 using NuCore.Utilities; 
 using System;
 using System.Collections.Generic;
@@ -29,12 +29,12 @@ namespace Lightning2
         /// <summary>
         /// The SDL window flags of this flag.
         /// </summary>
-        public SDL.SDL_WindowFlags WindowFlags { get; set; }
+        public SDL_WindowFlags WindowFlags { get; set; }
         
         /// <summary>
         /// The SDL renderer flags of this window.
         /// </summary>
-        public SDL.SDL_RendererFlags RenderFlags { get; set; }  
+        public SDL_RendererFlags RenderFlags { get; set; }  
 
         /// <summary>
         /// The SDL ID of this window 
@@ -63,8 +63,8 @@ namespace Lightning2
 
         public WindowSettings()
         {
-            // Show the window by default and set its colour to RGBA 0,0,0,255 (solid black).
-            WindowFlags = SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN;
+            // Show the window by default, set its colour to RGBA 0,0,0,255 (solid black), and set the rendering blend mode to SDL_BLENDMODE_BLEND.
+            WindowFlags = SDL_WindowFlags.SDL_WINDOW_SHOWN;
             Background = new Color4(0, 0, 0, 255);
         }
     }

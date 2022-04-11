@@ -20,11 +20,6 @@ namespace NuCore.Utilities
 
         public byte A { get; set; }
 
-        public Color4()
-        {
-
-        }
-
         public Color4(byte NR, byte NG, byte NB, byte NA)
         {
             R = NR;
@@ -47,10 +42,10 @@ namespace NuCore.Utilities
         public static explicit operator Color4(uint Colour)
         {
             return new Color4(
-                (byte)(Colour & 0xFF),
-                (byte)((Colour >> 8) & 0xFF),
+                (byte)(Colour >> 24 & 0xFF),
                 (byte)((Colour >> 16) & 0xFF),
-                (byte)((Colour >> 24) & 0xFF)
+                (byte)((Colour >> 8) & 0xFF),
+                (byte)((Colour) & 0xFF)
                 );
         }
 
@@ -58,6 +53,9 @@ namespace NuCore.Utilities
         {
             return new Color4(Colour.r, Colour.g, Colour.b, Colour.a);
         }
+
+        public static Color4 operator *(Color4 Colour, float mul) => new Color4((byte)(Colour.R * mul), (byte)(Colour.G * mul), (byte)(Colour.B * mul), (byte)(Colour.A * mul));
+        public static Color4 operator /(Color4 Colour, float mul) => new Color4((byte)(Colour.R / mul), (byte)(Colour.G / mul), (byte)(Colour.B / mul), (byte)(Colour.A / mul));
 
         public override string ToString()
         {

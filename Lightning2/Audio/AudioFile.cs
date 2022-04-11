@@ -105,20 +105,18 @@ namespace Lightning2
             Vector2 cam_main_pos = Win.Settings.Camera.Position;
             Vector2 audio_pos = Position;
 
-            Vector2 distance = audio_pos - cam_main_pos;
-
             // faster than math.pow
-            double magnitude = Math.Abs(Math.Sqrt((distance.X * distance.X) + (distance.Y * distance.Y)));
+            double magnitude = Vector2.Distance(audio_pos, cam_main_pos);
 
-            if (magnitude == 0)
-            {
-                int volume_to_set = (int)(RealVolume) * 128;
-                SDL_mixer.Mix_Volume(Channel, volume_to_set);
-            }
-            else
+            if (magnitude > 0)
             {
                 // /12 to make sounds fade out slower.
-                int volume_to_set = (int)(RealVolume / (magnitude / 15) * 128);
+                int volume_to_set = (int)(RealVolume / (magnitude / 12) * 128);
+                SDL_mixer.Mix_Volume(Channel, volume_to_set);
+            }
+            else // set to (realvolume * 128) if <= 0
+            {
+                int volume_to_set = (int)(RealVolume * 128);
                 SDL_mixer.Mix_Volume(Channel, volume_to_set);
             }
         }
@@ -130,9 +128,7 @@ namespace Lightning2
         public void SetVolume(double Volume)
         {
             RealVolume = Volume;
-
             SDL_mixer.Mix_Volume(Channel, (int)(RealVolume * 128));
-
         }
     }
 }

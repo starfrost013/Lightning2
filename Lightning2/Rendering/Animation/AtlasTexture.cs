@@ -63,7 +63,7 @@ namespace Lightning2
             if (FramesX < 1 || FramesY < 1) throw new NCException($"A texture atlas must have at least one frame, set to {FramesX},{FramesY}!", 46, "AtlasTexture.LoadAtlas", NCExceptionSeverity.FatalError);
 
             // +1 for safety purposes so that we don't set an out of bounds viewport
-            Texture new_texture = new Texture(FrameSize.X * FramesX + 1, FrameSize.Y * FramesY + 1);
+            Texture new_texture = new Texture(Win, FrameSize.X * FramesX + 1, FrameSize.Y * FramesY + 1);
 
             new_texture.Path = Path;
             new_texture.Repeat = Repeat;

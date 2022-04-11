@@ -92,7 +92,7 @@ namespace Lightning2
 
             foreach (string TexturePath in FramesPath)
             {
-                Texture new_texture = new Texture(Size.X, Size.Y);
+                Texture new_texture = new Texture(Win, Size.X, Size.Y);
                 new_texture.Path = TexturePath;
                 new_texture.Position = Position;
                 new_texture.Repeat = TextureRepeat;  // do this in the getter/setter?
@@ -107,7 +107,6 @@ namespace Lightning2
 
         public void DrawCurrentFrame(Window Win)
         {
-
             bool reverse_animation = (Cycle.StartFrame > Cycle.EndFrame);
             if (AnimationFinished) return;
 

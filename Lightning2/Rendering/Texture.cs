@@ -1,4 +1,5 @@
-﻿using NuCore.SDL2;
+﻿using static NuCore.SDL2.SDL;
+using static NuCore.SDL2.SDL_image;
 using NuCore.Utilities;
 using System;
 using System.Collections.Generic;
@@ -98,7 +99,6 @@ namespace Lightning2
         /// </summary>
         public bool Locked { get; set; }
 
-
         /// <summary>
         /// The pitch of this texture
         /// </summary>
@@ -114,51 +114,48 @@ namespace Lightning2
         /// </summary>
         private IntPtr CFormat { get; set; }
 
+        private uint* PixelPtr { get; set; }
+
         
         /// <summary>
         /// Initialises a new texture with a size.
         /// </summary>
+        /// <param name="Win">The window to create the texture for.</param>
         /// <param name="X">The width of the texture in pixels.</param>
         /// <param name="Y">The height of the texture in pixels.</param>
-        public Texture(float X, float Y)
+        public Texture(Window Win, float X, float Y)
         {
             Size = new Vector2(X, Y);
-        }
 
-        public void Create(Window CWindow)
-        {
             if (Size == default(Vector2)) throw new NCException($"Error creating texture: Must have a size!", 20, "Texture.Create", NCExceptionSeverity.FatalError);
 
-            TextureHandle = SDL.SDL_CreateTexture(CWindow.Settings.RendererHandle, SDL.SDL_PIXELFORMAT_RGBA8888, SDL.SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, (int)Size.X, (int)Size.Y);
+            TextureHandle = SDL_CreateTexture(Win.Settings.RendererHandle, SDL_PIXELFORMAT_ARGB8888, SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, (int)Size.X, (int)Size.Y);
 
             // check if texture failed to load
-            if (TextureHandle == IntPtr.Zero)
-            {
-                throw new NCException($"Error creating texture: {SDL.SDL_GetError()}", 11, "Texture.Create", NCExceptionSeverity.FatalError);
-            }
+            if (TextureHandle == IntPtr.Zero) throw new NCException($"Error creating texture: {SDL_GetError()}", 11, "Texture.Create", NCExceptionSeverity.FatalError);
 
-            Init_AllocFormat(CWindow);
+            Init_AllocFormat(Win);
+
+            SDL_SetTextureBlendMode(TextureHandle, SDL_BlendMode.SDL_BLENDMODE_MUL);
         }
-        public void Load(Window CWindow)
+
+        public void Load(Window Win)
         {
             if (!File.Exists(Path)) throw new NCException($"{Path} does not exist!", 9, "!File.Exists(Texture.Path)!", NCExceptionSeverity.FatalError);
 
-            TextureHandle = SDL_image.IMG_LoadTexture(CWindow.Settings.RendererHandle, Path);
+            TextureHandle = IMG_LoadTexture(Win.Settings.RendererHandle, Path);
 
-            if (TextureHandle == IntPtr.Zero) throw new NCException($"Failed to load texture at {Path} - {SDL.SDL_GetError()}", 10, "Error in SDL_image.IMG_LoadTexture", NCExceptionSeverity.Error);
+            if (TextureHandle == IntPtr.Zero) throw new NCException($"Failed to load texture at {Path} - {SDL_GetError()}", 10, "Error in SDL_image.IMG_LoadTexture", NCExceptionSeverity.Error);
         }
 
-        private void Init_AllocFormat(Window CWindow)
+        private void Init_AllocFormat(Window Win)
         {
-            uint CurFormat = SDL.SDL_GetWindowPixelFormat(CWindow.Settings.WindowHandle);
+            uint current_format = SDL_GetWindowPixelFormat(Win.Settings.WindowHandle);
 
-            CFormat = SDL.SDL_AllocFormat(CurFormat);
+            CFormat = SDL_AllocFormat(current_format);
 
             // probably not the best to actually like, allocate formats like this
-            if (CFormat == IntPtr.Zero)
-            {
-                throw new NCException($"Error allocating texture format for texture at {Path}: {SDL.SDL_GetError()}", 13, "Texture.Init_AllocFormat", NCExceptionSeverity.FatalError);
-            }
+            if (CFormat == IntPtr.Zero) throw new NCException($"Error allocating texture format for texture at {Path}: {SDL_GetError()}", 13, "Texture.Init_AllocFormat", NCExceptionSeverity.FatalError);
         }
 
         /// <summary>
@@ -176,30 +173,25 @@ namespace Lightning2
             if (!Locked) Lock();
 
             if (X < 0 || Y < 0
-                || X > Size.X || Y > Size.Y)
-            {
-                throw new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({X},{Y}), min (0,0). max ({Size.X},{Size.Y})!", 12, "Texture.GetPixel", NCExceptionSeverity.FatalError);
-            }
+                || X > Size.X || Y > Size.Y) throw new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({X},{Y}), min (0,0). max ({Size.X},{Size.Y})!", 12, "Texture.GetPixel", NCExceptionSeverity.FatalError);
 
-            int PixelToGet = (X / 4) * Y;
-            int MaxPixelID = (Pitch / 4) * Y;
+            int PixelToGet = (X / 4) * Pitch;
+            int MaxPixelID = (Pitch / 4) * Pitch;
 
-            if (PixelToGet > MaxPixelID)
-            {
-                throw new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({X},{Y}), min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {PixelToGet} > {MaxPixelID}!", 14, "Texture.GetPixel", NCExceptionSeverity.FatalError);
-            }
+            if (PixelToGet > MaxPixelID) throw new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({X},{Y}), min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {PixelToGet} > {MaxPixelID}!", 14, "Texture.GetPixel", NCExceptionSeverity.FatalError);
 
-            // CS0211 
-            // does not matter as still points to same place
-            IntPtr npixels = Pixels;
-            IntPtr* PixelPtr = &npixels;
-
-            uint NP = (uint)PixelPtr[PixelToGet];
+            uint cur_pixel = PixelPtr[PixelToGet];
 
             if (UnlockNow) Unlock();
 
-            return (Color4)NP;
+            return (Color4)cur_pixel;
         }
+
+        /// <summary>
+        /// Sets the blend mode of this texture to <paramref name="BlendMode"/>
+        /// </summary>
+        /// <param name="BlendMode">The SDL blend mode to set this texture's blend mode to. The default is <see cref="SDL_BlendMode.SDL_BLENDMODE_MUL"/>.</param>
+        public void SetBlendMode(SDL_BlendMode BlendMode) => SDL_SetTextureBlendMode(TextureHandle, BlendMode);
 
         /// <summary>
         /// Sets the pixel at coordinates <see cref="X"/>,<see cref="Y"/> to the colour specified by the <see cref="Colour"/> parameter.
@@ -213,25 +205,15 @@ namespace Lightning2
             if (!Locked) Lock();
 
             if (X < 0 || Y < 0
-                || X > Size.X || Y > Size.Y)
-            {
-                throw new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({X},{Y}), min (0,0). max ({Size.X},{Size.Y}) ", 15, "Texture.GetPixel", NCExceptionSeverity.FatalError);
-            }
+                || X > Size.X || Y > Size.Y) throw new NCException($"Attempted to set invalid pixel coordinate for texture with path {Path} @ ({X},{Y}), min (0,0). max ({Size.X},{Size.Y}) ", 15, "Texture.GetPixel", NCExceptionSeverity.FatalError);
             
             int MaxPixelID = (Pitch / 4) * (int)Size.Y;
             int PixelToGet = (Y * (int)Size.X) + X; 
 
-            if (PixelToGet > MaxPixelID)
-            {
-                throw new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({X},{Y}), min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {PixelToGet} > {MaxPixelID}!", 16, "Texture.GetPixel", NCExceptionSeverity.FatalError);
-            }
-            
-            // convert to C pointer
-            uint* npixels = (uint*)Pixels.ToPointer();
+            if (PixelToGet > MaxPixelID) throw new NCException($"Attempted to set invalid pixel coordinate for texture with path {Path} @ ({X},{Y}), min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {PixelToGet} > {MaxPixelID}!", 16, "Texture.GetPixel", NCExceptionSeverity.FatalError);
 
             // use pixeltoget to twiddle the pixel that we need using the number we calculated before
-            npixels[PixelToGet] = (uint)Colour;
-
+            PixelPtr[PixelToGet] = SDL_MapRGBA(CFormat, Colour.R, Colour.G, Colour.B, Colour.A);
             // unlock the texture if unlocknow specified
             if (UnlockNow) Unlock();
         }
@@ -247,17 +229,17 @@ namespace Lightning2
             // but not sure if this is feasible wrt C++/PInvoke
 
             IntPtr npixels = Pixels;
-            SDL.SDL_Rect rect = new SDL.SDL_Rect(0, 0, (int)Size.X, (int)Size.Y);
+            SDL_Rect rect = new SDL_Rect(0, 0, (int)Size.X, (int)Size.Y);
             int npitch = Pitch;
            
-            if (SDL.SDL_LockTexture(TextureHandle, ref rect, out npixels, out npitch) < 0)
+            if (SDL_LockTexture(TextureHandle, ref rect, out npixels, out npitch) < 0)
             {
-                throw new NCException($"Error locking pixels for texture with path {Path}, error {SDL.SDL_GetError()}.", 11, "Texture.Lock", NCExceptionSeverity.FatalError);
+                throw new NCException($"Error locking pixels for texture with path {Path}, error {SDL_GetError()}.", 11, "Texture.Lock", NCExceptionSeverity.FatalError);
             }
 
             Pitch = npitch;
             Pixels = npixels;
-
+            PixelPtr = (uint*)Pixels.ToPointer();
         }
 
         public void Unlock()
@@ -265,10 +247,10 @@ namespace Lightning2
             if (!Locked) return;
             Locked = false;
 
-            SDL.SDL_UnlockTexture(TextureHandle);
+            SDL_UnlockTexture(TextureHandle);
             Pixels = IntPtr.Zero; // now invalid
+            PixelPtr = null; // now invalid
             Pitch = 0;
-
         }
 
         /// <summary>
@@ -278,9 +260,8 @@ namespace Lightning2
         /// <exception cref="NCException">An error occurred rendering the texture. Extended information is available in <see cref="NCException.Description"/></exception>
         public void Draw(Window Win)
         {
-   
-            SDL.SDL_Rect src_rect = new SDL.SDL_Rect();
-            SDL.SDL_FRect dst_rect = new SDL.SDL_FRect();
+            SDL_Rect src_rect = new SDL_Rect();
+            SDL_FRect dst_rect = new SDL_FRect();
 
             // Draw to the viewpoint
             if (ViewportStart == default(Vector2)
@@ -312,21 +293,20 @@ namespace Lightning2
             if (Repeat == default(Vector2))
             {
                 // call to SDL - we are simply drawing it once.
-                SDL.SDL_RenderCopyF(Win.Settings.RendererHandle, TextureHandle, ref src_rect, ref dst_rect);
+                SDL_RenderCopyF(Win.Settings.RendererHandle, TextureHandle, ref src_rect, ref dst_rect);
             }
             else
             {
-                SDL.SDL_FRect new_rect = new SDL.SDL_FRect(dst_rect.x, dst_rect.y, dst_rect.w, dst_rect.h);
+                SDL_FRect new_rect = new SDL_FRect(dst_rect.x, dst_rect.y, dst_rect.w, dst_rect.h);
 
                 // Draws a tiled texture.
                 for (int y = 0; y < Repeat.Y; y++)
                 {
-
-                    SDL.SDL_RenderCopyF(Win.Settings.RendererHandle, TextureHandle, ref src_rect, ref new_rect);
+                    SDL_RenderCopyF(Win.Settings.RendererHandle, TextureHandle, ref src_rect, ref new_rect);
 
                     for (int x = 0; x < Repeat.X; x++)
                     {
-                        SDL.SDL_RenderCopyF(Win.Settings.RendererHandle, TextureHandle, ref src_rect, ref new_rect);
+                        SDL_RenderCopyF(Win.Settings.RendererHandle, TextureHandle, ref src_rect, ref new_rect);
 
                         new_rect.x += dst_rect.w;
                     }
@@ -335,7 +315,25 @@ namespace Lightning2
                     new_rect.x = dst_rect.x;
                 }
             }
-            
+        }
+
+        /// <summary>
+        /// Clears the texture with the colour specified in the <paramref name="Colour"/> parameter. If this is not set, it will default to ARGB <c>0,0,0,0</c>.
+        /// </summary>
+        /// <param name="Colour">The optional colour to clear the texture with.</param>
+        public void Clear(Color4 Colour = null)
+        {
+            Color4 clear_colour = new Color4(0, 0, 0, 0);
+
+            if (Colour != null) clear_colour = Colour;
+
+            for (int y = 0; y < Size.Y; y++)
+            {
+                for (int x = 0; x < Size.X; x++)
+                {
+                    SetPixel(x, y, clear_colour);
+                }
+            }
         }
     }
 }

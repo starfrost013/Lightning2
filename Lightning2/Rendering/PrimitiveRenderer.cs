@@ -18,12 +18,6 @@ namespace Lightning2
     /// </summary>
     public static class PrimitiveRenderer
     {
-        /// <summary>
-        /// Circle Precision of the primitive renderer
-        /// 
-        /// Lower values are more precise but slower, higher values are less precise but faster
-        /// </summary>
-        private const double PRIMITIVE_RENDERER_CIRCLE_PRECISION = 3; 
 
         public static void DrawLine(Window Win, Vector2 Start, Vector2 End, short Thickness, Color4 Colour, bool AntiAliased, bool SnapToScreen = true)
         {
@@ -65,9 +59,7 @@ namespace Lightning2
             else // sdl2_gfx limitaitons, can't be bothered to rebuild SDL2-gfx 
             {
                 SDL_gfx.thickLineRGBA(Win.Settings.RendererHandle, (int)Start.X, (int)Start.Y, (int)End.X, (int)End.Y, (short)Thickness, Colour.R, Colour.G, Colour.B, Colour.A);
-                SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, Win.Settings.Background.R, Win.Settings.Background.G, Win.Settings.Background.B, Win.Settings.Background.A);
             }
-            
         }
 
         public static void DrawRectangle(Window Win, Vector2 Position, Vector2 Size, Color4 Colour, bool Filled, bool SnapToScreen = true)
@@ -93,7 +85,7 @@ namespace Lightning2
                     (int)Position.X + (int)Size.X, (int)Position.Y + (int)Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
             }
 
-            SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, Win.Settings.Background.R, Win.Settings.Background.G, Win.Settings.Background.B, Win.Settings.Background.A);
+            //SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, Win.Settings.Background.R, Win.Settings.Background.G, Win.Settings.Background.B, Win.Settings.Background.A);
         }
 
         public static void DrawRoundedRectangle(Window Win, Vector2 Position, Vector2 Size, Color4 Colour, int CornerRadius, bool Filled, bool SnapToScreen = true)
@@ -119,7 +111,7 @@ namespace Lightning2
                     (int)Position.X + (int)Size.X, (int)Position.Y + (int)Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
             }
 
-            SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, Win.Settings.Background.R, Win.Settings.Background.G, Win.Settings.Background.B, Win.Settings.Background.A);
+            //SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, Win.Settings.Background.R, Win.Settings.Background.G, Win.Settings.Background.B, Win.Settings.Background.A);
         }
 
         public static void DrawTriangle(Window Win, Vector2 Point1, Vector2 Point2, Vector2 Point3, Color4 Colour, bool Filled, bool SnapToScreen = true)
@@ -147,8 +139,6 @@ namespace Lightning2
             {
                 SDL_gfx.trigonRGBA(Win.Settings.RendererHandle, (int)Point1.X, (int)Point1.Y, (int)Point2.X, (int)Point2.Y, (int)Point3.X, (int)Point3.Y, Colour.R, Colour.G, Colour.B, Colour.A);
             }
-
-            SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, Win.Settings.Background.R, Win.Settings.Background.G, Win.Settings.Background.B, Win.Settings.Background.A);
         }
 
         public static void DrawCircle(Window Win, Vector2 Position, Vector2 Size, Color4 Colour, bool Filled, bool Antialiased = false, bool SnapToScreen = true)
@@ -171,8 +161,6 @@ namespace Lightning2
             {
                 DrawCircle_DrawUnfilledCircle(Win, Position, Size, Colour, Antialiased);
             }
-
-            SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, Win.Settings.Background.R, Win.Settings.Background.G, Win.Settings.Background.B, Win.Settings.Background.A);
         }
 
         private static void DrawCircle_DrawUnfilledCircle(Window Win, Vector2 Position, Vector2 Size, Color4 Colour, bool Antialiased = false)
@@ -207,7 +195,7 @@ namespace Lightning2
             Camera cur_cam = Win.Settings.Camera;
 
             if (cur_cam != null 
-                && SnapToScreen)
+                && !SnapToScreen)
             {
                 Position.X -= cur_cam.Position.X;
                 Position.Y -= cur_cam.Position.Y;

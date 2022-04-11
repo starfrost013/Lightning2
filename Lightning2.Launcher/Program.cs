@@ -24,9 +24,7 @@ TextManager.LoadFont("Arial", 24, null, "Arial.24pt");
 TextManager.LoadFont("Arial", 36, null, "Arial.36pt");
 
 window.Clear(new Color4(127, 127, 127, 255));
-Texture texture = new Texture(64, 64);
-
-texture.Create(window);
+Texture texture = new Texture(window, 64, 64);
 
 Random rnd = new Random();
 
@@ -75,6 +73,29 @@ at.Size = new Vector2(256, 256);
 
 at.Load(window);
 
+LightManager.Init(window); 
+
+//LightManager.AddLight(new Light
+//{
+//    Colour = new Color4(0, 0, 255, 255),
+//    Position = new Vector2(-300, 200),
+//    Brightness = 50
+//});
+
+//LightManager.AddLight(new Light
+//{
+//    Colour = new Color4(0, 255, 0, 255),
+//    Position = new Vector2(-300, 300),
+//    Brightness = 50
+//});
+
+LightManager.AddLight(new Light
+{
+    Colour = new Color4(255, 0, 0, 255),
+    Position = new Vector2(-300, 400),
+    Brightness = 50
+});
+
 AudioManager.LoadFile(@"Content\xm_boot.mp3");
 AudioManager.LoadFile(@"Content\xm_boot_ogg.ogg");
 AudioManager.LoadFile(@"Content\xm_title.mp3");
@@ -90,6 +111,7 @@ xm_title.SetVolume(1);
 xm_title.Repeat = -1;
 xm_title.PositionalSound = true; 
 xm_title.Play();
+
 Camera camera = new Camera(CameraType.Chase);
 
 window.SetCurrentCamera(camera);
@@ -97,6 +119,8 @@ window.SetCurrentCamera(camera);
 while (Running)
 {
     window.Update();
+    // render the next frame's lightmap
+    LightManager.BuildLightmap(window);
 
     SDL.SDL_Event cur_event = new SDL.SDL_Event();
 
@@ -198,10 +222,6 @@ while (Running)
     texture.Unlock();
     texture.Draw(window);
 
-    // draw fps on top always (by drawing it last. we don't have zindex, but we will later). Also snap it to the screen like a hud element.
-    PrimitiveRenderer.DrawText(window, $"FPS: {window.CurFPS}", new Vector2(0, 0), new Color4(255, 255, 255, 255), false);
-
     window.Present();
 
-   
 }

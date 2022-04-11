@@ -146,8 +146,4 @@
     </Compile>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Rendering\Light\" />
-  </ItemGroup>
-
 </Project>

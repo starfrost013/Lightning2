@@ -48,7 +48,6 @@ namespace Lightning2
         {
             try
             {
-                NCLogging.Log($"Unloading font {NFont.Name}, size {NFont.Size}...");
                 NFont.Unload();
                 Fonts.Remove(NFont);
             }

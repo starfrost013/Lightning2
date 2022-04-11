@@ -70,6 +70,11 @@ namespace Lightning2
             return temp_font; 
         }
 
-        public void Unload() => SDL_ttf.TTF_CloseFont(Handle);
+        public void Unload()
+        {
+            SDL_ttf.TTF_CloseFont(Handle);
+            NCLogging.Log($"Unloaded font {Name}, size {Size}");
+        }
+
     }
 }

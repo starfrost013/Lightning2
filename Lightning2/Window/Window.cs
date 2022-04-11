@@ -57,18 +57,37 @@ namespace Lightning2
             // Set the last frame time.
             LastTime = DeltaTimer.ElapsedMilliseconds;
             SDL.SDL_RenderClear(Settings.RendererHandle);
+
+
         }
 
         public void Present()
         {
+            // Render the lightmap.
+            LightManager.RenderLightmap(this);
+
+            // draw fps on top always (by drawing it last. we don't have zindex, but we will later). Also snap it to the screen like a hud element. 
+            // check the showfps global setting first
+            if (GlobalSettings.ShowFPS)
+            {
+                PrimitiveRenderer.DrawText(this, $"FPS: {(int)CurFPS} ({(int)(1000 / CurFPS)}ms)", new Vector2(0, 0), new Color4(255, 255, 255, 255), true);
+                
+                if (CurFPS < GlobalSettings.TargetFPS) PrimitiveRenderer.DrawText(this, $"Running under target FPS ({GlobalSettings.TargetFPS})!", new Vector2(0, 12), new Color4(255, 0, 0, 255), true);
+            }
+
+            // Correctly draw the background
+            SDL.SDL_SetRenderDrawColor(Settings.RendererHandle, Settings.Background.R, Settings.Background.G, Settings.Background.B, Settings.Background.A);
+
             // Set the current frame time.
             ThisTime = DeltaTimer.ElapsedMilliseconds;
 
-            DeltaTime = (ThisTime - LastTime) / (double)1000;
+            DeltaTime = (double)(ThisTime - LastTime) / 1000;
 
             CurFPS = 1 / DeltaTime;
 
             FrameNumber++;
+
+            
             SDL.SDL_RenderPresent(Settings.RendererHandle);
         }
 
@@ -81,14 +100,29 @@ namespace Lightning2
             SDL.SDL_DestroyWindow(Settings.WindowHandle);
         }
 
-        public void Clear(Color4 colour)
+        /// <summary>
+        /// Clears the renderer and optionally sets the colour to the Color4 <paramref name="colour"/>
+        /// </summary>
+        /// <param name="colour"></param>
+        public void Clear(Color4 colour = null)
         {
-            SDL.SDL_SetRenderDrawColor(Settings.RendererHandle, colour.R, colour.G, colour.B, colour.A);
+            if (colour == null)
+            {
+                SDL.SDL_SetRenderDrawColor(Settings.RendererHandle, 0, 0, 0, 0);   
+            }
+            else
+            {
+                SDL.SDL_SetRenderDrawColor(Settings.RendererHandle, colour.R, colour.G, colour.B, colour.A);
+            }
+
             SDL.SDL_RenderClear(Settings.RendererHandle);
             Settings.Background = colour;
-            //SDL.SDL_RenderPresent(Settings.RendererHandle);
         }
 
+        /// <summary>
+        /// Sets the window's current <see cref="Camera"/> to <paramref name="ncamera"/>.
+        /// </summary>
+        /// <param name="ncamera">The <see cref="Camera"/> instance to set the window's current camerat o</param>
         public void SetCurrentCamera(Camera ncamera)
         {
             if (ncamera.Type == CameraType.Chase)
