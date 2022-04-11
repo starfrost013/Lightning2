@@ -73,7 +73,8 @@ at.Size = new Vector2(256, 256);
 
 at.Load(window);
 
-LightManager.Init(window); 
+LightManager.Init(window);
+LightManager.SetEnvironmentalLight(window, new Color4(255, 255, 255, 63));
 
 //LightManager.AddLight(new Light
 //{
@@ -223,5 +224,4 @@ while (Running)
     texture.Draw(window);
 
     window.Present();
-
 }

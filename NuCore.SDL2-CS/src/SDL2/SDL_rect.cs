@@ -51,10 +51,10 @@ namespace NuCore.SDL2
 			public int x;
 			public int y;
 
-			public SDL_Point(int NX, int NY)
+			public SDL_Point(int nx, int ny)
 			{
-				x = NX;
-				y = NY;
+				x = nx;
+				y = ny;
 			}
 		}
 
@@ -66,12 +66,12 @@ namespace NuCore.SDL2
 			public int w;
 			public int h;
 
-			public SDL_Rect(int NX, int NY, int NW, int NH)
+			public SDL_Rect(int nx, int ny, int nw, int nh)
 			{
-				x = NX;
-				y = NY;
-				w = NW;
-				h = NH;
+				x = nx;
+				y = ny;
+				w = nw;
+				h = nh;
 			}
 		}
 

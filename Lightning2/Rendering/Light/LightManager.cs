@@ -1,4 +1,4 @@
-﻿using NuCore.SDL2;
+﻿using static NuCore.SDL2.SDL;
 using NuCore.Utilities;
 using System;
 using System.Collections.Generic;
@@ -24,6 +24,11 @@ namespace Lightning2
         private static List<Light> Lights { get; set; } 
 
         private static Texture SSMapTexture { get; set; }
+        
+        /// <summary>
+        /// The default colour of the environment.
+        /// </summary>
+        public static Color4 EnvironmentalLight { get; private set; }
 
         static LightManager()
         {
@@ -34,7 +39,7 @@ namespace Lightning2
         {
             // move this if it is slower
             SSMapTexture = new Texture(Win, Win.Settings.Size.X, Win.Settings.Size.Y);
-            SSMapTexture.Clear(new Color4(0, 0, 0, 255));
+            SDL_SetTextureBlendMode(SSMapTexture.TextureHandle, SDL_BlendMode.SDL_BLENDMODE_NONE);
         }
 
         public static void AddLight(Light Light)
@@ -50,14 +55,26 @@ namespace Lightning2
 
             Camera cur_camera = Win.Settings.Camera;
 
-            SSMapTexture.Unlock();
-
             return SSMapTexture;
+        }
+
+        public static void SetEnvironmentalLight(Window Win, Color4 Colour)
+        {
+            EnvironmentalLight = Colour;
+
+            if (EnvironmentalLight == null) EnvironmentalLight = new Color4(0, 0, 0, 255);
+
+            SDL_SetTextureAlphaMod(SSMapTexture.TextureHandle, Colour.A);
+            //SDL_SetTextureColorMod(SSMapTexture.TextureHandle, Colour.R, Colour.G, Colour.B);
+            SSMapTexture.Clear(EnvironmentalLight);
         }
 
         public static void RenderLightmap(Window Win)
         {
+
             if (SSMapTexture.TextureHandle == IntPtr.Zero) throw new NCException("You must initialise the Light Manager before using it!", 62, "LightManager.RenderLightmap called before LightManager.Init!", NCExceptionSeverity.FatalError);
+
+            SSMapTexture.Unlock();
             SSMapTexture.Draw(Win);
         }
     }

@@ -28,6 +28,7 @@ namespace Lightning2
         public double CurFPS { get; set; }
 
         public int FrameNumber { get; set; }
+
         public Window()
         {
             DeltaTimer = new Stopwatch();
@@ -57,15 +58,10 @@ namespace Lightning2
             // Set the last frame time.
             LastTime = DeltaTimer.ElapsedMilliseconds;
             SDL.SDL_RenderClear(Settings.RendererHandle);
-
-
         }
 
         public void Present()
         {
-            // Render the lightmap.
-            LightManager.RenderLightmap(this);
-
             // draw fps on top always (by drawing it last. we don't have zindex, but we will later). Also snap it to the screen like a hud element. 
             // check the showfps global setting first
             if (GlobalSettings.ShowFPS)
@@ -87,7 +83,9 @@ namespace Lightning2
 
             FrameNumber++;
 
-            
+            // Render the lightmap.
+            LightManager.RenderLightmap(this);
+
             SDL.SDL_RenderPresent(Settings.RendererHandle);
         }
 
@@ -132,6 +130,5 @@ namespace Lightning2
 
             Settings.Camera = ncamera; 
         }
-
     }
 }
