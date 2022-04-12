@@ -39,7 +39,7 @@ namespace Lightning2
         {
             // move this if it is slower
             SSMapTexture = new Texture(Win, Win.Settings.Size.X, Win.Settings.Size.Y);
-            SDL_SetTextureBlendMode(SSMapTexture.TextureHandle, SDL_BlendMode.SDL_BLENDMODE_NONE);
+            SDL_SetTextureBlendMode(SSMapTexture.TextureHandle, SDL_BlendMode.SDL_BLENDMODE_BLEND);
         }
 
         public static void AddLight(Light Light)
@@ -62,16 +62,13 @@ namespace Lightning2
         {
             EnvironmentalLight = Colour;
 
-            if (EnvironmentalLight == null) EnvironmentalLight = new Color4(0, 0, 0, 255);
+            if (EnvironmentalLight == null) EnvironmentalLight = new Color4(255, 255, 255, 255);
 
-            SDL_SetTextureAlphaMod(SSMapTexture.TextureHandle, Colour.A);
-            //SDL_SetTextureColorMod(SSMapTexture.TextureHandle, Colour.R, Colour.G, Colour.B);
             SSMapTexture.Clear(EnvironmentalLight);
         }
 
         public static void RenderLightmap(Window Win)
         {
-
             if (SSMapTexture.TextureHandle == IntPtr.Zero) throw new NCException("You must initialise the Light Manager before using it!", 62, "LightManager.RenderLightmap called before LightManager.Init!", NCExceptionSeverity.FatalError);
 
             SSMapTexture.Unlock();

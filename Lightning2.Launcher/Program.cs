@@ -74,7 +74,7 @@ at.Size = new Vector2(256, 256);
 at.Load(window);
 
 LightManager.Init(window);
-LightManager.SetEnvironmentalLight(window, new Color4(255, 255, 255, 63));
+LightManager.SetEnvironmentalLight(window, new Color4(255, 255, 255, 127));
 
 //LightManager.AddLight(new Light
 //{
@@ -203,7 +203,7 @@ while (Running)
     atlas_texture.DrawFrame(window);
 
     xm_title.Update(window);
-
+    
     for (int x = 0; x < texture.Size.X; x++)
     {
         // textureAPI test
@@ -217,6 +217,7 @@ while (Running)
             texture.SetPixel(x, y, new Color4(R, G, B, A));
         }
     }
+    
 
     at.DrawCurrentFrame(window);
 

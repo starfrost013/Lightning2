@@ -259,7 +259,6 @@ namespace Lightning2
             Pixels = IntPtr.Zero; // now invalid
             PixelPtr = null;
             Pitch = 0;
-
         }
 
         /// <summary>
@@ -311,7 +310,6 @@ namespace Lightning2
                 // Draws a tiled texture.
                 for (int y = 0; y < Repeat.Y; y++)
                 {
-
                     SDL.SDL_RenderCopyF(Win.Settings.RendererHandle, TextureHandle, ref src_rect, ref new_rect);
 
                     for (int x = 0; x < Repeat.X; x++)
