@@ -42,9 +42,10 @@ namespace NuCore.SDL2
 
 		#region SDL2_gfxPrimitives.h
 
+		//todo: 1.0.6 new GFX_GetVersion
 		public const uint SDL2_GFXPRIMITIVES_MAJOR = 1;
 		public const uint SDL2_GFXPRIMITIVES_MINOR = 0;
-		public const uint SDL2_GFXPRIMITIVES_MICRO = 5;
+		public const uint SDL2_GFXPRIMITIVES_MICRO = 6;
 
 		[DllImport(NativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int pixelRGBA(IntPtr renderer, int x, int y, byte r, byte g, byte b, byte a);
@@ -211,17 +212,8 @@ namespace NuCore.SDL2
 		#endregion
 
 #region SDL2_imageFilter.h
-
-#if X86 // MMX supported for X64 only with GCC. As this is C# code...
-		[DllImport(NativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern int SDL_imageFilterMMXdetect();
-
-		[DllImport(NativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void SDL_imageFilterMMXoff();
-
-		[DllImport(NativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void SDL_imageFilterMMXon();
-#endif
+	
+		// MMX removed in 1.0.6, don' need to call stub functions.
 
 		[DllImport(NativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_imageFilterAdd([In] byte[] src1, [In] byte[] src2, [Out] byte[] dest, uint length);

@@ -44,20 +44,21 @@ namespace NuCore.SDL2
         #region SDL2# Defines
 
 #if X64
-        public const string NativeLibName = @"Content\NativeLibraries\SDL2_gfx-v1.0.5-x64.dll";
+        public const string NativeLibName = @"Content\NativeLibraries\SDL2_gfx-v1.0.6-x64.dll";
 #elif ARM32
-        public const string NativeLibName = @"Content\NativeLibraries\SDL2_gfx-v1.0.5-ARM32.dll";
+        public const string NativeLibName = @"Content\NativeLibraries\SDL2_gfx-v1.0.6-ARM32.dll";
 #elif ARM64
-        public const string NativeLibName = @"Content\NativeLibraries\SDL2_gfx-v1.0.5-ARM64.dll";
+        public const string NativeLibName = @"Content\NativeLibraries\SDL2_gfx-v1.0.6-ARM64.dll";
 #endif
         #endregion
 
         #region SDL2_gfxVersion.h 
-        // requires 1.0.5 (Lightning/NuRender ONLY)
+
+        // requires 1.0.6 (Lightning2 version) 
 
         public const int SDL_GFX_VERSION_MAJOR = 1;
         public const int SDL_GFX_VERSION_MINOR = 0;
-        public const int SDL_GFX_VERSION_REVISION = 5;
+        public const int SDL_GFX_VERSION_REVISION = 6;
 
         /// <summary>
         /// Returns the current version of SDL2_gfx. It is best to check this in your program.

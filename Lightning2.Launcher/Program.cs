@@ -74,7 +74,7 @@ at.Size = new Vector2(256, 256);
 at.Load(window);
 
 LightManager.Init(window);
-LightManager.SetEnvironmentalLight(window, new Color4(255, 255, 255, 127));
+LightManager.SetEnvironmentalLight(window, new Color4(255, 0, 0, 127));
 
 //LightManager.AddLight(new Light
 //{
