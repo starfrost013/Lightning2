@@ -58,7 +58,7 @@ namespace Lightning2
             }
             else // sdl2_gfx limitaitons, can't be bothered to rebuild SDL2-gfx 
             {
-                SDL_gfx.thickLineRGBA(Win.Settings.RendererHandle, (int)Start.X, (int)Start.Y, (int)End.X, (int)End.Y, (short)Thickness, Colour.R, Colour.G, Colour.B, Colour.A);
+                SDL_gfx.thickLineRGBA(Win.Settings.RendererHandle, (int)Start.X, (int)Start.Y, (int)End.X, (int)End.Y, Thickness, Colour.R, Colour.G, Colour.B, Colour.A);
             }
         }
 

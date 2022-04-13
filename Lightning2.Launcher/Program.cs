@@ -74,27 +74,28 @@ at.Size = new Vector2(256, 256);
 at.Load(window);
 
 LightManager.Init(window);
-LightManager.SetEnvironmentalLight(window, new Color4(255, 0, 0, 127));
+LightManager.SetEnvironmentalLight(new Color4(255, 0, 0, 255));
 
 //LightManager.AddLight(new Light
 //{
 //    Colour = new Color4(0, 0, 255, 255),
 //    Position = new Vector2(-300, 200),
-//    Brightness = 50
+//    Brightness = 4
 //});
 
 //LightManager.AddLight(new Light
 //{
 //    Colour = new Color4(0, 255, 0, 255),
 //    Position = new Vector2(-300, 300),
-//    Brightness = 50
+//    Brightness = 4
 //});
 
 LightManager.AddLight(new Light
 {
     Colour = new Color4(255, 0, 0, 255),
-    Position = new Vector2(-300, 400),
-    Brightness = 50
+    Position = new Vector2(850, 75),
+    Brightness = 50,
+    SnapToScreen = true
 });
 
 AudioManager.LoadFile(@"Content\xm_boot.mp3");
@@ -120,8 +121,6 @@ window.SetCurrentCamera(camera);
 while (Running)
 {
     window.Update();
-    // render the next frame's lightmap
-    LightManager.BuildLightmap(window);
 
     SDL.SDL_Event cur_event = new SDL.SDL_Event();
 
@@ -129,11 +128,10 @@ while (Running)
     {
         switch (cur_event.type)
         {
-            case SDL.SDL_EventType.SDL_QUIT:
-                Running = false;
-                Lightning2.Lightning2.Shutdown(window);
-                return;
-            case SDL.SDL_EventType.SDL_KEYDOWN:
+            case SDL.SDL_EventType.SDL_QUIT: // User requested a quit.
+                Running = false; // shut down
+                continue;
+            case SDL.SDL_EventType.SDL_KEYDOWN: // Key is held down.
                 Key nkey = (Key)cur_event.key;
 
                 string key_string = nkey.ToString();
@@ -217,7 +215,6 @@ while (Running)
             texture.SetPixel(x, y, new Color4(R, G, B, A));
         }
     }
-    
 
     at.DrawCurrentFrame(window);
 
@@ -226,3 +223,6 @@ while (Running)
 
     window.Present();
 }
+
+// we're done running so shutdown
+Lightning2.Lightning2.Shutdown(window);

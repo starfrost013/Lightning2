@@ -19,7 +19,7 @@ namespace Lightning2
     {
         public Vector2 Position { get; set; }
 
-        public int Brightness { get; set; }
+        public double Brightness { get; set; }
 
         public Color4 Colour { get; set; }
 

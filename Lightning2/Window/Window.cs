@@ -62,6 +62,9 @@ namespace Lightning2
 
         public void Present()
         {
+            // render the next frame's lightmap if the light manager is initialised
+            if (LightManager.Initialised) LightManager.BuildLightmap(this);
+
             // draw fps on top always (by drawing it last. we don't have zindex, but we will later). Also snap it to the screen like a hud element. 
             // check the showfps global setting first
             if (GlobalSettings.ShowFPS)
@@ -86,7 +89,7 @@ namespace Lightning2
             // Render the lightmap.
             LightManager.RenderLightmap(this);
 
-            SDL.SDL_RenderPresent(Settings.RendererHandle);
+            if (LightManager.Initialised) SDL.SDL_RenderPresent(Settings.RendererHandle);
         }
 
         /// <summary>
