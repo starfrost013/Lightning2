@@ -49,7 +49,7 @@ namespace Lightning2
             bool engine_show_fps = false;
 
             if (!int.TryParse(engine_target, out engine_target_fps)) throw new NCException($"Invalid TargetFPS setting ({engine_target}) in Engine.ini Engine section, setting to 60!", 42, "GlobalSettings.Load()", NCExceptionSeverity.Error);
-            if (!bool.TryParse(engine_show, out engine_show_fps)) throw new NCException($"Invalid ShowFPS setting ({engine_target}) in Engine.ini Engine section, setting to false!", 62, "GlobalSettings.Load()", NCExceptionSeverity.Error);
+            if (!bool.TryParse(engine_show, out engine_show_fps)) engine_show_fps = false; 
 
             if (engine_target_fps <= 0)
             {

@@ -21,8 +21,6 @@ namespace Lightning2
 
         public double Brightness { get; set; }
 
-        public Color4 Colour { get; set; }
-
         public bool SnapToScreen { get; set; }
     }
 }

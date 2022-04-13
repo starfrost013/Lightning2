@@ -78,21 +78,18 @@ LightManager.SetEnvironmentalLight(new Color4(255, 0, 0, 255));
 
 //LightManager.AddLight(new Light
 //{
-//    Colour = new Color4(0, 0, 255, 255),
 //    Position = new Vector2(-300, 200),
 //    Brightness = 4
 //});
 
 //LightManager.AddLight(new Light
 //{
-//    Colour = new Color4(0, 255, 0, 255),
 //    Position = new Vector2(-300, 300),
 //    Brightness = 4
 //});
 
 LightManager.AddLight(new Light
 {
-    Colour = new Color4(255, 0, 0, 255),
     Position = new Vector2(850, 75),
     Brightness = 50,
     SnapToScreen = true
