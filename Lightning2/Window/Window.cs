@@ -87,9 +87,9 @@ namespace Lightning2
             FrameNumber++;
 
             // Render the lightmap.
-            LightManager.RenderLightmap(this);
+            if (LightManager.Initialised) LightManager.RenderLightmap(this);
 
-            if (LightManager.Initialised) SDL.SDL_RenderPresent(Settings.RendererHandle);
+            SDL.SDL_RenderPresent(Settings.RendererHandle);
         }
 
         /// <summary>
