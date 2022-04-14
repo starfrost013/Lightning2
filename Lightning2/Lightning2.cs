@@ -50,14 +50,8 @@ namespace Lightning2
 
         public static void Shutdown(Window Win)
         {
-
             NCLogging.Log("Shutdown requested. Destroying renderer and window...");
             Win.Shutdown();
-
-            NCLogging.Log("Unloading fonts...");
-
-            int font_count = TextManager.Fonts.Count;
-            int audio_file_count = AudioManager.AudioFiles.Count;
 
             // create a list of fonts and audiofiles to unload
             // just foreaching through each font and audiofile doesn't work as collection is being modified 
@@ -73,6 +67,8 @@ namespace Lightning2
             NCLogging.Log("Unloading loaded audio...");
             foreach (AudioFile audio_file_to_unload in audio_files_to_unload) AudioManager.UnloadFile(audio_file_to_unload);
 
+            NCLogging.Log("Shutting down the Light Manager...");
+            LightManager.Shutdown();
 
             // Shut everything down in reverse order.
 

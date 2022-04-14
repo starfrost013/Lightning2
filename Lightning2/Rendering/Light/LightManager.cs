@@ -100,34 +100,37 @@ namespace Lightning2
 
             Color4 transparent = new Color4(EnvironmentalLight.R, EnvironmentalLight.G, EnvironmentalLight.B, 0);
 
-            // To fill the circle we draw the circumscribed square.
+            // calculate magnitude of vector so that the alpha can be calculated
+            Vector2 init = new Vector2(x, y);
 
             for (int cur_x = x - range + 1; cur_x < x + range; cur_x++)
             {
                 for (int cur_y = y - range + 1; cur_y < y + range; cur_y++)
                 {
-                    // calculate magnitude of vector so that the alpha can be calculated
-                    Vector2 init = new Vector2(x, y);
-                    Vector2 final = new Vector2(cur_x, cur_y);
-
-                    double new_dist = Vector2.Distance(init, final);
-
-                    double transparency = 0;
-
-                    if (new_dist > 0) transparency = (double)(new_dist * (10 / Light.Brightness));
-
-                    if (transparency > EnvironmentalLight.A) transparency = EnvironmentalLight.A;
-
-                    // optimisation: don't bother setting pixels we don't need to set
-                    if (transparency < EnvironmentalLight.A) 
+                    // don't draw offscreen pixels
+                    if (cur_x >= 0 && cur_y >= 0 && cur_x < max_size_x && cur_y < max_size_y)
                     {
-                        // math.clamp has aggressive inlining and is therefore a bit faster
-                        transparency = Math.Clamp(transparency, 0, EnvironmentalLight.A);
+                        Vector2 final = new Vector2(cur_x, cur_y);
 
-                        transparent.A = (byte)transparency;
+                        double new_dist = Vector2.Distance(init, final);
 
-                        if (cur_x < 0 || cur_y < 0 || cur_x > max_size_x || cur_y > max_size_y) continue;
-                        SSMapTexture.SetPixel(cur_x, cur_y, transparent);
+                        double transparency = 0;
+
+                        if (new_dist > 0) transparency = (double)(new_dist * (10 / Light.Brightness));
+
+                        if (transparency > EnvironmentalLight.A) transparency = EnvironmentalLight.A;
+
+                        // optimisation: don't bother setting pixels we don't need to set
+                        if (transparency < EnvironmentalLight.A)
+                        {
+                            // math.clamp has aggressive inlining and is therefore a bit faster
+                            transparency = Math.Clamp(transparency, 0, EnvironmentalLight.A);
+
+                            transparent.A = (byte)transparency;
+
+                            if (cur_x < 0 || cur_y < 0 || cur_x > max_size_x || cur_y > max_size_y) continue;
+                            SSMapTexture.SetPixel(cur_x, cur_y, transparent);
+                        }
                     }
                 }
             }
@@ -152,5 +155,13 @@ namespace Lightning2
             SSMapTexture.Unlock();
             SSMapTexture.Draw(Win);
         }
+        /// <summary>
+        /// Internal - used by Lightning2.Shutdown
+        /// </summary>
+        internal static void Shutdown()
+        {
+            SDL_DestroyTexture(SSMapTexture.TextureHandle);
+        }
+
     }
 }
