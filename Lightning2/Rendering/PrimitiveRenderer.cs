@@ -15,6 +15,21 @@ namespace Lightning2
     public static class PrimitiveRenderer
     {
 
+        public static void DrawPixel(Window Win, Vector2 Position, Color Colour, bool SnapToScreen = true)
+        {
+            // Check for a set camera and move relative to the position of that camera if it is set.
+            Camera cur_cam = Win.Settings.Camera;
+
+            if (cur_cam != null
+                && SnapToScreen)
+            {
+                Position.X -= cur_cam.Position.X;
+                Position.Y -= cur_cam.Position.Y;
+            }
+
+            SDL_gfx.pixelRGBA(Win.Settings.RendererHandle, (int)Position.X, (int)Position.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+        }
+
         public static void DrawLine(Window Win, Vector2 Start, Vector2 End, short Thickness, Color Colour, bool AntiAliased, bool SnapToScreen = true)
         {
             // lineRGBA(); just calls SDL.SDL_RenderDrawLine
