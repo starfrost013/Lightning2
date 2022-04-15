@@ -10,7 +10,7 @@ namespace Lightning2
     /// <summary>
     /// LightManager
     /// 
-    /// April 8, 2022 (modified April 10, 2022)
+    /// April 8, 2022 (modified April 15, 2022)
     /// 
     /// Static class that manages lights and generates a screen-space lightmap.
     /// </summary>
@@ -28,10 +28,13 @@ namespace Lightning2
         /// </summary>
         public static Color EnvironmentalLight { get; private set; }
 
+        /// <summary>
+        /// Internal: determines if the light manager is initialised
+        /// </summary>
         internal static bool Initialised { get; private set; }
 
-        // This here is sin(45) but i just hard-coded it.
-        const float sinus = 0.70710678118f;
+        // SIN(45)
+        private const float sinus = 0.70710678118f;
 
         static LightManager()
         {
@@ -58,7 +61,7 @@ namespace Lightning2
         {
             if (SSMapTexture.TextureHandle == IntPtr.Zero) throw new NCException("You must initialise the Light Manager before using it!", 60, "LightManager.BuildLightmap called before LightManager.Init!", NCExceptionSeverity.FatalError);
 
-            SSMapTexture.Clear(EnvironmentalLight);
+            //SSMapTexture.Clear(EnvironmentalLight);
 
             Camera cur_camera = Win.Settings.Camera;
 
