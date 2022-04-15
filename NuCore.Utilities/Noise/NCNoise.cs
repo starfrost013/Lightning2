@@ -1,0 +1,67 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NuCore.Utilities
+{
+    /// <summary>
+    /// NCNoise
+    /// 
+    /// April 15, 2022
+    /// 
+    /// A basic noise algorithm.
+    /// This is probably versatile enough to generate a biome map later on. 
+    /// </summary>
+    public static class NCNoise
+    {
+        /// <summary>
+        /// Total factor - The amplitude of the terrain you wish to generate.
+        /// </summary>
+        public static double Amplitude { get; set; }
+
+        /// <summary>
+        /// e-scale - How jagged the terrain you wish to generate is
+        /// </summary>
+        public static double Jaggedness { get; set; }
+
+        /// <summary>
+        /// e-factor - how high the hill heights are
+        /// </summary>
+        public static double HillHeight { get; set; }
+
+        /// <summary>
+        /// Pi-factor - how much amplitude the hill is
+        /// </summary>
+        public static double HillAmplitude { get; set; }
+    
+        /// <summary>
+        /// x-factor - how much the height of the terrain is varied by.
+        /// </summary>
+        public static double HeightVariance { get; set; }
+
+        /// <summary>
+        /// 1-scale
+        /// </summary>
+        public static double Scale { get; set; }
+        
+        /// <summary>
+        /// 1-factor - how much the hill heights cycle
+        /// </summary>
+        public static double CycleHillHeight { get; set; }
+
+        /// <summary>
+        /// pi-scale - the number of hills generated
+        /// </summary>
+        public static double NumberOfHills { get; set; }
+
+        public static double Generate(double x)
+        {
+            return Amplitude *
+                (CycleHillHeight * Math.Sin(Scale * x))
+                - (HillHeight * Math.Sin(Jaggedness * Math.E * x)
+                - (HillAmplitude * Math.Sin(NumberOfHills * Math.PI * x)));
+        }
+    }
+}

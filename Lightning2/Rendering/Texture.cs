@@ -253,10 +253,12 @@ namespace Lightning2
         /// </summary>
         /// <param name="Win">The window to draw this texture to.</param>
         /// <exception cref="NCException">An error occurred rendering the texture. Extended information is available in <see cref="NCException.Description"/></exception>
-        public void Draw(Window Win)
+        public void Draw(Window Win, bool SnapToScreen = false)
         {
             SDL_Rect src_rect = new SDL_Rect();
             SDL_FRect dst_rect = new SDL_FRect();
+
+            Camera cur_camera = Win.Settings.Camera;
 
             // Draw to the viewpoint
             if (ViewportStart == default(Vector2)
@@ -283,6 +285,12 @@ namespace Lightning2
                 dst_rect.y = (int)Position.Y;
                 dst_rect.w = (int)ViewportEnd.X - (int)ViewportStart.X;
                 dst_rect.h = (int)ViewportEnd.Y - (int)ViewportStart.Y;
+            }
+
+            if (!SnapToScreen)
+            {
+                dst_rect.x -= cur_camera.Position.X;
+                dst_rect.y -= cur_camera.Position.Y;
             }
 
             if (Repeat == default(Vector2))

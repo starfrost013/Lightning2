@@ -59,7 +59,7 @@ namespace Lightning2
         {
             if (SSMapTexture.TextureHandle == IntPtr.Zero) throw new NCException("You must initialise the Light Manager before using it!", 60, "LightManager.BuildLightmap called before LightManager.Init!", NCExceptionSeverity.FatalError); 
 
-            SSMapTexture.Clear(EnvironmentalLight);
+            //SSMapTexture.Clear(EnvironmentalLight);
 
             Camera cur_camera = Win.Settings.Camera;
 
@@ -152,7 +152,7 @@ namespace Lightning2
             if (SSMapTexture.TextureHandle == IntPtr.Zero) throw new NCException("You must initialise the Light Manager before using it!", 62, "LightManager.RenderLightmap called before LightManager.Init!", NCExceptionSeverity.FatalError);
 
             SSMapTexture.Unlock();
-            SSMapTexture.Draw(Win);
+            SSMapTexture.Draw(Win, true);
         }
         /// <summary>
         /// Internal - used by Lightning2.Shutdown

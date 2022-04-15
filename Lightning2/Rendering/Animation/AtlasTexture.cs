@@ -73,15 +73,30 @@ namespace Lightning2
 
         }
 
-        public void DrawFrame(Window Win)
+        public void DrawFrame(Window Win, bool SnapToScreen = false)
         {
+            Camera cur_camera = Win.Settings.Camera; 
+
             if (Index.X < 0
                 || Index.Y < 0
                 || Index.X > FrameSize.X
-                || Index.Y > FrameSize.Y) throw new NCException($"Cannot draw invalid AnimatedTexture ({Name}) frame! ({Index}, range (0,0 to {FrameSize.X},{FrameSize.Y})!)", 47, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
+                || Index.Y > FrameSize.Y) throw new NCException($"Cannot draw invalid AnimatedTexture ({Name}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)", 47, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
 
-            Atlas.ViewportStart = new Vector2(FrameSize.X * Index.X, FrameSize.Y * Index.Y);
-            Atlas.ViewportEnd = new Vector2((FrameSize.X * Index.X) + FrameSize.X, (FrameSize.Y * Index.Y) + FrameSize.Y);
+            float start_x = FrameSize.X * Index.X;
+            float start_y = FrameSize.Y * Index.Y;
+            float end_x = (FrameSize.X * Index.X) + FrameSize.X;
+            float end_y = (FrameSize.Y * Index.Y) + FrameSize.Y;
+
+            if (!SnapToScreen)
+            {
+                start_x -= cur_camera.Position.X;
+                start_y -= cur_camera.Position.Y;   
+                end_x -= cur_camera.Position.X;
+                end_y -= cur_camera.Position.Y;
+            }
+
+            Atlas.ViewportStart = new Vector2(start_x, start_y);
+            Atlas.ViewportEnd = new Vector2(end_x, end_y);
 
             Atlas.Draw(Win); 
         }

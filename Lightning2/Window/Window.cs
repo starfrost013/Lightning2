@@ -82,6 +82,8 @@ namespace Lightning2
                 }
             }
 
+            LastEvent = current_event;
+
             return true;
         }
 

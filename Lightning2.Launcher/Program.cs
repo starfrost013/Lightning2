@@ -55,11 +55,9 @@ texture.Repeat = new Vector2(3, 3);
 AtlasTexture atlas_texture = new AtlasTexture();
 
 atlas_texture.Path = @"Content\AtlastextureTest.png";
-atlas_texture.Position = new Vector2(256, 256);
+atlas_texture.Position = new Vector2(-256, -256);
 atlas_texture.FrameSize = new Vector2(64, 64); // size of one tile
 atlas_texture.Load(window, 4, 4);
-
-bool Running = true;
 
 AnimatedTexture at = new AnimatedTexture();
 at.FramesPath.Add(@"Content\AnimtextureTest\AnimtextureTestF0.png");
@@ -74,7 +72,7 @@ at.Size = new Vector2(256, 256);
 at.Load(window);
 
 LightManager.Init(window);
-LightManager.SetEnvironmentalLight(new Color4(255, 0, 0, 255));
+LightManager.SetEnvironmentalLight(new Color4(0, 0, 0, 255));
 
 //LightManager.AddLight(new Light
 //{
@@ -91,7 +89,7 @@ LightManager.SetEnvironmentalLight(new Color4(255, 0, 0, 255));
 LightManager.AddLight(new Light
 {
     Position = new Vector2(850, 75),
-    Brightness = 50,
+    Brightness = 12,
     SnapToScreen = true
 });
 
@@ -121,16 +119,12 @@ while (window.Run())
 
     switch (cur_event.type)
     {
-        case SDL.SDL_EventType.SDL_QUIT: // User requested a quit.
-            Running = false; // shut down
-            continue;
         case SDL.SDL_EventType.SDL_KEYDOWN: // Key is held down.
             Key nkey = (Key)cur_event.key;
 
             string key_string = nkey.ToString();
 
             nkey.Repeated = (cur_event.key.repeat > 0);
-            NCLogging.Log($"KeyPress: {key_string}, repeated: {nkey.Repeated}");
 
             switch (key_string)
             {
@@ -215,6 +209,3 @@ while (window.Run())
 
     window.Render();
 }
-
-// we're done running so shutdown
-Lightning2.Lightning2.Shutdown(window);

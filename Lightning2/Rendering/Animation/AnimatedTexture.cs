@@ -87,8 +87,8 @@ namespace Lightning2
 
         public void Load(Window Win)
         {
-            if (Size == default(Vector2)) throw new NCException("Cannot load an animated texture with no texture size!", 44, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
-            if (Cycle == null) throw new NCException("AnimatedTextures must have a cycle!", 54, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
+            if (Size == default(Vector2)) throw new NCException("Cannot load an animated texture with no texture size", 44, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
+            if (Cycle == null) throw new NCException("AnimatedTextures must have a valid Cycle property", 54, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
 
             foreach (string TexturePath in FramesPath)
             {
