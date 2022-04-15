@@ -74,7 +74,7 @@ namespace Lightning2
                     light_position.Y -= cur_camera.Position.Y;
                 }
 
-                RenderLight(light, (int)(light.Brightness * 40));
+                RenderLight(light, (int)(light.Range * 40));
             }
 
             return SSMapTexture;
@@ -115,9 +115,11 @@ namespace Lightning2
 
                         double transparency = 0;
 
-                        if (new_dist > 0) transparency = (double)(new_dist * (10 / Light.Brightness));
+                        if (new_dist > 0) transparency = (double)(new_dist * (10 / Light.Range));
 
                         if (transparency > EnvironmentalLight.A) transparency = EnvironmentalLight.A;
+
+                        if (transparency < (255 - Light.Brightness)) transparency = (255 - Light.Brightness);
 
                         // optimisation: don't bother setting pixels we don't need to set
                         if (transparency < EnvironmentalLight.A)

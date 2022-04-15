@@ -1,9 +1,4 @@
-﻿using NuCore.SDL2;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using static NuCore.SDL2.SDL;
 
 namespace NuCore.Utilities
 {
@@ -17,13 +12,12 @@ namespace NuCore.Utilities
     public class NCMessageBoxButton
     {
         public string Text { get; set; }
-        public SDL.SDL_MessageBoxButtonFlags Flags { get; set; }
+        public SDL_MessageBoxButtonFlags Flags { get; set; }
         public int ID { get; internal set; }
 
-
-        public static explicit operator SDL.SDL_MessageBoxButtonData(NCMessageBoxButton Button)
+        public static explicit operator SDL_MessageBoxButtonData(NCMessageBoxButton Button)
         {
-            return new SDL.SDL_MessageBoxButtonData
+            return new SDL_MessageBoxButtonData
             {
                 buttonid = Button.ID,
                 flags = Button.Flags,
