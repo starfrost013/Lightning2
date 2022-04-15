@@ -1,13 +1,10 @@
-﻿using static NuCore.SDL2.SDL;
-using static NuCore.SDL2.SDL_image;
-using NuCore.Utilities;
+﻿using NuCore.Utilities;
 using System;
-using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+using static NuCore.SDL2.SDL;
+using static NuCore.SDL2.SDL_image;
 
 namespace Lightning2
 {
@@ -118,7 +115,7 @@ namespace Lightning2
         /// <summary>
         /// Private: Pointer to unmanaged texture pixels (when the texture is locked)
         /// </summary>
-        private uint* PixelPtr { get; set; }
+        private int* PixelPtr { get; set; }
 
         /// <summary>
         /// Initialises a new texture with a size.
@@ -131,7 +128,7 @@ namespace Lightning2
 
             if (Size == default(Vector2)) throw new NCException($"Error creating texture: Must have a size!", 20, "Texture.Create", NCExceptionSeverity.FatalError);
 
-            TextureHandle = SDL_CreateTexture(Win.Settings.RendererHandle, SDL_PIXELFORMAT_RGBA8888, SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, (int)Size.X, (int)Size.Y);
+            TextureHandle = SDL_CreateTexture(Win.Settings.RendererHandle, SDL_PIXELFORMAT_ARGB8888, SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, (int)Size.X, (int)Size.Y);
 
             // check if texture failed to load
             if (TextureHandle == IntPtr.Zero) throw new NCException($"Error creating texture: {SDL_GetError()}", 11, "Texture.Create", NCExceptionSeverity.FatalError);
@@ -164,9 +161,9 @@ namespace Lightning2
         /// <param name="X">The X coordinate of the pixel to acquire.</param>
         /// <param name="Y">The Y coordinate of the pixel to acquire.</param>
         /// <param name="UnlockNow">Unlocks the texture immediately - use this if you do not need to draw any more pixels</param>
-        /// <returns>A <see cref="Color4"/> instance containing the colour data of the pixel acquired</returns>
+        /// <returns>A <see cref="Color"/> instance containing the colour data of the pixel acquired</returns>
         /// <exception cref="NCException">An invalid coordinate was supplied or the texture does not have a valid size.</exception>
-        public Color4 GetPixel(int X, int Y, bool UnlockNow = false)
+        public Color GetPixel(int X, int Y, bool UnlockNow = false)
         {
             if (Size == default(Vector2)) throw new NCException($"Invalid size - cannot get pixel!", 16, "Texture.GetPixel", NCExceptionSeverity.FatalError);
 
@@ -180,11 +177,11 @@ namespace Lightning2
 
             if (PixelToGet > MaxPixelID) throw new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({X},{Y}), min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {PixelToGet} > {MaxPixelID}!", 14, "Texture.GetPixel", NCExceptionSeverity.FatalError);
 
-            uint NP = PixelPtr[PixelToGet];
+            int NP = PixelPtr[PixelToGet];
 
             if (UnlockNow) Unlock();
 
-            return (Color4)NP;
+            return Color.FromArgb(NP);
         }
 
         /// <summary>
@@ -194,7 +191,7 @@ namespace Lightning2
         /// <param name="Y">The Y coordinate of the pixel to set.</param>
         /// <param name="UnlockNow">Unlocks the texture immediately - use this if you do not need to draw any more pixels</param>
         /// <exception cref="NCException">An invalid coordinate was supplied or the texture does not have a valid size.</exception>
-        public void SetPixel(int X, int Y, Color4 Colour, bool UnlockNow = false)
+        public void SetPixel(int X, int Y, Color Colour, bool UnlockNow = false)
         {
             if (!Locked) Lock();
 
@@ -206,7 +203,7 @@ namespace Lightning2
             if (PixelToGet > MaxPixelID) throw new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({X},{Y}), min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {PixelToGet} > {MaxPixelID}!", 16, "Texture.SetPixel", NCExceptionSeverity.FatalError);
 
             // use pixeltoget to twiddle the pixel that we need using the number we calculated before
-            PixelPtr[PixelToGet] = (uint)Colour;
+            PixelPtr[PixelToGet] = Colour.ToArgb();
 
             // unlock the texture if unlocknow specified
             if (UnlockNow) Unlock();
@@ -232,7 +229,7 @@ namespace Lightning2
             Pixels = npixels;
 
             // convert to C pointer
-            PixelPtr = (uint*)Pixels.ToPointer();
+            PixelPtr = (int*)Pixels.ToPointer();
         }
 
         public void Unlock()
@@ -324,11 +321,11 @@ namespace Lightning2
         /// Clears the texture with the colour specified in the <paramref name="Colour"/> parameter. If this is not set, it will default to ARGB <c>0,0,0,0</c>.
         /// </summary>
         /// <param name="Colour">The optional colour to clear the texture with.</param>
-        public void Clear(Color4 Colour = null)
+        public void Clear(Color Colour = default(Color))
         {
-            Color4 clear_colour = new Color4(0, 0, 0, 0);
+            Color clear_colour = Color.FromArgb(0, 0, 0, 0);
 
-            if (Colour != null) clear_colour = Colour;
+            if (Colour != default(Color)) clear_colour = Colour;
 
             for (int y = 0; y < Size.Y; y++)
             {

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Lightning2
+﻿namespace Lightning2
 {
     /// <summary>
     /// AnimationCycle
@@ -18,7 +12,7 @@ namespace Lightning2
         /// <summary>
         /// The beginning frame of the animation cycle.
         /// </summary>
-        public int StartFrame { get; set; } 
+        public int StartFrame { get; set; }
 
         /// <summary>
         /// The end frame of the animation cycle.
@@ -32,7 +26,7 @@ namespace Lightning2
 
         public AnimationCycle()
         {
-            FrameLength = 1; 
+            FrameLength = 1;
         }
 
         public AnimationCycle(int NStartFrame, int NEndFrame, uint NFrameLength)

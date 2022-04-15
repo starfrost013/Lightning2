@@ -1,10 +1,7 @@
-﻿using NuCore.Utilities; 
+﻿using NuCore.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Numerics; 
-using System.Text;
-using System.Threading.Tasks;
+using System.Numerics;
 
 namespace Lightning2
 {
@@ -120,11 +117,11 @@ namespace Lightning2
 
                 if (reverse_animation)
                 {
-                    CurrentFrame--; 
+                    CurrentFrame--;
                 }
                 else
                 {
-                    CurrentFrame++; 
+                    CurrentFrame++;
                 }
 
                 if (reverse_animation)
@@ -140,7 +137,7 @@ namespace Lightning2
                 {
                     CurRepeats++;
                     if (CurRepeats > Repeat && (Repeat != 0)) AnimationFinished = true;
-                    end_cycle = false; 
+                    end_cycle = false;
                 }
             }
         }

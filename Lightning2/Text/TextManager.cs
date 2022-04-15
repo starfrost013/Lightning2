@@ -1,11 +1,9 @@
 ﻿using NuCore.SDL2;
-using NuCore.Utilities; 
+using NuCore.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Drawing;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lightning2
 {
@@ -28,7 +26,7 @@ namespace Lightning2
                 }
             }
 
-            return null;    
+            return null;
         }
 
         public static void LoadFont(string Name, int Size, string Path = null, string FriendlyName = null, int Index = -1)
@@ -40,7 +38,7 @@ namespace Lightning2
             }
             catch (Exception) // NC Exception
             {
-                return; 
+                return;
             }
         }
 
@@ -57,7 +55,7 @@ namespace Lightning2
             }
         }
 
-        public static void DrawTextTTF(Window Win, string Text, string Font, Vector2 Position, Color4 Foreground, Color4 Background = null, SDL_ttf.TTF_FontStyle Style = SDL_ttf.TTF_FontStyle.Normal, int ResizeFont = -1, int OutlinePixels = -1, int LineLength = -1, bool SnapToScreen = true, FontSmoothingType Smoothing = FontSmoothingType.Default)
+        public static void DrawTextTTF(Window Win, string Text, string Font, Vector2 Position, Color Foreground, Color Background = default(Color), SDL_ttf.TTF_FontStyle Style = SDL_ttf.TTF_FontStyle.Normal, int ResizeFont = -1, int OutlinePixels = -1, int LineLength = -1, bool SnapToScreen = true, FontSmoothingType Smoothing = FontSmoothingType.Default)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera cur_cam = Win.Settings.Camera;
@@ -83,7 +81,7 @@ namespace Lightning2
             if (ResizeFont > 0)
             {
                 SDL_ttf.TTF_SetFontSize(temp_font.Handle, ResizeFont);
-                temp_font.Size = ResizeFont; 
+                temp_font.Size = ResizeFont;
             }
 
             // Draw a background for the user if they have not specified shaded and they want a background
@@ -98,7 +96,7 @@ namespace Lightning2
             // default to entirely transparent background (if the user has specified shasded for some reason, we still need a BG colour...)
             SDL.SDL_Color bg_colour = new SDL.SDL_Color(0, 0, 0, 0);
 
-            if (Background != null) // draw the background (which requires sizing the entire text)
+            if (Background != default(Color)) // draw the background (which requires sizing the entire text)
             {
                 // Set the background colour
                 bg_colour = new SDL.SDL_Color(Background.R, Background.G, Background.B, Background.A);
@@ -129,7 +127,7 @@ namespace Lightning2
                 if (no_of_lines > 1) total_size_x /= (no_of_lines - 1);
 
                 // camera-aware is false for this as we have already "pushed" the position, so we don't need to do it again.
-                PrimitiveRenderer.DrawRectangle(Win, Position, new Vector2(total_size_x, total_size_y), (Color4)bg_colour, true, false);
+                PrimitiveRenderer.DrawRectangle(Win, Position, new Vector2(total_size_x, total_size_y), Color.FromArgb(bg_colour.a, bg_colour.r, bg_colour.g, bg_colour.b), true, false);
             }
 
             // Set the font outline, size and style
@@ -177,7 +175,7 @@ namespace Lightning2
                             font_dst_rect.y += LineLength;
                         }
 
-                        continue; 
+                        continue;
                     case FontSmoothingType.Shaded: // Only shaded
                         text_ptr = SDL_ttf.TTF_RenderUTF8_Shaded(temp_font.Handle, line, font_colour, bg_colour);
                         text_texture_ptr = SDL.SDL_CreateTextureFromSurface(Win.Settings.RendererHandle, text_ptr);

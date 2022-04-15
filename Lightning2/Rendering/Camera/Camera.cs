@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics; 
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 
 namespace Lightning2
 {
@@ -20,14 +15,14 @@ namespace Lightning2
 
         public Vector2 Position
         {
-            get 
+            get
             {
                 // default(Vector2) is (0,0), so if it has not been set it will add nothing by default, therefore you can do this in one line of code.
                 return _position + FocusDelta;
             }
             set
             {
-                _position = (value - FocusDelta); 
+                _position = (value - FocusDelta);
             }
         }
 
@@ -41,7 +36,7 @@ namespace Lightning2
 
         public Camera(CameraType new_type)
         {
-            Type = new_type; 
+            Type = new_type;
         }
     }
 }

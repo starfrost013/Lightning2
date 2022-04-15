@@ -1,11 +1,7 @@
-﻿using NuCore.SDL2; 
+﻿using NuCore.SDL2;
 using NuCore.Utilities;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lightning2
 {
@@ -50,7 +46,7 @@ namespace Lightning2
             }
 
             if (!File.Exists(temp_path)) throw new NCException($"Error loading font: Attempted to load nonexistent font at {temp_path}", 35, "Font.Load()", NCExceptionSeverity.Error);
-            
+
             if (!temp_path.Contains(".ttf")) throw new NCException($"Error loading font: Only TTF fonts are supported!", 36, "Font.Load()", NCExceptionSeverity.Error);
 
             if (Size <= 0) throw new NCException($"Error loading font: Invalid font size {Size}, must be at least 1!", 37, "Font.Load()", NCExceptionSeverity.Error);
@@ -67,7 +63,7 @@ namespace Lightning2
             if (temp_font.Handle == IntPtr.Zero) throw new NCException($"Error loading font at {Path}: {SDL_ttf.TTF_GetError()}", 38, "Font.Load()", NCExceptionSeverity.Error);
 
             NCLogging.Log($"Loaded font {temp_font.Name}, size {temp_font.Size} at {temp_path}");
-            return temp_font; 
+            return temp_font;
         }
 
         public void Unload()

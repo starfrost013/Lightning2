@@ -1,10 +1,5 @@
-﻿using NuCore.Utilities; 
-using System;
-using System.Collections.Generic;
+﻿using NuCore.Utilities;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lightning2
 {
@@ -49,7 +44,7 @@ namespace Lightning2
             bool engine_show_fps = false;
 
             if (!int.TryParse(engine_target, out engine_target_fps)) throw new NCException($"Invalid TargetFPS setting ({engine_target}) in Engine.ini Engine section, setting to 60!", 42, "GlobalSettings.Load()", NCExceptionSeverity.Error);
-            if (!bool.TryParse(engine_show, out engine_show_fps)) engine_show_fps = false; 
+            if (!bool.TryParse(engine_show, out engine_show_fps)) engine_show_fps = false;
 
             if (engine_target_fps <= 0)
             {
@@ -58,7 +53,7 @@ namespace Lightning2
             }
 
             TargetFPS = engine_target_fps;
-            ShowFPS = engine_show_fps; 
+            ShowFPS = engine_show_fps;
         }
     }
 }

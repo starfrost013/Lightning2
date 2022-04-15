@@ -25,12 +25,10 @@ namespace NuCore.Utilities
 
         private List<NCMessageBoxButton> Buttons { get; set; }
 
-        public NCMessageBoxColourScheme ColourScheme { get; set; }
-
         public NCMessageBox()
         {
             Buttons = new List<NCMessageBoxButton>();
-            ColourScheme = new NCMessageBoxColourScheme();
+
         }
 
         /// <summary>

@@ -6,6 +6,7 @@
 using NuCore.SDL2;
 using NuCore.Utilities;
 using Lightning2;
+using System.Drawing;
 using System.Numerics; 
 
 Lightning2.Lightning2.Init(); // Initialise Lightning2
@@ -23,7 +24,7 @@ TextManager.LoadFont("Arial", 18, null, "Arial.18pt");
 TextManager.LoadFont("Arial", 24, null, "Arial.24pt");
 TextManager.LoadFont("Arial", 36, null, "Arial.36pt");
 
-window.Clear(new Color4(127, 127, 127, 255));
+window.Clear(Color.FromArgb(127, 255, 255, 255));
 Texture texture = new Texture(window, 64, 64);
 
 Random rnd = new Random();
@@ -43,7 +44,7 @@ for (int x = 0; x < texture.Size.X; x++)
 
     for (int y = 0; y < texture.Size.Y; y++)
     {
-        texture.SetPixel(x, y, new Color4(R, G, B, A));
+        texture.SetPixel(x, y, Color.FromArgb(A, R, G, B));
     }
 }
 
@@ -72,7 +73,7 @@ at.Size = new Vector2(256, 256);
 at.Load(window);
 
 LightManager.Init(window);
-LightManager.SetEnvironmentalLight(new Color4(0, 0, 0, 255));
+LightManager.SetEnvironmentalLight(Color.FromArgb(255, 0, 0, 0));
 
 //LightManager.AddLight(new Light
 //{
@@ -89,7 +90,7 @@ LightManager.SetEnvironmentalLight(new Color4(0, 0, 0, 255));
 LightManager.AddLight(new Light
 {
     Position = new Vector2(850, 75),
-    Brightness = 50,
+    Brightness = 4,
     SnapToScreen = true
 });
 
@@ -151,40 +152,40 @@ while (window.Run())
         }
     }
 
-    PrimitiveRenderer.DrawLine(window, new Vector2(500, 300), new Vector2(600, 300), 1, new Color4(255, 255, 255, 255), false);
-    PrimitiveRenderer.DrawLine(window, new Vector2(500, 270), new Vector2(600, 270), 3, new Color4(255, 255, 255, 255), true);
-    PrimitiveRenderer.DrawLine(window, new Vector2(500, 240), new Vector2(600, 240), 7, new Color4(255, 255, 255, 255), false);
-    PrimitiveRenderer.DrawLine(window, new Vector2(500, 210), new Vector2(600, 210), 15, new Color4(255, 255, 255, 255), true);
+    PrimitiveRenderer.DrawLine(window, new Vector2(500, 300), new Vector2(600, 300), 1, Color.FromArgb(255, 255, 255, 255), false);
+    PrimitiveRenderer.DrawLine(window, new Vector2(500, 270), new Vector2(600, 270), 3, Color.FromArgb(255, 255, 255, 255), true);
+    PrimitiveRenderer.DrawLine(window, new Vector2(500, 240), new Vector2(600, 240), 7, Color.FromArgb(255, 255, 255, 255), false);
+    PrimitiveRenderer.DrawLine(window, new Vector2(500, 210), new Vector2(600, 210), 15, Color.FromArgb(255, 255, 255, 255), true);
 
-    PrimitiveRenderer.DrawCircle(window, new Vector2(500, 10), new Vector2(50, 50), new Color4(255, 0, 0, 255), true);
-    PrimitiveRenderer.DrawCircle(window, new Vector2(500, 309), new Vector2(50, 50), new Color4(255, 255, 255, 127), false) ;
+    PrimitiveRenderer.DrawCircle(window, new Vector2(500, 10), new Vector2(50, 50), Color.FromArgb(255, 255, 255, 255), true);
+    PrimitiveRenderer.DrawCircle(window, new Vector2(500, 309), new Vector2(50, 50), Color.FromArgb(127, 255, 255, 255), false) ;
 
-    PrimitiveRenderer.DrawRectangle(window, new Vector2(552, 10), new Vector2(30, 30), new Color4(255, 255, 255, 255), false);
-    PrimitiveRenderer.DrawRectangle(window, new Vector2(584, 10), new Vector2(30, 30), new Color4(255, 0, 0, 127), true);
+    PrimitiveRenderer.DrawRectangle(window, new Vector2(552, 10), new Vector2(30, 30), Color.FromArgb(255, 255, 255, 255), false);
+    PrimitiveRenderer.DrawRectangle(window, new Vector2(584, 10), new Vector2(30, 30), Color.FromArgb(127, 0, 0, 255), true);
 
-    PrimitiveRenderer.DrawRoundedRectangle(window, new Vector2(616, 10), new Vector2(30, 30), new Color4(255, 255, 255, 127), 3, false);
-    PrimitiveRenderer.DrawRoundedRectangle(window, new Vector2(648, 10), new Vector2(30, 30), new Color4(255, 255, 255, 127), 3, true);
-    PrimitiveRenderer.DrawRoundedRectangle(window, new Vector2(680, 10), new Vector2(30, 30), new Color4(255, 255, 255, 127), 12, true);
+    PrimitiveRenderer.DrawRoundedRectangle(window, new Vector2(616, 10), new Vector2(30, 30), Color.FromArgb(127, 255, 255, 255), 3, false);
+    PrimitiveRenderer.DrawRoundedRectangle(window, new Vector2(648, 10), new Vector2(30, 30), Color.FromArgb(127, 255, 255, 255), 3, true);
+    PrimitiveRenderer.DrawRoundedRectangle(window, new Vector2(680, 10), new Vector2(30, 30), Color.FromArgb(127, 255, 255, 255), 12, true);
 
-    PrimitiveRenderer.DrawTriangle(window, new Vector2(722, 10), new Vector2(747, 40), new Vector2(707, 40), new Color4(255, 255, 255, 127), false);
-    PrimitiveRenderer.DrawTriangle(window, new Vector2(779, 10), new Vector2(794, 40), new Vector2(764, 40), new Color4(255, 255, 255, 127), true);
+    PrimitiveRenderer.DrawTriangle(window, new Vector2(722, 10), new Vector2(747, 40), new Vector2(707, 40), Color.FromArgb(127, 255, 255, 255), false);
+    PrimitiveRenderer.DrawTriangle(window, new Vector2(779, 10), new Vector2(794, 40), new Vector2(764, 40), Color.FromArgb(127, 255, 255, 255), true);
 
-    PrimitiveRenderer.DrawText(window, "#{STRING_TEST}", new Vector2(500, 90), new Color4(0, 0, 255, 255));
-    PrimitiveRenderer.DrawText(window, "Loc string test: #{STRING_TEST}", new Vector2(500, 120), new Color4(0, 0, 255, 255));
-    PrimitiveRenderer.DrawText(window, "Loc string test: #{STRING_TEST} aaaaaa #{STRING_TEST} #{STRING_TEST} bbbbbb", new Vector2(500, 150), new Color4(0, 0, 255, 255));
+    PrimitiveRenderer.DrawText(window, "#{STRING_TEST}", new Vector2(500, 90), Color.FromArgb(255, 0, 0, 255));
+    PrimitiveRenderer.DrawText(window, "Loc string test: #{STRING_TEST}", new Vector2(500, 120), Color.FromArgb(255, 0, 0, 255));
+    PrimitiveRenderer.DrawText(window, "Loc string test: #{STRING_TEST} aaaaaa #{STRING_TEST} #{STRING_TEST} bbbbbb", new Vector2(500, 150), Color.FromArgb(255, 0, 0, 255));
 
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 10), new Color4(255, 255, 255, 255));
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 30), new Color4(255, 255, 255, 255), new Color4(255, 0, 0, 255), SDL_ttf.TTF_FontStyle.Bold);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 50), new Color4(255, 255, 0, 255), new Color4(255, 0, 0, 255), SDL_ttf.TTF_FontStyle.Italic);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 70), new Color4(255, 255, 255, 255), new Color4(255, 0, 0, 255), SDL_ttf.TTF_FontStyle.Underline);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 90), new Color4(255, 255, 255, 255), new Color4(255, 0, 0, 255), SDL_ttf.TTF_FontStyle.Strikeout, 15);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 110), new Color4(0, 255, 255, 255), new Color4(255, 0, 0, 255), SDL_ttf.TTF_FontStyle.Bold, -1, 3);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 130), new Color4(255, 255, 255, 255), new Color4(255, 0, 0, 255), SDL_ttf.TTF_FontStyle.Bold, 15, -1);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 150), new Color4(255, 255, 255, 255), new Color4(255, 0, 0, 255),  SDL_ttf.TTF_FontStyle.Bold, -1, -1, 30);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 170), new Color4(255, 255, 255, 255), new Color4(255, 0, 0, 255),  SDL_ttf.TTF_FontStyle.Bold, -1, -1, 0, true, FontSmoothingType.Shaded);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 190), new Color4(255, 255, 255, 255), new Color4(255, 0, 0, 255), SDL_ttf.TTF_FontStyle.Bold, -1, -1, 0, true, FontSmoothingType.Solid);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 210), new Color4(255, 255, 255, 255), new Color4(255, 0, 0, 255),  SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline);
-    TextManager.DrawTextTTF(window, "#{STRING_TEST}\nTest2\nTest3", "Arial.11pt", new Vector2(700, 230), new Color4(255, 255, 255, 255), new Color4(255, 0, 0, 255),  SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline | SDL_ttf.TTF_FontStyle.Strikeout);
+    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 10), Color.FromArgb(255, 255, 255, 255));
+    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 30), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold);
+    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 50), Color.FromArgb(255, 255, 255, 0), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Italic);
+    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 70), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Underline);
+    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 90), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Strikeout, 15);
+    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 110), Color.FromArgb(255, 255, 255, 0), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, 3);
+    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 130), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, 15, -1);
+    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 150), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0),  SDL_ttf.TTF_FontStyle.Bold, -1, -1, 30);
+    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 170), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0),  SDL_ttf.TTF_FontStyle.Bold, -1, -1, 0, true, FontSmoothingType.Shaded);
+    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 190), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, -1, 0, true, FontSmoothingType.Solid);
+    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 210), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0),  SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline);
+    TextManager.DrawTextTTF(window, "#{STRING_TEST}\nTest2\nTest3", "Arial.11pt", new Vector2(700, 230), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0),  SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline | SDL_ttf.TTF_FontStyle.Strikeout);
 
     atlas_texture.Index = new Vector2(3, 1);
     atlas_texture.DrawFrame(window);
@@ -201,7 +202,7 @@ while (window.Run())
 
         for (int y = 0; y < texture.Size.Y; y++)
         {
-            texture.SetPixel(x, y, new Color4(R, G, B, A));
+            texture.SetPixel(x, y, Color.FromArgb(A, R, G, B));
         }
     }
 

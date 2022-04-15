@@ -1,10 +1,7 @@
-﻿using NuCore.Utilities; 
+﻿using NuCore.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Drawing;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lightning2
 {
@@ -69,13 +66,13 @@ namespace Lightning2
             new_texture.Position = Position;
             new_texture.Load(Win);
 
-            if (new_texture.TextureHandle != IntPtr.Zero) Atlas = new_texture; 
+            if (new_texture.TextureHandle != IntPtr.Zero) Atlas = new_texture;
 
         }
 
         public void DrawFrame(Window Win, bool SnapToScreen = false)
         {
-            Camera cur_camera = Win.Settings.Camera; 
+            Camera cur_camera = Win.Settings.Camera;
 
             if (Index.X < 0
                 || Index.Y < 0
@@ -90,7 +87,7 @@ namespace Lightning2
             if (!SnapToScreen)
             {
                 start_x -= cur_camera.Position.X;
-                start_y -= cur_camera.Position.Y;   
+                start_y -= cur_camera.Position.Y;
                 end_x -= cur_camera.Position.X;
                 end_y -= cur_camera.Position.Y;
             }
@@ -98,7 +95,7 @@ namespace Lightning2
             Atlas.ViewportStart = new Vector2(start_x, start_y);
             Atlas.ViewportEnd = new Vector2(end_x, end_y);
 
-            Atlas.Draw(Win); 
+            Atlas.Draw(Win);
         }
 
         public void GetPixel(int X, int Y, bool Relative = false)
@@ -113,7 +110,7 @@ namespace Lightning2
             }
         }
 
-        public void SetPixel(int X, int Y, Color4 Colour, bool Relative = false)
+        public void SetPixel(int X, int Y, Color Colour, bool Relative = false)
         {
             if (Relative)
             {

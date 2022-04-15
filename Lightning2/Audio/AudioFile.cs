@@ -1,13 +1,8 @@
 ﻿using NuCore.SDL2;
-using NuCore.Utilities; 
+using NuCore.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO; 
-using System.Linq;
-using System.Numerics; 
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Numerics;
 
 namespace Lightning2
 {
@@ -56,7 +51,7 @@ namespace Lightning2
         /// Determines if this sound is a positional sound. 
         /// </summary>
         public bool PositionalSound { get; set; }
-        
+
         /// <summary>
         /// The position of this sound. If <see cref="PositionalSound"/> is set to <c>false</c>, this value is ignored.
         /// </summary>

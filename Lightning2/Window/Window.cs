@@ -1,12 +1,9 @@
-﻿using static NuCore.SDL2.SDL;
-using NuCore.Utilities;
+﻿using NuCore.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Numerics; 
-using System.Text;
-using System.Timers;
+using System.Drawing;
+using System.Numerics;
+using static NuCore.SDL2.SDL;
 
 namespace Lightning2
 {
@@ -45,7 +42,7 @@ namespace Lightning2
             // Start the delta timer.
             DeltaTimer.Start();
             LastTime = 0;
-            ThisTime = 0; 
+            ThisTime = 0;
         }
 
         public void Start(WindowSettings Ws)
@@ -55,7 +52,7 @@ namespace Lightning2
             Settings = Ws;
 
             Settings.WindowHandle = SDL_CreateWindow(Settings.Title, (int)Settings.Position.X, (int)Settings.Position.Y, (int)Settings.Size.X, (int)Settings.Size.Y, Settings.WindowFlags);
-            
+
             if (Settings.WindowHandle == IntPtr.Zero) throw new NCException($"Failed to create Window: {SDL_GetError()}", 8, "Window.AddWindow", NCExceptionSeverity.FatalError);
 
             Settings.RendererHandle = SDL_CreateRenderer(Settings.WindowHandle, Settings.ID, Settings.RenderFlags);
@@ -85,7 +82,7 @@ namespace Lightning2
                 {
                     case SDL_EventType.SDL_QUIT: // User requested a quit, so shut down
                         Lightning2.Shutdown(this);
-                        return false;  
+                        return false;
                 }
             }
 
@@ -116,9 +113,9 @@ namespace Lightning2
             // check the showfps global setting first
             if (GlobalSettings.ShowFPS)
             {
-                PrimitiveRenderer.DrawText(this, $"FPS: {(int)CurFPS} ({(int)(1000 / CurFPS)}ms)", new Vector2(0, 0), new Color4(255, 255, 255, 255), true);
+                PrimitiveRenderer.DrawText(this, $"FPS: {(int)CurFPS} ({(int)(1000 / CurFPS)}ms)", new Vector2(0, 0), Color.FromArgb(255, 255, 255, 255), true);
 
-                if (CurFPS < GlobalSettings.TargetFPS) PrimitiveRenderer.DrawText(this, $"Running under target FPS ({GlobalSettings.TargetFPS})!", new Vector2(0, 12), new Color4(255, 0, 0, 255), true);
+                if (CurFPS < GlobalSettings.TargetFPS) PrimitiveRenderer.DrawText(this, $"Running under target FPS ({GlobalSettings.TargetFPS})!", new Vector2(0, 12), Color.FromArgb(255, 255, 0, 0), true);
             }
 
             SDL_RenderPresent(Settings.RendererHandle);
@@ -134,14 +131,14 @@ namespace Lightning2
         }
 
         /// <summary>
-        /// Clears the renderer and optionally sets the colour to the Color4 <paramref name="colour"/>
+        /// Clears the renderer and optionally sets the colour to the Color <paramref name="colour"/>
         /// </summary>
         /// <param name="colour"></param>
-        public void Clear(Color4 colour = null)
+        public void Clear(Color colour = default(Color))
         {
-            if (colour == null)
+            if (colour == default(Color))
             {
-                SDL_SetRenderDrawColor(Settings.RendererHandle, 0, 0, 0, 0);   
+                SDL_SetRenderDrawColor(Settings.RendererHandle, 0, 0, 0, 0);
             }
             else
             {
@@ -163,7 +160,7 @@ namespace Lightning2
                 if (ncamera.FocusDelta == default(Vector2)) ncamera.FocusDelta = new Vector2(-(Settings.Size.X / 2), 0);
             }
 
-            Settings.Camera = ncamera; 
+            Settings.Camera = ncamera;
         }
     }
 }

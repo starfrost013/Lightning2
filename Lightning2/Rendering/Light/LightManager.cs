@@ -1,13 +1,9 @@
-﻿using static NuCore.SDL2.SDL;
-using static NuCore.SDL2.SDL_gfx;
-using NuCore.Utilities;
+﻿using NuCore.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Numerics; 
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
+using System.Numerics;
+using static NuCore.SDL2.SDL;
 
 namespace Lightning2
 {
@@ -23,16 +19,19 @@ namespace Lightning2
         /// <summary>
         /// The lights that have been loaded.
         /// </summary>
-        private static List<Light> Lights { get; set; } 
+        private static List<Light> Lights { get; set; }
 
         private static Texture SSMapTexture { get; set; }
-        
+
         /// <summary>
         /// The default colour of the environment.
         /// </summary>
-        public static Color4 EnvironmentalLight { get; private set; }
+        public static Color EnvironmentalLight { get; private set; }
 
         internal static bool Initialised { get; private set; }
+
+        // This here is sin(45) but i just hard-coded it.
+        const float sinus = 0.70710678118f;
 
         static LightManager()
         {
@@ -46,7 +45,7 @@ namespace Lightning2
             SDL_SetTextureBlendMode(SSMapTexture.TextureHandle, SDL_BlendMode.SDL_BLENDMODE_BLEND);
 
             // This is used so we don't build lightmaps when LightManager.Init hasn't been called
-            Initialised = true; 
+            Initialised = true;
         }
 
         public static void AddLight(Light Light)
@@ -57,9 +56,9 @@ namespace Lightning2
 
         public static Texture BuildLightmap(Window Win)
         {
-            if (SSMapTexture.TextureHandle == IntPtr.Zero) throw new NCException("You must initialise the Light Manager before using it!", 60, "LightManager.BuildLightmap called before LightManager.Init!", NCExceptionSeverity.FatalError); 
+            if (SSMapTexture.TextureHandle == IntPtr.Zero) throw new NCException("You must initialise the Light Manager before using it!", 60, "LightManager.BuildLightmap called before LightManager.Init!", NCExceptionSeverity.FatalError);
 
-            //SSMapTexture.Clear(EnvironmentalLight);
+            SSMapTexture.Clear(EnvironmentalLight);
 
             Camera cur_camera = Win.Settings.Camera;
 
@@ -87,10 +86,10 @@ namespace Lightning2
             // https://stackoverflow.com/questions/10878209/midpoint-circle-algorithm-for-filled-circles
 
             // This here is sin(45) but i just hard-coded it.
-            float sinus = 0.70710678118f;
+            const float sinus = 0.70710678118f;
             // This is the distance on the axis from sin(90) to sin(45). 
 
-            int range =  (int)(r * sinus);
+            int range = (int)(r * sinus);
 
             int x = (int)Light.Position.X;
             int y = (int)Light.Position.Y;
@@ -98,7 +97,7 @@ namespace Lightning2
             float max_size_x = SSMapTexture.Size.X;
             float max_size_y = SSMapTexture.Size.Y;
 
-            Color4 transparent = new Color4(EnvironmentalLight.R, EnvironmentalLight.G, EnvironmentalLight.B, 0);
+            Color transparent = Color.FromArgb(0, EnvironmentalLight.R, EnvironmentalLight.G, EnvironmentalLight.B);
 
             // calculate magnitude of vector so that the alpha can be calculated
 
@@ -126,7 +125,7 @@ namespace Lightning2
                             // math.clamp has aggressive inlining and is therefore a bit faster
                             transparency = Math.Clamp(transparency, 0, EnvironmentalLight.A);
 
-                            transparent.A = (byte)transparency;
+                            transparent = Color.FromArgb((byte)transparency, transparent.R, transparent.G, transparent.B);
 
                             SSMapTexture.SetPixel(cur_x, cur_y, transparent);
                         }
@@ -135,11 +134,11 @@ namespace Lightning2
             }
         }
 
-        public static void SetEnvironmentalLight(Color4 Colour)
+        public static void SetEnvironmentalLight(Color Colour)
         {
             EnvironmentalLight = Colour;
 
-            if (EnvironmentalLight == null) EnvironmentalLight = new Color4(255, 255, 255, 255);
+            if (EnvironmentalLight == default(Color)) EnvironmentalLight = Color.FromArgb(255, 255, 255, 255);
 
             // Set all pixels in the texture to the environmental light colour.
             SSMapTexture.Clear(EnvironmentalLight);
@@ -161,6 +160,5 @@ namespace Lightning2
         {
             SDL_DestroyTexture(SSMapTexture.TextureHandle);
         }
-
     }
 }

@@ -1,10 +1,5 @@
 ﻿using NuCore.Utilities;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lightning2
 {
@@ -48,7 +43,7 @@ namespace Lightning2
             foreach (var Values in strings_section.Values)
             {
                 // Set up all the strings
-                Strings.Add(Values.Key, Values.Value);  
+                Strings.Add(Values.Key, Values.Value);
             }
 
 #if DEBUG
@@ -77,7 +72,7 @@ namespace Lightning2
             string[] string_split_with_hash = StringProcess.Split(start);
 
             // no strings that need to be processed
-            if (string_split_with_hash.Length == 0) return StringProcess; 
+            if (string_split_with_hash.Length == 0) return StringProcess;
 
             // remove the indicators
             StringProcess = StringProcess.Replace(start, "");
@@ -105,7 +100,7 @@ namespace Lightning2
 
             }
 
-            return StringProcess; 
+            return StringProcess;
         }
     }
 }

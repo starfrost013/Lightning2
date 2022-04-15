@@ -1,6 +1,5 @@
-﻿using NuCore.Utilities;
-using NuCore.SDL2;
-using System;
+﻿using NuCore.SDL2;
+using NuCore.Utilities;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -57,7 +56,7 @@ namespace Lightning2
             // just foreaching through each font and audiofile doesn't work as collection is being modified 
             List<Font> fonts_to_unload = new List<Font>();
             List<AudioFile> audio_files_to_unload = new List<AudioFile>();
-            
+
             foreach (Font font_to_unload in TextManager.Fonts) fonts_to_unload.Add(font_to_unload);
             foreach (AudioFile audio_file_to_unload in AudioManager.AudioFiles) audio_files_to_unload.Add(audio_file_to_unload);
 
