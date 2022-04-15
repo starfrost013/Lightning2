@@ -27,38 +27,43 @@ namespace Lightning2
         /// <summary>
         /// Loads the audio file at path <see cref="Path"/>, if it exists.
         /// </summary>
-        /// <param name="Path">The path of the file to load.</param>
+        /// <param name="FPath">The path of the file to load.</param>
         /// <param name="Name">A name to assign to the audio file. Optional, will be automatically generated from the file path (extension and directory removed) if not supplied.</param>
         /// <exception cref="NCException">An error occurred loading the file.</exception>
-        public static void LoadFile(string Path, string Name = null)
+        public static void LoadFile(string FPath, string Name = null)
         {
-            if (!File.Exists(Path)) if (!File.Exists(Path)) throw new NCException($"Error loading audio file: The path {Path} does not exist!", 52, "AudioFile.Load", NCExceptionSeverity.FatalError);
+            if (!File.Exists(FPath)) if (!File.Exists(FPath)) throw new NCException($"Error loading audio file: The path {FPath} does not exist!", 52, "AudioFile.Load", NCExceptionSeverity.FatalError);
 
             AudioFile temp_audio = new AudioFile();
 
-            temp_audio.Path = Path;
+            temp_audio.Path = FPath;
+
+            // remove the extension and path from the name 
+
+            string[] path_extension_split = FPath.Split('.');
 
             if (Name == null)
             {
-                // remove the extension and path from the name 
-
-                string[] path_extension_split = Path.Split('.');
-
                 if (path_extension_split.Length != 0)
                 {
                     temp_audio.Name = path_extension_split[0];
                 }
 
-                string[] path_dir_split = temp_audio.Name.Split('\\');
+                string[] path_dir_split = temp_audio.Name.Split(Path.DirectorySeparatorChar);
 
                 if (path_dir_split.Length == 0)
                 {
-                    temp_audio.Name = Path;
+                    temp_audio.Name = FPath;
                 }
                 else
                 {
                     temp_audio.Name = path_dir_split[path_dir_split.Length - 1];
                 }
+
+                string file_extension = path_extension_split[1];
+
+                temp_audio.Path = Path.Combine(path_dir_split);
+                temp_audio.Path = $"{temp_audio.Path}.{file_extension}";
             }
             else
             {
@@ -70,7 +75,7 @@ namespace Lightning2
             if (temp_audio.AudioHandle != IntPtr.Zero)
             {
                 temp_audio.Channel = AudioFiles.Count;
-                NCLogging.Log($"Loaded audio file at {Path} to channel {temp_audio.Channel}");
+                NCLogging.Log($"Loaded audio file at {FPath} to channel {temp_audio.Channel}");
                 AudioFiles.Add(temp_audio);
             }
         }

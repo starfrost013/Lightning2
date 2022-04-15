@@ -87,10 +87,7 @@ namespace Lightning2
 
         internal void Unload() => SDL_mixer.Mix_FreeChunk(AudioHandle); // loadmus used therefore we are freeing chunks
 
-        public void Play()
-        {
-            SDL_mixer.Mix_PlayChannel(Channel, AudioHandle, Repeat);
-        }
+        public void Play() => SDL_mixer.Mix_PlayChannel(Channel, AudioHandle, Repeat);
 
         /// <summary>
         /// Update positional sound volume based on current main camera position.

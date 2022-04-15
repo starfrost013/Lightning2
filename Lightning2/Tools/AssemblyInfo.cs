@@ -5,7 +5,7 @@ using System.Reflection;
 
 [assembly: AssemblyVersion("1.0.0.48")]
 [assembly: AssemblyFileVersion("1.0.0.48")]
-[assembly: AssemblyInformationalVersion("1.0.0 build 48, built 2022-04-15 18:17:07")]
+[assembly: AssemblyInformationalVersion("1.0.0 build 48, built 2022-04-15 18:35:36")]
 [assembly: AssemblyTitle("Lightning2")]
 
 namespace Lightning2
@@ -18,7 +18,7 @@ namespace Lightning2
 		public static int LIGHTNING2_VERSION_BUILD = 48;
 
 		public static string LIGHTNING2_VERSION_STRING = "1.0.0";
-		public static string LIGHTNING2_VERSION_EXTENDED_STRING = "1.0.0 build 48, built 2022-04-15 18:17:07";
+		public static string LIGHTNING2_VERSION_EXTENDED_STRING = "1.0.0 build 48, built 2022-04-15 18:35:36";
 	}
 }
 
