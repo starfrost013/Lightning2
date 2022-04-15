@@ -115,48 +115,43 @@ Camera camera = new Camera(CameraType.Chase);
 
 window.SetCurrentCamera(camera);
 
-while (Running)
+while (window.Run())
 {
-    window.Update();
+    SDL.SDL_Event cur_event = window.LastEvent;
 
-    SDL.SDL_Event cur_event = new SDL.SDL_Event();
-
-    if (SDL.SDL_PollEvent(out cur_event) > 0)
+    switch (cur_event.type)
     {
-        switch (cur_event.type)
-        {
-            case SDL.SDL_EventType.SDL_QUIT: // User requested a quit.
-                Running = false; // shut down
-                continue;
-            case SDL.SDL_EventType.SDL_KEYDOWN: // Key is held down.
-                Key nkey = (Key)cur_event.key;
+        case SDL.SDL_EventType.SDL_QUIT: // User requested a quit.
+            Running = false; // shut down
+            continue;
+        case SDL.SDL_EventType.SDL_KEYDOWN: // Key is held down.
+            Key nkey = (Key)cur_event.key;
 
-                string key_string = nkey.ToString();
+            string key_string = nkey.ToString();
 
-                nkey.Repeated = (cur_event.key.repeat > 0);
-                NCLogging.Log($"KeyPress: {key_string}, repeated: {nkey.Repeated}");
+            nkey.Repeated = (cur_event.key.repeat > 0);
+            NCLogging.Log($"KeyPress: {key_string}, repeated: {nkey.Repeated}");
 
-                switch (key_string)
-                {
-                    case "LEFT":
-                    case "A":
-                        camera.Position += new Vector2(-10, 0);
-                        continue;
-                    case "RIGHT":
-                    case "D":
-                        camera.Position += new Vector2(10, 0);
-                        continue;
-                    case "UP":
-                    case "W":
-                        camera.Position += new Vector2(0, -10);
-                        continue;
-                    case "DOWN":
-                    case "S":
-                        camera.Position += new Vector2(0, 10);
-                        continue;
-                }
-                continue; // TEMP Code
-        }
+            switch (key_string)
+            {
+                case "LEFT":
+                case "A":
+                    camera.Position += new Vector2(-10, 0);
+                    continue;
+                case "RIGHT":
+                case "D":
+                    camera.Position += new Vector2(10, 0);
+                    continue;
+                case "UP":
+                case "W":
+                    camera.Position += new Vector2(0, -10);
+                    continue;
+                case "DOWN":
+                case "S":
+                    camera.Position += new Vector2(0, 10);
+                    continue;
+            }
+            continue; // TEMP Code
     }
 
     PrimitiveRenderer.DrawLine(window, new Vector2(500, 300), new Vector2(600, 300), 1, new Color4(255, 255, 255, 255), false);
@@ -218,7 +213,7 @@ while (Running)
     texture.Unlock();
     texture.Draw(window);
 
-    window.Present();
+    window.Update();
 }
 
 // we're done running so shutdown

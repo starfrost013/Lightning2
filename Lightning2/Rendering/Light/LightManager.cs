@@ -101,8 +101,8 @@ namespace Lightning2
             Color4 transparent = new Color4(EnvironmentalLight.R, EnvironmentalLight.G, EnvironmentalLight.B, 0);
 
             // calculate magnitude of vector so that the alpha can be calculated
-            Vector2 init = new Vector2(x, y);
 
+            Vector2 init = new Vector2(x, y);
             for (int cur_x = x - range + 1; cur_x < x + range; cur_x++)
             {
                 for (int cur_y = y - range + 1; cur_y < y + range; cur_y++)
@@ -128,7 +128,6 @@ namespace Lightning2
 
                             transparent.A = (byte)transparency;
 
-                            if (cur_x < 0 || cur_y < 0 || cur_x > max_size_x || cur_y > max_size_y) continue;
                             SSMapTexture.SetPixel(cur_x, cur_y, transparent);
                         }
                     }

@@ -18,7 +18,6 @@ namespace Lightning2
     /// </summary>
     public class AtlasTexture
     {
-
         public Vector2 Index { get; set; }
 
         public Texture Atlas { get; set; }

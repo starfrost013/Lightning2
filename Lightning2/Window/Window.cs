@@ -1,4 +1,4 @@
-﻿using NuCore.SDL2;
+﻿using static NuCore.SDL2.SDL;
 using NuCore.Utilities;
 using System;
 using System.Collections.Generic;
@@ -25,9 +25,14 @@ namespace Lightning2
 
         private Stopwatch DeltaTimer { get; set; }
 
-        public double CurFPS { get; set; }
+        internal double CurFPS { get; set; }
 
-        public int FrameNumber { get; set; }
+        internal int FrameNumber { get; private set; }
+
+        /// <summary>
+        /// The last processed SDL event. Only valid if .Update() is called.
+        /// </summary>
+        public SDL_Event LastEvent { get; set; }
 
         public Window()
         {
@@ -44,38 +49,49 @@ namespace Lightning2
 
             Settings = Ws;
 
-            Settings.WindowHandle = SDL.SDL_CreateWindow(Settings.Title, (int)Settings.Position.X, (int)Settings.Position.Y, (int)Settings.Size.X, (int)Settings.Size.Y, Settings.WindowFlags);
+            Settings.WindowHandle = SDL_CreateWindow(Settings.Title, (int)Settings.Position.X, (int)Settings.Position.Y, (int)Settings.Size.X, (int)Settings.Size.Y, Settings.WindowFlags);
             
-            if (Settings.WindowHandle == IntPtr.Zero) throw new NCException($"Failed to create Window: {SDL.SDL_GetError}", 8, "Window.AddWindow", NCExceptionSeverity.FatalError);
+            if (Settings.WindowHandle == IntPtr.Zero) throw new NCException($"Failed to create Window: {SDL_GetError()}", 8, "Window.AddWindow", NCExceptionSeverity.FatalError);
 
-            Settings.RendererHandle = SDL.SDL_CreateRenderer(Settings.WindowHandle, Settings.ID, Settings.RenderFlags);
+            Settings.RendererHandle = SDL_CreateRenderer(Settings.WindowHandle, Settings.ID, Settings.RenderFlags);
 
-            if (Settings.RendererHandle == IntPtr.Zero) throw new NCException($"Failed to create Renderer: {SDL.SDL_GetError}", 9, "Window.AddWindow", NCExceptionSeverity.FatalError);
+            if (Settings.RendererHandle == IntPtr.Zero) throw new NCException($"Failed to create Renderer: {SDL_GetError()}", 9, "Window.AddWindow", NCExceptionSeverity.FatalError);
         }
 
-        public void Update()
+        private void Update()
         {
             // Set the last frame time.
             LastTime = DeltaTimer.ElapsedMilliseconds;
-            SDL.SDL_RenderClear(Settings.RendererHandle);
+            SDL_RenderClear(Settings.RendererHandle);
         }
 
-        public void Present()
+        public bool Run()
+        {
+            Update();
+
+            SDL_Event current_event = LastEvent;
+
+            // default mainloop
+            if (SDL_PollEvent(out current_event) > 0)
+            {
+                switch (current_event.type)
+                {
+                    case SDL_EventType.SDL_QUIT: // User requested a quit, so shut down
+                        Lightning2.Shutdown(this);
+                        return false;  
+                }
+            }
+
+            return true;
+        }
+
+        public void Render()
         {
             // render the next frame's lightmap if the light manager is initialised
             if (LightManager.Initialised) LightManager.BuildLightmap(this);
 
-            // draw fps on top always (by drawing it last. we don't have zindex, but we will later). Also snap it to the screen like a hud element. 
-            // check the showfps global setting first
-            if (GlobalSettings.ShowFPS)
-            {
-                PrimitiveRenderer.DrawText(this, $"FPS: {(int)CurFPS} ({(int)(1000 / CurFPS)}ms)", new Vector2(0, 0), new Color4(255, 255, 255, 255), true);
-                
-                if (CurFPS < GlobalSettings.TargetFPS) PrimitiveRenderer.DrawText(this, $"Running under target FPS ({GlobalSettings.TargetFPS})!", new Vector2(0, 12), new Color4(255, 0, 0, 255), true);
-            }
-
             // Correctly draw the background
-            SDL.SDL_SetRenderDrawColor(Settings.RendererHandle, Settings.Background.R, Settings.Background.G, Settings.Background.B, Settings.Background.A);
+            SDL_SetRenderDrawColor(Settings.RendererHandle, Settings.Background.R, Settings.Background.G, Settings.Background.B, Settings.Background.A);
 
             // Set the current frame time.
             ThisTime = DeltaTimer.ElapsedMilliseconds;
@@ -89,7 +105,16 @@ namespace Lightning2
             // Render the lightmap.
             if (LightManager.Initialised) LightManager.RenderLightmap(this);
 
-            SDL.SDL_RenderPresent(Settings.RendererHandle);
+            // draw fps on top always (by drawing it last. we don't have zindex, but we will later). Also snap it to the screen like a hud element. 
+            // check the showfps global setting first
+            if (GlobalSettings.ShowFPS)
+            {
+                PrimitiveRenderer.DrawText(this, $"FPS: {(int)CurFPS} ({(int)(1000 / CurFPS)}ms)", new Vector2(0, 0), new Color4(255, 255, 255, 255), true);
+
+                if (CurFPS < GlobalSettings.TargetFPS) PrimitiveRenderer.DrawText(this, $"Running under target FPS ({GlobalSettings.TargetFPS})!", new Vector2(0, 12), new Color4(255, 0, 0, 255), true);
+            }
+
+            SDL_RenderPresent(Settings.RendererHandle);
         }
 
         /// <summary>
@@ -97,8 +122,8 @@ namespace Lightning2
         /// </summary>
         internal void Shutdown()
         {
-            SDL.SDL_DestroyRenderer(Settings.RendererHandle);
-            SDL.SDL_DestroyWindow(Settings.WindowHandle);
+            SDL_DestroyRenderer(Settings.RendererHandle);
+            SDL_DestroyWindow(Settings.WindowHandle);
         }
 
         /// <summary>
@@ -109,14 +134,14 @@ namespace Lightning2
         {
             if (colour == null)
             {
-                SDL.SDL_SetRenderDrawColor(Settings.RendererHandle, 0, 0, 0, 0);   
+                SDL_SetRenderDrawColor(Settings.RendererHandle, 0, 0, 0, 0);   
             }
             else
             {
-                SDL.SDL_SetRenderDrawColor(Settings.RendererHandle, colour.R, colour.G, colour.B, colour.A);
+                SDL_SetRenderDrawColor(Settings.RendererHandle, colour.R, colour.G, colour.B, colour.A);
             }
 
-            SDL.SDL_RenderClear(Settings.RendererHandle);
+            SDL_RenderClear(Settings.RendererHandle);
             Settings.Background = colour;
         }
 
