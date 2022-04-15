@@ -56,9 +56,10 @@ texture.Repeat = new Vector2(3, 3);
 AtlasTexture atlas_texture = new AtlasTexture();
 
 atlas_texture.Path = @"Content\AtlastextureTest.png";
-atlas_texture.Position = new Vector2(-256, -256);
+
 atlas_texture.FrameSize = new Vector2(64, 64); // size of one tile
 atlas_texture.Load(window, 4, 4);
+atlas_texture.Position = new Vector2(-256, -256);
 
 AnimatedTexture at = new AnimatedTexture();
 at.FramesPath.Add(@"Content\AnimtextureTest\AnimtextureTestF0.png");

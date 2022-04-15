@@ -11,7 +11,7 @@ namespace NuCore.Utilities
     /// <summary>
     /// NCMessageBox
     /// 
-    /// February 26, 2022
+    /// February 26, 2022 (updated April 15, 2022) 
     /// 
     /// Platform-independent API for message boxes
     /// </summary>
@@ -28,7 +28,6 @@ namespace NuCore.Utilities
         public NCMessageBox()
         {
             Buttons = new List<NCMessageBoxButton>();
-
         }
 
         /// <summary>

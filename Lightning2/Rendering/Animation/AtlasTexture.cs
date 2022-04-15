@@ -21,13 +21,42 @@ namespace Lightning2
 
         public string Name { get; set; }
 
-        public Vector2 Position { get; set; }
+        private Vector2 _position { get; set; }
+
+        public Vector2 Position
+        {
+            get
+            {
+                if (Atlas != null) return Atlas.Position;
+                return _position;
+            }
+            set
+            {
+                _position = value; 
+                if (Atlas != null) Atlas.Position = value;
+            }
+        }
 
         public Vector2 FrameSize { get; set; }
 
-        public Vector2 Repeat { get; set; }
+        private Vector2 _repeat { get; set; }
+
+        public Vector2 Repeat
+        {
+            get
+            {
+                if (Atlas != null) return Atlas.Repeat;
+                return _repeat;
+            }
+            set
+            {
+                _repeat = value;
+                if (Atlas != null) Atlas.Repeat = value; 
+            }
+        }
 
         private string _path { get; set; }
+
         /// <summary>
         /// Path to the texture 
         /// </summary>
@@ -43,21 +72,20 @@ namespace Lightning2
                 {
                     return _path;
                 }
-
             }
             set
             {
                 _path = value;
             }
         }
-
-
+        
         public void Load(Window Win, int FramesX = 0, int FramesY = 0)
         {
             if (FrameSize == default(Vector2)) throw new NCException("Cannot load a texture with no texture frame size!", 45, "AtlasTexture.LoadAtlas", NCExceptionSeverity.FatalError);
 
             if (FramesX < 1 || FramesY < 1) throw new NCException($"A texture atlas must have at least one frame, set to {FramesX},{FramesY}!", 46, "AtlasTexture.LoadAtlas", NCExceptionSeverity.FatalError);
 
+            NCLogging.Log($"Loading atlas texture at path {Path}...");
             // +1 for safety purposes so that we don't set an out of bounds viewport
             Texture new_texture = new Texture(Win, FrameSize.X * FramesX + 1, FrameSize.Y * FramesY + 1);
 
@@ -67,7 +95,6 @@ namespace Lightning2
             new_texture.Load(Win);
 
             if (new_texture.TextureHandle != IntPtr.Zero) Atlas = new_texture;
-
         }
 
         public void DrawFrame(Window Win, bool SnapToScreen = false)
@@ -94,8 +121,8 @@ namespace Lightning2
 
             Atlas.ViewportStart = new Vector2(start_x, start_y);
             Atlas.ViewportEnd = new Vector2(end_x, end_y);
-
-            Atlas.Draw(Win);
+            
+            Atlas.Draw(Win, SnapToScreen);
         }
 
         public void GetPixel(int X, int Y, bool Relative = false)
@@ -124,6 +151,5 @@ namespace Lightning2
 
         public void Lock() => Atlas.Lock();
         public void Unlock() => Atlas.Unlock();
-
     }
 }

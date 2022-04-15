@@ -35,11 +35,6 @@ namespace NuCore.Utilities
         /// Pi-factor - how much amplitude the hill is
         /// </summary>
         public static double HillAmplitude { get; set; }
-    
-        /// <summary>
-        /// x-factor - how much the height of the terrain is varied by.
-        /// </summary>
-        public static double HeightVariance { get; set; }
 
         /// <summary>
         /// 1-scale
