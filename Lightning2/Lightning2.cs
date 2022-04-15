@@ -67,8 +67,9 @@ namespace Lightning2
             NCLogging.Log("Unloading loaded audio...");
             foreach (AudioFile audio_file_to_unload in audio_files_to_unload) AudioManager.UnloadFile(audio_file_to_unload);
 
+            // Shut down the light manager if it has been started.
             NCLogging.Log("Shutting down the Light Manager...");
-            LightManager.Shutdown();
+            if (LightManager.Initialised) LightManager.Shutdown();
 
             // Shut everything down in reverse order.
 
@@ -83,7 +84,6 @@ namespace Lightning2
 
             NCLogging.Log("Shutting down SDL...");
             SDL.SDL_Quit();
-
         }
     }
 }
