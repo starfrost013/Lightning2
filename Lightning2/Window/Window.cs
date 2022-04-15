@@ -34,6 +34,11 @@ namespace Lightning2
         /// </summary>
         public SDL_Event LastEvent { get; set; }
 
+        /// <summary>
+        /// Determines if an event is waiting. 
+        /// </summary>
+        public bool EventWaiting { get; set; }
+
         public Window()
         {
             DeltaTimer = new Stopwatch();
@@ -69,11 +74,13 @@ namespace Lightning2
         {
             Update();
 
-            SDL_Event current_event = LastEvent;
+            EventWaiting = (SDL_PollEvent(out var current_event) > 0);
 
             // default mainloop
-            if (SDL_PollEvent(out current_event) > 0)
+            if (EventWaiting)
             {
+                LastEvent = current_event;
+
                 switch (current_event.type)
                 {
                     case SDL_EventType.SDL_QUIT: // User requested a quit, so shut down
@@ -81,8 +88,6 @@ namespace Lightning2
                         return false;  
                 }
             }
-
-            LastEvent = current_event;
 
             return true;
         }

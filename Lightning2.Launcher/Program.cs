@@ -117,35 +117,38 @@ while (window.Run())
 {
     SDL.SDL_Event cur_event = window.LastEvent;
 
-    switch (cur_event.type)
+    if (window.EventWaiting)
     {
-        case SDL.SDL_EventType.SDL_KEYDOWN: // Key is held down.
-            Key nkey = (Key)cur_event.key;
+        switch (cur_event.type)
+        {
+            case SDL.SDL_EventType.SDL_KEYDOWN: // Key is held down.
+                Key nkey = (Key)cur_event.key;
 
-            string key_string = nkey.ToString();
+                string key_string = nkey.ToString();
 
-            nkey.Repeated = (cur_event.key.repeat > 0);
+                nkey.Repeated = (cur_event.key.repeat > 0);
 
-            switch (key_string)
-            {
-                case "LEFT":
-                case "A":
-                    camera.Position += new Vector2(-10, 0);
-                    continue;
-                case "RIGHT":
-                case "D":
-                    camera.Position += new Vector2(10, 0);
-                    continue;
-                case "UP":
-                case "W":
-                    camera.Position += new Vector2(0, -10);
-                    continue;
-                case "DOWN":
-                case "S":
-                    camera.Position += new Vector2(0, 10);
-                    continue;
-            }
-            continue; // TEMP Code
+                switch (key_string)
+                {
+                    case "LEFT":
+                    case "A":
+                        camera.Position -= new Vector2(10, 0);
+                        continue;
+                    case "RIGHT":
+                    case "D":
+                        camera.Position += new Vector2(10, 0);
+                        continue;
+                    case "UP":
+                    case "W":
+                        camera.Position -= new Vector2(0, 10);
+                        continue;
+                    case "DOWN":
+                    case "S":
+                        camera.Position += new Vector2(0, 10);
+                        continue;
+                }
+                continue;
+        }
     }
 
     PrimitiveRenderer.DrawLine(window, new Vector2(500, 300), new Vector2(600, 300), 1, new Color4(255, 255, 255, 255), false);
