@@ -213,7 +213,7 @@ while (window.Run())
     texture.Unlock();
     texture.Draw(window);
 
-    window.Update();
+    window.Render();
 }
 
 // we're done running so shutdown
