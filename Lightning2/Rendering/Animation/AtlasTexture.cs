@@ -15,7 +15,9 @@ namespace Lightning2
     /// </summary>
     public class AtlasTexture
     {
-        public Vector2 Index { get; set; }
+        public uint Index { get; set; }
+
+        public Vector2 Size { get; set; }
 
         public Texture Atlas { get; set; }
 
@@ -78,8 +80,8 @@ namespace Lightning2
                 _path = value;
             }
         }
-        
-        public void Load(Window Win, int FramesX = 0, int FramesY = 0)
+
+        public void Load(Window Win, uint FramesX = 0, uint FramesY = 0)
         {
             if (FrameSize == default(Vector2)) throw new NCException("Cannot load a texture with no texture frame size!", 45, "AtlasTexture.LoadAtlas", NCExceptionSeverity.FatalError);
 
@@ -88,6 +90,7 @@ namespace Lightning2
             NCLogging.Log($"Loading atlas texture at path {Path}...");
             // +1 for safety purposes so that we don't set an out of bounds viewport
             Texture new_texture = new Texture(Win, FrameSize.X * FramesX + 1, FrameSize.Y * FramesY + 1);
+            Size = new Vector2(FramesX, FramesY);
 
             new_texture.Path = Path;
             new_texture.Repeat = Repeat;
@@ -99,25 +102,15 @@ namespace Lightning2
 
         public void DrawFrame(Window Win, bool SnapToScreen = false)
         {
-            Camera cur_camera = Win.Settings.Camera;
+            if (Index < 0
+                || Index > (Size.X * Size.Y))  throw new NCException($"Cannot draw invalid AnimatedTexture ({Name}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)", 47, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
 
-            if (Index.X < 0
-                || Index.Y < 0
-                || Index.X > FrameSize.X
-                || Index.Y > FrameSize.Y) throw new NCException($"Cannot draw invalid AnimatedTexture ({Name}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)", 47, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
+            int row = (int)(Index / Size.Y);
 
-            float start_x = FrameSize.X * Index.X;
-            float start_y = FrameSize.Y * Index.Y;
-            float end_x = (FrameSize.X * Index.X) + FrameSize.X;
-            float end_y = (FrameSize.Y * Index.Y) + FrameSize.Y;
-
-            if (!SnapToScreen)
-            {
-                start_x -= cur_camera.Position.X;
-                start_y -= cur_camera.Position.Y;
-                end_x -= cur_camera.Position.X;
-                end_y -= cur_camera.Position.Y;
-            }
+            float start_x = FrameSize.X * (Index / (row + 1)) - FrameSize.X;
+            float start_y = FrameSize.Y * row; 
+            float end_x = start_x + FrameSize.X;
+            float end_y = start_y + FrameSize.Y;
 
             Atlas.ViewportStart = new Vector2(start_x, start_y);
             Atlas.ViewportEnd = new Vector2(end_x, end_y);
@@ -127,9 +120,13 @@ namespace Lightning2
 
         public void GetPixel(int X, int Y, bool Relative = false)
         {
+            int row = (int)(Index / Size.Y) + 1;
+
             if (Relative)
             {
-                Atlas.GetPixel((int)(FrameSize.X * Index.X) + X, (int)(FrameSize.Y * Index.Y) + Y);
+                int relative_x = (int)(FrameSize.X * (Index / (row + 1)) - FrameSize.X);
+                int relative_y = (int)(FrameSize.Y * row);
+                Atlas.GetPixel(relative_x, relative_y);
             }
             else
             {
@@ -139,9 +136,13 @@ namespace Lightning2
 
         public void SetPixel(int X, int Y, Color Colour, bool Relative = false)
         {
+            int row = (int)(Index / Size.Y) + 1;
+
             if (Relative)
             {
-                Atlas.SetPixel((int)(FrameSize.X * Index.X) + X, (int)(FrameSize.Y * Index.Y) + Y, Colour);
+                int relative_x = (int)(FrameSize.X * (Index / (row + 1)) - FrameSize.X);
+                int relative_y = (int)(FrameSize.Y * row); 
+                Atlas.SetPixel(relative_x, relative_y, Colour);
             }
             else
             {

@@ -259,7 +259,7 @@ namespace Lightning2
 
             // Draw to the viewpoint
             if (ViewportStart == default(Vector2)
-                || ViewportEnd == default(Vector2))
+                && ViewportEnd == default(Vector2))
             {
                 src_rect.x = 0;
                 src_rect.y = 0;
@@ -268,20 +268,20 @@ namespace Lightning2
 
                 dst_rect.x = Position.X;
                 dst_rect.y = Position.Y;
-                dst_rect.w = Position.X + Size.X;
-                dst_rect.h = Position.Y + Size.Y;
+                dst_rect.w = Size.X;
+                dst_rect.h = Size.Y;
             }
             else
             {
                 src_rect.x = (int)ViewportStart.X;
                 src_rect.y = (int)ViewportStart.Y;
-                src_rect.w = (int)ViewportEnd.X - (int)ViewportStart.X;
-                src_rect.h = (int)ViewportEnd.Y - (int)ViewportStart.Y;
+                src_rect.w = (int)(ViewportEnd.X - ViewportStart.X);
+                src_rect.h = (int)(ViewportEnd.Y - ViewportStart.Y);
 
-                dst_rect.x = (int)Position.X;
-                dst_rect.y = (int)Position.Y;
-                dst_rect.w = (int)ViewportEnd.X - (int)ViewportStart.X;
-                dst_rect.h = (int)ViewportEnd.Y - (int)ViewportStart.Y;
+                dst_rect.x = Position.X;
+                dst_rect.y = Position.Y;
+                dst_rect.w = (ViewportEnd.X - ViewportStart.X);
+                dst_rect.h = (ViewportEnd.Y - ViewportStart.Y);
             }
 
             if (!SnapToScreen)

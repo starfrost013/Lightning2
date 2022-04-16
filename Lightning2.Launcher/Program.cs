@@ -24,7 +24,7 @@ TextManager.LoadFont("Arial", 18, null, "Arial.18pt");
 TextManager.LoadFont("Arial", 24, null, "Arial.24pt");
 TextManager.LoadFont("Arial", 36, null, "Arial.36pt");
 
-window.Clear(Color.FromArgb(127, 255, 255, 255));
+window.Clear(Color.FromArgb(255, 127, 127, 127));
 Texture texture = new Texture(window, 64, 64);
 
 Random rnd = new Random();
@@ -59,7 +59,7 @@ atlas_texture.Path = @"Content\AtlastextureTest.png";
 
 atlas_texture.FrameSize = new Vector2(64, 64); // size of one tile
 atlas_texture.Load(window, 4, 4);
-atlas_texture.Position = new Vector2(-256, -256);
+atlas_texture.Position = new Vector2(256, 256);
 
 AnimatedTexture at = new AnimatedTexture();
 at.FramesPath.Add(@"Content\AnimtextureTest\AnimtextureTestF0.png");
@@ -74,7 +74,7 @@ at.Size = new Vector2(256, 256);
 at.Load(window);
 
 LightManager.Init(window);
-LightManager.SetEnvironmentalLight(Color.FromArgb(255, 0, 0, 0));
+LightManager.SetEnvironmentalLight(Color.FromArgb(0, 0, 0, 0));
 
 //LightManager.AddLight(new Light
 //{
@@ -164,7 +164,7 @@ while (window.Run())
     PrimitiveRenderer.DrawCircle(window, new Vector2(500, 309), new Vector2(50, 50), Color.FromArgb(127, 255, 255, 255), false) ;
 
     PrimitiveRenderer.DrawRectangle(window, new Vector2(552, 10), new Vector2(30, 30), Color.FromArgb(255, 255, 255, 255), false);
-    PrimitiveRenderer.DrawRectangle(window, new Vector2(584, 10), new Vector2(30, 30), Color.FromArgb(127, 0, 0, 255), true);
+    PrimitiveRenderer.DrawRectangle(window, new Vector2(584, 10), new Vector2(30, 30), Color.FromArgb(33, 0, 0, 255), true);
 
     PrimitiveRenderer.DrawRoundedRectangle(window, new Vector2(616, 10), new Vector2(30, 30), Color.FromArgb(127, 255, 255, 255), 3, false);
     PrimitiveRenderer.DrawRoundedRectangle(window, new Vector2(648, 10), new Vector2(30, 30), Color.FromArgb(127, 255, 255, 255), 3, true);
@@ -190,8 +190,12 @@ while (window.Run())
     TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 210), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0),  SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline);
     TextManager.DrawTextTTF(window, "#{STRING_TEST}\nTest2\nTest3", "Arial.11pt", new Vector2(700, 230), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0),  SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline | SDL_ttf.TTF_FontStyle.Strikeout);
 
-    atlas_texture.Index = new Vector2(3, 1);
-    atlas_texture.DrawFrame(window);
+    atlas_texture.Position = new Vector2(256, 256);
+    atlas_texture.Index = 7;
+    atlas_texture.DrawFrame(window, true);
+    atlas_texture.Index = 9;
+    atlas_texture.Position = new Vector2(256, 192);
+    atlas_texture.DrawFrame(window, true);
 
     xm_title.Update(window);
     
