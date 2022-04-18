@@ -47,7 +47,7 @@ namespace NuCore.SDL2
 
         // This has been reverted,
         // as it turns out that SDL2_image etc 
-        // have a hard import for the DLL labelled SDL2.dll
+        // have a dependency on "SDL2.dll"
         // therefore we can't rename it. Using .csproj trickery to get around this (Link element)
         private const string nativeLibName = @"Content\NativeLibraries\SDL2";
 

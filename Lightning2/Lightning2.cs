@@ -6,7 +6,7 @@ using System.Globalization;
 namespace Lightning2
 {
     /// <summary>
-    /// Lightning2 
+    /// Lightning2 Game Framework
     /// 
     /// © 2022 starfrost
     /// </summary>

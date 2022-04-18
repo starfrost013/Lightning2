@@ -81,6 +81,24 @@ namespace Lightning2
             }
         }
 
+        private bool _snaptoscreen { get; set; }
+        /// <summary>
+        /// If true, this texture's position will be relative to the screen instead of the world.
+        /// </summary>
+        public bool SnapToScreen
+        {
+            get
+            {
+                if (Atlas != null) return Atlas.SnapToScreen;
+                return _snaptoscreen;
+            }
+            set
+            {
+                _snaptoscreen = value;
+                if (Atlas != null) Atlas.SnapToScreen = value;
+            }
+        }
+
         public void Load(Window Win, uint FramesX = 0, uint FramesY = 0)
         {
             if (FrameSize == default(Vector2)) throw new NCException("Cannot load a texture with no texture frame size!", 45, "AtlasTexture.LoadAtlas", NCExceptionSeverity.FatalError);
@@ -95,12 +113,13 @@ namespace Lightning2
             new_texture.Path = Path;
             new_texture.Repeat = Repeat;
             new_texture.Position = Position;
+            new_texture.SnapToScreen = SnapToScreen;
             new_texture.Load(Win);
 
             if (new_texture.TextureHandle != IntPtr.Zero) Atlas = new_texture;
         }
 
-        public void DrawFrame(Window Win, bool SnapToScreen = false)
+        public void DrawFrame(Window Win)
         {
             if (Index < 0
                 || Index > (Size.X * Size.Y))  throw new NCException($"Cannot draw invalid AnimatedTexture ({Name}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)", 47, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
@@ -114,8 +133,9 @@ namespace Lightning2
 
             Atlas.ViewportStart = new Vector2(start_x, start_y);
             Atlas.ViewportEnd = new Vector2(end_x, end_y);
-            
-            Atlas.Draw(Win, SnapToScreen);
+            Atlas.SnapToScreen = SnapToScreen;
+
+            Atlas.Draw(Win);
         }
 
         public void GetPixel(int X, int Y, bool Relative = false)

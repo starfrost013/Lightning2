@@ -118,6 +118,11 @@ namespace Lightning2
         private int* PixelPtr { get; set; }
 
         /// <summary>
+        /// If true, this texture's position will be relative to the screen instead of the world.
+        /// </summary>
+        public bool SnapToScreen { get; set; }
+
+        /// <summary>
         /// Initialises a new texture with a size.
         /// </summary>
         /// <param name="X">The width of the texture in pixels.</param>
@@ -250,7 +255,7 @@ namespace Lightning2
         /// </summary>
         /// <param name="Win">The window to draw this texture to.</param>
         /// <exception cref="NCException">An error occurred rendering the texture. Extended information is available in <see cref="NCException.Description"/></exception>
-        public void Draw(Window Win, bool SnapToScreen = false)
+        public void Draw(Window Win)
         {
             SDL_Rect src_rect = new SDL_Rect();
             SDL_FRect dst_rect = new SDL_FRect();

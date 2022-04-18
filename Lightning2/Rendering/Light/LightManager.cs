@@ -45,8 +45,8 @@ namespace Lightning2
         {
             // move this if it is slower
             SSMapTexture = new Texture(Win, Win.Settings.Size.X, Win.Settings.Size.Y);
+            SSMapTexture.SnapToScreen = true;
             SDL_SetTextureBlendMode(SSMapTexture.TextureHandle, SDL_BlendMode.SDL_BLENDMODE_BLEND);
-
             // This is used so we don't build lightmaps when LightManager.Init hasn't been called
             Initialised = true;
         }
@@ -156,7 +156,7 @@ namespace Lightning2
             if (SSMapTexture.TextureHandle == IntPtr.Zero) throw new NCException("You must initialise the Light Manager before using it!", 62, "LightManager.RenderLightmap called before LightManager.Init!", NCExceptionSeverity.FatalError);
 
             SSMapTexture.Unlock();
-            SSMapTexture.Draw(Win, true);
+            SSMapTexture.Draw(Win);
         }
         /// <summary>
         /// Internal - used by Lightning2.Shutdown

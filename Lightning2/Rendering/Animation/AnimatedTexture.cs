@@ -76,6 +76,11 @@ namespace Lightning2
         /// </summary>
         public AnimationCycle Cycle { get; set; }
 
+        /// <summary>
+        /// If true, this texture's position will be relative to the screen instead of the world.
+        /// </summary>
+        public bool SnapToScreen { get; set; }
+
         public AnimatedTexture()
         {
             Frames = new List<Texture>();
@@ -107,7 +112,11 @@ namespace Lightning2
             bool reverse_animation = (Cycle.StartFrame > Cycle.EndFrame);
             if (AnimationFinished) return;
 
-            Texture cur_frame = Frames[(int)CurrentFrame];
+            Texture cur_frame = Frames[CurrentFrame];
+            
+            cur_frame.Position = Position;
+            cur_frame.SnapToScreen = SnapToScreen;
+
             cur_frame.Draw(Win);
 
             if (Win.FrameNumber % Cycle.FrameLength == 0)

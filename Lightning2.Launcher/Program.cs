@@ -74,7 +74,7 @@ at.Size = new Vector2(256, 256);
 at.Load(window);
 
 LightManager.Init(window);
-LightManager.SetEnvironmentalLight(Color.FromArgb(0, 0, 0, 0));
+LightManager.SetEnvironmentalLight(Color.FromArgb(255, 0, 0, 0));
 
 //LightManager.AddLight(new Light
 //{
@@ -192,10 +192,11 @@ while (window.Run())
 
     atlas_texture.Position = new Vector2(256, 256);
     atlas_texture.Index = 7;
-    atlas_texture.DrawFrame(window, true);
+    atlas_texture.SnapToScreen = true;
+    atlas_texture.DrawFrame(window);
     atlas_texture.Index = 9;
     atlas_texture.Position = new Vector2(256, 192);
-    atlas_texture.DrawFrame(window, true);
+    atlas_texture.DrawFrame(window);
 
     xm_title.Update(window);
     

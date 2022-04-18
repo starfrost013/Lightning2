@@ -43,11 +43,11 @@ namespace NuCore.SDL2
     {
         #region SDL2# Defines
 
-#if X64
+#if X64 // x86-64
         public const string NativeLibName = @"Content\NativeLibraries\SDL2_gfx-v1.0.6-x64.dll";
-#elif ARM32
+#elif ARM32 // ARMv7
         public const string NativeLibName = @"Content\NativeLibraries\SDL2_gfx-v1.0.6-ARM32.dll";
-#elif ARM64
+#elif ARM64 // ARMv8/9
         public const string NativeLibName = @"Content\NativeLibraries\SDL2_gfx-v1.0.6-ARM64.dll";
 #endif
         #endregion

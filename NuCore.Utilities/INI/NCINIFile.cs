@@ -129,7 +129,6 @@ namespace NuCore.Utilities
                             }
                             continue;
                     }
-
                 }
 
                 if (!error_occurred) return ini_file;
