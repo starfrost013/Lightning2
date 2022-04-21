@@ -91,9 +91,6 @@ namespace Lightning2
 
         public void Render()
         {
-            // render the next frame's lightmap if the light manager is initialised
-            if (LightManager.Initialised) LightManager.BuildLightmap(this);
-
             // Correctly draw the background
             SDL_SetRenderDrawColor(Settings.RendererHandle, Settings.Background.R, Settings.Background.G, Settings.Background.B, Settings.Background.A);
 

@@ -74,24 +74,79 @@ at.Size = new Vector2(256, 256);
 at.Load(window);
 
 LightManager.Init(window);
-LightManager.SetEnvironmentalLight(Color.FromArgb(255, 0, 0, 0));
+LightManager.SetEnvironmentalLight(Color.FromArgb(0, 0, 0, 255));
 
-//LightManager.AddLight(new Light
-//{
-//    Position = new Vector2(-300, 200),
-//    Range = 4
-//});
+LightManager.AddLight(window, new Light
+{
+    Position = new Vector2(50, 375),
+    Range = 4,
+    Brightness = 15,
+});
 
-LightManager.AddLight(new Light
+LightManager.AddLight(window, new Light
+{
+    Position = new Vector2(250, 300),
+    Range = 4,
+    Brightness = 31,
+});
+
+LightManager.AddLight(window, new Light
+{
+    Position = new Vector2(450, 225),
+    Range = 4,
+    Brightness = 63,
+});
+
+LightManager.AddLight(window, new Light
 {
     Position = new Vector2(650, 150),
     Range = 4,
     Brightness = 127,
 });
 
-LightManager.AddLight(new Light
+LightManager.AddLight(window, new Light
 {
     Position = new Vector2(850, 75),
+    Range = 4,
+    Brightness = 255,
+    SnapToScreen = true
+});
+
+LightManager.AddLight(window, new Light
+{
+    Position = new Vector2(850, 275),
+    Range = 4,
+    Brightness = 255,
+    SnapToScreen = true
+});
+
+LightManager.AddLight(window, new Light
+{
+    Position = new Vector2(850, 475),
+    Range = 4,
+    Brightness = 255,
+    SnapToScreen = true
+});
+
+LightManager.AddLight(window, new Light
+{
+    Position = new Vector2(850, 675),
+    Range = 4,
+    Brightness = 255,
+    SnapToScreen = true
+});
+
+LightManager.AddLight(window, new Light
+{
+    Position = new Vector2(0, 0),
+    Range = 4,
+    Brightness = 255,
+    SnapToScreen = true
+});
+
+LightManager.AddLight(window, new Light
+{
+    Position = new Vector2(200, 0),
     Range = 4,
     Brightness = 255,
     SnapToScreen = true
@@ -191,10 +246,10 @@ while (window.Run())
     TextManager.DrawTextTTF(window, "#{STRING_TEST}\nTest2\nTest3", "Arial.11pt", new Vector2(700, 230), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0),  SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline | SDL_ttf.TTF_FontStyle.Strikeout);
 
     atlas_texture.Position = new Vector2(256, 256);
-    atlas_texture.Index = 7;
+    atlas_texture.Index = 0;
     atlas_texture.SnapToScreen = true;
     atlas_texture.DrawFrame(window);
-    atlas_texture.Index = 9;
+    atlas_texture.Index = 0;
     atlas_texture.Position = new Vector2(256, 192);
     atlas_texture.DrawFrame(window);
 
