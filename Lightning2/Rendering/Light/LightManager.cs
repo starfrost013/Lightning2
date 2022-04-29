@@ -44,7 +44,7 @@ namespace Lightning2
         public static void Init(Window Win)
         {
             // move this if it is slower
-            SSMapTexture = new Texture(Win, Win.Settings.Size.X, Win.Settings.Size.Y);
+            SSMapTexture = new Texture(Win, Win.Settings.Size);
             SSMapTexture.SnapToScreen = true;
             SetEnvironmentalLightBlendMode(SDL_BlendMode.SDL_BLENDMODE_BLEND);
             // This is used so we don't build lightmaps when LightManager.Init hasn't been called

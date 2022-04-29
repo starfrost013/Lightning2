@@ -127,9 +127,9 @@ namespace Lightning2
         /// </summary>
         /// <param name="X">The width of the texture in pixels.</param>
         /// <param name="Y">The height of the texture in pixels.</param>
-        public Texture(Window Win, float X, float Y)
+        public Texture(Window Win, Vector2 nSize)
         {
-            Size = new Vector2(X, Y);
+            Size = nSize; 
 
             if (Size == default(Vector2)) throw new NCException($"Error creating texture: Must have a size!", 20, "Texture.Create", NCExceptionSeverity.FatalError);
 
@@ -341,6 +341,10 @@ namespace Lightning2
             }
         }
 
+        /// <summary>
+        /// Sets the blend mode of this texture. See <see cref="SDL_BlendMode"/>
+        /// </summary>
+        /// <param name="BlendMode">The <see cref="SDL_BlendMode"/> to set the texture to.</param>
         public void SetBlendMode(SDL_BlendMode BlendMode) => SDL_SetTextureBlendMode(TextureHandle, BlendMode);
     }
 }

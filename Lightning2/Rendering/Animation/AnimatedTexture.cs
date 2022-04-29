@@ -94,7 +94,7 @@ namespace Lightning2
 
             foreach (string TexturePath in FramesPath)
             {
-                Texture new_texture = new Texture(Win, Size.X, Size.Y);
+                Texture new_texture = new Texture(Win, Size);
                 new_texture.Path = TexturePath;
                 new_texture.Position = Position;
                 new_texture.Repeat = TextureRepeat;  // do this in the getter/setter?

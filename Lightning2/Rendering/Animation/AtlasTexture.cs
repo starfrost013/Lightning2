@@ -107,7 +107,7 @@ namespace Lightning2
 
             NCLogging.Log($"Loading atlas texture at path {Path}...");
             // +1 for safety purposes so that we don't set an out of bounds viewport
-            Texture new_texture = new Texture(Win, FrameSize.X * FramesX + 1, FrameSize.Y * FramesY + 1);
+            Texture new_texture = new Texture(Win, new Vector2(FrameSize.X * FramesX + 1, FrameSize.Y * FramesY + 1));
             Size = new Vector2(FramesX, FramesY);
 
             new_texture.Path = Path;

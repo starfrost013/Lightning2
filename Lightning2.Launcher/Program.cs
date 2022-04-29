@@ -25,7 +25,7 @@ TextManager.LoadFont("Arial", 24, null, "Arial.24pt");
 TextManager.LoadFont("Arial", 36, null, "Arial.36pt");
 
 window.Clear(Color.FromArgb(255, 127, 127, 127));
-Texture texture = new Texture(window, 64, 64);
+Texture texture = new Texture(window, new(64, 64));
 
 Random rnd = new Random();
 
