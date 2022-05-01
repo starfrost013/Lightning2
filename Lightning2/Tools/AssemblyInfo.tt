@@ -6,8 +6,8 @@
 <#@ import namespace="System.Text" #>
 <#@ output extension=".cs" #>
 // This file defines the version information - generated using the AssemblyInfo.tt T4 template.
+// Automatically generated file - do not modify
 
-using System;
 using System.Reflection;
 
 [assembly: AssemblyVersion("<#= LIGHTNING2_VERSION_MAJOR #>.<#= LIGHTNING2_VERSION_MINOR #>.<#= LIGHTNING2_VERSION_REVISION #>.<#= LIGHTNING2_VERSION_BUILD #>")]

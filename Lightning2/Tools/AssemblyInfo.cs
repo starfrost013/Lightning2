@@ -1,11 +1,11 @@
 ﻿// This file defines the version information - generated using the AssemblyInfo.tt T4 template.
+// Automatically generated file - do not modify
 
-using System;
 using System.Reflection;
 
-[assembly: AssemblyVersion("1.0.0.55")]
-[assembly: AssemblyFileVersion("1.0.0.55")]
-[assembly: AssemblyInformationalVersion("1.0.0 build 55, built 2022-04-22 15:55:20")]
+[assembly: AssemblyVersion("1.0.0.64")]
+[assembly: AssemblyFileVersion("1.0.0.64")]
+[assembly: AssemblyInformationalVersion("1.0.0 build 64, built 2022-05-01 23:57:05")]
 [assembly: AssemblyTitle("Lightning2")]
 
 namespace Lightning2
@@ -15,10 +15,10 @@ namespace Lightning2
 		public static int LIGHTNING2_VERSION_MAJOR = 1;
 		public static int LIGHTNING2_VERSION_MINOR = 0; 
 		public static int LIGHTNING2_VERSION_REVISION = 0;
-		public static int LIGHTNING2_VERSION_BUILD = 55;
+		public static int LIGHTNING2_VERSION_BUILD = 64;
 
 		public static string LIGHTNING2_VERSION_STRING = "1.0.0";
-		public static string LIGHTNING2_VERSION_EXTENDED_STRING = "1.0.0 build 55, built 2022-04-22 15:55:20";
+		public static string LIGHTNING2_VERSION_EXTENDED_STRING = "1.0.0 build 64, built 2022-05-01 23:57:05";
 	}
 }
 

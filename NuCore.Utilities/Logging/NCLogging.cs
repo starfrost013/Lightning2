@@ -17,7 +17,7 @@ namespace NuCore.Utilities
     /// </summary>
     public static class NCLogging
     {
-        private static BinaryWriter LogStream { get; set; }
+        private static StreamWriter LogStream { get; set; }
 
         public static NCLoggingSettings Settings { get; set; }
 
@@ -45,7 +45,7 @@ namespace NuCore.Utilities
 
                 if (File.Exists(Settings.LogFileName)) File.Delete(Settings.LogFileName);
 
-                LogStream = new BinaryWriter(new FileStream(Settings.LogFileName, FileMode.OpenOrCreate));
+                LogStream = new StreamWriter(new FileStream(Settings.LogFileName, FileMode.OpenOrCreate));
             }
 
         }

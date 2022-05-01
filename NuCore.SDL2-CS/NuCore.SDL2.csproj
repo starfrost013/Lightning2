@@ -10,7 +10,7 @@
     <PackageId>NuCore.SDL2-CS</PackageId>
     <Description>NuCore SDL2 Bindings</Description>
     <Authors>Ethan, starfrost</Authors>
-    <Version>3.0.3</Version>
+    <Version>3.0.6</Version>
     <PlatformTarget>x64</PlatformTarget>
 
   </PropertyGroup>
