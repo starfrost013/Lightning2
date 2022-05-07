@@ -63,12 +63,15 @@ namespace Lightning2
             NCLogging.Log("Unloading fonts...");
             foreach (Font font_to_unload in fonts_to_unload) TextManager.UnloadFont(font_to_unload);
 
-            NCLogging.Log("Unloading loaded audio...");
+            NCLogging.Log("Unloading audio...");
             foreach (AudioFile audio_file_to_unload in audio_files_to_unload) AudioManager.UnloadFile(audio_file_to_unload);
 
             // Shut down the light manager if it has been started.
             NCLogging.Log("Shutting down the Light Manager...");
             if (LightManager.Initialised) LightManager.Shutdown();
+
+            NCLogging.Log("Shutting down the Particle Manager...");
+            ParticleManager.Shutdown();
 
             // Shut everything down in reverse order.
 

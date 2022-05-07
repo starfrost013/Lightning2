@@ -103,6 +103,9 @@ namespace Lightning2
 
             FrameNumber++;
 
+            // Render all of the particle effects.
+            ParticleManager.Render(this);
+
             // Render the lightmap.
             if (LightManager.Initialised) LightManager.RenderLightmap(this);
 

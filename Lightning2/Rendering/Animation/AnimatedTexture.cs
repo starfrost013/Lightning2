@@ -101,7 +101,7 @@ namespace Lightning2
                 // Texture will only load current or throw fatal error. Maybe add Loaded attribute that checks if TextureHandle isn't a nullptr?
                 new_texture.Load(Win);
 
-                if (new_texture.TextureHandle != IntPtr.Zero) Frames.Add(new_texture);
+                if (new_texture.Handle != IntPtr.Zero) Frames.Add(new_texture);
             }
 
             CurrentFrame = Cycle.StartFrame;

@@ -4,7 +4,6 @@
 // © 2022 starfrost
 
 using NuCore.SDL2;
-using NuCore.Utilities;
 using Lightning2;
 using System.Drawing;
 using System.Numerics; 
@@ -62,10 +61,10 @@ atlas_texture.Load(window, 4, 4);
 atlas_texture.Position = new Vector2(256, 256);
 
 AnimatedTexture at = new AnimatedTexture();
-at.FramesPath.Add(@"Content\AnimtextureTest\AnimtextureTestF0.png");
-at.FramesPath.Add(@"Content\AnimtextureTest\AnimtextureTestF1.png");
-at.FramesPath.Add(@"Content\AnimtextureTest\AnimtextureTestF2.png");
-at.FramesPath.Add(@"Content\AnimtextureTest\AnimtextureTestF3.png");
+at.FramesPath.Add(@"Content\AnimTextureTest\AnimtextureTestF0.png");
+at.FramesPath.Add(@"Content\AnimTextureTest\AnimtextureTestF1.png");
+at.FramesPath.Add(@"Content\AnimTextureTest\AnimtextureTestF2.png");
+at.FramesPath.Add(@"Content\AnimTextureTest\AnimtextureTestF3.png");
 at.Cycle = new AnimationCycle(0, 3, 60);
 
 at.Position = new Vector2(320, 256);
@@ -75,6 +74,23 @@ at.Load(window);
 
 LightManager.Init(window);
 LightManager.SetEnvironmentalLight(Color.FromArgb(0, 0, 0, 255));
+
+// todo: particleeffectsettings?
+
+Texture testEffectTexture = new Texture(window, new(64, 64));
+
+testEffectTexture.Path = @"Content\Sparkles.png";
+
+ParticleEffect testEffect = new ParticleEffect(testEffectTexture)
+{
+    Amount = 100,
+    Lifetime = 2000,
+    Variance = 20,
+    Velocity = new Vector2(0, 7)
+};
+
+ParticleManager.AddParticleEffect(window, testEffect);
+
 
 LightManager.AddLight(window, new Light
 {

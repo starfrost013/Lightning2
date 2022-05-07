@@ -116,7 +116,7 @@ namespace Lightning2
             new_texture.SnapToScreen = SnapToScreen;
             new_texture.Load(Win);
 
-            if (new_texture.TextureHandle != IntPtr.Zero) Atlas = new_texture;
+            if (new_texture.Handle != IntPtr.Zero) Atlas = new_texture;
         }
 
         public void DrawFrame(Window Win)

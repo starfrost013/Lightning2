@@ -46,7 +46,7 @@ namespace Lightning2
             }
         }
 
-        public IntPtr TextureHandle { get; set; }
+        public IntPtr Handle { get; private set; }
 
         /// <summary>
         /// Pointer to unmanaged SDL_Texture pixels.
@@ -133,10 +133,10 @@ namespace Lightning2
 
             if (Size == default(Vector2)) throw new NCException($"Error creating texture: Must have a size!", 20, "Texture.Create", NCExceptionSeverity.FatalError);
 
-            TextureHandle = SDL_CreateTexture(Win.Settings.RendererHandle, SDL_PIXELFORMAT_ARGB8888, SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, (int)Size.X, (int)Size.Y);
+            Handle = SDL_CreateTexture(Win.Settings.RendererHandle, SDL_PIXELFORMAT_ARGB8888, SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, (int)Size.X, (int)Size.Y);
 
             // check if texture failed to load
-            if (TextureHandle == IntPtr.Zero) throw new NCException($"Error creating texture: {SDL_GetError()}", 11, "Texture.Create", NCExceptionSeverity.FatalError);
+            if (Handle == IntPtr.Zero) throw new NCException($"Error creating texture: {SDL_GetError()}", 11, "Texture.Create", NCExceptionSeverity.FatalError);
 
             Init_AllocFormat(Win);
         }
@@ -145,9 +145,9 @@ namespace Lightning2
         {
             if (!File.Exists(Path)) throw new NCException($"{Path} does not exist!", 9, "!File.Exists(Texture.Path)!", NCExceptionSeverity.FatalError);
 
-            TextureHandle = IMG_LoadTexture(CWindow.Settings.RendererHandle, Path);
+            Handle = IMG_LoadTexture(CWindow.Settings.RendererHandle, Path);
 
-            if (TextureHandle == IntPtr.Zero) throw new NCException($"Failed to load texture at {Path} - {SDL_GetError()}", 10, "Error in SDL_image.IMG_LoadTexture", NCExceptionSeverity.Error);
+            if (Handle == IntPtr.Zero) throw new NCException($"Failed to load texture at {Path} - {SDL_GetError()}", 10, "Error in SDL_image.IMG_LoadTexture", NCExceptionSeverity.Error);
         }
 
         private void Init_AllocFormat(Window CWindow)
@@ -228,7 +228,7 @@ namespace Lightning2
             SDL_Rect rect = new SDL_Rect(0, 0, (int)Size.X, (int)Size.Y);
             int npitch = Pitch;
 
-            if (SDL_LockTexture(TextureHandle, ref rect, out npixels, out npitch) < 0) throw new NCException($"Error locking pixels for texture with path {Path}, error {SDL_GetError()}.", 11, "Texture.Lock", NCExceptionSeverity.FatalError);
+            if (SDL_LockTexture(Handle, ref rect, out npixels, out npitch) < 0) throw new NCException($"Error locking pixels for texture with path {Path}, error {SDL_GetError()}.", 11, "Texture.Lock", NCExceptionSeverity.FatalError);
 
             Pitch = npitch;
             Pixels = npixels;
@@ -242,7 +242,7 @@ namespace Lightning2
             if (!Locked) return;
             Locked = false;
 
-            SDL_UnlockTexture(TextureHandle);
+            SDL_UnlockTexture(Handle);
 
             // these values are now invalid 
             Pixels = IntPtr.Zero;
@@ -298,7 +298,7 @@ namespace Lightning2
             if (Repeat == default(Vector2))
             {
                 // call to SDL - we are simply drawing it once.
-                SDL_RenderCopyF(Win.Settings.RendererHandle, TextureHandle, ref src_rect, ref dst_rect);
+                SDL_RenderCopyF(Win.Settings.RendererHandle, Handle, ref src_rect, ref dst_rect);
             }
             else
             {
@@ -307,11 +307,11 @@ namespace Lightning2
                 // Draws a tiled texture.
                 for (int y = 0; y < Repeat.Y; y++)
                 {
-                    SDL_RenderCopyF(Win.Settings.RendererHandle, TextureHandle, ref src_rect, ref new_rect);
+                    SDL_RenderCopyF(Win.Settings.RendererHandle, Handle, ref src_rect, ref new_rect);
 
                     for (int x = 0; x < Repeat.X; x++)
                     {
-                        SDL_RenderCopyF(Win.Settings.RendererHandle, TextureHandle, ref src_rect, ref new_rect);
+                        SDL_RenderCopyF(Win.Settings.RendererHandle, Handle, ref src_rect, ref new_rect);
 
                         new_rect.x += dst_rect.w;
                     }
@@ -345,6 +345,6 @@ namespace Lightning2
         /// Sets the blend mode of this texture. See <see cref="SDL_BlendMode"/>
         /// </summary>
         /// <param name="BlendMode">The <see cref="SDL_BlendMode"/> to set the texture to.</param>
-        public void SetBlendMode(SDL_BlendMode BlendMode) => SDL_SetTextureBlendMode(TextureHandle, BlendMode);
+        public void SetBlendMode(SDL_BlendMode BlendMode) => SDL_SetTextureBlendMode(Handle, BlendMode);
     }
 }

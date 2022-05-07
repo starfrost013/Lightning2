@@ -53,7 +53,7 @@ namespace Lightning2
 
         public static void AddLight(Window win, Light Light)
         {
-            if (SSMapTexture.TextureHandle == IntPtr.Zero) throw new NCException("You must initialise the Light Manager before using it!", 61, "LightManager.AddLight called before LightManager.Init!", NCExceptionSeverity.FatalError);
+            if (SSMapTexture.Handle == IntPtr.Zero) throw new NCException("You must initialise the Light Manager before using it!", 61, "LightManager.AddLight called before LightManager.Init!", NCExceptionSeverity.FatalError);
             Light.RenderToTexture(win);
             Lights.Add(Light);
         }
@@ -67,11 +67,11 @@ namespace Lightning2
             SSMapTexture.Clear(EnvironmentalLight);
         }
 
-        public static void SetEnvironmentalLightBlendMode(SDL_BlendMode BlendMode) => SDL_SetTextureBlendMode(SSMapTexture.TextureHandle, BlendMode);
+        public static void SetEnvironmentalLightBlendMode(SDL_BlendMode BlendMode) => SDL_SetTextureBlendMode(SSMapTexture.Handle, BlendMode);
 
         public static void RenderLightmap(Window win)
         {
-            if (SSMapTexture.TextureHandle == IntPtr.Zero) throw new NCException("You must initialise the Light Manager before using it!", 62, "LightManager.RenderLightmap called before LightManager.Init!", NCExceptionSeverity.FatalError);
+            if (SSMapTexture.Handle == IntPtr.Zero) throw new NCException("You must initialise the Light Manager before using it!", 62, "LightManager.RenderLightmap called before LightManager.Init!", NCExceptionSeverity.FatalError);
 
             SSMapTexture.Unlock();
             SSMapTexture.Draw(win);
@@ -82,7 +82,7 @@ namespace Lightning2
         /// </summary>
         internal static void Shutdown()
         {
-            SDL_DestroyTexture(SSMapTexture.TextureHandle);
+            SDL_DestroyTexture(SSMapTexture.Handle);
         }
     }
 }
