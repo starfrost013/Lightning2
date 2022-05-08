@@ -29,6 +29,11 @@ namespace Lightning2
         public double Variance { get; set; }
 
         /// <summary>
+        /// The position of this particle effect.
+        /// </summary>
+        public Vector2 Position { get; set; }
+
+        /// <summary>
         /// The list of particles as a part of this particle effect
         /// </summary>
         private List<Particle> Particles { get; set; }
@@ -73,14 +78,10 @@ namespace Lightning2
 
         private void InitRender(Window cWindow)
         {
-            Vector2 basePosition = Texture.Position;
-
-            float dP = rnd.Next((int)-Variance, (int)Variance);
-
-            foreach (Particle particle in Particles)
+            for (int i = 0; i < Amount; i++)
             {
-                particle.Position = new Vector2(basePosition.X + dP, basePosition.Y + dP);
-                Texture.Position = particle.Position;
+                AddParticle();
+
                 Texture.Draw(cWindow);
             }
         }
@@ -92,32 +93,42 @@ namespace Lightning2
             
             foreach (Particle particle in Particles)
             {
+                if (particle.Lifetime > Lifetime) particlesToRemove.Add(particle);
                 particle.Lifetime++;
-                if (particle.Lifetime > Lifetime) particlesToRemove.Remove(particle);
             }
 
             foreach (Particle particleToRemove in particlesToRemove)
             {
                 Particles.Remove(particleToRemove);
-                if (Particles.Count <= Amount) AddParticle(particleToRemove);
+
+                if (Particles.Count <= Amount)
+                {
+                    AddParticle();
+                }
             }
-            
+
+            Texture.Position += new Vector2((Velocity.X / 100), (Velocity.Y / 100));
+
             foreach (Particle particle in Particles)
             {
-                particle.Position += Velocity; 
-                Texture.Position = particle.Position;
+                // This is a bit hacky but it's less code than making
+                // Rnd.NextDouble generate a negative number
+                int nVariance = (int)(Variance * 100000);
+
+                float dP = rnd.Next(-nVariance, nVariance);
+
+                dP /= 100000;
+                Texture.Position += new Vector2(dP, dP);
                 Texture.Draw(cWindow);
             }
         }
 
-        private void AddParticle(Particle particle)
+        public void AddParticle()
         {
-            Vector2 basePosition = Texture.Position;
-            float dP = rnd.Next((int)-Variance, (int)Variance);
-
-            particle.Position = new Vector2(basePosition.X + dP, basePosition.Y + dP);
-
+            Particle particle = new Particle();
+            particle.Position = Position;
             Particles.Add(particle);
+            Texture.Position = particle.Position;
         }
 
         public void Unload()
