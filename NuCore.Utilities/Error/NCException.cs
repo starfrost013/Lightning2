@@ -42,20 +42,20 @@ namespace NuCore.Utilities
         /// </summary>
         public Exception BaseException { get; set; }   
         
-        public NCException(string NDescription, int NId, string NCause = null, NCExceptionSeverity NExceptionSeverity = NCExceptionSeverity.Message, Exception NBaseException = null) : base(NDescription)
+        /// <summary>
+        /// If true, the message box of this error will be suppressed and not shown.
+        /// </summary>
+        public bool DontShowMessageBox { get; set; }
+
+        public NCException(string NDescription, int NId, string NCause = null, NCExceptionSeverity NExceptionSeverity = NCExceptionSeverity.Message, Exception NBaseException = null, bool DontShowMessageBox = false) : base(NDescription)
         {
             Description = NDescription;
             Id = NId;
             Cause = NCause;
-
             ExceptionSeverity = NExceptionSeverity;
             BaseException = NBaseException;
 
-#if WINDOWS
-
             StringBuilder sb = new StringBuilder();
-
-            NCLogging.Log($"ERROR:\n\nID: {NId}\nSeverity: {NExceptionSeverity}\nCause: {NCause}, Description: {NDescription}", NExceptionSeverity);
 
             if (Cause != null) sb.Append($"{Cause}: ");
             if (Description != null) sb.Append(Description);
@@ -65,28 +65,29 @@ namespace NuCore.Utilities
 
             string err_string = sb.ToString();
 
-            switch (ExceptionSeverity)
-            {
-                case NCExceptionSeverity.Message:
-                    NCMessageBoxPresets.MessageBoxOK("Information", err_string, SDL2.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION);
-                    return;
-                case NCExceptionSeverity.Warning:
-                    NCMessageBoxPresets.MessageBoxOK("Warning", err_string, SDL2.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_WARNING);
-                    return;
-                case NCExceptionSeverity.Error:
-                    NCMessageBoxPresets.MessageBoxOK("Error", err_string, SDL2.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR);
-                    return;
-                case NCExceptionSeverity.FatalError:
-                    NCMessageBoxPresets.MessageBoxOK("Fatal Error", $"A fatal error has occurred:\n\n{err_string}\n\n" +
-                        $"The program must exit. We are sorry for the inconvenience.", SDL2.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR);
-                    Environment.Exit(Id);
-                    return;
+            NCLogging.Log($"{ExceptionSeverity}:\n{err_string}");
 
+            if (!DontShowMessageBox)
+            {
+                switch (ExceptionSeverity)
+                {
+                    case NCExceptionSeverity.Message:
+                        NCMessageBoxPresets.MessageBoxOK("Information", err_string, SDL2.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION);
+                        return;
+                    case NCExceptionSeverity.Warning:
+                        NCMessageBoxPresets.MessageBoxOK("Warning", err_string, SDL2.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_WARNING);
+                        return;
+                    case NCExceptionSeverity.Error:
+                        NCMessageBoxPresets.MessageBoxOK("Error", err_string, SDL2.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR);
+                        return;
+                    case NCExceptionSeverity.FatalError:
+                        NCMessageBoxPresets.MessageBoxOK("Fatal Error", $"A fatal error has occurred:\n\n{err_string}\n\n" +
+                            $"The program must exit. We are sorry for the inconvenience.", SDL2.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR);
+                        Environment.Exit(Id);
+                        return;
+
+                }
             }
-            
-          
         }
-        
     }
 }
-#endif

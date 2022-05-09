@@ -38,6 +38,12 @@ namespace Lightning2
 
             NCLogging.Log("Loading localisation...");
             LocalisationManager.Load();
+
+            if (GlobalSettings.ProfilePerf)
+            {
+                NCLogging.Log("Performance Profiler enabled, initialising profiler...");
+                PerformanceProfiler.Init();
+            }
         }
 
         private static void Init_InitLogging()
@@ -49,7 +55,15 @@ namespace Lightning2
 
         public static void Shutdown(Window Win)
         {
-            NCLogging.Log("Shutdown requested. Destroying renderer and window...");
+            NCLogging.Log("Shutdown requested.");
+
+            if (GlobalSettings.ProfilePerf)
+            {
+                NCLogging.Log("Shutting down performance profiler...");
+                PerformanceProfiler.Shutdown();
+            }
+
+            NCLogging.Log("Destroying window and renderer...");
             Win.Shutdown();
 
             // create a list of fonts and audiofiles to unload

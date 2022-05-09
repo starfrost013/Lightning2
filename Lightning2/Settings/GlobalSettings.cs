@@ -19,41 +19,48 @@ namespace Lightning2
         public static int TargetFPS { get; set; }
 
         public static bool ShowFPS { get; set; }
+
+        public static bool ProfilePerf { get; set; }
+
         public static void Load()
         {
-            NCINIFile nc_ini = NCINIFile.Parse(GLOBALSETTINGS_FILE_PATH);
+            NCINIFile ncIni = NCINIFile.Parse(GLOBALSETTINGS_FILE_PATH);
 
-            if (nc_ini == null) throw new NCException("Failed to load Engine.ini!", 28, "GlobalSettings.Load()", NCExceptionSeverity.FatalError);
+            if (ncIni == null) throw new NCException("Failed to load Engine.ini!", 28, "GlobalSettings.Load()", NCExceptionSeverity.FatalError);
 
-            NCINIFileSection engine_section = nc_ini.GetSection("Engine");
-            NCINIFileSection loc_section = nc_ini.GetSection("Localisation");
+            NCINIFileSection engineSection = ncIni.GetSection("Engine");
+            NCINIFileSection locSection = ncIni.GetSection("Localisation");
 
-            if (engine_section == null) throw new NCException("Engine.ini must have an Engine section!", 41, "GlobalSettings.Load()", NCExceptionSeverity.FatalError);
-            if (loc_section == null) throw new NCException("Engine.ini must have a Localisation section!", 29, "GlobalSettings.Load()", NCExceptionSeverity.FatalError);
+            if (engineSection == null) throw new NCException("Engine.ini must have an Engine section!", 41, "GlobalSettings.Load()", NCExceptionSeverity.FatalError);
+            if (locSection == null) throw new NCException("Engine.ini must have a Localisation section!", 29, "GlobalSettings.Load()", NCExceptionSeverity.FatalError);
 
-            string loc_lang = loc_section.GetValue("Language");
-            LocalisationFile = @$"Content\Localisation\{loc_lang}.ini";
+            string locLang = locSection.GetValue("Language");
+            LocalisationFile = @$"Content\Localisation\{locLang}.ini";
 
             if (!File.Exists(LocalisationFile)) throw new NCException("Engine.ini's Localisation section must have a valid Language value!", 30, "GlobalSettings.Load()", NCExceptionSeverity.FatalError);
 
-            string engine_target = engine_section.GetValue("TargetFPS");
-            string engine_show = engine_section.GetValue("ShowFPS");
+            string engineTargetFps = engineSection.GetValue("TargetFPS");
+            string engineShowFps = engineSection.GetValue("ShowFPS");
+            string engineProfilePerf = engineSection.GetValue("PerformanceProfiler");
 
             // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
-            int engine_target_fps = 0;
-            bool engine_show_fps = false;
+            int engineTargetFpsValue = 0;
+            bool engineShowFpsValue = false;
+            bool engineProfilePerfValue = false;
 
-            if (!int.TryParse(engine_target, out engine_target_fps)) throw new NCException($"Invalid TargetFPS setting ({engine_target}) in Engine.ini Engine section, setting to 60!", 42, "GlobalSettings.Load()", NCExceptionSeverity.Error);
-            if (!bool.TryParse(engine_show, out engine_show_fps)) engine_show_fps = false;
+            if (!int.TryParse(engineTargetFps, out engineTargetFpsValue)) throw new NCException($"Invalid TargetFPS setting ({engineTargetFps}) in Engine.ini Engine section, setting to 60!", 42, "GlobalSettings.Load()", NCExceptionSeverity.Error);
+            if (!bool.TryParse(engineShowFps, out engineShowFpsValue)) engineShowFpsValue = false;
+            if (!bool.TryParse(engineProfilePerf, out engineProfilePerfValue)) engineProfilePerfValue = false;
 
-            if (engine_target_fps <= 0)
+            if (engineTargetFpsValue <= 0)
             {
-                engine_target_fps = 60;
-                throw new NCException($"The TargetFPS setting ({engine_target}) must be a positive number, setting to 60!", 43, "GlobalSettings.Load()", NCExceptionSeverity.Error);
+                engineTargetFpsValue = 60;
+                throw new NCException($"The TargetFPS setting ({engineTargetFps}) must be a positive number, setting to 60!", 43, "GlobalSettings.Load()", NCExceptionSeverity.Error);
             }
 
-            TargetFPS = engine_target_fps;
-            ShowFPS = engine_show_fps;
+            TargetFPS = engineTargetFpsValue;
+            ShowFPS = engineShowFpsValue;
+            ProfilePerf = engineProfilePerfValue;
         }
     }
 }

@@ -104,25 +104,33 @@ namespace Lightning2
 
             // draw fps on top always (by drawing it last. we don't have zindex, but we will later). Also snap it to the screen like a hud element. 
             // check the showfps global setting first
-            // do this BEFORE present. then measure frametime, this makes it accurate.
-            if (GlobalSettings.ShowFPS)
-            {
-                int currentY = 0;
-                PrimitiveRenderer.DrawText(this, $"FPS: {CurFPS.ToString("F1")} ({LastFrameTime.ToString("F2")}ms)", new Vector2(0, currentY), Color.FromArgb(255, 255, 255, 255), true);
-
-                if (CurFPS < GlobalSettings.TargetFPS)
-                {
-                    currentY += 12;
-                    PrimitiveRenderer.DrawText(this, $"Running under target FPS ({GlobalSettings.TargetFPS})!", new Vector2(0, currentY), Color.FromArgb(255, 255, 0, 0), true);
-                }
-
-                currentY += 12;
-                PrimitiveRenderer.DrawText(this, FrameNumber.ToString(), new Vector2(0, currentY), Color.FromArgb(255, 255, 255, 255), true, false);
-
-            }
+            // do this BEFORE present. then measure frametime in Render_MeasureFps, this makes it accurate.
+            if (GlobalSettings.ShowFPS) Render_DrawDebugInformation();
 
             SDL_RenderPresent(Settings.RendererHandle);
 
+            // Update the internal FPS values.
+            Render_UpdateFps();
+
+        }
+        
+        private void Render_DrawDebugInformation()
+        {
+            int currentY = 0;
+            PrimitiveRenderer.DrawText(this, $"FPS: {CurFPS.ToString("F1")} ({LastFrameTime.ToString("F2")}ms)", new Vector2(0, currentY), Color.FromArgb(255, 255, 255, 255), true);
+
+            if (CurFPS < GlobalSettings.TargetFPS)
+            {
+                currentY += 12;
+                PrimitiveRenderer.DrawText(this, $"Running under target FPS ({GlobalSettings.TargetFPS})!", new Vector2(0, currentY), Color.FromArgb(255, 255, 0, 0), true);
+            }
+
+            currentY += 12;
+            PrimitiveRenderer.DrawText(this, FrameNumber.ToString(), new Vector2(0, currentY), Color.FromArgb(255, 255, 255, 255), true, false);
+        }
+
+        private void Render_UpdateFps()
+        {
             // Set the current frame time.
             ThisTime = DeltaTimer.ElapsedTicks;
 
@@ -132,8 +140,7 @@ namespace Lightning2
 
             LastFrameTime = (DeltaTime * 1000);
 
-
-
+            if (GlobalSettings.ProfilePerf) PerformanceProfiler.Update(this);
             FrameNumber++;
         }
 
@@ -152,15 +159,8 @@ namespace Lightning2
         /// <param name="colour"></param>
         public void Clear(Color colour = default(Color))
         {
-            if (colour == default(Color))
-            {
-                SDL_SetRenderDrawColor(Settings.RendererHandle, 0, 0, 0, 0);
-            }
-            else
-            {
-                SDL_SetRenderDrawColor(Settings.RendererHandle, colour.R, colour.G, colour.B, colour.A);
-            }
-
+            // default(Color) is 0,0,0,0, no special case code needed
+            SDL_SetRenderDrawColor(Settings.RendererHandle, colour.R, colour.G, colour.B, colour.A);
             SDL_RenderClear(Settings.RendererHandle);
             Settings.Background = colour;
         }

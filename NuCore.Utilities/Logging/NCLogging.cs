@@ -19,6 +19,9 @@ namespace NuCore.Utilities
     {
         private static StreamWriter LogStream { get; set; }
 
+        /// <summary>
+        /// The settings for the NuCore logger.
+        /// </summary>
         public static NCLoggingSettings Settings { get; set; }
 
         /// <summary>
@@ -32,10 +35,7 @@ namespace NuCore.Utilities
 
         public static void Init()
         {
-            if (Settings == null)
-            {
-                throw new NCException("You must set up NCLoggingSettings before initialising NCLogging!", 5, "NCLogging.Init", NCExceptionSeverity.FatalError);
-            }
+            if (Settings == null) throw new NCException("You must set up NCLoggingSettings before initialising NCLogging!", 5, "NCLogging.Init", NCExceptionSeverity.FatalError);
 
             if (Settings.LogFileName == null) Settings.LogFileName = $"NuCore_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.log";
 
