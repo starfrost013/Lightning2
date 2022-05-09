@@ -103,8 +103,6 @@ namespace Lightning2
 
             CurFPS = 1 / DeltaTime;
 
-            FrameNumber++;
-
             // Render all of the particle effects.
             ParticleManager.Render(this);
 
@@ -117,12 +115,22 @@ namespace Lightning2
             // check the showfps global setting first
             if (GlobalSettings.ShowFPS)
             {
-                PrimitiveRenderer.DrawText(this, $"FPS: {CurFPS.ToString("F1")} ({LastFrameTime.ToString("F2")}ms)", new Vector2(0, 0), Color.FromArgb(255, 255, 255, 255), true);
+                int currentY = 0; 
+                PrimitiveRenderer.DrawText(this, $"FPS: {CurFPS.ToString("F1")} ({LastFrameTime.ToString("F2")}ms)", new Vector2(0, currentY), Color.FromArgb(255, 255, 255, 255), true);
 
-                if (CurFPS < GlobalSettings.TargetFPS) PrimitiveRenderer.DrawText(this, $"Running under target FPS ({GlobalSettings.TargetFPS})!", new Vector2(0, 12), Color.FromArgb(255, 255, 0, 0), true);
+                if (CurFPS < GlobalSettings.TargetFPS)
+                {
+                    currentY += 12;
+                    PrimitiveRenderer.DrawText(this, $"Running under target FPS ({GlobalSettings.TargetFPS})!", new Vector2(0, currentY), Color.FromArgb(255, 255, 0, 0), true);
+                }
+
+                currentY += 12;
+                PrimitiveRenderer.DrawText(this, FrameNumber.ToString(), new Vector2(0, currentY), Color.FromArgb(255, 255, 255, 255), true, false);
+               
             }
 
             SDL_RenderPresent(Settings.RendererHandle);
+            FrameNumber++;
         }
 
         /// <summary>

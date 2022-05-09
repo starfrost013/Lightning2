@@ -47,6 +47,28 @@ namespace Lightning2
 
         private int CurFrame { get; set; }
 
+        private bool _snaptoscreen { get; set; }
+
+        public bool SnapToScreen
+        {
+            // Check that our texture is valid and if so set its snaptoscreen value
+            get
+            {
+                if (Texture != null) return Texture.SnapToScreen;
+                return _snaptoscreen;
+            }
+            set
+            {
+                _snaptoscreen = value;
+                if (Texture != null) Texture.SnapToScreen = value;
+            }
+        }
+
+        public bool AbsoluteVelocity { get; set; }
+
+        /// <summary>
+        /// Private field used for efficient generation of random numbers.
+        /// </summary>
         private Random rnd = new Random();
 
         public ParticleEffect(Texture nTexture)
@@ -91,6 +113,7 @@ namespace Lightning2
             // create a list of particles to remove
             List<Particle> particlesToRemove = new List<Particle>();
             
+            // Check what particles have to be removed
             foreach (Particle particle in Particles)
             {
                 if (particle.Lifetime > Lifetime) particlesToRemove.Add(particle);
@@ -101,28 +124,43 @@ namespace Lightning2
             {
                 Particles.Remove(particleToRemove);
 
-                if (Particles.Count <= Amount)
-                {
-                    AddParticle();
-                }
+                if (Particles.Count <= Amount) AddParticle();
             }
 
             Texture.Position = Position;
 
-            foreach (Particle particle in Particles)
+            for (int i = 0; i < Particles.Count; i++)
             {
-                // This is a bit hacky but it's less code than making
-                // Rnd.NextDouble generate a negative number
-                int nVariance = (int)(Variance * 100000);
+                Particle particle = Particles[i];
 
-                float varX = rnd.Next(-nVariance, nVariance);
-                float varY = rnd.Next(-nVariance, nVariance);
-
-                varX /= 100000;
-                varY /= 100000;
-
-                Texture.Position += new Vector2(varX, varY);
-                Texture.Position += new Vector2((Velocity.X / 500) * Lifetime, (Velocity.Y / 500) * Lifetime);
+                // Check if absolute velocity mode is on.
+                // This means we treat velocity as an absolute value and do not
+                // vary particle positions. Use if we only want particles going wrong way
+                if (!AbsoluteVelocity)
+                {
+                    if (i % 4 == 0)
+                    {
+                        particle.Position += new Vector2((Velocity.X / 500) * particle.Lifetime, (Velocity.Y / 500) * particle.Lifetime);
+                    }
+                    else if (i % 4 == 1)
+                    {
+                        particle.Position += new Vector2(((Velocity.X / 500) * particle.Lifetime), -((Velocity.Y / 500) * particle.Lifetime));
+                    }
+                    else if (i % 4 == 2)
+                    {
+                        particle.Position += new Vector2(-((Velocity.X / 500) * particle.Lifetime), ((Velocity.Y / 500) * particle.Lifetime));
+                    }
+                    else if (i % 4 == 3)
+                    {
+                        particle.Position += new Vector2(-((Velocity.X / 500) * particle.Lifetime), -((Velocity.Y / 500) * particle.Lifetime));
+                    }
+                }
+                else
+                {
+                    particle.Position += new Vector2((Velocity.X / 500) * particle.Lifetime, (Velocity.Y / 500) * particle.Lifetime);
+                }
+                
+                Texture.Position = particle.Position;
                 Texture.Draw(cWindow);
             }
         }
@@ -130,7 +168,19 @@ namespace Lightning2
         public void AddParticle()
         {
             Particle particle = new Particle();
-            particle.Position = Position;
+
+            // This is a bit hacky but it's less code than making
+            // Rnd.NextDouble generate a negative number
+            int nVariance = (int)(Variance * 100000);
+
+            float varX = rnd.Next(-nVariance, nVariance);
+            float varY = rnd.Next(-nVariance, nVariance);
+
+            varX /= 100000;
+            varY /= 100000;
+
+            particle.Position = Position + new Vector2(varX, varY);
+            
             Particles.Add(particle);
         }
 

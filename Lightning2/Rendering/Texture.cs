@@ -96,7 +96,6 @@ namespace Lightning2
         /// </summary>
         public bool Locked { get; set; }
 
-
         /// <summary>
         /// The pitch of this texture
         /// </summary>

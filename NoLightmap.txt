@@ -1,7 +1,0 @@
-﻿Profiling started.
-Profiling process ID 17228 (Lightning2.Test).
-Process ID 17228 has exited.
-Data written to C:\Users\FiercePC\AppData\Local\Temp\Report20220410-1758.vsp.
-Profiling finished.
-Loaded symbols for C:\Users\FiercePC\Lightning2\Lightning2.Launcher\bin\Debug\net6.0\Lightning2.Test.dll.
-Profiling complete.

@@ -77,16 +77,16 @@ LightManager.SetEnvironmentalLight(Color.FromArgb(0, 0, 0, 255));
 
 // todo: particleeffectsettings?
 
-Texture testEffectTexture = new Texture(window, new(64, 64));
+Texture testEffectTexture = new Texture(window, new(16, 16));
 
 testEffectTexture.Path = @"Content\Sparkles.png";
 
 ParticleEffect testEffect = new ParticleEffect(testEffectTexture)
 {
-    Amount = 100,
-    Lifetime = 35,
-    Variance = 1,
-    Velocity = new(0.3f, 0),
+    Amount = 3000,
+    Lifetime = 15,
+    Variance = 50,
+    Velocity = new(4f, -4f),
     Position = new(150, 500) 
 };
 

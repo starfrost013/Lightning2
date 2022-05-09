@@ -67,7 +67,7 @@ namespace Lightning2
         private bool AnimationFinished { get; set; }
 
         /// <summary>
-        /// The size of this texture.
+        /// The size of each animation frame.
         /// </summary>
         public Vector2 Size { get; set; }
 
