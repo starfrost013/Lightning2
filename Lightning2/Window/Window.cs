@@ -96,26 +96,18 @@ namespace Lightning2
             // Correctly draw the background
             SDL_SetRenderDrawColor(Settings.RendererHandle, Settings.Background.R, Settings.Background.G, Settings.Background.B, Settings.Background.A);
 
-            // Set the current frame time.
-            ThisTime = DeltaTimer.ElapsedTicks;
-
-            DeltaTime = (double)(ThisTime - LastTime) / 10000000;
-
-            CurFPS = 1 / DeltaTime;
-
             // Render all of the particle effects.
             ParticleManager.Render(this);
 
             // Render the lightmap.
             if (LightManager.Initialised) LightManager.RenderLightmap(this);
 
-            LastFrameTime = (DeltaTime * 1000);
-
             // draw fps on top always (by drawing it last. we don't have zindex, but we will later). Also snap it to the screen like a hud element. 
             // check the showfps global setting first
+            // do this BEFORE present. then measure frametime, this makes it accurate.
             if (GlobalSettings.ShowFPS)
             {
-                int currentY = 0; 
+                int currentY = 0;
                 PrimitiveRenderer.DrawText(this, $"FPS: {CurFPS.ToString("F1")} ({LastFrameTime.ToString("F2")}ms)", new Vector2(0, currentY), Color.FromArgb(255, 255, 255, 255), true);
 
                 if (CurFPS < GlobalSettings.TargetFPS)
@@ -126,10 +118,22 @@ namespace Lightning2
 
                 currentY += 12;
                 PrimitiveRenderer.DrawText(this, FrameNumber.ToString(), new Vector2(0, currentY), Color.FromArgb(255, 255, 255, 255), true, false);
-               
+
             }
 
             SDL_RenderPresent(Settings.RendererHandle);
+
+            // Set the current frame time.
+            ThisTime = DeltaTimer.ElapsedTicks;
+
+            DeltaTime = (double)(ThisTime - LastTime) / 10000000;
+
+            CurFPS = 1 / DeltaTime;
+
+            LastFrameTime = (DeltaTime * 1000);
+
+
+
             FrameNumber++;
         }
 
