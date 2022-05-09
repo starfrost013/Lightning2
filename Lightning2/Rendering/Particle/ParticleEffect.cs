@@ -21,7 +21,7 @@ namespace Lightning2
         /// <summary>
         /// The lifetime of each particle in frames.
         /// </summary>
-        public double Lifetime { get; set; }
+        public int Lifetime { get; set; }
         
         /// <summary>
         /// The variance on each particle's lifetime in frames
@@ -107,7 +107,7 @@ namespace Lightning2
                 }
             }
 
-            Texture.Position += new Vector2((Velocity.X / 100), (Velocity.Y / 100));
+            Texture.Position = Position;
 
             foreach (Particle particle in Particles)
             {
@@ -115,10 +115,14 @@ namespace Lightning2
                 // Rnd.NextDouble generate a negative number
                 int nVariance = (int)(Variance * 100000);
 
-                float dP = rnd.Next(-nVariance, nVariance);
+                float varX = rnd.Next(-nVariance, nVariance);
+                float varY = rnd.Next(-nVariance, nVariance);
 
-                dP /= 100000;
-                Texture.Position += new Vector2(dP, dP);
+                varX /= 100000;
+                varY /= 100000;
+
+                Texture.Position += new Vector2(varX, varY);
+                Texture.Position += new Vector2((Velocity.X / 500) * Lifetime, (Velocity.Y / 500) * Lifetime);
                 Texture.Draw(cWindow);
             }
         }
@@ -128,7 +132,6 @@ namespace Lightning2
             Particle particle = new Particle();
             particle.Position = Position;
             Particles.Add(particle);
-            Texture.Position = particle.Position;
         }
 
         public void Unload()

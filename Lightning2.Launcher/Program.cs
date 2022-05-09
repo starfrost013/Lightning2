@@ -92,7 +92,6 @@ ParticleEffect testEffect = new ParticleEffect(testEffectTexture)
 
 ParticleManager.AddParticleEffect(window, testEffect);
 
-
 LightManager.AddLight(window, new Light
 {
     Position = new Vector2(50, 375),

@@ -20,6 +20,8 @@ namespace Lightning2
 
         private long ThisTime { get; set; }
 
+        public double LastFrameTime { get; set; }
+
         private Stopwatch DeltaTimer { get; set; }
 
         internal double CurFPS { get; set; }
@@ -63,7 +65,7 @@ namespace Lightning2
         private void Update()
         {
             // Set the last frame time.
-            LastTime = DeltaTimer.ElapsedMilliseconds;
+            LastTime = DeltaTimer.ElapsedTicks;
             SDL_RenderClear(Settings.RendererHandle);
         }
 
@@ -95,9 +97,9 @@ namespace Lightning2
             SDL_SetRenderDrawColor(Settings.RendererHandle, Settings.Background.R, Settings.Background.G, Settings.Background.B, Settings.Background.A);
 
             // Set the current frame time.
-            ThisTime = DeltaTimer.ElapsedMilliseconds;
+            ThisTime = DeltaTimer.ElapsedTicks;
 
-            DeltaTime = (double)(ThisTime - LastTime) / 1000;
+            DeltaTime = (double)(ThisTime - LastTime) / 10000000;
 
             CurFPS = 1 / DeltaTime;
 
@@ -109,11 +111,13 @@ namespace Lightning2
             // Render the lightmap.
             if (LightManager.Initialised) LightManager.RenderLightmap(this);
 
+            LastFrameTime = (DeltaTime * 1000);
+
             // draw fps on top always (by drawing it last. we don't have zindex, but we will later). Also snap it to the screen like a hud element. 
             // check the showfps global setting first
             if (GlobalSettings.ShowFPS)
             {
-                PrimitiveRenderer.DrawText(this, $"FPS: {(int)CurFPS} ({(int)(1000 / CurFPS)}ms)", new Vector2(0, 0), Color.FromArgb(255, 255, 255, 255), true);
+                PrimitiveRenderer.DrawText(this, $"FPS: {CurFPS.ToString("F1")} ({LastFrameTime.ToString("F2")}ms)", new Vector2(0, 0), Color.FromArgb(255, 255, 255, 255), true);
 
                 if (CurFPS < GlobalSettings.TargetFPS) PrimitiveRenderer.DrawText(this, $"Running under target FPS ({GlobalSettings.TargetFPS})!", new Vector2(0, 12), Color.FromArgb(255, 255, 0, 0), true);
             }
