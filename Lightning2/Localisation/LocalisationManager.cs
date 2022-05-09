@@ -66,8 +66,8 @@ namespace Lightning2
 
         public static string ProcessString(string StringProcess)
         {
-            string start = "#{";
-            string end = "}";
+            string start = "#[";
+            string end = "]";
 
             string[] string_split_with_hash = StringProcess.Split(start);
 
