@@ -62,6 +62,7 @@ namespace Lightning2
             if (fontToUnload == null) throw new NCException($"Attempted to unload invalid font FriendlyName {friendlyName}!", 71, "nonexistent friendlyName passed to TextManager::UnloadFont(string)!", NCExceptionSeverity.FatalError); // possibly not fatal?
 
             fontToUnload.Unload();
+            Fonts.Remove(fontToUnload);
         }
 
         public static void DrawTextTTF(Window cWindow, string text, string font, Vector2 position, Color foreground, Color background = default(Color), SDL_ttf.TTF_FontStyle style = SDL_ttf.TTF_FontStyle.Normal, int resizeFont = -1, int outlinePixels = -1, int lineLength = -1, bool snapToScreen = true, FontSmoothingType smoothing = FontSmoothingType.Default)
