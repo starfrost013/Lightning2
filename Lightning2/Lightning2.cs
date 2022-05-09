@@ -6,7 +6,8 @@ using System.Globalization;
 namespace Lightning2
 {
     /// <summary>
-    /// Lightning2 Game Framework
+    /// Lightning2
+    /// A lightweight, easy-to-use, and elegantly designed C# game framework
     /// 
     /// © 2022 starfrost
     /// </summary>
