@@ -289,7 +289,7 @@ namespace NuCore.SDL2
         }
 #pragma warning restore 0169
 
-        public enum SDL_MouseButton : byte // must be a byte enum otherwise it will interpret unrelated data as bytes
+        public enum SDL_MouseButton : byte // must be a byte enum otherwise it will interpret unrelated data as bytes when marshalling, resulting in bogus button values.
         {
 			Left = 1,
 			Middle = 2,
