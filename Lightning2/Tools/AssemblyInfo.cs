@@ -3,9 +3,9 @@
 
 using System.Reflection;
 
-[assembly: AssemblyVersion("1.0.0.72")]
-[assembly: AssemblyFileVersion("1.0.0.72")]
-[assembly: AssemblyInformationalVersion("1.0.0 build 72, built 2022-05-09 23:44:32")]
+[assembly: AssemblyVersion("1.0.0.78")]
+[assembly: AssemblyFileVersion("1.0.0.78")]
+[assembly: AssemblyInformationalVersion("1.0.0 build 78, built 2022-05-15 01:27:05")]
 [assembly: AssemblyTitle("Lightning2")]
 
 namespace Lightning2
@@ -15,10 +15,10 @@ namespace Lightning2
 		public static int LIGHTNING2_VERSION_MAJOR = 1;
 		public static int LIGHTNING2_VERSION_MINOR = 0; 
 		public static int LIGHTNING2_VERSION_REVISION = 0;
-		public static int LIGHTNING2_VERSION_BUILD = 72;
+		public static int LIGHTNING2_VERSION_BUILD = 78;
 
 		public static string LIGHTNING2_VERSION_STRING = "1.0.0";
-		public static string LIGHTNING2_VERSION_EXTENDED_STRING = "1.0.0 build 72, built 2022-05-09 23:44:32";
+		public static string LIGHTNING2_VERSION_EXTENDED_STRING = "1.0.0 build 78, built 2022-05-15 01:27:05";
 	}
 }
 

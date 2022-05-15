@@ -45,10 +45,9 @@ namespace NuCore.SDL2
     {
         #region SDL2# Variables
 
-        // This has been reverted,
-        // as it turns out that SDL2_image etc 
-        // have a dependency on "SDL2.dll"
-        // therefore we can't rename it. Using .csproj trickery to get around this (Link element)
+        // This has been reverted, as it turns out that SDL2_image etc have a dependency on "SDL2.dll" therefore we can't rename it as it fails to load when renamed.
+        // Currently using .csproj <Link> element to get around this currently.
+        // We CAN get around it by trapping the failed to load assembly event, try to look at this
         private const string nativeLibName = @"Content\NativeLibraries\SDL2";
 
         /// <summary>
@@ -58,7 +57,7 @@ namespace NuCore.SDL2
 
         private const int SDL2CS_VERSION_MAJOR = 3;
         private const int SDL2CS_VERSION_MINOR = 0;
-        private const int SDL2CS_VERSION_REVISION = 6;
+        private const int SDL2CS_VERSION_REVISION = 7;
         #endregion
 
         #region UTF8 Marshaling
@@ -66,10 +65,8 @@ namespace NuCore.SDL2
         /* Used for stack allocated string marshaling. */
         internal static int Utf8Size(string str)
         {
-            if (str == null)
-            {
-                return 0;
-            }
+            if (str == null) return 0;
+
             return (str.Length * 4) + 1;
         }
         internal static unsafe byte* Utf8Encode(string str, byte* buffer, int bufferSize)
@@ -90,10 +87,7 @@ namespace NuCore.SDL2
 		 */
         internal static unsafe byte* Utf8EncodeHeap(string str)
         {
-            if (str == null)
-            {
-                return (byte*)0;
-            }
+            if (str == null) return (byte*)0;
 
             int bufferSize = Utf8Size(str);
             byte* buffer = (byte*)Marshal.AllocHGlobal(bufferSize);
@@ -111,10 +105,7 @@ namespace NuCore.SDL2
 
             /* We get to do strlen ourselves! */
             byte* ptr = (byte*)s;
-            while (*ptr != 0)
-            {
-                ptr++;
-            }
+            while (*ptr != 0) ptr++;
 
             /* Modern C# lets you just send the byte*, nice! */
 
@@ -124,11 +115,9 @@ namespace NuCore.SDL2
                 (byte*)s,
                 (int)(ptr - (byte*)s)
             );
+
             /* Some SDL functions will malloc, we have to free! */
-            if (freePtr)
-            {
-                SDL_free(s);
-            }
+            if (freePtr) SDL_free(s);
             return result;
         }
 

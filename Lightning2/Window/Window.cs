@@ -82,6 +82,8 @@ namespace Lightning2
 
                 switch (current_event.type)
                 {
+                    case SDL_EventType.SDL_MOUSEBUTTONDOWN:
+                        return true;
                     case SDL_EventType.SDL_QUIT: // User requested a quit, so shut down
                         Lightning2.Shutdown(this);
                         return false;

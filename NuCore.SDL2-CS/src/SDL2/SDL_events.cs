@@ -280,17 +280,27 @@ namespace NuCore.SDL2
 			public UInt32 timestamp;
 			public UInt32 windowID;
 			public UInt32 which;
-			public byte button; /* button id */
+			public SDL_MouseButton button;
 			public byte state; /* SDL_PRESSED or SDL_RELEASED */
 			public byte clicks; /* 1 for single-click, 2 for double-click, etc. */
 			private byte padding1;
 			public Int32 x;
 			public Int32 y;
-		}
+        }
 #pragma warning restore 0169
 
-		/* Mouse wheel event structure (event.wheel.*) */
-		[StructLayout(LayoutKind.Sequential)]
+        public enum SDL_MouseButton : byte // must be a byte enum otherwise it will interpret unrelated data as bytes
+        {
+			Left = 1,
+			Middle = 2,
+			Right = 3,
+			X1 = 4,
+			X2 = 5,
+	
+		}
+
+        /* Mouse wheel event structure (event.wheel.*) */
+        [StructLayout(LayoutKind.Sequential)]
 		public struct SDL_MouseWheelEvent
 		{
 			public SDL_EventType type;

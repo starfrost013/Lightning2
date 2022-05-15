@@ -14,7 +14,6 @@ namespace Lightning2
     /// </summary>
     public static class PrimitiveRenderer
     {
-
         public static void DrawPixel(Window Win, Vector2 Position, Color Colour, bool SnapToScreen = true)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
@@ -73,7 +72,7 @@ namespace Lightning2
             }
         }
 
-        public static void DrawRectangle(Window Win, Vector2 Position, Vector2 Size, Color Colour, bool Filled, bool SnapToScreen = true)
+        public static void DrawRectangle(Window Win, Vector2 Position, Vector2 Size, Color Colour, bool Filled = false, bool SnapToScreen = true, Color BorderColor = default(Color), Vector2 BorderSize = default(Vector2))
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera cur_cam = Win.Settings.Camera;
@@ -96,7 +95,12 @@ namespace Lightning2
                     (int)Position.X + (int)Size.X, (int)Position.Y + (int)Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
             }
 
-            //SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, Win.Settings.Background.R, Win.Settings.Background.G, Win.Settings.Background.B, Win.Settings.Background.A);
+            if (BorderColor != default(Color))
+            {
+                SDL_gfx.rectangleRGBA(Win.Settings.RendererHandle, (int)Position.X - (int)BorderSize.X, (int)Position.Y - (int)BorderSize.Y,
+                    (int)Position.X + (int)Size.X + ((int)BorderSize.X * 2), (int)Position.Y + (int)Size.Y + ((int)BorderSize.Y * 2), Colour.R, Colour.G, Colour.B, Colour.A);
+            }
+
         }
 
         public static void DrawRoundedRectangle(Window Win, Vector2 Position, Vector2 Size, Color Colour, int CornerRadius, bool Filled, bool SnapToScreen = true)
@@ -122,9 +126,18 @@ namespace Lightning2
                     (int)Position.X + (int)Size.X, (int)Position.Y + (int)Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
             }
 
-            //SDL.SDL_SetRenderDrawColor(Win.Settings.RendererHandle, Win.Settings.Background.R, Win.Settings.Background.G, Win.Settings.Background.B, Win.Settings.Background.A);
         }
 
+        /// <summary>
+        /// Draws a triangle using SDL2_gfx
+        /// </summary>
+        /// <param name="Win">The window to draw the triangle to.</param>
+        /// <param name="Point1">The first point of the triangle.</param>
+        /// <param name="Point2">The second point of the triangle.</param>
+        /// <param name="Point3">The third point of the triangle.</param>
+        /// <param name="Colour">The colour of the triangle - see <see cref="Color"/></param>
+        /// <param name="Filled">Determines if the triangle will be filled.</param>
+        /// <param name="SnapToScreen">Determines if the triangle will obey the current camera. If it is set to false, the camera will always have screen- instead of world-relative coordinates.</param>
         public static void DrawTriangle(Window Win, Vector2 Point1, Vector2 Point2, Vector2 Point3, Color Colour, bool Filled, bool SnapToScreen = true)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.

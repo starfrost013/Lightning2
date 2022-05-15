@@ -206,16 +206,12 @@ namespace NuCore.SDL2
 			return (uint)(1 << ((int)X - 1));
 		}
 
-		public const uint SDL_BUTTON_LEFT = 1;
-		public const uint SDL_BUTTON_MIDDLE = 2;
-		public const uint SDL_BUTTON_RIGHT = 3;
-		public const uint SDL_BUTTON_X1 = 4;
-		public const uint SDL_BUTTON_X2 = 5;
-		public static readonly UInt32 SDL_BUTTON_LMASK = SDL_BUTTON(SDL_BUTTON_LEFT);
-		public static readonly UInt32 SDL_BUTTON_MMASK = SDL_BUTTON(SDL_BUTTON_MIDDLE);
-		public static readonly UInt32 SDL_BUTTON_RMASK = SDL_BUTTON(SDL_BUTTON_RIGHT);
-		public static readonly UInt32 SDL_BUTTON_X1MASK = SDL_BUTTON(SDL_BUTTON_X1);
-		public static readonly UInt32 SDL_BUTTON_X2MASK = SDL_BUTTON(SDL_BUTTON_X2);
+		// Used for SDL_GetMouseMotion
+		public static readonly UInt32 SDL_BUTTON_LMASK = SDL_BUTTON((uint)SDL_MouseButton.Left);
+		public static readonly UInt32 SDL_BUTTON_MMASK = SDL_BUTTON((uint)SDL_MouseButton.Middle);
+		public static readonly UInt32 SDL_BUTTON_RMASK = SDL_BUTTON((uint)SDL_MouseButton.Right);
+		public static readonly UInt32 SDL_BUTTON_X1MASK = SDL_BUTTON((uint)SDL_MouseButton.X1);
+		public static readonly UInt32 SDL_BUTTON_X2MASK = SDL_BUTTON((uint)SDL_MouseButton.X2);
 
 		#endregion
 	}
