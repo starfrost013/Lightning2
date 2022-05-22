@@ -15,7 +15,6 @@ namespace Lightning2
     /// <param name="Repeat">If true, the key is currently being repeated - this is NOT the same as held down!</param>
     public delegate void KeyReleaseEvent
     (
-        UIElement sender,
         Key key,
         bool Repeat
     );

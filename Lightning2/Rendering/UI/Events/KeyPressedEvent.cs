@@ -14,7 +14,6 @@ namespace Lightning2
     /// <param name="Repeat">If true, the key is currently being repeated - this is noNOT the same as held down!</param>
     public delegate void KeyPressedEvent
     (
-        UIElement sender,
         Key key,
         bool Repeat
     );

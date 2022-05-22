@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
+using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace NuCore.Utilities
 {
@@ -17,6 +15,9 @@ namespace NuCore.Utilities
     /// </summary>
     public static class NCLogging
     {
+        /// <summary>
+        /// Private: Holds stream used for logging
+        /// </summary>
         private static StreamWriter LogStream { get; set; }
 
         /// <summary>
@@ -47,10 +48,28 @@ namespace NuCore.Utilities
 
                 LogStream = new StreamWriter(new FileStream(Settings.LogFileName, FileMode.OpenOrCreate));
             }
-
         }
 
-        public static void Log(string Information, NCExceptionSeverity Severity = NCExceptionSeverity.Message)
+        public static void Log(string information, NCExceptionSeverity severity = NCExceptionSeverity.Message)
+        {
+            switch (severity)
+            {
+                case NCExceptionSeverity.Message:
+                    Log(information, ConsoleColor.White);
+                    return;
+                case NCExceptionSeverity.Warning:
+                    Log(information, ConsoleColor.Yellow);
+                    return;
+                case NCExceptionSeverity.Error:
+                    Log(information, ConsoleColor.Red);
+                    return;
+                case NCExceptionSeverity.FatalError:
+                    Log(information, ConsoleColor.DarkRed);
+                    return;
+            }
+        }
+
+        public static void Log(string Information, ConsoleColor color)
         {
             string now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
@@ -62,8 +81,13 @@ namespace NuCore.Utilities
 
             // get the last called method
             // stack frame 0 is always current 
-            // stack frame 1 is therefore previous (hard to imagine a situation where this would be called with 0 stack frames)
-            sb.Append(st.GetFrame(1).GetMethod().Name);
+            // stack frame 1 is therefore previous (likely impossible to have a situation where this would be called with 0 stack frames)
+
+            MethodBase method = st.GetFrame(2).GetMethod();
+
+            string methodName = method.Name;
+            string className = method.ReflectedType.Name;   
+            sb.Append($"{className}::{methodName}");
 
             sb.Append("]: ");
 
@@ -72,26 +96,12 @@ namespace NuCore.Utilities
             string final_log = sb.ToString();
 
             if (Settings.WriteToLog) LogStream.Write(final_log);
-    
-            switch (Severity)
-            {
-                case NCExceptionSeverity.Message:
-                    Console.Write(final_log);
-                    return;
-                case NCExceptionSeverity.Warning:
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.Write(final_log);
-                    return;
-                case NCExceptionSeverity.Error:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write(final_log);
-                    return;
-                case NCExceptionSeverity.FatalError:
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.Write(final_log);
-                    return;
-            }
 
+            Console.ForegroundColor = color;
+
+            Console.Write(final_log);
+
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         public static void Exit(object Sender, EventArgs e)
