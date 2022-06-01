@@ -18,7 +18,7 @@ namespace Lightning2
             UIElements = new List<UIElement>();
         }
 
-        public static void AddUIElement(UIElement uiElement)
+        public static void AddUiElement(UIElement uiElement)
         {
             UIElements.Add(uiElement);
         }

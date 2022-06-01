@@ -80,8 +80,14 @@ namespace Lightning2
             RealVolume = 1; // make sure there is always a value
         }
 
+        /// <summary>
+        /// Internal: Used by AudioManager ONLY to unload file
+        /// </summary>
         internal void Unload() => SDL_mixer.Mix_FreeChunk(AudioHandle); // loadmus used therefore we are freeing chunks
 
+        /// <summary>
+        /// Plays this audio file until <see cref="Stop"/> is called.
+        /// </summary>
         public void Play() => SDL_mixer.Mix_PlayChannel(Channel, AudioHandle, Repeat);
 
         /// <summary>

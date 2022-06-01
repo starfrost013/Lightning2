@@ -54,9 +54,12 @@ namespace Lightning2
             NCLogging.Init();
         }
 
-        public static void Shutdown(Window Win)
+        public static void Shutdown(Window cWindow)
         {
             NCLogging.Log("Shutdown requested.");
+
+            NCLogging.Log("Calling UI shutdown events...");
+            UIManager.Shutdown(cWindow); 
 
             if (GlobalSettings.ProfilePerf)
             {
@@ -65,7 +68,7 @@ namespace Lightning2
             }
 
             NCLogging.Log("Destroying window and renderer...");
-            Win.Shutdown();
+            cWindow.Shutdown();
 
             // create a list of fonts and audiofiles to unload
             // just foreaching through each font and audiofile doesn't work as collection is being modified 

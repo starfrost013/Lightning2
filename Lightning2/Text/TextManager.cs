@@ -18,11 +18,11 @@ namespace Lightning2
 
         public static Font GetFont(string friendlyName)
         {
-            foreach (Font F in Fonts)
+            foreach (Font f in Fonts)
             {
-                if (F.FriendlyName == friendlyName)
+                if (f.FriendlyName == friendlyName)
                 {
-                    return F;
+                    return f;
                 }
             }
 

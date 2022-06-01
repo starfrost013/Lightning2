@@ -109,11 +109,12 @@ namespace Lightning2
             // do this BEFORE present. then measure frametime in Render_MeasureFps, this makes it accurate.
             if (GlobalSettings.ShowFPS) Render_DrawDebugInformation();
 
+            UIManager.Render(this);
+
             SDL_RenderPresent(Settings.RendererHandle);
 
             // Update the internal FPS values.
             Render_UpdateFps();
-
         }
         
         private void Render_DrawDebugInformation()

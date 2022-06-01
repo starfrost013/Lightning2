@@ -147,4 +147,8 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Rendering\UI\Enums\" />
+  </ItemGroup>
+
 </Project>

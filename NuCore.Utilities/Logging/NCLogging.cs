@@ -18,12 +18,17 @@ namespace NuCore.Utilities
         /// <summary>
         /// Private: Holds stream used for logging
         /// </summary>
-        private static StreamWriter LogStream { get; set; }
+        public static StreamWriter LogStream { get; private set; }
 
         /// <summary>
         /// The settings for the NuCore logger.
         /// </summary>
         public static NCLoggingSettings Settings { get; set; }
+
+        /// <summary>
+        /// Determines if logging is initialised.
+        /// </summary>
+        public static bool Initialised { get; set; }
 
         /// <summary>
         /// Private static constructor for initialising the NuCore logging system
@@ -48,10 +53,14 @@ namespace NuCore.Utilities
 
                 LogStream = new StreamWriter(new FileStream(Settings.LogFileName, FileMode.OpenOrCreate));
             }
+
+            Initialised = true; 
         }
 
         public static void Log(string information, NCExceptionSeverity severity = NCExceptionSeverity.Message)
         {
+            if (!Initialised) return;
+
             switch (severity)
             {
                 case NCExceptionSeverity.Message:
@@ -71,6 +80,8 @@ namespace NuCore.Utilities
 
         public static void Log(string Information, ConsoleColor color)
         {
+            if (!Initialised) return;
+
             string now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
             StringBuilder sb = new StringBuilder();
@@ -106,7 +117,7 @@ namespace NuCore.Utilities
 
         public static void Exit(object Sender, EventArgs e)
         {
-            LogStream.Close();
+            if (Settings.WriteToLog && Initialised) LogStream.Close();
         }
     }
 }
