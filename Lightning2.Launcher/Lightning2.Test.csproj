@@ -10,22 +10,22 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<PlatformTarget>x64</PlatformTarget>
-		<DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+		<DefineConstants>DEBUG;TRACE;WINDOWS,X64</DefineConstants>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug.Arm64|AnyCPU'">
 		<PlatformTarget>ARM64</PlatformTarget>
-		<DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+		<DefineConstants>DEBUG;TRACE;WINDOWS,ARM64</DefineConstants>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<PlatformTarget>x64</PlatformTarget>
-		<DefineConstants>TRACE;WINDOWS</DefineConstants>
+		<DefineConstants>TRACE;WINDOWS,X64</DefineConstants>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug.Arm64|AnyCPU'">
 		<PlatformTarget>ARM64</PlatformTarget>
-		<DefineConstants>TRACE;WINDOWS</DefineConstants>
+		<DefineConstants>TRACE;WINDOWS,ARM64</DefineConstants>
 	</PropertyGroup>
 	
   <ItemGroup>
