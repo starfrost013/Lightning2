@@ -9,7 +9,7 @@ namespace LightningGL
     /// 
     /// Defines a LightningGL click event.
     /// </summary>
-    /// <param name="sender">The <see cref="UIElement"/> that sent this event.</param>
+    /// <param name="sender">The <see cref="UIGadget"/> that sent this event.</param>
     /// <param name="buttonNo">The <see cref="SDL_MouseButton"/> that has been clicked. </param>
     public delegate void MouseReleasedEvent
     (

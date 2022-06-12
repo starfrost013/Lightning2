@@ -7,19 +7,16 @@ namespace LightningGL
     /// <summary>
     /// Light
     /// 
-    /// April 7, 2022
+    /// April 7, 2022 (modified June 12, 2022)
     /// 
     /// Defines a light. 
     /// </summary>
-    public class Light
+    public class Light : Renderable
     {
-        public Vector2 Position { get; set; }
 
         public uint Brightness { get; set; }
 
         public double Range { get; set; }
-
-        public bool SnapToScreen { get; set; }
 
         public Light()
         {

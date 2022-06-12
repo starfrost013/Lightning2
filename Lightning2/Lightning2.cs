@@ -17,7 +17,7 @@ namespace LightningGL
         {
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
             Init_InitLogging();
-            NCLogging.Log($"LightningGL {L2Version.LightningGL_VERSION_EXTENDED_STRING}");
+            NCLogging.Log($"LightningGL {L2Version.LIGHTNING_VERSION_EXTENDED_STRING}");
             NCLogging.Log("Initialising SDL...");
 
             if (SDL.SDL_Init(SDL.SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) throw new NCException($"Error initialising SDL2: {SDL.SDL_GetError()}", 0, "LightningGL.Init();", NCExceptionSeverity.FatalError);

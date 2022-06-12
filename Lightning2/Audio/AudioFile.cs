@@ -9,11 +9,11 @@ namespace LightningGL
     /// <summary>
     /// AudioFile
     /// 
-    /// March 24, 2022 (modified April 4, 2022: add positional sound)
+    /// March 24, 2022 (modified  June 12, 2022: inherits from Renderable)
     /// 
     /// Defines an audio file.
     /// </summary>
-    public class AudioFile
+    public class AudioFile : Renderable
     {
         /// <summary>
         /// Defines the unmanaged handle to this audio file.
@@ -51,16 +51,6 @@ namespace LightningGL
         /// Determines if this sound is a positional sound. 
         /// </summary>
         public bool PositionalSound { get; set; }
-
-        /// <summary>
-        /// The position of this sound. If <see cref="PositionalSound"/> is set to <c>false</c>, this value is ignored.
-        /// </summary>
-        public Vector2 Position { get; set; }
-
-        /// <summary>
-        /// The size of this sound. If <see cref="PositionalSound"/> is set to <c>false</c>, this value is ignored.
-        /// </summary>
-        public Vector2 Size { get; set; }
 
         /// <summary>
         /// Private: The real volume of this sound.

@@ -65,7 +65,7 @@ namespace LightningGL
             Fonts.Remove(fontToUnload);
         }
 
-        public static void DrawTextTTF(Window cWindow, string text, string font, Vector2 position, Color foreground, Color background = default(Color), SDL_ttf.TTF_FontStyle style = SDL_ttf.TTF_FontStyle.Normal, int resizeFont = -1, int outlinePixels = -1, int lineLength = -1, bool snapToScreen = true, FontSmoothingType smoothing = FontSmoothingType.Default)
+        public static void DrawTextTTF(Window cWindow, string text, string font, Vector2 position, Color foreground, Color background = default(Color), SDL_ttf.TTF_FontStyle style = SDL_ttf.TTF_FontStyle.Normal, bool snapToScreen = true, int resizeFont = -1, int outlinePixels = -1, int lineLength = -1, FontSmoothingType smoothing = FontSmoothingType.Default)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera cur_cam = cWindow.Settings.Camera;

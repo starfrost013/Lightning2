@@ -5,15 +5,15 @@ namespace LightningGL
     /// <summary>
     /// Camera
     /// 
-    /// April 2, 2022
+    /// April 2, 2022 (modified June 12, 2022: Add renderable)
     /// 
     /// Defines a camera
     /// </summary>
-    public class Camera
+    public class Camera : Renderable
     {
         private Vector2 _position { get; set; }
 
-        public Vector2 Position
+        public override Vector2 Position
         {
             get
             {

@@ -14,7 +14,7 @@ namespace LightningGL
     /// 
     /// awaiting refactor 3/20/22
     /// </summary>
-    public class AnimatedTexture
+    public class AnimatedTexture : Renderable
     {
         /// <summary>
         /// The frames of this texture. A list of <see cref="Texture"/> objects.
@@ -35,12 +35,6 @@ namespace LightningGL
         /// The list of paths to load the string from.
         /// </summary>
         public List<string> FramesPath { get; set; }
-
-        /// <summary>
-        /// The position of this texture.
-        /// Must be valid to draw.
-        /// </summary>
-        public Vector2 Position { get; set; }
 
         /// <summary>
         /// Determines if this texture repeats, and if so
@@ -67,19 +61,9 @@ namespace LightningGL
         private bool AnimationFinished { get; set; }
 
         /// <summary>
-        /// The size of each animation frame.
-        /// </summary>
-        public Vector2 Size { get; set; }
-
-        /// <summary>
         /// The current animation cycle.that is being used
         /// </summary>
         public AnimationCycle Cycle { get; set; }
-
-        /// <summary>
-        /// If true, this texture's position will be relative to the screen instead of the world.
-        /// </summary>
-        public bool SnapToScreen { get; set; }
 
         public AnimatedTexture()
         {

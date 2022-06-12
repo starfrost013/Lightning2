@@ -15,7 +15,7 @@ namespace LightningGL
     /// 
     /// A texture api allowing modification of individual pixels
     /// </summary>
-    public unsafe class Texture
+    public unsafe class Texture : Renderable
     {
         /// <summary>
         /// Backing field for <see cref="Path"/>
@@ -53,18 +53,6 @@ namespace LightningGL
         /// NULL if not locked.
         /// </summary>
         public int* Pixels { get; set; }
-
-        /// <summary>
-        /// The position of this texture.
-        /// Must be valid to draw.
-        /// </summary>
-        public Vector2 Position { get; set; }
-
-        /// <summary>
-        /// The size of this texture. 
-        /// Does not have to be equal to image size.
-        /// </summary>
-        public Vector2 Size { get; set; }
 
         /// <summary>
         /// Determines if this texture repeats, and if so
@@ -111,12 +99,7 @@ namespace LightningGL
         private IntPtr CFormat { get; set; }
 
         /// <summary>
-        /// If true, this texture's position will be relative to the screen instead of the world.
-        /// </summary>
-        public bool SnapToScreen { get; set; }
-
-        /// <summary>
-        /// Initialises a new texture with a size.
+        /// Initialises a new texture with the size specified in the <paramref name="nSize"/> parameter.
         /// </summary>
         /// <param name="X">The width of the texture in pixels.</param>
         /// <param name="Y">The height of the texture in pixels.</param>
@@ -218,7 +201,7 @@ namespace LightningGL
         }
 
         /// <summary>
-        /// Locks this texture so that its pixels can be edited.
+        /// Locks this texture so that its pixels can be modified.
         /// </summary>
         /// <exception cref="NCException">An error occurred locking this pixel's texture.</exception>
         public void Lock()
@@ -244,6 +227,9 @@ namespace LightningGL
             Pixels = (int*)nPixels.ToPointer();
         }
 
+        /// <summary>
+        /// Unlocks this texture so that it can be rendered.
+        /// </summary>
         public void Unlock()
         {
             if (!Locked) return;
@@ -349,7 +335,7 @@ namespace LightningGL
         }
 
         /// <summary>
-        /// Sets the blend mode of this texture. See <see cref="SDL_BlendMode"/>
+        /// Sets the blend mode of this texture. See the documentation for the <see cref="SDL_BlendMode"/> enum.
         /// </summary>
         /// <param name="BlendMode">The <see cref="SDL_BlendMode"/> to set the texture to.</param>
         public void SetBlendMode(SDL_BlendMode BlendMode) => SDL_SetTextureBlendMode(Handle, BlendMode);

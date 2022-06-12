@@ -7,11 +7,11 @@ namespace LightningGL
     /// <summary>
     /// ParticleEffect
     /// 
-    /// April 23, 2022
+    /// April 23, 2022 (modified June 12, 2022: Renderable)
     /// 
     /// Defines a particle effect.
     /// </summary>
-    public class ParticleEffect
+    public class ParticleEffect : Renderable
     {
         /// <summary>
         /// The maximum number of particles this particle effect will support.
@@ -29,11 +29,6 @@ namespace LightningGL
         public double Variance { get; set; }
 
         /// <summary>
-        /// The position of this particle effect.
-        /// </summary>
-        public Vector2 Position { get; set; }
-
-        /// <summary>
         /// The list of particles as a part of this particle effect
         /// </summary>
         private List<Particle> Particles { get; set; }
@@ -49,7 +44,7 @@ namespace LightningGL
 
         private bool _snaptoscreen { get; set; }
 
-        public bool SnapToScreen
+        public override bool SnapToScreen
         {
             // Check that our texture is valid and if so set its snaptoscreen value
             get

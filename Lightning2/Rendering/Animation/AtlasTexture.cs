@@ -13,11 +13,9 @@ namespace LightningGL
     /// Defines an animated texture loaded from a texture atlas. 
     /// A texture atlas is a single image containing multiple images designed to represent different frames or textures.
     /// </summary>
-    public class AtlasTexture
+    public class AtlasTexture : Renderable
     {
         public uint Index { get; set; }
-
-        public Vector2 Size { get; set; }
 
         public Texture Atlas { get; set; }
 
@@ -25,7 +23,7 @@ namespace LightningGL
 
         private Vector2 _position { get; set; }
 
-        public Vector2 Position
+        public override Vector2 Position
         {
             get
             {
@@ -85,7 +83,7 @@ namespace LightningGL
         /// <summary>
         /// If true, this texture's position will be relative to the screen instead of the world.
         /// </summary>
-        public bool SnapToScreen
+        public override bool SnapToScreen
         {
             get
             {

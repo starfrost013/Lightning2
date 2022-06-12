@@ -95,8 +95,6 @@ namespace LightningGL
 
         public void Render()
         {
-            // Correctly draw the background
-            SDL_SetRenderDrawColor(Settings.RendererHandle, Settings.Background.R, Settings.Background.G, Settings.Background.B, Settings.Background.A);
 
             // Render all of the particle effects.
             ParticleManager.Render(this);
@@ -110,6 +108,9 @@ namespace LightningGL
             if (GlobalSettings.ShowFPS) Render_DrawDebugInformation();
 
             UIManager.Render(this);
+
+            // Correctly draw the background
+            SDL_SetRenderDrawColor(Settings.RendererHandle, Settings.Background.R, Settings.Background.G, Settings.Background.B, Settings.Background.A);
 
             SDL_RenderPresent(Settings.RendererHandle);
 

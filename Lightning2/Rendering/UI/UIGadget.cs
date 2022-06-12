@@ -7,7 +7,7 @@ namespace LightningGL
     /// 
     /// May 13, 2022 (modified June 12, 2022)
     /// </summary>
-    public class UIElement
+    public class UIGadget : Renderable
     {
         /// <summary>
         /// Event handler for <see cref="MousePressedEvent"/> event.

@@ -9,6 +9,7 @@
 	<Configurations>Debug;Release</Configurations>
 	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	<PlatformTarget>x64</PlatformTarget>
+	<Product>$(AssemblyName)</Product>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
 
@@ -150,7 +151,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Package\" />
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NuCore.Utilities;
+using System.Collections.Generic;
 
 namespace LightningGL
 {
@@ -11,21 +12,22 @@ namespace LightningGL
     /// </summary>
     public static class UIManager
     {
-        private static List<UIElement> UIElements { get; set; }
+        private static List<UIGadget> UIElements { get; set; }
 
         static UIManager()
         {
-            UIElements = new List<UIElement>();
+            UIElements = new List<UIGadget>();
         }
 
-        public static void AddUiElement(UIElement uiElement)
+        public static void AddElement(UIGadget uiElement)
         {
+            NCLogging.Log($"Creating UIElement: {uiElement.GetType().Name}");
             UIElements.Add(uiElement);
         }
 
         internal static void Render(Window cWindow)
         {
-            foreach (UIElement uiElement in UIElements)
+            foreach (UIGadget uiElement in UIElements)
             {
                 if (uiElement.OnRender != null)
                 {
@@ -36,7 +38,7 @@ namespace LightningGL
 
         internal static void Shutdown(Window cWindow)
         {
-            foreach (UIElement uiElement in UIElements)
+            foreach (UIGadget uiElement in UIElements)
             {
                 if (uiElement.OnShutdown != null)
                 {
