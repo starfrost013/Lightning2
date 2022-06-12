@@ -191,7 +191,7 @@ window.SetCurrentCamera(camera);
 Button btn1 = new Button()
 {
     Position = new Vector2(150, 150),
-    Size = new Vector2(40, 40),
+    Size = new Vector2(44, 44),
     Text = "button",
     BackgroundColour = Color.Goldenrod,
     ForegroundColour = Color.Black,

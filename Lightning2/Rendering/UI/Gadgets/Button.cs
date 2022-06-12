@@ -30,6 +30,11 @@ namespace LightningGL
 
         public TTF_FontStyle Style { get; set; }
 
+        /// <summary>
+        /// Private: current colour used for swapping between pressed/held colour
+        /// </summary>
+        private Color CurColour { get; set; }
+
         public Button()
         {
             // Hook up events
@@ -38,9 +43,17 @@ namespace LightningGL
 
         public void Render(Window cWindow)
         {
+            Font curFont = TextManager.GetFont(Font);
+
             if (TextManager.GetFont(Font) == null) throw new NCException($"Button tried to load invalid font {Font}. Please load the font before using it!", 581, "TextManager::GetFont returned null on Font property of Button", NCExceptionSeverity.FatalError);
+
+            Vector2 textSize = TextManager.GetTextSize(curFont, Text);
+            Vector2 textPos = (Position + Size);
+            textPos.X = textPos.X - (Size.X / 2) - (textSize.X / 2);
+            textPos.Y = textPos.Y - (Size.Y / 2) - (textSize.Y / 2);
+
             PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, BackgroundColour, Filled, SnapToScreen, BorderColour, BorderSize);
-            TextManager.DrawTextTTF(cWindow, Text, Font, Position, ForegroundColour, default(Color), Style, SnapToScreen);
+            TextManager.DrawTextTTF(cWindow, Text, Font, textPos, ForegroundColour, default(Color), Style, SnapToScreen);
         }
 
     }
