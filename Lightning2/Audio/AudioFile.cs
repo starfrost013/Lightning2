@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Numerics;
 
-namespace Lightning2
+namespace LightningGL
 {
     /// <summary>
     /// AudioFile

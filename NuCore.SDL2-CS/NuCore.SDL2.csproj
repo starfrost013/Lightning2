@@ -4,13 +4,13 @@
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>NuCore.SDL2</RootNamespace>
     <Configurations>Debug;Release;Debug.Arm64;Release.Arm64</Configurations>
-    <AssemblyVersion>3.0.6.0</AssemblyVersion>
-    <FileVersion>3.0.6.0</FileVersion>
+    <AssemblyVersion>3.0.8.0</AssemblyVersion>
+    <FileVersion>3.0.8.0</FileVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PackageId>NuCore.SDL2-CS</PackageId>
     <Description>NuCore SDL2 Bindings</Description>
     <Authors>Ethan, starfrost</Authors>
-    <Version>3.0.6</Version>
+    <Version>3.0.8</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

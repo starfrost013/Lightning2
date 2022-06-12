@@ -6,7 +6,7 @@ using System.Numerics;
 using static NuCore.SDL2.SDL;
 using static NuCore.SDL2.SDL_image;
 
-namespace Lightning2
+namespace LightningGL
 {
     /// <summary>
     /// Texture

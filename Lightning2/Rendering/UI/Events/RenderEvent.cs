@@ -1,5 +1,5 @@
 ﻿
-namespace Lightning2
+namespace LightningGL
 {
     public delegate void RenderEvent
     (

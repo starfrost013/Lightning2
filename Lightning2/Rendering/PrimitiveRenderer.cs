@@ -3,7 +3,7 @@ using NuCore.Utilities;
 using System.Drawing;
 using System.Numerics;
 
-namespace Lightning2
+namespace LightningGL
 {
     /// <summary>
     /// PrimitiveRenderer

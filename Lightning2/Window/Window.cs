@@ -5,10 +5,10 @@ using System.Drawing;
 using System.Numerics;
 using static NuCore.SDL2.SDL;
 
-namespace Lightning2
+namespace LightningGL
 {
     /// <summary>
-    /// Defines a Lightning2 Window. 
+    /// Defines a LightningGL Window. 
     /// </summary>
     public class Window
     {
@@ -85,7 +85,7 @@ namespace Lightning2
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN:
                         return true;
                     case SDL_EventType.SDL_QUIT: // User requested a quit, so shut down
-                        Lightning2.Shutdown(this);
+                        LightningGL.Shutdown(this);
                         return false;
                 }
             }
@@ -148,7 +148,7 @@ namespace Lightning2
         }
 
         /// <summary>
-        /// Internal - used as a part of Lightning2.Shutdown
+        /// Internal - used as a part of LightningGL.Shutdown
         /// </summary>
         internal void Shutdown()
         {

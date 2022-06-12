@@ -1,7 +1,7 @@
 ﻿using NuCore.Utilities;
 using System.Collections.Generic;
 
-namespace Lightning2
+namespace LightningGL
 {
     public static class ParticleManager
     {

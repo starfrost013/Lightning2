@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 
-namespace Lightning2
+namespace LightningGL
 {
     /// <summary>
     /// ParticleEffect

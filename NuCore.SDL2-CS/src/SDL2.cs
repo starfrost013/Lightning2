@@ -52,7 +52,7 @@ namespace NuCore.SDL2
         /// <summary>
         /// The version of the NuCore SDL2 Bindings
         /// </summary>
-        private static string SDL2CS_VERSION = $"NuCore SDL2 Bindings version {SDL2CS_VERSION_MAJOR}.{SDL2CS_VERSION_MINOR}.{SDL2CS_VERSION_REVISION} for Lightning2 ©2022 starfrost ©2013-2021 Ethan Lee"; // cannot be const
+        private static string SDL2CS_VERSION = $"NuCore SDL2 Bindings version {SDL2CS_VERSION_MAJOR}.{SDL2CS_VERSION_MINOR}.{SDL2CS_VERSION_REVISION} for LightningGL ©2022 starfrost ©2013-2021 Ethan Lee"; // cannot be const
 
         private const int SDL2CS_VERSION_MAJOR = 3;
         private const int SDL2CS_VERSION_MINOR = 0;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using static NuCore.SDL2.SDL;
 
-namespace Lightning2
+namespace LightningGL
 {
     /// <summary>
     /// LightManager
@@ -77,7 +77,7 @@ namespace Lightning2
         }
 
         /// <summary>
-        /// Internal - used by Lightning2.Shutdown
+        /// Internal - used by LightningGL.Shutdown
         /// </summary>
         internal static void Shutdown()
         {

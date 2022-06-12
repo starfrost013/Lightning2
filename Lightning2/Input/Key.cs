@@ -1,6 +1,6 @@
 ﻿using NuCore.SDL2;
 
-namespace Lightning2
+namespace LightningGL
 {
     public class Key
     {

@@ -1,7 +1,7 @@
 ﻿using NuCore.Utilities;
 using System.IO;
 
-namespace Lightning2
+namespace LightningGL
 {
     /// <summary>
     /// GlobalSettings

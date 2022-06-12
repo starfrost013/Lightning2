@@ -1,10 +1,10 @@
 ﻿using NuCore.Utilities;
 using System.Collections.Generic;
 
-namespace Lightning2
+namespace LightningGL
 {
     /// <summary>
-    /// Lightning2 Localisation Manager
+    /// LightningGL Localisation Manager
     /// 
     /// March 7, 2022
     /// 

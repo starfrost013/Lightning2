@@ -1,11 +1,11 @@
-﻿namespace Lightning2
+﻿namespace LightningGL
 {
     /// <summary>
     /// ClickEvent
     /// 
     /// May 15, 2022
     /// 
-    /// Defines a Lightning2 key release event.
+    /// Defines a LightningGL key release event.
     /// This event is thrown on key release.
     /// </summary>
     /// <param name="sender">The <see cref="UIElement"/> that sent this event.</param>

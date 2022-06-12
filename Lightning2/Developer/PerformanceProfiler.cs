@@ -3,14 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Lightning2
+namespace LightningGL
 {
     /// <summary>
     /// PerformanceProfiler
     /// 
     /// May 9, 2022
     /// 
-    /// Defines a lightweight performance profiler for Lightning2.
+    /// Defines a lightweight performance profiler for LightningGL.
     /// Dumps FPS information information to a CSV file.
     /// </summary>
     public static class PerformanceProfiler
@@ -35,7 +35,7 @@ namespace Lightning2
         public static void Init()
         {
             DateTime now = DateTime.Now;
-            FileName = $"Lightning2-Perf-{now.ToString("yyyyMMdd_HHmmss")}.csv";
+            FileName = $"LightningGL-Perf-{now.ToString("yyyyMMdd_HHmmss")}.csv";
 
             try
             {

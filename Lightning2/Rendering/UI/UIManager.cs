@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Lightning2
+namespace LightningGL
 {
     /// <summary>
     /// UIManager

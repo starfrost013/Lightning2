@@ -1,11 +1,11 @@
-﻿namespace Lightning2
+﻿namespace LightningGL
 {
     /// <summary>
     /// ClickEvent
     /// 
     /// May 15, 2022
     /// 
-    /// Defines a Lightning2 keypress event.
+    /// Defines a LightningGL keypress event.
     /// </summary>
     /// <param name="sender">The <see cref="UIElement"/> that sent this event.</param>
     /// <param name="key">The <see cref="Key"/> on the keyboard that has been pressed.</param>

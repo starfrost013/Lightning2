@@ -49,7 +49,7 @@ namespace NuCore.SDL2
 
         #region SDL2_gfxVersion.h 
 
-        // requires 1.0.6 (Lightning2 version) 
+        // requires 1.0.6 (LightningGL version) 
 
         public const int SDL_GFX_VERSION_MAJOR = 1;
         public const int SDL_GFX_VERSION_MINOR = 0;

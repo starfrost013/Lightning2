@@ -3,7 +3,7 @@ using NuCore.Utilities;
 using System;
 using System.IO;
 
-namespace Lightning2
+namespace LightningGL
 {
     public class Font
     {

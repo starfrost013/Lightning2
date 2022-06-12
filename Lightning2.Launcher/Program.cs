@@ -1,18 +1,18 @@
 ﻿// See https://aka.ms/new-console-template for more information
-// Test Lightning2 application
+// Test LightningGL application
 
 // © 2022 starfrost
 
-using Lightning2;
+using LightningGL;
 using NuCore.SDL2;
 using System.Drawing;
 using System.Numerics;
 
-Lightning2.Lightning2.Init(); // Initialise Lightning2
+LightningGL.LightningGL.Init(); // Initialise LightningGL
 Window window = new Window();
 WindowSettings window_settings = new WindowSettings();
 
-window_settings.Title = "Lightning2 Example";
+window_settings.Title = "LightningGL Example";
 window_settings.Position = new Vector2(350, 100);
 window_settings.Size = new Vector2(960, 640);
 

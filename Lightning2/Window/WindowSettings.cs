@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Numerics;
 using static NuCore.SDL2.SDL;
 
-namespace Lightning2
+namespace LightningGL
 {
     public class WindowSettings
     {
