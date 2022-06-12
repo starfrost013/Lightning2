@@ -113,7 +113,7 @@ namespace Lightning2
             if (AnimationFinished) return;
 
             Texture cur_frame = Frames[CurrentFrame];
-            
+
             cur_frame.Position = Position;
             cur_frame.Repeat = TextureRepeat;
             cur_frame.Size = Size;

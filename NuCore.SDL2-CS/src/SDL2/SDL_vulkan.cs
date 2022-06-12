@@ -34,83 +34,81 @@
 
 #region Using Statements
 using System;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
 #endregion
 
 namespace NuCore.SDL2
 {
     public static partial class SDL
     {
-		#region SDL_vulkan.h
+        #region SDL_vulkan.h
 
-		/* Only available in 2.0.6 or higher. */
-		[DllImport(nativeLibName, EntryPoint = "SDL_Vulkan_LoadLibrary", CallingConvention = CallingConvention.Cdecl)]
-		private static extern unsafe int INTERNAL_SDL_Vulkan_LoadLibrary(
-			byte* path
-		);
-		public static unsafe int SDL_Vulkan_LoadLibrary(string path)
-		{
-			byte* utf8Path = Utf8EncodeHeap(path);
-			int result = INTERNAL_SDL_Vulkan_LoadLibrary(
-				utf8Path
-			);
-			Marshal.FreeHGlobal((IntPtr)utf8Path);
-			return result;
-		}
+        /* Only available in 2.0.6 or higher. */
+        [DllImport(nativeLibName, EntryPoint = "SDL_Vulkan_LoadLibrary", CallingConvention = CallingConvention.Cdecl)]
+        private static extern unsafe int INTERNAL_SDL_Vulkan_LoadLibrary(
+            byte* path
+        );
+        public static unsafe int SDL_Vulkan_LoadLibrary(string path)
+        {
+            byte* utf8Path = Utf8EncodeHeap(path);
+            int result = INTERNAL_SDL_Vulkan_LoadLibrary(
+                utf8Path
+            );
+            Marshal.FreeHGlobal((IntPtr)utf8Path);
+            return result;
+        }
 
-		/* Only available in 2.0.6 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SDL_Vulkan_GetVkGetInstanceProcAddr();
+        /* Only available in 2.0.6 or higher. */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr SDL_Vulkan_GetVkGetInstanceProcAddr();
 
-		/* Only available in 2.0.6 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void SDL_Vulkan_UnloadLibrary();
+        /* Only available in 2.0.6 or higher. */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void SDL_Vulkan_UnloadLibrary();
 
-		/* window refers to an SDL_Window*, pNames to a const char**.
+        /* window refers to an SDL_Window*, pNames to a const char**.
 		 * Only available in 2.0.6 or higher.
 		 * This overload allows for IntPtr.Zero (null) to be passed for pNames.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern SDL_bool SDL_Vulkan_GetInstanceExtensions(
-			IntPtr window,
-			out uint pCount,
-			IntPtr pNames
-		);
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern SDL_bool SDL_Vulkan_GetInstanceExtensions(
+            IntPtr window,
+            out uint pCount,
+            IntPtr pNames
+        );
 
-		/* window refers to an SDL_Window*, pNames to a const char**.
+        /* window refers to an SDL_Window*, pNames to a const char**.
 		 * Only available in 2.0.6 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern SDL_bool SDL_Vulkan_GetInstanceExtensions(
-			IntPtr window,
-			out uint pCount,
-			IntPtr[] pNames
-		);
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern SDL_bool SDL_Vulkan_GetInstanceExtensions(
+            IntPtr window,
+            out uint pCount,
+            IntPtr[] pNames
+        );
 
-		/* window refers to an SDL_Window.
+        /* window refers to an SDL_Window.
 		 * instance refers to a VkInstance.
 		 * surface refers to a VkSurfaceKHR.
 		 * Only available in 2.0.6 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern SDL_bool SDL_Vulkan_CreateSurface(
-			IntPtr window,
-			IntPtr instance,
-			out ulong surface
-		);
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern SDL_bool SDL_Vulkan_CreateSurface(
+            IntPtr window,
+            IntPtr instance,
+            out ulong surface
+        );
 
-		/* window refers to an SDL_Window*.
+        /* window refers to an SDL_Window*.
 		 * Only available in 2.0.6 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void SDL_Vulkan_GetDrawableSize(
-			IntPtr window,
-			out int w,
-			out int h
-		);
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void SDL_Vulkan_GetDrawableSize(
+            IntPtr window,
+            out int w,
+            out int h
+        );
 
-		#endregion
-	}
+        #endregion
+    }
 }

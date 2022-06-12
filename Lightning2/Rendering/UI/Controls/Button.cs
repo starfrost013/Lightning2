@@ -1,12 +1,19 @@
 ﻿using NuCore.Utilities;
 using System.Drawing;
-using System.Numerics; 
+using System.Numerics;
 
 namespace Lightning2
 {
+    /// <summary>
+    /// Button
+    /// 
+    /// June 12, 2022
+    /// 
+    /// Defines a button class.
+    /// </summary>
     public class Button : UIElement
     {
-        public string Text { get; set; }    
+        public string Text { get; set; }
 
         public string Font { get; set; }
 

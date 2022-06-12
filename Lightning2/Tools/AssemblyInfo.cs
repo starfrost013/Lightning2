@@ -10,15 +10,15 @@ using System.Reflection;
 
 namespace Lightning2
 {
-	public static class L2Version
-	{
-		public static int LIGHTNING2_VERSION_MAJOR = 1;
-		public static int LIGHTNING2_VERSION_MINOR = 0; 
-		public static int LIGHTNING2_VERSION_REVISION = 0;
-		public static int LIGHTNING2_VERSION_BUILD = 101;
+    public static class L2Version
+    {
+        public static int LIGHTNING2_VERSION_MAJOR = 1;
+        public static int LIGHTNING2_VERSION_MINOR = 0;
+        public static int LIGHTNING2_VERSION_REVISION = 0;
+        public static int LIGHTNING2_VERSION_BUILD = 101;
 
-		public static string LIGHTNING2_VERSION_STRING = "1.0.0";
-		public static string LIGHTNING2_VERSION_EXTENDED_STRING = "1.0.0 build 101, built 2022-06-07 20:10:25";
-	}
+        public static string LIGHTNING2_VERSION_STRING = "1.0.0";
+        public static string LIGHTNING2_VERSION_EXTENDED_STRING = "1.0.0 build 101, built 2022-06-07 20:10:25";
+    }
 }
 

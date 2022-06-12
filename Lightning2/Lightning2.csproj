@@ -6,30 +6,19 @@
 	<TransformOnBuild>true</TransformOnBuild>
 	<OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
 	<TransformOutOfDateOnly>false</TransformOutOfDateOnly>
-	<Configurations>Debug;Release;Debug.Arm64;Release.Arm64</Configurations>
+	<Configurations>Debug;Release</Configurations>
 	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	<PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
 
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<PlatformTarget>x64</PlatformTarget>
 		<DefineConstants>DEBUG;TRACE;WINDOWS,X64</DefineConstants>
 	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug.Arm64|AnyCPU'">
-		<PlatformTarget>ARM64</PlatformTarget>
-		<DefineConstants>DEBUG;TRACE;WINDOWS,ARM64</DefineConstants>
-	</PropertyGroup>
-
+	
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<PlatformTarget>x64</PlatformTarget>
 		<DefineConstants>TRACE;WINDOWS,X64</DefineConstants>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug.Arm64|AnyCPU'">
-		<PlatformTarget>ARM64</PlatformTarget>
-		<DefineConstants>TRACE;WINDOWS,ARM64</DefineConstants>
 	</PropertyGroup>
 
   <ItemGroup>
@@ -158,6 +147,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AssemblyInfo.tt</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Package\" />
   </ItemGroup>
 
 </Project>

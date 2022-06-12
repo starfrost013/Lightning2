@@ -1,9 +1,5 @@
-﻿using NuCore.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace NuCore.Utilities
 {
@@ -40,8 +36,8 @@ namespace NuCore.Utilities
         /// An optional base exception that caused this exception.
         /// Used for outputting base exception information, not a replacement for exception.baseexception!
         /// </summary>
-        public Exception BaseException { get; set; }   
-        
+        public Exception BaseException { get; set; }
+
         /// <summary>
         /// If true, the message box of this error will be suppressed and not shown.
         /// </summary>

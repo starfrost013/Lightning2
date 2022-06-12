@@ -9,7 +9,7 @@ using static NuCore.SDL2.SDL_image;
 namespace Lightning2
 {
     /// <summary>
-    /// TextureAPI
+    /// Texture
     /// 
     /// February 11, 2022
     /// 
@@ -38,7 +38,6 @@ namespace Lightning2
                 {
                     return _path;
                 }
-
             }
             set
             {
@@ -53,7 +52,7 @@ namespace Lightning2
         /// 
         /// NULL if not locked.
         /// </summary>
-        public IntPtr Pixels { get; set; }
+        public int* Pixels { get; set; }
 
         /// <summary>
         /// The position of this texture.
@@ -112,11 +111,6 @@ namespace Lightning2
         private IntPtr CFormat { get; set; }
 
         /// <summary>
-        /// Private: Pointer to unmanaged texture pixels (when the texture is locked)
-        /// </summary>
-        private int* PixelPtr { get; set; }
-
-        /// <summary>
         /// If true, this texture's position will be relative to the screen instead of the world.
         /// </summary>
         public bool SnapToScreen { get; set; }
@@ -126,34 +120,44 @@ namespace Lightning2
         /// </summary>
         /// <param name="X">The width of the texture in pixels.</param>
         /// <param name="Y">The height of the texture in pixels.</param>
-        public Texture(Window Win, Vector2 nSize)
+        public Texture(Window cWindow, Vector2 nSize)
         {
-            Size = nSize; 
+            Size = nSize;
 
             if (Size == default(Vector2)) throw new NCException($"Error creating texture: Must have a size!", 20, "Texture.Create", NCExceptionSeverity.FatalError);
 
-            Handle = SDL_CreateTexture(Win.Settings.RendererHandle, SDL_PIXELFORMAT_ARGB8888, SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, (int)Size.X, (int)Size.Y);
+            Handle = SDL_CreateTexture(cWindow.Settings.RendererHandle, SDL_PIXELFORMAT_ARGB8888, SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, (int)Size.X, (int)Size.Y);
 
             // check if texture failed to load
             if (Handle == IntPtr.Zero) throw new NCException($"Error creating texture: {SDL_GetError()}", 11, "Texture.Create", NCExceptionSeverity.FatalError);
 
-            Init_AllocFormat(Win);
+            Init_AllocFormat(cWindow);
         }
 
-        public void Load(Window CWindow)
+        /// <summary>
+        /// Loads the texture for the window <see cref="cWindow"/>
+        /// </summary>
+        /// <param name="cWindow">The window to load the texture on.</param>
+        /// <exception cref="NCException">An error occurred loading the texture.</exception>
+        public void Load(Window cWindow)
         {
             if (!File.Exists(Path)) throw new NCException($"{Path} does not exist!", 9, "!File.Exists(Texture.Path)!", NCExceptionSeverity.FatalError);
 
-            Handle = IMG_LoadTexture(CWindow.Settings.RendererHandle, Path);
+            Handle = IMG_LoadTexture(cWindow.Settings.RendererHandle, Path);
 
             if (Handle == IntPtr.Zero) throw new NCException($"Failed to load texture at {Path} - {SDL_GetError()}", 10, "Error in SDL_image.IMG_LoadTexture", NCExceptionSeverity.Error);
         }
 
-        private void Init_AllocFormat(Window CWindow)
+        /// <summary>
+        /// Private method that allocates a texture format based on the window pixel format for this texture during loading. 
+        /// </summary>
+        /// <param name="cWindow">The window to allocate the texture format for this texture.</param>
+        /// <exception cref="NCException">An error occurred while allocating a texture format.</exception>
+        private void Init_AllocFormat(Window cWindow)
         {
-            uint current_format = SDL_GetWindowPixelFormat(CWindow.Settings.WindowHandle);
+            uint currentFormat = SDL_GetWindowPixelFormat(cWindow.Settings.WindowHandle);
 
-            CFormat = SDL_AllocFormat(current_format);
+            CFormat = SDL_AllocFormat(currentFormat);
 
             // probably not the best to actually like, allocate formats like this
             if (CFormat == IntPtr.Zero) throw new NCException($"Error allocating texture format for texture at {Path}: {SDL_GetError()}", 13, "Texture.Init_AllocFormat", NCExceptionSeverity.FatalError);
@@ -181,7 +185,7 @@ namespace Lightning2
 
             if (PixelToGet > MaxPixelID) throw new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({X},{Y}), min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {PixelToGet} > {MaxPixelID}!", 14, "Texture.GetPixel", NCExceptionSeverity.FatalError);
 
-            int NP = PixelPtr[PixelToGet];
+            int NP = Pixels[PixelToGet];
 
             if (UnlockNow) Unlock();
 
@@ -207,14 +211,19 @@ namespace Lightning2
             if (PixelToGet > MaxPixelID) throw new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({X},{Y}), min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {PixelToGet} > {MaxPixelID}!", 16, "Texture.SetPixel", NCExceptionSeverity.FatalError);
 
             // use pixeltoget to twiddle the pixel that we need using the number we calculated before
-            PixelPtr[PixelToGet] = Colour.ToArgb();
+            Pixels[PixelToGet] = Colour.ToArgb();
 
             // unlock the texture if unlocknow specified
             if (UnlockNow) Unlock();
         }
 
+        /// <summary>
+        /// Locks this texture so that its pixels can be edited.
+        /// </summary>
+        /// <exception cref="NCException">An error occurred locking this pixel's texture.</exception>
         public void Lock()
         {
+            // do nothing if we are calling this on an already locked texture
             if (Locked) return;
             Locked = true;
 
@@ -223,17 +232,16 @@ namespace Lightning2
             // should work around this by not having out/ref,
             // but not sure if this is feasible wrt C++/PInvoke
 
-            IntPtr npixels = Pixels;
+            IntPtr nPixels = IntPtr.Zero;
+
             SDL_Rect rect = new SDL_Rect(0, 0, (int)Size.X, (int)Size.Y);
-            int npitch = Pitch;
+            int nPitch = Pitch;
 
-            if (SDL_LockTexture(Handle, ref rect, out npixels, out npitch) < 0) throw new NCException($"Error locking pixels for texture with path {Path}, error {SDL_GetError()}.", 11, "Texture.Lock", NCExceptionSeverity.FatalError);
+            if (SDL_LockTexture(Handle, ref rect, out nPixels, out nPitch) < 0) throw new NCException($"Error locking pixels for texture with path {Path}, error {SDL_GetError()}.", 11, "Texture.Lock", NCExceptionSeverity.FatalError);
 
-            Pitch = npitch;
-            Pixels = npixels;
-
+            Pitch = nPitch;
             // convert to C pointer
-            PixelPtr = (int*)Pixels.ToPointer();
+            Pixels = (int*)nPixels.ToPointer();
         }
 
         public void Unlock()
@@ -244,8 +252,8 @@ namespace Lightning2
             SDL_UnlockTexture(Handle);
 
             // these values are now invalid 
-            Pixels = IntPtr.Zero;
-            PixelPtr = null;
+            Pixels = null;
+
             Pitch = 0;
         }
 

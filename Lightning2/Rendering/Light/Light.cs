@@ -1,5 +1,4 @@
-﻿using static NuCore.SDL2.SDL;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Numerics;
 

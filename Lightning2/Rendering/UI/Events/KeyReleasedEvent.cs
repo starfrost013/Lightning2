@@ -1,6 +1,4 @@
-﻿using static NuCore.SDL2.SDL;
-
-namespace Lightning2
+﻿namespace Lightning2
 {
     /// <summary>
     /// ClickEvent

@@ -17,50 +17,50 @@ namespace Lightning2
 
         public IntPtr Handle { get; private set; }
 
-        public static Font Load(string Name, int Size, string Path = null, string FriendlyName = null, int Index = -1) // probably static
+        public static Font Load(string name, int size, string path = null, string friendlyName = null, int index = -1) // probably static
         {
             Font temp_font = new Font();
 
-            temp_font.Name = Name;
+            temp_font.Name = name;
 
-            if (FriendlyName == null)
+            if (friendlyName == null)
             {
-                temp_font.FriendlyName = Name;
+                temp_font.FriendlyName = name;
             }
             else
             {
-                temp_font.FriendlyName = FriendlyName;
+                temp_font.FriendlyName = friendlyName;
             }
 
-            temp_font.Size = Size;
+            temp_font.Size = size;
 
             string temp_path = null;
 
-            if (Path == null) // default to system load path 
+            if (path == null) // default to system load path 
             {
-                temp_path = @$"{Environment.GetFolderPath(Environment.SpecialFolder.Fonts)}\{Name}.ttf";
+                temp_path = @$"{Environment.GetFolderPath(Environment.SpecialFolder.Fonts)}\{name}.ttf";
             }
             else
             {
-                temp_path = $"{Path}.ttf";
+                temp_path = $"{path}.ttf";
             }
 
             if (!File.Exists(temp_path)) throw new NCException($"Error loading font: Attempted to load nonexistent font at {temp_path}", 35, "Font.Load()", NCExceptionSeverity.Error);
 
             if (!temp_path.Contains(".ttf")) throw new NCException($"Error loading font: Only TTF fonts are supported!", 36, "Font.Load()", NCExceptionSeverity.Error);
 
-            if (Size <= 0) throw new NCException($"Error loading font: Invalid font size {Size}, must be at least 1!", 37, "Font.Load()", NCExceptionSeverity.Error);
+            if (size <= 0) throw new NCException($"Error loading font: Invalid font size {size}, must be at least 1!", 37, "Font.Load()", NCExceptionSeverity.Error);
 
-            if (Index == -1)
+            if (index == -1)
             {
-                temp_font.Handle = SDL_ttf.TTF_OpenFont(temp_path, Size);
+                temp_font.Handle = SDL_ttf.TTF_OpenFont(temp_path, size);
             }
             else
             {
-                temp_font.Handle = SDL_ttf.TTF_OpenFontIndex(temp_path, Size, Index);
+                temp_font.Handle = SDL_ttf.TTF_OpenFontIndex(temp_path, size, index);
             }
 
-            if (temp_font.Handle == IntPtr.Zero) throw new NCException($"Error loading font at {Path}: {SDL_ttf.TTF_GetError()}", 38, "Font.Load()", NCExceptionSeverity.Error);
+            if (temp_font.Handle == IntPtr.Zero) throw new NCException($"Error loading font at {path}: {SDL_ttf.TTF_GetError()}", 38, "Font.Load()", NCExceptionSeverity.Error);
 
             NCLogging.Log($"Loaded font {temp_font.Name}, size {temp_font.Size} at {temp_path}");
             return temp_font;

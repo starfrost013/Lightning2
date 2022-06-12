@@ -33,10 +33,7 @@
 #endregion
 
 #region Using Statements
-using System;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
 #endregion
 
 namespace NuCore.SDL2
@@ -44,23 +41,23 @@ namespace NuCore.SDL2
     public static partial class SDL
     {
 
-		#region SDL_power.h
+        #region SDL_power.h
 
-		public enum SDL_PowerState
-		{
-			SDL_POWERSTATE_UNKNOWN = 0,
-			SDL_POWERSTATE_ON_BATTERY,
-			SDL_POWERSTATE_NO_BATTERY,
-			SDL_POWERSTATE_CHARGING,
-			SDL_POWERSTATE_CHARGED
-		}
+        public enum SDL_PowerState
+        {
+            SDL_POWERSTATE_UNKNOWN = 0,
+            SDL_POWERSTATE_ON_BATTERY,
+            SDL_POWERSTATE_NO_BATTERY,
+            SDL_POWERSTATE_CHARGING,
+            SDL_POWERSTATE_CHARGED
+        }
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern SDL_PowerState SDL_GetPowerInfo(
-			out int secs,
-			out int pct
-		);
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern SDL_PowerState SDL_GetPowerInfo(
+            out int secs,
+            out int pct
+        );
 
-		#endregion
-	}
+        #endregion
+    }
 }

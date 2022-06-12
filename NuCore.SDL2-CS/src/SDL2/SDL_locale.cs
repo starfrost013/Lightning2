@@ -34,30 +34,28 @@
 
 #region Using Statements
 using System;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
 #endregion
 
 namespace NuCore.SDL2
 {
     public static partial class SDL
     {
-		#region SDL_locale.h
+        #region SDL_locale.h
 
-		[StructLayout(LayoutKind.Sequential)]
-		public struct SDL_Locale
-		{
-			IntPtr language;
-			IntPtr country;
-		}
+        [StructLayout(LayoutKind.Sequential)]
+        public struct SDL_Locale
+        {
+            IntPtr language;
+            IntPtr country;
+        }
 
-		/* IntPtr refers to an SDL_Locale*.
+        /* IntPtr refers to an SDL_Locale*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SDL_GetPreferredLocales();
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr SDL_GetPreferredLocales();
 
-		#endregion
-	}
+        #endregion
+    }
 }

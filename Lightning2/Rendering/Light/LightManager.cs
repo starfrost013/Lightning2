@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Numerics;
 using static NuCore.SDL2.SDL;
 
 namespace Lightning2

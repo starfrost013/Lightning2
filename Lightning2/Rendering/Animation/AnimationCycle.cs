@@ -29,11 +29,11 @@
             FrameLength = 1;
         }
 
-        public AnimationCycle(int NStartFrame, int NEndFrame, uint NFrameLength)
+        public AnimationCycle(int nStartFrame, int nEndFrame, uint nFrameLength)
         {
-            StartFrame = NStartFrame;
-            EndFrame = NEndFrame;
-            FrameLength = NFrameLength;
+            StartFrame = nStartFrame;
+            EndFrame = nEndFrame;
+            FrameLength = nFrameLength;
         }
     }
 }

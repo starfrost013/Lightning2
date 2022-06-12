@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NuCore.Utilities
 {
@@ -44,8 +41,8 @@ namespace NuCore.Utilities
             bool error_occurred = false; // for release builds where you continue past exceptions
 
             if (!File.Exists(Path)) throw new NCException($"INI parsing error: Cannot parse INI file at {Path}: File not found!", 21, "NCINIFile.Parse()", NCExceptionSeverity.Error);
-            
-            NCINIFile ini_file = new NCINIFile();   
+
+            NCINIFile ini_file = new NCINIFile();
 
             try
             {
@@ -54,7 +51,7 @@ namespace NuCore.Utilities
                 while (!ini_stream.EndOfStream)
                 {
                     string ini_line = ini_stream.ReadLine();
-                    
+
                     ini_line = ini_line.Trim(); // trim leading spaces
 
                     if (ini_line.Length == 0) continue; // go to next line, empty line
@@ -69,10 +66,10 @@ namespace NuCore.Utilities
                                 NCINIFileSection ini_section = new NCINIFileSection();
 
                                 ini_file.CurSection = ini_section;
-                                
+
                                 int beginning = ini_line.IndexOf('[');
                                 int end = ini_line.IndexOf(']');
-                                
+
                                 if (beginning > end)
                                 {
                                     error_occurred = true;
@@ -101,7 +98,7 @@ namespace NuCore.Utilities
                                 if (ini_file.CurSection == null)
                                 {
                                     error_occurred = true;
-                                    throw new NCException("INI parsing error: Values must be within a section!", 26, "NCINIFile.Parse()", NCExceptionSeverity.Error); 
+                                    throw new NCException("INI parsing error: Values must be within a section!", 26, "NCINIFile.Parse()", NCExceptionSeverity.Error);
                                 }
 
                                 string[] ini_value = ini_line.Split('=');
@@ -116,7 +113,7 @@ namespace NuCore.Utilities
 
                                 // trim to get rid of leading spaces etc
                                 ini_value_name = ini_value_name.Trim();
-                                ini_value_value = ini_value_value.Trim(); 
+                                ini_value_value = ini_value_value.Trim();
 
 
                                 // add it to the values
@@ -132,7 +129,7 @@ namespace NuCore.Utilities
                 }
 
                 if (!error_occurred) return ini_file;
-                
+
                 // return null if we failed to parse
                 return null;
             }
@@ -140,7 +137,7 @@ namespace NuCore.Utilities
             {
                 throw new NCException($"INI parsing error: Cannot parse INI file at {Path}: \n\n{ex}", 22, "NCINIFile.Parse()", NCExceptionSeverity.Error);
             }
-            
+
         }
 
         /// <summary>
@@ -158,7 +155,7 @@ namespace NuCore.Utilities
                 }
             }
 
-            return null; 
+            return null;
         }
     }
 }

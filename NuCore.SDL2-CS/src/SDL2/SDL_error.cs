@@ -34,45 +34,43 @@
 
 #region Using Statements
 using System;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
 #endregion
 
 namespace NuCore.SDL2
 {
     public static partial class SDL
     {
-		#region SDL_error.h
+        #region SDL_error.h
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void SDL_ClearError();
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void SDL_ClearError();
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetError", CallingConvention = CallingConvention.Cdecl)]
-		private static extern IntPtr INTERNAL_SDL_GetError();
-		public static string SDL_GetError()
-		{
-			return UTF8_ToManaged(INTERNAL_SDL_GetError());
-		}
+        [DllImport(nativeLibName, EntryPoint = "SDL_GetError", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr INTERNAL_SDL_GetError();
+        public static string SDL_GetError()
+        {
+            return UTF8_ToManaged(INTERNAL_SDL_GetError());
+        }
 
-		/* Use string.Format for arglists */
-		[DllImport(nativeLibName, EntryPoint = "SDL_SetError", CallingConvention = CallingConvention.Cdecl)]
-		private static extern unsafe void INTERNAL_SDL_SetError(byte* fmtAndArglist);
-		public static unsafe void SDL_SetError(string fmtAndArglist)
-		{
-			int utf8FmtAndArglistBufSize = Utf8Size(fmtAndArglist);
-			byte* utf8FmtAndArglist = stackalloc byte[utf8FmtAndArglistBufSize];
-			INTERNAL_SDL_SetError(
-				Utf8Encode(fmtAndArglist, utf8FmtAndArglist, utf8FmtAndArglistBufSize)
-			);
-		}
+        /* Use string.Format for arglists */
+        [DllImport(nativeLibName, EntryPoint = "SDL_SetError", CallingConvention = CallingConvention.Cdecl)]
+        private static extern unsafe void INTERNAL_SDL_SetError(byte* fmtAndArglist);
+        public static unsafe void SDL_SetError(string fmtAndArglist)
+        {
+            int utf8FmtAndArglistBufSize = Utf8Size(fmtAndArglist);
+            byte* utf8FmtAndArglist = stackalloc byte[utf8FmtAndArglistBufSize];
+            INTERNAL_SDL_SetError(
+                Utf8Encode(fmtAndArglist, utf8FmtAndArglist, utf8FmtAndArglistBufSize)
+            );
+        }
 
-		/* IntPtr refers to a char*.
+        /* IntPtr refers to a char*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SDL_GetErrorMsg(IntPtr errstr, int maxlength);
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr SDL_GetErrorMsg(IntPtr errstr, int maxlength);
 
-		#endregion
-	}
+        #endregion
+    }
 }

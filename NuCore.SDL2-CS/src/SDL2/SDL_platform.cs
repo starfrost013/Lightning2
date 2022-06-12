@@ -34,9 +34,7 @@
 
 #region Using Statements
 using System;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
 #endregion
 
 namespace NuCore.SDL2
@@ -44,15 +42,15 @@ namespace NuCore.SDL2
     public static partial class SDL
     {
 
-		#region SDL_platform.h
+        #region SDL_platform.h
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetPlatform", CallingConvention = CallingConvention.Cdecl)]
-		private static extern IntPtr INTERNAL_SDL_GetPlatform();
-		public static string SDL_GetPlatform()
-		{
-			return UTF8_ToManaged(INTERNAL_SDL_GetPlatform());
-		}
+        [DllImport(nativeLibName, EntryPoint = "SDL_GetPlatform", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr INTERNAL_SDL_GetPlatform();
+        public static string SDL_GetPlatform()
+        {
+            return UTF8_ToManaged(INTERNAL_SDL_GetPlatform());
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

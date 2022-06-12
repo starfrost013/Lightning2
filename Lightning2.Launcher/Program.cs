@@ -3,10 +3,10 @@
 
 // © 2022 starfrost
 
-using NuCore.SDL2;
 using Lightning2;
+using NuCore.SDL2;
 using System.Drawing;
-using System.Numerics; 
+using System.Numerics;
 
 Lightning2.Lightning2.Init(); // Initialise Lightning2
 Window window = new Window();
@@ -87,7 +87,7 @@ ParticleEffect testEffect = new ParticleEffect(testEffectTexture)
     Lifetime = 15,
     Variance = 50,
     Velocity = new(4f, -4f),
-    Position = new(150, 500) 
+    Position = new(150, 500)
 };
 
 ParticleManager.AddParticleEffect(window, testEffect);
@@ -181,7 +181,7 @@ xm_boot_ogg.Play();
 
 xm_title.SetVolume(1);
 xm_title.Repeat = -1;
-xm_title.PositionalSound = true; 
+xm_title.PositionalSound = true;
 xm_title.Play();
 
 Camera camera = new Camera(CameraType.Chase);
@@ -232,7 +232,7 @@ while (window.Run())
     PrimitiveRenderer.DrawLine(window, new Vector2(500, 210), new Vector2(600, 210), 15, Color.FromArgb(255, 255, 255, 255), true);
 
     PrimitiveRenderer.DrawCircle(window, new Vector2(500, 10), new Vector2(50, 50), Color.FromArgb(255, 255, 255, 255), true);
-    PrimitiveRenderer.DrawCircle(window, new Vector2(500, 309), new Vector2(50, 50), Color.FromArgb(127, 255, 255, 255), false) ;
+    PrimitiveRenderer.DrawCircle(window, new Vector2(500, 309), new Vector2(50, 50), Color.FromArgb(127, 255, 255, 255), false);
 
     PrimitiveRenderer.DrawRectangle(window, new Vector2(552, 10), new Vector2(30, 30), Color.FromArgb(255, 255, 255, 255), false);
     PrimitiveRenderer.DrawRectangle(window, new Vector2(584, 10), new Vector2(30, 30), Color.FromArgb(33, 0, 0, 255), true);
@@ -255,11 +255,11 @@ while (window.Run())
     TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 90), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Strikeout, 15);
     TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 110), Color.FromArgb(255, 255, 255, 0), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, 3);
     TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 130), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, 15, -1);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 150), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0),  SDL_ttf.TTF_FontStyle.Bold, -1, -1, 30);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 170), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0),  SDL_ttf.TTF_FontStyle.Bold, -1, -1, 0, true, FontSmoothingType.Shaded);
+    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 150), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, -1, 30);
+    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 170), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, -1, 0, true, FontSmoothingType.Shaded);
     TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 190), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, -1, 0, true, FontSmoothingType.Solid);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 210), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0),  SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline);
-    TextManager.DrawTextTTF(window, "#[STRING_TEST]\nTest2\nTest3", "Arial.11pt", new Vector2(700, 230), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0),  SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline | SDL_ttf.TTF_FontStyle.Strikeout);
+    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 210), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline);
+    TextManager.DrawTextTTF(window, "#[STRING_TEST]\nTest2\nTest3", "Arial.11pt", new Vector2(700, 230), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline | SDL_ttf.TTF_FontStyle.Strikeout);
 
     atlas_texture.Position = new Vector2(256, 256);
     atlas_texture.Index = 0;
@@ -270,7 +270,7 @@ while (window.Run())
     atlas_texture.DrawFrame(window);
 
     xm_title.Update(window);
-    
+
     for (int x = 0; x < texture.Size.X; x++)
     {
         // textureAPI test

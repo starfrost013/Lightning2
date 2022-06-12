@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NuCore.Utilities
 {
@@ -40,7 +36,7 @@ namespace NuCore.Utilities
         /// 1-scale
         /// </summary>
         public static double Scale { get; set; }
-        
+
         /// <summary>
         /// 1-factor - how much the hill heights cycle
         /// </summary>

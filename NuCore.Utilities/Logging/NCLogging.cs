@@ -54,31 +54,31 @@ namespace NuCore.Utilities
                 LogStream = new StreamWriter(new FileStream(Settings.LogFileName, FileMode.OpenOrCreate));
             }
 
-            Initialised = true; 
+            Initialised = true;
         }
 
-        public static void Log(string information, NCExceptionSeverity severity = NCExceptionSeverity.Message)
+        public static void Log(string information, NCExceptionSeverity severity = NCExceptionSeverity.Message, bool printMetadata = true, bool logToFile = true)
         {
             if (!Initialised) return;
 
             switch (severity)
             {
                 case NCExceptionSeverity.Message:
-                    Log(information, ConsoleColor.White);
+                    Log(information, ConsoleColor.White, logToFile, printMetadata);
                     return;
                 case NCExceptionSeverity.Warning:
-                    Log(information, ConsoleColor.Yellow);
+                    Log(information, ConsoleColor.Yellow, logToFile, printMetadata);
                     return;
                 case NCExceptionSeverity.Error:
-                    Log(information, ConsoleColor.Red);
+                    Log(information, ConsoleColor.Red, logToFile, printMetadata);
                     return;
                 case NCExceptionSeverity.FatalError:
-                    Log(information, ConsoleColor.DarkRed);
+                    Log(information, ConsoleColor.DarkRed, logToFile, printMetadata);
                     return;
             }
         }
 
-        public static void Log(string Information, ConsoleColor color)
+        public static void Log(string Information, ConsoleColor color, bool printMetadata = true, bool logToFile = true)
         {
             if (!Initialised) return;
 
@@ -86,27 +86,30 @@ namespace NuCore.Utilities
 
             StringBuilder sb = new StringBuilder();
 
-            sb.Append($"[{now} - ");
-            
-            StackTrace st = new StackTrace();
+            // If the method specifies it print the date and time, as well as the currently current method
+            if (printMetadata)
+            {
+                sb.Append($"[{now} - ");
 
-            // get the last called method
-            // stack frame 0 is always current 
-            // stack frame 1 is therefore previous (likely impossible to have a situation where this would be called with 0 stack frames)
+                StackTrace st = new StackTrace();
 
-            MethodBase method = st.GetFrame(2).GetMethod();
+                // get the last called method
+                // stack frame 2 is the previously executing method (before log was called)
 
-            string methodName = method.Name;
-            string className = method.ReflectedType.Name;   
-            sb.Append($"{className}::{methodName}");
+                MethodBase method = st.GetFrame(2).GetMethod();
 
-            sb.Append("]: ");
+                string methodName = method.Name;
+                string className = method.ReflectedType.Name;
+                sb.Append($"{className}::{methodName}");
+
+                sb.Append("]: ");
+            }
 
             sb.Append($"{Information}\n");
 
             string final_log = sb.ToString();
 
-            if (Settings.WriteToLog) LogStream.Write(final_log);
+            if (Settings.WriteToLog && logToFile) LogStream.Write(final_log);
 
             Console.ForegroundColor = color;
 

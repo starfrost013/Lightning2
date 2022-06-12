@@ -57,7 +57,7 @@ namespace Lightning2
 
         public static void UnloadFont(string friendlyName)
         {
-            Font fontToUnload = GetFont(friendlyName); 
+            Font fontToUnload = GetFont(friendlyName);
 
             if (fontToUnload == null) throw new NCException($"Attempted to unload invalid font FriendlyName {friendlyName}!", 71, "nonexistent friendlyName passed to TextManager::UnloadFont(string)!", NCExceptionSeverity.FatalError); // possibly not fatal?
 

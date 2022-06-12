@@ -5,27 +5,42 @@ namespace Lightning2
     /// <summary>
     /// UIElement
     /// 
-    /// May 13, 2022 (modified May 14, 2022)
+    /// May 13, 2022 (modified June 12, 2022)
     /// </summary>
     public class UIElement
     {
         /// <summary>
-        /// Event handler for <see cref="ClickEvent"/>.
+        /// Event handler for <see cref="MousePressedEvent"/> event.
         /// </summary>
-        public ClickEvent OnClick { get; set; }
+        public MousePressedEvent OnClick { get; set; }
 
         /// <summary>
-        /// Event handler for <see cref="KeyPressedEvent"/>.
+        /// Event handler for <see cref="KeyPressedEvent"/> event.
         /// </summary>
         public KeyPressedEvent OnKeyPressed { get; set; }
 
         /// <summary>
-        /// Event handler for <see cref="RenderEvent"/>.
+        /// Event handler for the <see cref="KeyReleaseEvent"/> event.
+        /// </summary>
+        public KeyReleaseEvent OnKeyReleased { get; set; }
+
+        /// <summary>
+        /// Event handler for the <see cref="MousePressedEvent"/> event.
+        /// </summary>
+        public MousePressedEvent OnMousePressed { get; set; }
+
+        /// <summary>
+        /// Event handler for the <see cref="MouseReleasedEvent"/> event.
+        /// </summary>
+        public MousePressedEvent OnMouseReleased { get; set; }
+
+        /// <summary>
+        /// Event handler for <see cref="RenderEvent"/> event.
         /// </summary>
         public RenderEvent OnRender { get; set; }
 
         /// <summary>
-        /// Event handler for <see cref="ShutdownEvent"/>.
+        /// Event handler for <see cref="ShutdownEvent"/> event.
         /// </summary>
         public ShutdownEvent OnShutdown { get; set; }
     }

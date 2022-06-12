@@ -34,9 +34,7 @@
 
 #region Using Statements
 using System;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
 #endregion
 
 namespace NuCore.SDL2
@@ -44,39 +42,39 @@ namespace NuCore.SDL2
     public static partial class SDL
     {
 
-		#region SDL_filesystem.h
+        #region SDL_filesystem.h
 
-		/* Only available in 2.0.1 or higher. */
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetBasePath", CallingConvention = CallingConvention.Cdecl)]
-		private static extern IntPtr INTERNAL_SDL_GetBasePath();
-		public static string SDL_GetBasePath()
-		{
-			return UTF8_ToManaged(INTERNAL_SDL_GetBasePath(), true);
-		}
+        /* Only available in 2.0.1 or higher. */
+        [DllImport(nativeLibName, EntryPoint = "SDL_GetBasePath", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr INTERNAL_SDL_GetBasePath();
+        public static string SDL_GetBasePath()
+        {
+            return UTF8_ToManaged(INTERNAL_SDL_GetBasePath(), true);
+        }
 
-		/* Only available in 2.0.1 or higher. */
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetPrefPath", CallingConvention = CallingConvention.Cdecl)]
-		private static extern unsafe IntPtr INTERNAL_SDL_GetPrefPath(
-			byte* org,
-			byte* app
-		);
-		public static unsafe string SDL_GetPrefPath(string org, string app)
-		{
-			int utf8OrgBufSize = Utf8Size(org);
-			byte* utf8Org = stackalloc byte[utf8OrgBufSize];
+        /* Only available in 2.0.1 or higher. */
+        [DllImport(nativeLibName, EntryPoint = "SDL_GetPrefPath", CallingConvention = CallingConvention.Cdecl)]
+        private static extern unsafe IntPtr INTERNAL_SDL_GetPrefPath(
+            byte* org,
+            byte* app
+        );
+        public static unsafe string SDL_GetPrefPath(string org, string app)
+        {
+            int utf8OrgBufSize = Utf8Size(org);
+            byte* utf8Org = stackalloc byte[utf8OrgBufSize];
 
-			int utf8AppBufSize = Utf8Size(app);
-			byte* utf8App = stackalloc byte[utf8AppBufSize];
+            int utf8AppBufSize = Utf8Size(app);
+            byte* utf8App = stackalloc byte[utf8AppBufSize];
 
-			return UTF8_ToManaged(
-				INTERNAL_SDL_GetPrefPath(
-					Utf8Encode(org, utf8Org, utf8OrgBufSize),
-					Utf8Encode(app, utf8App, utf8AppBufSize)
-				),
-				true
-			);
-		}
+            return UTF8_ToManaged(
+                INTERNAL_SDL_GetPrefPath(
+                    Utf8Encode(org, utf8Org, utf8OrgBufSize),
+                    Utf8Encode(app, utf8App, utf8AppBufSize)
+                ),
+                true
+            );
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

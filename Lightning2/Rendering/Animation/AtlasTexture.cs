@@ -34,7 +34,7 @@ namespace Lightning2
             }
             set
             {
-                _position = value; 
+                _position = value;
                 if (Atlas != null) Atlas.Position = value;
             }
         }
@@ -53,7 +53,7 @@ namespace Lightning2
             set
             {
                 _repeat = value;
-                if (Atlas != null) Atlas.Repeat = value; 
+                if (Atlas != null) Atlas.Repeat = value;
             }
         }
 
@@ -122,12 +122,12 @@ namespace Lightning2
         public void DrawFrame(Window Win)
         {
             if (Index < 0
-                || Index > (Size.X * Size.Y))  throw new NCException($"Cannot draw invalid AnimatedTexture ({Name}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)", 47, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
+                || Index > (Size.X * Size.Y)) throw new NCException($"Cannot draw invalid AnimatedTexture ({Name}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)", 47, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
 
             int row = (int)(Index / Size.Y);
 
             float start_x = FrameSize.X * (Index / (row + 1)) - FrameSize.X;
-            float start_y = FrameSize.Y * row; 
+            float start_y = FrameSize.Y * row;
             float end_x = start_x + FrameSize.X;
             float end_y = start_y + FrameSize.Y;
 
@@ -161,7 +161,7 @@ namespace Lightning2
             if (Relative)
             {
                 int relative_x = (int)(FrameSize.X * (Index / (row + 1)) - FrameSize.X);
-                int relative_y = (int)(FrameSize.Y * row); 
+                int relative_y = (int)(FrameSize.Y * row);
                 Atlas.SetPixel(relative_x, relative_y, Colour);
             }
             else

@@ -14,22 +14,22 @@ namespace Lightning2
     /// </summary>
     public static class PrimitiveRenderer
     {
-        public static void DrawPixel(Window Win, Vector2 Position, Color Colour, bool SnapToScreen = true)
+        public static void DrawPixel(Window cWindow, Vector2 position, Color colour, bool snapToScreen = true)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera cur_cam = Win.Settings.Camera;
+            Camera cur_cam = cWindow.Settings.Camera;
 
             if (cur_cam != null
-                && SnapToScreen)
+                && snapToScreen)
             {
-                Position.X -= cur_cam.Position.X;
-                Position.Y -= cur_cam.Position.Y;
+                position.X -= cur_cam.Position.X;
+                position.Y -= cur_cam.Position.Y;
             }
 
-            SDL_gfx.pixelRGBA(Win.Settings.RendererHandle, (int)Position.X, (int)Position.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+            SDL_gfx.pixelRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y, colour.R, colour.G, colour.B, colour.A);
         }
 
-        public static void DrawLine(Window Win, Vector2 Start, Vector2 End, short Thickness, Color Colour, bool AntiAliased, bool SnapToScreen = true)
+        public static void DrawLine(Window cWindow, Vector2 Start, Vector2 End, short thickness, Color colour, bool antiAliased, bool snapToScreen = true)
         {
             // lineRGBA(); just calls SDL.SDL_RenderDrawLine
             // thickLine does other stuff. 
@@ -41,13 +41,13 @@ namespace Lightning2
             // nobody will ever need a line more than 32,767 pixels wide
             // (he says, regretting this in the future). If we do we can just change to sint32 in c++.
 
-            if (Thickness < 1) throw new NCException($"Cannot draw a line with a Thickness property below 1 pixel! (thickness = {Thickness})", 18, "PrimitiveRenderer.DrawLine!", NCExceptionSeverity.FatalError);
+            if (thickness < 1) throw new NCException($"Cannot draw a line with a thickness property below 1 pixel! (thickness = {thickness})", 18, "PrimitiveRenderer.DrawLine!", NCExceptionSeverity.FatalError);
 
             // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera cur_cam = Win.Settings.Camera;
+            Camera cur_cam = cWindow.Settings.Camera;
 
             if (cur_cam != null
-                && SnapToScreen)
+                && snapToScreen)
             {
                 Start.X -= cur_cam.Position.X;
                 Start.Y -= cur_cam.Position.Y;
@@ -55,75 +55,75 @@ namespace Lightning2
                 End.Y -= cur_cam.Position.Y;
             }
 
-            if (Thickness == 1)
+            if (thickness == 1)
             {
-                if (AntiAliased)
+                if (antiAliased)
                 {
-                    SDL_gfx.aalineRGBA(Win.Settings.RendererHandle, (int)Start.X, (int)Start.Y, (int)End.X, (int)End.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+                    SDL_gfx.aalineRGBA(cWindow.Settings.RendererHandle, (int)Start.X, (int)Start.Y, (int)End.X, (int)End.Y, colour.R, colour.G, colour.B, colour.A);
                 }
                 else
                 {
-                    SDL_gfx.lineRGBA(Win.Settings.RendererHandle, (int)Start.X, (int)Start.Y, (int)End.X, (int)End.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+                    SDL_gfx.lineRGBA(cWindow.Settings.RendererHandle, (int)Start.X, (int)Start.Y, (int)End.X, (int)End.Y, colour.R, colour.G, colour.B, colour.A);
                 }
             }
             else // sdl2_gfx limitaitons, can't be bothered to rebuild SDL2-gfx 
             {
-                SDL_gfx.thickLineRGBA(Win.Settings.RendererHandle, (int)Start.X, (int)Start.Y, (int)End.X, (int)End.Y, Thickness, Colour.R, Colour.G, Colour.B, Colour.A);
+                SDL_gfx.thickLineRGBA(cWindow.Settings.RendererHandle, (int)Start.X, (int)Start.Y, (int)End.X, (int)End.Y, thickness, colour.R, colour.G, colour.B, colour.A);
             }
         }
 
-        public static void DrawRectangle(Window Win, Vector2 Position, Vector2 Size, Color Colour, bool Filled = false, bool SnapToScreen = true, Color BorderColor = default(Color), Vector2 BorderSize = default(Vector2))
+        public static void DrawRectangle(Window cWindow, Vector2 position, Vector2 Size, Color colour, bool Filled = false, bool snapToScreen = true, Color borderColor = default(Color), Vector2 borderSize = default(Vector2))
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera cur_cam = Win.Settings.Camera;
+            Camera cur_cam = cWindow.Settings.Camera;
 
             if (cur_cam != null
-                && SnapToScreen)
+                && snapToScreen)
             {
-                Position.X -= cur_cam.Position.X;
-                Position.Y -= cur_cam.Position.Y;
+                position.X -= cur_cam.Position.X;
+                position.Y -= cur_cam.Position.Y;
             }
 
             if (Filled)
             {
-                SDL_gfx.boxRGBA(Win.Settings.RendererHandle, (int)Position.X, (int)Position.Y,
-                    (int)Position.X + (int)Size.X, (int)Position.Y + (int)Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+                SDL_gfx.boxRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y,
+                    (int)position.X + (int)Size.X, (int)position.Y + (int)Size.Y, colour.R, colour.G, colour.B, colour.A);
             }
             else
             {
-                SDL_gfx.rectangleRGBA(Win.Settings.RendererHandle, (int)Position.X, (int)Position.Y,
-                    (int)Position.X + (int)Size.X, (int)Position.Y + (int)Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+                SDL_gfx.rectangleRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y,
+                    (int)position.X + (int)Size.X, (int)position.Y + (int)Size.Y, colour.R, colour.G, colour.B, colour.A);
             }
 
-            if (BorderColor != default(Color))
+            if (borderColor != default(Color))
             {
-                SDL_gfx.rectangleRGBA(Win.Settings.RendererHandle, (int)Position.X - (int)BorderSize.X, (int)Position.Y - (int)BorderSize.Y,
-                    (int)Position.X + (int)Size.X + ((int)BorderSize.X * 2), (int)Position.Y + (int)Size.Y + ((int)BorderSize.Y * 2), Colour.R, Colour.G, Colour.B, Colour.A);
+                SDL_gfx.rectangleRGBA(cWindow.Settings.RendererHandle, (int)position.X - (int)borderSize.X, (int)position.Y - (int)borderSize.Y,
+                    (int)position.X + (int)Size.X + ((int)borderSize.X * 2), (int)position.Y + (int)Size.Y + ((int)borderSize.Y * 2), colour.R, colour.G, colour.B, colour.A);
             }
 
         }
 
-        public static void DrawRoundedRectangle(Window Win, Vector2 Position, Vector2 Size, Color Colour, int CornerRadius, bool Filled, bool SnapToScreen = true)
+        public static void DrawRoundedRectangle(Window cWindow, Vector2 position, Vector2 Size, Color colour, int CornerRadius, bool Filled, bool snapToScreen = true)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera cur_cam = Win.Settings.Camera;
+            Camera cur_cam = cWindow.Settings.Camera;
 
             if (cur_cam != null
-                && SnapToScreen)
+                && snapToScreen)
             {
-                Position.X -= cur_cam.Position.X;
-                Position.Y -= cur_cam.Position.Y;
+                position.X -= cur_cam.Position.X;
+                position.Y -= cur_cam.Position.Y;
             }
 
             if (Filled)
             {
-                SDL_gfx.roundedBoxRGBA(Win.Settings.RendererHandle, (int)Position.X, (int)Position.Y, (int)Position.X + (int)Size.X,
-                    (int)Position.Y + (int)Size.Y, CornerRadius, Colour.R, Colour.G, Colour.B, Colour.A);
+                SDL_gfx.roundedBoxRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y, (int)position.X + (int)Size.X,
+                    (int)position.Y + (int)Size.Y, CornerRadius, colour.R, colour.G, colour.B, colour.A);
             }
             else
             {
-                SDL_gfx.rectangleRGBA(Win.Settings.RendererHandle, (int)Position.X, (int)Position.Y,
-                    (int)Position.X + (int)Size.X, (int)Position.Y + (int)Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+                SDL_gfx.rectangleRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y,
+                    (int)position.X + (int)Size.X, (int)position.Y + (int)Size.Y, colour.R, colour.G, colour.B, colour.A);
             }
 
         }
@@ -131,104 +131,104 @@ namespace Lightning2
         /// <summary>
         /// Draws a triangle using SDL2_gfx
         /// </summary>
-        /// <param name="Win">The window to draw the triangle to.</param>
-        /// <param name="Point1">The first point of the triangle.</param>
-        /// <param name="Point2">The second point of the triangle.</param>
-        /// <param name="Point3">The third point of the triangle.</param>
-        /// <param name="Colour">The colour of the triangle - see <see cref="Color"/></param>
-        /// <param name="Filled">Determines if the triangle will be filled.</param>
-        /// <param name="SnapToScreen">Determines if the triangle will obey the current camera. If it is set to false, the camera will always have screen- instead of world-relative coordinates.</param>
-        public static void DrawTriangle(Window Win, Vector2 Point1, Vector2 Point2, Vector2 Point3, Color Colour, bool Filled, bool SnapToScreen = true)
+        /// <param name="cWindow">The Window to draw the triangle to.</param>
+        /// <param name="point1">The first point of the triangle.</param>
+        /// <param name="point2">The second point of the triangle.</param>
+        /// <param name="point3">The third point of the triangle.</param>
+        /// <param name="colour">The colour of the triangle - see <see cref="Color"/></param>
+        /// <param name="filled">Determines if the triangle will be filled.</param>
+        /// <param name="snapToScreen">Determines if the triangle will obey the current camera. If it is set to false, the camera will always have screen- instead of world-relative coordinates.</param>
+        public static void DrawTriangle(Window cWindow, Vector2 point1, Vector2 point2, Vector2 point3, Color colour, bool filled, bool snapToScreen = true)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera cur_cam = Win.Settings.Camera;
+            Camera cur_cam = cWindow.Settings.Camera;
 
             if (cur_cam != null
-                && SnapToScreen)
+                && snapToScreen)
             {
-                Point1.X -= cur_cam.Position.X;
-                Point2.X -= cur_cam.Position.X;
-                Point3.X -= cur_cam.Position.X;
+                point1.X -= cur_cam.Position.X;
+                point2.X -= cur_cam.Position.X;
+                point3.X -= cur_cam.Position.X;
 
-                Point1.Y -= cur_cam.Position.Y;
-                Point2.Y -= cur_cam.Position.Y;
-                Point3.Y -= cur_cam.Position.Y;
+                point1.Y -= cur_cam.Position.Y;
+                point2.Y -= cur_cam.Position.Y;
+                point3.Y -= cur_cam.Position.Y;
+            }
+
+            if (filled)
+            {
+                SDL_gfx.filledTrigonRGBA(cWindow.Settings.RendererHandle, (int)point1.X, (int)point1.Y, (int)point2.X, (int)point2.Y, (int)point3.X, (int)point3.Y, colour.R, colour.G, colour.B, colour.A);
+            }
+            else
+            {
+                SDL_gfx.trigonRGBA(cWindow.Settings.RendererHandle, (int)point1.X, (int)point1.Y, (int)point2.X, (int)point2.Y, (int)point3.X, (int)point3.Y, colour.R, colour.G, colour.B, colour.A);
+            }
+        }
+
+        public static void DrawCircle(Window cWindow, Vector2 position, Vector2 Size, Color colour, bool Filled, bool Antialiased = false, bool snapToScreen = true)
+        {
+            // Check for a set camera and move relative to the position of that camera if it is set.
+            Camera cur_cam = cWindow.Settings.Camera;
+
+            if (cur_cam != null
+                && snapToScreen)
+            {
+                position.X -= cur_cam.Position.X;
+                position.Y -= cur_cam.Position.Y;
             }
 
             if (Filled)
             {
-                SDL_gfx.filledTrigonRGBA(Win.Settings.RendererHandle, (int)Point1.X, (int)Point1.Y, (int)Point2.X, (int)Point2.Y, (int)Point3.X, (int)Point3.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+                DrawCircle_DrawFilledCircle(cWindow, position, Size, colour);
             }
             else
             {
-                SDL_gfx.trigonRGBA(Win.Settings.RendererHandle, (int)Point1.X, (int)Point1.Y, (int)Point2.X, (int)Point2.Y, (int)Point3.X, (int)Point3.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+                DrawCircle_DrawUnfilledCircle(cWindow, position, Size, colour, Antialiased);
             }
         }
 
-        public static void DrawCircle(Window Win, Vector2 Position, Vector2 Size, Color Colour, bool Filled, bool Antialiased = false, bool SnapToScreen = true)
-        {
-            // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera cur_cam = Win.Settings.Camera;
-
-            if (cur_cam != null
-                && SnapToScreen)
-            {
-                Position.X -= cur_cam.Position.X;
-                Position.Y -= cur_cam.Position.Y;
-            }
-
-            if (Filled)
-            {
-                DrawCircle_DrawFilledCircle(Win, Position, Size, Colour);
-            }
-            else
-            {
-                DrawCircle_DrawUnfilledCircle(Win, Position, Size, Colour, Antialiased);
-            }
-        }
-
-        private static void DrawCircle_DrawUnfilledCircle(Window Win, Vector2 Position, Vector2 Size, Color Colour, bool Antialiased = false)
+        private static void DrawCircle_DrawUnfilledCircle(Window cWindow, Vector2 position, Vector2 Size, Color colour, bool Antialiased = false)
         {
             if (!Antialiased)
             {
-                SDL_gfx.ellipseRGBA(Win.Settings.RendererHandle, (int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+                SDL_gfx.ellipseRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y, (int)Size.X, (int)Size.Y, colour.R, colour.G, colour.B, colour.A);
             }
             else
             {
-                SDL_gfx.aaellipseRGBA(Win.Settings.RendererHandle, (int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+                SDL_gfx.aaellipseRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y, (int)Size.X, (int)Size.Y, colour.R, colour.G, colour.B, colour.A);
             }
 
         }
 
-        private static void DrawCircle_DrawFilledCircle(Window Win, Vector2 Position, Vector2 Size, Color Colour)
+        private static void DrawCircle_DrawFilledCircle(Window cWindow, Vector2 position, Vector2 Size, Color colour)
         {
-            SDL_gfx.filledEllipseRGBA(Win.Settings.RendererHandle, (int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y, Colour.R, Colour.G, Colour.B, Colour.A);
+            SDL_gfx.filledEllipseRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y, (int)Size.X, (int)Size.Y, colour.R, colour.G, colour.B, colour.A);
         }
 
         /// <summary>
         /// Draws simple text using SDL2_gfx.
         /// </summary>
-        /// <param name="Win">The window to draw the text to.</param>
+        /// <param name="cWindow">The Window to draw the text to.</param>
         /// <param name="Text">The text to draw.</param>
-        /// <param name="Position">The position to draw the text to. </param>
-        /// <param name="Colour">The colour to draw the text as.</param>
+        /// <param name="position">The position to draw the text to. </param>
+        /// <param name="colour">The colour to draw the text as.</param>
         /// <param name="Localise">If true, the text will be localised with <see cref="LocalisationManager"/> before being drawn.</param>
-        public static void DrawText(Window Win, string Text, Vector2 Position, Color Colour, bool SnapToScreen = true, bool Localise = true)
+        public static void DrawText(Window cWindow, string Text, Vector2 position, Color colour, bool snapToScreen = true, bool Localise = true)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera cur_cam = Win.Settings.Camera;
+            Camera cur_cam = cWindow.Settings.Camera;
 
             if (cur_cam != null
-                && !SnapToScreen)
+                && !snapToScreen)
             {
-                Position.X -= cur_cam.Position.X;
-                Position.Y -= cur_cam.Position.Y;
+                position.X -= cur_cam.Position.X;
+                position.Y -= cur_cam.Position.Y;
             }
 
             if (Localise) Text = LocalisationManager.ProcessString(Text);
 
             // todo: in c++: recompile sdl2_gfx to use sint32, not sint16, and modify pinvoke accordingly
-            SDL_gfx.stringRGBA(Win.Settings.RendererHandle, (short)Position.X, (short)Position.Y, Text, Colour.R, Colour.G, Colour.B, Colour.A);
+            SDL_gfx.stringRGBA(cWindow.Settings.RendererHandle, (short)position.X, (short)position.Y, Text, colour.R, colour.G, colour.B, colour.A);
         }
     }
 }

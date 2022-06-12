@@ -28,9 +28,13 @@ namespace Lightning2
             FPSList = new List<double>();
         }
 
+        /// <summary>
+        /// Initialises the performance profiler.
+        /// </summary>
+        /// <exception cref="NCException">An error occurred initialising the performance profiler.</exception>
         public static void Init()
         {
-            DateTime now  = DateTime.Now;
+            DateTime now = DateTime.Now;
             FileName = $"Lightning2-Perf-{now.ToString("yyyyMMdd_HHmmss")}.csv";
 
             try
@@ -41,13 +45,17 @@ namespace Lightning2
             }
             catch (Exception ex)
             {
-                Initialised = false; 
+                Initialised = false;
                 throw new NCException("An error occurred initialising performance profiler. Profiling will not be completed.", 70, "Exception occurred in PerformanceProfiler::Init", NCExceptionSeverity.Warning, ex, true);
             }
 
             return;
         }
 
+        /// <summary>
+        /// Writes a new FPS and frametime to the performance profiler CSV.
+        /// </summary>
+        /// <param name="window">The window to measure the frametime and FPS of.</param>
         public static void Update(Window window)
         {
             if (!Initialised) return;
@@ -55,6 +63,9 @@ namespace Lightning2
             FPSList.Add(window.CurFPS);
         }
 
+        /// <summary>
+        /// Writes percentile information and shuts down the performance profiler. Run at shutdown.
+        /// </summary>
         public static void Shutdown()
         {
             if (!Initialised) return;
@@ -72,22 +83,21 @@ namespace Lightning2
                 double average = 0;
 
                 if (total > 0) average = total / FPSList.Count;
-                int onemaxIndex = (int)((FPSList.Count - 1) * 0.99);
-                int fivemaxIndex = (int)((FPSList.Count - 1) * 0.95);
-                int fiveminIndex = (int)((FPSList.Count - 1) * 0.05);
-                int oneminIndex = (int)((FPSList.Count - 1) * 0.01);
+                int percentile99Index = (int)((FPSList.Count - 1) * 0.99);
+                int percentile95Index = (int)((FPSList.Count - 1) * 0.95);
+                int percentile5Index = (int)((FPSList.Count - 1) * 0.05);
+                int percentile1Index = (int)((FPSList.Count - 1) * 0.01);
 
-                double onemax = FPSList[onemaxIndex];
-                double fivemax = FPSList[fivemaxIndex];
-                double fivemin = FPSList[fiveminIndex];
-                double onemin = FPSList[oneminIndex];
+                double percentile99 = FPSList[percentile99Index];
+                double percentile95 = FPSList[percentile95Index];
+                double percentile5 = FPSList[percentile5Index];
+                double percentile1 = FPSList[percentile1Index];
 
                 FileStream.WriteLine($"Average={average}");
-                FileStream.WriteLine($"99th%ile={onemax.ToString("F1")}");
-                FileStream.WriteLine($"95th%ile={fivemax.ToString("F1")}");
-                FileStream.WriteLine($"5th%ile={fivemin.ToString("F1")}");
-                FileStream.WriteLine($"1st%ile={onemin.ToString("F1")}");
-
+                FileStream.WriteLine($"99th%ile={percentile99.ToString("F1")}");
+                FileStream.WriteLine($"95th%ile={percentile95.ToString("F1")}");
+                FileStream.WriteLine($"5th%ile={percentile5.ToString("F1")}");
+                FileStream.WriteLine($"1st%ile={percentile1.ToString("F1")}");
             }
 
             FileStream.Close();

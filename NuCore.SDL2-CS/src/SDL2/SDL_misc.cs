@@ -34,28 +34,26 @@
 
 #region Using Statements
 using System;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
 #endregion
 
 namespace NuCore.SDL2
 {
     public static partial class SDL
     {
-		#region SDL_misc.h
+        #region SDL_misc.h
 
-		/* Only available in 2.0.14 or higher. */
-		[DllImport(nativeLibName, EntryPoint = "SDL_OpenURL", CallingConvention = CallingConvention.Cdecl)]
-		private static unsafe extern int INTERNAL_SDL_OpenURL(byte* url);
-		public static unsafe int SDL_OpenURL(string url)
-		{
-			byte* urlPtr = Utf8EncodeHeap(url);
-			int result = INTERNAL_SDL_OpenURL(urlPtr);
-			Marshal.FreeHGlobal((IntPtr)urlPtr);
-			return result;
-		}
+        /* Only available in 2.0.14 or higher. */
+        [DllImport(nativeLibName, EntryPoint = "SDL_OpenURL", CallingConvention = CallingConvention.Cdecl)]
+        private static unsafe extern int INTERNAL_SDL_OpenURL(byte* url);
+        public static unsafe int SDL_OpenURL(string url)
+        {
+            byte* urlPtr = Utf8EncodeHeap(url);
+            int result = INTERNAL_SDL_OpenURL(urlPtr);
+            Marshal.FreeHGlobal((IntPtr)urlPtr);
+            return result;
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

@@ -59,7 +59,7 @@ namespace Lightning2
             NCLogging.Log("Shutdown requested.");
 
             NCLogging.Log("Calling UI shutdown events...");
-            UIManager.Shutdown(cWindow); 
+            UIManager.Shutdown(cWindow);
 
             if (GlobalSettings.ProfilePerf)
             {

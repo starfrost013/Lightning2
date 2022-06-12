@@ -34,46 +34,44 @@
 
 #region Using Statements
 using System;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
 #endregion
 
 namespace NuCore.SDL2
 {
     public static partial class SDL
     {
-		#region SDL_metal.h
+        #region SDL_metal.h
 
-		/* Only available in 2.0.11 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SDL_Metal_CreateView(
-			IntPtr window
-		);
+        /* Only available in 2.0.11 or higher. */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr SDL_Metal_CreateView(
+            IntPtr window
+        );
 
-		/* Only available in 2.0.11 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void SDL_Metal_DestroyView(
-			IntPtr view
-		);
+        /* Only available in 2.0.11 or higher. */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void SDL_Metal_DestroyView(
+            IntPtr view
+        );
 
-		/* view refers to an SDL_MetalView.
+        /* view refers to an SDL_MetalView.
 		 * Only available in 2.0.14 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SDL_Metal_GetLayer(
-			IntPtr view
-		);
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr SDL_Metal_GetLayer(
+            IntPtr view
+        );
 
-		/* window refers to an SDL_Window*.
+        /* window refers to an SDL_Window*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void SDL_Metal_GetDrawableSize(
-			IntPtr window,
-			out int w,
-			out int h
-		);
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void SDL_Metal_GetDrawableSize(
+            IntPtr window,
+            out int w,
+            out int h
+        );
 
-		#endregion
-	}
+        #endregion
+    }
 }

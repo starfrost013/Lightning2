@@ -34,43 +34,41 @@
 
 #region Using Statements
 using System;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
 #endregion
 
 namespace NuCore.SDL2
 {
     public static partial class SDL
     {
-		#region SDL_clipboard.h
+        #region SDL_clipboard.h
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern SDL_bool SDL_HasClipboardText();
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern SDL_bool SDL_HasClipboardText();
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetClipboardText", CallingConvention = CallingConvention.Cdecl)]
-		private static extern IntPtr INTERNAL_SDL_GetClipboardText();
-		public static string SDL_GetClipboardText()
-		{
-			return UTF8_ToManaged(INTERNAL_SDL_GetClipboardText(), true);
-		}
+        [DllImport(nativeLibName, EntryPoint = "SDL_GetClipboardText", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr INTERNAL_SDL_GetClipboardText();
+        public static string SDL_GetClipboardText()
+        {
+            return UTF8_ToManaged(INTERNAL_SDL_GetClipboardText(), true);
+        }
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_SetClipboardText", CallingConvention = CallingConvention.Cdecl)]
-		private static extern unsafe int INTERNAL_SDL_SetClipboardText(
-			byte* text
-		);
-		public static unsafe int SDL_SetClipboardText(
-			string text
-		)
-		{
-			byte* utf8Text = Utf8EncodeHeap(text);
-			int result = INTERNAL_SDL_SetClipboardText(
-				utf8Text
-			);
-			Marshal.FreeHGlobal((IntPtr)utf8Text);
-			return result;
-		}
+        [DllImport(nativeLibName, EntryPoint = "SDL_SetClipboardText", CallingConvention = CallingConvention.Cdecl)]
+        private static extern unsafe int INTERNAL_SDL_SetClipboardText(
+            byte* text
+        );
+        public static unsafe int SDL_SetClipboardText(
+            string text
+        )
+        {
+            byte* utf8Text = Utf8EncodeHeap(text);
+            int result = INTERNAL_SDL_SetClipboardText(
+                utf8Text
+            );
+            Marshal.FreeHGlobal((IntPtr)utf8Text);
+            return result;
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

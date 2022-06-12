@@ -22,7 +22,7 @@ namespace Lightning2
         /// The lifetime of each particle in frames.
         /// </summary>
         public int Lifetime { get; set; }
-        
+
         /// <summary>
         /// The variance on each particle's lifetime in frames
         /// </summary>
@@ -88,10 +88,10 @@ namespace Lightning2
             if (CurFrame == 0)
             {
                 InitRender(cWindow);
-            } 
+            }
             else
             {
-                RenderCurrent(cWindow); 
+                RenderCurrent(cWindow);
             }
 
             CurFrame++;
@@ -112,7 +112,7 @@ namespace Lightning2
         {
             // create a list of particles to remove
             List<Particle> particlesToRemove = new List<Particle>();
-            
+
             // Check what particles have to be removed
             foreach (Particle particle in Particles)
             {
@@ -159,7 +159,7 @@ namespace Lightning2
                 {
                     particle.Position += new Vector2((Velocity.X / 500) * particle.Lifetime, (Velocity.Y / 500) * particle.Lifetime);
                 }
-                
+
                 Texture.Position = particle.Position;
                 Texture.Draw(cWindow);
             }
@@ -180,7 +180,7 @@ namespace Lightning2
             varY /= 100000;
 
             particle.Position = Position + new Vector2(varX, varY);
-            
+
             Particles.Add(particle);
         }
 

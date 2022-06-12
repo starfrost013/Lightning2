@@ -116,7 +116,7 @@ namespace Lightning2
             // Update the internal FPS values.
             Render_UpdateFps();
         }
-        
+
         private void Render_DrawDebugInformation()
         {
             int currentY = 0;

@@ -3,18 +3,16 @@
 namespace Lightning2
 {
     /// <summary>
-    /// ClickEvent
+    /// MouseReleasedEvent
     /// 
-    /// May 15, 2022
+    /// June 12, 2022
     /// 
     /// Defines a Lightning2 click event.
     /// </summary>
     /// <param name="sender">The <see cref="UIElement"/> that sent this event.</param>
     /// <param name="buttonNo">The <see cref="SDL_MouseButton"/> that has been clicked. </param>
-    /// <param name="Repeat">If true, the key is currently being repeated - this is noNOT the same as held down!</param>
-    public delegate void ClickEvent
+    public delegate void MouseReleasedEvent
     (
-        SDL_MouseButton buttonNo,
-        bool Repeat
+        SDL_MouseButton buttonNo
     );
 }

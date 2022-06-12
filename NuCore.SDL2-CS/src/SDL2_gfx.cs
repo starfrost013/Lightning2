@@ -1,9 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-#region
+﻿#region
 /* Lightning SDL2 Wrapper
  * 
  * Version 3.0 (NuRender/Lightning) + SDL2_gfx
