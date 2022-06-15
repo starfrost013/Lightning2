@@ -9,7 +9,7 @@ namespace LightningGL
     /// <summary>
     /// Button
     /// 
-    /// June 12, 2022
+    /// June 12, 2022 (modified June 15, 2022: add highlight colour)
     /// 
     /// Defines a button class.
     /// </summary>
@@ -21,29 +21,14 @@ namespace LightningGL
 
         public Vector2 BorderSize { get; set; }
 
-        public Color BackgroundColour { get; set; }
-
-        public Color ForegroundColour { get; set; }
-
-        public Color PressedColour { get; set; }
-
-        public Color BorderColour { get; set; }
-
         public bool Filled { get; set; }
 
         public TTF_FontStyle Style { get; set; }
 
-        /// <summary>
-        /// Private: current colour used for swapping between pressed/held colour
-        /// </summary>
-        private Color CurBackgroundColour { get; set; }
-
-        public Button()
+        public Button() : base()
         {
             // Hook up events
             OnRender += Render;
-            OnMousePressed += MousePressed;
-            OnMouseReleased += MouseReleased;
         }
 
         public void Render(Window cWindow)
@@ -64,14 +49,6 @@ namespace LightningGL
             TextManager.DrawTextTTF(cWindow, Text, Font, textPos, ForegroundColour, default(Color), Style, SnapToScreen);
         }
 
-        public void MousePressed(SDL_MouseButton button, Vector2 position)
-        {
-            CurBackgroundColour = PressedColour;
-        }
 
-        public void MouseReleased(SDL_MouseButton button, Vector2 position)
-        {
-            CurBackgroundColour = BackgroundColour;
-        }
     }
 }

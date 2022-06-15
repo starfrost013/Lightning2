@@ -98,8 +98,7 @@ namespace LightningGL
         {
             foreach (UIGadget uiElement in UIElements)
             {
-                if (uiElement.OnMouseMove != null
-                    && AABB.Intersects(uiElement, position))
+                if (uiElement.OnMouseMove != null) // this one is passed regardless of intersection for things like button highlighting
                 {
                     uiElement.OnMouseMove(position, velocity, mouseButton);
                 }
