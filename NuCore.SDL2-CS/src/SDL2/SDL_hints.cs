@@ -314,6 +314,32 @@ namespace NuCore.SDL2
         public const string SDL_HINT_RENDER_LINE_METHOD =
             "SDL_RENDER_LINE_METHOD";
 
+        /* Only available in 2.0.22 or higher. */
+        public const string SDL_HINT_FORCE_RAISEWINDOW =
+            "SDL_HINT_FORCE_RAISEWINDOW";
+        public const string SDL_HINT_IME_SUPPORT_EXTENDED_TEXT =
+            "SDL_IME_SUPPORT_EXTENDED_TEXT";
+        public const string SDL_HINT_JOYSTICK_GAMECUBE_RUMBLE_BRAKE =
+            "SDL_JOYSTICK_GAMECUBE_RUMBLE_BRAKE";
+        public const string SDL_HINT_JOYSTICK_ROG_CHAKRAM =
+            "SDL_JOYSTICK_ROG_CHAKRAM";
+        public const string SDL_HINT_MOUSE_RELATIVE_MODE_CENTER =
+            "SDL_MOUSE_RELATIVE_MODE_CENTER";
+        public const string SDL_HINT_MOUSE_AUTO_CAPTURE =
+            "SDL_MOUSE_AUTO_CAPTURE";
+        public const string SDL_HINT_VITA_TOUCH_MOUSE_DEVICE =
+            "SDL_HINT_VITA_TOUCH_MOUSE_DEVICE";
+        public const string SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR =
+            "SDL_VIDEO_WAYLAND_PREFER_LIBDECOR";
+        public const string SDL_HINT_VIDEO_FOREIGN_WINDOW_OPENGL =
+            "SDL_VIDEO_FOREIGN_WINDOW_OPENGL";
+        public const string SDL_HINT_VIDEO_FOREIGN_WINDOW_VULKAN =
+            "SDL_VIDEO_FOREIGN_WINDOW_VULKAN";
+        public const string SDL_HINT_X11_WINDOW_TYPE =
+            "SDL_X11_WINDOW_TYPE";
+        public const string SDL_HINT_QUIT_ON_LAST_WINDOW_CLOSE =
+            "SDL_QUIT_ON_LAST_WINDOW_CLOSE";
+
         public enum SDL_HintPriority
         {
             SDL_HINT_DEFAULT,

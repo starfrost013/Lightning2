@@ -53,7 +53,8 @@ namespace LightningGL
         {
             foreach (UIGadget uiElement in UIElements)
             {
-                if (AABB.Intersects(uiElement, position))
+                if (AABB.Intersects(uiElement, position)
+                    && uiElement.OnMousePressed != null)
                 {
                     uiElement.OnMousePressed(mouseButton, position);
                 }
@@ -64,13 +65,31 @@ namespace LightningGL
         {
             foreach (UIGadget uiElement in UIElements)
             {
-                if (uiElement.OnMouseReleased != null)
+                if (AABB.Intersects(uiElement, position)
+                    && uiElement.OnMouseReleased != null)
                 {
-                    if (AABB.Intersects(uiElement, position))
-                    {
-                        uiElement.OnMouseReleased(mouseButton, position);
-                    }
-                    
+                    uiElement.OnMouseReleased(mouseButton, position);
+                }
+            }
+        }
+
+        public static void MouseEnter()
+        {
+            foreach (UIGadget uiElement in UIElements)
+            {
+                if (uiElement.OnMouseEnter != null)
+                {
+                    uiElement.OnMouseEnter();
+                }
+            }
+        }
+        public static void MouseLeave()
+        {
+            foreach (UIGadget uiElement in UIElements)
+            {
+                if (uiElement.OnMouseLeave != null)
+                {
+                    uiElement.OnMouseLeave();
                 }
             }
         }

@@ -27,7 +27,17 @@ namespace LightningGL
         /// <summary>
         /// Event handler for the <see cref="MouseReleasedEvent"/> event.
         /// </summary>
-        public MousePressedEvent OnMouseReleased { get; set; }
+        public MouseReleasedEvent OnMouseReleased { get; set; }
+
+        /// <summary>
+        /// Event handler for the <see cref="GenericEvent"/> event.
+        /// </summary>
+        public GenericEvent OnMouseEnter { get; set; }
+
+        /// <summary>
+        /// Event handler for the <see cref="GenericEvent"/> event.
+        /// </summary>
+        public GenericEvent OnMouseLeave { get; set; }
 
         /// <summary>
         /// Event handler for <see cref="RenderEvent"/> event.

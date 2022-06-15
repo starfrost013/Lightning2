@@ -97,11 +97,11 @@
     <Content Include="Content\NativeLibraries\libwebp-7.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\NativeLibraries\SDL2-v2.0.20-x64.dll">
+    <Content Include="Content\NativeLibraries\SDL2-v2.0.22-x64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  <Link>Content\NativeLibraries\SDL2.dll</Link>
     </Content>
-    <Content Include="Content\NativeLibraries\SDL2-v2.0.20-x64.dll">
+    <Content Include="Content\NativeLibraries\SDL2-v2.0.22-x64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\NativeLibraries\SDL2_image-v2.0.5-x64.dll">

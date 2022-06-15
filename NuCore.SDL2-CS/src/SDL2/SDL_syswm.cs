@@ -115,6 +115,8 @@ namespace NuCore.SDL2
             public IntPtr egl_window; // Refers to an egl_window*, requires >= 2.0.16
             public IntPtr xdg_surface; // Refers to an xdg_surface*, requires >= 2.0.16
             public IntPtr xdg_toplevel; // Refers to an xdg_toplevel*, requires >= 2.0.18
+            public IntPtr xdg_popup; // Refers to an xdg_popup*, requires >= 2.0.22
+            public IntPtr xdg_positioner; // Refers to an xdg_positioner*, requires >= 2.0.22
         }
 
         [StructLayout(LayoutKind.Sequential)]

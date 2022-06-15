@@ -73,23 +73,35 @@ namespace LightningGL
         {
             Update();
 
-            EventWaiting = (SDL_PollEvent(out var current_event) > 0);
+            EventWaiting = (SDL_PollEvent(out var currentEvent) > 0);
 
             // default mainloop
             if (EventWaiting)
             {
-                LastEvent = current_event;
+                LastEvent = currentEvent;
 
                 // default rendering loop.
                 // Developers can choose to handle SDL events after this
-                switch (current_event.type)
+                switch (currentEvent.type)
                 {
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN:
-                        UIManager.MousePressed(current_event.button.button, new Vector2(current_event.button.x, current_event.button.y));
+                        UIManager.MousePressed(currentEvent.button.button, new Vector2(currentEvent.button.x, currentEvent.button.y));
                         return true;
                     case SDL_EventType.SDL_MOUSEBUTTONUP:
-                        UIManager.MouseReleased(current_event.button.button, new Vector2(current_event.button.x, current_event.button.y));
+                        UIManager.MouseReleased(currentEvent.button.button, new Vector2(currentEvent.button.x, currentEvent.button.y));
                         return true;
+                    case SDL_EventType.SDL_WINDOWEVENT: // Window Event
+                        switch (currentEvent.window.windowEvent)
+                        {
+                            case SDL_WindowEventID.SDL_WINDOWEVENT_ENTER:
+                                UIManager.MouseEnter();
+                                return true;
+                            case SDL_WindowEventID.SDL_WINDOWEVENT_LEAVE:
+                                UIManager.MouseLeave();
+                                return true;
+                        }
+
+                        return true; 
                     case SDL_EventType.SDL_QUIT: // User requested a quit, so shut down
                         LightningGL.Shutdown(this);
                         return false;

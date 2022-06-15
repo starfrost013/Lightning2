@@ -53,11 +53,11 @@ namespace NuCore.SDL2
             public UInt32 unicode; /* Deprecated */
 
             // 2021-04-13
-
+            
             /// <summary>
-            /// Converts the sym property to a string.
+            /// Converts the <see cref="sym"/> property of this <see cref="SDL_Keysym"/> to a string.
             /// </summary>
-            /// <returns></returns>
+            /// <returns>A string containing the key that the user has just pressed.</returns>
             public override string ToString()
             {
                 string S_Processed = sym.ToString();
@@ -65,7 +65,7 @@ namespace NuCore.SDL2
                 S_Processed = S_Processed.Replace("SDLK_", "");
                 S_Processed = S_Processed.ToUpperInvariant();
 
-                return S_Processed; // Lightning only
+                return S_Processed; 
             }
         }
 
@@ -155,6 +155,14 @@ namespace NuCore.SDL2
         /* Stop receiving any text input events, hide onscreen kbd */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_StopTextInput();
+
+        /* Clear current composition - Requires >= 2.0.22 */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void SDL_ClearComposition();
+
+        /* Toggle text input UI being shown - Requires >= 2.0.22 */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern SDL_bool SDL_IsTextInputShown();
 
         /* Set the rectangle used for text input, hint for IME */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]

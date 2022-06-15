@@ -84,6 +84,7 @@ namespace NuCore.SDL2
             SDL_TEXTEDITING,
             SDL_TEXTINPUT,
             SDL_KEYMAPCHANGED,
+            SDL_TEXTEDITING_EXT,
 
             /* Mouse events */
             SDL_MOUSEMOTION = 0x400,
@@ -234,6 +235,17 @@ namespace NuCore.SDL2
             public UInt32 timestamp;
             public UInt32 windowID;
             public fixed byte text[SDL_TEXTEDITINGEVENT_TEXT_SIZE];
+            public Int32 start;
+            public Int32 length;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public unsafe struct SDL_TextEditingExtEvent
+        {
+            public SDL_EventType type;
+            public UInt32 timestamp;
+            public UInt32 windowID;
+            public IntPtr text; /* char*, free with SDL_free */
             public Int32 start;
             public Int32 length;
         }
@@ -591,6 +603,8 @@ namespace NuCore.SDL2
             public SDL_KeyboardEvent key;
             [FieldOffset(0)]
             public SDL_TextEditingEvent edit;
+            [FieldOffset(0)]
+            public SDL_TextEditingExtEvent editExt;
             [FieldOffset(0)]
             public SDL_TextInputEvent text;
             [FieldOffset(0)]

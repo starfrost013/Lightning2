@@ -8,10 +8,10 @@ namespace LightningGL
     /// 
     /// June 12, 2022 (modified June 13, 2022)
     /// 
-    /// Defines a LightningGL click event.
+    /// Defines a LightningGL event triggered when a mouse button has been released.
     /// </summary>
-    /// <param name="sender">The <see cref="UIGadget"/> that sent this event.</param>
     /// <param name="buttonNo">The <see cref="SDL_MouseButton"/> that has been clicked. </param>
+    /// <param name="position">The position of the last mouse click. </param> 
     public delegate void MouseReleasedEvent
     (
         SDL_MouseButton buttonNo,

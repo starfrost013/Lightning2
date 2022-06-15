@@ -38,11 +38,9 @@ namespace NuCore.SDL2
         #region SDL2# Variables
 
         /* Used by DllImport to load the native library. */
-#if X64 // Lightning Win64 / Mac64 / Linux64
+#if X64 // x86-64
         private const string nativeLibName = $@"Content\NativeLibraries\SDL2_ttf-v2.0.18-x64";
-#elif ARM32 // Lightning LinuxARM32
-		private const string nativeLibName = $@"Content\NativeLibraries\SDL2_ttf-v2.0.18-ARM32";
-#elif ARM64 // Lightning LinuxARM64 / MacARM64e (11.0+) (open question: what do we do about Xtajit64 (ARM64X - Windows 10 Cobalt 21277+) - does Lightning compiled for x64 run well using ARM64X on Cobalt? Need to acquire ARM device for testing.)
+#elif ARM64 // AArch64 v8.0+
 		private const string nativeLibName = $@"Content\NativeLibraries\SDL2_ttf-v2.0.18-ARM64";
 #endif
 
