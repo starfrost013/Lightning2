@@ -210,17 +210,9 @@ namespace LightningGL
             if (Locked) return;
             Locked = true;
 
-            // hack to get around CS0206
-            // https://docs.microsoft.com/en-us/dotnet/csharp/misc/cs0206
-            // should work around this by not having out/ref,
-            // but not sure if this is feasible wrt C++/PInvoke
-
-            IntPtr nPixels = IntPtr.Zero;
-
             SDL_Rect rect = new SDL_Rect(0, 0, (int)Size.X, (int)Size.Y);
-            int nPitch = Pitch;
 
-            if (SDL_LockTexture(Handle, ref rect, out nPixels, out nPitch) < 0) throw new NCException($"Error locking pixels for texture with path {Path}, error {SDL_GetError()}.", 11, "Texture.Lock", NCExceptionSeverity.FatalError);
+            if (SDL_LockTexture(Handle, ref rect, out var nPixels, out var nPitch) < 0) throw new NCException($"Error locking pixels for texture with path {Path}, error {SDL_GetError()}.", 11, "Texture.Lock", NCExceptionSeverity.FatalError);
 
             Pitch = nPitch;
             // convert to C pointer
