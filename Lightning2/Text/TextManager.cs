@@ -80,17 +80,32 @@ namespace LightningGL
             return new Vector2(fontSizeX, fontSizeY);
         }
 
+        public static Vector2 GetLargestTextSize(Font font, string text)
+        {
+            string[] lines = text.Split('\n');
+
+            Vector2 largestLineSize = default(Vector2); // 0,0
+
+            foreach (string line in lines)
+            {
+                Vector2 curLineSize = GetTextSize(font, line);
+                if (curLineSize.X > largestLineSize.X
+                    && curLineSize.Y > largestLineSize.Y) largestLineSize = curLineSize;
+            }
+
+            return largestLineSize;
+        }
 
         public static void DrawTextTTF(Window cWindow, string text, string font, Vector2 position, Color foreground, Color background = default(Color), TTF_FontStyle style = TTF_FontStyle.Normal, 
             bool snapToScreen = true, int resizeFont = -1, int outlinePixels = -1, int lineLength = -1, FontSmoothingType smoothing = FontSmoothingType.Default)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera cur_cam = cWindow.Settings.Camera;
+            Camera currentCamera = cWindow.Settings.Camera;
 
-            if (cur_cam != null && snapToScreen)
+            if (currentCamera != null && snapToScreen)
             {
-                position.X -= cur_cam.Position.X;
-                position.Y -= cur_cam.Position.Y;
+                position.X -= currentCamera.Position.X;
+                position.Y -= currentCamera.Position.Y;
             }
 
             // Localise the string using Localisation Manager.
@@ -149,8 +164,8 @@ namespace LightningGL
                     }
                 }
 
-                // rough approximation of x size
-                if (numberOfLines > 1) totalSizeX /= (numberOfLines - 1);
+                // get the size of the largest line
+                if (numberOfLines > 1) totalSizeX = (int)GetLargestTextSize(curFont, text).X;
 
                 // camera-aware is false for this as we have already "pushed" the position, so we don't need to do it again.
                 PrimitiveRenderer.DrawRectangle(cWindow, position, new Vector2(totalSizeX, totalSizeY), Color.FromArgb(bgColour.a, bgColour.r, bgColour.g, bgColour.b), true, false);
@@ -170,7 +185,7 @@ namespace LightningGL
 
             foreach (string line in textLines)
             {
-                Vector2 lineSize = GetTextSize(curFont, text);
+                Vector2 lineSize = GetTextSize(curFont, line);
 
                 fontSrcRect.w = (int)lineSize.X;
                 fontSrcRect.h = (int)lineSize.Y;

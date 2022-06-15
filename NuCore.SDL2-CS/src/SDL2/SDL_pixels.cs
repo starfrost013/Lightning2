@@ -510,9 +510,7 @@ namespace NuCore.SDL2
                 g = ng;
                 b = nb;
                 a = na;
-
             }
-
         }
 
         [StructLayout(LayoutKind.Sequential)]
