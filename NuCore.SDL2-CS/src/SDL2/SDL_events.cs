@@ -306,7 +306,6 @@ namespace NuCore.SDL2
             Right = 3,
             X1 = 4,
             X2 = 5,
-
         }
 
         /* Mouse wheel event structure (event.wheel.*) */

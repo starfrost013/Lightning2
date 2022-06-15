@@ -33,9 +33,9 @@ namespace LightningGL
         public SDL_RendererFlags RenderFlags { get; set; }
 
         /// <summary>
-        /// The SDL ID of this window 
+        /// The SDL window ID of this window.
         /// </summary>
-        public int ID { get; internal set; }
+        public uint ID { get; internal set; }
 
         /// <summary>
         /// The native window handle for this window.

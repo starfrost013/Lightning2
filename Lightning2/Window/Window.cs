@@ -57,7 +57,10 @@ namespace LightningGL
 
             if (Settings.WindowHandle == IntPtr.Zero) throw new NCException($"Failed to create Window: {SDL_GetError()}", 8, "Window::AddWindow - SDL_CreateWindow failed to create window", NCExceptionSeverity.FatalError);
 
-            Settings.RendererHandle = SDL_CreateRenderer(Settings.WindowHandle, Settings.ID, Settings.RenderFlags);
+            // set the window ID 
+            Settings.ID = SDL_GetWindowID(Settings.WindowHandle);
+
+            Settings.RendererHandle = SDL_CreateRenderer(Settings.WindowHandle, (int)Settings.ID, Settings.RenderFlags);
 
             if (Settings.RendererHandle == IntPtr.Zero) throw new NCException($"Failed to create Renderer: {SDL_GetError()}", 9, "Window::AddWindow - SDL_CreateWindow failed to create window", NCExceptionSeverity.FatalError);
         }
@@ -84,13 +87,18 @@ namespace LightningGL
                 // Developers can choose to handle SDL events after this
                 switch (currentEvent.type)
                 {
-                    case SDL_EventType.SDL_MOUSEBUTTONDOWN:
+                    case SDL_EventType.SDL_MOUSEBUTTONDOWN: // Mouse down event
                         UIManager.MousePressed(currentEvent.button.button, new Vector2(currentEvent.button.x, currentEvent.button.y));
                         return true;
-                    case SDL_EventType.SDL_MOUSEBUTTONUP:
+                    case SDL_EventType.SDL_MOUSEBUTTONUP: // Mouse up event
                         UIManager.MouseReleased(currentEvent.button.button, new Vector2(currentEvent.button.x, currentEvent.button.y));
                         return true;
-                    case SDL_EventType.SDL_WINDOWEVENT: // Window Event
+                    case SDL_EventType.SDL_MOUSEMOTION: // Mouse move event
+                        UIManager.MouseMove(new Vector2(currentEvent.motion.x, currentEvent.motion.y),
+                            new Vector2(currentEvent.motion.xrel, currentEvent.motion.yrel),
+                            (SDL_MouseButton)currentEvent.motion.state);
+                        return true; 
+                    case SDL_EventType.SDL_WINDOWEVENT: // Window Event - check subtypes
                         switch (currentEvent.window.windowEvent)
                         {
                             case SDL_WindowEventID.SDL_WINDOWEVENT_ENTER:

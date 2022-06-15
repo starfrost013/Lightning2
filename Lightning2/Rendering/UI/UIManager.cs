@@ -93,5 +93,17 @@ namespace LightningGL
                 }
             }
         }
+
+        public static void MouseMove(Vector2 position, Vector2 velocity, SDL_MouseButton mouseButton)
+        {
+            foreach (UIGadget uiElement in UIElements)
+            {
+                if (uiElement.OnMouseMove != null
+                    && AABB.Intersects(uiElement, position))
+                {
+                    uiElement.OnMouseMove(position, velocity, mouseButton);
+                }
+            }
+        }
     }
 }
