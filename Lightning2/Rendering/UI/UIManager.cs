@@ -1,5 +1,7 @@
-﻿using NuCore.Utilities;
+﻿using static NuCore.SDL2.SDL;
+using NuCore.Utilities;
 using System.Collections.Generic;
+using System.Numerics; 
 
 namespace LightningGL
 {
@@ -21,7 +23,7 @@ namespace LightningGL
 
         public static void AddElement(UIGadget uiElement)
         {
-            NCLogging.Log($"Creating UIElement: {uiElement.GetType().Name}");
+            NCLogging.Log($"Creating new UIGadget::{uiElement.GetType().Name}");
             UIElements.Add(uiElement);
         }
 
@@ -43,6 +45,32 @@ namespace LightningGL
                 if (uiElement.OnShutdown != null)
                 {
                     uiElement.OnShutdown(cWindow);
+                }
+            }
+        }
+
+        public static void MousePressed(SDL_MouseButton mouseButton, Vector2 position)
+        {
+            foreach (UIGadget uiElement in UIElements)
+            {
+                if (AABB.Intersects(uiElement, position))
+                {
+                    uiElement.OnMousePressed(mouseButton, position);
+                }
+            }
+        }
+
+        public static void MouseReleased(SDL_MouseButton mouseButton, Vector2 position)
+        {
+            foreach (UIGadget uiElement in UIElements)
+            {
+                if (uiElement.OnMouseReleased != null)
+                {
+                    if (AABB.Intersects(uiElement, position))
+                    {
+                        uiElement.OnMouseReleased(mouseButton, position);
+                    }
+                    
                 }
             }
         }

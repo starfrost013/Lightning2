@@ -194,6 +194,7 @@ Button btn1 = new Button()
     Size = new Vector2(44, 44),
     Text = "button",
     BackgroundColour = Color.Goldenrod,
+    PressedColour = Color.DarkGoldenrod,
     ForegroundColour = Color.Black,
     Filled = true,
     Font = "Arial.11pt"

@@ -47,19 +47,19 @@ namespace LightningGL
             ThisTime = 0;
         }
 
-        public void Start(WindowSettings Ws)
+        public void Start(WindowSettings windowSettings)
         {
-            if (Ws == null) throw new NCException("Passed null WindowSettings to Window init method!", 7, "Window.AddWindow", NCExceptionSeverity.FatalError);
+            if (windowSettings == null) throw new NCException("Passed null WindowSettings to Window init method!", 7, "Window::AddWindow windowSettings parameter null", NCExceptionSeverity.FatalError);
 
-            Settings = Ws;
+            Settings = windowSettings;
 
             Settings.WindowHandle = SDL_CreateWindow(Settings.Title, (int)Settings.Position.X, (int)Settings.Position.Y, (int)Settings.Size.X, (int)Settings.Size.Y, Settings.WindowFlags);
 
-            if (Settings.WindowHandle == IntPtr.Zero) throw new NCException($"Failed to create Window: {SDL_GetError()}", 8, "Window.AddWindow", NCExceptionSeverity.FatalError);
+            if (Settings.WindowHandle == IntPtr.Zero) throw new NCException($"Failed to create Window: {SDL_GetError()}", 8, "Window::AddWindow - SDL_CreateWindow failed to create window", NCExceptionSeverity.FatalError);
 
             Settings.RendererHandle = SDL_CreateRenderer(Settings.WindowHandle, Settings.ID, Settings.RenderFlags);
 
-            if (Settings.RendererHandle == IntPtr.Zero) throw new NCException($"Failed to create Renderer: {SDL_GetError()}", 9, "Window.AddWindow", NCExceptionSeverity.FatalError);
+            if (Settings.RendererHandle == IntPtr.Zero) throw new NCException($"Failed to create Renderer: {SDL_GetError()}", 9, "Window::AddWindow - SDL_CreateWindow failed to create window", NCExceptionSeverity.FatalError);
         }
 
         private void Update()
@@ -80,9 +80,15 @@ namespace LightningGL
             {
                 LastEvent = current_event;
 
+                // default rendering loop.
+                // Developers can choose to handle SDL events after this
                 switch (current_event.type)
                 {
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN:
+                        UIManager.MousePressed(current_event.button.button, new Vector2(current_event.button.x, current_event.button.y));
+                        return true;
+                    case SDL_EventType.SDL_MOUSEBUTTONUP:
+                        UIManager.MouseReleased(current_event.button.button, new Vector2(current_event.button.x, current_event.button.y));
                         return true;
                     case SDL_EventType.SDL_QUIT: // User requested a quit, so shut down
                         LightningGL.Shutdown(this);

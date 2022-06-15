@@ -10,11 +10,6 @@ namespace LightningGL
     public class UIGadget : Renderable
     {
         /// <summary>
-        /// Event handler for <see cref="MousePressedEvent"/> event.
-        /// </summary>
-        public MousePressedEvent OnClick { get; set; }
-
-        /// <summary>
         /// Event handler for <see cref="KeyPressedEvent"/> event.
         /// </summary>
         public KeyPressedEvent OnKeyPressed { get; set; }

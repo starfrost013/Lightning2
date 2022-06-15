@@ -1,4 +1,5 @@
-﻿using static NuCore.SDL2.SDL_ttf;
+﻿using static NuCore.SDL2.SDL;
+using static NuCore.SDL2.SDL_ttf;
 using NuCore.Utilities;
 using System.Drawing;
 using System.Numerics;
@@ -24,6 +25,8 @@ namespace LightningGL
 
         public Color ForegroundColour { get; set; }
 
+        public Color PressedColour { get; set; }
+
         public Color BorderColour { get; set; }
 
         public bool Filled { get; set; }
@@ -33,12 +36,16 @@ namespace LightningGL
         /// <summary>
         /// Private: current colour used for swapping between pressed/held colour
         /// </summary>
-        private Color CurColour { get; set; }
+        private Color CurBackgroundColour { get; set; }
 
         public Button()
         {
             // Hook up events
-            OnRender += Render; 
+            OnRender += Render;
+            OnMousePressed += MousePressed;
+            OnMouseReleased += MouseReleased;
+            CurBackgroundColour = BackgroundColour;
+
         }
 
         public void Render(Window cWindow)
@@ -52,9 +59,18 @@ namespace LightningGL
             textPos.X = textPos.X - (Size.X / 2) - (textSize.X / 2);
             textPos.Y = textPos.Y - (Size.Y / 2) - (textSize.Y / 2);
 
-            PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, BackgroundColour, Filled, SnapToScreen, BorderColour, BorderSize);
+            PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, CurBackgroundColour, Filled, SnapToScreen, BorderColour, BorderSize);
             TextManager.DrawTextTTF(cWindow, Text, Font, textPos, ForegroundColour, default(Color), Style, SnapToScreen);
         }
 
+        public void MousePressed(SDL_MouseButton button, Vector2 position)
+        {
+            CurBackgroundColour = PressedColour;
+        }
+
+        public void MouseReleased(SDL_MouseButton button, Vector2 position)
+        {
+            CurBackgroundColour = BackgroundColour;
+        }
     }
 }
