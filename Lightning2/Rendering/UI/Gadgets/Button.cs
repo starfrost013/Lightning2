@@ -44,12 +44,13 @@ namespace LightningGL
             OnRender += Render;
             OnMousePressed += MousePressed;
             OnMouseReleased += MouseReleased;
-            CurBackgroundColour = BackgroundColour;
-
         }
 
         public void Render(Window cWindow)
         {
+            // This is a bit of a hack, but it works for now
+            if (CurBackgroundColour == default(Color)) CurBackgroundColour = BackgroundColour;
+
             Font curFont = TextManager.GetFont(Font);
 
             if (TextManager.GetFont(Font) == null) throw new NCException($"Button tried to load invalid font {Font}. Please load the font before using it!", 581, "TextManager::GetFont returned null on Font property of Button", NCExceptionSeverity.FatalError);
