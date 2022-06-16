@@ -101,7 +101,6 @@ namespace LightningGL
             cur_frame.Position = Position;
             cur_frame.Repeat = TextureRepeat;
             cur_frame.Size = Size;
-            cur_frame.SnapToScreen = SnapToScreen;
 
             cur_frame.Draw(Win);
 

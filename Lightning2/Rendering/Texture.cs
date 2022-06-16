@@ -274,11 +274,6 @@ namespace LightningGL
                 dst_rect.h = (ViewportEnd.Y - ViewportStart.Y);
             }
 
-            if (!SnapToScreen)
-            {
-                dst_rect.x -= cur_camera.Position.X;
-                dst_rect.y -= cur_camera.Position.Y;
-            }
 
             if (Repeat == default(Vector2))
             {

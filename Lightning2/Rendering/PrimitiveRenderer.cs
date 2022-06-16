@@ -14,13 +14,12 @@ namespace LightningGL
     /// </summary>
     public static class PrimitiveRenderer
     {
-        public static void DrawPixel(Window cWindow, Vector2 position, Color colour, bool snapToScreen = true)
+        public static void DrawPixel(Window cWindow, Vector2 position, Color colour)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera cur_cam = cWindow.Settings.Camera;
 
-            if (cur_cam != null
-                && snapToScreen)
+            if (cur_cam != null)
             {
                 position.X -= cur_cam.Position.X;
                 position.Y -= cur_cam.Position.Y;
@@ -29,7 +28,7 @@ namespace LightningGL
             SDL_gfx.pixelRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y, colour.R, colour.G, colour.B, colour.A);
         }
 
-        public static void DrawLine(Window cWindow, Vector2 Start, Vector2 End, short thickness, Color colour, bool antiAliased, bool snapToScreen = true)
+        public static void DrawLine(Window cWindow, Vector2 Start, Vector2 End, short thickness, Color colour, bool antiAliased)
         {
             // lineRGBA(); just calls SDL.SDL_RenderDrawLine
             // thickLine does other stuff. 
@@ -46,8 +45,7 @@ namespace LightningGL
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera cur_cam = cWindow.Settings.Camera;
 
-            if (cur_cam != null
-                && snapToScreen)
+            if (cur_cam != null)
             {
                 Start.X -= cur_cam.Position.X;
                 Start.Y -= cur_cam.Position.Y;
@@ -72,13 +70,12 @@ namespace LightningGL
             }
         }
 
-        public static void DrawRectangle(Window cWindow, Vector2 position, Vector2 Size, Color colour, bool Filled = false, bool snapToScreen = true, Color borderColor = default(Color), Vector2 borderSize = default(Vector2))
+        public static void DrawRectangle(Window cWindow, Vector2 position, Vector2 Size, Color colour, bool Filled = false, Color borderColor = default(Color), Vector2 borderSize = default(Vector2))
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera cur_cam = cWindow.Settings.Camera;
 
-            if (cur_cam != null
-                && snapToScreen)
+            if (cur_cam != null)
             {
                 position.X -= cur_cam.Position.X;
                 position.Y -= cur_cam.Position.Y;
@@ -103,13 +100,12 @@ namespace LightningGL
 
         }
 
-        public static void DrawRoundedRectangle(Window cWindow, Vector2 position, Vector2 Size, Color colour, int CornerRadius, bool Filled, bool snapToScreen = true)
+        public static void DrawRoundedRectangle(Window cWindow, Vector2 position, Vector2 Size, Color colour, int CornerRadius, bool Filled)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera cur_cam = cWindow.Settings.Camera;
 
-            if (cur_cam != null
-                && snapToScreen)
+            if (cur_cam != null)
             {
                 position.X -= cur_cam.Position.X;
                 position.Y -= cur_cam.Position.Y;
@@ -137,14 +133,12 @@ namespace LightningGL
         /// <param name="point3">The third point of the triangle.</param>
         /// <param name="colour">The colour of the triangle - see <see cref="Color"/></param>
         /// <param name="filled">Determines if the triangle will be filled.</param>
-        /// <param name="snapToScreen">Determines if the triangle will obey the current camera. If it is set to false, the camera will always have screen- instead of world-relative coordinates.</param>
-        public static void DrawTriangle(Window cWindow, Vector2 point1, Vector2 point2, Vector2 point3, Color colour, bool filled, bool snapToScreen = true)
+        public static void DrawTriangle(Window cWindow, Vector2 point1, Vector2 point2, Vector2 point3, Color colour, bool filled)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera cur_cam = cWindow.Settings.Camera;
 
-            if (cur_cam != null
-                && snapToScreen)
+            if (cur_cam != null)
             {
                 point1.X -= cur_cam.Position.X;
                 point2.X -= cur_cam.Position.X;
@@ -165,13 +159,12 @@ namespace LightningGL
             }
         }
 
-        public static void DrawCircle(Window cWindow, Vector2 position, Vector2 Size, Color colour, bool Filled, bool Antialiased = false, bool snapToScreen = true)
+        public static void DrawCircle(Window cWindow, Vector2 position, Vector2 Size, Color colour, bool Filled, bool Antialiased = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera cur_cam = cWindow.Settings.Camera;
 
-            if (cur_cam != null
-                && snapToScreen)
+            if (cur_cam != null)
             {
                 position.X -= cur_cam.Position.X;
                 position.Y -= cur_cam.Position.Y;
@@ -213,13 +206,12 @@ namespace LightningGL
         /// <param name="position">The position to draw the text to. </param>
         /// <param name="colour">The colour to draw the text as.</param>
         /// <param name="Localise">If true, the text will be localised with <see cref="LocalisationManager"/> before being drawn.</param>
-        public static void DrawText(Window cWindow, string Text, Vector2 position, Color colour, bool snapToScreen = true, bool Localise = true)
+        public static void DrawText(Window cWindow, string Text, Vector2 position, Color colour, bool Localise = true)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera cur_cam = cWindow.Settings.Camera;
 
-            if (cur_cam != null
-                && !snapToScreen)
+            if (cur_cam != null)
             {
                 position.X -= cur_cam.Position.X;
                 position.Y -= cur_cam.Position.Y;

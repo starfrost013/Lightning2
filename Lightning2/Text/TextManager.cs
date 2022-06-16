@@ -8,11 +8,11 @@ using System.Numerics;
 
 namespace LightningGL
 {
-    public static class TextManager
+    public static class FontManager
     {
         public static List<Font> Fonts { get; set; }
 
-        static TextManager()
+        static FontManager()
         {
             Fonts = new List<Font>();
         }
@@ -96,13 +96,13 @@ namespace LightningGL
             return largestLineSize;
         }
 
-        public static void DrawTextTTF(Window cWindow, string text, string font, Vector2 position, Color foreground, Color background = default(Color), TTF_FontStyle style = TTF_FontStyle.Normal, 
-            bool snapToScreen = true, int resizeFont = -1, int outlinePixels = -1, int lineLength = -1, FontSmoothingType smoothing = FontSmoothingType.Default)
+        public static void DrawText(Window cWindow, string text, string font, Vector2 position, Color foreground, Color background = default(Color), TTF_FontStyle style = TTF_FontStyle.Normal, 
+            int resizeFont = -1, int outlinePixels = -1, int lineLength = -1, FontSmoothingType smoothing = FontSmoothingType.Default)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;
 
-            if (currentCamera != null && snapToScreen)
+            if (currentCamera != null)
             {
                 position.X -= currentCamera.Position.X;
                 position.Y -= currentCamera.Position.Y;
@@ -168,7 +168,7 @@ namespace LightningGL
                 if (numberOfLines > 1) totalSizeX = (int)GetLargestTextSize(curFont, text).X;
 
                 // camera-aware is false for this as we have already "pushed" the position, so we don't need to do it again.
-                PrimitiveRenderer.DrawRectangle(cWindow, position, new Vector2(totalSizeX, totalSizeY), Color.FromArgb(bgColour.a, bgColour.r, bgColour.g, bgColour.b), true, false);
+                PrimitiveRenderer.DrawRectangle(cWindow, position, new Vector2(totalSizeX, totalSizeY), Color.FromArgb(bgColour.a, bgColour.r, bgColour.g, bgColour.b), true);
             }
 
             // Set the font outline, size and style

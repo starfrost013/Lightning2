@@ -18,10 +18,10 @@ window_settings.Size = new Vector2(960, 640);
 
 window.Start(window_settings);
 
-TextManager.LoadFont("Arial", 11, null, "Arial.11pt");
-TextManager.LoadFont("Arial", 18, null, "Arial.18pt");
-TextManager.LoadFont("Arial", 24, null, "Arial.24pt");
-TextManager.LoadFont("Arial", 36, null, "Arial.36pt");
+FontManager.LoadFont("Arial", 11, null, "Arial.11pt");
+FontManager.LoadFont("Arial", 18, null, "Arial.18pt");
+FontManager.LoadFont("Arial", 24, null, "Arial.24pt");
+FontManager.LoadFont("Arial", 36, null, "Arial.36pt");
 
 window.Clear(Color.FromArgb(255, 127, 127, 127));
 Texture texture = new Texture(window, new(64, 64));
@@ -125,7 +125,6 @@ LightManager.AddLight(window, new Light
     Position = new Vector2(850, 75),
     Range = 4,
     Brightness = 255,
-    SnapToScreen = true
 });
 
 LightManager.AddLight(window, new Light
@@ -133,7 +132,6 @@ LightManager.AddLight(window, new Light
     Position = new Vector2(850, 275),
     Range = 4,
     Brightness = 255,
-    SnapToScreen = true
 });
 
 LightManager.AddLight(window, new Light
@@ -141,7 +139,6 @@ LightManager.AddLight(window, new Light
     Position = new Vector2(850, 475),
     Range = 4,
     Brightness = 255,
-    SnapToScreen = true
 });
 
 LightManager.AddLight(window, new Light
@@ -149,7 +146,6 @@ LightManager.AddLight(window, new Light
     Position = new Vector2(850, 675),
     Range = 4,
     Brightness = 255,
-    SnapToScreen = true
 });
 
 LightManager.AddLight(window, new Light
@@ -157,7 +153,6 @@ LightManager.AddLight(window, new Light
     Position = new Vector2(0, 0),
     Range = 4,
     Brightness = 255,
-    SnapToScreen = true
 });
 
 LightManager.AddLight(window, new Light
@@ -165,7 +160,6 @@ LightManager.AddLight(window, new Light
     Position = new Vector2(200, 0),
     Range = 4,
     Brightness = 255,
-    SnapToScreen = true
 });
 
 AudioManager.LoadFile(@"Content\xm_boot.mp3");
@@ -201,7 +195,26 @@ Button btn1 = new Button()
     Font = "Arial.11pt"
 };
 
+ListBox listBox1 = new ListBox
+{
+    Position = new Vector2(70, 150),
+    Size = new Vector2(44, 44),
+    BackgroundColour = Color.PaleGoldenrod,
+    HighlightColour = Color.Goldenrod,
+    PressedColour = Color.DarkGoldenrod,
+    ForegroundColour = Color.Black,
+    Filled = true,
+    Font = "Arial.11pt"
+};
+
+listBox1.AddItem(new ListBoxItem("test 1"));
+listBox1.AddItem(new ListBoxItem("h"));
+listBox1.AddItem(new ListBoxItem("dfsdfsdfsdfsdfsdf"));
+listBox1.AddItem(new ListBoxItem("zxczxzxzx"));
+listBox1.AddItem(new ListBoxItem("qasqsdfwqer"));
+
 UIManager.AddElement(btn1);
+UIManager.AddElement(listBox1);
 
 while (window.Run())
 {
@@ -263,22 +276,21 @@ while (window.Run())
     PrimitiveRenderer.DrawText(window, "Loc string test: #[STRING_TEST]", new Vector2(500, 120), Color.FromArgb(255, 0, 0, 255));
     PrimitiveRenderer.DrawText(window, "Loc string test: #[STRING_TEST] aaaaaa #[STRING_TEST] #[STRING_TEST] bbbbbb", new Vector2(500, 150), Color.FromArgb(255, 0, 0, 255));
 
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 10), Color.FromArgb(255, 255, 255, 255));
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 30), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 50), Color.FromArgb(255, 255, 255, 0), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Italic);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 70), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Underline);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 90), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Strikeout, false, 15);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 110), Color.FromArgb(255, 255, 255, 0), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, false, -1, 3);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 130), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, false, 15, -1);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 150), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, false, -1, -1, 30);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 170), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, true, -1, -1, 0, FontSmoothingType.Shaded);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 190), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, true, -1, -1, 0, FontSmoothingType.Solid);
-    TextManager.DrawTextTTF(window, "Test", "Arial.11pt", new Vector2(700, 210), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline);
-    TextManager.DrawTextTTF(window, "#[STRING_TEST]\nTest2\nTest3", "Arial.11pt", new Vector2(700, 230), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline | SDL_ttf.TTF_FontStyle.Strikeout);
+    FontManager.DrawText(window, "Test", "Arial.11pt", new Vector2(700, 10), Color.FromArgb(255, 255, 255, 255));
+    FontManager.DrawText(window, "Test", "Arial.11pt", new Vector2(700, 30), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold);
+    FontManager.DrawText(window, "Test", "Arial.11pt", new Vector2(700, 50), Color.FromArgb(255, 255, 255, 0), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Italic);
+    FontManager.DrawText(window, "Test", "Arial.11pt", new Vector2(700, 70), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Underline);
+    FontManager.DrawText(window, "Test", "Arial.11pt", new Vector2(700, 90), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Strikeout, 15);
+    FontManager.DrawText(window, "Test", "Arial.11pt", new Vector2(700, 110), Color.FromArgb(255, 255, 255, 0), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, 3);
+    FontManager.DrawText(window, "Test", "Arial.11pt", new Vector2(700, 130), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, 15, -1);
+    FontManager.DrawText(window, "Test", "Arial.11pt", new Vector2(700, 150), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, -1, 30);
+    FontManager.DrawText(window, "Test", "Arial.11pt", new Vector2(700, 170), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, -1, 0, FontSmoothingType.Shaded);
+    FontManager.DrawText(window, "Test", "Arial.11pt", new Vector2(700, 190), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, -1, 0, FontSmoothingType.Solid);
+    FontManager.DrawText(window, "Test", "Arial.11pt", new Vector2(700, 210), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline);
+    FontManager.DrawText(window, "#[STRING_TEST]\nTest2\nTest3", "Arial.11pt", new Vector2(700, 230), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline | SDL_ttf.TTF_FontStyle.Strikeout);
 
     atlas_texture.Position = new Vector2(256, 256);
     atlas_texture.Index = 0;
-    atlas_texture.SnapToScreen = true;
     atlas_texture.DrawFrame(window);
     atlas_texture.Index = 0;
     atlas_texture.Position = new Vector2(256, 192);

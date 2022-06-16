@@ -75,11 +75,11 @@ namespace LightningGL
             List<Font> fonts_to_unload = new List<Font>();
             List<AudioFile> audio_files_to_unload = new List<AudioFile>();
 
-            foreach (Font font_to_unload in TextManager.Fonts) fonts_to_unload.Add(font_to_unload);
+            foreach (Font font_to_unload in FontManager.Fonts) fonts_to_unload.Add(font_to_unload);
             foreach (AudioFile audio_file_to_unload in AudioManager.AudioFiles) audio_files_to_unload.Add(audio_file_to_unload);
 
             NCLogging.Log("Unloading fonts...");
-            foreach (Font font_to_unload in fonts_to_unload) TextManager.UnloadFont(font_to_unload);
+            foreach (Font font_to_unload in fonts_to_unload) FontManager.UnloadFont(font_to_unload);
 
             NCLogging.Log("Unloading audio...");
             foreach (AudioFile audio_file_to_unload in audio_files_to_unload) AudioManager.UnloadFile(audio_file_to_unload);

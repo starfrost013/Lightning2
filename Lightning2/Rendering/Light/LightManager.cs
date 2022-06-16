@@ -44,7 +44,6 @@ namespace LightningGL
         {
             // move this if it is slower
             SSMapTexture = new Texture(Win, Win.Settings.Size);
-            SSMapTexture.SnapToScreen = true;
             SetEnvironmentalLightBlendMode(SDL_BlendMode.SDL_BLENDMODE_BLEND);
             // This is used so we don't build lightmaps when LightManager.Init hasn't been called
             Initialised = true;

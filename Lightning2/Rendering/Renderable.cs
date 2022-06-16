@@ -23,10 +23,5 @@ namespace LightningGL
         /// Does not have to be equal to image size.
         /// </summary>
         public virtual Vector2 Size { get; set; }
-
-        /// <summary>
-        /// If true, this texture's position will be relative to the screen instead of the world.
-        /// </summary>
-        public virtual bool SnapToScreen { get; set; }
     }
 }

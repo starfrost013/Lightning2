@@ -40,24 +40,7 @@ namespace LightningGL
         /// </summary>
         public Vector2 Velocity { get; set; }
 
-        private int CurFrame { get; set; }
-
-        private bool _snaptoscreen { get; set; }
-
-        public override bool SnapToScreen
-        {
-            // Check that our texture is valid and if so set its snaptoscreen value
-            get
-            {
-                if (Texture != null) return Texture.SnapToScreen;
-                return _snaptoscreen;
-            }
-            set
-            {
-                _snaptoscreen = value;
-                if (Texture != null) Texture.SnapToScreen = value;
-            }
-        }
+        private int CurFrame { get; set; } 
 
         public bool AbsoluteVelocity { get; set; }
 

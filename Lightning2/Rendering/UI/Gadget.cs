@@ -9,9 +9,9 @@ namespace LightningGL
     /// 
     /// May 13, 2022 (modified June 12, 2022)
     /// </summary>
-    public class UIGadget : Renderable
+    public class Gadget : Renderable
     {
-        #region Events
+        #region Event handlers
 
         /// <summary>
         /// Event handler for <see cref="KeyPressedEvent"/> event.
@@ -60,38 +60,73 @@ namespace LightningGL
 
         #endregion
 
+        /// <summary>
+        /// The colour used for the background of this gadget.
+        /// </summary>
         public Color BackgroundColour { get; set; }
 
+        /// <summary>
+        /// The colour used for the foreground of this gadget.
+        /// </summary>
         public Color ForegroundColour { get; set; }
 
+        /// <summary>
+        /// The colour used when the mouse is pressing down on this
+        /// </summary>
         public Color HighlightColour { get; set; }
 
+        /// <summary>
+        /// The colour used when the mouse is pressing down on this gadget.
+        /// </summary>
         public Color PressedColour { get; set; }
 
+        /// <summary>
+        /// The colour used for the border of this gadget.
+        /// </summary>
         public Color BorderColour { get; set; }
 
-        public bool Pressed { get; set; }
+        /// <summary>
+        /// Border size of this gadget.
+        /// </summary>
+        public Vector2 BorderSize { get; set; }
 
+        /// <summary>
+        /// Determines whether this gadget will be filled or not.
+        /// </summary>
+        public bool Filled { get; set; }
 
         /// <summary>
         /// Private: current colour used for swapping between pressed/held colour
         /// </summary>
         protected Color CurBackgroundColour { get; set; }
 
-        public UIGadget()
+        /// <summary>
+        /// Determines if the mouse is currently clicking on this gadget or not.
+        /// </summary>
+        public bool Pressed { get; private set; }
+
+        /// <summary>
+        /// The font this button will use.
+        /// If this value is set to null or a font that is not loaded is specified, the default SDL2_gfx font will be used.
+        /// </summary>
+        public string Font { get; set; }
+
+        public Gadget()
         {
             OnMousePressed += MousePressed;
             OnMouseReleased += MouseReleased;
             OnMouseMove += MouseMove;
         }
 
-        public void MousePressed(SDL_MouseButton button, Vector2 position)
+        #region Default event handlers
+
+        public virtual void MousePressed(SDL_MouseButton button, Vector2 position)
         {
             CurBackgroundColour = PressedColour;
             Pressed = true;
         }
 
-        public void MouseReleased(SDL_MouseButton button, Vector2 position)
+        public virtual void MouseReleased(SDL_MouseButton button, Vector2 position)
         {
             if (AABB.Intersects(this, position))
             {
@@ -105,7 +140,7 @@ namespace LightningGL
             Pressed = false;
         }
 
-        public void MouseMove(Vector2 position, Vector2 velocity, SDL_MouseButton button)
+        public virtual void MouseMove(Vector2 position, Vector2 velocity, SDL_MouseButton button)
         {
             if (AABB.Intersects(this, position))
             {
@@ -116,5 +151,6 @@ namespace LightningGL
                 CurBackgroundColour = BackgroundColour;
             }
         }
+        #endregion
     }
 }

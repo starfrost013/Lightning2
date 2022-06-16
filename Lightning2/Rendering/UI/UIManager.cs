@@ -14,14 +14,14 @@ namespace LightningGL
     /// </summary>
     public static class UIManager
     {
-        private static List<UIGadget> UIElements { get; set; }
+        private static List<Gadget> UIElements { get; set; }
 
         static UIManager()
         {
-            UIElements = new List<UIGadget>();
+            UIElements = new List<Gadget>();
         }
 
-        public static void AddElement(UIGadget uiElement)
+        public static void AddElement(Gadget uiElement)
         {
             NCLogging.Log($"Creating new UIGadget::{uiElement.GetType().Name}");
             UIElements.Add(uiElement);
@@ -29,7 +29,7 @@ namespace LightningGL
 
         internal static void Render(Window cWindow)
         {
-            foreach (UIGadget uiElement in UIElements)
+            foreach (Gadget uiElement in UIElements)
             {
                 if (uiElement.OnRender != null)
                 {
@@ -40,7 +40,7 @@ namespace LightningGL
 
         internal static void Shutdown(Window cWindow)
         {
-            foreach (UIGadget uiElement in UIElements)
+            foreach (Gadget uiElement in UIElements)
             {
                 if (uiElement.OnShutdown != null)
                 {
@@ -49,33 +49,57 @@ namespace LightningGL
             }
         }
 
-        public static void MousePressed(SDL_MouseButton mouseButton, Vector2 position)
+        public static void MousePressed(Window cWindow, SDL_MouseButton mouseButton, Vector2 position)
         {
-            foreach (UIGadget uiElement in UIElements)
+            // Check for a set camera and move relative to the position of that camera if it is set.
+            Camera currentCamera = cWindow.Settings.Camera;
+
+            Vector2 cameraPosition = position;
+
+            if (currentCamera != null)
+            {
+                cameraPosition = new Vector2
+                    (position.X - currentCamera.Position.X,
+                    position.Y - currentCamera.Position.Y);
+            }
+
+            foreach (Gadget uiElement in UIElements)
             {
                 if (AABB.Intersects(uiElement, position)
                     && uiElement.OnMousePressed != null)
                 {
-                    uiElement.OnMousePressed(mouseButton, position);
+                    uiElement.OnMousePressed(mouseButton, cameraPosition);
                 }
             }
         }
 
-        public static void MouseReleased(SDL_MouseButton mouseButton, Vector2 position)
+        public static void MouseReleased(Window cWindow, SDL_MouseButton mouseButton, Vector2 position)
         {
-            foreach (UIGadget uiElement in UIElements)
+            // Check for a set camera and move relative to the position of that camera if it is set.
+            Camera currentCamera = cWindow.Settings.Camera;
+
+            Vector2 cameraPosition = position;
+
+            if (currentCamera != null)
+            {
+                cameraPosition = new Vector2
+                    (position.X - currentCamera.Position.X,
+                    position.Y - currentCamera.Position.Y);
+            }
+
+            foreach (Gadget uiElement in UIElements)
             {
                 if (AABB.Intersects(uiElement, position)
                     && uiElement.OnMouseReleased != null)
                 {
-                    uiElement.OnMouseReleased(mouseButton, position);
+                    uiElement.OnMouseReleased(mouseButton, cameraPosition);
                 }
             }
         }
 
-        public static void MouseEnter()
+        public static void MouseEnter(Window cWindow)
         {
-            foreach (UIGadget uiElement in UIElements)
+            foreach (Gadget uiElement in UIElements)
             {
                 if (uiElement.OnMouseEnter != null)
                 {
@@ -83,9 +107,9 @@ namespace LightningGL
                 }
             }
         }
-        public static void MouseLeave()
+        public static void MouseLeave(Window cWindow)
         {
-            foreach (UIGadget uiElement in UIElements)
+            foreach (Gadget uiElement in UIElements)
             {
                 if (uiElement.OnMouseLeave != null)
                 {
@@ -94,9 +118,9 @@ namespace LightningGL
             }
         }
 
-        public static void MouseMove(Vector2 position, Vector2 velocity, SDL_MouseButton mouseButton)
+        public static void MouseMove(Window cWindow, Vector2 position, Vector2 velocity, SDL_MouseButton mouseButton)
         {
-            foreach (UIGadget uiElement in UIElements)
+            foreach (Gadget uiElement in UIElements)
             {
                 if (uiElement.OnMouseMove != null) // this one is passed regardless of intersection for things like button highlighting
                 {

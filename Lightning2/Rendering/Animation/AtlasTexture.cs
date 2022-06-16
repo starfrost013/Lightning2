@@ -79,24 +79,6 @@ namespace LightningGL
             }
         }
 
-        private bool _snaptoscreen { get; set; }
-        /// <summary>
-        /// If true, this texture's position will be relative to the screen instead of the world.
-        /// </summary>
-        public override bool SnapToScreen
-        {
-            get
-            {
-                if (Atlas != null) return Atlas.SnapToScreen;
-                return _snaptoscreen;
-            }
-            set
-            {
-                _snaptoscreen = value;
-                if (Atlas != null) Atlas.SnapToScreen = value;
-            }
-        }
-
         public void Load(Window Win, uint FramesX = 0, uint FramesY = 0)
         {
             if (FrameSize == default(Vector2)) throw new NCException("Cannot load a texture with no texture frame size!", 45, "AtlasTexture.LoadAtlas", NCExceptionSeverity.FatalError);
@@ -111,7 +93,6 @@ namespace LightningGL
             new_texture.Path = Path;
             new_texture.Repeat = Repeat;
             new_texture.Position = Position;
-            new_texture.SnapToScreen = SnapToScreen;
             new_texture.Load(Win);
 
             if (new_texture.Handle != IntPtr.Zero) Atlas = new_texture;
@@ -131,7 +112,6 @@ namespace LightningGL
 
             Atlas.ViewportStart = new Vector2(start_x, start_y);
             Atlas.ViewportEnd = new Vector2(end_x, end_y);
-            Atlas.SnapToScreen = SnapToScreen;
 
             Atlas.Draw(Win);
         }

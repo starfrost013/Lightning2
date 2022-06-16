@@ -94,13 +94,13 @@ namespace LightningGL
                 switch (currentEvent.type)
                 {
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN: // Mouse down event
-                        UIManager.MousePressed(currentEvent.button.button, new Vector2(currentEvent.button.x, currentEvent.button.y));
+                        UIManager.MousePressed(this, currentEvent.button.button, new Vector2(currentEvent.button.x, currentEvent.button.y));
                         return true;
                     case SDL_EventType.SDL_MOUSEBUTTONUP: // Mouse up event
-                        UIManager.MouseReleased(currentEvent.button.button, new Vector2(currentEvent.button.x, currentEvent.button.y));
+                        UIManager.MouseReleased(this, currentEvent.button.button, new Vector2(currentEvent.button.x, currentEvent.button.y));
                         return true;
                     case SDL_EventType.SDL_MOUSEMOTION: // Mouse move event
-                        UIManager.MouseMove(new Vector2(currentEvent.motion.x, currentEvent.motion.y),
+                        UIManager.MouseMove(this, new Vector2(currentEvent.motion.x, currentEvent.motion.y),
                             new Vector2(currentEvent.motion.xrel, currentEvent.motion.yrel),
                             (SDL_MouseButton)currentEvent.motion.state);
                         return true; 
@@ -108,10 +108,10 @@ namespace LightningGL
                         switch (currentEvent.window.windowEvent)
                         {
                             case SDL_WindowEventID.SDL_WINDOWEVENT_ENTER:
-                                UIManager.MouseEnter();
+                                UIManager.MouseEnter(this);
                                 return true;
                             case SDL_WindowEventID.SDL_WINDOWEVENT_LEAVE:
-                                UIManager.MouseLeave();
+                                UIManager.MouseLeave(this);
                                 return true;
                         }
 
@@ -162,7 +162,7 @@ namespace LightningGL
             }
 
             currentY += 12;
-            PrimitiveRenderer.DrawText(this, FrameNumber.ToString(), new Vector2(0, currentY), Color.FromArgb(255, 255, 255, 255), true, false);
+            PrimitiveRenderer.DrawText(this, FrameNumber.ToString(), new Vector2(0, currentY), Color.FromArgb(255, 255, 255, 255), true);
         }
 
         private void Render_UpdateFps()
