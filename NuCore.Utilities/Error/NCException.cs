@@ -43,13 +43,13 @@ namespace NuCore.Utilities
         /// </summary>
         public bool DontShowMessageBox { get; set; }
 
-        public NCException(string NDescription, int NId, string NCause = null, NCExceptionSeverity NExceptionSeverity = NCExceptionSeverity.Message, Exception NBaseException = null, bool DontShowMessageBox = false) : base(NDescription)
+        public NCException(string nDescription, int nId, string nCause = null, NCExceptionSeverity nExceptionSeverity = NCExceptionSeverity.Message, Exception nBaseException = null, bool DontShowMessageBox = false) : base(nDescription)
         {
-            Description = NDescription;
-            Id = NId;
-            Cause = NCause;
-            ExceptionSeverity = NExceptionSeverity;
-            BaseException = NBaseException;
+            Description = nDescription;
+            Id = nId;
+            Cause = nCause;
+            ExceptionSeverity = nExceptionSeverity;
+            BaseException = nBaseException;
 
             StringBuilder sb = new StringBuilder();
 

@@ -168,7 +168,7 @@ namespace LightningGL
                 if (numberOfLines > 1) totalSizeX = (int)GetLargestTextSize(curFont, text).X;
 
                 // camera-aware is false for this as we have already "pushed" the position, so we don't need to do it again.
-                PrimitiveRenderer.DrawRectangle(cWindow, position, new Vector2(totalSizeX, totalSizeY), Color.FromArgb(bgColour.a, bgColour.r, bgColour.g, bgColour.b), true);
+                PrimitiveRenderer.DrawRectangle(cWindow, position, new(totalSizeX, totalSizeY), Color.FromArgb(bgColour.a, bgColour.r, bgColour.g, bgColour.b), true, default, default, true);
             }
 
             // Set the font outline, size and style

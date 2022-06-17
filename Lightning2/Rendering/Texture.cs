@@ -238,66 +238,63 @@ namespace LightningGL
         /// <summary>
         /// Draws this texture instance.
         /// </summary>
-        /// <param name="Win">The window to draw this texture to.</param>
+        /// <param name="cWindow">The window to draw this texture to.</param>
         /// <exception cref="NCException">An error occurred rendering the texture. Extended information is available in <see cref="NCException.Description"/></exception>
-        public void Draw(Window Win)
+        public override void Draw(Window cWindow)
         {
-            SDL_Rect src_rect = new SDL_Rect();
-            SDL_FRect dst_rect = new SDL_FRect();
-
-            Camera cur_camera = Win.Settings.Camera;
+            SDL_Rect sourceRect = new SDL_Rect();
+            SDL_FRect destinationRect = new SDL_FRect();
 
             // Draw to the viewpoint
             if (ViewportStart == default(Vector2)
                 && ViewportEnd == default(Vector2))
             {
-                src_rect.x = 0;
-                src_rect.y = 0;
-                src_rect.w = (int)Size.X;
-                src_rect.h = (int)Size.Y;
+                sourceRect.x = 0;
+                sourceRect.y = 0;
+                sourceRect.w = (int)Size.X;
+                sourceRect.h = (int)Size.Y;
 
-                dst_rect.x = Position.X;
-                dst_rect.y = Position.Y;
-                dst_rect.w = Size.X;
-                dst_rect.h = Size.Y;
+                destinationRect.x = RenderPosition.X;
+                destinationRect.y = RenderPosition.Y;
+                destinationRect.w = Size.X;
+                destinationRect.h = Size.Y;
             }
             else
             {
-                src_rect.x = (int)ViewportStart.X;
-                src_rect.y = (int)ViewportStart.Y;
-                src_rect.w = (int)(ViewportEnd.X - ViewportStart.X);
-                src_rect.h = (int)(ViewportEnd.Y - ViewportStart.Y);
+                sourceRect.x = (int)ViewportStart.X;
+                sourceRect.y = (int)ViewportStart.Y;
+                sourceRect.w = (int)(ViewportEnd.X - ViewportStart.X);
+                sourceRect.h = (int)(ViewportEnd.Y - ViewportStart.Y);
 
-                dst_rect.x = Position.X;
-                dst_rect.y = Position.Y;
-                dst_rect.w = (ViewportEnd.X - ViewportStart.X);
-                dst_rect.h = (ViewportEnd.Y - ViewportStart.Y);
+                destinationRect.x = RenderPosition.X;
+                destinationRect.y = RenderPosition.Y;
+                destinationRect.w = (ViewportEnd.X - ViewportStart.X);
+                destinationRect.h = (ViewportEnd.Y - ViewportStart.Y);
             }
-
 
             if (Repeat == default(Vector2))
             {
                 // call to SDL - we are simply drawing it once.
-                SDL_RenderCopyF(Win.Settings.RendererHandle, Handle, ref src_rect, ref dst_rect);
+                SDL_RenderCopyF(cWindow.Settings.RendererHandle, Handle, ref sourceRect, ref destinationRect);
             }
             else
             {
-                SDL_FRect new_rect = new SDL_FRect(dst_rect.x, dst_rect.y, dst_rect.w, dst_rect.h);
+                SDL_FRect newRect = new SDL_FRect(destinationRect.x, destinationRect.y, destinationRect.w, destinationRect.h);
 
                 // Draws a tiled texture.
                 for (int y = 0; y < Repeat.Y; y++)
                 {
-                    SDL_RenderCopyF(Win.Settings.RendererHandle, Handle, ref src_rect, ref new_rect);
+                    SDL_RenderCopyF(cWindow.Settings.RendererHandle, Handle, ref sourceRect, ref newRect);
 
                     for (int x = 0; x < Repeat.X; x++)
                     {
-                        SDL_RenderCopyF(Win.Settings.RendererHandle, Handle, ref src_rect, ref new_rect);
+                        SDL_RenderCopyF(cWindow.Settings.RendererHandle, Handle, ref sourceRect, ref newRect);
 
-                        new_rect.x += dst_rect.w;
+                        newRect.x += destinationRect.w;
                     }
 
-                    new_rect.y += dst_rect.h; // we already set it up
-                    new_rect.x = dst_rect.x;
+                    newRect.y += destinationRect.h; // we already set it up
+                    newRect.x = destinationRect.x;
                 }
             }
         }
@@ -308,15 +305,15 @@ namespace LightningGL
         /// <param name="Colour">The optional colour to clear the texture with.</param>
         public void Clear(Color Colour = default(Color))
         {
-            Color clear_colour = Color.FromArgb(0, 0, 0, 0);
+            Color clearColour = Color.FromArgb(0, 0, 0, 0);
 
-            if (Colour != default(Color)) clear_colour = Colour;
+            if (Colour != default(Color)) clearColour = Colour;
 
             for (int y = 0; y < Size.Y; y++)
             {
                 for (int x = 0; x < Size.X; x++)
                 {
-                    SetPixel(x, y, clear_colour);
+                    SetPixel(x, y, clearColour);
                 }
             }
         }

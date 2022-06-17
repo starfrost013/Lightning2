@@ -79,72 +79,72 @@ namespace LightningGL
             }
         }
 
-        public void Load(Window Win, uint FramesX = 0, uint FramesY = 0)
+        public void Load(Window cWindow, uint framesX = 0, uint framesY = 0)
         {
             if (FrameSize == default(Vector2)) throw new NCException("Cannot load a texture with no texture frame size!", 45, "AtlasTexture.LoadAtlas", NCExceptionSeverity.FatalError);
 
-            if (FramesX < 1 || FramesY < 1) throw new NCException($"A texture atlas must have at least one frame, set to {FramesX},{FramesY}!", 46, "AtlasTexture.LoadAtlas", NCExceptionSeverity.FatalError);
+            if (framesX < 1 || framesY < 1) throw new NCException($"A texture atlas must have at least one frame, set to {framesX},{framesY}!", 46, "AtlasTexture.LoadAtlas", NCExceptionSeverity.FatalError);
 
             NCLogging.Log($"Loading atlas texture at path {Path}...");
             // +1 for safety purposes so that we don't set an out of bounds viewport
-            Texture new_texture = new Texture(Win, new Vector2(FrameSize.X * FramesX + 1, FrameSize.Y * FramesY + 1));
-            Size = new Vector2(FramesX, FramesY);
+            Texture newTexture = new Texture(cWindow, new Vector2(FrameSize.X * framesX + 1, FrameSize.Y * framesY + 1));
+            Size = new Vector2(framesX, framesY);
 
-            new_texture.Path = Path;
-            new_texture.Repeat = Repeat;
-            new_texture.Position = Position;
-            new_texture.Load(Win);
+            newTexture.Path = Path;
+            newTexture.Repeat = Repeat;
+            newTexture.Position = Position;
+            newTexture.Load(cWindow);
 
-            if (new_texture.Handle != IntPtr.Zero) Atlas = new_texture;
+            if (newTexture.Handle != IntPtr.Zero) Atlas = newTexture;
         }
 
-        public void DrawFrame(Window Win)
+        public override void Draw(Window cWindow)
         {
             if (Index < 0
                 || Index > (Size.X * Size.Y)) throw new NCException($"Cannot draw invalid AnimatedTexture ({Name}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)", 47, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
 
             int row = (int)(Index / Size.Y);
 
-            float start_x = FrameSize.X * (Index / (row + 1)) - FrameSize.X;
-            float start_y = FrameSize.Y * row;
-            float end_x = start_x + FrameSize.X;
-            float end_y = start_y + FrameSize.Y;
+            float startX = FrameSize.X * (Index / (row + 1)) - FrameSize.X;
+            float startY = FrameSize.Y * row;
+            float endX = startX + FrameSize.X;
+            float endY = startY + FrameSize.Y;
 
-            Atlas.ViewportStart = new Vector2(start_x, start_y);
-            Atlas.ViewportEnd = new Vector2(end_x, end_y);
+            Atlas.ViewportStart = new Vector2(startX, startY);
+            Atlas.ViewportEnd = new Vector2(endX, endY);
 
-            Atlas.Draw(Win);
+            Atlas.Draw(cWindow);
         }
 
-        public void GetPixel(int X, int Y, bool Relative = false)
+        public void GetPixel(int x, int y, bool relative = false)
         {
             int row = (int)(Index / Size.Y) + 1;
 
-            if (Relative)
+            if (relative)
             {
-                int relative_x = (int)(FrameSize.X * (Index / (row + 1)) - FrameSize.X);
-                int relative_y = (int)(FrameSize.Y * row);
-                Atlas.GetPixel(relative_x, relative_y);
+                int relativeX = (int)(FrameSize.X * (Index / (row + 1)) - FrameSize.X);
+                int relativeY = (int)(FrameSize.Y * row);
+                Atlas.GetPixel(relativeX, relativeY);
             }
             else
             {
-                Atlas.GetPixel(X, Y);
+                Atlas.GetPixel(x, y);
             }
         }
 
-        public void SetPixel(int X, int Y, Color Colour, bool Relative = false)
+        public void SetPixel(int x, int y, Color colour, bool relative = false)
         {
             int row = (int)(Index / Size.Y) + 1;
 
-            if (Relative)
+            if (relative)
             {
-                int relative_x = (int)(FrameSize.X * (Index / (row + 1)) - FrameSize.X);
-                int relative_y = (int)(FrameSize.Y * row);
-                Atlas.SetPixel(relative_x, relative_y, Colour);
+                int relativeX = (int)(FrameSize.X * (Index / (row + 1)) - FrameSize.X);
+                int relativeY = (int)(FrameSize.Y * row);
+                Atlas.SetPixel(relativeX, relativeY, colour);
             }
             else
             {
-                Atlas.SetPixel(X, Y, Colour);
+                Atlas.SetPixel(x, y, colour);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.Versioning;
 
 namespace NuCore.Utilities
@@ -16,7 +17,13 @@ namespace NuCore.Utilities
         public static bool CapsLock => Console.CapsLock;
 
         public static int CursorSize => Console.CursorSize;
- 
+
+        public static TextReader In => Console.In;
+
+        public static TextWriter Out => Console.Out;
+
+        public static TextWriter Error => Console.Error;
+
         public static void Clear(bool clearEntirely)
         {
             if (clearEntirely)

@@ -3,9 +3,9 @@
 
 using System.Reflection;
 
-[assembly: AssemblyVersion("1.0.0.110")]
-[assembly: AssemblyFileVersion("1.0.0.110")]
-[assembly: AssemblyInformationalVersion("1.0.0 build 110, built 2022-06-16 21:39:47")]
+[assembly: AssemblyVersion("1.0.0.111")]
+[assembly: AssemblyFileVersion("1.0.0.111")]
+[assembly: AssemblyInformationalVersion("1.0.0 build 111, built 2022-06-17 20:57:57")]
 [assembly: AssemblyTitle("Lightning Graphics Library")]
 
 namespace LightningGL
@@ -15,10 +15,10 @@ namespace LightningGL
 		public static int LIGHTNING_VERSION_MAJOR = 1;
 		public static int LIGHTNING_VERSION_MINOR = 0; 
 		public static int LIGHTNING_VERSION_REVISION = 0;
-		public static int LIGHTNING_VERSION_BUILD = 110;
+		public static int LIGHTNING_VERSION_BUILD = 111;
 
 		public static string LIGHTNING_VERSION_STRING = "1.0.0";
-		public static string LIGHTNING_VERSION_EXTENDED_STRING = "1.0.0 build 110, built 2022-06-16 21:39:47";
+		public static string LIGHTNING_VERSION_EXTENDED_STRING = "1.0.0 build 111, built 2022-06-17 20:57:57";
 	}
 }
 

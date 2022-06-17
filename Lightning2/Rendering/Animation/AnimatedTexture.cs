@@ -71,45 +71,45 @@ namespace LightningGL
             FramesPath = new List<string>();
         }
 
-        public void Load(Window Win)
+        public void Load(Window cWindow)
         {
-            if (Size == default(Vector2)) throw new NCException("Cannot load an animated texture with no texture size", 44, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
-            if (Cycle == null) throw new NCException("AnimatedTextures must have a valid Cycle property", 54, "AnimatedTexture.LoadIndexed", NCExceptionSeverity.FatalError);
+            if (Size == default(Vector2)) throw new NCException("Cannot load an animated texture with no texture size", 44, "AnimatedTexture::Size property = (0,0)", NCExceptionSeverity.FatalError);
+            if (Cycle == null) throw new NCException("AnimatedTextures must have a valid Cycle property", 54, "AnimatedTexture::Cycle property = null", NCExceptionSeverity.FatalError);
 
-            foreach (string TexturePath in FramesPath)
+            foreach (string texturePath in FramesPath)
             {
-                Texture new_texture = new Texture(Win, Size);
-                new_texture.Path = TexturePath;
-                new_texture.Position = Position;
-                new_texture.Repeat = TextureRepeat;  // do this in the getter/setter?
+                Texture newTexture = new Texture(cWindow, Size);
+                newTexture.Path = texturePath;
+                newTexture.Position = Position;
+                newTexture.Repeat = TextureRepeat;  // do this in the getter/setter?
                 // Texture will only load current or throw fatal error. Maybe add Loaded attribute that checks if TextureHandle isn't a nullptr?
-                new_texture.Load(Win);
+                newTexture.Load(cWindow);
 
-                if (new_texture.Handle != IntPtr.Zero) Frames.Add(new_texture);
+                if (newTexture.Handle != IntPtr.Zero) Frames.Add(newTexture);
             }
 
             CurrentFrame = Cycle.StartFrame;
         }
 
-        public void DrawCurrentFrame(Window Win)
+        public override void Draw(Window cWindow)
         {
-            bool reverse_animation = (Cycle.StartFrame > Cycle.EndFrame);
+            bool reverseAnimation = (Cycle.StartFrame > Cycle.EndFrame);
             if (AnimationFinished) return;
 
-            Texture cur_frame = Frames[CurrentFrame];
+            Texture curFrame = Frames[CurrentFrame];
 
-            cur_frame.Position = Position;
-            cur_frame.Repeat = TextureRepeat;
-            cur_frame.Size = Size;
+            curFrame.RenderPosition = RenderPosition;
+            curFrame.Repeat = TextureRepeat;
+            curFrame.Size = Size;
 
-            cur_frame.Draw(Win);
+            curFrame.Draw(cWindow);
 
-            if (Win.FrameNumber % Cycle.FrameLength == 0)
+            if (cWindow.FrameNumber % Cycle.FrameLength == 0)
             {
                 // will be set to true if the cycle is to end.
-                bool end_cycle = false;
+                bool endCycle = false;
 
-                if (reverse_animation)
+                if (reverseAnimation)
                 {
                     CurrentFrame--;
                 }
@@ -118,7 +118,7 @@ namespace LightningGL
                     CurrentFrame++;
                 }
 
-                if (reverse_animation)
+                if (reverseAnimation)
                 {
                     if (CurrentFrame < Cycle.EndFrame) CurrentFrame = Cycle.StartFrame;
                 }
@@ -127,11 +127,11 @@ namespace LightningGL
                     if (CurrentFrame > Cycle.EndFrame) CurrentFrame = Cycle.StartFrame;
                 }
 
-                if (end_cycle)
+                if (endCycle)
                 {
                     CurRepeats++;
                     if (CurRepeats > Repeat && (Repeat != 0)) AnimationFinished = true;
-                    end_cycle = false;
+                    endCycle = false;
                 }
             }
         }

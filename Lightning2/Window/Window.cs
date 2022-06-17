@@ -1,5 +1,6 @@
 ﻿using NuCore.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Numerics;
@@ -44,9 +45,31 @@ namespace LightningGL
         /// </summary>
         public bool EventWaiting { get; set; }
 
+        /// <summary>
+        /// The list of layers that this window holds.
+        /// </summary>
+        public List<Layer> Layers { get; set; }
+
+        private Layer _currentLayer { get; set; }
+
+        public Layer CurrentLayer
+        {
+            get
+            {
+                return _currentLayer;
+            }
+            set
+            {
+                if (!Layers.Contains(value)) throw new NCException($"Attempted to set invalid rendering layer!", 85, "Window::GetLayer name parameter was not in Window::Layers", NCExceptionSeverity.FatalError);
+                
+                _currentLayer = value;
+            }
+        }
+
         public Window()
         {
             DeltaTimer = new Stopwatch();
+            Layers = new List<Layer>();
             // Start the delta timer.
             DeltaTimer.Start();
             LastTime = 0;
@@ -69,6 +92,10 @@ namespace LightningGL
             Settings.RendererHandle = SDL_CreateRenderer(Settings.WindowHandle, (int)Settings.ID, Settings.RenderFlags);
 
             if (Settings.RendererHandle == IntPtr.Zero) throw new NCException($"Failed to create Renderer: {SDL_GetError()}", 9, "Window::AddWindow - SDL_CreateWindow failed to create window", NCExceptionSeverity.FatalError);
+
+            Layer defaultLayer = new Layer("Default");
+            Layers.Add(defaultLayer);
+            SetCurrentLayer("Default");
         }
 
         private void Update()
@@ -127,6 +154,10 @@ namespace LightningGL
 
         public void Render()
         {
+            foreach (Layer layer in Layers)
+            {
+                layer.Render(this);
+            }
 
             // Render all of the particle effects.
             ParticleManager.Render(this);
@@ -152,17 +183,17 @@ namespace LightningGL
 
         private void Render_DrawDebugInformation()
         {
-            int currentY = 0;
-            PrimitiveRenderer.DrawText(this, $"FPS: {CurFPS.ToString("F1")} ({LastFrameTime.ToString("F2")}ms)", new Vector2(0, currentY), Color.FromArgb(255, 255, 255, 255), true);
+            int currentY = (int)Settings.Camera.Position.Y;
+            PrimitiveRenderer.DrawText(this, $"FPS: {CurFPS.ToString("F1")} ({LastFrameTime.ToString("F2")}ms)", new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 255, 255), true);
 
             if (CurFPS < GlobalSettings.TargetFPS)
             {
                 currentY += 12;
-                PrimitiveRenderer.DrawText(this, $"Running under target FPS ({GlobalSettings.TargetFPS})!", new Vector2(0, currentY), Color.FromArgb(255, 255, 0, 0), true);
+                PrimitiveRenderer.DrawText(this, $"Running under target FPS ({GlobalSettings.TargetFPS})!", new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 0, 0), true);
             }
 
             currentY += 12;
-            PrimitiveRenderer.DrawText(this, FrameNumber.ToString(), new Vector2(0, currentY), Color.FromArgb(255, 255, 255, 255), true);
+            PrimitiveRenderer.DrawText(this, FrameNumber.ToString(), new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 255, 255), true);
         }
 
         private void Render_UpdateFps()
@@ -202,17 +233,43 @@ namespace LightningGL
         }
 
         /// <summary>
-        /// Sets the window's current <see cref="Camera"/> to <paramref name="ncamera"/>.
+        /// Sets the window's current <see cref="Camera"/> to <paramref name="nCamera"/>.
         /// </summary>
-        /// <param name="ncamera">The <see cref="Camera"/> instance to set the window's current camerat o</param>
-        public void SetCurrentCamera(Camera ncamera)
+        /// <param name="nCamera">The <see cref="Camera"/> instance to set the window's current camerat o</param>
+        public void SetCurrentCamera(Camera nCamera)
         {
-            if (ncamera.Type == CameraType.Chase)
+            if (nCamera.Type == CameraType.Chase)
             {
-                if (ncamera.FocusDelta == default(Vector2)) ncamera.FocusDelta = new Vector2(-(Settings.Size.X / 2), 0);
+                if (nCamera.FocusDelta == default(Vector2)) nCamera.FocusDelta = new Vector2(-(Settings.Size.X / 2), 0);
             }
 
-            Settings.Camera = ncamera;
+            Settings.Camera = nCamera;
+        }
+
+        public Layer GetLayer(string name)
+        {
+            foreach (Layer layer in Layers)
+            {
+                if (layer.Name == name)
+                {
+                    return layer;
+                }
+            }
+
+            return null;
+        }
+
+        public void SetCurrentLayer(string name)
+        {
+            Layer layer = GetLayer(name);
+
+            CurrentLayer = layer;
+        }
+
+        public void AddLayer(Layer layer)
+        {
+            Layers.Add(layer);
+            if (Layers.Count == 0) CurrentLayer = layer;
         }
     }
 }
