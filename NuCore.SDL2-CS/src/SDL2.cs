@@ -47,7 +47,7 @@ namespace NuCore.SDL2
         // This has been reverted, as it turns out that SDL2_image etc have a dependency on "SDL2.dll" therefore we can't rename it as it fails to load when renamed.
         // Currently using .csproj <Link> element to get around this currently.
         // We CAN get around it by trapping the failed to load assembly event, try to look at this
-        private const string nativeLibName = @"Content\NativeLibraries\SDL2";
+        private const string nativeLibName = @"Content\Libraries\SDL2";
 
         /// <summary>
         /// The version of the NuCore SDL2 Bindings

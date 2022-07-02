@@ -39,9 +39,9 @@ namespace NuCore.SDL2
 
         /* Used by DllImport to load the native library. */
 #if X64 // x86-64
-        private const string nativeLibName = @"Content\NativeLibraries\SDL2_image-v2.0.5-x64";
+        private const string nativeLibName = @"Content\Libraries\SDL2_image-v2.0.5-x64";
 #elif ARM64 // AArch64 v8.0+
-		private const string nativeLibName = @"Content\NativeLibraries\SDL2_image-v2.0.5-ARM64";
+		private const string nativeLibName = @"Content\Libraries\SDL2_image-v2.0.5-ARM64";
 #endif
 
         #endregion

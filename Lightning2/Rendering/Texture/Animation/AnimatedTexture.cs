@@ -1,4 +1,5 @@
-﻿using NuCore.Utilities;
+﻿using LightningGL;
+using NuCore.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -120,7 +121,8 @@ namespace LightningGL
 
                 if (reverseAnimation)
                 {
-                    if (CurrentFrame < Cycle.EndFrame) CurrentFrame = Cycle.StartFrame;
+                    // if we reach the start, restart
+                    if (CurrentFrame < Cycle.StartFrame) CurrentFrame = Cycle.StartFrame;
                 }
                 else
                 {

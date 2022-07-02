@@ -41,10 +41,7 @@ for (int x = 0; x < texture.Size.X; x++)
     b += (byte)rnd.Next(-5, 5);
     A += (byte)rnd.Next(-5, 5);
 
-    for (int y = 0; y < texture.Size.Y; y++)
-    {
-        texture.SetPixel(x, y, Color.FromArgb(A, r, g, b));
-    }
+    for (int y = 0; y < texture.Size.Y; y++) texture.SetPixel(x, y, Color.FromArgb(A, r, g, b));
 }
 
 texture.Unlock();
@@ -52,13 +49,11 @@ texture.Unlock();
 texture.Position = new Vector2(0, 0);
 texture.Repeat = new Vector2(3, 3);
 
-AtlasTexture atlasTexture1 = new AtlasTexture();
+TextureAtlas textureAtlas1 = new TextureAtlas(cWindow, new(64, 64), new(4, 4));
 
-atlasTexture1.Path = @"Content\AtlastextureTest.png";
+textureAtlas1.Path = @"Content\TextureAtlasTest.png";
 
-atlasTexture1.FrameSize = new Vector2(64, 64); // size of one tile
-atlasTexture1.Load(cWindow, 4, 4);
-atlasTexture1.Position = new Vector2(256, 256);
+textureAtlas1.Position = new Vector2(256, 256);
 
 AnimatedTexture animatedTexture1 = new AnimatedTexture();
 animatedTexture1.FramesPath.Add(@"Content\AnimTextureTest\AnimtextureTestF0.png");
@@ -216,9 +211,9 @@ listBox1.AddItem(new ListBoxItem("qasqsdfwqer"));
 UIManager.AddElement(btn1);
 UIManager.AddElement(listBox1);
 
-cWindow.CurrentLayer.AddRenderable(texture);
-cWindow.CurrentLayer.AddRenderable(atlasTexture1);
-cWindow.CurrentLayer.AddRenderable(animatedTexture1);
+TextureManager.AddTexture(texture);
+TextureManager.AddTexture(textureAtlas1);
+TextureManager.AddTexture(animatedTexture1);
 
 while (cWindow.Run())
 {
@@ -293,12 +288,12 @@ while (cWindow.Run())
     FontManager.DrawText(cWindow, "Test11", "Arial.11pt", new Vector2(700, 210), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline);
     FontManager.DrawText(cWindow, "#[STRING_TEST]\nTest2\nTest3", "Arial.11pt", new Vector2(700, 230), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline | SDL_ttf.TTF_FontStyle.Strikeout);
 
-    atlasTexture1.Position = new Vector2(256, 256);
-    atlasTexture1.Index = 0;
-    atlasTexture1.Draw(cWindow);
-    atlasTexture1.Index = 0;
-    atlasTexture1.Position = new Vector2(256, 192);
-    atlasTexture1.Draw(cWindow);
+    textureAtlas1.Position = new Vector2(256, 256);
+    textureAtlas1.Index = 0;
+    textureAtlas1.Draw(cWindow);
+    textureAtlas1.Index = 0;
+    textureAtlas1.Position = new Vector2(256, 192);
+    textureAtlas1.Draw(cWindow);
 
     xmTitle.Update(cWindow);
 
@@ -315,7 +310,6 @@ while (cWindow.Run())
             texture.SetPixel(x, y, Color.FromArgb(A, r, g, b));
         }
     }
-
 
     texture.Unlock();
 

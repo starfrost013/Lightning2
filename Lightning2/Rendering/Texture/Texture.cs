@@ -107,7 +107,7 @@ namespace LightningGL
         {
             Size = nSize;
 
-            if (Size == default(Vector2)) throw new NCException($"Error creating texture: Must have a size!", 20, "Texture.Create", NCExceptionSeverity.FatalError);
+            if (Size == default) throw new NCException($"Error creating texture: Must have a size!", 20, "Texture.Create", NCExceptionSeverity.FatalError);
 
             Handle = SDL_CreateTexture(cWindow.Settings.RendererHandle, SDL_PIXELFORMAT_ARGB8888, SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, (int)Size.X, (int)Size.Y);
 
@@ -122,7 +122,7 @@ namespace LightningGL
         /// </summary>
         /// <param name="cWindow">The window to load the texture on.</param>
         /// <exception cref="NCException">An error occurred loading the texture.</exception>
-        public void Load(Window cWindow)
+        public virtual void Load(Window cWindow)
         {
             if (!File.Exists(Path)) throw new NCException($"{Path} does not exist!", 9, "!File.Exists(Texture.Path)!", NCExceptionSeverity.FatalError);
 
@@ -154,17 +154,17 @@ namespace LightningGL
         /// <param name="UnlockNow">Unlocks the texture immediately - use this if you do not need to draw any more pixels</param>
         /// <returns>A <see cref="Color"/> instance containing the colour data of the pixel acquired</returns>
         /// <exception cref="NCException">An invalid coordinate was supplied or the texture does not have a valid size.</exception>
-        public Color GetPixel(int X, int Y, bool UnlockNow = false)
+        public virtual Color GetPixel(int X, int Y, bool UnlockNow = false)
         {
-            if (Size == default(Vector2)) throw new NCException($"Invalid size - cannot get pixel!", 16, "Texture.GetPixel", NCExceptionSeverity.FatalError);
+            if (Size == default) throw new NCException($"Invalid size - cannot get pixel!", 16, "Texture.GetPixel", NCExceptionSeverity.FatalError);
 
             if (!Locked) Lock();
 
             if (X < 0 || Y < 0
                 || X > Size.X || Y > Size.Y) throw new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({X},{Y}), min (0,0). max ({Size.X},{Size.Y})!", 12, "Texture.GetPixel", NCExceptionSeverity.FatalError);
 
-            int PixelToGet = (Y * (int)Size.X) + X;
-            int MaxPixelID = (Pitch / 4) * Pitch;
+            int PixelToGet = Y * (int)Size.X + X;
+            int MaxPixelID = Pitch / 4 * Pitch;
 
             if (PixelToGet > MaxPixelID) throw new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({X},{Y}), min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {PixelToGet} > {MaxPixelID}!", 14, "Texture.GetPixel", NCExceptionSeverity.FatalError);
 
@@ -182,14 +182,14 @@ namespace LightningGL
         /// <param name="Y">The Y coordinate of the pixel to set.</param>
         /// <param name="UnlockNow">Unlocks the texture immediately - use this if you do not need to draw any more pixels</param>
         /// <exception cref="NCException">An invalid coordinate was supplied or the texture does not have a valid size.</exception>
-        public void SetPixel(int X, int Y, Color Colour, bool UnlockNow = false)
+        public virtual void SetPixel(int X, int Y, Color Colour, bool UnlockNow = false)
         {
             if (!Locked) Lock();
 
             if (X < 0 || Y < 0
                 || X > Size.X || Y > Size.Y) throw new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({X},{Y}), min (0,0). max ({Size.X},{Size.Y}) ", 15, "Texture.SetPixel", NCExceptionSeverity.FatalError);
-            int PixelToGet = (Y * (int)Size.X) + X;
-            int MaxPixelID = (Pitch / 4) * Pitch;
+            int PixelToGet = Y * (int)Size.X + X;
+            int MaxPixelID = Pitch / 4 * Pitch;
 
             if (PixelToGet > MaxPixelID) throw new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({X},{Y}), min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {PixelToGet} > {MaxPixelID}!", 16, "Texture.SetPixel", NCExceptionSeverity.FatalError);
 
@@ -246,8 +246,8 @@ namespace LightningGL
             SDL_FRect destinationRect = new SDL_FRect();
 
             // Draw to the viewpoint
-            if (ViewportStart == default(Vector2)
-                && ViewportEnd == default(Vector2))
+            if (ViewportStart == default
+                && ViewportEnd == default)
             {
                 sourceRect.x = 0;
                 sourceRect.y = 0;
@@ -268,11 +268,11 @@ namespace LightningGL
 
                 destinationRect.x = RenderPosition.X;
                 destinationRect.y = RenderPosition.Y;
-                destinationRect.w = (ViewportEnd.X - ViewportStart.X);
-                destinationRect.h = (ViewportEnd.Y - ViewportStart.Y);
+                destinationRect.w = ViewportEnd.X - ViewportStart.X;
+                destinationRect.h = ViewportEnd.Y - ViewportStart.Y;
             }
 
-            if (Repeat == default(Vector2))
+            if (Repeat == default)
             {
                 // call to SDL - we are simply drawing it once.
                 SDL_RenderCopyF(cWindow.Settings.RendererHandle, Handle, ref sourceRect, ref destinationRect);
@@ -303,11 +303,11 @@ namespace LightningGL
         /// Clears the texture with the colour specified in the <paramref name="Colour"/> parameter. If this is not set, it will default to ARGB <c>0,0,0,0</c>.
         /// </summary>
         /// <param name="Colour">The optional colour to clear the texture with.</param>
-        public void Clear(Color Colour = default(Color))
+        public void Clear(Color Colour = default)
         {
             Color clearColour = Color.FromArgb(0, 0, 0, 0);
 
-            if (Colour != default(Color)) clearColour = Colour;
+            if (Colour != default) clearColour = Colour;
 
             for (int y = 0; y < Size.Y; y++)
             {

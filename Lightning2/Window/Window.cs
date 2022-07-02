@@ -45,31 +45,9 @@ namespace LightningGL
         /// </summary>
         public bool EventWaiting { get; set; }
 
-        /// <summary>
-        /// The list of layers that this window holds.
-        /// </summary>
-        public List<Layer> Layers { get; set; }
-
-        private Layer _currentLayer { get; set; }
-
-        public Layer CurrentLayer
-        {
-            get
-            {
-                return _currentLayer;
-            }
-            set
-            {
-                if (!Layers.Contains(value)) throw new NCException($"Attempted to set invalid rendering layer!", 85, "Window::GetLayer name parameter was not in Window::Layers", NCExceptionSeverity.FatalError);
-                
-                _currentLayer = value;
-            }
-        }
-
         public Window()
         {
             DeltaTimer = new Stopwatch();
-            Layers = new List<Layer>();
             // Start the delta timer.
             DeltaTimer.Start();
             LastTime = 0;
@@ -92,10 +70,6 @@ namespace LightningGL
             Settings.RendererHandle = SDL_CreateRenderer(Settings.WindowHandle, (int)Settings.ID, Settings.RenderFlags);
 
             if (Settings.RendererHandle == IntPtr.Zero) throw new NCException($"Failed to create Renderer: {SDL_GetError()}", 9, "Window::AddWindow - SDL_CreateWindow failed to create window", NCExceptionSeverity.FatalError);
-
-            Layer defaultLayer = new Layer("Default");
-            Layers.Add(defaultLayer);
-            SetCurrentLayer("Default");
         }
 
         private void Update()
@@ -154,10 +128,8 @@ namespace LightningGL
 
         public void Render()
         {
-            foreach (Layer layer in Layers)
-            {
-                layer.Render(this);
-            }
+            // Render all textures.
+            TextureManager.Render(this);
 
             // Render all of the particle effects.
             ParticleManager.Render(this);
@@ -244,32 +216,6 @@ namespace LightningGL
             }
 
             Settings.Camera = nCamera;
-        }
-
-        public Layer GetLayer(string name)
-        {
-            foreach (Layer layer in Layers)
-            {
-                if (layer.Name == name)
-                {
-                    return layer;
-                }
-            }
-
-            return null;
-        }
-
-        public void SetCurrentLayer(string name)
-        {
-            Layer layer = GetLayer(name);
-
-            CurrentLayer = layer;
-        }
-
-        public void AddLayer(Layer layer)
-        {
-            Layers.Add(layer);
-            if (Layers.Count == 0) CurrentLayer = layer;
         }
     }
 }

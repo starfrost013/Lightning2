@@ -24,6 +24,7 @@ namespace LightningGL
         /// </summary>
         public virtual Vector2 Size { get; set; }
 
+        public bool SnapToScreen { get; set; }
         public virtual void Draw(Window cWindow)
         {
 

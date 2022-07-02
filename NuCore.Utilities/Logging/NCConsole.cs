@@ -13,12 +13,32 @@ namespace NuCore.Utilities
         /// <summary>
         /// See <see cref="Console.ForegroundColor"/>
         /// </summary>
-        public static ConsoleColor ForegroundColor => Console.ForegroundColor;
+        public static ConsoleColor ForegroundColor
+        {
+            get
+            {
+                return Console.ForegroundColor;
+            }
+            set
+            {
+                Console.ForegroundColor = value;
+            }
+        }
 
         /// <summary>
         /// See <see cref="Console.BackgroundColor"/>
         /// </summary>
-        public static ConsoleColor BackgroundColor => Console.BackgroundColor;
+        public static ConsoleColor BackgroundColor
+        {
+            get
+            {
+                return Console.BackgroundColor;
+            }
+            set
+            {
+                Console.BackgroundColor = value;
+            }
+        }
 
         /// <summary>
         /// See <see cref="Console.CapsLock"/> (only supported on Windows!)
@@ -26,16 +46,37 @@ namespace NuCore.Utilities
         [SupportedOSPlatform("windows")]
         public static bool CapsLock => Console.CapsLock;
 
+        [SupportedOSPlatform("windows")]
         /// <summary>
         /// See <see cref="Console.CursorSize"/>
         /// </summary>
-        public static int CursorSize => Console.CursorSize;
+        public static int CursorSize
+        {
+            get
+            {
+                return Console.CursorSize;
+            }
+            set
+            {
+                Console.CursorSize = value;
+            }
+        }
 
         /// <summary>
         /// See <see cref="Console.CursorVisible"/> (only supported on Windows!)
         /// </summary>
         [SupportedOSPlatform("windows")]
-        public static bool CursorVisible => Console.CursorVisible;
+        public static bool CursorVisible
+        {
+            get
+            {
+                return Console.CursorVisible;
+            }
+            set
+            {
+                Console.CursorVisible = value;
+            }
+        }
 
         /// <summary>
         /// See <see cref="Console.In"/>.
@@ -52,25 +93,70 @@ namespace NuCore.Utilities
         /// </summary>
         public static TextWriter Error => Console.Error;
 
+        [SupportedOSPlatform("windows")]
         /// <summary>
         /// See <see cref="Console.BufferWidth"/>.
         /// </summary>
-        public static int BufferWidth => Console.BufferWidth;
+        public static int BufferWidth
+        {
+            get
+            {
+                return Console.BufferWidth;
+            }
+            set
+            {
+                Console.BufferWidth = value;
+            }
+        }
 
+        [SupportedOSPlatform("windows")]
         /// <summary>
         /// See <see cref="Console.BufferHeight"/>.
         /// </summary>
-        public static int BufferHeight => Console.BufferHeight;
+        public static int BufferHeight
+        {
+            get
+            {
+                return Console.BufferHeight;
+            }
+            set
+            {
+                Console.BufferHeight = value;
+            }
+        }
 
+        [SupportedOSPlatform("windows")]
         /// <summary>
         /// See <see cref="Console.WindowWidth"/>.
         /// </summary>
-        public static int WindowWidth => Console.WindowWidth;
+        public static int WindowWidth
+        {
+            get
+            {
+                return Console.WindowWidth;
+            }
+            set
+            {
+                Console.WindowWidth = value;
+            }
+        }
 
+
+        [SupportedOSPlatform("windows")]
         /// <summary>
         /// See <see cref="Console.WindowHeight/>.
         /// </summary>
-        public static int WindowHeight => Console.WindowHeight;
+        public static int WindowHeight
+        {
+            get
+            {
+                return Console.WindowHeight;
+            }
+            set
+            {
+                Console.WindowHeight = value;
+            }
+        }
 
         /// <summary>
         /// See <see cref="Console.LargestWindowWidth"/>
@@ -82,10 +168,22 @@ namespace NuCore.Utilities
         /// </summary>
         public static int LargestWindowHeight => Console.LargestWindowHeight;
 
+        [SupportedOSPlatform("windows")]
         /// <summary>
         /// See <see cref="Console.WindowTop"/>
         /// </summary>
-        public static int WindowTop => Console.WindowTop;
+        public static int WindowTop
+        {
+            get
+            {
+                return Console.WindowTop;
+            }
+            set
+            {
+                Console.WindowTop = value;
+            }
+        }
+
 
 
         /// <summary>
@@ -124,7 +222,7 @@ namespace NuCore.Utilities
         /// See <see cref="Console.Clear"/>
         /// </summary>
         /// <param name="clearEntirely">Clears the entire console instead of just the visible area (on Windows Terminal)</param>
-        public static void Clear(bool clearEntirely)
+        public static void Clear(bool clearEntirely = false)
         {
             if (clearEntirely)
             {
@@ -144,7 +242,7 @@ namespace NuCore.Utilities
         /// <summary>
         /// See <see cref="Console.ReadKey(bool)"/>
         /// </summary>
-        public static ConsoleKeyInfo ReadKey(bool intercept) => Console.ReadKey(a);
+        public static ConsoleKeyInfo ReadKey(bool intercept) => Console.ReadKey(intercept);
 
         /// <summary>
         /// See <see cref="Console.ReadLine"/>
@@ -159,7 +257,7 @@ namespace NuCore.Utilities
         /// <summary>
         /// See <see cref="Console.SetCursorPosition"/>
         /// </summary>
-        public static void SetConsolePosition(int left, int top) => Console.SetCursorPosition(left, top);
+        public static void SetCursorPosition(int left, int top) => Console.SetCursorPosition(left, top);
 
         /// <summary>
         /// See <see cref="Console.Write(string?)"/>
