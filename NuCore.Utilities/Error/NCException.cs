@@ -57,7 +57,7 @@ namespace NuCore.Utilities
             if (Description != null) sb.Append(Description);
             if (ExceptionSeverity > NCExceptionSeverity.Message) sb.Append($" [{Id}]");
 
-            if (BaseException != null) sb.Append($"\n\nBase Exception:\n{BaseException}");
+            if (BaseException != null) sb.Append($"\n\nError Information:\n{BaseException}");
 
             string err_string = sb.ToString();
 

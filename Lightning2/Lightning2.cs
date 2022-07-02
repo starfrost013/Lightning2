@@ -1,5 +1,6 @@
 ﻿using NuCore.SDL2;
 using NuCore.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -15,35 +16,45 @@ namespace LightningGL
     {
         public static void Init()
         {
-            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
-            Init_InitLogging();
-            NCLogging.Log($"LightningGL {L2Version.LIGHTNING_VERSION_EXTENDED_STRING}");
-            NCLogging.Log("Initialising SDL...");
-
-            if (SDL.SDL_Init(SDL.SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) throw new NCException($"Error initialising SDL2: {SDL.SDL_GetError()}", 0, "LightningGL.Init();", NCExceptionSeverity.FatalError);
-
-            NCLogging.Log("Initialising SDL_image...");
-            if (SDL_image.IMG_Init(SDL_image.IMG_InitFlags.IMG_INIT_EVERYTHING) < 0) throw new NCException($"Error initialising SDL2_image: {SDL.SDL_GetError()}", 1, "LightningGL.Init();", NCExceptionSeverity.FatalError);
-
-            NCLogging.Log("Initialising SDL_ttf...");
-            if (SDL_ttf.TTF_Init() < 0) throw new NCException($"Error initialising SDL2_ttf: {SDL.SDL_GetError()}", 2, "LightningGL.Init();", NCExceptionSeverity.FatalError);
-
-            NCLogging.Log("Initialising SDL_mixer...");
-            if (SDL_mixer.Mix_Init(SDL_mixer.MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) throw new NCException($"Error initialising SDL2_mixer: {SDL.SDL_GetError()}", 3, "LightningGL.Init();", NCExceptionSeverity.FatalError);
-
-            NCLogging.Log("Initialising audio device...");
-            if (SDL_mixer.Mix_OpenAudio(44100, SDL_mixer.Mix_AudioFormat.MIX_DEFAULT_FORMAT, 2, 2048) < 0) throw new NCException($"Error initialising audio device: {SDL.SDL_GetError()}", 56, "LightningGL.Init();", NCExceptionSeverity.FatalError);
-
-            NCLogging.Log("Loading Engine.ini...");
-            GlobalSettings.Load();
-
-            NCLogging.Log("Loading localisation...");
-            LocalisationManager.Load();
-
-            if (GlobalSettings.ProfilePerf)
+            try
             {
-                NCLogging.Log("Performance Profiler enabled, initialising profiler...");
-                PerformanceProfiler.Init();
+                // Set culture to invariant so things like different decimal symbols don't choke
+                CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+                Init_InitLogging();
+
+                // Log the sign-on message
+                NCLogging.Log($"LightningGL {L2Version.LIGHTNING_VERSION_EXTENDED_STRING}");
+
+                NCLogging.Log("Initialising SDL...");
+                if (SDL.SDL_Init(SDL.SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) throw new NCException($"Error initialising SDL2: {SDL.SDL_GetError()}", 0, "LightningGL.Init();", NCExceptionSeverity.FatalError);
+
+                NCLogging.Log("Initialising SDL_image...");
+                if (SDL_image.IMG_Init(SDL_image.IMG_InitFlags.IMG_INIT_EVERYTHING) < 0) throw new NCException($"Error initialising SDL2_image: {SDL.SDL_GetError()}", 1, "LightningGL.Init();", NCExceptionSeverity.FatalError);
+
+                NCLogging.Log("Initialising SDL_ttf...");
+                if (SDL_ttf.TTF_Init() < 0) throw new NCException($"Error initialising SDL2_ttf: {SDL.SDL_GetError()}", 2, "LightningGL.Init();", NCExceptionSeverity.FatalError);
+
+                NCLogging.Log("Initialising SDL_mixer...");
+                if (SDL_mixer.Mix_Init(SDL_mixer.MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) throw new NCException($"Error initialising SDL2_mixer: {SDL.SDL_GetError()}", 3, "LightningGL.Init();", NCExceptionSeverity.FatalError);
+
+                NCLogging.Log("Initialising audio device...");
+                if (SDL_mixer.Mix_OpenAudio(44100, SDL_mixer.Mix_AudioFormat.MIX_DEFAULT_FORMAT, 2, 2048) < 0) throw new NCException($"Error initialising audio device: {SDL.SDL_GetError()}", 56, "LightningGL.Init();", NCExceptionSeverity.FatalError);
+
+                NCLogging.Log("Loading Engine.ini...");
+                GlobalSettings.Load();
+
+                NCLogging.Log("Initialising LocalisationManager...");
+                LocalisationManager.Load();
+
+                if (GlobalSettings.ProfilePerf)
+                {
+                    NCLogging.Log("Performance Profiler enabled, initialising profiler...");
+                    PerformanceProfiler.Init();
+                }
+            }
+            catch (Exception err)
+            {
+                throw new NCException($"A fatal error occurred during engine initialisation. The installation may be corrupted", 0x0000DEAD, "Fatal error occurred in Lightning2::Init!", NCExceptionSeverity.FatalError, err);
             }
         }
 
