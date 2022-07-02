@@ -32,16 +32,16 @@ Random rnd = new Random();
 byte r = (byte)rnd.Next(0, 256);
 byte g = (byte)rnd.Next(0, 256);
 byte b = (byte)rnd.Next(0, 256);
-byte A = (byte)rnd.Next(0, 256);
+byte a = (byte)rnd.Next(0, 256);
 
 for (int x = 0; x < texture.Size.X; x++)
 {
     r += (byte)rnd.Next(-5, 5);
     g += (byte)rnd.Next(-5, 5);
     b += (byte)rnd.Next(-5, 5);
-    A += (byte)rnd.Next(-5, 5);
+    a += (byte)rnd.Next(-5, 5);
 
-    for (int y = 0; y < texture.Size.Y; y++) texture.SetPixel(x, y, Color.FromArgb(A, r, g, b));
+    for (int y = 0; y < texture.Size.Y; y++) texture.SetPixel(x, y, Color.FromArgb(a, r, g, b));
 }
 
 texture.Unlock();
@@ -54,6 +54,8 @@ TextureAtlas textureAtlas1 = new TextureAtlas(cWindow, new(64, 64), new(4, 4));
 textureAtlas1.Path = @"Content\TextureAtlasTest.png";
 
 textureAtlas1.Position = new Vector2(256, 256);
+
+textureAtlas1.Load(cWindow);
 
 AnimatedTexture animatedTexture1 = new AnimatedTexture();
 animatedTexture1.FramesPath.Add(@"Content\AnimTextureTest\AnimtextureTestF0.png");
@@ -287,7 +289,10 @@ while (cWindow.Run())
     FontManager.DrawText(cWindow, "Test11", "Arial.11pt", new Vector2(700, 210), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline);
     FontManager.DrawText(cWindow, "#[STRING_TEST]\nTest2\nTest3", "Arial.11pt", new Vector2(700, 230), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline | SDL_ttf.TTF_FontStyle.Strikeout);
 
-    textureAtlas1.Position = new Vector2(256, 256);
+    textureAtlas1.Index = 5;
+    textureAtlas1.Position = new Vector2(264, 0);
+    textureAtlas1.Draw(cWindow);
+    textureAtlas1.Index = 1;
     textureAtlas1.Position = new Vector2(200, 0);
     textureAtlas1.Draw(cWindow);
 
@@ -297,9 +302,9 @@ while (cWindow.Run())
         b += (byte)rnd.Next(-1, 1);
         g += (byte)rnd.Next(-1, 1);
         b += (byte)rnd.Next(-1, 1);
-        A += (byte)rnd.Next(-1, 1);
+        a += (byte)rnd.Next(-1, 1);
 
-        for (int y = 0; y < texture.Size.Y; y++) texture.SetPixel(x, y, Color.FromArgb(A, r, g, b));
+        for (int y = 0; y < texture.Size.Y; y++) texture.SetPixel(x, y, Color.FromArgb(a, r, g, b));
     }
 
     cWindow.Render();

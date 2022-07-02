@@ -99,6 +99,11 @@ namespace LightningGL
         private IntPtr CFormat { get; set; }
 
         /// <summary>
+        /// Determines if this texture has actually been loaded or not.
+        /// </summary>
+        internal bool Loaded { get; private set; } 
+
+        /// <summary>
         /// Initialises a new texture with the size specified in the <paramref name="nSize"/> parameter.
         /// </summary>
         /// <param name="X">The width of the texture in pixels.</param>
@@ -128,7 +133,14 @@ namespace LightningGL
 
             Handle = IMG_LoadTexture(cWindow.Settings.RendererHandle, Path);
 
-            if (Handle == IntPtr.Zero) throw new NCException($"Failed to load texture at {Path} - {SDL_GetError()}", 10, "Error in SDL_image.IMG_LoadTexture", NCExceptionSeverity.Error);
+            if (Handle == IntPtr.Zero)
+            {
+                throw new NCException($"Failed to load texture at {Path} - {SDL_GetError()}", 10, "Error in SDL_image.IMG_LoadTexture", NCExceptionSeverity.Error);
+            }
+            else
+            {
+                Loaded = true; 
+            }
         }
 
         /// <summary>
@@ -248,6 +260,9 @@ namespace LightningGL
             SDL_Rect sourceRect = new SDL_Rect();
             SDL_FRect destinationRect = new SDL_FRect();
 
+            // failsafe just in case of any weird stuff happening
+            if (RenderPosition == default(Vector2)) RenderPosition = Position;
+
             // Draw to the viewpoint
             if (ViewportStart == default
                 && ViewportEnd == default)
@@ -257,8 +272,8 @@ namespace LightningGL
                 sourceRect.w = (int)Size.X;
                 sourceRect.h = (int)Size.Y;
 
-                destinationRect.x = Position.X;
-                destinationRect.y = Position.Y;
+                destinationRect.x = RenderPosition.X;
+                destinationRect.y = RenderPosition.Y;
                 destinationRect.w = Size.X;
                 destinationRect.h = Size.Y;
             }
@@ -269,8 +284,8 @@ namespace LightningGL
                 sourceRect.w = (int)(ViewportEnd.X - ViewportStart.X);
                 sourceRect.h = (int)(ViewportEnd.Y - ViewportStart.Y);
 
-                destinationRect.x = Position.X;
-                destinationRect.y = Position.Y;
+                destinationRect.x = RenderPosition.X;
+                destinationRect.y = RenderPosition.Y;
                 destinationRect.w = ViewportEnd.X - ViewportStart.X;
                 destinationRect.h = ViewportEnd.Y - ViewportStart.Y;
             }

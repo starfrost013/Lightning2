@@ -9,7 +9,7 @@ namespace LightningGL
     /// <summary>
     /// TextureAtlas
     /// 
-    /// March 19, 2022
+    /// March 19, 2022 (modified July 2, 2022: huge refactor)
     /// 
     /// Defines an animated texture loaded from a texture atlas. 
     /// A texture atlas is a single image containing multiple images designed to represent different frames or textures.

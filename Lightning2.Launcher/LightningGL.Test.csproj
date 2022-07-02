@@ -33,8 +33,8 @@
     <None Remove="Content\AnimTextureTest\AnimTextureTestF1.png" />
     <None Remove="Content\AnimTextureTest\AnimTextureTestF2.png" />
     <None Remove="Content\AnimTextureTest\AnimTextureTestF3.png" />
-    <None Remove="Content\TextureAtlasTest.png" />
     <None Remove="Content\Sparkles.png" />
+    <None Remove="Content\TextureAtlasTest.png" />
     <None Remove="Content\xm_boot.mp3" />
     <None Remove="Content\xm_boot_ogg.ogg" />
     <None Remove="Content\xm_title.mp3" />
@@ -55,6 +55,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Sparkles.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\TextureAtlasTest.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\xm_boot.mp3">

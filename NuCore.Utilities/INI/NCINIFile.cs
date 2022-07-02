@@ -9,6 +9,9 @@ namespace NuCore.Utilities
     /// 
     /// NuCore INI parser
     /// Pretty simple - simply uses the first character to determine token type
+    /// 
+    /// Written February 2022
+    /// Updated July 2, 2022 in order to handle comments on the same line as values, handle newlines and rename variables to camelCase
     /// </summary>
     public class NCINIFile
     {
@@ -31,111 +34,126 @@ namespace NuCore.Utilities
         // Cba to tokenise
 
         /// <summary>
-        /// Parses an INI file at <paramref name="Path"/>.
+        /// Parses an INI file at <paramref name="path"/>.
         /// </summary>
-        /// <param name="Path">The path of the INI file that is to be parsed.</param>
+        /// <param name="path">The path of the INI file that is to be parsed.</param>
         /// <returns></returns>
         /// <exception cref="NCException">An error occurred during the INI parsing. Extended error information is present in the <see cref="NCException.Description"/> property.</exception>
-        public static NCINIFile Parse(string Path)
+        public static NCINIFile Parse(string path)
         {
-            bool error_occurred = false; // for release builds where you continue past exceptions
+            // don't return the file if it failed to parse
+            bool errorOccurred = false; 
 
-            if (!File.Exists(Path)) throw new NCException($"INI parsing error: Cannot parse INI file at {Path}: File not found!", 21, "NCINIFile.Parse()", NCExceptionSeverity.Error);
+            if (!File.Exists(path)) throw new NCException($"INI parsing error: Cannot parse INI file at {path}: File not found!", 21, "NCINIFile::Parse could not find file", NCExceptionSeverity.Error);
 
-            NCINIFile ini_file = new NCINIFile();
+            NCINIFile iniFile = new NCINIFile();
 
             try
             {
-                StreamReader ini_stream = new StreamReader(new FileStream(Path, FileMode.Open));
+                StreamReader iniStream = new StreamReader(new FileStream(path, FileMode.Open));
 
-                while (!ini_stream.EndOfStream)
+                while (!iniStream.EndOfStream)
                 {
-                    string ini_line = ini_stream.ReadLine();
+                    string iniLine = iniStream.ReadLine();
 
-                    ini_line = ini_line.Trim(); // trim leading spaces
+                    // trim leading and trailing spaces
+                    // so first character detection works
+                    iniLine = iniLine.Trim();
 
-                    if (ini_line.Length == 0) continue; // go to next line, empty line
+                    if (iniLine.Length == 0) continue; // go to next line, empty line
 
-                    char ini_line_char0 = ini_line[0];
+                    char iniLineChar0 = iniLine[0];
 
-                    switch (ini_line_char0)
+                    // Check various 
+                    switch (iniLineChar0)
                     {
                         case '[': // Section
-                            if (ini_line.Contains(']'))
+                            if (iniLine.Contains(']'))
                             {
-                                NCINIFileSection ini_section = new NCINIFileSection();
+                                NCINIFileSection iniSection = new NCINIFileSection();
 
-                                ini_file.CurSection = ini_section;
+                                iniFile.CurSection = iniSection;
 
-                                int beginning = ini_line.IndexOf('[');
-                                int end = ini_line.IndexOf(']');
+                                // Handle comments on the same line after the value
+                                string[] iniLineComments = iniLine.Split(';');
+
+                                // if there ARE comments...
+                                if (iniLineComments.Length > 1)
+                                {
+                                    // if the line starts with a ; we will have already ignored it earlier
+                                    // so simply cut off the comments
+                                    iniLine = iniLineComments[0]; 
+                                }
+
+                                int beginning = iniLine.IndexOf('[');
+                                int end = iniLine.IndexOf(']');
 
                                 if (beginning > end)
                                 {
-                                    error_occurred = true;
-                                    throw new NCException("INI parsing error: Invalid section entry - ] before [!", 25, "NCINIFile.Parse()", NCExceptionSeverity.Error);
+                                    errorOccurred = true;
+                                    throw new NCException("INI parsing error: Invalid section entry - ] before [!", 25, "NCINIFile::Parse", NCExceptionSeverity.Error);
                                 }
 
                                 // we add and remove 1 so that the [ and ] markers don't become part of the file name
                                 // trim to remove leading spaces
-                                ini_section.Name = ini_line.Substring(beginning + 1, ini_line.Length - (ini_line.Length - end) - 1);
-                                ini_section.Name = ini_section.Name.Trim();
+                                iniSection.Name = iniLine.Substring(beginning + 1, iniLine.Length - (iniLine.Length - end) - 1);
+                                iniSection.Name = iniSection.Name.Trim();
 
-                                ini_file.Sections.Add(ini_section);
-
+                                iniFile.Sections.Add(iniSection);
                             }
                             else
                             {
-                                error_occurred = true;
-                                throw new NCException("INI parsing error: Section name must terminate with [!", 24, "NCINIFile.Parse()", NCExceptionSeverity.Error);
+                                errorOccurred = true;
+                                throw new NCException("INI parsing error: Section name must terminate with [!", 24, "NCINIFile::Parse", NCExceptionSeverity.Error);
                             }
                             continue;
                         case ';': // Comment
+                        case '\n': // Newline (if anyone wishes to add padding)
                             continue;
                         default: // Value
-                            if (ini_line.Contains('='))
+                            if (iniLine.Contains('='))
                             {
-                                if (ini_file.CurSection == null)
+                                if (iniFile.CurSection == null)
                                 {
-                                    error_occurred = true;
-                                    throw new NCException("INI parsing error: Values must be within a section!", 26, "NCINIFile.Parse()", NCExceptionSeverity.Error);
+                                    errorOccurred = true;
+                                    throw new NCException("INI parsing error: Values must be within a section!", 26, "NCINIFile::Parse", NCExceptionSeverity.Error);
                                 }
 
-                                string[] ini_value = ini_line.Split('=');
+                                string[] iniValue = iniLine.Split('=');
 
-                                // we just ignore anything after the first one. this also works for comments i guess. as long as they are after
-                                string ini_value_name = ini_value[0];
-                                string ini_value_value = ini_value[1];
+                                // we just ignore anything after the first one. this also works for comments that are on the same line
+                                string iniValueKey = iniValue[0];
+                                string iniValueValue = iniValue[1];
 
                                 // strip characters that indicate strings
 
-                                ini_value_value = ini_value_value.Replace("\"", "");
+                                iniValueValue = iniValueValue.Replace("\"", "");
 
                                 // trim to get rid of leading spaces etc
-                                ini_value_name = ini_value_name.Trim();
-                                ini_value_value = ini_value_value.Trim();
+                                iniValueKey = iniValueKey.Trim();
+                                iniValueValue = iniValueValue.Trim();
 
 
                                 // add it to the values
-                                ini_file.CurSection.Values.Add(ini_value_name, ini_value_value);
+                                iniFile.CurSection.Values.Add(iniValueKey, iniValueValue);
                             }
                             else
                             {
-                                error_occurred = true;
-                                throw new NCException("INI parsing error: INI item with no value!", 23, "NCINIFile.Parse()", NCExceptionSeverity.Error);
+                                errorOccurred = true;
+                                throw new NCException("INI parsing error: An INI item with no value was found!", 23, "NCINIFile::Parse", NCExceptionSeverity.Error);
                             }
                             continue;
                     }
                 }
 
-                if (!error_occurred) return ini_file;
+                if (!errorOccurred) return iniFile;
 
                 // return null if we failed to parse
                 return null;
             }
             catch (Exception ex)
             {
-                throw new NCException($"INI parsing error: Cannot parse INI file at {Path}: \n\n{ex}", 22, "NCINIFile.Parse()", NCExceptionSeverity.Error);
+                throw new NCException($"INI parsing error: Cannot parse INI file at {path}: \n\n{ex}", 22, "NCINIFile::Parse - unknown exception occurred", NCExceptionSeverity.Error);
             }
 
         }
