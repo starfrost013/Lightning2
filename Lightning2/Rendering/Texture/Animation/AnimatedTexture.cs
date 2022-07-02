@@ -99,7 +99,7 @@ namespace LightningGL
 
             Texture curFrame = Frames[CurrentFrame];
 
-            curFrame.RenderPosition = RenderPosition;
+            curFrame.Position = Position;
             curFrame.Repeat = TextureRepeat;
             curFrame.Size = Size;
 

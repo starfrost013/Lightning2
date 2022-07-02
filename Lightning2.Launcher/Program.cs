@@ -212,7 +212,6 @@ UIManager.AddElement(btn1);
 UIManager.AddElement(listBox1);
 
 TextureManager.AddTexture(texture);
-TextureManager.AddTexture(textureAtlas1);
 TextureManager.AddTexture(animatedTexture1);
 
 while (cWindow.Run())
@@ -289,14 +288,8 @@ while (cWindow.Run())
     FontManager.DrawText(cWindow, "#[STRING_TEST]\nTest2\nTest3", "Arial.11pt", new Vector2(700, 230), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline | SDL_ttf.TTF_FontStyle.Strikeout);
 
     textureAtlas1.Position = new Vector2(256, 256);
-    textureAtlas1.Index = 0;
-    textureAtlas1.Draw(cWindow);
-    textureAtlas1.Index = 0;
     textureAtlas1.Position = new Vector2(200, 0);
-    textureAtlas1.SnapToScreen = true;
     textureAtlas1.Draw(cWindow);
-
-    xmTitle.Update(cWindow);
 
     for (int x = 0; x < texture.Size.X; x++)
     {
@@ -306,10 +299,7 @@ while (cWindow.Run())
         b += (byte)rnd.Next(-1, 1);
         A += (byte)rnd.Next(-1, 1);
 
-        for (int y = 0; y < texture.Size.Y; y++)
-        {
-            texture.SetPixel(x, y, Color.FromArgb(A, r, g, b));
-        }
+        for (int y = 0; y < texture.Size.Y; y++) texture.SetPixel(x, y, Color.FromArgb(A, r, g, b));
     }
 
     cWindow.Render();

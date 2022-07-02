@@ -85,12 +85,12 @@ namespace LightningGL
         /// 
         /// Only call if <see cref="PositionalSound"/> is true.
         /// </summary>
-        /// <param name="Win"></param>
-        public void Update(Window Win)
+        /// <param name="cWindow"></param>
+        public void Update(Window cWindow)
         {
             if (!PositionalSound) return;
 
-            Vector2 cam_main_pos = Win.Settings.Camera.Position;
+            Vector2 cam_main_pos = cWindow.Settings.Camera.Position;
             Vector2 audio_pos = Position;
 
             // faster than math.pow

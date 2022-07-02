@@ -119,5 +119,13 @@ namespace LightningGL
 
             return null;
         }
+
+        internal static void Update(Window cWindow)
+        {
+            foreach (AudioFile file in AudioFiles)
+            {
+                if (file.Playing) file.Update(cWindow);
+            }
+        }
     }
 }
