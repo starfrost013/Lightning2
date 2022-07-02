@@ -292,7 +292,8 @@ while (cWindow.Run())
     textureAtlas1.Index = 0;
     textureAtlas1.Draw(cWindow);
     textureAtlas1.Index = 0;
-    textureAtlas1.Position = new Vector2(256, 192);
+    textureAtlas1.Position = new Vector2(200, 0);
+    textureAtlas1.SnapToScreen = true;
     textureAtlas1.Draw(cWindow);
 
     xmTitle.Update(cWindow);
@@ -310,8 +311,6 @@ while (cWindow.Run())
             texture.SetPixel(x, y, Color.FromArgb(A, r, g, b));
         }
     }
-
-    texture.Unlock();
 
     cWindow.Render();
 }

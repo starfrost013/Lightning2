@@ -114,7 +114,7 @@ namespace LightningGL
 
                 // Check if absolute velocity mode is on.
                 // This means we treat velocity as an absolute value and do not
-                // vary particle positions. Use if we only want particles going wrong way
+                // vary particle positions. Use if we only want particles going in one direction
                 if (!AbsoluteVelocity)
                 {
                     if (i % 4 == 0)

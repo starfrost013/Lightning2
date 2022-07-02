@@ -137,12 +137,15 @@ namespace LightningGL
             // Render the lightmap.
             if (LightManager.Initialised) LightManager.RenderLightmap(this);
 
+            // Render the UI.
+            UIManager.Render(this);
+
             // draw fps on top always (by drawing it last. we don't have zindex, but we will later). Also snap it to the screen like a hud element. 
             // check the showfps global setting first
             // do this BEFORE present. then measure frametime in Render_MeasureFps, this makes it accurate.
             if (GlobalSettings.ShowFPS) Render_DrawDebugInformation();
 
-            UIManager.Render(this);
+
 
             // Correctly draw the background
             SDL_SetRenderDrawColor(Settings.RendererHandle, Settings.Background.R, Settings.Background.G, Settings.Background.B, Settings.Background.A);

@@ -51,6 +51,7 @@ namespace LightningGL
                     renderable.RenderPosition = renderable.Position;
                 }
 
+                
                 renderable.Draw(cWindow);
             }
         }

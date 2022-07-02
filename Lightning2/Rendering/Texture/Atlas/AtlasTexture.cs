@@ -36,9 +36,10 @@ namespace LightningGL
         /// </summary>
         public Vector2 TextureCount { get; set; }
 
-        public TextureAtlas(Window cWindow, Vector2 frameSize, Vector2 textureCount) : base(cWindow, new(frameSize.X * textureCount.X + 1, frameSize.Y * textureCount.Y + 1))
+        public TextureAtlas(Window cWindow, Vector2 frameSize, Vector2 textureCount) : base(cWindow, new((frameSize.X * textureCount.X) + 1, (frameSize.Y * textureCount.Y) + 1)) // + 1 so that we do not set an out of bounds viewport
         {
-
+            FrameSize = frameSize;
+            TextureCount = textureCount;
         }
 
         public override void Load(Window cWindow)
@@ -55,11 +56,11 @@ namespace LightningGL
         public override void Draw(Window cWindow)
         {
             if (Index < 0
-                || Index > (Size.X * Size.Y)) throw new NCException($"Cannot draw invalid TextureAtlas ({Name}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)", 47, "TextureAtlas::LoadIndexed", NCExceptionSeverity.FatalError);
+                || Index > (FrameSize.X * FrameSize.Y)) throw new NCException($"Cannot draw invalid TextureAtlas ({Name}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)", 47, "TextureAtlas::LoadIndexed", NCExceptionSeverity.FatalError);
 
-            int row = (int)(Index / Size.Y);
+            int row = (int)(Index / FrameSize.Y);
 
-            float startX = FrameSize.X * (Index / (row + 1)) - FrameSize.X;
+            float startX = FrameSize.X * (Index / (row + 1));
             float startY = FrameSize.Y * row;
             float endX = startX + FrameSize.X;
             float endY = startY + FrameSize.Y;
@@ -76,8 +77,8 @@ namespace LightningGL
 
             if (relative)
             {
-                int relativeX = (int)(FrameSize.X * (Index / (row + 1)) - FrameSize.X);
-                int relativeY = (int)(FrameSize.Y * row);
+                int relativeX = (int)(FrameSize.X * (Index / (row + 1))) + x;
+                int relativeY = (int)(FrameSize.Y * row) + y;
                 return base.GetPixel(relativeX, relativeY);
             }
             else
@@ -92,7 +93,7 @@ namespace LightningGL
 
             if (relative)
             {
-                int relativeX = (int)(FrameSize.X * (Index / (row + 1)) - FrameSize.X);
+                int relativeX = (int)(FrameSize.X * (Index / (row + 1)));
                 int relativeY = (int)(FrameSize.Y * row);
                 base.SetPixel(relativeX, relativeY, colour);
             }
