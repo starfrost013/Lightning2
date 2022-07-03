@@ -65,7 +65,7 @@ namespace NuCore.Utilities
 
             int button_id;
 
-            if (SDL.SDL_ShowMessageBox(ref mb_data, out button_id) < 0) throw new NCException($"Error creating messagebox - {SDL.SDL_GetError}", 19, "NCMessageBox.Show()", NCExceptionSeverity.FatalError);
+            if (SDL.SDL_ShowMessageBox(ref mb_data, out button_id) < 0) new NCException($"Error creating messagebox - {SDL.SDL_GetError}", 19, "NCMessageBox.Show()", NCExceptionSeverity.FatalError);
 
             Debug.Assert(button_id < button_array.Length);
 

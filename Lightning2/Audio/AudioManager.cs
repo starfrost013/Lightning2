@@ -29,7 +29,7 @@ namespace LightningGL
         /// <exception cref="NCException">An error occurred loading the file.</exception>
         public static void LoadFile(string FPath, string Name = null)
         {
-            if (!File.Exists(FPath)) if (!File.Exists(FPath)) throw new NCException($"Error loading audio file: The path {FPath} does not exist!", 52, "AudioFile.Load", NCExceptionSeverity.FatalError);
+            if (!File.Exists(FPath)) if (!File.Exists(FPath)) new NCException($"Error loading audio file: The path {FPath} does not exist!", 52, "AudioFile.Load", NCExceptionSeverity.FatalError);
 
             AudioFile temp_audio = new AudioFile();
 

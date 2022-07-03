@@ -74,8 +74,8 @@ namespace LightningGL
 
         public void Load(Window cWindow)
         {
-            if (Size == default(Vector2)) throw new NCException("Cannot load an animated texture with no texture size", 44, "AnimatedTexture::Size property = (0,0)", NCExceptionSeverity.FatalError);
-            if (Cycle == null) throw new NCException("AnimatedTextures must have a valid Cycle property", 54, "AnimatedTexture::Cycle property = null", NCExceptionSeverity.FatalError);
+            if (Size == default(Vector2)) new NCException("Cannot load an animated texture with no texture size", 44, "AnimatedTexture::Size property = (0,0)", NCExceptionSeverity.FatalError);
+            if (Cycle == null) new NCException("AnimatedTextures must have a valid Cycle property", 54, "AnimatedTexture::Cycle property = null", NCExceptionSeverity.FatalError);
 
             foreach (string texturePath in FramesPath)
             {

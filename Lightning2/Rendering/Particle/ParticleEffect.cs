@@ -119,19 +119,19 @@ namespace LightningGL
                 {
                     if (i % 4 == 0)
                     {
-                        particle.Position += new Vector2((Velocity.X / 500) * particle.Lifetime, (Velocity.Y / 500) * particle.Lifetime);
+                        particle.RenderPosition += new Vector2((Velocity.X / 500) * particle.Lifetime, (Velocity.Y / 500) * particle.Lifetime);
                     }
                     else if (i % 4 == 1)
                     {
-                        particle.Position += new Vector2(((Velocity.X / 500) * particle.Lifetime), -((Velocity.Y / 500) * particle.Lifetime));
+                        particle.RenderPosition += new Vector2(((Velocity.X / 500) * particle.Lifetime), -((Velocity.Y / 500) * particle.Lifetime));
                     }
                     else if (i % 4 == 2)
                     {
-                        particle.Position += new Vector2(-((Velocity.X / 500) * particle.Lifetime), ((Velocity.Y / 500) * particle.Lifetime));
+                        particle.RenderPosition += new Vector2(-((Velocity.X / 500) * particle.Lifetime), ((Velocity.Y / 500) * particle.Lifetime));
                     }
                     else if (i % 4 == 3)
                     {
-                        particle.Position += new Vector2(-((Velocity.X / 500) * particle.Lifetime), -((Velocity.Y / 500) * particle.Lifetime));
+                        particle.RenderPosition += new Vector2(-((Velocity.X / 500) * particle.Lifetime), -((Velocity.Y / 500) * particle.Lifetime));
                     }
                 }
                 else
@@ -139,7 +139,7 @@ namespace LightningGL
                     particle.Position += new Vector2((Velocity.X / 500) * particle.Lifetime, (Velocity.Y / 500) * particle.Lifetime);
                 }
 
-                Texture.Position = particle.Position;
+                Texture.RenderPosition = particle.Position;
                 Texture.Draw(cWindow);
             }
         }

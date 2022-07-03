@@ -41,13 +41,13 @@ namespace NuCore.Utilities
 
         public static void Init()
         {
-            if (Settings == null) throw new NCException("You must set up NCLoggingSettings before initialising NCLogging!", 5, "NCLogging.Init", NCExceptionSeverity.FatalError);
+            if (Settings == null) new NCException("You must set up NCLoggingSettings before initialising NCLogging!", 5, "NCLogging.Init", NCExceptionSeverity.FatalError);
 
             if (Settings.LogFileName == null) Settings.LogFileName = $"NuCore_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.log";
 
             if (Settings.WriteToLog)
             {
-                if (Settings.LogFileName == null) throw new NCException("Passed null file name to NCLogging.Init()!", 6, "NCLogging.Init", NCExceptionSeverity.FatalError);
+                if (Settings.LogFileName == null) new NCException("Passed null file name to NCLogging.Init()!", 6, "NCLogging.Init", NCExceptionSeverity.FatalError);
 
                 if (File.Exists(Settings.LogFileName)) File.Delete(Settings.LogFileName);
 

@@ -30,7 +30,7 @@ namespace LightningGL
             }
             set
             {
-                if (value > Items.Count - 1) throw new NCException("Attempted to set an invalid SelectedIndex for this ListBox!", 83, "ListBox::SelectedIndex > ListBox::Items::Count - 1!", NCExceptionSeverity.FatalError);
+                if (value > Items.Count - 1) new NCException("Attempted to set an invalid SelectedIndex for this ListBox!", 83, "ListBox::SelectedIndex > ListBox::Items::Count - 1!", NCExceptionSeverity.FatalError);
                 
                 _selectedindex = value;
             }

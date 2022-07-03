@@ -61,11 +61,11 @@ namespace LightningGL
 
         internal void Load()
         {
-            if (!File.Exists(Path)) throw new NCException($"Error loading audio file: The path {Path} does not exist!", 50, "AudioFile.Load", NCExceptionSeverity.FatalError);
+            if (!File.Exists(Path)) new NCException($"Error loading audio file: The path {Path} does not exist!", 50, "AudioFile.Load", NCExceptionSeverity.FatalError);
 
             AudioHandle = SDL_mixer.Mix_LoadWAV(Path);
 
-            if (AudioHandle == IntPtr.Zero) throw new NCException($"Error loading audio file at {Path}: {SDL_mixer.Mix_GetError()}", 51, "AudioFile.Load", NCExceptionSeverity.Error);
+            if (AudioHandle == IntPtr.Zero) new NCException($"Error loading audio file at {Path}: {SDL_mixer.Mix_GetError()}", 51, "AudioFile.Load", NCExceptionSeverity.Error);
 
             RealVolume = 1; // make sure there is always a value
         }

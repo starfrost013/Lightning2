@@ -27,14 +27,14 @@ namespace LightningGL
             // globalsettings loader checks for valid file
             NCINIFile localisationIni = NCINIFile.Parse(GlobalSettings.LocalisationFile);
 
-            if (localisationIni == null) throw new NCException($"Error in localisation INI {GlobalSettings.LocalisationFile}!", 31, "LocalisationManager.Load", NCExceptionSeverity.FatalError);
+            if (localisationIni == null) new NCException($"Error in localisation INI {GlobalSettings.LocalisationFile}!", 31, "LocalisationManager.Load", NCExceptionSeverity.FatalError);
 
             NCINIFileSection metaSection = localisationIni.GetSection("Metadata");
 
             NCINIFileSection stringsSection = localisationIni.GetSection("Strings");
 
-            if (metaSection == null) throw new NCException($"Error in localisation INI {GlobalSettings.LocalisationFile}: No metadata section!", 32, "LocalisationManager.Load", NCExceptionSeverity.FatalError);
-            if (stringsSection == null) throw new NCException($"Error in localisation INI {GlobalSettings.LocalisationFile}: No strings section!", 33, "LocalisationManager.Load", NCExceptionSeverity.FatalError);
+            if (metaSection == null) new NCException($"Error in localisation INI {GlobalSettings.LocalisationFile}: No metadata section!", 32, "LocalisationManager.Load", NCExceptionSeverity.FatalError);
+            if (stringsSection == null) new NCException($"Error in localisation INI {GlobalSettings.LocalisationFile}: No strings section!", 33, "LocalisationManager.Load", NCExceptionSeverity.FatalError);
 
             Metadata.Name = metaSection.GetValue("Name");
             Metadata.Description = metaSection.GetValue("Description");
@@ -91,7 +91,7 @@ namespace LightningGL
                     {
                         string localisationString = GetString(localisationTextId);
 
-                        if (localisationString == null) throw new NCException($"Invalid localisation string - cannot find localised string {localisationTextId}!", 35, "LocalisationManager.ProcessString", NCExceptionSeverity.FatalError);
+                        if (localisationString == null) new NCException($"Invalid localisation string - cannot find localised string {localisationTextId}!", 35, "LocalisationManager.ProcessString", NCExceptionSeverity.FatalError);
 
                         stringProcess = stringProcess.Replace(localisationTextId, localisationString);
                     }

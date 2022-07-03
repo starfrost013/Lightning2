@@ -60,7 +60,7 @@ namespace LightningGL
         {
             Font fontToUnload = GetFont(friendlyName);
 
-            if (fontToUnload == null) throw new NCException($"Attempted to unload invalid font FriendlyName {friendlyName}!", 71, "nonexistent friendlyName passed to TextManager::UnloadFont(string)!", NCExceptionSeverity.FatalError); // possibly not fatal?
+            if (fontToUnload == null) new NCException($"Attempted to unload invalid font FriendlyName {friendlyName}!", 71, "nonexistent friendlyName passed to TextManager::UnloadFont(string)!", NCExceptionSeverity.FatalError); // possibly not fatal?
 
             fontToUnload.Unload();
             Fonts.Remove(fontToUnload);
@@ -70,12 +70,12 @@ namespace LightningGL
         public static Vector2 GetTextSize(Font font, string text)
         {
             if (font == null  
-                || !Fonts.Contains(font)) throw new NCException($"Please load font (Name={font.Name}, Size={font.Size}) before loading it!", 81, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
+                || !Fonts.Contains(font)) new NCException($"Please load font (Name={font.Name}, Size={font.Size}) before loading it!", 81, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
 
             int fontSizeX,
                 fontSizeY;
 
-            if (TTF_SizeUTF8(font.Handle, text, out fontSizeX, out fontSizeY) < 0) throw new NCException($"An error occurred sizing text. {SDL_GetError()}", 80, "TTF_SizeUTF8 call from TextManager::GetTextSize failed", NCExceptionSeverity.FatalError);
+            if (TTF_SizeUTF8(font.Handle, text, out fontSizeX, out fontSizeY) < 0) new NCException($"An error occurred sizing text. {SDL_GetError()}", 80, "TTF_SizeUTF8 call from TextManager::GetTextSize failed", NCExceptionSeverity.FatalError);
 
             return new Vector2(fontSizeX, fontSizeY);
         }
@@ -114,7 +114,7 @@ namespace LightningGL
             // Get the font and throw an error if it's invalid
             Font curFont = GetFont(font);
 
-            if (curFont == null) throw new NCException($"Attempted to acquire invalid font with name {font}", 39, "TextManager.DrawText", NCExceptionSeverity.FatalError);
+            if (curFont == null) new NCException($"Attempted to acquire invalid font with name {font}", 39, "TextManager.DrawText", NCExceptionSeverity.FatalError);
 
             // Set the foreground colour
             SDL_Color fontColour = new SDL_Color(foreground.R, foreground.G, foreground.B, foreground.A);

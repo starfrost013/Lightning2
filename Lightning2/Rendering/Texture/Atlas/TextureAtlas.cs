@@ -44,9 +44,9 @@ namespace LightningGL
 
         public override void Load(Window cWindow)
         {
-            if (FrameSize == default(Vector2)) throw new NCException("Cannot load a texture with no texture frame size!", 45, "TextureAtlas's FrameSize property = (0,0)!", NCExceptionSeverity.FatalError);
+            if (FrameSize == default(Vector2)) new NCException("Cannot load a texture with no texture frame size!", 45, "TextureAtlas's FrameSize property = (0,0)!", NCExceptionSeverity.FatalError);
 
-            if (TextureCount.X < 1 || TextureCount.Y < 1) throw new NCException($"A texture atlas must have at least one frame, set to {TextureCount.X},{TextureCount.Y}!", 46, "TextureAtlas::TextureCount::X or Y < 1!", NCExceptionSeverity.FatalError);
+            if (TextureCount.X < 1 || TextureCount.Y < 1) new NCException($"A texture atlas must have at least one frame, set to {TextureCount.X},{TextureCount.Y}!", 46, "TextureAtlas::TextureCount::X or Y < 1!", NCExceptionSeverity.FatalError);
 
             NCLogging.Log($"Loading atlas texture at path {Path}...");
 
@@ -56,7 +56,7 @@ namespace LightningGL
         public override void Draw(Window cWindow)
         {
             if (Index < 0
-                || Index > (FrameSize.X * FrameSize.Y)) throw new NCException($"Cannot draw invalid TextureAtlas ({Name}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)", 47, "TextureAtlas::LoadIndexed", NCExceptionSeverity.FatalError);
+                || Index > (FrameSize.X * FrameSize.Y)) new NCException($"Cannot draw invalid TextureAtlas ({Name}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)", 47, "TextureAtlas::LoadIndexed", NCExceptionSeverity.FatalError);
 
             int row = (int)(Index / FrameSize.Y);
 

@@ -61,7 +61,7 @@ namespace NuCore.Utilities
 
             string err_string = sb.ToString();
 
-            NCLogging.Log($"{ExceptionSeverity}:\n{err_string}");
+            NCLogging.Log($"{ExceptionSeverity}:\n{err_string}", nExceptionSeverity);
 
             if (!DontShowMessageBox)
             {
