@@ -26,19 +26,19 @@ namespace LightningGL
                 NCLogging.Log($"LightningGL {L2Version.LIGHTNING_VERSION_EXTENDED_STRING}");
 
                 NCLogging.Log("Initialising SDL...");
-                if (SDL.SDL_Init(SDL.SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) new NCException($"Error initialising SDL2: {SDL.SDL_GetError()}", 0, "LightningGL.Init();", NCExceptionSeverity.FatalError);
+                if (SDL.SDL_Init(SDL.SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2: {SDL.SDL_GetError()}", 0, "LightningGL.Init();", NCExceptionSeverity.FatalError);
 
                 NCLogging.Log("Initialising SDL_image...");
-                if (SDL_image.IMG_Init(SDL_image.IMG_InitFlags.IMG_INIT_EVERYTHING) < 0) new NCException($"Error initialising SDL2_image: {SDL.SDL_GetError()}", 1, "LightningGL.Init();", NCExceptionSeverity.FatalError);
+                if (SDL_image.IMG_Init(SDL_image.IMG_InitFlags.IMG_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2_image: {SDL.SDL_GetError()}", 1, "LightningGL.Init();", NCExceptionSeverity.FatalError);
 
                 NCLogging.Log("Initialising SDL_ttf...");
-                if (SDL_ttf.TTF_Init() < 0) new NCException($"Error initialising SDL2_ttf: {SDL.SDL_GetError()}", 2, "LightningGL.Init();", NCExceptionSeverity.FatalError);
+                if (SDL_ttf.TTF_Init() < 0) _ = new NCException($"Error initialising SDL2_ttf: {SDL.SDL_GetError()}", 2, "LightningGL.Init();", NCExceptionSeverity.FatalError);
 
                 NCLogging.Log("Initialising SDL_mixer...");
-                if (SDL_mixer.Mix_Init(SDL_mixer.MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) new NCException($"Error initialising SDL2_mixer: {SDL.SDL_GetError()}", 3, "LightningGL.Init();", NCExceptionSeverity.FatalError);
+                if (SDL_mixer.Mix_Init(SDL_mixer.MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2_mixer: {SDL.SDL_GetError()}", 3, "LightningGL.Init();", NCExceptionSeverity.FatalError);
 
                 NCLogging.Log("Initialising audio device...");
-                if (SDL_mixer.Mix_OpenAudio(44100, SDL_mixer.Mix_AudioFormat.MIX_DEFAULT_FORMAT, 2, 2048) < 0) new NCException($"Error initialising audio device: {SDL.SDL_GetError()}", 56, "LightningGL.Init();", NCExceptionSeverity.FatalError);
+                if (SDL_mixer.Mix_OpenAudio(44100, SDL_mixer.Mix_AudioFormat.MIX_DEFAULT_FORMAT, 2, 2048) < 0) _ = new NCException($"Error initialising audio device: {SDL.SDL_GetError()}", 56, "LightningGL.Init();", NCExceptionSeverity.FatalError);
 
                 NCLogging.Log("Loading Engine.ini...");
                 GlobalSettings.Load();
@@ -54,7 +54,7 @@ namespace LightningGL
             }
             catch (Exception err)
             {
-                new NCException($"A fatal error occurred during engine initialisation. The installation may be corrupted", 0x0000DEAD, "Fatal error occurred in Lightning2::Init!", NCExceptionSeverity.FatalError, err);
+                _ = new NCException($"A fatal error occurred during engine initialisation. The installation may be corrupted", 0x0000DEAD, "Fatal error occurred in Lightning2::Init!", NCExceptionSeverity.FatalError, err);
             }
         }
 

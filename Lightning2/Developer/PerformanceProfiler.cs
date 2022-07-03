@@ -46,7 +46,7 @@ namespace LightningGL
             catch (Exception ex)
             {
                 Initialised = false;
-                new NCException("An error occurred initialising performance profiler. Profiling will not be completed.", 70, "Exception occurred in PerformanceProfiler::Init", NCExceptionSeverity.Warning, ex, true);
+                _ = new NCException("An error occurred initialising performance profiler. Profiling will not be completed.", 70, "Exception occurred in PerformanceProfiler::Init", NCExceptionSeverity.Warning, ex, true);
             }
 
             return;

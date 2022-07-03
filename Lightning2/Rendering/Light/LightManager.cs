@@ -51,7 +51,7 @@ namespace LightningGL
 
         public static void AddLight(Window win, Light Light)
         {
-            if (SSMapTexture.Handle == IntPtr.Zero) new NCException("You must initialise the Light Manager before using it!", 61, "LightManager.AddLight called before LightManager.Init!", NCExceptionSeverity.FatalError);
+            if (SSMapTexture.Handle == IntPtr.Zero) _ = new NCException("You must initialise the Light Manager before using it!", 61, "LightManager.AddLight called before LightManager.Init!", NCExceptionSeverity.FatalError);
             Light.RenderToTexture(win);
             Lights.Add(Light);
         }
@@ -69,7 +69,7 @@ namespace LightningGL
 
         public static void RenderLightmap(Window win)
         {
-            if (SSMapTexture.Handle == IntPtr.Zero) new NCException("You must initialise the Light Manager before using it!", 62, "LightManager.RenderLightmap called before LightManager.Init!", NCExceptionSeverity.FatalError);
+            if (SSMapTexture.Handle == IntPtr.Zero) _ = new NCException("You must initialise the Light Manager before using it!", 62, "LightManager.RenderLightmap called before LightManager.Init!", NCExceptionSeverity.FatalError);
 
             SSMapTexture.Unlock();
             SSMapTexture.Draw(win);

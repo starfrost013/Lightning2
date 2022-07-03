@@ -45,11 +45,11 @@ namespace LightningGL
                 temp_path = $"{path}.ttf";
             }
 
-            if (!File.Exists(temp_path)) new NCException($"Error loading font: Attempted to load nonexistent font at {temp_path}", 35, "Font.Load()", NCExceptionSeverity.Error);
+            if (!File.Exists(temp_path)) _ = new NCException($"Error loading font: Attempted to load nonexistent font at {temp_path}", 35, "Font.Load()", NCExceptionSeverity.Error);
 
-            if (!temp_path.Contains(".ttf")) new NCException($"Error loading font: Only TTF fonts are supported!", 36, "Font.Load()", NCExceptionSeverity.Error);
+            if (!temp_path.Contains(".ttf")) _ = new NCException($"Error loading font: Only TTF fonts are supported!", 36, "Font.Load()", NCExceptionSeverity.Error);
 
-            if (size <= 0) new NCException($"Error loading font: Invalid font size {size}, must be at least 1!", 37, "Font.Load()", NCExceptionSeverity.Error);
+            if (size <= 0) _ = new NCException($"Error loading font: Invalid font size {size}, must be at least 1!", 37, "Font.Load()", NCExceptionSeverity.Error);
 
             if (index == -1)
             {
@@ -60,7 +60,7 @@ namespace LightningGL
                 temp_font.Handle = SDL_ttf.TTF_OpenFontIndex(temp_path, size, index);
             }
 
-            if (temp_font.Handle == IntPtr.Zero) new NCException($"Error loading font at {path}: {SDL_ttf.TTF_GetError()}", 38, "Font.Load()", NCExceptionSeverity.Error);
+            if (temp_font.Handle == IntPtr.Zero) _ = new NCException($"Error loading font at {path}: {SDL_ttf.TTF_GetError()}", 38, "Font.Load()", NCExceptionSeverity.Error);
 
             NCLogging.Log($"Loaded font {temp_font.Name}, size {temp_font.Size} at {temp_path}");
             return temp_font;

@@ -41,7 +41,7 @@ namespace NuCore.Utilities
             // don't return the file if it failed to parse
             bool errorOccurred = false; 
 
-            if (!File.Exists(path)) new NCException($"INI parsing error: Cannot parse INI file at {path}: File not found!", 21, "NCINIFile::Parse could not find file", NCExceptionSeverity.Error);
+            if (!File.Exists(path)) _ = new NCException($"INI parsing error: Cannot parse INI file at {path}: File not found!", 21, "NCINIFile::Parse could not find file", NCExceptionSeverity.Error);
 
             NCINIFile iniFile = new NCINIFile();
 
@@ -89,7 +89,7 @@ namespace NuCore.Utilities
                                     if (beginning > end)
                                     {
                                         errorOccurred = true;
-                                        new NCException("INI parsing error: Invalid section entry - ] before [!", 25, "NCINIFile::Parse", NCExceptionSeverity.Error);
+                                        _ = new NCException("INI parsing error: Invalid section entry - ] before [!", 25, "NCINIFile::Parse", NCExceptionSeverity.Error);
                                     }
 
                                     // we add and remove 1 so that the [ and ] markers don't become part of the file name
@@ -102,7 +102,8 @@ namespace NuCore.Utilities
                                 else
                                 {
                                     errorOccurred = true;
-                                    new NCException("INI parsing error: Section name must terminate with [!", 24, "NCINIFile::Parse", NCExceptionSeverity.Error);
+                                    _ = new NCException("INI parsing error: Section name must terminate with [!", 24, "NCINIFile::Parse", NCExceptionSeverity.Error);
+                                    return null;
                                 }
                                 continue;
                             case ';': // Comment
@@ -114,7 +115,7 @@ namespace NuCore.Utilities
                                     if (iniFile.CurSection == null)
                                     {
                                         errorOccurred = true;
-                                        new NCException("INI parsing error: Values must be within a section!", 26, "NCINIFile::Parse", NCExceptionSeverity.Error);
+                                        _ = _ = new NCException("INI parsing error: Values must be within a section!", 26, "NCINIFile::Parse", NCExceptionSeverity.Error);
                                     }
 
                                     string[] iniValue = iniLine.Split('=');
@@ -138,7 +139,8 @@ namespace NuCore.Utilities
                                 else
                                 {
                                     errorOccurred = true;
-                                    new NCException("INI parsing error: An INI item with no value was found!", 23, "NCINIFile::Parse", NCExceptionSeverity.Error);
+                                    _ = _ = new NCException("INI parsing error: An INI item with no value was found!", 23, "NCINIFile::Parse", NCExceptionSeverity.Error);
+                                    return null;
                                 }
                                 continue;
                         }
@@ -153,7 +155,7 @@ namespace NuCore.Utilities
             }
             catch (Exception ex)
             {
-                new NCException($"INI parsing error: Cannot parse INI file at {path}: \n\n{ex}", 22, "NCINIFile::Parse - unknown exception occurred", NCExceptionSeverity.Error);
+                _ = new NCException($"INI parsing error: Cannot parse INI file at {path}: \n\n{ex}", 22, "NCINIFile::Parse - unknown exception occurred", NCExceptionSeverity.Error);
             }
         }
 
