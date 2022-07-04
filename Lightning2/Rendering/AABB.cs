@@ -16,10 +16,10 @@ namespace LightningGL
     {
         public static bool Intersects(Renderable render1, Renderable render2)
         {
-            Vector2 render1Min = render1.Position;
-            Vector2 render2Min = render2.Position;
-            Vector2 render1Max = render1.Position + render1.Size;
-            Vector2 render2Max = render2.Position + render2.Size;
+            Vector2 render1Min = render1.RenderPosition;
+            Vector2 render2Min = render2.RenderPosition;
+            Vector2 render1Max = render1.RenderPosition + render1.Size;
+            Vector2 render2Max = render2.RenderPosition + render2.Size;
 
             return (render1Min.X <= render2Max.X
                 && render1Min.Y <= render2Max.Y
@@ -29,8 +29,8 @@ namespace LightningGL
 
         public static bool Intersects(Renderable render1, Vector2 render2)
         {
-            Vector2 render1Min = render1.Position;
-            Vector2 render1Max = render1.Position + render1.Size;
+            Vector2 render1Min = render1.RenderPosition;
+            Vector2 render1Max = render1.RenderPosition + render1.Size;
 
             return (render1Min.X <= render2.X
                 && render1Min.Y <= render2.Y

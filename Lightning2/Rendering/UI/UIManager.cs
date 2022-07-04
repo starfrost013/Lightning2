@@ -23,7 +23,7 @@ namespace LightningGL
 
         public static void AddElement(Gadget uiElement)
         {
-            NCLogging.Log($"Creating new UIGadget::{uiElement.GetType().Name}");
+            NCLogging.Log($"Creating new Gadget::{uiElement.GetType().Name}");
             UIElements.Add(uiElement);
         }
 
@@ -65,7 +65,7 @@ namespace LightningGL
 
             foreach (Gadget uiElement in UIElements)
             {
-                if (AABB.Intersects(uiElement, position)
+                if (AABB.Intersects(uiElement, cameraPosition)
                     && uiElement.OnMousePressed != null)
                 {
                     uiElement.OnMousePressed(mouseButton, cameraPosition);
@@ -89,7 +89,7 @@ namespace LightningGL
 
             foreach (Gadget uiElement in UIElements)
             {
-                if (AABB.Intersects(uiElement, position)
+                if (AABB.Intersects(uiElement, cameraPosition)
                     && uiElement.OnMouseReleased != null)
                 {
                     uiElement.OnMouseReleased(mouseButton, cameraPosition);

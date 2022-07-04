@@ -78,7 +78,11 @@ namespace LightningGL
         /// <summary>
         /// Plays this audio file until <see cref="Stop"/> is called.
         /// </summary>
-        public void Play() => SDL_mixer.Mix_PlayChannel(Channel, AudioHandle, Repeat);
+        public void Play()
+        {
+            SDL_mixer.Mix_PlayChannel(Channel, AudioHandle, Repeat);
+            Playing = true;
+        }
 
         /// <summary>
         /// Update positional sound volume based on current main camera position.
@@ -90,28 +94,36 @@ namespace LightningGL
         {
             if (!PositionalSound) return;
 
-            Vector2 cam_main_pos = cWindow.Settings.Camera.Position;
-            Vector2 audio_pos = Position;
+            Vector2 cameraPosition = cWindow.Settings.Camera.Position;
+            Vector2 audioPosition = RenderPosition;
 
             // faster than math.pow
-            double magnitude = Vector2.Distance(audio_pos, cam_main_pos);
+            double magnitude = Vector2.Distance(audioPosition, cameraPosition);
 
             if (magnitude > 0)
             {
                 // /12 to make sounds fade out slower.
-                int volume_to_set = (int)(RealVolume / (magnitude / 12) * 128);
-                SDL_mixer.Mix_Volume(Channel, volume_to_set);
+                int volumeToSet = (int)(RealVolume / (magnitude / 12) * 128);
+                SDL_mixer.Mix_Volume(Channel, volumeToSet);
             }
             else // set to (realvolume * 128) if <= 0
             {
-                int volume_to_set = (int)(RealVolume * 128);
-                SDL_mixer.Mix_Volume(Channel, volume_to_set);
+                int volumeToSet = (int)(RealVolume * 128);
+                SDL_mixer.Mix_Volume(Channel, volumeToSet);
             }
         }
 
-        public void Pause() => SDL_mixer.Mix_Pause(Channel);
+        public void Pause()
+        {
+            SDL_mixer.Mix_Pause(Channel);
+            Playing = false;
+        }
 
-        public void Stop() => SDL_mixer.Mix_HaltChannel(Channel);
+        public void Stop()
+        {
+            SDL_mixer.Mix_HaltChannel(Channel);
+            Playing = false;
+        }
 
         public void SetVolume(double Volume)
         {
