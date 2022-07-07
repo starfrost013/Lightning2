@@ -1,5 +1,6 @@
 ﻿using static NuCore.SDL2.SDL;
 using NuCore.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Numerics; 
 
@@ -54,13 +55,14 @@ namespace LightningGL
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;
 
-            Vector2 cameraPosition = position;
+            Vector2 cameraPosition = currentCamera.Position;
 
             if (currentCamera != null)
             {
+                // get the real position that we are checking
                 cameraPosition = new Vector2
-                    (position.X - currentCamera.Position.X,
-                    position.Y - currentCamera.Position.Y);
+                    (cameraPosition.X + position.X,
+                    cameraPosition.Y + position.Y);
             }
 
             foreach (Gadget uiElement in UIElements)
@@ -78,13 +80,14 @@ namespace LightningGL
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;
 
-            Vector2 cameraPosition = position;
+            Vector2 cameraPosition = currentCamera.Position;
 
             if (currentCamera != null)
             {
+                // get the real position that we are checking
                 cameraPosition = new Vector2
-                    (position.X - currentCamera.Position.X,
-                    position.Y - currentCamera.Position.Y);
+                    (cameraPosition.X + position.X,
+                    cameraPosition.Y + position.Y);
             }
 
             foreach (Gadget uiElement in UIElements)
@@ -120,11 +123,24 @@ namespace LightningGL
 
         public static void MouseMove(Window cWindow, Vector2 position, Vector2 velocity, SDL_MouseButton mouseButton)
         {
+            // Check for a set camera and move relative to the position of that camera if it is set.
+            Camera currentCamera = cWindow.Settings.Camera;
+
+            Vector2 cameraPosition = currentCamera.Position;
+
+            if (currentCamera != null)
+            {
+                // get the real position that we are checking
+                cameraPosition = new Vector2
+                    (cameraPosition.X + position.X,
+                    cameraPosition.Y + position.Y);
+            }
+
             foreach (Gadget uiElement in UIElements)
             {
                 if (uiElement.OnMouseMove != null) // this one is passed regardless of intersection for things like button highlighting
                 {
-                    uiElement.OnMouseMove(position, velocity, mouseButton);
+                    uiElement.OnMouseMove(cameraPosition, velocity, mouseButton);
                 }
             }
         }

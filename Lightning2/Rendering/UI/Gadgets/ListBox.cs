@@ -50,10 +50,11 @@ namespace LightningGL
             // set some default properties so the listbox renders properly
             item.Size = Size;
             // move the item so that it gets drawn in the right place
-            item.Position = new Vector2(Position.X, Position.Y + (Size.Y * (Items.Count - 1)));
+            item.Position = new Vector2(Position.X, Position.Y + (Size.Y * (Items.Count)));
             if (item.BackgroundColour == default(Color)) item.BackgroundColour = BackgroundColour;
             if (item.ForegroundColour == default(Color)) item.ForegroundColour = ForegroundColour;
             if (item.BorderColour == default(Color)) item.BorderColour = BorderColour;
+            item.Filled = true; // set for now
             item.Font = Font;
             Items.Add(item);
         }
@@ -79,17 +80,25 @@ namespace LightningGL
                 }
             }
 
-            foreach (ListBoxItem item in Items)
+            if (Open)
             {
-                item.OnRender(cWindow); // this is never null (set in constructor) so we do not need to check that it is.
+                foreach (ListBoxItem item in Items)
+                {
+                    item.OnRender(cWindow); // this is never null (set in constructor) so we do not need to check that it is.
+                }
             }
+
         }
 
         public override void MousePressed(SDL_MouseButton button, Vector2 position)
         {
             // call the default handler
             base.MousePressed(button, position);
-            Open = AABB.Intersects(this, position);
+            
+            if (AABB.Intersects(this, position))
+            {
+                Open = !Open;
+            }
         }
     }
 }

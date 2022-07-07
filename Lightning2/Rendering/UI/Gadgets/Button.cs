@@ -38,28 +38,26 @@ namespace LightningGL
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;
 
-            Vector2 drawPosition = Position;
-
             if (currentCamera != null)
             {
-                drawPosition = new Vector2
+                RenderPosition = new Vector2
                     (Position.X - currentCamera.Position.X,
                     Position.Y - currentCamera.Position.Y);
             }
 
-            PrimitiveRenderer.DrawRectangle(cWindow, drawPosition, Size, CurBackgroundColour, Filled, BorderColour, BorderSize);
+            PrimitiveRenderer.DrawRectangle(cWindow, RenderPosition, Size, CurBackgroundColour, Filled, BorderColour, BorderSize);
 
             Font curFont = FontManager.GetFont(Font);
 
             if (FontManager.GetFont(Font) == null)
             {
                 // Use the default font.
-                PrimitiveRenderer.DrawText(cWindow, Text, drawPosition, ForegroundColour, true);
+                PrimitiveRenderer.DrawText(cWindow, Text, RenderPosition, ForegroundColour, true);
             }
             else
             {
                 Vector2 textSize = FontManager.GetTextSize(curFont, Text);
-                Vector2 textPos = (drawPosition + Size);
+                Vector2 textPos = (RenderPosition + Size);
                 textPos.X = textPos.X - (Size.X / 2) - (textSize.X / 2);
                 textPos.Y = textPos.Y - (Size.Y / 2) - (textSize.Y / 2);
 
