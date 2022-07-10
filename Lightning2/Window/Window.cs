@@ -94,6 +94,10 @@ namespace LightningGL
                 // Developers can choose to handle SDL events after this
                 switch (currentEvent.type)
                 {
+                    case SDL_EventType.SDL_KEYDOWN:
+                        Key curKey = (Key)currentEvent.key;
+                        UIManager.KeyPressed(curKey);
+                        return true; 
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN: // Mouse down event
                         UIManager.MousePressed(this, currentEvent.button.button, new Vector2(currentEvent.button.x, currentEvent.button.y));
                         return true;

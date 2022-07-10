@@ -1,6 +1,5 @@
 ﻿using static NuCore.SDL2.SDL;
 using NuCore.Utilities;
-using System;
 using System.Collections.Generic;
 using System.Numerics; 
 
@@ -9,7 +8,7 @@ namespace LightningGL
     /// <summary>
     /// UIManager
     /// 
-    /// May 15, 2022
+    /// May 15, 2022 (modified July 10, 2022)
     /// 
     /// A simple UI manager - all UI is on one layer, there is no hierarchy
     /// </summary>
@@ -67,7 +66,12 @@ namespace LightningGL
 
             foreach (Gadget uiElement in UIElements)
             {
-                if (AABB.Intersects(uiElement, cameraPosition)
+                bool intersects = AABB.Intersects(uiElement, cameraPosition);
+
+                // check if it is focused...
+                uiElement.Focused = intersects;
+
+                if (intersects
                     && uiElement.OnMousePressed != null)
                 {
                     uiElement.OnMousePressed(mouseButton, cameraPosition);
@@ -92,6 +96,11 @@ namespace LightningGL
 
             foreach (Gadget uiElement in UIElements)
             {
+                bool intersects = AABB.Intersects(uiElement, cameraPosition);
+
+                // check if it is focused...
+                uiElement.Focused = intersects;
+
                 if (AABB.Intersects(uiElement, cameraPosition)
                     && uiElement.OnMouseReleased != null)
                 {
@@ -141,6 +150,32 @@ namespace LightningGL
                 if (uiElement.OnMouseMove != null) // this one is passed regardless of intersection for things like button highlighting
                 {
                     uiElement.OnMouseMove(cameraPosition, velocity, mouseButton);
+                }
+            }
+        }
+
+        public static void KeyPressed(Key key)
+        {
+            foreach (Gadget uiElement in UIElements)
+            {
+                // check if the UI element is focused.
+                if (uiElement.Focused
+                    && uiElement.OnKeyPressed != null)
+                {
+                    uiElement.OnKeyPressed(key);
+                }
+            }
+        }
+
+        public static void KeyReleased(Key key)
+        {
+            foreach (Gadget uiElement in UIElements)
+            {
+                // check if the UI element is focused.
+                if (uiElement.Focused
+                    && uiElement.OnKeyReleased != null)
+                {
+                    uiElement.OnKeyReleased(key);
                 }
             }
         }

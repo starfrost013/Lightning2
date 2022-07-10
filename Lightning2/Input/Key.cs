@@ -1,24 +1,25 @@
-﻿using NuCore.SDL2;
+﻿using static NuCore.SDL2.SDL;
 
 namespace LightningGL
 {
     public class Key
     {
-        public SDL.SDL_Keysym KeySym { get; set; }
+        public SDL_Keysym KeySym { get; set; }
 
         /// <summary>
-        /// Any modifier state allowed
+        /// The keyboard modifier state at the time that this button was pressed.
         /// </summary>
-        public SDL.SDL_Keymod KeyMod => SDL.SDL_GetModState();
+        public SDL_Keymod KeyMod { get; set; }
 
         public bool Repeated { get; set; }
 
-        public static explicit operator Key(SDL.SDL_KeyboardEvent NKeySym)
+        public static explicit operator Key(SDL_KeyboardEvent nKeySym)
         {
             return new Key
             {
-                KeySym = NKeySym.keysym,
-                Repeated = (NKeySym.repeat > 0)
+                KeySym = nKeySym.keysym,
+                KeyMod = SDL_GetModState(),
+                Repeated = (nKeySym.repeat > 0)
             };
         }
 

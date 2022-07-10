@@ -22,7 +22,7 @@ namespace LightningGL
         /// <summary>
         /// Internal value holding the position the item is actually rendered at.
         /// 
-        /// HACK WARNIGN!
+        /// HACK WARNING!
         /// </summary>
         internal Vector2 RenderPosition
         {

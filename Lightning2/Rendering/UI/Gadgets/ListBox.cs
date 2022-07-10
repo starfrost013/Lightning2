@@ -42,7 +42,11 @@ namespace LightningGL
         {
             Items = new List<ListBoxItem>();
             OnRender += Render;
-            OnMousePressed += MousePressed;
+
+            // if you override the method it calls it twice (because it's defined for both classes)
+            // so simply use a different method
+            OnMousePressed += ListBoxMousePressed;
+            OnMouseReleased += MouseReleased;
         }
 
         public void AddItem(ListBoxItem item)
@@ -90,7 +94,7 @@ namespace LightningGL
 
         }
 
-        public override void MousePressed(SDL_MouseButton button, Vector2 position)
+        public void ListBoxMousePressed(SDL_MouseButton button, Vector2 position)
         {
             // call the default handler
             base.MousePressed(button, position);
@@ -98,6 +102,7 @@ namespace LightningGL
             if (AABB.Intersects(this, position))
             {
                 Open = !Open;
+                return;
             }
         }
     }

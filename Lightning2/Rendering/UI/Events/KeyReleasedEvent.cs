@@ -3,7 +3,7 @@
     /// <summary>
     /// KeyReleasedEvent
     /// 
-    /// May 15, 2022 (modified June 15, 2022: remove outdated documentation)
+    /// May 15, 2022 (modified July 10, 2022: Remove unnecessary "repeat" parameter, as it's already stored in the key field)
     /// 
     /// Defines a LightningGL key release event.
     /// This event is thrown on key release.
@@ -12,7 +12,6 @@
     /// <param name="Repeat">If true, the key is currently being repeated - this is NOT the same as held down!</param>
     public delegate void KeyReleaseEvent
     (
-        Key key,
-        bool Repeat
+        Key key
     );
 }

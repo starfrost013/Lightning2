@@ -3,7 +3,7 @@
     /// <summary>
     /// KeyPressedEvent
     /// 
-    /// May 15, 2022 (modified June 15, 2022: remove outdated documentation)
+    /// May 15, 2022 (modified July 10, 2022: remove unnecessary "repeat" parameter, as it's already stored in the key field)
     /// 
     /// Defines a LightningGL keypress event.
     /// </summary>
@@ -11,7 +11,6 @@
     /// <param name="Repeat">If true, the key is currently being repeated - this is noNOT the same as held down!</param>
     public delegate void KeyPressedEvent
     (
-        Key key,
-        bool Repeat
+        Key key
     );
 }

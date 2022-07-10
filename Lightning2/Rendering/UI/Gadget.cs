@@ -106,6 +106,11 @@ namespace LightningGL
         public bool Pressed { get; private set; }
 
         /// <summary>
+        /// Determines if the mouse is currently focused on this gadget or not.
+        /// </summary>
+        public bool Focused { get; internal set; }
+
+        /// <summary>
         /// The font this button will use.
         /// If this value is set to null or a font that is not loaded is specified, the default SDL2_gfx font will be used.
         /// </summary>
