@@ -14,7 +14,6 @@ WindowSettings windowSettings = new WindowSettings();
 
 windowSettings.Title = "LightningGL Example";
 windowSettings.Position = new Vector2(350, 100);
-//windowSettings.Size = new Vector2(960, 640);
 
 cWindow.Start(windowSettings);
 
@@ -195,7 +194,7 @@ Button btn1 = new Button()
 ListBox listBox1 = new ListBox
 {
     Position = new Vector2(70, 150),
-    Size = new Vector2(44, 44),
+    Size = new Vector2(90, 44),
     BackgroundColour = Color.PaleGoldenrod,
     HighlightColour = Color.Goldenrod,
     PressedColour = Color.DarkGoldenrod,
@@ -205,7 +204,7 @@ ListBox listBox1 = new ListBox
 };
 
 listBox1.AddItem(new ListBoxItem("test 1"));
-listBox1.AddItem(new ListBoxItem("h"));
+listBox1.AddItem(new ListBoxItem("test 2"));
 listBox1.AddItem(new ListBoxItem("dfsdfsdfsdfsdfsdf"));
 listBox1.AddItem(new ListBoxItem("zxczxzxzx"));
 listBox1.AddItem(new ListBoxItem("qasqsdfwqer"));

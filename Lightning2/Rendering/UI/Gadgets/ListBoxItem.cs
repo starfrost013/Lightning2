@@ -14,10 +14,11 @@ namespace LightningGL
     {
         public string Text { get; set; }
 
-        public ListBoxItem(string text)
+        public ListBoxItem(string text) : base()
         {
             Text = text;
             OnRender += Render;
+            OnMousePressed += ListBoxItemMousePressed;
         }
 
         public void Render(Window cWindow)
@@ -32,13 +33,13 @@ namespace LightningGL
             }
             else
             {
-                FontManager.DrawText(cWindow, Text, Font, Position, ForegroundColour, BackgroundColour);
+                FontManager.DrawText(cWindow, Text, Font, Position, ForegroundColour);
             }
         }
 
         public void ListBoxItemMousePressed(SDL_MouseButton button, Vector2 position)
         {
-
+            base.MousePressed(button, position);
         }
 
     }

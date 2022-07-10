@@ -22,6 +22,11 @@ namespace LightningGL
 
         private int _selectedindex;
 
+        /// <summary>
+        /// Determines if item colours will be alternated on every other item.
+        /// </summary>
+        public bool AlternateItemColours { get; set; }
+
         public int SelectedIndex
         {
             get
@@ -51,15 +56,41 @@ namespace LightningGL
 
         public void AddItem(ListBoxItem item)
         {
-            // set some default properties so the listbox renders properly
-            item.Size = Size;
+            item.Font = Font;
+            Font itemFont = FontManager.GetFont(Font);
+
+            Vector2 itemFontSize = FontManager.GetTextSize(itemFont, item.Text);
+
+            // size it to the size of the text in the Y dimension
+            item.Size = new Vector2(Size.X, itemFontSize.Y);
+
             // move the item so that it gets drawn in the right place
-            item.Position = new Vector2(Position.X, Position.Y + (Size.Y * (Items.Count)));
+            item.Position = new Vector2(Position.X, Position.Y + ((itemFontSize.Y * 1.25f) * Items.Count));
             if (item.BackgroundColour == default(Color)) item.BackgroundColour = BackgroundColour;
             if (item.ForegroundColour == default(Color)) item.ForegroundColour = ForegroundColour;
             if (item.BorderColour == default(Color)) item.BorderColour = BorderColour;
+
+            // alternate the colours so they look a bit better
+            if (Items.Count % 2 == 0)
+            {
+                int altR = item.BackgroundColour.R - 30,
+                    altG = item.BackgroundColour.G - 30,
+                    altB = item.BackgroundColour.B - 30;
+
+                // make sure we are in valid colour ranges (not required for alpha)
+                if (altR < 0) altR = 0;
+                if (altG < 0) altG = 0;
+                if (altB < 0) altB = 0;
+
+                item.BackgroundColour = Color.FromArgb(item.BackgroundColour.A,
+                        altR,
+                        altG,
+                        altB);
+            }
+
+
             item.Filled = true; // set for now
-            item.Font = Font;
+
             Items.Add(item);
         }
 
@@ -88,7 +119,10 @@ namespace LightningGL
             {
                 foreach (ListBoxItem item in Items)
                 {
-                    item.OnRender(cWindow); // this is never null (set in constructor) so we do not need to check that it is.
+                    if (item != SelectedItem)
+                    {
+                        item.OnRender(cWindow); // this is never null (set in constructor) so we do not need to check that it is.
+                    }
                 }
             }
 
