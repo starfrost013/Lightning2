@@ -32,7 +32,7 @@ namespace LightningGL
         /// Initialises the performance profiler.
         /// </summary>
         /// <exception cref="NCException">An error occurred initialising the performance profiler.</exception>
-        public static void Init()
+        internal static void Start()
         {
             DateTime now = DateTime.Now;
             FileName = $"LightningGL-Perf-{now.ToString("yyyyMMdd_HHmmss")}.csv";
@@ -93,6 +93,8 @@ namespace LightningGL
                 double percentile5 = FPSList[percentile5Index];
                 double percentile1 = FPSList[percentile1Index];
 
+                // Write some notable values.
+                FileStream.WriteLine("Notable values\n:");
                 FileStream.WriteLine($"Average={average}");
                 FileStream.WriteLine($"99th%ile={percentile99.ToString("F1")}");
                 FileStream.WriteLine($"95th%ile={percentile95.ToString("F1")}");

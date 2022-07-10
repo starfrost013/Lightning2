@@ -22,7 +22,7 @@ namespace LightningGL
             Metadata = new LocalisationMetadata();
         }
 
-        public static void Load()
+        internal static void Load()
         {
             // globalsettings loader checks for valid file
             NCINIFile localisationIni = NCINIFile.Parse(GlobalSettings.LocalisationFile);

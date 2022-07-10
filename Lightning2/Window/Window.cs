@@ -56,6 +56,7 @@ namespace LightningGL
 
         public void Start(WindowSettings windowSettings)
         {
+            if (GlobalSettings.)
             if (windowSettings == null) _ = new NCException("Passed null WindowSettings to Window init method!", 7, "Window::AddWindow windowSettings parameter null", NCExceptionSeverity.FatalError);
 
             Settings = windowSettings;

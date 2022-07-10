@@ -5,7 +5,7 @@ using System.Numerics;
 namespace LightningGL
 {
     /// <summary>
-    /// UIElement
+    /// Gadget
     /// 
     /// May 13, 2022 (modified June 12, 2022)
     /// </summary>

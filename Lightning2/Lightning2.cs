@@ -14,6 +14,11 @@ namespace LightningGL
     /// </summary>
     public class LightningGL
     {
+        /// <summary>
+        /// Determines if the engine has been initialised correctly.
+        /// </summary>
+        public bool Initialised { get; private set; }
+
         public static void Init()
         {
             try
@@ -49,7 +54,7 @@ namespace LightningGL
                 if (GlobalSettings.ProfilePerf)
                 {
                     NCLogging.Log("Performance Profiler enabled, initialising profiler...");
-                    PerformanceProfiler.Init();
+                    PerformanceProfiler.Start();
                 }
             }
             catch (Exception err)
