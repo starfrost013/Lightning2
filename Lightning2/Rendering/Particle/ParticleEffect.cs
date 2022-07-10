@@ -34,6 +34,9 @@ namespace LightningGL
         /// </summary>
         private List<Particle> Particles { get; set; }
 
+        /// <summary>
+        /// Internal: The texture this effect is rendered to.
+        /// </summary>
         internal Texture Texture { get; private set; }
 
         /// <summary>
@@ -41,8 +44,14 @@ namespace LightningGL
         /// </summary>
         public Vector2 Velocity { get; set; }
 
+        /// <summary>
+        /// Private: Current frame of this particle effect's render
+        /// </summary>
         private int CurFrame { get; set; } 
 
+        /// <summary>
+        /// Treat velocity as an absolute value and do not vary particle positions.
+        /// </summary>
         public bool AbsoluteVelocity { get; set; }
 
         /// <summary>

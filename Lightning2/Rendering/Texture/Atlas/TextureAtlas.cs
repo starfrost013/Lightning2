@@ -1,6 +1,4 @@
-﻿using LightningGL;
-using NuCore.Utilities;
-using System;
+﻿using NuCore.Utilities;
 using System.Drawing;
 using System.Numerics;
 
@@ -60,6 +58,7 @@ namespace LightningGL
 
             int row = (int)(Index / FrameSize.Y);
 
+            // set the viewport
             float startX = FrameSize.X * (Index / (row + 1));
             float startY = FrameSize.Y * row;
             float endX = startX + FrameSize.X;
@@ -67,6 +66,20 @@ namespace LightningGL
 
             ViewportStart = new Vector2(startX, startY);
             ViewportEnd = new Vector2(endX, endY);
+
+            // this logic is here for now until there's a unified TextureManager
+
+            Camera curCamera = cWindow.Settings.Camera;
+
+            if (curCamera != null
+                && !SnapToScreen)
+            {
+                RenderPosition = new Vector2
+                    (
+                        Position.X - curCamera.Position.X,
+                        Position.Y - curCamera.Position.Y
+                    );
+            }
 
             base.Draw(cWindow);
         }
