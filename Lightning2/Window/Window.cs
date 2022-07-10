@@ -170,6 +170,19 @@ namespace LightningGL
 
             SDL_RenderPresent(Settings.RendererHandle);
 
+            int maxFps = GlobalSettings.MaxFPS;
+
+            // Delay for frame limiter
+            if (maxFps > 0)
+            {
+                double targetFrameTime = (1000) / (double)maxFps;
+                double actualFrameTime = LastFrameTime;
+
+                double delayTime = targetFrameTime - actualFrameTime;
+
+                if (delayTime > 0) SDL_Delay((uint)delayTime);
+            }
+
             // Update the internal FPS values.
             Render_UpdateFps();
         }
@@ -179,10 +192,15 @@ namespace LightningGL
             int currentY = (int)Settings.Camera.Position.Y;
             PrimitiveRenderer.DrawText(this, $"FPS: {CurFPS.ToString("F1")} ({LastFrameTime.ToString("F2")}ms)", new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 255, 255), true);
 
-            if (CurFPS < GlobalSettings.TargetFPS)
+            if (CurFPS < GlobalSettings.MaxFPS)
             {
                 currentY += 12;
-                PrimitiveRenderer.DrawText(this, $"Running under target FPS ({GlobalSettings.TargetFPS})!", new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 0, 0), true);
+
+                int maxFps = GlobalSettings.MaxFPS;
+
+                if (maxFps == 0) maxFps = 60;
+
+                PrimitiveRenderer.DrawText(this, $"Running under target FPS ({maxFps})!", new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 0, 0), true);
             }
 
             currentY += 12;

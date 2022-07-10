@@ -24,7 +24,7 @@ namespace LightningGL
         /// <summary>
         /// The target FPS.
         /// </summary>
-        public static int TargetFPS { get; set; }
+        public static int MaxFPS { get; set; }
 
         /// <summary>
         /// Determines if the FPS rate will be shown.
@@ -82,31 +82,25 @@ namespace LightningGL
             if (!File.Exists(LocalisationFile)) _ = new NCException("Engine.ini's Localisation section must have a valid Language value!", 30, "GlobalSettings.Load()", NCExceptionSeverity.FatalError);
 
             // Load the Engine section.
-            string engineTargetFps = engineSection.GetValue("TargetFPS");
+            string engineMaxFps = engineSection.GetValue("MaxFPS");
             string engineShowFps = engineSection.GetValue("ShowFPS");
             string engineProfilePerf = engineSection.GetValue("PerformanceProfiler");
             string engineAboutScreenOnF9 = engineSection.GetValue("EngineAboutScreenOnShiftF9");
 
             // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
-            int engineTargetFpsValue = 0;
+            int engineMaxFpsValue = 0;
             bool engineShowFpsValue = false;
             bool engineProfilePerfValue = false;
             bool engineAboutScreenOnF9Value = true; // default true for now
 
-            if (!int.TryParse(engineTargetFps, out engineTargetFpsValue)) _ = new NCException($"Invalid TargetFPS setting ({engineTargetFps}) in Engine.ini Engine section, setting to 60!", 42, "GlobalSettings.Load()", NCExceptionSeverity.Error);
+            _ = int.TryParse(engineMaxFps, out engineMaxFpsValue);
 
             // we don't care about the values here
             _ = bool.TryParse(engineShowFps, out engineShowFpsValue);
             _ = bool.TryParse(engineProfilePerf, out engineProfilePerfValue);
             if (!bool.TryParse(engineAboutScreenOnF9, out engineAboutScreenOnF9Value)) engineAboutScreenOnF9Value = true; // force the default value
 
-            if (engineTargetFpsValue <= 0)
-            {
-                engineTargetFpsValue = 60;
-                _ = new NCException($"The TargetFPS setting ({engineTargetFps}) must be a positive number, setting to 60!", 43, "GlobalSettings.Load()", NCExceptionSeverity.Error);
-            }
-
-            TargetFPS = engineTargetFpsValue;
+            MaxFPS = engineMaxFpsValue;
             ShowFPS = engineShowFpsValue;
             ProfilePerf = engineProfilePerfValue;
             EngineAboutScreenOnShiftF9 = engineAboutScreenOnF9Value;

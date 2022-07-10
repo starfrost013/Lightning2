@@ -98,7 +98,14 @@ namespace LightningGL
         {
             // call the default handler
             base.MousePressed(button, position);
-            
+
+            // call teh
+            foreach (ListBoxItem item in Items)
+            {
+                // allow the user to override positions
+                item.OnMousePressed(button, position);
+            }
+
             if (AABB.Intersects(this, position))
             {
                 Open = !Open;
