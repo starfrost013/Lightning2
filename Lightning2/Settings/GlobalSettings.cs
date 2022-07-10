@@ -32,14 +32,14 @@ namespace LightningGL
         public static bool ShowFPS { get; set; }
 
         /// <summary>
-        /// Determines whether the performance profiler will be loaded or not
+        /// Determines whether the performance profiler will be loaded or not.
         /// </summary>
         public static bool ProfilePerf { get; set; }
 
         /// <summary>
-        /// Bring up the "About Lightning" messagebox when the F9 key is pressed.
+        /// Bring up the "About Lightning" messagebox when the Shift-F9 combination is pressed.
         /// </summary>
-        public static bool EngineAboutScreenOnF9 { get; set; }
+        public static bool EngineAboutScreenOnShiftF9 { get; set; }
 
         #region Graphics settings
 
@@ -85,17 +85,20 @@ namespace LightningGL
             string engineTargetFps = engineSection.GetValue("TargetFPS");
             string engineShowFps = engineSection.GetValue("ShowFPS");
             string engineProfilePerf = engineSection.GetValue("PerformanceProfiler");
+            string engineAboutScreenOnF9 = engineSection.GetValue("EngineAboutScreenOnShiftF9");
 
             // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
             int engineTargetFpsValue = 0;
             bool engineShowFpsValue = false;
             bool engineProfilePerfValue = false;
+            bool engineAboutScreenOnF9Value = true; // default true for now
 
             if (!int.TryParse(engineTargetFps, out engineTargetFpsValue)) _ = new NCException($"Invalid TargetFPS setting ({engineTargetFps}) in Engine.ini Engine section, setting to 60!", 42, "GlobalSettings.Load()", NCExceptionSeverity.Error);
 
             // we don't care about the values here
             _ = bool.TryParse(engineShowFps, out engineShowFpsValue);
             _ = bool.TryParse(engineProfilePerf, out engineProfilePerfValue);
+            if (!bool.TryParse(engineAboutScreenOnF9, out engineAboutScreenOnF9Value)) engineAboutScreenOnF9Value = true; // force the default value
 
             if (engineTargetFpsValue <= 0)
             {
@@ -106,6 +109,7 @@ namespace LightningGL
             TargetFPS = engineTargetFpsValue;
             ShowFPS = engineShowFpsValue;
             ProfilePerf = engineProfilePerfValue;
+            EngineAboutScreenOnShiftF9 = engineAboutScreenOnF9Value;
 
             // Load the Graphics section.
             string resolutionX = graphicsSection.GetValue("ResolutionX");

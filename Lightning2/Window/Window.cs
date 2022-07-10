@@ -101,6 +101,14 @@ namespace LightningGL
                 {
                     case SDL_EventType.SDL_KEYDOWN:
                         Key curKey = (Key)currentEvent.key;
+
+                        // Show a basic about screen on Shift-F9 (KMOD_SHIFT only triggers when both shift keys are held)
+                        string curKeyString = curKey.KeySym.ToString();
+                        if (curKeyString == "F9"
+                            && (curKey.KeyMod.HasFlag(SDL_Keymod.KMOD_LSHIFT) 
+                            || curKey.KeyMod.HasFlag(SDL_Keymod.KMOD_RSHIFT))
+                            && GlobalSettings.EngineAboutScreenOnShiftF9) ShowEngineAboutScreen();
+
                         UIManager.KeyPressed(curKey);
                         return true; 
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN: // Mouse down event
@@ -194,6 +202,21 @@ namespace LightningGL
 
             if (GlobalSettings.ProfilePerf) PerformanceProfiler.Update(this);
             FrameNumber++;
+        }
+        
+        /// <summary>
+        /// Sets up a simple message box for engine/game information.
+        /// </summary>
+        private void ShowEngineAboutScreen()
+        {
+            NCMessageBox ncmb = new NCMessageBox();
+
+            ncmb.Message = $"Powered by LightningGL\n" +
+                $"Version {L2Version.LIGHTNING_VERSION_EXTENDED_STRING}";
+            ncmb.Title = "About";
+            ncmb.Icon = SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION;
+            ncmb.AddButton("OK", SDL_MessageBoxButtonFlags.SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT | SDL_MessageBoxButtonFlags.SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT);
+            ncmb.Show();
         }
 
         /// <summary>

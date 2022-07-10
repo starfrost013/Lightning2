@@ -32,9 +32,6 @@ namespace LightningGL
         /// </summary>
         internal static bool Initialised { get; private set; }
 
-        // SIN(45)
-        private const float sinus = 0.70710678118f;
-
         static LightManager()
         {
             Lights = new List<Light>();
@@ -78,9 +75,6 @@ namespace LightningGL
         /// <summary>
         /// Internal - used by LightningGL.Shutdown
         /// </summary>
-        internal static void Shutdown()
-        {
-            SDL_DestroyTexture(SSMapTexture.Handle);
-        }
+        internal static void Shutdown() => SDL_DestroyTexture(SSMapTexture.Handle);
     }
 }
