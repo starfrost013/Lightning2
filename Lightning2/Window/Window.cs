@@ -56,11 +56,14 @@ namespace LightningGL
 
         public void Start(WindowSettings windowSettings)
         {
-            if (GlobalSettings.)
+            // Check that the engine has been started.
+            if (!LightningGL.Initialised) _ = new NCException("You cannot start a window without initialising the engine - call Lightning2::Init first!", 0x0001DEAD, "Window::Start called before Lightning2::Init!", NCExceptionSeverity.FatalError);
+
             if (windowSettings == null) _ = new NCException("Passed null WindowSettings to Window init method!", 7, "Window::AddWindow windowSettings parameter null", NCExceptionSeverity.FatalError);
 
             Settings = windowSettings;
 
+            // Create the window,
             Settings.WindowHandle = SDL_CreateWindow(Settings.Title, (int)Settings.Position.X, (int)Settings.Position.Y, (int)Settings.Size.X, (int)Settings.Size.Y, Settings.WindowFlags);
 
             if (Settings.WindowHandle == IntPtr.Zero) _ = new NCException($"Failed to create Window: {SDL_GetError()}", 8, "Window::AddWindow - SDL_CreateWindow failed to create window", NCExceptionSeverity.FatalError);
@@ -68,9 +71,10 @@ namespace LightningGL
             // set the window ID 
             Settings.ID = SDL_GetWindowID(Settings.WindowHandle);
 
+            // Create the renderer.
             Settings.RendererHandle = SDL_CreateRenderer(Settings.WindowHandle, (int)Settings.ID, Settings.RenderFlags);
 
-            if (Settings.RendererHandle == IntPtr.Zero) _ = new NCException($"Failed to create Renderer: {SDL_GetError()}", 9, "Window::AddWindow - SDL_CreateWindow failed to create window", NCExceptionSeverity.FatalError);
+            if (Settings.RendererHandle == IntPtr.Zero) _ = new NCException($"Failed to create Renderer: {SDL_GetError()}", 9, "Window::AddWindow - SDL_CreateRenderer failed to create renderer", NCExceptionSeverity.FatalError);
         }
 
         private void Update()

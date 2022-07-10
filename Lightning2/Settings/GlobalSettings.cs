@@ -36,6 +36,11 @@ namespace LightningGL
         /// </summary>
         public static bool ProfilePerf { get; set; }
 
+        /// <summary>
+        /// Bring up the "About Lightning" messagebox when the F9 key is pressed.
+        /// </summary>
+        public static bool EngineAboutScreenOnF9 { get; set; }
+
         #region Graphics settings
 
         /// <summary>

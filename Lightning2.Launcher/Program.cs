@@ -14,7 +14,7 @@ WindowSettings windowSettings = new WindowSettings();
 
 windowSettings.Title = "LightningGL Example";
 windowSettings.Position = new Vector2(350, 100);
-windowSettings.Size = new Vector2(960, 640);
+//windowSettings.Size = new Vector2(960, 640);
 
 cWindow.Start(windowSettings);
 

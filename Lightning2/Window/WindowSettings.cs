@@ -60,7 +60,9 @@ namespace LightningGL
         public WindowSettings()
         {
             // Show the window by default, set its colour to RGBA 0,0,0,255 (solid black), and set the rendering blend mode to SDL_BLENDMODE_BLEND.
-            WindowFlags = SDL_WindowFlags.SDL_WINDOW_SHOWN;
+            WindowFlags = GlobalSettings.WindowFlags;
+            Size = new Vector2(GlobalSettings.ResolutionX, GlobalSettings.ResolutionY);
+            if (WindowFlags == 0) WindowFlags = SDL_WindowFlags.SDL_WINDOW_SHOWN;
             Background = Color.FromArgb(255, 0, 0, 0);
         }
     }

@@ -17,7 +17,7 @@ namespace LightningGL
         /// <summary>
         /// Determines if the engine has been initialised correctly.
         /// </summary>
-        public bool Initialised { get; private set; }
+        public static bool Initialised { get; private set; }
 
         public static void Init()
         {
@@ -56,10 +56,12 @@ namespace LightningGL
                     NCLogging.Log("Performance Profiler enabled, initialising profiler...");
                     PerformanceProfiler.Start();
                 }
+
+                Initialised = true; 
             }
             catch (Exception err)
             {
-                _ = new NCException($"A fatal error occurred during engine initialisation. The installation may be corrupted", 0x0000DEAD, "Fatal error occurred in Lightning2::Init!", NCExceptionSeverity.FatalError, err);
+                _ = new NCException($"An unknown fatal error occurred during engine initialisation. The installation may be corrupted", 0x0000DEAD, "Fatal error occurred in Lightning2::Init!", NCExceptionSeverity.FatalError, err);
             }
         }
 
@@ -72,6 +74,7 @@ namespace LightningGL
 
         public static void Shutdown(Window cWindow)
         {
+            if (!Initialised) _ = new NCException("Attempted to shutdown without starting! Please call LightningGL::Init!", 95, "LightningGL::Initialised false when calling Lightning2::Shutdown", NCExceptionSeverity.FatalError);
             NCLogging.Log("Shutdown requested.");
 
             NCLogging.Log("Calling UI shutdown events...");
