@@ -20,6 +20,9 @@ namespace LightningGL
         /// </summary>
         private static List<Light> Lights { get; set; }
 
+        /// <summary>
+        /// Internal: Texture used for rendering lights
+        /// </summary>
         internal static Texture SSMapTexture { get; private set; }
 
         /// <summary>

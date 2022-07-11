@@ -19,6 +19,10 @@ namespace LightningGL
             OnRender += Render;
         }
 
+        /// <summary>
+        /// Renders the ListBoxItem
+        /// </summary>
+        /// <param name="cWindow">The <see cref="Window"/> to render the ListBoxItem to.</param>
         public void Render(Window cWindow)
         {
             // set the default background colour

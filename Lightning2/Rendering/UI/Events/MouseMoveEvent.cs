@@ -13,8 +13,8 @@ namespace LightningGL
     /// <param name="position">The position of the last mouse move.</param> 
     public delegate void MouseMoveEvent
     (
+        SDL_MouseButton button,
         Vector2 position,
-        Vector2 velocity, 
-        SDL_MouseButton mouseButton
+        Vector2 velocity
     );
 }

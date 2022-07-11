@@ -185,9 +185,9 @@ namespace LightningGL
             }
         }
 
-        public virtual void ListBoxMouseMove(Vector2 position, Vector2 velocity, SDL_MouseButton button)
+        public virtual void ListBoxMouseMove(SDL_MouseButton button, Vector2 position, Vector2 velocity)
         {
-            base.MouseMove(position, velocity, button);
+            base.MouseMove(button, position, velocity);
 
             // check if the item is intersecting and if so pass the event on
             // and don't close it
@@ -197,7 +197,7 @@ namespace LightningGL
                     && Open)
                 {
                     // allow the user to override positions
-                    item.OnMouseMove(position, velocity, button);
+                    item.OnMouseMove(button, position, velocity);
                 }
             }
         }

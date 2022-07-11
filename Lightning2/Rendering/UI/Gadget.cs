@@ -145,7 +145,7 @@ namespace LightningGL
             Pressed = false;
         }
 
-        public virtual void MouseMove(Vector2 position, Vector2 velocity, SDL_MouseButton button)
+        public virtual void MouseMove(SDL_MouseButton button, Vector2 position, Vector2 velocity)
         {
             if (AABB.Intersects(this, position))
             {

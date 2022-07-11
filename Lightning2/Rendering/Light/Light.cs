@@ -7,7 +7,7 @@ namespace LightningGL
     /// <summary>
     /// Light
     /// 
-    /// April 7, 2022 (modified June 12, 2022)
+    /// April 7, 2022 (modified July 11, 2022)
     /// 
     /// Defines a light. 
     /// </summary>
@@ -23,6 +23,10 @@ namespace LightningGL
             Range = 10;
         }
 
+        /// <summary>
+        /// Renders this Light to a texture
+        /// </summary>
+        /// <param name="cWindow">The window to render this Light to.</param>
         public void RenderToTexture(Window cWindow)
         {
             // Code nicked and modified from

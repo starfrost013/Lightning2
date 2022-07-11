@@ -149,7 +149,7 @@ namespace LightningGL
             {
                 if (uiElement.OnMouseMove != null) // this one is passed regardless of intersection for things like button highlighting
                 {
-                    uiElement.OnMouseMove(cameraPosition, velocity, mouseButton);
+                    uiElement.OnMouseMove(mouseButton, cameraPosition, velocity);
                 }
             }
         }
