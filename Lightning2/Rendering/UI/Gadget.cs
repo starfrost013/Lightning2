@@ -71,9 +71,9 @@ namespace LightningGL
         public Color ForegroundColour { get; set; }
 
         /// <summary>
-        /// The colour used when the mouse is pressing down on this
+        /// The colour used when the mouse is hovering over this Gadget.
         /// </summary>
-        public Color HighlightColour { get; set; }
+        public Color HoverColour { get; set; }
 
         /// <summary>
         /// The colour used when the mouse is pressing down on this gadget.
@@ -136,7 +136,7 @@ namespace LightningGL
             if (AABB.Intersects(this, position))
             {
                 // we are hovering over the button so switch to the background colour
-                CurBackgroundColour = HighlightColour;
+                CurBackgroundColour = HoverColour;
             }
             else
             {
@@ -149,7 +149,7 @@ namespace LightningGL
         {
             if (AABB.Intersects(this, position))
             {
-                CurBackgroundColour = HighlightColour;
+                CurBackgroundColour = HoverColour;
             }
             else
             {

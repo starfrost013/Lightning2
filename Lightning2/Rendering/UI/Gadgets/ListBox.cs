@@ -95,7 +95,9 @@ namespace LightningGL
                         altB);
             }
 
-
+            item.HoverColour = HoverColour;
+            item.PressedColour = PressedColour;
+           
             item.Filled = true; // set for now
 
             // resize the listbox 
@@ -193,12 +195,8 @@ namespace LightningGL
             // and don't close it
             foreach (ListBoxItem item in Items)
             {
-                if (AABB.Intersects(item, position)
-                    && Open)
-                {
-                    // allow the user to override positions
-                    item.OnMouseMove(button, position, velocity);
-                }
+                // don't check for intersection as that's done here.
+                item.OnMouseMove(button, position, velocity);
             }
         }
     }
