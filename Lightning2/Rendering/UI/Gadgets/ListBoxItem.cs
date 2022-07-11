@@ -1,5 +1,4 @@
-﻿using static NuCore.SDL2.SDL;
-using System.Numerics; 
+﻿using System.Drawing;
 
 namespace LightningGL
 {
@@ -18,12 +17,14 @@ namespace LightningGL
         {
             Text = text;
             OnRender += Render;
-            OnMousePressed += ListBoxItemMousePressed;
         }
 
         public void Render(Window cWindow)
         {
-            PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, BackgroundColour, Filled, BorderColour, BorderSize);
+            // set the default background colour
+            if (CurBackgroundColour == default(Color)) CurBackgroundColour = BackgroundColour;
+
+            PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, CurBackgroundColour, Filled, BorderColour, BorderSize);
 
             Font curFont = FontManager.GetFont(Font);
 
@@ -36,11 +37,5 @@ namespace LightningGL
                 FontManager.DrawText(cWindow, Text, Font, Position, ForegroundColour);
             }
         }
-
-        public void ListBoxItemMousePressed(SDL_MouseButton button, Vector2 position)
-        {
-            base.MousePressed(button, position);
-        }
-
     }
 }

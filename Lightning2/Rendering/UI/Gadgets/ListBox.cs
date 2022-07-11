@@ -22,11 +22,6 @@ namespace LightningGL
 
         private int _selectedindex;
 
-        /// <summary>
-        /// Determines if item colours will be alternated on every other item.
-        /// </summary>
-        public bool AlternateItemColours { get; set; }
-
         public int SelectedIndex
         {
             get
@@ -43,6 +38,16 @@ namespace LightningGL
 
         public ListBoxItem SelectedItem => Items[SelectedIndex];
 
+        /// <summary>
+        /// Determines if item colours will be alternated on every other item.
+        /// </summary>
+        public bool AlternateItemColours { get; set; }
+
+        /// <summary>
+        /// Private: Size used to determine the size of the box that is actually drawn when the item is not open
+        /// </summary>
+        private Vector2 BoxSize { get; set; }
+
         public ListBox() : base()
         {
             Items = new List<ListBoxItem>();
@@ -51,7 +56,8 @@ namespace LightningGL
             // if you override the method it calls it twice (because it's defined for both classes)
             // so simply use a different method
             OnMousePressed += ListBoxMousePressed;
-            OnMouseReleased += MouseReleased;
+            OnMouseReleased += ListBoxMouseReleased;
+            OnMouseMove += ListBoxMouseMove;
         }
 
         public void AddItem(ListBoxItem item)
@@ -62,10 +68,11 @@ namespace LightningGL
             Vector2 itemFontSize = FontManager.GetTextSize(itemFont, item.Text);
 
             // size it to the size of the text in the Y dimension
-            item.Size = new Vector2(Size.X, itemFontSize.Y);
+            BoxSize = new Vector2(Size.X, (itemFontSize.Y * 1.25f));
+            item.Size = BoxSize;
 
             // move the item so that it gets drawn in the right place
-            item.Position = new Vector2(Position.X, Position.Y + ((itemFontSize.Y * 1.25f) * Items.Count));
+            item.Position = new Vector2(Position.X, Position.Y + ((itemFontSize.Y * 1.25f) * (Items.Count + 1)));
             if (item.BackgroundColour == default(Color)) item.BackgroundColour = BackgroundColour;
             if (item.ForegroundColour == default(Color)) item.ForegroundColour = ForegroundColour;
             if (item.BorderColour == default(Color)) item.BorderColour = BorderColour;
@@ -91,12 +98,17 @@ namespace LightningGL
 
             item.Filled = true; // set for now
 
+            // resize the listbox 
+            Size = new Vector2(Size.X, Size.Y + (BoxSize.Y));
             Items.Add(item);
         }
 
         public void Render(Window cWindow)
         {
-            PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, CurBackgroundColour, Filled, BorderColour, BorderSize);
+            // set the default background colour
+            if (CurBackgroundColour == default(Color)) CurBackgroundColour = BackgroundColour;
+
+            PrimitiveRenderer.DrawRectangle(cWindow, Position, BoxSize, CurBackgroundColour, Filled, BorderColour, BorderSize);
 
             Font curFont = FontManager.GetFont(Font);
 
@@ -111,7 +123,7 @@ namespace LightningGL
                 }
                 else
                 {
-                    FontManager.DrawText(cWindow, Items[SelectedIndex].Text, Font, Position, ForegroundColour, BackgroundColour);
+                    FontManager.DrawText(cWindow, Items[SelectedIndex].Text, Font, Position, ForegroundColour);
                 }
             }
 
@@ -119,10 +131,7 @@ namespace LightningGL
             {
                 foreach (ListBoxItem item in Items)
                 {
-                    if (item != SelectedItem)
-                    {
-                        item.OnRender(cWindow); // this is never null (set in constructor) so we do not need to check that it is.
-                    }
+                    item.OnRender(cWindow); // this is never null (set in constructor) so we do not need to check if it is.
                 }
             }
 
@@ -133,17 +142,63 @@ namespace LightningGL
             // call the default handler
             base.MousePressed(button, position);
 
-            // call teh
-            foreach (ListBoxItem item in Items)
+            // check if the item is intersecting and if so pass the event on
+            // and don't close it
+            for (int curItem = 0; curItem < Items.Count; curItem++)
             {
-                // allow the user to override positions
-                item.OnMousePressed(button, position);
+                ListBoxItem item = Items[curItem];
+
+                if (AABB.Intersects(item, position)
+                    && Open)
+                {
+                    // select the messagebox 
+                    SelectedIndex = curItem;
+
+                    // allow the user to override positions
+                    item.OnMousePressed(button, position);
+                }
+
             }
 
             if (AABB.Intersects(this, position))
             {
                 Open = !Open;
                 return;
+            }
+        }
+
+
+        public void ListBoxMouseReleased(SDL_MouseButton button, Vector2 position)
+        {
+            base.MouseReleased(button, position);
+
+            // check if the item is intersecting and if so pass the event on
+            // and don't close it
+            foreach (ListBoxItem item in Items)
+            {
+                if (AABB.Intersects(item, position)
+                    && Open)
+                {
+                    // allow the user to override positions
+                    item.OnMouseReleased(button, position);
+                }
+            }
+        }
+
+        public virtual void ListBoxMouseMove(Vector2 position, Vector2 velocity, SDL_MouseButton button)
+        {
+            base.MouseMove(position, velocity, button);
+
+            // check if the item is intersecting and if so pass the event on
+            // and don't close it
+            foreach (ListBoxItem item in Items)
+            {
+                if (AABB.Intersects(item, position)
+                    && Open)
+                {
+                    // allow the user to override positions
+                    item.OnMouseMove(position, velocity, button);
+                }
             }
         }
     }
