@@ -46,7 +46,7 @@ namespace MakePackage
                 string thisArg = args[curArg];
                 string nextArg = null;
 
-                if (curArg - args.Length > 1) nextArg = args[curArg + 1];
+                if (args.Length - curArg > 1) nextArg = args[curArg + 1];
 
                 // case-insensitive
                 thisArg = thisArg.ToLower(); 
@@ -70,17 +70,22 @@ namespace MakePackage
                         EngineVersion = nextArg;
                         continue;
                 }
-
-                if (InFolder == null
-                    || OutFile == null)
-                {
-                    NCLogging.Log("Error: -infolder and -outfile must both be specified!", ConsoleColor.Red, false, false);
-                    return false;
-                }
-
-                if (!OutFile.Contains(".wad")) NCLogging.Log("Warning: By convention, the package file for your game should have a .wad extension!", ConsoleColor.Yellow, false, false);
-
+               
             }
+
+            if (Name == null) Name = "Game name here";
+            if (GameVersion == null) GameVersion = "1.0";
+            // temporary version
+            if (EngineVersion == null) EngineVersion = "1.0.138";
+
+            if (InFolder == null
+                   || OutFile == null)
+            {
+                NCLogging.Log("Error: -infolder and -outfile must both be specified!", ConsoleColor.Red, false, false);
+                return false;
+            }
+
+            if (!OutFile.Contains(".wad")) NCLogging.Log("Warning: By convention, the package file for your game should have a .wad extension!", ConsoleColor.Yellow, false, false);
 
             return true; 
         }
@@ -93,9 +98,9 @@ namespace MakePackage
                 "-infolder: Input folder to generate the package file from.\n" +
                 "-outfile: Output file for the package file. Should be .wad.\n\n" +
                 "Optional arguments:\n\n" +
-                "-gamename [-name]: Optional game name." +
-                "-gameversion: Optional game version." +
-                "-engineversion: Optional engine version.");
+                "-gamename [-name]: Optional game name.\n" +
+                "-gameversion: Optional game version.\n" +
+                "-engineversion: Optional engine version.\n", ConsoleColor.White, false, false);
         }
     }
 }

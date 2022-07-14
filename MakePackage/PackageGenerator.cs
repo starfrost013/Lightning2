@@ -27,24 +27,30 @@ namespace MakePackage
                 packageFile.AddEntry(new PackageFileCatalogEntry(fileName));
             }
 
+            AddRecursively(packageFile);
+
+            PackageFileMetadata metadata = new PackageFileMetadata();
+
+            metadata.Name = CommandLine.Name;
+            metadata.GameVersion = CommandLine.GameVersion;
+            metadata.EngineVersion = CommandLine.EngineVersion;
+
             return Packager.GeneratePackage(packageFile,
                 CommandLine.OutFile,
-                CommandLine.Name, 
-                CommandLine.GameVersion,
-                CommandLine.EngineVersion);
+                metadata);
         }
 
         public static void AddRecursively(PackageFile packageFile, string curDirectory = null)
         {
             if (curDirectory == null) curDirectory = CommandLine.InFolder;
 
-            foreach (string fileName in Directory.GetFiles(curDirectory))
-            {
-                packageFile.AddEntry(new PackageFileCatalogEntry(fileName));
-            }
-
             foreach (string dirName in Directory.GetDirectories(curDirectory))
             {
+                foreach (string fileName in Directory.GetFiles(dirName))
+                {
+                    packageFile.AddEntry(new PackageFileCatalogEntry(fileName));
+                }
+
                 if (Directory.GetDirectories(dirName).Length > 0)
                 {
                     AddRecursively(packageFile, curDirectory);

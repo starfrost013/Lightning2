@@ -50,11 +50,13 @@ namespace LightningPackager
                 writer.Write(fileData);
 
                 // subtract 8 and write the real file position
-                writer.BaseStream.Seek(entryPosition - 8, SeekOrigin.Begin);
+                writer.BaseStream.Seek(entryPosition - 16, SeekOrigin.Begin);
                 writer.Write(curPosition);
 
+                curPosition += entry.Size;
+
                 // get ready to write the next file
-                writer.BaseStream.Seek(curPosition + entry.Size, SeekOrigin.Begin);
+                writer.BaseStream.Seek(curPosition, SeekOrigin.Begin);
             }
         }
     }

@@ -96,7 +96,7 @@ namespace NuCore.Utilities
                 // get the last called method
                 // stack frame 2 is the previously executing method (before log was called)
 
-                MethodBase method = st.GetFrame(2).GetMethod();
+                MethodBase method = st.GetFrame(1).GetMethod();
 
                 string methodName = method.Name;
                 string className = method.ReflectedType.Name;

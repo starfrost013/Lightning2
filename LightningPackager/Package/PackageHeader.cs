@@ -18,11 +18,9 @@ namespace LightningPackager
         public const string Magic = "feed me data!";
 
         public const byte FormatVersionMajor = 1;
-        public const byte FormatVersionMinor = 2;
+        public const byte FormatVersionMinor = 3;
 
-        public string Name { get; set; }
-        public string GameVersion { get; set; }
-        public string EngineVersion { get; set; }
+        public PackageFileMetadata Metadata { get; set; }
 
         public int HeaderSize
         {
@@ -30,16 +28,19 @@ namespace LightningPackager
             {
                 // + 1 as it writes byte information
                 // 8 as timestamp is 8 bytes
-                return (Magic.Length + 1) + 2 + 8 + (Name.Length + 1) + (GameVersion.Length + 1) + (EngineVersion.Length + 1);
+                return (Magic.Length + 1) + 3 + 8 + (Metadata.Name.Length + 1) + (Metadata.GameVersion.Length + 1) + (Metadata.EngineVersion.Length + 1);
             }
         }
 
         public PackageHeader()
         {
-            Name = "Game name here";
-            GameVersion = "1.0";
+            Metadata = new PackageFileMetadata();
+
+            Metadata.Name = "Game name here";
+            Metadata.GameVersion = "1.0";
             // temporary version
-            EngineVersion = "1.0.138";
+            Metadata.EngineVersion = "1.0.138";
+            Metadata.CompressionMode = PackageFileCompressionMode.LZMA;
         }
 
         public static long TimeStamp => DateTimeOffset.Now.ToUnixTimeSeconds();
@@ -49,10 +50,11 @@ namespace LightningPackager
             stream.Write(Magic);
             stream.Write(FormatVersionMajor);
             stream.Write(FormatVersionMinor);
+            stream.Write((byte)Metadata.CompressionMode);
             stream.Write(TimeStamp);
-            stream.Write(Name);
-            stream.Write(GameVersion);
-            stream.Write(EngineVersion);
+            stream.Write(Metadata.Name);
+            stream.Write(Metadata.GameVersion);
+            stream.Write(Metadata.EngineVersion);
         }
     }
 }

@@ -35,15 +35,20 @@ namespace LightningPackager
         {
             Path = path;
             if (!File.Exists(Path)) _ = new NCException($"Attempted to add a non-existent file ({path}) to a PackageFileCatalog!", 96, "PackageFileCatalogEntry constructor: Path does not exist!", NCExceptionSeverity.FatalError);
-            
+
+            FileInfo fileInfo = new FileInfo(Path);
+            Size = fileInfo.Length;
+            TimeStamp = fileInfo.LastWriteTimeUtc;
         }
 
         public void Write(BinaryWriter writer)
         {
-            writer.Write(Path);
-
-            FileInfo fileInfo = new FileInfo(Path);
-            writer.Write(new DateTimeOffset(fileInfo.LastWriteTimeUtc).ToUnixTimeSeconds());
+            // remove both possible path separator characters (we can't use pathseparatorcharacter here)
+            string realPath = Path;
+            realPath = realPath.Replace("../", "");
+            realPath = realPath.Replace("..\\", "");
+            writer.Write(realPath);
+            writer.Write(new DateTimeOffset(TimeStamp).ToUnixTimeSeconds());
             writer.Write(Start);
             writer.Write(Size);
         }

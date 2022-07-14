@@ -1,7 +1,7 @@
 ﻿using MakePackage;
 using NuCore.Utilities;
 
-// See https://aka.ms/new-console-template for more information
+NCLogging.Init();
 
 bool validArgs = false;
 
