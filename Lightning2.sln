@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuCore.Utilities", "NuCore.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightningGL.Test", "Lightning2.Launcher\LightningGL.Test.csproj", "{BBB9BEBA-D492-454A-A542-072C5F49A041}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightningPackager", "LightningPackager\LightningPackager.csproj", "{5D91D615-A3BF-4689-920D-92DD47522FDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightningPackager", "LightningPackager\LightningPackager.csproj", "{5D91D615-A3BF-4689-920D-92DD47522FDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakePackage", "MakePackage\MakePackage.csproj", "{48A97737-89DF-42AB-9E82-47DA146A3154}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{5D91D615-A3BF-4689-920D-92DD47522FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D91D615-A3BF-4689-920D-92DD47522FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D91D615-A3BF-4689-920D-92DD47522FDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48A97737-89DF-42AB-9E82-47DA146A3154}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48A97737-89DF-42AB-9E82-47DA146A3154}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48A97737-89DF-42AB-9E82-47DA146A3154}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48A97737-89DF-42AB-9E82-47DA146A3154}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

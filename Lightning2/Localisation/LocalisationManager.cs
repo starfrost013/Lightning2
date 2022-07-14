@@ -12,9 +12,15 @@ namespace LightningGL
     /// </summary>
     public static class LocalisationManager
     {
-        public static Dictionary<string, string> Strings { get; set; }
+        /// <summary>
+        /// The dictionary holding localisation strings.
+        /// </summary>
+        public static Dictionary<string, string> Strings { get; private set; }
 
-        public static LocalisationMetadata Metadata { get; set; }
+        /// <summary>
+        /// Internal: Class holding metadata for the localisation manager
+        /// </summary>
+        internal static LocalisationMetadata Metadata { get; set; }
 
         static LocalisationManager()
         {

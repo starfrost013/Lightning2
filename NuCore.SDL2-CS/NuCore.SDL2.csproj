@@ -11,6 +11,7 @@
     <Description>NuCore SDL2 Bindings</Description>
     <Authors>Ethan, starfrost</Authors>
     <Version>3.0.9</Version>
+    <SignAssembly>False</SignAssembly>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
