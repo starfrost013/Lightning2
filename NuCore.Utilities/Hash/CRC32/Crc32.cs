@@ -11,7 +11,7 @@ namespace NuCore.Utilities
     /// 
     /// TEMPORARY until .NET 7.0 
     /// </summary>
-    internal static class CRC32
+    public static class CRC32
     {
         /// <summary>
         /// The polynomial we use to XOR the result with in some cases.

@@ -18,7 +18,7 @@ namespace LightningPackager
         public const string Magic = "feed me data!";
 
         public const byte FormatVersionMajor = 1;
-        public const byte FormatVersionMinor = 3;
+        public const byte FormatVersionMinor = 4;
 
         public PackageFileMetadata Metadata { get; set; }
 

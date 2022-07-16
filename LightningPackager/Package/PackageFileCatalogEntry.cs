@@ -29,6 +29,8 @@ namespace LightningPackager
         }
         public DateTime TimeStamp { get; set; }
 
+        public uint Crc32 { get; set; }
+        
         public ulong Start { get; set; }
 
         internal long Size { get; set; }
@@ -39,9 +41,10 @@ namespace LightningPackager
             {
                 // + 1 as streamwriter puts a length byte 
 
+                // + 4 for Crc32
                 // + 8 for timestamp
-                // + 16 for two ulongs
-                return (uint)(RealPath.Length + 1) + 8 + 16; 
+                // + 16 for two ulongs (start and size)
+                return (uint)(RealPath.Length + 1) + 4 + 8 + 16; 
             }
         }
 
@@ -57,9 +60,9 @@ namespace LightningPackager
 
         public void Write(BinaryWriter writer)
         {
-
             writer.Write(RealPath);
             writer.Write(new DateTimeOffset(TimeStamp).ToUnixTimeSeconds());
+            writer.Write(Crc32);
             writer.Write(Start);
             writer.Write(Size);
         }
