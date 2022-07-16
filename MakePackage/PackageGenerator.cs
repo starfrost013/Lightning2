@@ -20,24 +20,36 @@ namespace MakePackage
                 return false;
             }
 
-            PackageFile packageFile = new PackageFile();
-
-            foreach (string fileName in Directory.GetFiles(CommandLine.InFolder))
-            {
-                packageFile.AddEntry(new PackageFileCatalogEntry(fileName));
-            }
-
-            AddRecursively(packageFile);
-
             PackageFileMetadata metadata = new PackageFileMetadata();
 
             metadata.Name = CommandLine.Name;
             metadata.GameVersion = CommandLine.GameVersion;
             metadata.EngineVersion = CommandLine.EngineVersion;
+            metadata.CompressionMode = CommandLine.CompressionMode;
+
+            PackageFile packageFile = new PackageFile(metadata);
+
+            foreach (string fileName in Directory.GetFiles(CommandLine.InFolder))
+            {
+                if (CommandLine.AllowBinaries
+                    || (!fileName.Contains(".exe")
+                    && !fileName.Contains(".dll")
+                    && !fileName.Contains(".sys")
+                    && !fileName.Contains(".ocx")
+                    && !fileName.Contains(".scr")
+                    && !fileName.Contains(".cpl")
+                    && !fileName.Contains(".winmd")
+                    && !fileName.Contains(".rll")))
+                {
+                    packageFile.AddEntry(new PackageFileCatalogEntry(fileName));
+                }
+
+            }
+
+            AddRecursively(packageFile);
 
             return Packager.GeneratePackage(packageFile,
-                CommandLine.OutFile,
-                metadata);
+                CommandLine.OutFile);
         }
 
         public static void AddRecursively(PackageFile packageFile, string curDirectory = null)
@@ -48,7 +60,18 @@ namespace MakePackage
             {
                 foreach (string fileName in Directory.GetFiles(dirName))
                 {
-                    packageFile.AddEntry(new PackageFileCatalogEntry(fileName));
+                    if (CommandLine.AllowBinaries
+                        || (!fileName.Contains(".exe")
+                        && !fileName.Contains(".dll")
+                        && !fileName.Contains(".sys")
+                        && !fileName.Contains(".ocx")
+                        && !fileName.Contains(".scr")
+                        && !fileName.Contains(".cpl")
+                        && !fileName.Contains(".winmd")
+                        && !fileName.Contains(".rll")))
+                    {
+                        packageFile.AddEntry(new PackageFileCatalogEntry(fileName));
+                    }
                 }
 
                 if (Directory.GetDirectories(dirName).Length > 0)

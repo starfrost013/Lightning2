@@ -1,4 +1,5 @@
-﻿using NuCore.Utilities;
+﻿using LightningPackager;
+using NuCore.Utilities;
 
 namespace MakePackage
 {
@@ -37,70 +38,101 @@ namespace MakePackage
         /// </summary>
         public static string EngineVersion { get; set; }
 
+        /// <summary>
+        /// Allow binaries to be included in the generated package.
+        /// </summary>
+        public static bool AllowBinaries { get; set; }
+
+        /// <summary>
+        /// The compression mode of the generated package.
+        /// </summary>
+        public static PackageFileCompressionMode CompressionMode { get; set; }
+
+        static CommandLine()
+        {
+            CompressionMode = PackageFileCompressionMode.LZMA | PackageFileCompressionMode.XOR;
+        }
+
         public static bool Parse(string[] args)
         {
-            if (args.Length < 4) return false;
-
-            for (int curArg = 0; curArg < args.Length; curArg++)
+            try
             {
-                string thisArg = args[curArg];
-                string nextArg = null;
+                if (args.Length < 4) return false;
 
-                if (args.Length - curArg > 1) nextArg = args[curArg + 1];
-
-                // case-insensitive
-                thisArg = thisArg.ToLower(); 
-
-                switch (thisArg)
+                for (int curArg = 0; curArg < args.Length; curArg++)
                 {
-                    case "-infolder":
-                        InFolder = nextArg;
-                        continue;
-                    case "-outfile":
-                        OutFile = nextArg;
-                        continue;
-                    case "-name":
-                    case "-gamename":
-                        Name = nextArg;
-                        continue;
-                    case "-gameversion":
-                        GameVersion = nextArg;
-                        continue;
-                    case "-engineversion":
-                        EngineVersion = nextArg;
-                        continue;
+                    string thisArg = args[curArg];
+                    string nextArg = null;
+
+                    if (args.Length - curArg > 1) nextArg = args[curArg + 1];
+
+                    // case-insensitive
+                    thisArg = thisArg.ToLower();
+
+                    switch (thisArg)
+                    {
+                        case "-infolder":
+                            InFolder = nextArg;
+                            continue;
+                        case "-outfile":
+                            OutFile = nextArg;
+                            continue;
+                        case "-name":
+                        case "-gamename":
+                            Name = nextArg;
+                            continue;
+                        case "-gameversion":
+                            GameVersion = nextArg;
+                            continue;
+                        case "-engineversion":
+                            EngineVersion = nextArg;
+                            continue;
+                        case "-allowbinaries":
+                            AllowBinaries = true;
+                            continue;
+                        case "-compressionmode":
+                            CompressionMode = (PackageFileCompressionMode)Enum.Parse(typeof(PackageFileCompressionMode), nextArg);
+                            continue;
+                    }
+
                 }
-               
+
+                if (Name == null) Name = "Game name here";
+                if (GameVersion == null) GameVersion = "1.0";
+                // temporary version
+                if (EngineVersion == null) EngineVersion = "1.0.138";
+
+                if (InFolder == null
+                       || OutFile == null)
+                {
+                    NCLogging.Log("Error: -infolder and -outfile must both be specified!", ConsoleColor.Red, false, false);
+                    return false;
+                }
+
+                if (!OutFile.Contains(".wad")) NCLogging.Log("Warning: By convention, the package file for your game should have a .wad extension!", ConsoleColor.Yellow, false, false);
+
+                return true;
             }
-
-            if (Name == null) Name = "Game name here";
-            if (GameVersion == null) GameVersion = "1.0";
-            // temporary version
-            if (EngineVersion == null) EngineVersion = "1.0.138";
-
-            if (InFolder == null
-                   || OutFile == null)
+            catch (Exception err)
             {
-                NCLogging.Log("Error: -infolder and -outfile must both be specified!", ConsoleColor.Red, false, false);
+                NCLogging.Log($"An error occurred while parsing arguments: {err.Message}");
                 return false;
             }
-
-            if (!OutFile.Contains(".wad")) NCLogging.Log("Warning: By convention, the package file for your game should have a .wad extension!", ConsoleColor.Yellow, false, false);
-
-            return true; 
         }
 
         public static void ShowHelp()
         {
             NCLogging.Log("MakePackage -infolder [input folder] -outfile [output folder] [args...]\n" +
-                "Makes a Lightning package file.\n\n" +
+                "Makes a Lightning package (WAD) file.\n\n" +
                 "Required arguments:\n\n" +
                 "-infolder: Input folder to generate the package file from.\n" +
                 "-outfile: Output file for the package file. Should be .wad.\n\n" +
                 "Optional arguments:\n\n" +
                 "-gamename [-name]: Optional game name.\n" +
                 "-gameversion: Optional game version.\n" +
-                "-engineversion: Optional engine version.\n", ConsoleColor.White, false, false);
+                "-engineversion: Optional engine version.\n" +
+                "-allowbinaries: Allow binaries in the WAD file. Default is false.\n" +
+                "-compressionmode: Final compression mode of the WAD file.", ConsoleColor.White, false, false);
         }
     }
 }

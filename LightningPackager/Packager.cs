@@ -19,15 +19,12 @@ namespace LightningPackager
         }
 
         public static bool GeneratePackage(PackageFile packageFile, 
-            string path, PackageFileMetadata metadata)
+            string path)
         {
             NCLogging.Log("Generating WAD file...");
 
             try
             {
-                packageFile.Header.Metadata.Name = metadata.Name;
-                packageFile.Header.Metadata.GameVersion = metadata.GameVersion;
-                packageFile.Header.Metadata.EngineVersion = metadata.EngineVersion;
                 packageFile.Write(path);
                 return true; 
             }

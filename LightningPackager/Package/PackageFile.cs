@@ -1,4 +1,5 @@
-﻿using NuCore.Utilities;
+﻿using ManagedLzma.LZMA;
+using NuCore.Utilities;
 
 namespace LightningPackager
 {
@@ -13,13 +14,30 @@ namespace LightningPackager
 
         public PackageFileCatalog Catalog { get; set; }
 
-        public PackageFile()
+        private byte xorKey = 0xD1;
+
+        public PackageFile(PackageFileMetadata metadata)
         {
-            Header = new PackageHeader();
+            Header = new PackageHeader(metadata);
             Catalog = new PackageFileCatalog(); 
         }
 
         public void AddEntry(PackageFileCatalogEntry entry) => Catalog.AddEntry(entry);
+
+        public void Read(string path, string outDir)
+        {
+            NCLogging.Log($"Loading WAD from {path}, extracting to {outDir}..."); 
+            
+            using (BinaryReader reader = new BinaryReader(new FileStream(path)))
+            {
+
+            }
+        }
+
+        private void Deobfuscate(byte[] obfuscatedBytes)
+        {
+            
+        }
 
         public void Write(string path)
         {
@@ -34,6 +52,30 @@ namespace LightningPackager
                 Catalog.Write(stream, Header.HeaderSize);
             }
 
+            if (Header.Metadata.CompressionMode.HasFlag(PackageFileCompressionMode.XOR)) Obfuscate(path);
+
         }
+
+        private void Obfuscate(string path)
+        {
+            NCLogging.Log("Obfuscating (XOR key=0xD1)...");
+
+            byte[] allBytes = File.ReadAllBytes(path);
+
+            List<byte> xorBytes = new List<byte>();
+
+            foreach (byte curByte in allBytes)
+            {
+                byte xorByte = Convert.ToByte(curByte ^ xorKey);
+
+                // decrement by 1 and enforce wraparound
+                xorByte -= 3;
+
+                xorBytes.Add(xorByte);
+            }
+
+            File.WriteAllBytes(path, xorBytes.ToArray());
+        }
+
     }
 }

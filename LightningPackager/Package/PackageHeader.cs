@@ -17,8 +17,9 @@ namespace LightningPackager
     {
         public const string Magic = "feed me data!";
 
-        public const byte FormatVersionMajor = 1;
-        public const byte FormatVersionMinor = 4;
+        public static byte[] ObfuscatedMagic = { 0xD9, 0xB4, 0xB1, 0xB1, 0xB2, 0xEE, 0xB9, 0xB1};
+        public const byte FormatVersionMajor = 2;
+        public const byte FormatVersionMinor = 1;
 
         public PackageFileMetadata Metadata { get; set; }
 
@@ -32,15 +33,9 @@ namespace LightningPackager
             }
         }
 
-        public PackageHeader()
+        public PackageHeader(PackageFileMetadata metadata)
         {
-            Metadata = new PackageFileMetadata();
-
-            Metadata.Name = "Game name here";
-            Metadata.GameVersion = "1.0";
-            // temporary version
-            Metadata.EngineVersion = "1.0.138";
-            Metadata.CompressionMode = PackageFileCompressionMode.LZMA;
+            Metadata = metadata;
         }
 
         public static long TimeStamp => DateTimeOffset.Now.ToUnixTimeSeconds();
