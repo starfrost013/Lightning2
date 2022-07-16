@@ -13,6 +13,20 @@ namespace LightningPackager
     {
         public string Path { get; set; }
 
+        /// <summary>
+        /// Private: Real (relative to archive) path written to the file.
+        /// </summary>
+        private string RealPath
+        {
+            get
+            {
+                // remove both possible path separator characters (we can't use pathseparatorcharacter here)
+                string realPath = Path;
+                realPath = realPath.Replace("../", "");
+                realPath = realPath.Replace("..\\", "");
+                return realPath;
+            }
+        }
         public DateTime TimeStamp { get; set; }
 
         public ulong Start { get; set; }
@@ -27,7 +41,7 @@ namespace LightningPackager
 
                 // + 8 for timestamp
                 // + 16 for two ulongs
-                return (uint)(Path.Length + 1) + 8 + 16; 
+                return (uint)(RealPath.Length + 1) + 8 + 16; 
             }
         }
 
@@ -43,11 +57,8 @@ namespace LightningPackager
 
         public void Write(BinaryWriter writer)
         {
-            // remove both possible path separator characters (we can't use pathseparatorcharacter here)
-            string realPath = Path;
-            realPath = realPath.Replace("../", "");
-            realPath = realPath.Replace("..\\", "");
-            writer.Write(realPath);
+
+            writer.Write(RealPath);
             writer.Write(new DateTimeOffset(TimeStamp).ToUnixTimeSeconds());
             writer.Write(Start);
             writer.Write(Size);

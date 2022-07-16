@@ -30,9 +30,9 @@ namespace LightningPackager
                 entry.Write(writer);
             }
 
-            NCLogging.Log("Wrote catalog entries, writing file data...");
+            NCLogging.Log("Written catalog entries, writing file data...");
 
-            long entryPosition = headerSize;
+            long entryPosition = headerSize + (Magic.Length + 1);
 
             for (int curEntry = 0; curEntry < Entries.Count; curEntry++)
             {     
