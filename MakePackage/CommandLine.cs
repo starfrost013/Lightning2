@@ -44,6 +44,21 @@ namespace MakePackage
         public static bool AllowBinaries { get; set; }
 
         /// <summary>
+        /// Determines if extract mode is on
+        /// </summary>
+        public static bool Extract { get; set; }
+        
+        /// <summary>
+        /// If extract mode is on, specifies thw input file to extract.
+        /// </summary>
+        public static string InFile { get; set; }
+
+        /// <summary>
+        /// If extract made is on, specifies the output folder to extract.
+        /// </summary>
+        public static string OutFolder { get; set; }
+
+        /// <summary>
         /// The compression mode of the generated package.
         /// </summary>
         public static PackageFileCompressionMode CompressionMode { get; set; }
@@ -93,6 +108,9 @@ namespace MakePackage
                         case "-compressionmode":
                             CompressionMode = (PackageFileCompressionMode)Enum.Parse(typeof(PackageFileCompressionMode), nextArg);
                             continue;
+                        case "-extract":
+                            Extract = true;
+                            continue;
                     }
 
                 }
@@ -123,6 +141,7 @@ namespace MakePackage
         public static void ShowHelp()
         {
             NCLogging.Log("MakePackage -infolder [input folder] -outfile [output folder] [args...]\n" +
+                "MakePackage -extract [file] [output folder]" +
                 "Makes a Lightning package (WAD) file.\n\n" +
                 "Required arguments:\n\n" +
                 "-infolder: Input folder to generate the package file from.\n" +

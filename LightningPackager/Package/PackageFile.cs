@@ -14,7 +14,13 @@ namespace LightningPackager
 
         public PackageFileCatalog Catalog { get; set; }
 
-        private byte xorKey = 0xD1;
+        private byte Key = 0xD1;
+
+        /// <summary>
+        /// Chunk length used for deobfuscation.
+        /// 1MB chunks used to reduce memory usage.
+        /// </summary>
+        private int DeobfuscateChunkLength = 1048576;
 
         public PackageFile(PackageFileMetadata metadata)
         {
@@ -24,19 +30,66 @@ namespace LightningPackager
 
         public void AddEntry(PackageFileCatalogEntry entry) => Catalog.AddEntry(entry);
 
-        public void Read(string path, string outDir)
+        public bool Extract(string path, string outDir)
         {
-            NCLogging.Log($"Loading WAD from {path}, extracting to {outDir}..."); 
-            
-            using (BinaryReader reader = new BinaryReader(new FileStream(path)))
-            {
+            NCLogging.Log($"Loading WAD from {path}, extracting to {outDir}...");
 
+            if (!File.Exists(path)) _ = new NCException($"The file at {path} does not exist!", 98, "PackageFile::Read path parameter is a non-existent file!", NCExceptionSeverity.FatalError);
+
+            BinaryReader reader = new BinaryReader(new FileStream(path, FileMode.Open));
+
+            // read series of bytes
+            byte[] bytes = reader.ReadBytes(PackageHeader.ObfuscatedMagic.Length);
+
+            // if it's equal to the obfuscated magic...
+            if (bytes == PackageHeader.ObfuscatedMagic)
+            {
+                NCLogging.Log($"File is obfuscated, deobfuscating...");
+                // deobfuscate
+                reader = Deobfuscate(path, reader);
             }
+            
+            // seek to zero as we've deobfuscated
+            reader.BaseStream.Seek(0, SeekOrigin.Begin);
+            string magic = reader.ReadString();
+
+            if (magic != PackageHeader.Magic) _ = new NCException($"{path} is not a WAD file or magic is corrupt (expected {PackageHeader.Magic}, got {magic}!", 99, $"PackageFile::Read - could not identify obfuscated or non-obfuscated header!");
+
+            return true;
         }
 
-        private void Deobfuscate(byte[] obfuscatedBytes)
+        private BinaryReader Deobfuscate(string path, BinaryReader reader)
         {
-            
+            // Deobfuscate the file.
+            // Seek to 0 then read until the end of the file.
+
+            // use the already oepn reader to reduce reopening/closing of the file 
+            // only read 32kbytes at a time to reduce memory usage
+
+            long numOfChunks = reader.BaseStream.Length / DeobfuscateChunkLength;
+
+            List<byte> deobfuscatedBytes = new List<byte>();
+
+            for (int curChunk = 0; curChunk <= numOfChunks; curChunk++)
+            {
+                byte[] fileBytes = reader.ReadBytes(DeobfuscateChunkLength); 
+
+                // read that chunk
+                foreach (byte b in fileBytes)
+                {
+                    byte deobfuscatedByte = b;
+                    deobfuscatedByte += 3; // increment by 3
+                    deobfuscatedBytes.Add(Convert.ToByte(deobfuscatedByte ^ Key)); // use key 
+                }
+
+            }
+
+            reader.Close();
+
+            File.WriteAllBytes(path, deobfuscatedBytes.ToArray());
+
+            reader = new BinaryReader(new FileStream(path, FileMode.Open));
+            return reader; 
         }
 
         public void Write(string path)
@@ -66,7 +119,7 @@ namespace LightningPackager
 
             foreach (byte curByte in allBytes)
             {
-                byte xorByte = Convert.ToByte(curByte ^ xorKey);
+                byte xorByte = Convert.ToByte(curByte ^ Key);
 
                 // decrement by 1 and enforce wraparound
                 xorByte -= 3;

@@ -14,42 +14,54 @@ namespace MakePackage
     {
         public static bool StandardRun()
         {
-            if (!Directory.Exists(CommandLine.InFolder))
+            if (CommandLine.Extract)
             {
-                NCLogging.Log($"Error: The directory {CommandLine.InFolder} does not exist!", ConsoleColor.Red, false, false);
-                return false;
-            }
-
-            PackageFileMetadata metadata = new PackageFileMetadata();
-
-            metadata.Name = CommandLine.Name;
-            metadata.GameVersion = CommandLine.GameVersion;
-            metadata.EngineVersion = CommandLine.EngineVersion;
-            metadata.CompressionMode = CommandLine.CompressionMode;
-
-            PackageFile packageFile = new PackageFile(metadata);
-
-            foreach (string fileName in Directory.GetFiles(CommandLine.InFolder))
-            {
-                if (CommandLine.AllowBinaries
-                    || (!fileName.Contains(".exe")
-                    && !fileName.Contains(".dll")
-                    && !fileName.Contains(".sys")
-                    && !fileName.Contains(".ocx")
-                    && !fileName.Contains(".scr")
-                    && !fileName.Contains(".cpl")
-                    && !fileName.Contains(".winmd")
-                    && !fileName.Contains(".rll")))
+                if (!Directory.Exists(CommandLine.InFolder))
                 {
-                    packageFile.AddEntry(new PackageFileCatalogEntry(fileName));
+                    NCLogging.Log($"Error: The directory {CommandLine.InFolder} does not exist!", ConsoleColor.Red, false, false);
+                    return false;
                 }
 
+                PackageFileMetadata metadata = new PackageFileMetadata();
+
+                metadata.Name = CommandLine.Name;
+                metadata.GameVersion = CommandLine.GameVersion;
+                metadata.EngineVersion = CommandLine.EngineVersion;
+                metadata.CompressionMode = CommandLine.CompressionMode;
+
+                PackageFile packageFile = new PackageFile(metadata);
+
+                foreach (string fileName in Directory.GetFiles(CommandLine.InFolder))
+                {
+                    if (CommandLine.AllowBinaries
+                        || (!fileName.Contains(".exe")
+                        && !fileName.Contains(".dll")
+                        && !fileName.Contains(".sys")
+                        && !fileName.Contains(".ocx")
+                        && !fileName.Contains(".scr")
+                        && !fileName.Contains(".cpl")
+                        && !fileName.Contains(".winmd")
+                        && !fileName.Contains(".rll")))
+                    {
+                        packageFile.AddEntry(new PackageFileCatalogEntry(fileName));
+                    }
+                }
+
+                AddRecursively(packageFile);
+
+                return Packager.GeneratePackage(packageFile,
+                    CommandLine.OutFile);
             }
+            else
+            {
+                if (!File.Exists(CommandLine.InFile))
+                {
+                    NCLogging.Log($"Error: The file {CommandLine.InFile} does not exist!", ConsoleColor.Red, false, false);
+                    return false;
+                }
 
-            AddRecursively(packageFile);
-
-            return Packager.GeneratePackage(packageFile,
-                CommandLine.OutFile);
+                return Packager.LoadPackage(CommandLine.InFile, CommandLine.OutFolder);
+            }
         }
 
         public static void AddRecursively(PackageFile packageFile, string curDirectory = null)
