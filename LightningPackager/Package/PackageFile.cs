@@ -34,7 +34,7 @@ namespace LightningPackager
         {
             NCLogging.Log($"Loading WAD from {path}, extracting to {outDir}...");
 
-            if (!File.Exists(path)) _ = new NCException($"The file at {path} does not exist!", 98, "PackageFile::Read path parameter is a non-existent file!", NCExceptionSeverity.FatalError);
+            if (!File.Exists(path)) _ = new NCException($"The file at {path} does not exist!", 98, "PackageFile::Read path parameter is a non-existent file!", NCExceptionSeverity.FatalError, null, true);
 
             BinaryReader reader = new BinaryReader(new FileStream(path, FileMode.Open));
 
@@ -42,7 +42,7 @@ namespace LightningPackager
             byte[] bytes = reader.ReadBytes(PackageFileHeader.ObfuscatedMagic.Length);
 
             // if it's equal to the obfuscated magic...
-            if (bytes == PackageFileHeader.ObfuscatedMagic)
+            if (bytes.FastEqual(PackageFileHeader.ObfuscatedMagic))
             {
                 NCLogging.Log($"File is obfuscated, deobfuscating...");
 
@@ -54,7 +54,7 @@ namespace LightningPackager
             reader.BaseStream.Seek(0, SeekOrigin.Begin);
             string magic = reader.ReadString();
 
-            if (magic != PackageFileHeader.Magic) _ = new NCException($"{path} is not a WAD file or magic is corrupt (expected {PackageFileHeader.Magic}, got {magic}!", 99, $"PackageFile::Read - could not identify obfuscated or non-obfuscated header!");
+            if (magic != PackageFileHeader.Magic) _ = new NCException($"{path} is not a WAD file or magic is corrupt (expected {PackageFileHeader.Magic}, got {magic}!", 99, $"PackageFile::Read - could not identify obfuscated or non-obfuscated header!", NCExceptionSeverity.Error, null, true);
 
             return true;
         }
@@ -64,8 +64,11 @@ namespace LightningPackager
             // Deobfuscate the file.
             // Seek to 0 then read until the end of the file.
 
-            // use the already oepn reader to reduce reopening/closing of the file 
+            // use the already open reader to reduce reopening/closing of the file 
             // only read 32kbytes at a time to reduce memory usage
+
+            // seek to zero so we don't skip the first few bytes
+            reader.BaseStream.Seek(0, SeekOrigin.Begin);
 
             long numOfChunks = reader.BaseStream.Length / DeobfuscateChunkLength;
 

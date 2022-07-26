@@ -86,11 +86,17 @@ namespace MakePackage
 
                     switch (thisArg)
                     {
+                        case "-infile":
+                            InFile = nextArg;
+                            continue;
                         case "-infolder":
                             InFolder = nextArg;
                             continue;
                         case "-outfile":
                             OutFile = nextArg;
+                            continue;
+                        case "-outfolder":
+                            OutFolder = nextArg;
                             continue;
                         case "-name":
                         case "-gamename":
@@ -120,14 +126,23 @@ namespace MakePackage
                 // temporary version
                 if (EngineVersion == null) EngineVersion = "1.0.138";
 
-                if (InFolder == null
-                       || OutFile == null)
+                if (!Extract)
                 {
-                    NCLogging.Log("Error: -infolder and -outfile must both be specified!", ConsoleColor.Red, false, false);
-                    return false;
-                }
+                    if ((InFolder == null
+                       || OutFile == null))
+                    {
+                        NCLogging.Log("Error: -infolder and -outfile must both be specified!", ConsoleColor.Red, false, false);
+                        return false;
+                    }
 
-                if (!OutFile.Contains(".wad")) NCLogging.Log("Warning: By convention, the package file for your game should have a .wad extension!", ConsoleColor.Yellow, false, false);
+                    if (!OutFile.Contains(".wad")) NCLogging.Log("Warning: By convention, the package file for your game should have a .wad extension!", ConsoleColor.Yellow, false, false);
+
+                }
+                else
+                {
+                    if (!InFile.Contains(".wad")) NCLogging.Log("Warning: By convention, the package file for your game should have a .wad extension!", ConsoleColor.Yellow, false, false);
+                    if (!Directory.Exists(OutFolder)) Directory.CreateDirectory(OutFolder);
+                }
 
                 return true;
             }
@@ -141,16 +156,20 @@ namespace MakePackage
         public static void ShowHelp()
         {
             NCLogging.Log("MakePackage -infolder [input folder] -outfile [output folder] [args...]\n" +
-                "MakePackage -extract [file] [output folder]" +
+                "MakePackage -extract [file] [output folder]\n" +
                 "Makes a Lightning package (WAD) file.\n\n" +
                 "Required arguments:\n\n" +
                 "-infolder: Input folder to generate the package file from.\n" +
-                "-outfile: Output file for the package file. Should be .wad.\n\n" +
+                "-outfile: Output file for the package file. Should be .wad.\n" +
+                "OR\n" +
+                "-extract: Extract mode\n" +
+                "-infile: Input file to extract the package file from" +
+                "-outfolder: Output folder for the contents of the package file" +
                 "Optional arguments:\n\n" +
                 "-gamename [-name]: Optional game name.\n" +
                 "-gameversion: Optional game version.\n" +
                 "-engineversion: Optional engine version.\n" +
-                "-allowbinaries: Allow binaries in the WAD file. Default is false.\n" +
+                "-allowbinaries: Allow binaries in the WAD file. The default value is false.\n" +
                 "-compressionmode: Final compression mode of the WAD file.", ConsoleColor.White, false, false);
         }
     }

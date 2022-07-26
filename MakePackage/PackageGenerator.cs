@@ -14,7 +14,7 @@ namespace MakePackage
     {
         public static bool StandardRun()
         {
-            if (CommandLine.Extract)
+            if (!CommandLine.Extract)
             {
                 if (!Directory.Exists(CommandLine.InFolder))
                 {

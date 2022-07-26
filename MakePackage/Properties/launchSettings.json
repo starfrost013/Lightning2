@@ -2,7 +2,7 @@
   "profiles": {
     "MakePackage": {
       "commandName": "Project",
-      "commandLineArgs": "-infolder ../../../../Lightning2.Launcher/bin/Debug/net6.0/Content -outfile test.wad"
+      "commandLineArgs": "-extract -infile test.wad -outfolder test"
     }
   }
 }
