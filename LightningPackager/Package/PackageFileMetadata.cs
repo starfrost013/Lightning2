@@ -9,6 +9,7 @@
     /// </summary>
     public class PackageFileMetadata
     {
+        public long TimeStamp { get; set; }
         public PackageFileCompressionMode CompressionMode { get; set; }
         public string Name { get; set; }
         public string GameVersion { get; set; }
@@ -16,6 +17,7 @@
 
         public PackageFileMetadata()
         {
+            TimeStamp = DateTimeOffset.Now.ToUnixTimeSeconds();
             Name = "Game name here";
             GameVersion = "1.0";
             // temporary version

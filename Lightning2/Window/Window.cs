@@ -227,14 +227,16 @@ namespace LightningGL
         /// </summary>
         private void ShowEngineAboutScreen()
         {
-            NCMessageBox ncmb = new NCMessageBox();
+            NCMessageBox messageBox = new()
+            {
+                Message = $"Powered by LightningGL\n" +
+                $"Version {L2Version.LIGHTNING_VERSION_EXTENDED_STRING}",
+                Title = "About",
+                Icon = SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION
+            };
 
-            ncmb.Message = $"Powered by LightningGL\n" +
-                $"Version {L2Version.LIGHTNING_VERSION_EXTENDED_STRING}";
-            ncmb.Title = "About";
-            ncmb.Icon = SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION;
-            ncmb.AddButton("OK", SDL_MessageBoxButtonFlags.SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT | SDL_MessageBoxButtonFlags.SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT);
-            ncmb.Show();
+            messageBox.AddButton("OK", SDL_MessageBoxButtonFlags.SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT | SDL_MessageBoxButtonFlags.SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT);
+            messageBox.Show();
         }
 
         /// <summary>

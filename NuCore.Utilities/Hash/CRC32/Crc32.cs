@@ -53,7 +53,6 @@ namespace NuCore.Utilities
         public static void NextBytes(BinaryReader br, long count)
         {
             for (long i = 0; i < count; i++) NextByte(br.ReadByte());
-
         }
     }
 }

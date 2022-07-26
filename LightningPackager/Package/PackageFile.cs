@@ -10,7 +10,7 @@ namespace LightningPackager
     /// </summary>
     public class PackageFile
     {
-        public PackageHeader Header { get; set; }
+        public PackageFileHeader Header { get; set; }
 
         public PackageFileCatalog Catalog { get; set; }
 
@@ -24,7 +24,7 @@ namespace LightningPackager
 
         public PackageFile(PackageFileMetadata metadata)
         {
-            Header = new PackageHeader(metadata);
+            Header = new PackageFileHeader(metadata);
             Catalog = new PackageFileCatalog(); 
         }
 
@@ -39,12 +39,13 @@ namespace LightningPackager
             BinaryReader reader = new BinaryReader(new FileStream(path, FileMode.Open));
 
             // read series of bytes
-            byte[] bytes = reader.ReadBytes(PackageHeader.ObfuscatedMagic.Length);
+            byte[] bytes = reader.ReadBytes(PackageFileHeader.ObfuscatedMagic.Length);
 
             // if it's equal to the obfuscated magic...
-            if (bytes == PackageHeader.ObfuscatedMagic)
+            if (bytes == PackageFileHeader.ObfuscatedMagic)
             {
                 NCLogging.Log($"File is obfuscated, deobfuscating...");
+
                 // deobfuscate
                 reader = Deobfuscate(path, reader);
             }
@@ -53,7 +54,7 @@ namespace LightningPackager
             reader.BaseStream.Seek(0, SeekOrigin.Begin);
             string magic = reader.ReadString();
 
-            if (magic != PackageHeader.Magic) _ = new NCException($"{path} is not a WAD file or magic is corrupt (expected {PackageHeader.Magic}, got {magic}!", 99, $"PackageFile::Read - could not identify obfuscated or non-obfuscated header!");
+            if (magic != PackageFileHeader.Magic) _ = new NCException($"{path} is not a WAD file or magic is corrupt (expected {PackageFileHeader.Magic}, got {magic}!", 99, $"PackageFile::Read - could not identify obfuscated or non-obfuscated header!");
 
             return true;
         }
@@ -90,6 +91,11 @@ namespace LightningPackager
 
             reader = new BinaryReader(new FileStream(path, FileMode.Open));
             return reader; 
+        }
+
+        public void Read(StreamReader reader)
+        {
+            
         }
 
         public void Write(string path)
