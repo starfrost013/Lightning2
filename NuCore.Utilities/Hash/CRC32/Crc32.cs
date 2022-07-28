@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics.Arm; 
 
 namespace NuCore.Utilities
 {
@@ -23,9 +26,9 @@ namespace NuCore.Utilities
         /// </summary>
         private static uint result = uint.MaxValue;
         public static uint Result => ~result;
-
         public static void NextByte(byte value)
         {
+
             // Iterate through all of the value's bits from the LSB to the MSB
             for (var i = 0; i < 8; i++)
             {
@@ -53,6 +56,48 @@ namespace NuCore.Utilities
         public static void NextBytes(BinaryReader br, long count)
         {
             for (long i = 0; i < count; i++) NextByte(br.ReadByte());
+        }
+
+        /// <summary>
+        /// A32: CRC32B Rd, Rn, Rm
+        /// A64: CRC32B Wd, Wn, Wm
+        /// 
+        /// Performs a hardware-accelerated CRC32 operation.
+        /// </summary>
+        /// <param name="crc">The input CRC data.</param>
+        /// <param name="data">The data to be CRC'd with </param>
+        public static void NextByteAccelerated(uint crc, byte data)
+        {
+            if (RuntimeInformation.ProcessArchitecture == Architecture.Arm ||
+                RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
+            {
+                result = Crc32.ComputeCrc32(crc, data);
+            }
+            else // X86, X64, ARM32
+            {
+                NextByte(data);
+            }
+        }
+
+        /// <summary>
+        /// A32: CRC32B Rd, Rn, Rm
+        /// A64: CRC32B Wd, Wn, Wm
+        /// 
+        /// Performs a hardware-accelerated CRC32 operation.
+        /// </summary>
+        /// <param name="br">The input CRC data.</param>
+        /// <param name="crc">The stream from which to fetch the data to be CRC'd.</param>
+        public static void NextByteAccelerated(BinaryReader br, uint crc)
+        {
+            if (RuntimeInformation.ProcessArchitecture == Architecture.Arm ||
+                RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
+            {
+                result = Crc32.ComputeCrc32(crc, br.ReadByte());
+            }
+            else
+            {
+                NextByte(br.ReadByte());
+            }
         }
     }
 }

@@ -15,8 +15,60 @@ namespace LightningPackager
 
         internal void AddEntry(PackageFileCatalogEntry entry)
         {
-            NCLogging.Log($"Adding WAD catalog entry for filename {entry.Path}...");
+            NCLogging.Log($"Adding WAD catalog entry for filename {entry.FilePath}...");
             Entries.Add(entry);
+        }
+
+        /// <summary>
+        /// Reads the file catalog.
+        /// </summary>
+        /// <param name="reader">The stream to read the file catalog from.</param>
+        /// <returns></returns>
+        internal static PackageFileCatalog Read(BinaryReader reader)
+        {
+            string magic = reader.ReadString();
+
+            if (magic != Magic)
+            {
+                _ = new NCException($"Invalid magic for file catalog - expected {magic}, got {Magic}!", 102, "PackageFileCatalog::Read - magic != PackageFileCatalog.Magic!", NCExceptionSeverity.Error, null, true);
+                return null;
+            }
+
+            PackageFileCatalog catalog = new PackageFileCatalog();
+
+            // read the number of entries.
+            int numberOfEntries = reader.ReadInt32();
+
+            NCLogging.Log($"Number of entries = {numberOfEntries}");
+
+            for (int entryId = 0; entryId < numberOfEntries; entryId++)
+            {
+                PackageFileCatalogEntry entry = PackageFileCatalogEntry.Read(reader);
+
+                NCLogging.Log($"Read Entry {entryId + 1}/{numberOfEntries}\n" +
+                    $"Path: {entry.FilePath}\n" +
+                    $"Timestamp: {entry.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss")}\n" +
+                    $"Crc32: 0x{entry.Crc32.ToString("X")}\n" +
+                    $"Start: (offset to start of file): {entry.Start}\n" +
+                    $"Size: (offset to size of file): {entry.Size}\n");
+
+                catalog.AddEntry(entry);
+            }
+
+            return catalog;
+        }
+
+        /// <summary>
+        /// Extracts all the files in this <see cref="PackageFileCatalog"/>.
+        /// </summary>
+        /// <param name="reader">A <see cref="BinaryReader"/> to read the files from.</param>
+        /// <param name="outFolder">The output folder to output the extracted files to.</param>
+        internal void Extract(BinaryReader reader, string outFolder)
+        {
+            foreach (PackageFileCatalogEntry entry in Entries)
+            {
+                entry.Extract(reader, outFolder);
+            }
         }
 
         /// <summary>
@@ -35,7 +87,7 @@ namespace LightningPackager
 
             NCLogging.Log("Written catalog entries, writing file data...");
 
-            long entryPosition = headerSize + (Magic.Length + 1);
+            long entryPosition = headerSize + (Magic.Length + 1) + 4;
 
             // iterate through all of the entries.
             for (int curEntry = 0; curEntry < Entries.Count; curEntry++)
@@ -43,10 +95,10 @@ namespace LightningPackager
                 PackageFileCatalogEntry entry = Entries[curEntry];
                 entryPosition += entry.Length;
 
-                NCLogging.Log($"Writing file {entry.Path} to WAD...");
+                NCLogging.Log($"Writing file {entry.FilePath} to WAD...");
                 
                 // Read the file that this entry corresponds to.
-                byte[] fileData = File.ReadAllBytes(entry.Path);
+                byte[] fileData = File.ReadAllBytes(entry.FilePath);
 
                 // Calculate the file's CRC32.
                 CRC32.NextBytes(fileData);
@@ -58,7 +110,7 @@ namespace LightningPackager
 
                 writer.Write(fileData);
 
-                // subtract 20 bytes and write the crc32 and file position
+                // subtract 20 bytes (so that we write it in the right place) and write the crc32 and file position
                 writer.BaseStream.Seek(entryPosition - 20, SeekOrigin.Begin);
                 writer.Write(fileCrc);
                 writer.Write(curPosition);

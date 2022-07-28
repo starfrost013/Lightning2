@@ -1,4 +1,5 @@
 ﻿using NuCore.Utilities;
+using System.IO;
 
 namespace LightningPackager
 {
@@ -11,7 +12,7 @@ namespace LightningPackager
     /// </summary>
     public class PackageFileCatalogEntry
     {
-        public string Path { get; set; }
+        public string FilePath { get; set; }
 
         /// <summary>
         /// Private: Real (relative to archive) path written to the file.
@@ -21,7 +22,7 @@ namespace LightningPackager
             get
             {
                 // remove both possible path separator characters (we can't use pathseparatorcharacter here)
-                string realPath = Path;
+                string realPath = FilePath;
                 realPath = realPath.Replace("../", "");
                 realPath = realPath.Replace("..\\", "");
                 return realPath;
@@ -31,11 +32,11 @@ namespace LightningPackager
 
         public uint Crc32 { get; set; }
         
-        public ulong Start { get; set; }
+        public long Start { get; set; }
 
         internal long Size { get; set; }
 
-        internal uint Length
+        internal long Length
         {
             get
             {
@@ -47,25 +48,82 @@ namespace LightningPackager
                 return (uint)(RealPath.Length + 1) + 4 + 8 + 16; 
             }
         }
-
-        public PackageFileCatalogEntry(string path)
+        public PackageFileCatalogEntry(string path, bool extract = false)
         {
-            Path = path;
-            if (!File.Exists(Path)) _ = new NCException($"Attempted to add a non-existent file ({path}) to a PackageFileCatalog!", 96, "PackageFileCatalogEntry constructor: Path does not exist!", NCExceptionSeverity.FatalError);
+            FilePath = path;
 
-            FileInfo fileInfo = new FileInfo(Path);
-            Size = fileInfo.Length;
-            TimeStamp = fileInfo.LastWriteTimeUtc;
+            if (!extract)
+            {
+                if (!File.Exists(FilePath)) _ = new NCException($"Attempted to add a non-existent file ({path}) to a PackageFileCatalog!", 96, "PackageFileCatalogEntry constructor: Path does not exist!", NCExceptionSeverity.FatalError);
+
+                FileInfo fileInfo = new FileInfo(FilePath);
+                Size = fileInfo.Length;
+                TimeStamp = fileInfo.LastWriteTimeUtc;
+            }
+
         }
 
-        public void Write(BinaryWriter writer)
+        internal static PackageFileCatalogEntry Read(BinaryReader reader)
+        {
+            string path = reader.ReadString();
+            PackageFileCatalogEntry entry = new PackageFileCatalogEntry(path, true);
+
+            entry.TimeStamp = DateTimeOffset.FromUnixTimeSeconds(reader.ReadInt64()).DateTime;
+            entry.Crc32 = reader.ReadUInt32();
+            entry.Start = reader.ReadInt64();
+            entry.Size = reader.ReadInt64();
+
+            //todo: calculate crc32
+
+            return entry;
+        }
+
+        internal void Extract(BinaryReader reader, string outFolder)
+        {
+            string finalPath = Path.Combine(outFolder, FilePath);
+
+            if (File.Exists(finalPath)) File.Delete(finalPath);
+
+            // remove the final part of the directory so that we don't create the filename as a directory
+            string[] finalPathDirectories = finalPath.Split('\\');
+
+            string finalDirectory = null;
+
+            for (int curDirectoryId = 0; curDirectoryId < (finalPathDirectories.Length - 1); curDirectoryId++)
+            {
+                string curDirectory = finalPathDirectories[curDirectoryId];
+
+                // first directory - don't add a useless \\
+                if (curDirectoryId == 0)
+                {
+                    finalDirectory = curDirectory; //append to string
+                }
+                else
+                {
+                    finalDirectory = $"{finalDirectory}\\{curDirectory}"; //append to string
+                }
+
+            }
+
+            // create the directory if it does not already exist
+            if (!Directory.Exists(finalDirectory)) Directory.CreateDirectory(finalDirectory);
+
+            // seek to the start of the file
+            reader.BaseStream.Seek(Start, SeekOrigin.Begin);
+            byte[] curChunk = reader.ReadBytes(Convert.ToInt32(Size));
+
+            // Write using writeallbytes
+            File.WriteAllBytes(finalPath, curChunk) ;
+        }
+
+        internal void Write(BinaryWriter writer)
         {
             writer.Write(RealPath);
-            writer.Write(new DateTimeOffset(TimeStamp).ToUnixTimeSeconds());
+            long timeStamp = (new DateTimeOffset(TimeStamp).ToUnixTimeSeconds());
+            writer.Write(timeStamp);
             writer.Write(Crc32);
             writer.Write(Start);
             writer.Write(Size);
         }
-
     }
 }

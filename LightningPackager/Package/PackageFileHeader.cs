@@ -23,7 +23,8 @@ namespace LightningPackager
         {
             get
             {
-                // + 1 as it writes byte information
+                // + 1 as it writes the length of the string before the string
+                // 3 for versioning information and compression mode
                 // 8 as timestamp is 8 bytes
                 return (Magic.Length + 1) + 3 + 8 + (Metadata.Name.Length + 1) + (Metadata.GameVersion.Length + 1) + (Metadata.EngineVersion.Length + 1);
             }
@@ -34,7 +35,7 @@ namespace LightningPackager
             Metadata = metadata;
         }
 
-        public static PackageFileHeader Read(BinaryReader reader)
+        internal static PackageFileHeader Read(BinaryReader reader)
         {
             // reader code already checked the magic
             byte formatVersionMajor = reader.ReadByte();
@@ -57,19 +58,19 @@ namespace LightningPackager
                 EngineVersion = reader.ReadString()
             };
 
-            NCLogging.Log("WAD File Metadata" +
-                $"Format version: {formatVersionMajor}.{formatVersionMinor}" +
-                $"TimeStamp: {DateTimeOffset.FromUnixTimeMilliseconds(metadata.TimeStamp).ToString("yyyy-MM-dd HH:mm:SS")}" +
-                $"Name: {metadata.Name}" +
-                $"Version: {metadata.GameVersion}" +
-                $"Intended engine version: {metadata.EngineVersion}");
+            NCLogging.Log("WAD File Metadata:\n" +
+                $"Format version: {formatVersionMajor}.{formatVersionMinor}\n" +
+                $"TimeStamp: {DateTimeOffset.FromUnixTimeSeconds(metadata.TimeStamp).ToString("yyyy-MM-dd HH:mm:ss")}\n" +
+                $"Name: {metadata.Name}\n" +
+                $"Version: {metadata.GameVersion}\n" +
+                $"Intended engine version: {metadata.EngineVersion}\n");
 
             PackageFileHeader header = new(metadata);
 
             return header;
         }
 
-        public void Write(BinaryWriter stream)
+        internal void Write(BinaryWriter stream)
         {
             stream.Write(Magic);
             stream.Write(FormatVersionMajor);

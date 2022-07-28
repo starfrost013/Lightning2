@@ -22,6 +22,7 @@ namespace LightningPackager
         /// </summary>
         private int DeobfuscateChunkLength = 1048576;
 
+        private string DeobfuscatedPath { get; set; }
         public PackageFile(PackageFileMetadata metadata)
         {
             Header = new PackageFileHeader(metadata);
@@ -49,13 +50,30 @@ namespace LightningPackager
                 // deobfuscate
                 reader = Deobfuscate(path, reader);
             }
-            
+
             // seek to zero as we've deobfuscated
             reader.BaseStream.Seek(0, SeekOrigin.Begin);
             string magic = reader.ReadString();
 
-            if (magic != PackageFileHeader.Magic) _ = new NCException($"{path} is not a WAD file or magic is corrupt (expected {PackageFileHeader.Magic}, got {magic}!", 99, $"PackageFile::Read - could not identify obfuscated or non-obfuscated header!", NCExceptionSeverity.Error, null, true);
+            if (magic != PackageFileHeader.Magic)
+            {
+                _ = new NCException($"{path} is not a WAD file or magic is corrupt (expected {PackageFileHeader.Magic}, got {magic}!", 99, $"PackageFile::Read - could not identify obfuscated or non-obfuscated header!", NCExceptionSeverity.Error, null, true);
+                return false;
+            } 
 
+            PackageFileHeader header = PackageFileHeader.Read(reader);
+
+            PackageFile file = new PackageFile(header.Metadata);
+
+            PackageFileCatalog catalog = PackageFileCatalog.Read(reader);
+
+            catalog.Extract(reader, outDir);
+
+            reader.Close();
+
+            file.Header = header;
+            file.Catalog = catalog;
+            //File.Delete(DeobfuscatedPath); // delete the deobfuscated file
             return true;
         }
 
@@ -85,20 +103,15 @@ namespace LightningPackager
                     deobfuscatedByte += 3; // increment by 3
                     deobfuscatedBytes.Add(Convert.ToByte(deobfuscatedByte ^ Key)); // use key 
                 }
-
             }
 
             reader.Close();
 
-            File.WriteAllBytes(path, deobfuscatedBytes.ToArray());
+            DeobfuscatedPath = $"d_{path}"; // prepend d_
+            File.WriteAllBytes(DeobfuscatedPath, deobfuscatedBytes.ToArray());
 
-            reader = new BinaryReader(new FileStream(path, FileMode.Open));
+            reader = new BinaryReader(new FileStream(DeobfuscatedPath, FileMode.Open));
             return reader; 
-        }
-
-        public void Read(StreamReader reader)
-        {
-            
         }
 
         public void Write(string path)
@@ -138,6 +151,5 @@ namespace LightningPackager
 
             File.WriteAllBytes(path, xorBytes.ToArray());
         }
-
     }
 }

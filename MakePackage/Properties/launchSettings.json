@@ -2,7 +2,7 @@
   "profiles": {
     "MakePackage": {
       "commandName": "Project",
-      "commandLineArgs": "-extract -infile test.wad -outfolder test"
+      "commandLineArgs": "-infile test.wad -outfolder test"
     }
   }
 }
