@@ -134,11 +134,7 @@ namespace MakePackage
                 {
                     if (!InFile.Contains(".wad")) NCLogging.Log("Warning: By convention, the package file for your game should have a .wad extension!", ConsoleColor.Yellow, false, false);
 
-                    if (OutFolder == null)
-                    {
-                        NCLogging.Log("Error: If -infile is specified, -outfolder must be specified!", ConsoleColor.Red, false, false);
-                        return false;
-                    }
+                    if (OutFolder == null) OutFolder = ".";
 
                     if (!Directory.Exists(OutFolder)) Directory.CreateDirectory(OutFolder);
                 }
@@ -165,7 +161,7 @@ namespace MakePackage
                 "OR\n" +
                 "-extract: Extract mode\n" +
                 "-infile: Input file to extract the package file from\n" +
-                "-outfolder: Output folder for the contents of the package file\n" +
+                "-outfolder: Output folder for the contents of the package file (Default value: current directory)\n" +
                 "Optional arguments:\n\n" +
                 "-gamename [-name]: Optional game name.\n" +
                 "-gameversion: Optional game version.\n" +
