@@ -1,4 +1,5 @@
-﻿using NuCore.SDL2;
+﻿using LightningPackager;
+using NuCore.SDL2;
 using NuCore.Utilities;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace LightningGL
         /// </summary>
         public static bool Initialised { get; private set; }
 
-        public static void Init()
+        public static void Init(string[] args)
         {
             try
             {
@@ -29,6 +30,16 @@ namespace LightningGL
 
                 // Log the sign-on message
                 NCLogging.Log($"LightningGL {L2Version.LIGHTNING_VERSION_EXTENDED_STRING}");
+
+                NCLogging.Log("Parsing command-line arguments...");
+                if (!InitSettings.Parse(args)) _ = new NCException($"An error occurred while parsing command-line arguments.", 103, "InitSettings::Parse returned false", NCExceptionSeverity.FatalError);
+
+                if (InitSettings.PackageFile != null)
+                {
+                    NCLogging.Log($"User specified package file {InitSettings.PackageFile} to load, loading it...");
+                    
+                    if (!Packager.LoadPackage(InitSettings.PackageFile)) _ = new NCException($"An error occurred loading {InitSettings.PackageFile}. The game cannot be loaded.", 104, "Packager::LoadPackager returned false", NCExceptionSeverity.FatalError);
+                }
 
                 NCLogging.Log("Initialising SDL...");
                 if (SDL.SDL_Init(SDL.SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2: {SDL.SDL_GetError()}", 0, "LightningGL.Init();", NCExceptionSeverity.FatalError);
@@ -57,7 +68,7 @@ namespace LightningGL
                     PerformanceProfiler.Start();
                 }
 
-                Initialised = true; 
+                Initialised = true;
             }
             catch (Exception err)
             {

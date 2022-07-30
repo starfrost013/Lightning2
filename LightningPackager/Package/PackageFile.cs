@@ -10,9 +10,9 @@ namespace LightningPackager
     /// </summary>
     public class PackageFile
     {
-        public PackageFileHeader Header { get; set; }
+        internal PackageFileHeader Header { get; set; }
 
-        public PackageFileCatalog Catalog { get; set; }
+        internal PackageFileCatalog Catalog { get; set; }
 
         private byte Key = 0xD1;
 
@@ -31,7 +31,7 @@ namespace LightningPackager
 
         public void AddEntry(PackageFileCatalogEntry entry) => Catalog.AddEntry(entry);
 
-        public bool Extract(string path, string outDir)
+        internal bool Extract(string path, string outDir)
         {
             NCLogging.Log($"Loading WAD from {path}, extracting to {outDir}...");
 
@@ -114,7 +114,7 @@ namespace LightningPackager
             return reader; 
         }
 
-        public void Write(string path)
+        internal void Write(string path)
         {
             NCLogging.Log($"Generating WAD file and writing it to {path}...");
 

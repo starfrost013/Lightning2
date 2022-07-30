@@ -43,7 +43,8 @@ namespace MakePackage
                         && !fileName.Contains(".winmd")
                         && !fileName.Contains(".rll")))
                     {
-                        packageFile.AddEntry(new PackageFileCatalogEntry(fileName));
+                        string relativeFileName = fileName.Replace(CommandLine.InFolder, "");
+                        packageFile.AddEntry(new PackageFileCatalogEntry(relativeFileName));
                     }
                 }
 
@@ -82,7 +83,8 @@ namespace MakePackage
                         && !fileName.Contains(".winmd")
                         && !fileName.Contains(".rll")))
                     {
-                        packageFile.AddEntry(new PackageFileCatalogEntry(fileName));
+                        string relativeFileName = fileName.Replace(CommandLine.InFolder, "");
+                        packageFile.AddEntry(new PackageFileCatalogEntry(relativeFileName));
                     }
                 }
 

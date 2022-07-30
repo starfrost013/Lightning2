@@ -9,17 +9,17 @@ namespace LightningPackager
     /// 
     /// Holds the package header data for a 
     /// </summary>
-    public class PackageFileHeader
+    internal class PackageFileHeader
     {
-        public const string Magic = "feed me data!";
+        internal const string Magic = "feed me data!";
 
-        public static byte[] ObfuscatedMagic = { 0xD9, 0xB4, 0xB1, 0xB1, 0xB2, 0xEE, 0xB9, 0xB1};
-        public const byte FormatVersionMajor = 2;
-        public const byte FormatVersionMinor = 1;
+        internal static byte[] ObfuscatedMagic = { 0xD9, 0xB4, 0xB1, 0xB1, 0xB2, 0xEE, 0xB9, 0xB1};
+        internal const byte FormatVersionMajor = 2;
+        internal const byte FormatVersionMinor = 2;
 
-        public PackageFileMetadata Metadata { get; set; }
+        internal PackageFileMetadata Metadata { get; set; }
 
-        public int HeaderSize
+        internal int HeaderSize
         {
             get
             {
@@ -30,7 +30,7 @@ namespace LightningPackager
             }
         }
 
-        public PackageFileHeader(PackageFileMetadata metadata)
+        internal PackageFileHeader(PackageFileMetadata metadata)
         {
             Metadata = metadata;
         }

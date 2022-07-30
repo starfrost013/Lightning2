@@ -8,7 +8,7 @@ namespace LightningPackager
         public int NumberOfEntries => Entries.Count;
         public List<PackageFileCatalogEntry> Entries { get; private set; }
 
-        public PackageFileCatalog()
+        internal PackageFileCatalog()
         {
             Entries = new List<PackageFileCatalogEntry>();
         }

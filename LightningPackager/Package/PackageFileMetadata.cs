@@ -21,7 +21,7 @@
             Name = "Game name here";
             GameVersion = "1.0";
             // temporary version
-            EngineVersion = "1.0.138";
+            EngineVersion = "1.0.154";
             CompressionMode = PackageFileCompressionMode.LZMA | PackageFileCompressionMode.XOR;
         }
     }

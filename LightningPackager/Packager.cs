@@ -9,7 +9,7 @@ namespace LightningPackager
     /// </summary>
     public static class Packager
     {
-        public static bool LoadPackage(string path, string outDir)
+        public static bool LoadPackage(string path, string outDir = ".")
         {
             NCLogging.Log($"Loading WAD file from {path}...");
 
