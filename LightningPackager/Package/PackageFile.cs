@@ -22,7 +22,16 @@ namespace LightningPackager
         /// </summary>
         private int DeobfuscateChunkLength = 1048576;
 
+        /// <summary>
+        /// Private: Path used for the deobfuscated file.
+        /// </summary>
         private string DeobfuscatedPath { get; set; }
+
+        /// <summary>
+        /// Stores the input folder of the package. Used to create relative paths.
+        /// </summary>
+        public static string InFolder { get; set; } 
+
         public PackageFile(PackageFileMetadata metadata)
         {
             Header = new PackageFileHeader(metadata);
@@ -53,26 +62,24 @@ namespace LightningPackager
 
             // seek to zero as we've deobfuscated
             reader.BaseStream.Seek(0, SeekOrigin.Begin);
-            string magic = reader.ReadString();
-
-            if (magic != PackageFileHeader.Magic)
-            {
-                _ = new NCException($"{path} is not a WAD file or magic is corrupt (expected {PackageFileHeader.Magic}, got {magic}!", 99, $"PackageFile::Read - could not identify obfuscated or non-obfuscated header!", NCExceptionSeverity.Error, null, true);
-                return false;
-            } 
 
             PackageFileHeader header = PackageFileHeader.Read(reader);
+
+            if (header == null) _ = new NCException($"{path} is invalid: Header is invalid", 105, "PackageFileHeader::Read returned null", NCExceptionSeverity.FatalError);
 
             PackageFile file = new PackageFile(header.Metadata);
 
             PackageFileCatalog catalog = PackageFileCatalog.Read(reader);
 
+            // extract files
             catalog.Extract(reader, outDir);
 
+            // close the header
             reader.Close();
 
             file.Header = header;
             file.Catalog = catalog;
+
             //File.Delete(DeobfuscatedPath); // delete the deobfuscated file
             return true;
         }
@@ -83,7 +90,7 @@ namespace LightningPackager
             // Seek to 0 then read until the end of the file.
 
             // use the already open reader to reduce reopening/closing of the file 
-            // only read 32kbytes at a time to reduce memory usage
+            // only read 1 megabyte at a time to reduce memory usage
 
             // seek to zero so we don't skip the first few bytes
             reader.BaseStream.Seek(0, SeekOrigin.Begin);
@@ -127,8 +134,8 @@ namespace LightningPackager
                 Catalog.Write(stream, Header.HeaderSize);
             }
 
+            // obfuscate if the header specifies so
             if (Header.Metadata.CompressionMode.HasFlag(PackageFileCompressionMode.XOR)) Obfuscate(path);
-
         }
 
         private void Obfuscate(string path)
@@ -143,7 +150,7 @@ namespace LightningPackager
             {
                 byte xorByte = Convert.ToByte(curByte ^ Key);
 
-                // decrement by 1 and enforce wraparound
+                // decrement by 3 and enforce wraparound
                 xorByte -= 3;
 
                 xorBytes.Add(xorByte);

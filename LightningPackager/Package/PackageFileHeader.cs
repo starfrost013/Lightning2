@@ -37,7 +37,14 @@ namespace LightningPackager
 
         internal static PackageFileHeader Read(BinaryReader reader)
         {
-            // reader code already checked the magic
+            string magic = reader.ReadString();
+
+            if (magic != Magic)
+            {
+                _ = new NCException($"Not a WAD file or magic is corrupt (expected {PackageFileHeader.Magic}, got {magic}!", 99, $"PackageFile::Read - could not identify obfuscated or non-obfuscated header!", NCExceptionSeverity.Error, null, true);
+                return null;
+            }
+
             byte formatVersionMajor = reader.ReadByte();
             byte formatVersionMinor = reader.ReadByte();
 

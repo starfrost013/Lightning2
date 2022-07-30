@@ -28,14 +28,14 @@ namespace LightningPackager
             return packageFile.Extract(path, outDir);
         }
 
-        public static bool GeneratePackage(PackageFile packageFile, 
-            string path)
+        public static bool GeneratePackage(PackageFile packageFile, string inFolder, string path)
         {
             NCLogging.Log("Generating WAD file...");
 
             // delete any files that may exist at our path
             if (File.Exists(path)) File.Delete(path);
 
+            PackageFile.InFolder = inFolder;
             try
             {
                 packageFile.Write(path);

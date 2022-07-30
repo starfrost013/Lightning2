@@ -17,17 +17,17 @@ namespace LightningPackager
         /// <summary>
         /// Private: Real (relative to archive) path written to the file.
         /// </summary>
-        private string RealPath
+        public string RealPath
         {
             get
             {
                 // remove both possible path separator characters (we can't use pathseparatorcharacter here)
                 string realPath = FilePath;
-                realPath = realPath.Replace("../", "");
-                realPath = realPath.Replace("..\\", "");
+                realPath = realPath.Replace(PackageFile.InFolder, "");
                 return realPath;
             }
         }
+
         public DateTime TimeStamp { get; set; }
 
         public uint Crc32 { get; set; }
@@ -81,6 +81,9 @@ namespace LightningPackager
         internal void Extract(BinaryReader reader, string outFolder)
         {
             string finalPath = Path.Combine(outFolder, FilePath);
+
+            // needed for relative paths
+            if (finalPath == FilePath) finalPath = $"{outFolder}\\{FilePath}";
 
             if (File.Exists(finalPath)) File.Delete(finalPath);
 

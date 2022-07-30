@@ -31,6 +31,7 @@
 	
 	<ItemGroup>
     <ProjectReference Include="..\LightningPackager\LightningPackager.csproj" />
+    <ProjectReference Include="..\NuCore.SDL2-CS\NuCore.SDL2.csproj" />
   </ItemGroup>
 
 </Project>
