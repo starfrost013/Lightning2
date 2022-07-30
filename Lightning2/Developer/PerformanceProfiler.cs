@@ -87,11 +87,13 @@ namespace LightningGL
                 int percentile95Index = (int)((FPSList.Count - 1) * 0.95);
                 int percentile5Index = (int)((FPSList.Count - 1) * 0.05);
                 int percentile1Index = (int)((FPSList.Count - 1) * 0.01);
+                int percentile01Index = (int)((FPSList.Count - 1) * 0.001);
 
                 double percentile99 = FPSList[percentile99Index];
                 double percentile95 = FPSList[percentile95Index];
                 double percentile5 = FPSList[percentile5Index];
                 double percentile1 = FPSList[percentile1Index];
+                double percentile01 = FPSList[percentile01Index];
 
                 // Write some notable values.
                 FileStream.WriteLine("Notable values\n:");
@@ -100,6 +102,7 @@ namespace LightningGL
                 FileStream.WriteLine($"95th%ile={percentile95.ToString("F1")}");
                 FileStream.WriteLine($"5th%ile={percentile5.ToString("F1")}");
                 FileStream.WriteLine($"1st%ile={percentile1.ToString("F1")}");
+                FileStream.WriteLine($"0.1st%ile={percentile01.ToString("F1")}");
             }
 
             FileStream.Close();
