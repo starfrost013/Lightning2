@@ -107,6 +107,7 @@ namespace LightningGL
 
                         // Show a basic about screen on Shift-F9 (KMOD_SHIFT only triggers when both shift keys are held)
                         string curKeyString = curKey.KeySym.ToString();
+
                         if (curKeyString == "F9"
                             && (curKey.KeyMod.HasFlag(SDL_Keymod.KMOD_LSHIFT) 
                             || curKey.KeyMod.HasFlag(SDL_Keymod.KMOD_RSHIFT))
@@ -229,7 +230,7 @@ namespace LightningGL
         }
         
         /// <summary>
-        /// Sets up a simple message box for engine/game information.
+        /// Sets up a simple message box displaying engine version information.
         /// </summary>
         private void ShowEngineAboutScreen()
         {

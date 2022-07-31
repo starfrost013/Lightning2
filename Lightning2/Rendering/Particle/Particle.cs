@@ -21,13 +21,5 @@ namespace LightningGL
         /// We use this for angle calculations. Using the current ID in the effect renderer doesn't work
         /// </summary>
         public int Id { get; set; }
-
-        private Random Random = new Random();
-
-        public Particle()
-        {
-            // *excludes* large bound so we generate 0-359deg
-            Id = Random.Next(0, 360);
-        }
     }
 }

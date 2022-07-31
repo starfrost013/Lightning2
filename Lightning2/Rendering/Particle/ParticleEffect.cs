@@ -40,13 +40,15 @@ namespace LightningGL
         internal Texture Texture { get; private set; }
 
         /// <summary>
-        /// The velocity of this particle effect's particles
+        /// The velocity of this particle effect's particles.
+        /// 
+        /// Partially ignored in the case of <see cref="Mode"/> being set to <see cref="ParticleMode.Explode"/>.
         /// </summary>
         public Vector2 Velocity { get; set; }
 
         /// <summary>
         /// Maximum number of particles created each frame.
-        /// The default value is <see cref="Amount"/> divided by 100.
+        /// The default value is <see cref="Amount"/> divided by 150.
         /// </summary>
         public uint MaxNumberCreatedEachFrame { get; set; }
 
@@ -60,12 +62,17 @@ namespace LightningGL
         /// <summary>
         /// Private field used for efficient generation of random numbers.
         /// </summary>
-        private Random rnd = new Random();
+        private Random Random = new Random();
+        
+        /// <summary>
+        /// Last particle ID created. Used only when <see cref="Mode"/> is set to <see cref="ParticleMode.Explode"/>
+        /// </summary>
+        private int LastId { get; set; }
 
         public ParticleEffect(Texture nTexture)
         {
             Texture = nTexture;
-            Mode = ParticleMode.SinCosDeg;
+            Mode = ParticleMode.SinCos;
         }
 
         public void Load(Texture nTexture, Window cWindow)
@@ -73,7 +80,7 @@ namespace LightningGL
             Particles = new List<Particle>();
             Texture = nTexture;
             Texture.Load(cWindow);
-            if (MaxNumberCreatedEachFrame == 0) MaxNumberCreatedEachFrame = Amount / 100;
+            if (MaxNumberCreatedEachFrame == 0) MaxNumberCreatedEachFrame = Amount / 150;
         }
 
         public void Render(Window cWindow)
@@ -106,38 +113,37 @@ namespace LightningGL
                 // vary particle positions. Use if we only want particles going in one direction
                 if (Mode != ParticleMode.AbsoluteVelocity)
                 {
-                    int particleAngleId = 0;
+                    int particleAngleId = particle.Id;
 
-                    if (Mode == ParticleMode.SinCosExplode)
-                    {
-                        particleAngleId = curParticle % 360;
-                    }
-                    else
-                    {
-                        particleAngleId = particle.Id;
-                    }
-
-                    double angleRads = 0,
-                        xMul = 0,
-                        yMul = 0;
+                    double angleRads = 0;
 
                     if (Mode == ParticleMode.SinCos)
                     {
                         angleRads = particleAngleId / (180 * Math.PI);
-
                     }
-                    else if (Mode == ParticleMode.SinCosDeg)
+                    else if (Mode == ParticleMode.Normal
+                        || Mode == ParticleMode.Explode)
                     {
                         // put it in degreeeeeeees mode
                         angleRads = particleAngleId;
                     }
 
-                    xMul = Math.Sin(angleRads);
-                    yMul = Math.Cos(angleRads);
+                    double xMul = Math.Sin(angleRads);
+                    double yMul = Math.Cos(angleRads);
 
                     // set up the velocity
                     Vector2 velocity = new Vector2(Convert.ToSingle(((Velocity.X * xMul) / 100) * particle.Lifetime),
                         Convert.ToSingle(((Velocity.Y * yMul) / 100) * particle.Lifetime));
+                    
+                    // Clamp velocity on "Normal" mode as opposed to explode
+                    if (Mode != ParticleMode.Explode)
+                    {
+                        if (velocity.X > Math.Abs(Velocity.X)) velocity.X = Math.Abs(Velocity.X);
+                        if (velocity.Y > Math.Abs(Velocity.Y)) velocity.Y = Math.Abs(Velocity.Y);
+
+                        if (velocity.X < -Math.Abs(Velocity.X)) velocity.X = -Math.Abs(Velocity.X);
+                        if (velocity.Y < -Math.Abs(Velocity.Y)) velocity.Y = -Math.Abs(Velocity.Y);
+                    }
 
                     particle.Position += velocity;
                 }
@@ -169,13 +175,23 @@ namespace LightningGL
             // Rnd.NextDouble generate a negative number
             int nVariance = (int)(Variance * 100000);
 
-            float varX = rnd.Next(-nVariance, nVariance);
-            float varY = rnd.Next(-nVariance, nVariance);
+            float varX = Random.Next(-nVariance, nVariance);
+            float varY = Random.Next(-nVariance, nVariance);
 
             varX /= 100000;
             varY /= 100000;
 
             particle.Position = Position + new Vector2(varX, varY);
+
+            if (Mode == ParticleMode.Explode)
+            {
+                particle.Id = LastId % 360;
+                LastId++;
+            }
+            else
+            {
+                particle.Id = Random.Next(0, 360);
+            }
 
             Particles.Add(particle);
         }

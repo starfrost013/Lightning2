@@ -3,6 +3,11 @@ using System.Collections.Generic;
 
 namespace LightningGL
 {
+    /// <summary>
+    /// ParticleManager
+    /// 
+    /// Basic manager class for <see cref="ParticleEffect"/>s.
+    /// </summary>
     public static class ParticleManager
     {
         private static List<ParticleEffect> Effects { get; set; }
@@ -16,7 +21,7 @@ namespace LightningGL
         {
             foreach (ParticleEffect effect in Effects)
             {
-                NCLogging.Log($"Unloading effect at path {effect.Texture.Path}...");
+                NCLogging.Log($"Unloading particle effect at path {effect.Texture.Path}...");
                 effect.Unload();
             }
         }
