@@ -31,10 +31,4 @@
     <ProjectReference Include="..\NuCore.Utilities\NuCore.Utilities.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="ManagedLzma">
-      <HintPath>..\Lightning2\Content\Libraries\ManagedLzma.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

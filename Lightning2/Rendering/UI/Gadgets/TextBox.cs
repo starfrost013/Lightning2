@@ -8,5 +8,6 @@ namespace LightningGL
 {
     public class TextBox : Gadget
     {
+        public string Text { get; set; }    
     }
 }

@@ -12,6 +12,9 @@ namespace LightningPackager
     /// </summary>
     public class PackageFileCatalogEntry
     {
+        /// <summary>
+        /// Path to the file.
+        /// </summary>
         public string FilePath { get; set; }
 
         /// <summary>
@@ -54,7 +57,7 @@ namespace LightningPackager
 
             if (!extract)
             {
-                if (!File.Exists(FilePath)) _ = new NCException($"Attempted to add a non-existent file ({path}) to a PackageFileCatalog!", 96, "PackageFileCatalogEntry constructor: Path does not exist!", NCExceptionSeverity.FatalError);
+                if (!File.Exists(FilePath)) _ = new NCException($"Attempted to add a non-existent file ({path}) to a PackageFileCatalog!", 96, "PackageFileCatalogEntry constructor: Path does not exist!", NCExceptionSeverity.FatalError, null, true);
 
                 FileInfo fileInfo = new FileInfo(FilePath);
                 Size = fileInfo.Length;
@@ -105,7 +108,6 @@ namespace LightningPackager
                 {
                     finalDirectory = $"{finalDirectory}\\{curDirectory}"; //append to string
                 }
-
             }
 
             // create the directory if it does not already exist

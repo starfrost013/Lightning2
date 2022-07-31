@@ -1,5 +1,4 @@
-﻿using ManagedLzma.LZMA;
-using NuCore.Utilities;
+﻿using NuCore.Utilities;
 
 namespace LightningPackager
 {
@@ -65,7 +64,7 @@ namespace LightningPackager
 
             PackageFileHeader header = PackageFileHeader.Read(reader);
 
-            if (header == null) _ = new NCException($"{path} is invalid: Header is invalid", 105, "PackageFileHeader::Read returned null", NCExceptionSeverity.FatalError);
+            if (header == null) _ = new NCException($"{path} is invalid: Header is invalid", 105, "PackageFileHeader::Read returned null", NCExceptionSeverity.FatalError, null, true);
 
             PackageFile file = new PackageFile(header.Metadata);
 
@@ -80,7 +79,9 @@ namespace LightningPackager
             file.Header = header;
             file.Catalog = catalog;
 
-            //File.Delete(DeobfuscatedPath); // delete the deobfuscated file
+            // delete the deobfuscated file
+            File.Delete(DeobfuscatedPath);
+
             return true;
         }
 

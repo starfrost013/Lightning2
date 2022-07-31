@@ -449,7 +449,7 @@ namespace NuCore.SDL2
         [StructLayout(LayoutKind.Sequential)]
         public struct SDL_ControllerTouchpadEvent
         {
-            public UInt32 type;
+            public SDL_EventType type;
             public UInt32 timestamp;
             public Int32 which; /* SDL_JoystickID */
             public Int32 touchpad;
@@ -463,7 +463,7 @@ namespace NuCore.SDL2
         [StructLayout(LayoutKind.Sequential)]
         public struct SDL_ControllerSensorEvent
         {
-            public UInt32 type;
+            public SDL_EventType type;
             public UInt32 timestamp;
             public Int32 which; /* SDL_JoystickID */
             public Int32 sensor;
@@ -478,7 +478,7 @@ namespace NuCore.SDL2
         [StructLayout(LayoutKind.Sequential)]
         public struct SDL_AudioDeviceEvent
         {
-            public UInt32 type;
+            public SDL_EventType type;
             public UInt32 timestamp;
             public UInt32 which;
             public byte iscapture;
@@ -491,7 +491,7 @@ namespace NuCore.SDL2
         [StructLayout(LayoutKind.Sequential)]
         public struct SDL_TouchFingerEvent
         {
-            public UInt32 type;
+            public SDL_EventType type;
             public UInt32 timestamp;
             public Int64 touchId; // SDL_TouchID
             public Int64 fingerId; // SDL_GestureID
@@ -506,7 +506,7 @@ namespace NuCore.SDL2
         [StructLayout(LayoutKind.Sequential)]
         public struct SDL_MultiGestureEvent
         {
-            public UInt32 type;
+            public SDL_EventType type;
             public UInt32 timestamp;
             public Int64 touchId; // SDL_TouchID
             public float dTheta;
@@ -520,7 +520,7 @@ namespace NuCore.SDL2
         [StructLayout(LayoutKind.Sequential)]
         public struct SDL_DollarGestureEvent
         {
-            public UInt32 type;
+            public SDL_EventType type;
             public UInt32 timestamp;
             public Int64 touchId; // SDL_TouchID
             public Int64 gestureId; // SDL_GestureID
@@ -568,7 +568,7 @@ namespace NuCore.SDL2
         [StructLayout(LayoutKind.Sequential)]
         public struct SDL_UserEvent
         {
-            public UInt32 type;
+            public SDL_EventType type;
             public UInt32 timestamp;
             public UInt32 windowID;
             public Int32 code;
@@ -674,6 +674,15 @@ namespace NuCore.SDL2
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_PeepEvents(
             [Out] SDL_Event[] events,
+            int numevents,
+            SDL_eventaction action,
+            SDL_EventType minType,
+            SDL_EventType maxType
+        );
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe int SDL_PeepEvents(
+            SDL_Event* events,
             int numevents,
             SDL_eventaction action,
             SDL_EventType minType,

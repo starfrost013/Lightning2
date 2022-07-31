@@ -45,14 +45,17 @@ namespace LightningGL
         public Vector2 Velocity { get; set; }
 
         /// <summary>
-        /// Private: Current frame of this particle effect's render
+        /// Maximum number of particles created each frame.
+        /// The default value is <see cref="Amount"/> divided by 100.
         /// </summary>
-        private int CurFrame { get; set; } 
+        public uint MaxNumberCreatedEachFrame { get; set; }
 
         /// <summary>
-        /// Treat velocity as an absolute value and do not vary particle positions.
+        /// The mode of this particle effect.
+        /// 
+        /// See <see cref="ParticleEffect"/>.
         /// </summary>
-        public bool AbsoluteVelocity { get; set; }
+        public ParticleMode Mode { get; set; }
 
         /// <summary>
         /// Private field used for efficient generation of random numbers.
@@ -62,6 +65,7 @@ namespace LightningGL
         public ParticleEffect(Texture nTexture)
         {
             Texture = nTexture;
+            Mode = ParticleMode.SinCosDeg;
         }
 
         public void Load(Texture nTexture, Window cWindow)
@@ -69,34 +73,10 @@ namespace LightningGL
             Particles = new List<Particle>();
             Texture = nTexture;
             Texture.Load(cWindow);
+            if (MaxNumberCreatedEachFrame == 0) MaxNumberCreatedEachFrame = Amount / 100;
         }
 
         public void Render(Window cWindow)
-        {
-            if (CurFrame == 0)
-            {
-                InitRender(cWindow);
-            }
-            else
-            {
-                RenderCurrent(cWindow);
-            }
-
-            CurFrame++;
-
-        }
-
-        private void InitRender(Window cWindow)
-        {
-            for (int i = 0; i < Amount; i++)
-            {
-                AddParticle();
-
-                Texture.Draw(cWindow);
-            }
-        }
-
-        private void RenderCurrent(Window cWindow)
         {
             // create a list of particles to remove
             List<Particle> particlesToRemove = new List<Particle>();
@@ -104,53 +84,81 @@ namespace LightningGL
             // Check what particles have to be removed
             foreach (Particle particle in Particles)
             {
-                if (particle.Lifetime > Lifetime) particlesToRemove.Add(particle);
                 particle.Lifetime++;
+                if (particle.Lifetime > Lifetime) particlesToRemove.Add(particle);
             }
 
             foreach (Particle particleToRemove in particlesToRemove)
             {
                 Particles.Remove(particleToRemove);
-
-                if (Particles.Count <= Amount) AddParticle();
             }
+
+            if (Particles.Count < Amount) AddParticleSet();
 
             Texture.Position = Position;
 
-            for (int i = 0; i < Particles.Count; i++)
+            for (int curParticle = 0; curParticle < Particles.Count; curParticle++)
             {
-                Particle particle = Particles[i];
+                Particle particle = Particles[curParticle];
 
                 // Check if absolute velocity mode is on.
                 // This means we treat velocity as an absolute value and do not
                 // vary particle positions. Use if we only want particles going in one direction
-                if (!AbsoluteVelocity)
+                if (Mode != ParticleMode.AbsoluteVelocity)
                 {
-                    if (i % 4 == 0)
+                    int particleAngleId = 0;
+
+                    if (Mode == ParticleMode.SinCosExplode)
                     {
-                        particle.RenderPosition += new Vector2((Velocity.X / 500) * particle.Lifetime, (Velocity.Y / 500) * particle.Lifetime);
+                        particleAngleId = curParticle % 360;
                     }
-                    else if (i % 4 == 1)
+                    else
                     {
-                        particle.RenderPosition += new Vector2(((Velocity.X / 500) * particle.Lifetime), -((Velocity.Y / 500) * particle.Lifetime));
+                        particleAngleId = particle.Id;
                     }
-                    else if (i % 4 == 2)
+
+                    double angleRads = 0,
+                        xMul = 0,
+                        yMul = 0;
+
+                    if (Mode == ParticleMode.SinCos)
                     {
-                        particle.RenderPosition += new Vector2(-((Velocity.X / 500) * particle.Lifetime), ((Velocity.Y / 500) * particle.Lifetime));
+                        angleRads = particleAngleId / (180 * Math.PI);
+
                     }
-                    else if (i % 4 == 3)
+                    else if (Mode == ParticleMode.SinCosDeg)
                     {
-                        particle.RenderPosition += new Vector2(-((Velocity.X / 500) * particle.Lifetime), -((Velocity.Y / 500) * particle.Lifetime));
+                        // put it in degreeeeeeees mode
+                        angleRads = particleAngleId;
                     }
+
+                    xMul = Math.Sin(angleRads);
+                    yMul = Math.Cos(angleRads);
+
+                    // set up the velocity
+                    Vector2 velocity = new Vector2(Convert.ToSingle(((Velocity.X * xMul) / 100) * particle.Lifetime),
+                        Convert.ToSingle(((Velocity.Y * yMul) / 100) * particle.Lifetime));
+
+                    particle.Position += velocity;
                 }
                 else
                 {
-                    particle.Position += new Vector2((Velocity.X / 500) * particle.Lifetime, (Velocity.Y / 500) * particle.Lifetime);
+                    particle.Position += new Vector2((Velocity.X / 100) * particle.Lifetime, (Velocity.Y / 100) * particle.Lifetime);
                 }
 
-                Texture.RenderPosition = particle.Position;
+                Texture.Position = particle.Position;
                 Texture.Draw(cWindow);
             }
+        }
+
+        private void AddParticleSet()
+        {
+            // save the number of particles to render this frame
+            uint numToAddThisFrame = MaxNumberCreatedEachFrame;
+
+            if (Amount - Particles.Count < MaxNumberCreatedEachFrame) numToAddThisFrame = Convert.ToUInt32((Amount - Particles.Count));
+
+            for (int i = 0; i < numToAddThisFrame; i++) AddParticle();
         }
 
         public void AddParticle()

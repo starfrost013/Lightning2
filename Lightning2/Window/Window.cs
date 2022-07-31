@@ -13,6 +13,9 @@ namespace LightningGL
     /// </summary>
     public class Window
     {
+        /// <summary>
+        /// The settings of this window - see <see cref="WindowSettings"/>.
+        /// </summary>
         public WindowSettings Settings { get; set; }
 
         private long LastTime { get; set; }
@@ -145,6 +148,9 @@ namespace LightningGL
 
         public void Render()
         {
+            // Call all render events
+            UIManager.Render(this);
+
             // Render all textures.
             TextureManager.Render(this);
 

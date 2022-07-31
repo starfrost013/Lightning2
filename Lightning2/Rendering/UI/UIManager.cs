@@ -8,7 +8,7 @@ namespace LightningGL
     /// <summary>
     /// UIManager
     /// 
-    /// May 15, 2022 (modified July 10, 2022)
+    /// May 15, 2022 (modified July 31, 2022)
     /// 
     /// A simple UI manager - all UI is on one layer, there is no hierarchy
     /// </summary>
@@ -21,6 +21,10 @@ namespace LightningGL
             UIElements = new List<Gadget>();
         }
 
+        /// <summary>
+        /// Adds a <see cref="Gadget"/> to the UI manager.
+        /// </summary>
+        /// <param name="uiElement"></param>
         public static void AddElement(Gadget uiElement)
         {
             NCLogging.Log($"Creating new Gadget::{uiElement.GetType().Name}");
@@ -119,6 +123,7 @@ namespace LightningGL
                 }
             }
         }
+
         public static void MouseLeave(Window cWindow)
         {
             foreach (Gadget uiElement in UIElements)

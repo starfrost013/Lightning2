@@ -191,7 +191,7 @@ namespace LightningGL
         {
             base.MouseMove(button, position, velocity);
 
-            // check if the item is intersecting and if so pass the event on
+            // pass the event on
             // and don't close it
             foreach (ListBoxItem item in Items)
             {

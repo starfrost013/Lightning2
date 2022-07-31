@@ -46,17 +46,18 @@ namespace NuCore.SDL2
 
         // This has been reverted, as it turns out that SDL2_image etc have a dependency on "SDL2.dll" therefore we can't rename it as it fails to load when renamed.
         // Currently using .csproj <Link> element to get around this currently.
-        // We CAN get around it by trapping the failed to load assembly event, try to look at this
-        private const string nativeLibName = @"Content\Libraries\SDL2";
+        // We CAN get around it by catching the failed to load assembly event, try to look at this
+        private const string nativeLibName = @"Libraries\SDL2";
 
         /// <summary>
         /// The version of the NuCore SDL2 Bindings
         /// </summary>
-        private static string SDL2CS_VERSION = $"NuCore SDL2 Bindings version {SDL2CS_VERSION_MAJOR}.{SDL2CS_VERSION_MINOR}.{SDL2CS_VERSION_REVISION} for LightningGL ©2022 starfrost ©2013-2021 Ethan Lee"; // cannot be const
+        private static string SDL2CS_VERSION = $"Using NuCore SDL2 Bindings version {SDL2CS_VERSION_MAJOR}.{SDL2CS_VERSION_MINOR}.{SDL2CS_VERSION_REVISION} " +
+            $"(SDL version {SDL_MAJOR_VERSION}.{SDL_MINOR_VERSION}.{SDL_PATCHLEVEL}) for LightningGL"; // cannot be const
 
         private const int SDL2CS_VERSION_MAJOR = 3;
         private const int SDL2CS_VERSION_MINOR = 0;
-        private const int SDL2CS_VERSION_REVISION = 9;
+        private const int SDL2CS_VERSION_REVISION = 10;
         #endregion
 
         #region UTF8 Marshaling

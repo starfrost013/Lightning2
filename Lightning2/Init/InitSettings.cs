@@ -18,6 +18,16 @@ namespace LightningGL
         public static string PackageFile { get; set; }
 
         /// <summary>
+        /// The folder to extract the package file specified by <see cref="PackageFile"/> to.
+        /// </summary>
+        public static string ContentFolder { get; set; }
+
+        static InitSettings()
+        {
+            ContentFolder = "Content";
+        }
+
+        /// <summary>
         /// Parses command-line arguments.
         /// </summary>
         /// <param name="args">The command-line arguments passed to your application.</param>
@@ -37,6 +47,9 @@ namespace LightningGL
                 {
                     case "-packagefile":
                         PackageFile = nextArg;
+                        continue;
+                    case "-contentfolder":
+                        ContentFolder = nextArg;
                         continue;
                 }
 

@@ -1,13 +1,13 @@
 ﻿#region License
 /* Lightning SDL2 Wrapper
  * 
- * Version 3.0 (NuRender/Lightning) + SDL2_gfx
+ * Version 3.0.10 for Lightning2
  * Copyright © 2022 starfrost
- * February 13, 2022
+ * July 31, 2022
  * 
  * This software is based on the open-source SDL2# - C# Wrapper for SDL2 library.
- *
- * Copyright (c) 2013-2021 Ethan Lee.
+ * Copyright © 2022 starfrost
+ * Copyright (c) 2013-2022 Ethan Lee.
  * 
  * This software is provided 'as-is', without any express or implied warranty.
  * In no event will the authors be held liable for any damages arising from
@@ -33,6 +33,7 @@
 #endregion
 
 #region Using Statements
+using System;
 using System.Runtime.InteropServices;
 #endregion
 
@@ -61,8 +62,15 @@ namespace NuCore.SDL2
             )
         }
 
-        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_Init(
+        public static int SDL_Init(SDL_InitFlags flags)
+        {
+            // print a sign-on message so that we know it's initialising
+            Console.WriteLine(SDL2CS_VERSION);
+            return SDL_Init__INTERNAL(flags);
+        }
+
+        [DllImport(nativeLibName, EntryPoint = "SDL_Init", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int SDL_Init__INTERNAL(
         [MarshalAs(UnmanagedType.U4)]
         SDL_InitFlags flags);
 
@@ -77,6 +85,15 @@ namespace NuCore.SDL2
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint SDL_WasInit(uint flags);
+
+        /* Use this function with GDK/GDKX to call your C# Main() function!
+        * Only available in SDL 2.24.0 or higher.
+        */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int SDL_GDKRunApp(
+            SDL_main_func mainFunction,
+            IntPtr reserved
+        );
 
         #endregion
 

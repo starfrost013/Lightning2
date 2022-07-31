@@ -38,7 +38,7 @@ namespace LightningGL
                 {
                     NCLogging.Log($"User specified package file {InitSettings.PackageFile} to load, loading it...");
                     
-                    if (!Packager.LoadPackage(InitSettings.PackageFile)) _ = new NCException($"An error occurred loading {InitSettings.PackageFile}. The game cannot be loaded.", 104, "Packager::LoadPackager returned false", NCExceptionSeverity.FatalError);
+                    if (!Packager.LoadPackage(InitSettings.PackageFile, InitSettings.ContentFolder)) _ = new NCException($"An error occurred loading {InitSettings.PackageFile}. The game cannot be loaded.", 104, "Packager::LoadPackager returned false", NCExceptionSeverity.FatalError);
                 }
 
                 NCLogging.Log("Initialising SDL...");
@@ -102,17 +102,17 @@ namespace LightningGL
 
             // create a list of fonts and audiofiles to unload
             // just foreaching through each font and audiofile doesn't work as collection is being modified 
-            List<Font> fonts_to_unload = new List<Font>();
-            List<AudioFile> audio_files_to_unload = new List<AudioFile>();
+            List<Font> fontsToUnload = new List<Font>();
+            List<AudioFile> audioFilesToUnload = new List<AudioFile>();
 
-            foreach (Font font_to_unload in FontManager.Fonts) fonts_to_unload.Add(font_to_unload);
-            foreach (AudioFile audio_file_to_unload in AudioManager.AudioFiles) audio_files_to_unload.Add(audio_file_to_unload);
+            foreach (Font fontToUnload in FontManager.Fonts) fontsToUnload.Add(fontToUnload);
+            foreach (AudioFile audioFileToUnload in AudioManager.AudioFiles) audioFilesToUnload.Add(audioFileToUnload);
 
             NCLogging.Log("Unloading fonts...");
-            foreach (Font font_to_unload in fonts_to_unload) FontManager.UnloadFont(font_to_unload);
+            foreach (Font fontToUnload in fontsToUnload) FontManager.UnloadFont(fontToUnload);
 
             NCLogging.Log("Unloading audio...");
-            foreach (AudioFile audio_file_to_unload in audio_files_to_unload) AudioManager.UnloadFile(audio_file_to_unload);
+            foreach (AudioFile audioFileToUnload in audioFilesToUnload) AudioManager.UnloadFile(audioFileToUnload);
 
             // Shut down the light manager if it has been started.
             NCLogging.Log("Shutting down the Light Manager...");
