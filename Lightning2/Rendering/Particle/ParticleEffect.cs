@@ -1,4 +1,4 @@
-﻿using LightningGL;
+﻿using NuCore.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -60,6 +60,11 @@ namespace LightningGL
         public ParticleMode Mode { get; set; }
 
         /// <summary>
+        /// The number of frames to wait between creating particles.
+        /// </summary>
+        public int FrameSkipBetweenCreatingParticles { get; set; }
+
+        /// <summary>
         /// Private field used for efficient generation of random numbers.
         /// </summary>
         private Random Random = new Random();
@@ -77,6 +82,7 @@ namespace LightningGL
 
         public void Load(Texture nTexture, Window cWindow)
         {
+            NCLogging.Log($"Loading particle effect at path {nTexture.Path}...");
             Particles = new List<Particle>();
             Texture = nTexture;
             Texture.Load(cWindow);
@@ -100,7 +106,15 @@ namespace LightningGL
                 Particles.Remove(particleToRemove);
             }
 
-            if (Particles.Count < Amount) AddParticleSet();
+            // determine if a new particle set is to be created. check if under max AND if frame skip
+            bool createNewParticleSet = (Particles.Count < Amount);
+
+            if (FrameSkipBetweenCreatingParticles > 0)
+            {
+                if (cWindow.FrameNumber % (FrameSkipBetweenCreatingParticles + 1) != 0) createNewParticleSet = false;
+            }
+
+            if (createNewParticleSet) AddParticleSet();
 
             Texture.Position = Position;
 

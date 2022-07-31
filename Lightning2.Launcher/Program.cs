@@ -79,12 +79,12 @@ testEffectTexture.Path = @"Content\Sparkles.png";
 
 ParticleEffect testEffect = new ParticleEffect(testEffectTexture)
 {
-    Amount = 400,
-    Lifetime = 80,
-    Variance = 20,
-    Velocity = new(4f, -4f),
+    Amount = 100,
+    Lifetime = 70,
+    Variance = 40,
+    Velocity = new(0.4f, -0.4f),
     Position = new(150, 500),
-    MaxNumberCreatedEachFrame = 5,
+    MaxNumberCreatedEachFrame = 1,
     Mode = ParticleMode.Normal,
 };
 
