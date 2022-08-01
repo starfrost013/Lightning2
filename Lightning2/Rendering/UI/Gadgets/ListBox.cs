@@ -39,9 +39,15 @@ namespace LightningGL
         public ListBoxItem SelectedItem => Items[SelectedIndex];
 
         /// <summary>
-        /// Determines if item colours will be alternated on every other item.
+        /// Determines if item colours will not be alternated on every other item.
         /// </summary>
-        public bool AlternateItemColours { get; set; }
+        public bool DontAlternateItemColours { get; set; }
+
+        /// <summary>
+        /// Determines how much the alternate item colours will be modified by.
+        /// A negative value brightens the colours. Default value is 30.
+        /// </summary>
+        public int AlternateItemColoursAmount { get; set; }
 
         /// <summary>
         /// Private: Size used to determine the size of the box that is actually drawn when the item is not open
@@ -58,6 +64,8 @@ namespace LightningGL
             OnMousePressed += ListBoxMousePressed;
             OnMouseReleased += ListBoxMouseReleased;
             OnMouseMove += ListBoxMouseMove;
+
+            AlternateItemColoursAmount = 30;
         }
 
         public void AddItem(ListBoxItem item)
@@ -78,16 +86,21 @@ namespace LightningGL
             if (item.BorderColour == default(Color)) item.BorderColour = BorderColour;
 
             // alternate the colours so they look a bit better
-            if (Items.Count % 2 == 0)
+            if (Items.Count % 2 == 0
+                && !DontAlternateItemColours)
             {
-                int altR = item.BackgroundColour.R - 30,
-                    altG = item.BackgroundColour.G - 30,
-                    altB = item.BackgroundColour.B - 30;
+                int altR = item.BackgroundColour.R - AlternateItemColoursAmount,
+                    altG = item.BackgroundColour.G - AlternateItemColoursAmount,
+                    altB = item.BackgroundColour.B - AlternateItemColoursAmount;
 
                 // make sure we are in valid colour ranges (not required for alpha)
                 if (altR < 0) altR = 0;
                 if (altG < 0) altG = 0;
                 if (altB < 0) altB = 0;
+
+                if (altR > 255) altR = 255;
+                if (altG > 255) altG = 255;
+                if (altB > 255) altB = 255;
 
                 item.BackgroundColour = Color.FromArgb(item.BackgroundColour.A,
                         altR,
