@@ -86,7 +86,6 @@ namespace LightningGL
             string engineShowFps = engineSection.GetValue("ShowFPS");
             string engineProfilePerf = engineSection.GetValue("PerformanceProfiler");
             string engineAboutScreenOnF9 = engineSection.GetValue("EngineAboutScreenOnShiftF9");
-            string enginePackageFile = engineSection.GetValue("PackageFile");
 
             // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
             int engineMaxFpsValue = 0;

@@ -12,6 +12,7 @@ namespace NuCore.Utilities
     /// 
     /// Written February 2022
     /// Updated July 2, 2022 in order to handle comments on the same line as values, handle newlines and rename variables to camelCase
+    /// Updated August 2, 2022 to fix bug with INI comments on the same line as values in non-section lines.
     /// </summary>
     public class NCINIFile
     {
@@ -58,6 +59,20 @@ namespace NuCore.Utilities
                     {
                         char iniLineChar0 = iniLine[0];
 
+                        // Handle comments on the same line after the value
+                        string[] iniLineComments = iniLine.Split(';');
+
+                        // if there ARE comments...
+                        if (iniLineChar0 != ';'
+                            && iniLineComments.Length > 1)
+                        {
+                            // if the line starts with a ; we will have already ignored it earlier
+                            // so simply cut off the comments
+                            iniLine = iniLineComments[0];
+                            iniLine = iniLine.Trim(); // trim again
+                        }
+
+
                         // Check various 
                         switch (iniLineChar0)
                         {
@@ -67,17 +82,6 @@ namespace NuCore.Utilities
                                     NCINIFileSection iniSection = new NCINIFileSection();
 
                                     iniFile.CurSection = iniSection;
-
-                                    // Handle comments on the same line after the value
-                                    string[] iniLineComments = iniLine.Split(';');
-
-                                    // if there ARE comments...
-                                    if (iniLineComments.Length > 1)
-                                    {
-                                        // if the line starts with a ; we will have already ignored it earlier
-                                        // so simply cut off the comments
-                                        iniLine = iniLineComments[0];
-                                    }
 
                                     int beginning = iniLine.IndexOf('[');
                                     int end = iniLine.IndexOf(']');

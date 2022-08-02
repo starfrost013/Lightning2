@@ -149,6 +149,7 @@ namespace LightningGL
 
         public void Render()
         {
+
             // Call all render events
             UIManager.Render(this);
 
