@@ -76,7 +76,7 @@ namespace LightningGL
 
                             transparent = Color.FromArgb((byte)transparency, transparent.R, transparent.G, transparent.B);
 
-                            LightManager.SSMapTexture.SetPixel(curX, curY, transparent);
+                            LightManager.ScreenSpaceMap.SetPixel(curX, curY, transparent);
                         }
                     }
                 }

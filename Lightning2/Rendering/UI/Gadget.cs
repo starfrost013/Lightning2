@@ -133,6 +133,7 @@ namespace LightningGL
 
         public virtual void MouseReleased(SDL_MouseButton button, Vector2 position)
         {
+            // this changes from pressed to hover colour
             if (AABB.Intersects(this, position))
             {
                 // we are hovering over the button so switch to the background colour
@@ -142,6 +143,7 @@ namespace LightningGL
             {
                 CurBackgroundColour = BackgroundColour;
             }
+            
             Pressed = false;
         }
 

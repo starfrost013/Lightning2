@@ -202,7 +202,29 @@ namespace LightningGL
 
         public virtual void ListBoxMouseMove(SDL_MouseButton button, Vector2 position, Vector2 velocity)
         {
-            base.MouseMove(button, position, velocity);
+            if (Open)
+            {
+                base.MouseMove(button, position, velocity);
+            }
+            else
+            {
+                // write our own handler here.
+                // this is VGUI tier code but its the only way it works, temporarily set the size to the box size and then do another collision test.
+                Vector2 tSize = Size;
+
+                Size = BoxSize;
+
+                if (AABB.Intersects(this, position))
+                {
+                    CurBackgroundColour = HoverColour;
+                }
+                else
+                {
+                    CurBackgroundColour = BackgroundColour;
+                }
+
+                Size = tSize;
+            }
 
             // pass the event on
             // and don't close it

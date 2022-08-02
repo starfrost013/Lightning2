@@ -52,20 +52,25 @@ namespace NuCore.SDL2
             public SDL_Keymod mod; /* UInt16 */
             public UInt32 unicode; /* Deprecated */
 
-            // 2021-04-13
-            
+            // April 13, 2021: Created
+            // August 2, 2022: Modified to add punctuation replacements
+
             /// <summary>
             /// Converts the <see cref="sym"/> property of this <see cref="SDL_Keysym"/> to a string.
             /// </summary>
             /// <returns>A string containing the key that the user has just pressed.</returns>
             public override string ToString()
             {
-                string S_Processed = sym.ToString();
+                string processedString = sym.ToString();
 
-                S_Processed = S_Processed.Replace("SDLK_", "");
-                S_Processed = S_Processed.ToUpperInvariant();
+                processedString = processedString.Replace("SDLK_", "");
+                processedString = processedString.ToUpperInvariant();
+                processedString = processedString.Replace("PERIOD", ".");
+                processedString = processedString.Replace("COMMA", ",");
+                processedString = processedString.Replace("SEMICOLON", ";");
+                processedString = processedString.Replace("COLON", ":");
 
-                return S_Processed; 
+                return processedString; 
             }
         }
 

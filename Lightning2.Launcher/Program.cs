@@ -205,6 +205,18 @@ ListBox listBox1 = new ListBox
     Font = "Arial.11pt"
 };
 
+TextBox textBox1 = new TextBox(300)
+{
+    Size = new Vector2(90, 44),
+    Position = new Vector2(350, 150),
+    BackgroundColour = Color.Red,
+    HoverColour = Color.DarkRed,
+    PressedColour = Color.Maroon,
+    ForegroundColour = Color.White,
+    Font = "Arial.11pt",
+    Filled = true
+};
+
 listBox1.AddItem(new ListBoxItem("test 1"));
 listBox1.AddItem(new ListBoxItem("test 2"));
 listBox1.AddItem(new ListBoxItem("dfsdfsdfsdfsdfsdf"));
@@ -213,6 +225,7 @@ listBox1.AddItem(new ListBoxItem("qasqsdfwqer"));
 
 UIManager.AddElement(btn1);
 UIManager.AddElement(listBox1);
+UIManager.AddElement(textBox1);
 
 TextureManager.AddTexture(texture);
 TextureManager.AddTexture(animatedTexture1);

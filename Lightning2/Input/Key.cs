@@ -4,12 +4,15 @@ namespace LightningGL
 {
     public class Key
     {
+        /// <summary>
+        /// The <see cref="SDL_Keysym"/> of the keyboard that has been pressed.
+        /// </summary>
         public SDL_Keysym KeySym { get; set; }
 
         /// <summary>
         /// The keyboard modifier state at the time that this button was pressed.
         /// </summary>
-        public SDL_Keymod KeyMod { get; set; }
+        public SDL_Keymod Modifiers { get; set; }
 
         public bool Repeated { get; set; }
 
@@ -18,7 +21,7 @@ namespace LightningGL
             return new Key
             {
                 KeySym = nKeySym.keysym,
-                KeyMod = SDL_GetModState(),
+                Modifiers = SDL_GetModState(),
                 Repeated = (nKeySym.repeat > 0)
             };
         }

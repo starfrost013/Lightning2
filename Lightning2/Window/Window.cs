@@ -109,8 +109,8 @@ namespace LightningGL
                         string curKeyString = curKey.KeySym.ToString();
 
                         if (curKeyString == "F9"
-                            && (curKey.KeyMod.HasFlag(SDL_Keymod.KMOD_LSHIFT) 
-                            || curKey.KeyMod.HasFlag(SDL_Keymod.KMOD_RSHIFT))
+                            && (curKey.Modifiers.HasFlag(SDL_Keymod.KMOD_LSHIFT) 
+                            || curKey.Modifiers.HasFlag(SDL_Keymod.KMOD_RSHIFT))
                             && GlobalSettings.EngineAboutScreenOnShiftF9) ShowEngineAboutScreen();
 
                         UIManager.KeyPressed(curKey);

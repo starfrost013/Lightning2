@@ -72,6 +72,8 @@ namespace LightningGL
 
         public static string ProcessString(string stringProcess)
         {
+            if (string.IsNullOrWhiteSpace(stringProcess)) return "";
+
             string start = "#[";
             string end = "]";
 

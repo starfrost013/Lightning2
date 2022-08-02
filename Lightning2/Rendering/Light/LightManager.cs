@@ -23,7 +23,7 @@ namespace LightningGL
         /// <summary>
         /// Internal: Texture used for rendering lights
         /// </summary>
-        internal static Texture SSMapTexture { get; private set; }
+        internal static Texture ScreenSpaceMap { get; private set; }
 
         /// <summary>
         /// The default colour of the environment.
@@ -43,7 +43,7 @@ namespace LightningGL
         public static void Init(Window Win)
         {
             // move this if it is slower
-            SSMapTexture = new Texture(Win, Win.Settings.Size);
+            ScreenSpaceMap = new Texture(Win, Win.Settings.Size);
             SetEnvironmentalLightBlendMode(SDL_BlendMode.SDL_BLENDMODE_BLEND);
             // This is used so we don't build lightmaps when LightManager.Init hasn't been called
             Initialised = true;
@@ -51,7 +51,7 @@ namespace LightningGL
 
         public static void AddLight(Window win, Light Light)
         {
-            if (SSMapTexture.Handle == IntPtr.Zero) _ = new NCException("You must initialise the Light Manager before using it!", 61, "LightManager.AddLight called before LightManager.Init!", NCExceptionSeverity.FatalError);
+            if (ScreenSpaceMap.Handle == IntPtr.Zero) _ = new NCException("You must initialise the Light Manager before using it!", 61, "LightManager.AddLight called before LightManager.Init!", NCExceptionSeverity.FatalError);
             Light.RenderToTexture(win);
             Lights.Add(Light);
         }
@@ -62,22 +62,22 @@ namespace LightningGL
             if (EnvironmentalLight == default(Color)) EnvironmentalLight = Color.FromArgb(255, 255, 255, 255);
 
             // Set all pixels in the texture to the environmental light colour.
-            SSMapTexture.Clear(EnvironmentalLight);
+            ScreenSpaceMap.Clear(EnvironmentalLight);
         }
 
-        public static void SetEnvironmentalLightBlendMode(SDL_BlendMode BlendMode) => SDL_SetTextureBlendMode(SSMapTexture.Handle, BlendMode);
+        public static void SetEnvironmentalLightBlendMode(SDL_BlendMode BlendMode) => SDL_SetTextureBlendMode(ScreenSpaceMap.Handle, BlendMode);
 
         public static void RenderLightmap(Window win)
         {
-            if (SSMapTexture.Handle == IntPtr.Zero) _ = new NCException("You must initialise the Light Manager before using it!", 62, "LightManager.RenderLightmap called before LightManager.Init!", NCExceptionSeverity.FatalError);
+            if (ScreenSpaceMap.Handle == IntPtr.Zero) _ = new NCException("You must initialise the Light Manager before using it!", 62, "LightManager.RenderLightmap called before LightManager.Init!", NCExceptionSeverity.FatalError);
 
-            SSMapTexture.Unlock();
-            SSMapTexture.Draw(win);
+            ScreenSpaceMap.Unlock();
+            ScreenSpaceMap.Draw(win);
         }
 
         /// <summary>
         /// Internal - used by LightningGL.Shutdown
         /// </summary>
-        internal static void Shutdown() => SDL_DestroyTexture(SSMapTexture.Handle);
+        internal static void Shutdown() => SDL_DestroyTexture(ScreenSpaceMap.Handle);
     }
 }
