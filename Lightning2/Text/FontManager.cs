@@ -1,10 +1,10 @@
-﻿using static NuCore.SDL2.SDL;
-using static NuCore.SDL2.SDL_ttf;
-using NuCore.Utilities;
+﻿using NuCore.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
+using static NuCore.SDL2.SDL;
+using static NuCore.SDL2.SDL_ttf;
 
 namespace LightningGL
 {
@@ -19,11 +19,11 @@ namespace LightningGL
 
         public static Font GetFont(string friendlyName)
         {
-            foreach (Font f in Fonts)
+            foreach (Font font in Fonts)
             {
-                if (f.FriendlyName == friendlyName)
+                if (font.FriendlyName == friendlyName)
                 {
-                    return f;
+                    return font;
                 }
             }
 
@@ -43,12 +43,12 @@ namespace LightningGL
             }
         }
 
-        public static void UnloadFont(Font nFont)
+        public static void UnloadFont(Font font)
         {
             try
             {
-                nFont.Unload();
-                Fonts.Remove(nFont);
+                font.Unload();
+                Fonts.Remove(font);
             }
             catch (Exception) // NC Exception
             {

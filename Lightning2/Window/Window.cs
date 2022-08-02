@@ -93,6 +93,7 @@ namespace LightningGL
         {
             // Set the last frame time.
             LastTime = DeltaTimer.ElapsedTicks;
+            DeltaTimer.Restart();
             SDL_RenderClear(Settings.RendererHandle);
         }
 
@@ -231,9 +232,9 @@ namespace LightningGL
 
             DeltaTime = (double)(ThisTime - LastTime) / 10000000;
 
-            CurFPS = 1 / DeltaTime;
+            CurFPS = 10000000 / ThisTime;
 
-            LastFrameTime = (DeltaTime * 1000);
+            LastFrameTime = ((double)ThisTime / 10000);
 
             if (GlobalSettings.ProfilePerf) PerformanceProfiler.Update(this);
             FrameNumber++;
