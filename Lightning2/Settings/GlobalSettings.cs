@@ -10,7 +10,7 @@ namespace LightningGL
     /// 
     /// March 11, 2022
     /// 
-    /// Defines the (serialised) global settings, located in Engine.ini
+    /// Defines the global settings, located in Engine.ini
     /// </summary>
     public static class GlobalSettings
     {
@@ -32,6 +32,10 @@ namespace LightningGL
         /// </summary>
         public static bool EngineAboutScreenOnShiftF9 { get; set; }
 
+        /// <summary>
+        /// Delete files that have been uncompressed from the WAD on exit.
+        /// </summary>
+        public static bool DeleteUnpackedFilesOnExit { get; set; }
         #endregion
         #region Graphics settings
         /// <summary>
@@ -106,24 +110,28 @@ namespace LightningGL
             string engineShowFps = engineSection.GetValue("ShowFPS");
             string engineProfilePerf = engineSection.GetValue("PerformanceProfiler");
             string engineAboutScreenOnF9 = engineSection.GetValue("EngineAboutScreenOnShiftF9");
+            string engineDeleteUnpackedFilesOnExit = engineSection.GetValue("DeleteUnpackedFilesOnExit");
 
             // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
             int engineMaxFpsValue = 0;
             bool engineShowFpsValue = false;
             bool engineProfilePerfValue = false;
-            bool engineAboutScreenOnF9Value = true; // default true for now
+            bool engineAboutScreenOnF9Value = false; 
+            bool engineDeleteUnpackedFilesOnExitValue = false; 
 
             _ = int.TryParse(engineMaxFps, out engineMaxFpsValue);
 
             // we don't care about the values here
             _ = bool.TryParse(engineShowFps, out engineShowFpsValue);
             _ = bool.TryParse(engineProfilePerf, out engineProfilePerfValue);
-            if (!bool.TryParse(engineAboutScreenOnF9, out engineAboutScreenOnF9Value)) engineAboutScreenOnF9Value = true; // force the default value
+            if (!bool.TryParse(engineAboutScreenOnF9, out engineAboutScreenOnF9Value)) engineAboutScreenOnF9Value = true; // force the default value, true for now
+            _ = bool.TryParse(engineDeleteUnpackedFilesOnExit, out engineDeleteUnpackedFilesOnExitValue);
 
             MaxFPS = engineMaxFpsValue;
             ShowFPS = engineShowFpsValue;
             ProfilePerf = engineProfilePerfValue;
             EngineAboutScreenOnShiftF9 = engineAboutScreenOnF9Value;
+            DeleteUnpackedFilesOnExit = engineDeleteUnpackedFilesOnExitValue;
 
             // Load the Graphics section.
             string resolutionX = graphicsSection.GetValue("ResolutionX");
@@ -142,6 +150,7 @@ namespace LightningGL
             _ = uint.TryParse(resolutionY, out resolutionYValue);
             _ = Enum.TryParse(windowFlags, true, out windowFlagsValue);
 
+            // Set those values.
             ResolutionX = resolutionXValue;
             ResolutionY = resolutionYValue;
             WindowFlags = windowFlagsValue;
@@ -160,9 +169,11 @@ namespace LightningGL
             uint positionXValue = 0;
             uint positionYValue = 0;
 
+            // parse positionX/positionY
             _ = uint.TryParse(positionX, out positionXValue);
             _ = uint.TryParse(positionY, out positionYValue);
 
+            // failed to load, set default values
             if (positionXValue == 0 && positionYValue == 0)
             {
                 positionXValue = (Convert.ToUInt32(ScreenResolutionX / 2)) - (ResolutionX / 2);

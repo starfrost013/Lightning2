@@ -86,6 +86,7 @@ namespace LightningGL
             Particles = new List<Particle>();
             Texture = nTexture;
             Texture.Load(cWindow);
+            Texture.SnapToScreen = SnapToScreen;
             if (MaxNumberCreatedEachFrame == 0) MaxNumberCreatedEachFrame = Amount / 150;
         }
 

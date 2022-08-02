@@ -9,6 +9,12 @@ namespace LightningPackager
     /// </summary>
     public static class Packager
     {
+        /// <summary>
+        /// Relative path to the game's content directory.
+        /// If no package is loaded, this value is <c>null</c>, otherwise it is a relative path to the game's content directory.
+        /// </summary>
+        public static string ContentDirectory { get; private set; }
+
         public static bool LoadPackage(string path, string outDir = ".")
         {
             NCLogging.Log($"Loading WAD file from {path}...");
@@ -24,8 +30,12 @@ namespace LightningPackager
 
             PackageFile packageFile = new PackageFile(metadata);
 
+            bool successful = packageFile.Extract(path, outDir);
+
             // extract the package
-            return packageFile.Extract(path, outDir);
+            if (successful) ContentDirectory = outDir;
+
+            return successful;
         }
 
         public static bool GeneratePackage(PackageFile packageFile, string inFolder, string path)
@@ -46,7 +56,23 @@ namespace LightningPackager
                 NCLogging.Log($"A fatal error occurred while generating a package: \n\n{err}");
                 return false;
             }
+        }
 
+        public static void Shutdown(bool deleteAll)
+        {
+            try
+            {
+                // delete the content directory recursively
+                if (deleteAll)
+                {
+                    NCLogging.Log("Cleaning up content directory...");
+                    Directory.Delete(ContentDirectory, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                _ = new NCException($"An error occurred cleaning up the content directory.\n\n{ex}", 109, $"An exception occurred in Packager::Shutdown with deleteAll = {deleteAll}", NCExceptionSeverity.Warning);
+            }
         }
     }
 }

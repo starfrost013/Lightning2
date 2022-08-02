@@ -118,11 +118,15 @@ namespace LightningGL
             NCLogging.Log("Shutting down the Light Manager...");
             if (LightManager.Initialised) LightManager.Shutdown();
 
+            // Shut down the particle manager.
             NCLogging.Log("Shutting down the Particle Manager...");
             ParticleManager.Shutdown();
 
-            // Shut everything down in reverse order.
+            // Clear up any unpacked package data if Engine.ini specifies such
+            NCLogging.Log("Cleaning up loaded package files, if any...");
+            Packager.Shutdown(GlobalSettings.DeleteUnpackedFilesOnExit);
 
+            // Shut all SDL subsystems down in reverse order.
             NCLogging.Log("Shutting down SDL_ttf...");
             SDL_ttf.TTF_Quit();
 
