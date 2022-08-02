@@ -69,8 +69,11 @@ namespace LightningGL
 
         public static Vector2 GetTextSize(Font font, string text)
         {
+            // check the string is not empty
+            if (string.IsNullOrWhiteSpace(text)) return default(Vector2);
+
             if (font == null  
-                || !Fonts.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.Size}) before loading it!", 81, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
+                || !Fonts.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.Size}) before trying to use it!", 81, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
 
             int fontSizeX,
                 fontSizeY;
@@ -80,8 +83,22 @@ namespace LightningGL
             return new Vector2(fontSizeX, fontSizeY);
         }
 
+        public static Vector2 GetTextSize(string font, string text)
+        {
+            Font curFont = GetFont(font);
+
+            return GetTextSize(curFont, text);
+        }
+
         public static Vector2 GetLargestTextSize(Font font, string text)
         {
+            // check the string is not empty
+            if (string.IsNullOrWhiteSpace(text)) return default(Vector2);
+
+            // check it's a real font
+            if (font == null
+            || !Fonts.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.Size}) before trying to use it!", 81, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
+
             string[] lines = text.Split('\n');
 
             Vector2 largestLineSize = default(Vector2); // 0,0
@@ -94,6 +111,13 @@ namespace LightningGL
             }
 
             return largestLineSize;
+        }
+
+        public static Vector2 GetLargestTextSize(string font, string text)
+        {
+            Font curFont = GetFont(font);
+
+            return GetLargestTextSize(curFont, text);
         }
 
         public static void DrawText(Window cWindow, string text, string font, Vector2 position, Color foreground, Color background = default(Color), TTF_FontStyle style = TTF_FontStyle.Normal, 

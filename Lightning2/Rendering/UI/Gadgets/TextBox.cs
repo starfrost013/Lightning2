@@ -1,5 +1,6 @@
 ﻿using static NuCore.SDL2.SDL;
 using NuCore.Utilities;
+using System.Numerics;
 
 namespace LightningGL
 {
@@ -32,6 +33,9 @@ namespace LightningGL
 
         public void KeyPressed(Key key)
         {
+            // reject if text longer than capacity
+            if (Text.Length > Capacity) return;
+
             SDL_Scancode keySym = key.KeySym.scancode;
             SDL_Keymod keyMod = key.KeySym.mod;
 
@@ -50,11 +54,6 @@ namespace LightningGL
                 case SDL_Scancode.SDL_SCANCODE_BACKSPACE:
                 case SDL_Scancode.SDL_SCANCODE_KP_BACKSPACE:
                     if (Text.Length > 0) Text = Text.Remove(Text.Length - 1, 1);
-                    return;
-                // append a space
-                case SDL_Scancode.SDL_SCANCODE_SPACE:
-                case SDL_Scancode.SDL_SCANCODE_KP_SPACE:
-                    Text = $"{Text} ";
                     return;
                 // do nothing
                 case SDL_Scancode.SDL_SCANCODE_LEFT:
@@ -87,8 +86,8 @@ namespace LightningGL
 
         public void Render(Window cWindow)
         {
-            //PrimitiveRenderer.DrawRectangle(this, )
-            FontManager.DrawText(cWindow, Text, Font, Position, ForegroundColour, BackgroundColour);
+            PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, BackgroundColour, true, BorderColour, BorderSize);
+            FontManager.DrawText(cWindow, Text, Font, Position, ForegroundColour);
         }
     }
 }

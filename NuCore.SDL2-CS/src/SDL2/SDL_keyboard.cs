@@ -69,7 +69,10 @@ namespace NuCore.SDL2
                 processedString = processedString.Replace("COMMA", ",");
                 processedString = processedString.Replace("SEMICOLON", ";");
                 processedString = processedString.Replace("COLON", ":");
-
+                processedString = processedString.Replace("KP_SPACE", " ");
+                processedString = processedString.Replace("SPACE", " ");
+                processedString = processedString.Replace("RETURN2", "\n");
+                processedString = processedString.Replace("RETURN", "\n");
                 return processedString; 
             }
         }
