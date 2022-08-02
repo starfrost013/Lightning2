@@ -60,7 +60,7 @@ namespace LightningGL
         public void Start(WindowSettings windowSettings)
         {
             // Check that the engine has been started.
-            if (!LightningGL.Initialised) _ = new NCException("You cannot start a window without initialising the engine - call Lightning2::Init first!", 0x0001DEAD, "Window::Start called before Lightning2::Init!", NCExceptionSeverity.FatalError);
+            if (!Lightning.Initialised) _ = new NCException("You cannot start a window without initialising the engine - call Lightning2::Init first!", 0x0001DEAD, "Window::Start called before Lightning2::Init!", NCExceptionSeverity.FatalError);
 
             if (windowSettings == null) _ = new NCException("Passed null WindowSettings to Window init method!", 7, "Window::AddWindow windowSettings parameter null", NCExceptionSeverity.FatalError);
 
@@ -139,7 +139,7 @@ namespace LightningGL
 
                         return true; 
                     case SDL_EventType.SDL_QUIT: // User requested a quit, so shut down
-                        LightningGL.Shutdown(this);
+                        Lightning.Shutdown(this);
                         return false;
                 }
             }

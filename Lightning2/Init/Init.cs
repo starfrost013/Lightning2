@@ -13,7 +13,7 @@ namespace LightningGL
     /// 
     /// © 2022 starfrost
     /// </summary>
-    public class LightningGL
+    public class Lightning
     {
         /// <summary>
         /// Determines if the engine has been initialised correctly.

@@ -8,7 +8,7 @@ using NuCore.SDL2;
 using System.Drawing;
 using System.Numerics;
 
-LightningGL.LightningGL.Init(args); // Initialise LightningGL
+LightningGL.Lightning.Init(args); // Initialise LightningGL
 Window cWindow = new Window();
 WindowSettings windowSettings = new WindowSettings();
 
