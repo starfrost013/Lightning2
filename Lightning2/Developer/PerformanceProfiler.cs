@@ -59,7 +59,7 @@ namespace LightningGL
         public static void Update(Window window)
         {
             if (!Initialised) return;
-            FileStream.WriteLine($"{window.FrameNumber},{window.LastFrameTime},{window.CurFPS}");
+            FileStream.WriteLine($"{window.FrameNumber},{window.DeltaTime},{window.CurFPS}");
             FPSList.Add(window.CurFPS);
         }
 

@@ -20,13 +20,11 @@ namespace LightningGL
 
         private long LastTime { get; set; }
 
-        public double DeltaTime { get; set; }
-
         private long ThisTime { get; set; }
 
-        public double LastFrameTime { get; set; }
+        public double DeltaTime { get; set; }
 
-        private Stopwatch DeltaTimer { get; set; }
+        private Stopwatch FrameTimer { get; set; }
 
         /// <summary>
         /// Internal: The current rate of frames rendered per second.
@@ -50,9 +48,9 @@ namespace LightningGL
 
         public Window()
         {
-            DeltaTimer = new Stopwatch();
+            FrameTimer = new Stopwatch();
             // Start the delta timer.
-            DeltaTimer.Start();
+            FrameTimer.Start();
             LastTime = 0;
             ThisTime = 0;
         }
@@ -92,8 +90,8 @@ namespace LightningGL
         private void Update()
         {
             // Set the last frame time.
-            LastTime = DeltaTimer.ElapsedTicks;
-            DeltaTimer.Restart();
+            LastTime = FrameTimer.ElapsedTicks;
+            FrameTimer.Restart();
             SDL_RenderClear(Settings.RendererHandle);
         }
 
@@ -194,7 +192,7 @@ namespace LightningGL
             if (maxFps > 0)
             {
                 double targetFrameTime = (1000) / (double)maxFps;
-                double actualFrameTime = LastFrameTime;
+                double actualFrameTime = DeltaTime;
 
                 double delayTime = targetFrameTime - actualFrameTime;
 
@@ -208,7 +206,7 @@ namespace LightningGL
         private void Render_DrawDebugInformation()
         {
             int currentY = (int)Settings.Camera.Position.Y;
-            PrimitiveRenderer.DrawText(this, $"FPS: {CurFPS.ToString("F1")} ({LastFrameTime.ToString("F2")}ms)", new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 255, 255), true);
+            PrimitiveRenderer.DrawText(this, $"FPS: {CurFPS.ToString("F1")} ({DeltaTime.ToString("F2")}ms)", new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 255, 255), true);
 
             if (CurFPS < GlobalSettings.MaxFPS)
             {
@@ -228,13 +226,11 @@ namespace LightningGL
         private void Render_UpdateFps()
         {
             // Set the current frame time.
-            ThisTime = DeltaTimer.ElapsedTicks;
-
-            DeltaTime = (double)(ThisTime - LastTime) / 1000;
+            ThisTime = FrameTimer.ElapsedTicks;
 
             CurFPS = 10000000 / ThisTime;
 
-            LastFrameTime = ((double)ThisTime / 10000);
+            DeltaTime = ((double)ThisTime / 10000);
 
             if (GlobalSettings.ProfilePerf) PerformanceProfiler.Update(this);
             FrameNumber++;
