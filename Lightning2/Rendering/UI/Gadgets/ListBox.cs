@@ -154,50 +154,86 @@ namespace LightningGL
 
         public void ListBoxMousePressed(SDL_MouseButton button, Vector2 position)
         {
-            // call the default handler
-            base.MousePressed(button, position);
-
-            // check if the item is intersecting and if so pass the event on
-            // and don't close it
-            for (int curItem = 0; curItem < Items.Count; curItem++)
+            if (Open)
             {
-                ListBoxItem item = Items[curItem];
+                // call the default handler
+                base.MousePressed(button, position);
 
-                if (AABB.Intersects(item, position)
-                    && Open)
+                // check if the item is intersecting and if so pass the event on
+                // and don't close it
+                for (int curItem = 0; curItem < Items.Count; curItem++)
                 {
-                    // select the messagebox 
-                    SelectedIndex = curItem;
+                    ListBoxItem item = Items[curItem];
 
-                    // allow the user to override positions
-                    item.OnMousePressed(button, position);
+                    if (AABB.Intersects(item, position))
+                    {
+                        // select the messagebox 
+                        SelectedIndex = curItem;
+
+                        // allow the user to override positions
+                        item.OnMousePressed(button, position);
+                    }
+
                 }
 
+                if (AABB.Intersects(this, position)) Open = !Open;
             }
-
-            if (AABB.Intersects(this, position))
-            {
-                Open = !Open;
-                return;
+            else
+            { 
+                if (BoxIntersects(position))
+                {
+                    base.MousePressed(button, position);
+                    Open = !Open;
+                }
             }
         }
 
+        private bool BoxIntersects(Vector2 position)
+        {
+            // write our own handler here.
+            // this is VGUI tier code but its the only way it works, temporarily set the size to the box size and then do another collision test.
+            Vector2 tSize = Size;
+
+            Size = BoxSize;
+
+            bool intersects = (AABB.Intersects(this, position));
+
+            Size = tSize;
+
+            return intersects;
+        }
 
         public void ListBoxMouseReleased(SDL_MouseButton button, Vector2 position)
         {
             base.MouseReleased(button, position);
 
-            // check if the item is intersecting and if so pass the event on
-            // and don't close it
-            foreach (ListBoxItem item in Items)
+            if (Open)
             {
-                if (AABB.Intersects(item, position)
-                    && Open)
+                // check if the item is intersecting and if so pass the event on
+                // and don't close it
+                foreach (ListBoxItem item in Items)
                 {
-                    // allow the user to override positions
-                    item.OnMouseReleased(button, position);
+                    if (AABB.Intersects(item, position))
+                    {
+                        // allow the user to override positions
+                        item.OnMouseReleased(button, position);
+                    }
                 }
             }
+            else
+            {
+                // terrible handler
+                if (BoxIntersects(position))
+                {
+                    // we are hovering over the button so switch to the background colour
+                    CurBackgroundColour = HoverColour;
+                }
+                else
+                {
+                    CurBackgroundColour = BackgroundColour;
+                }
+            }
+
         }
 
         public virtual void ListBoxMouseMove(SDL_MouseButton button, Vector2 position, Vector2 velocity)
@@ -208,13 +244,7 @@ namespace LightningGL
             }
             else
             {
-                // write our own handler here.
-                // this is VGUI tier code but its the only way it works, temporarily set the size to the box size and then do another collision test.
-                Vector2 tSize = Size;
-
-                Size = BoxSize;
-
-                if (AABB.Intersects(this, position))
+                if (BoxIntersects(position))
                 {
                     CurBackgroundColour = HoverColour;
                 }
@@ -222,8 +252,6 @@ namespace LightningGL
                 {
                     CurBackgroundColour = BackgroundColour;
                 }
-
-                Size = tSize;
             }
 
             // pass the event on

@@ -38,8 +38,11 @@ namespace LightningGL
             // SDL_EnableUNICODE is not supported and also doesn't translate key release events
             // so let's roll our own...
 
-            bool lowercase = (keyMod.HasFlag(SDL_Keymod.KMOD_LSHIFT) || keyMod.HasFlag(SDL_Keymod.KMOD_RSHIFT) || !keyMod.HasFlag(SDL_Keymod.KMOD_CAPS));
-            
+            bool lowercase = (!keyMod.HasFlag(SDL_Keymod.KMOD_CAPS));
+
+            // invert case on shift
+            if (keyMod.HasFlag(SDL_Keymod.KMOD_LSHIFT) || keyMod.HasFlag(SDL_Keymod.KMOD_RSHIFT)) lowercase = !lowercase;
+
             // switch various selected keys
             switch (keySym)
             {
@@ -67,6 +70,8 @@ namespace LightningGL
                 // some more:
                 case SDL_Scancode.SDL_SCANCODE_LGUI:
                 case SDL_Scancode.SDL_SCANCODE_RGUI:
+                case SDL_Scancode.SDL_SCANCODE_LCTRL:
+                case SDL_Scancode.SDL_SCANCODE_RCTRL:
                     return;
                 default:
                     string keyStr = key.KeySym.ToString();
