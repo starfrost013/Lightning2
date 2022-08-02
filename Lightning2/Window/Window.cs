@@ -230,7 +230,7 @@ namespace LightningGL
             // Set the current frame time.
             ThisTime = DeltaTimer.ElapsedTicks;
 
-            DeltaTime = (double)(ThisTime - LastTime) / 10000000;
+            DeltaTime = (double)(ThisTime - LastTime) / 1000;
 
             CurFPS = 10000000 / ThisTime;
 
