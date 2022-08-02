@@ -12,7 +12,7 @@ namespace NuCore.Utilities
     /// 
     /// Written February 2022
     /// Updated July 2, 2022 in order to handle comments on the same line as values, handle newlines and rename variables to camelCase
-    /// Updated August 2, 2022 to fix bug with INI comments on the same line as values in non-section lines.
+    /// Updated August 2, 2022 to fix bug with INI comments on the same line as values in non-section lines, as well as to make searches case-insensitive.
     /// </summary>
     public class NCINIFile
     {
@@ -107,6 +107,7 @@ namespace NuCore.Utilities
                                 continue;
                             case ';': // Comment
                             case '\n': // Newline (if anyone wishes to add padding)
+                            case '\r': // Windows newline (just in case)
                                 continue;
                             default: // Value
                                 if (iniLine.Contains('='))

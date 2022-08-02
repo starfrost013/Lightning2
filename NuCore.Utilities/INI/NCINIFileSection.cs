@@ -22,9 +22,13 @@ namespace NuCore.Utilities
 
         public string GetValue(string Key)
         {
+            Key = Key.ToLowerInvariant();
+
             foreach (var kvp in Values)
             {
-                if (kvp.Key == Key)
+                string caseInsensitiveKey = kvp.Key.ToLowerInvariant();
+
+                if (caseInsensitiveKey == Key)
                 {
                     return kvp.Value;
                 }

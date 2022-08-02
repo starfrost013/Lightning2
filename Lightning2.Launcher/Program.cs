@@ -13,7 +13,7 @@ Window cWindow = new Window();
 WindowSettings windowSettings = new WindowSettings();
 
 windowSettings.Title = "LightningGL Example";
-windowSettings.Position = new Vector2(350, 100);
+//windowSettings.Position = new Vector2(350, 100);
 
 cWindow.Start(windowSettings);
 

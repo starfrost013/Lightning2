@@ -65,7 +65,8 @@ namespace LightningGL
 
             // Set a few default values.
             if (WindowFlags == 0) WindowFlags = SDL_WindowFlags.SDL_WINDOW_SHOWN;
-            if (Size == new Vector2(0, 0)) Size = new Vector2(960, 640);
+            if (Size == default(Vector2)) Size = new Vector2(960, 640);
+            if (Position == default(Vector2)) Position = new Vector2(GlobalSettings.PositionX, GlobalSettings.PositionY);
             Background = Color.FromArgb(255, 0, 0, 0);
         }
     }
