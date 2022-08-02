@@ -24,76 +24,76 @@ namespace LightningGL
         /// <summary>
         /// Loads the audio file at path <see cref="Path"/>, if it exists.
         /// </summary>
-        /// <param name="FPath">The path of the file to load.</param>
-        /// <param name="Name">A name to assign to the audio file. Optional, will be automatically generated from the file path (extension and directory removed) if not supplied.</param>
+        /// <param name="path">The path of the file to load.</param>
+        /// <param name="name">A name to assign to the audio file. Optional, will be automatically generated from the file path (extension and directory removed) if not supplied.</param>
         /// <exception cref="NCException">An error occurred loading the file.</exception>
-        public static void LoadFile(string FPath, string Name = null)
+        public static void LoadFile(string path, string name = null)
         {
-            if (!File.Exists(FPath)) if (!File.Exists(FPath)) _ = new NCException($"Error loading audio file: The path {FPath} does not exist!", 52, "AudioFile.Load", NCExceptionSeverity.FatalError);
+            if (!File.Exists(path)) if (!File.Exists(path)) _ = new NCException($"Error loading audio file: The path {path} does not exist!", 52, "AudioFile.Load", NCExceptionSeverity.FatalError);
 
-            AudioFile temp_audio = new AudioFile();
+            AudioFile tempAudio = new AudioFile();
 
-            temp_audio.Path = FPath;
+            tempAudio.Path = path;
 
             // remove the extension and path from the name 
 
-            string[] path_extension_split = FPath.Split('.');
+            string[] pathExtensionSplit = path.Split('.');
 
-            if (Name == null)
+            if (name == null)
             {
-                if (path_extension_split.Length != 0)
+                if (pathExtensionSplit.Length != 0)
                 {
-                    temp_audio.Name = path_extension_split[0];
+                    tempAudio.Name = pathExtensionSplit[0];
                 }
 
-                string[] path_dir_split = temp_audio.Name.Split(Path.DirectorySeparatorChar);
+                string[] pathDirectorySplit = tempAudio.Name.Split(Path.DirectorySeparatorChar);
 
-                if (path_dir_split.Length == 0)
+                if (pathDirectorySplit.Length == 0)
                 {
-                    temp_audio.Name = FPath;
+                    tempAudio.Name = path;
                 }
                 else
                 {
-                    temp_audio.Name = path_dir_split[path_dir_split.Length - 1];
+                    tempAudio.Name = pathDirectorySplit[pathDirectorySplit.Length - 1];
                 }
 
-                string file_extension = path_extension_split[1];
+                string fileExtension = pathExtensionSplit[1];
 
-                temp_audio.Path = Path.Combine(path_dir_split);
-                temp_audio.Path = $"{temp_audio.Path}.{file_extension}";
+                tempAudio.Path = Path.Combine(pathDirectorySplit);
+                tempAudio.Path = $"{tempAudio.Path}.{fileExtension}";
             }
             else
             {
-                temp_audio.Name = Name;
+                tempAudio.Name = name;
             }
 
-            temp_audio.Load();
+            tempAudio.Load();
 
-            if (temp_audio.AudioHandle != IntPtr.Zero)
+            if (tempAudio.AudioHandle != IntPtr.Zero)
             {
-                temp_audio.Channel = AudioFiles.Count;
-                NCLogging.Log($"Loaded audio file at {FPath} to channel {temp_audio.Channel}");
-                AudioFiles.Add(temp_audio);
+                tempAudio.Channel = AudioFiles.Count;
+                NCLogging.Log($"Loaded audio file at {path} to channel {tempAudio.Channel}");
+                AudioFiles.Add(tempAudio);
             }
         }
 
-        public static void UnloadFile(AudioFile File)
+        public static void UnloadFile(AudioFile file)
         {
-            NCLogging.Log($"Unloading audio file {File.Name}...");
-            File.Unload();
-            AudioFiles.Remove(File);
+            NCLogging.Log($"Unloading audio file {file.Name}...");
+            file.Unload();
+            AudioFiles.Remove(file);
         }
 
         /// <summary>
         /// Acquires the <see cref="AudioFile"/> with the name <see cref="Name"/>.
         /// </summary>
-        /// <param name="Name">The name of the audio file to obtain.</param>
+        /// <param name="name">The name of the audio file to obtain.</param>
         /// <returns>The first instance of <see cref="AudioFile"/> in <see cref="AudioFiles"/> with the name <see cref="Name"/>, or <c>null</c> if there is no audio file with that name.</returns>
-        public static AudioFile GetFileWithName(string Name)
+        public static AudioFile GetFileWithName(string name)
         {
             foreach (AudioFile file in AudioFiles)
             {
-                if (file.Name == Name)
+                if (file.Name == name)
                 {
                     return file;
                 }
@@ -105,13 +105,13 @@ namespace LightningGL
         /// <summary>
         /// Acquires the <see cref="AudioFile"/> with path <see cref="Path"/>.
         /// </summary>
-        /// <param name="Name">The path of the audio file to obtain.</param>
+        /// <param name="name">The path of the audio file to obtain.</param>
         /// <returns>The first instance of <see cref="AudioFile"/> in <see cref="AudioFiles"/> with the path <see cref="Name"/>, or <c>null</c> if there is no audio file with that path.</returns>
-        public static AudioFile GetFileWithPath(string Name)
+        public static AudioFile GetFileWithPath(string name)
         {
             foreach (AudioFile file in AudioFiles)
             {
-                if (file.Path == Name)
+                if (file.Path == name)
                 {
                     return file;
                 }
