@@ -66,6 +66,9 @@ namespace LightningGL
 
             Settings = windowSettings;
 
+            // localise the window title
+            Settings.Title = LocalisationManager.ProcessString(Settings.Title);
+
             // Create the window,
             Settings.WindowHandle = SDL_CreateWindow(Settings.Title, (int)Settings.Position.X, (int)Settings.Position.Y, (int)Settings.Size.X, (int)Settings.Size.Y, Settings.WindowFlags);
 
