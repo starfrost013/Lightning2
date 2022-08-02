@@ -31,7 +31,7 @@ namespace LightningGL
         /// <summary>
         /// Internal: The current rate of frames rendered per second.
         /// </summary>
-        internal double CurFPS { get; set; }
+        internal double CurFPS { get; private set; }
 
         /// <summary>
         /// Internal: The number of frames since the engine started rendering. 
@@ -79,6 +79,12 @@ namespace LightningGL
 
             // Create the renderer.
             Settings.RendererHandle = SDL_CreateRenderer(Settings.WindowHandle, (int)Settings.ID, Settings.RenderFlags);
+
+            if (Settings.Camera == null)
+            {
+                Camera camera = new Camera(CameraType.Follow);
+                Settings.Camera = camera;
+            }
 
             if (Settings.RendererHandle == IntPtr.Zero) _ = new NCException($"Failed to create Renderer: {SDL_GetError()}", 9, "Window::AddWindow - SDL_CreateRenderer failed to create renderer", NCExceptionSeverity.FatalError);
         }
