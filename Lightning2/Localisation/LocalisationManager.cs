@@ -101,7 +101,7 @@ namespace LightningGL
 
                         if (localisationString == null) _ = new NCException($"Invalid localisation string - cannot find localised string {localisationTextId}!", 35, "LocalisationManager.ProcessString", NCExceptionSeverity.FatalError);
 
-                        stringProcess = stringProcess.Replace(localisationTextId, localisationString);
+                        stringProcess = stringProcess.ReplaceExact(localisationTextId, localisationString);
                     }
                 }
             }
