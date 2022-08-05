@@ -5,6 +5,11 @@ using System.IO;
 
 namespace LightningGL
 {
+    /// <summary>
+    /// Font
+    /// 
+    /// Defines a font.
+    /// </summary>
     public class Font
     {
         public string FriendlyName { get; set; }

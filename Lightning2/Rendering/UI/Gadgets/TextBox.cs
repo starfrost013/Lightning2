@@ -1,5 +1,6 @@
 ﻿using static NuCore.SDL2.SDL;
 using NuCore.Utilities;
+using System.Drawing;
 using System.Numerics;
 
 namespace LightningGL
@@ -22,19 +23,31 @@ namespace LightningGL
             }
         }
 
+        public bool HideCursor { get; set; }
+
         public int Capacity { get; set; }
+
+        public int CursorThickness { get; set; }
+        
+        public Color CursorColour { get; set; } 
+
+        public int CursorBlinkFrequency { get; set; }
 
         public TextBox(int capacity) : base()
         {
             Capacity = capacity;
             OnKeyPressed += KeyPressed;
             OnRender += Render;
+            CursorThickness = 2;
+            CursorBlinkFrequency = 25;
+            CursorColour = Color.White;
         }
 
         public void KeyPressed(Key key)
         {
             // reject if text longer than capacity
-            if (Text.Length > Capacity) return;
+            if (Text != null
+                && Text.Length > Capacity) return;
 
             SDL_Scancode keySym = key.KeySym.scancode;
             SDL_Keymod keyMod = key.KeySym.mod;
@@ -88,6 +101,15 @@ namespace LightningGL
         {
             PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, BackgroundColour, true, BorderColour, BorderSize);
             FontManager.DrawText(cWindow, Text, Font, Position, ForegroundColour);
+
+            if (!HideCursor)
+            {
+                Vector2 fontSize = FontManager.GetLargestTextSize(Font, Text);
+                Vector2 cursorPosition = new Vector2(Position.X + fontSize.X, Position.Y);
+
+                // actually blink it
+                if (cWindow.FrameNumber % CursorBlinkFrequency == 0) PrimitiveRenderer.DrawRectangle(cWindow, cursorPosition, new Vector2(CursorThickness, Size.Y), CursorColour);
+            }
         }
     }
 }

@@ -20,7 +20,7 @@ namespace NuCore.Utilities
         /// <param name="replace">The pattern to replace <paramref name="find"/> with.</param>
         /// <param name="ignoreCase">Determines if the compare will be case-insensitive or not.</param>
         /// <returns></returns>
-        public static string ReplaceExact(this string input, string find, string replace, bool ignoreCase = true)
+        public static string ReplaceExact(this string input, string find, string replace, bool ignoreCase = false)
         {
             if (ignoreCase) input = input.ToLower();
             string textToFind = string.Format(@"\b{0}\b", find);
