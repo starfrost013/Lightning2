@@ -202,24 +202,24 @@ namespace LightningGL
 
             if (requirementsSection != null)
             {
-                string minRam = requirementsSection.GetValue("MinimumRam");
+                string minRam = requirementsSection.GetValue("MinimumSystemRam");
                 string minLogicalProcessors = requirementsSection.GetValue("MinimumLogicalProcessors");
-                string requiredCpuFeatures = requirementsSection.GetValue("RequiredCpuFeatures");
+                string minimumCpuCapabilities = requirementsSection.GetValue("MinimumCpuCapabilities");
                 string minimumOperatingSystem = requirementsSection.GetValue("MinimumOperatingSystem");
 
                 int minRamValue = 0;
                 int minLogicalProcessorsValue = 0;
-                SystemInfoCPUCapabilities requiredCpuFeaturesValue = 0;
+                SystemInfoCPUCapabilities minimumCpuCapabilitiesValue = 0;
                 SystemInfoOperatingSystem minimumOperatingSystemValue = 0;
 
                 _ = int.TryParse(minRam, out minRamValue);
                 _ = int.TryParse(minLogicalProcessors, out minLogicalProcessorsValue);
-                _ = Enum.TryParse(requiredCpuFeatures, out requiredCpuFeaturesValue);
+                _ = Enum.TryParse(minimumCpuCapabilities, out minimumCpuCapabilitiesValue);
                 _ = Enum.TryParse(minimumOperatingSystem, out minimumOperatingSystemValue);
 
                 MinimumSystemRam = minRamValue;
                 MinimumLogicalProcessors = minLogicalProcessorsValue;
-                MinimumCpuCapabilities = requiredCpuFeaturesValue;
+                MinimumCpuCapabilities = minimumCpuCapabilitiesValue;
                 MinimumOperatingSystem = minimumOperatingSystemValue;
             }
         }
@@ -229,25 +229,25 @@ namespace LightningGL
             // test system ram
             if (MinimumSystemRam > SystemInfo.SystemRam)
             {
-                _ = new NCException($"Insufficient RAM to run game. {MinimumSystemRam}MB required, you have {SystemInfo.SystemRam}", 111, $"System RAM less than GlobalSettings::MinimumSystemRam!", NCExceptionSeverity.FatalError);
+                _ = new NCException($"Insufficient RAM to run game. {MinimumSystemRam}MB required, you have {SystemInfo.SystemRam}MB!", 111, $"System RAM less than GlobalSettings::MinimumSystemRam!", NCExceptionSeverity.FatalError);
             }
 
             // test threads
             if (MinimumLogicalProcessors > SystemInfo.Cpu.Threads)
             {
-                _ = new NCException($"Insufficient logical processors to run game. {MinimumLogicalProcessors} threads required, you have {SystemInfo.Cpu.Threads}", 112, $"System logical processor count less than GlobalSettings::MinimumLogicalProcessors!", NCExceptionSeverity.FatalError);
+                _ = new NCException($"Insufficient logical processors to run game. {MinimumLogicalProcessors} threads required, you have {SystemInfo.Cpu.Threads}!", 112, $"System logical processor count less than GlobalSettings::MinimumLogicalProcessors!", NCExceptionSeverity.FatalError);
             }
 
             // test cpu functionality
             if (MinimumCpuCapabilities > SystemInfo.Cpu.Capabilities)
             {
-                _ = new NCException($"Insufficient CPU capabilities to run game. {MinimumCpuCapabilities} capabilities required, you have {SystemInfo.Cpu.Capabilities}", 113, $"CPU capabilities less than GlobalSettings::MinimumCpuCapabilities!", NCExceptionSeverity.FatalError);
+                _ = new NCException($"Insufficient CPU capabilities to run game. {MinimumCpuCapabilities} capabilities required, you have {SystemInfo.Cpu.Capabilities}!", 113, $"CPU capabilities less than GlobalSettings::MinimumCpuCapabilities!", NCExceptionSeverity.FatalError);
             }
 
             // test OS version
             if (MinimumOperatingSystem > SystemInfo.CurOperatingSystem)
             {
-                _ = new NCException($"Insufficient OS version to run game. {MinimumOperatingSystem} must be used, you have {SystemInfo.CurOperatingSystem}", 114, $"OS version less than GlobalSettings::MinimumOperatingSystem!", NCExceptionSeverity.FatalError);
+                _ = new NCException($"Insufficient OS version to run game. {MinimumOperatingSystem} must be used, you have {SystemInfo.CurOperatingSystem}!", 114, $"OS version less than GlobalSettings::MinimumOperatingSystem!", NCExceptionSeverity.FatalError);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NuCore.SDL2;
+using System;
 using System.Text;
 
 namespace NuCore.Utilities
@@ -68,17 +69,17 @@ namespace NuCore.Utilities
                 switch (ExceptionSeverity)
                 {
                     case NCExceptionSeverity.Message:
-                        NCMessageBoxPresets.MessageBoxOK("Information", err_string, SDL2.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION);
+                        NCMessageBoxPresets.MessageBoxOK("Information", err_string, SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION);
                         return;
                     case NCExceptionSeverity.Warning:
-                        NCMessageBoxPresets.MessageBoxOK("Warning", err_string, SDL2.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_WARNING);
+                        NCMessageBoxPresets.MessageBoxOK("Warning", err_string, SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_WARNING);
                         return;
                     case NCExceptionSeverity.Error:
-                        NCMessageBoxPresets.MessageBoxOK("Error", err_string, SDL2.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR);
+                        NCMessageBoxPresets.MessageBoxOK("Error", err_string, SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR);
                         return;
                     case NCExceptionSeverity.FatalError:
                         NCMessageBoxPresets.MessageBoxOK("Fatal Error", $"A fatal error has occurred:\n\n{err_string}\n\n" +
-                            $"The program must exit. We are sorry for the inconvenience.", SDL2.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR);
+                            $"The program must exit. We are sorry for the inconvenience.", SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR);
                         Environment.Exit(Id);
                         return;
 
