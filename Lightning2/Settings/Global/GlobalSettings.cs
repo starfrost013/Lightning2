@@ -245,9 +245,9 @@ namespace LightningGL
             }
 
             // test OS version
-            if (MinimumOperatingSystem > SystemInfo.OperatingSystem)
+            if (MinimumOperatingSystem > SystemInfo.CurOperatingSystem)
             {
-                _ = new NCException($"Insufficient OS version to run game. {MinimumOperatingSystem} must be used, you have {SystemInfo.OperatingSystem}", 114, $"OS version less than GlobalSettings::MinimumOperatingSystem!", NCExceptionSeverity.FatalError);
+                _ = new NCException($"Insufficient OS version to run game. {MinimumOperatingSystem} must be used, you have {SystemInfo.CurOperatingSystem}", 114, $"OS version less than GlobalSettings::MinimumOperatingSystem!", NCExceptionSeverity.FatalError);
             }
         }
     }
