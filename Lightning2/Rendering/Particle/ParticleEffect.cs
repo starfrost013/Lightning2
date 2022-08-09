@@ -74,6 +74,16 @@ namespace LightningGL
         /// </summary>
         private int LastId { get; set; }
 
+        /// <summary>
+        /// Determines if this particle effect is playing always or needs to be manually triggered.
+        /// </summary>
+        public bool NeedsManualTrigger { get; set; }
+
+        /// <summary>
+        /// Determines if this particle effect is playing.
+        /// </summary>
+        private bool Playing { get; set; }
+
         public ParticleEffect(Texture nTexture)
         {
             Texture = nTexture;
@@ -184,17 +194,21 @@ namespace LightningGL
 
         public void AddParticle()
         {
+            // if needsmanualtrigger then don't play if we are not playing the particle effect
+            if (NeedsManualTrigger
+                && !Playing) return;
+
             Particle particle = new Particle();
 
             // This is a bit hacky but it's less code than making
             // Rnd.NextDouble generate a negative number
-            int nVariance = (int)(Variance * 100000);
+            int nVariance = (int)(Variance * 10000000);
 
             float varX = Random.Next(-nVariance, nVariance);
             float varY = Random.Next(-nVariance, nVariance);
 
-            varX /= 100000;
-            varY /= 100000;
+            varX /= 10000000;
+            varY /= 10000000;
 
             particle.Position = Position + new Vector2(varX, varY);
 
@@ -211,9 +225,20 @@ namespace LightningGL
             Particles.Add(particle);
         }
 
+        public void Play()
+        { 
+            if (NeedsManualTrigger && !Playing) Playing = true;
+        }
+
+        public void Stop()
+        {
+            if (NeedsManualTrigger && Playing) Playing = false;
+        }
+
         public void Unload()
         {
             Particles.Clear();
         }
+        
     }
 }
