@@ -19,7 +19,8 @@ namespace LightningGL
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;
 
-            if (currentCamera != null && !snapToScreen)
+            if (currentCamera != null 
+                && !snapToScreen)
             {
                 position.X -= currentCamera.Position.X;
                 position.Y -= currentCamera.Position.Y;
@@ -45,7 +46,8 @@ namespace LightningGL
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;
 
-            if (currentCamera != null)
+            if (currentCamera != null
+                && !snapToScreen)
             {
                 start.X -= currentCamera.Position.X;
                 start.Y -= currentCamera.Position.Y;
@@ -195,7 +197,6 @@ namespace LightningGL
             {
                 SDL_gfx.aaellipseRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y, (int)size.X, (int)size.Y, colour.R, colour.G, colour.B, colour.A);
             }
-
         }
 
         private static void DrawCircle_DrawFilledCircle(Window cWindow, Vector2 position, Vector2 size, Color colour)
