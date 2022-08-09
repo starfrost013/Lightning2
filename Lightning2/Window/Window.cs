@@ -16,7 +16,7 @@ namespace LightningGL
         /// <summary>
         /// The settings of this window - see <see cref="WindowSettings"/>.
         /// </summary>
-        public WindowSettings Settings { get; set; }
+        public WindowSettings Settings { get; internal set; }
 
         private long LastTime { get; set; }
 
@@ -58,7 +58,7 @@ namespace LightningGL
         public void Start(WindowSettings windowSettings)
         {
             // Check that the engine has been started.
-            if (!Lightning.Initialised) _ = new NCException("You cannot start a window without initialising the engine - call Lightning2::Init first!", 0x0001DEAD, "Window::Start called before Lightning2::Init!", NCExceptionSeverity.FatalError);
+            if (!Lightning.Initialised) _ = new NCException("You cannot start a window without initialising the engine - call Lightning::Init first!", 0x0001DEAD, "Window::Start called before Lightning::Init!", NCExceptionSeverity.FatalError);
 
             if (windowSettings == null) _ = new NCException("Passed null WindowSettings to Window init method!", 7, "Window::AddWindow windowSettings parameter null", NCExceptionSeverity.FatalError);
 

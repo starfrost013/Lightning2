@@ -32,11 +32,15 @@ namespace LightningGL
         /// </summary>
         public Vector2 FocusDelta { get; set; }
 
+        /// <summary>
+        /// The type of this camera.
+        /// See <see cref="CameraType"/>.
+        /// </summary>
         public CameraType Type { get; internal set; }
 
-        public Camera(CameraType new_type)
+        public Camera(CameraType type)
         {
-            Type = new_type;
+            Type = type;
         }
     }
 }

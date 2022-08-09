@@ -73,15 +73,7 @@ namespace LightningGL
         /// </summary>
         public static uint PositionY { get; set; }
 
-        /// <summary>
-        /// Screen resolution X; loaded by the settings loader and not set by the developer.
-        /// </summary>
-        public static uint ScreenResolutionX { get; set; }
 
-        /// <summary>
-        /// Screen resolution X; loaded by the settings loader and not set by the developer.
-        /// </summary>
-        public static uint ScreenResolutionY { get; set; }
         #endregion
 
         internal static void Load()
@@ -155,17 +147,6 @@ namespace LightningGL
             ResolutionY = resolutionYValue;
             WindowFlags = windowFlagsValue;
 
-            // get the resolution of the first monitor as most people have one monitor. 
-            // this is pre-window initialisation so we can't query the monitor the window is on because there's no window yet
-
-            SDL_DisplayMode displayMode = new SDL_DisplayMode();
-
-            SDL_GetCurrentDisplayMode(0, out displayMode);
-
-            // store the screen resolution
-            ScreenResolutionX = Convert.ToUInt32(displayMode.w);
-            ScreenResolutionY = Convert.ToUInt32(displayMode.h);
-
             uint positionXValue = 0;
             uint positionYValue = 0;
 
@@ -176,8 +157,8 @@ namespace LightningGL
             // failed to load, set default values
             if (positionXValue == 0 && positionYValue == 0)
             {
-                positionXValue = (Convert.ToUInt32(ScreenResolutionX / 2)) - (ResolutionX / 2);
-                positionYValue = (Convert.ToUInt32(ScreenResolutionY / 2)) - (ResolutionY / 2);
+                positionXValue = (Convert.ToUInt32(SystemInfo.ScreenResolutionX / 2)) - (ResolutionX / 2);
+                positionYValue = (Convert.ToUInt32(SystemInfo.ScreenResolutionY / 2)) - (ResolutionY / 2);
             }
 
             PositionX = positionXValue;

@@ -56,6 +56,9 @@ namespace LightningGL
                 NCLogging.Log("Initialising audio device...");
                 if (SDL_mixer.Mix_OpenAudio(44100, SDL_mixer.Mix_AudioFormat.MIX_DEFAULT_FORMAT, 2, 2048) < 0) _ = new NCException($"Error initialising audio device: {SDL.SDL_GetError()}", 56, "LightningGL::Init", NCExceptionSeverity.FatalError);
 
+                NCLogging.Log("Obtaining system information...");
+                SystemInfo.Load();
+
                 NCLogging.Log("Loading Engine.ini...");
                 GlobalSettings.Load();
 

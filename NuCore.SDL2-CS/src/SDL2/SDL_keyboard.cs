@@ -63,8 +63,8 @@ namespace NuCore.SDL2
             {
                 string processedString = sym.ToString();
 
-                processedString = processedString.Replace("SDLK_", "");
                 processedString = processedString.ToUpperInvariant();
+                processedString = processedString.Replace("SDLK_", "");
                 processedString = processedString.Replace("PERIOD", ".");
                 processedString = processedString.Replace("COMMA", ",");
                 processedString = processedString.Replace("SEMICOLON", ";");

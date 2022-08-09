@@ -57,7 +57,7 @@ namespace NuCore.SDL2
 
         private const int SDL2CS_VERSION_MAJOR = 3;
         private const int SDL2CS_VERSION_MINOR = 0;
-        private const int SDL2CS_VERSION_REVISION = 10;
+        private const int SDL2CS_VERSION_REVISION = 11;
         #endregion
 
         #region UTF8 Marshaling
