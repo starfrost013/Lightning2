@@ -62,6 +62,9 @@ namespace LightningGL
                 NCLogging.Log("Loading Engine.ini...");
                 GlobalSettings.Load();
 
+                NCLogging.Log("Validating system requirements...");
+                GlobalSettings.Validate();
+
                 NCLogging.Log("Initialising LocalisationManager...");
                 LocalisationManager.Load();
 
@@ -69,6 +72,12 @@ namespace LightningGL
                 {
                     NCLogging.Log("Performance Profiler enabled, initialising profiler...");
                     PerformanceProfiler.Start();
+                }
+
+                if (GlobalSettings.LocalSettingsPath != null)
+                {
+                    NCLogging.Log($"Loading local settings from {GlobalSettings.LocalSettingsPath}");
+                    LocalSettings.Load();
                 }
 
                 Initialised = true;

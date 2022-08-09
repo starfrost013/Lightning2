@@ -12,7 +12,8 @@ namespace NuCore.Utilities
     /// 
     /// Written February 2022
     /// Updated July 2, 2022 in order to handle comments on the same line as values, handle newlines and rename variables to camelCase
-    /// Updated August 2, 2022 to fix bug with INI comments on the same line as values in non-section lines, as well as to make searches case-insensitive.
+    /// Updated August 2, 2022 to fix a bug with INI comments on the same line as values in non-section lines, as well as to make searches case-insensitive.
+    /// Updated August 9, 2022 to add serialisation to file.
     /// </summary>
     public class NCINIFile
     {
@@ -154,6 +155,41 @@ namespace NuCore.Utilities
             {
                 _ = new NCException($"INI parsing error: Cannot parse INI file at {path}: \n\n{ex}", 22, "NCINIFile::Parse - unknown exception occurred", NCExceptionSeverity.Error);
                 return null;
+            }
+        }
+
+        /// <summary>
+        /// Writes the content of this <see cref="NCINIFile"/> to a physical .ini file.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public bool Write(string path)
+        {
+            List<string> iniLines = new List<string>();
+
+            foreach (NCINIFileSection section in Sections)
+            {
+                iniLines.Add($"[{section.Name}]");
+
+                foreach (KeyValuePair<string, string> item in section.Values)
+                {
+                    iniLines.Add($"{item.Key} = \"{item.Value}\"");
+                }
+            }
+
+            string[] iniLineArray = iniLines.ToArray();
+
+            // write to file
+
+            try
+            {
+                File.WriteAllLines(path, iniLineArray);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _ = new NCException($"Error writing to INi: {ex.Message}", 110, "An exception occurred in NCINIFile::Write", NCExceptionSeverity.Error);
+                return false;
             }
         }
 

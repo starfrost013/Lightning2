@@ -22,6 +22,9 @@ namespace LightningGL
 
         private long ThisTime { get; set; }
 
+        /// <summary>
+        /// Delta-time used for ensuring objects move at the same speed regardless of framerate.
+        /// </summary>
         public double DeltaTime { get; set; }
 
         private Stopwatch FrameTimer { get; set; }

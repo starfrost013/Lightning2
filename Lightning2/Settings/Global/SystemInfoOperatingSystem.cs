@@ -33,7 +33,7 @@ namespace LightningGL
         /// <summary>
         /// Microsoft Windows 10, Threshold 2 (1511 release)
         /// </summary>
-        Win10TH2 = 4,  
+        Win10TH2 = 4,
 
         /// <summary>
         /// Microsoft Windows 10, Redstone 1 (1607 release)
@@ -68,7 +68,7 @@ namespace LightningGL
         /// <summary>
         /// Microsoft Windows 10, 19H2 (1909 release)
         /// </summary>
-        Win1019H2 = 11,    
+        Win1019H2 = 11,
 
         /// <summary>
         /// Microsoft Windows 10, Vibranium (2003 release)
