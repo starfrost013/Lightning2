@@ -5,7 +5,7 @@ using System.Reflection;
 
 [assembly: AssemblyVersion("1.0.0.164")]
 [assembly: AssemblyFileVersion("1.0.0.164")]
-[assembly: AssemblyInformationalVersion("1.0.0-beta1 build 164, built 2022-08-09 20:51:23")]
+[assembly: AssemblyInformationalVersion("1.0.0-beta1 build 164, built 2022-08-09 23:14:10")]
 [assembly: AssemblyTitle("Lightning Graphics Library")]
 
 namespace LightningGL
@@ -18,7 +18,7 @@ namespace LightningGL
 		public static int LIGHTNING_VERSION_BUILD = 164;
 		public static string LIGHTNING_VERSION_SPECIFIER = "-beta1";
 		public static string LIGHTNING_VERSION_STRING = "1.0.0-beta1";
-		public static string LIGHTNING_VERSION_EXTENDED_STRING = "1.0.0-beta1 build 164, built 2022-08-09 20:51:23";
+		public static string LIGHTNING_VERSION_EXTENDED_STRING = "1.0.0-beta1 build 164, built 2022-08-09 23:14:10";
 	}
 }
 

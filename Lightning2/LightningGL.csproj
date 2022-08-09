@@ -111,9 +111,8 @@
     <Content Include="Libraries\SDL2_ttf-v2.0.18-x64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-	<Content Include="Libraries\SDL2-v2.0.22-x64.dll">
+	<Content Include="Libraries\SDL2.dll">
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  <Link>Libraries\SDL2.dll</Link>
 	</Content>
     <Content Include="zlib1.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

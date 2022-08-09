@@ -8,7 +8,7 @@ using NuCore.SDL2;
 using System.Drawing;
 using System.Numerics;
 
-LightningGL.Lightning.Init(args); // Initialise LightningGL
+Lightning.Init(args); // Initialise LightningGL
 Window cWindow = new Window();
 WindowSettings windowSettings = new WindowSettings();
 
@@ -92,70 +92,70 @@ ParticleManager.AddParticleEffect(cWindow, testEffect);
 
 LightManager.AddLight(cWindow, new Light
 {
-    Position = new Vector2(50, 375),
+    Position = new(50, 375),
     Range = 4,
     Brightness = 15,
 });
 
 LightManager.AddLight(cWindow, new Light
 {
-    Position = new Vector2(250, 300),
+    Position = new(250, 300),
     Range = 4,
     Brightness = 31,
 });
 
 LightManager.AddLight(cWindow, new Light
 {
-    Position = new Vector2(450, 225),
+    Position = new(450, 225),
     Range = 4,
     Brightness = 63,
 });
 
 LightManager.AddLight(cWindow, new Light
 {
-    Position = new Vector2(650, 150),
+    Position = new(650, 150),
     Range = 4,
     Brightness = 127,
 });
 
 LightManager.AddLight(cWindow, new Light
 {
-    Position = new Vector2(850, 75),
+    Position = new(850, 75),
     Range = 4,
     Brightness = 255,
 });
 
 LightManager.AddLight(cWindow, new Light
 {
-    Position = new Vector2(850, 275),
+    Position = new(850, 275),
     Range = 4,
     Brightness = 255,
 });
 
 LightManager.AddLight(cWindow, new Light
 {
-    Position = new Vector2(850, 475),
+    Position = new(850, 475),
     Range = 4,
     Brightness = 255,
 });
 
 LightManager.AddLight(cWindow, new Light
 {
-    Position = new Vector2(850, 675),
+    Position = new(850, 675),
     Range = 4,
     Brightness = 255,
 });
 
 LightManager.AddLight(cWindow, new Light
 {
-    Position = new Vector2(0, 0),
+    Position = new(0, 0),
     Range = 4,
     Brightness = 255,
 });
 
 LightManager.AddLight(cWindow, new Light
 {
-    Position = new Vector2(200, 0),
+    Position = new(200, 0),
     Range = 4,
     Brightness = 255,
 });
@@ -182,8 +182,8 @@ cWindow.SetCurrentCamera(camera);
 
 Button btn1 = new Button()
 {
-    Position = new Vector2(150, 150),
-    Size = new Vector2(44, 44),
+    Position = new(150, 150),
+    Size = new(44, 44),
     Text = "button",
     BackgroundColour = Color.PaleGoldenrod,
     HoverColour = Color.Goldenrod,
@@ -195,8 +195,8 @@ Button btn1 = new Button()
 
 ListBox listBox1 = new ListBox
 {
-    Position = new Vector2(70, 150),
-    Size = new Vector2(90, 44),
+    Position = new(70, 150),
+    Size = new(90, 44),
     BackgroundColour = Color.PaleGoldenrod,
     HoverColour = Color.Goldenrod,
     PressedColour = Color.DarkGoldenrod,
@@ -207,8 +207,8 @@ ListBox listBox1 = new ListBox
 
 TextBox textBox1 = new TextBox(300)
 {
-    Size = new Vector2(90, 44),
-    Position = new Vector2(350, 150),
+    Size = new(90, 44),
+    Position = new(350, 150),
     BackgroundColour = Color.Red,
     HoverColour = Color.DarkRed,
     PressedColour = Color.Maroon,
@@ -217,11 +217,11 @@ TextBox textBox1 = new TextBox(300)
     Filled = true
 };
 
-listBox1.AddItem(new ListBoxItem("test 1"));
-listBox1.AddItem(new ListBoxItem("test 2"));
-listBox1.AddItem(new ListBoxItem("dfsdfsdfsdfsdfsdf"));
-listBox1.AddItem(new ListBoxItem("zxczxzxzx"));
-listBox1.AddItem(new ListBoxItem("qasqsdfwqer"));
+listBox1.AddItem(new("test 1"));
+listBox1.AddItem(new("test 2"));
+listBox1.AddItem(new("dfsdfsdfsdfsdfsdf"));
+listBox1.AddItem(new("zxczxzxzx"));
+listBox1.AddItem(new("qasqsdfwqer"));
 
 UIManager.AddElement(btn1);
 UIManager.AddElement(listBox1);
@@ -232,20 +232,20 @@ TextureManager.AddTexture(animatedTexture1);
 
 while (cWindow.Run())
 {
-    SDL.SDL_Event cur_event = cWindow.LastEvent;
+    SDL.SDL_Event curEvent = cWindow.LastEvent;
 
     if (cWindow.EventWaiting)
     {
-        switch (cur_event.type)
+        switch (curEvent.type)
         {
             case SDL.SDL_EventType.SDL_KEYDOWN: // Key is held down.
-                Key nkey = (Key)cur_event.key;
+                Key nkey = (Key)curEvent.key;
 
-                string key_string = nkey.ToString();
+                string keyString = nkey.ToString();
 
-                nkey.Repeated = (cur_event.key.repeat > 0);
+                nkey.Repeated = (curEvent.key.repeat > 0);
 
-                switch (key_string)
+                switch (keyString)
                 {
                     case "LEFT":
                     case "A":
