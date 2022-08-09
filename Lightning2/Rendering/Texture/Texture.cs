@@ -254,7 +254,6 @@ namespace LightningGL
         /// <exception cref="NCException">An error occurred rendering the texture. Extended information is available in <see cref="NCException.Description"/></exception>
         public override void Draw(Window cWindow)
         {
-            
             if (!Loaded
                 && _path != null) _ = new NCException($"Texture {Path} being drawn without being loaded, you will see a black box!", 94, "Texture with image not loaded (Texture::Loaded = false)", NCExceptionSeverity.Warning, null, true); // don't show a message box
 
@@ -291,6 +290,15 @@ namespace LightningGL
                 destinationRect.y = RenderPosition.Y;
                 destinationRect.w = ViewportEnd.X - ViewportStart.X;
                 destinationRect.h = ViewportEnd.Y - ViewportStart.Y;
+            }
+
+            Camera curCamera = cWindow.Settings.Camera;
+
+            if (curCamera != null
+                && !SnapToScreen)
+            {
+                destinationRect.x -= curCamera.Position.X;
+                destinationRect.y -= curCamera.Position.Y;
             }
 
             if (Repeat == default)

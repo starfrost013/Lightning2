@@ -35,16 +35,6 @@ namespace LightningGL
             // This is a bit of a hack, but it works for now
             if (CurBackgroundColour == default(Color)) CurBackgroundColour = BackgroundColour;
 
-            // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = cWindow.Settings.Camera;
-
-            if (currentCamera != null)
-            {
-                RenderPosition = new Vector2
-                    (Position.X - currentCamera.Position.X,
-                    Position.Y - currentCamera.Position.Y);
-            }
-
             PrimitiveRenderer.DrawRectangle(cWindow, RenderPosition, Size, CurBackgroundColour, Filled, BorderColour, BorderSize);
 
             Font curFont = FontManager.GetFont(Font);

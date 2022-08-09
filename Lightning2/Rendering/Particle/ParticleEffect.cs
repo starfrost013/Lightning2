@@ -178,6 +178,7 @@ namespace LightningGL
                 }
 
                 Texture.Position = particle.Position;
+
                 Texture.Draw(cWindow);
             }
         }

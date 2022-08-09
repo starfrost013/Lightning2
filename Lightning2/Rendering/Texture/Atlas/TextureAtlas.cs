@@ -67,20 +67,6 @@ namespace LightningGL
             ViewportStart = new Vector2(startX, startY);
             ViewportEnd = new Vector2(endX, endY);
 
-            // this logic is here for now until there's a unified TextureManager
-
-            Camera curCamera = cWindow.Settings.Camera;
-
-            if (curCamera != null
-                && !SnapToScreen)
-            {
-                RenderPosition = new Vector2
-                    (
-                        Position.X - curCamera.Position.X,
-                        Position.Y - curCamera.Position.Y
-                    );
-            }
-
             base.Draw(cWindow);
         }
 
