@@ -115,10 +115,21 @@ namespace LightningPackager
 
             // seek to the start of the file
             reader.BaseStream.Seek(Start, SeekOrigin.Begin);
-            byte[] curChunk = reader.ReadBytes(Convert.ToInt32(Size));
+            byte[] fileData = reader.ReadBytes(Convert.ToInt32(Size));
 
             // Write using writeallbytes
-            File.WriteAllBytes(finalPath, curChunk) ;
+            File.WriteAllBytes(finalPath, fileData) ;
+
+            // will be this value if we do not specify CRC32 compression mode
+            if (Crc32 != default(uint))
+            {
+                CRC32.NextBytes(fileData);
+                uint realCrc32 = CRC32.Result;
+
+                if (Crc32 != realCrc32) _ = new NCException($"File {RealPath} is corrupt: Bad CRC ({Crc32} != actual CRC: {realCrc32})!", 116, "Calculated CRC32 for PackageFileCatalogEntry is not the same as PackageFileCatalogEntry::Crc32");
+            }
+
+
         }
 
         internal void Write(BinaryWriter writer)
