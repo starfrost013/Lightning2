@@ -126,7 +126,7 @@ namespace LightningPackager
                 CRC32.NextBytes(fileData);
                 uint realCrc32 = CRC32.Result;
 
-                string validationString = $"CRC32 of original file = {Crc32.ToString("X")}, CRC of extracted file = {realCrc32.ToString("X")}";
+                string validationString = $"CRC32 of original file = 0x{Crc32.ToString("X")}, CRC of extracted file = 0x{realCrc32.ToString("X")}";
                 NCLogging.Log(validationString);
                 if (Crc32 != realCrc32) _ = new NCException($"File {RealPath} is corrupt: {validationString}!", 116, "Calculated CRC32 for PackageFileCatalogEntry is not the same as PackageFileCatalogEntry::Crc32");
             }
