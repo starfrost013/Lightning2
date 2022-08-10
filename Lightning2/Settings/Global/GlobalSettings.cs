@@ -165,7 +165,7 @@ namespace LightningGL
             LocalSettingsPath = generalSection.GetValue("LocalSettingsPath");
             PackageFile = generalSection.GetValue("PackageFile");
             ContentFolder = generalSection.GetValue("ContentFolder");
-            string generalDontUseSceneManager = generalSection.GetValue("UseSceneManager");
+            string generalDontUseSceneManager = generalSection.GetValue("DontUseSceneManager");
 
             // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
             int generalMaxFpsValue = 0;
