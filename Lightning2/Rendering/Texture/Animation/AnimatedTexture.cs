@@ -62,16 +62,21 @@ namespace LightningGL
         private bool AnimationFinished { get; set; }
 
         /// <summary>
-        /// The current animation cycle.that is being used
+        /// The current animation cycle.for this animation - see <see cref="AnimationCycle"/>
         /// </summary>
         public AnimationCycle Cycle { get; set; }
 
-        public AnimatedTexture()
+        public AnimatedTexture(int sizeX, int sizeY)
         {
             Frames = new List<Texture>();
             FramesPath = new List<string>();
+            Size = new Vector2(sizeX, sizeY);
         }
 
+        /// <summary>
+        /// Loads this animated texture.
+        /// </summary>
+        /// <param name="cWindow">The window to load this animated texture to.</param>
         public void Load(Window cWindow)
         {
             if (Size == default(Vector2)) _ = new NCException("Cannot load an animated texture with no texture size", 44, "AnimatedTexture::Size property = (0,0)", NCExceptionSeverity.FatalError);
@@ -92,6 +97,10 @@ namespace LightningGL
             CurrentFrame = Cycle.StartFrame;
         }
 
+        /// <summary>
+        /// Draws this animated texture.
+        /// </summary>
+        /// <param name="cWindow">The window to draw this animated texture to.</param>
         public override void Draw(Window cWindow)
         {
             bool reverseAnimation = (Cycle.StartFrame > Cycle.EndFrame);

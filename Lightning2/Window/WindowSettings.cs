@@ -2,9 +2,15 @@
 using System.Drawing;
 using System.Numerics;
 using static NuCore.SDL2.SDL;
+using NuCore.Utilities;
 
 namespace LightningGL
 {
+    /// <summary>
+    /// WindowSettings
+    /// 
+    /// Defines settings for the window.
+    /// </summary>
     public class WindowSettings
     {
         /// <summary>
@@ -13,14 +19,57 @@ namespace LightningGL
         public string Title { get; set; }
 
         /// <summary>
+        /// Backing field for <see cref="Position"/>.
+        /// </summary>
+        private Vector2 _position { get; set; }
+
+        /// <summary>
         /// The position of this window.
         /// </summary>
-        public Vector2 Position { get; set; }
+        public Vector2 Position
+        {
+            get
+            {
+                return _position;   
+            }
+            set
+            {
+                _position = value;
+
+                if (_position.X < 0
+                    || _position.Y < 0
+                    || _position.X > SystemInfo.ScreenResolutionX
+                    || _position.Y > SystemInfo.ScreenResolutionY) _ = new NCException($"Attempted to change window to illegal position ({_position.X},{_position.Y}!). Range is 0,0 to {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY}", 118, "Set accessor of WindowSettings::Size detected an attempt to resize to an invalid window size", NCExceptionSeverity.FatalError);
+
+                SDL_SetWindowPosition(WindowHandle, Convert.ToInt32(_position.X), Convert.ToInt32(_position.Y));
+            }
+        }
+
+        /// <summary>
+        /// Backing field for <see cref="Size"/>. 
+        /// </summary>
+        private Vector2 _size { get; set; }
 
         /// <summary>
         /// The size of this window.
         /// </summary>
-        public Vector2 Size { get; set; }
+        public Vector2 Size
+        {
+            get
+            {
+                return _size;
+            }
+            set
+            {
+                _size = value;
+                if (_size.X < 0
+                    || _size.Y < 0
+                    || _size.X > SystemInfo.ScreenResolutionX
+                    || _size.Y > SystemInfo.ScreenResolutionY) _ = new NCException($"Attempted to change window to illegal resolution ({_size.X},{_size.Y}!). Range is 0,0 to {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY}", 117, "Set accessor of WindowSettings::Size detected an attempt to resize to an invalid window size", NCExceptionSeverity.FatalError);
+
+                SDL_SetWindowSize(WindowHandle, Convert.ToInt32(_size.X), Convert.ToInt32(_size.Y));
+            }
+        }
 
         /// <summary>
         /// The SDL window flags of this flag.

@@ -29,9 +29,17 @@ namespace LightningGL
             Textures = new List<Renderable>();   
         }
 
+        /// <summary>
+        /// Adds a texture to the Texture Manager.
+        /// </summary>
+        /// <param name="renderable">A <see cref="Texture"/> to add to the texture manager</param>
         public static void AddTexture(Renderable renderable) => Textures.Add(renderable);
 
-        public static void Render(Window cWindow)
+        /// <summary>
+        /// Renders all of the textures in the texture manager.
+        /// </summary>
+        /// <param name="cWindow"></param>
+        internal static void Render(Window cWindow)
         {
             Camera curCamera = cWindow.Settings.Camera;
 

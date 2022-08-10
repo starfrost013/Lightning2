@@ -13,8 +13,14 @@ namespace LightningGL
     /// </summary>
     public class Light : Renderable
     {
+        /// <summary>
+        /// The Brightness of this light.
+        /// </summary>
         public uint Brightness { get; set; }
 
+        /// <summary>
+        /// The Range of this light.
+        /// </summary>
         public double Range { get; set; }
 
         public Light()

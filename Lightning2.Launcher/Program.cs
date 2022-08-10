@@ -56,15 +56,14 @@ textureAtlas1.Position = new Vector2(256, 256);
 
 textureAtlas1.Load(cWindow);
 
-AnimatedTexture animatedTexture1 = new AnimatedTexture();
+AnimatedTexture animatedTexture1 = new AnimatedTexture(256, 256);
 animatedTexture1.FramesPath.Add(@"Content\AnimTextureTest\AnimtextureTestF0.png");
 animatedTexture1.FramesPath.Add(@"Content\AnimTextureTest\AnimtextureTestF1.png");
 animatedTexture1.FramesPath.Add(@"Content\AnimTextureTest\AnimtextureTestF2.png");
 animatedTexture1.FramesPath.Add(@"Content\AnimTextureTest\AnimtextureTestF3.png");
-animatedTexture1.Cycle = new AnimationCycle(0, 3, 60);
+animatedTexture1.Cycle = new(0, 3, 60);
 
-animatedTexture1.Position = new Vector2(320, 256);
-animatedTexture1.Size = new Vector2(256, 256);
+animatedTexture1.Position = new(320, 256);
 
 animatedTexture1.Load(cWindow);
 
@@ -73,11 +72,11 @@ LightManager.SetEnvironmentalLight(Color.FromArgb(0, 0, 0, 255));
 
 // todo: particleeffectsettings?
 
-Texture testEffectTexture = new Texture(cWindow, new(16, 16));
+Texture testEffectTexture = new(cWindow, new(16, 16));
 
 testEffectTexture.Path = @"Content\Sparkles.png";
 
-ParticleEffect testEffect = new ParticleEffect(testEffectTexture)
+ParticleEffect testEffect = new(testEffectTexture)
 {
     Amount = 100,
     Lifetime = 70,

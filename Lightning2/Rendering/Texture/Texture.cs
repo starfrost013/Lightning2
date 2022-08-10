@@ -44,6 +44,9 @@ namespace LightningGL
             }
         }
 
+        /// <summary>
+        /// Pointer to unmanaged memory for the <see cref="SDL_Texture"/> of this Texture.
+        /// </summary>
         public IntPtr Handle { get; private set; }
 
         /// <summary>

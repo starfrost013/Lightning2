@@ -30,6 +30,10 @@ namespace LightningGL
             OnRender += Render;
         }
 
+        /// <summary>
+        /// Renders this button.
+        /// </summary>
+        /// <param name="cWindow">The window to render this button to.</param>
         public void Render(Window cWindow)
         {
             // This is a bit of a hack, but it works for now

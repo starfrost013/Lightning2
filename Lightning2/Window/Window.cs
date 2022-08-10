@@ -18,8 +18,9 @@ namespace LightningGL
         /// </summary>
         public WindowSettings Settings { get; internal set; }
 
-        private long LastTime { get; set; }
-
+        /// <summary>
+        /// Private: The time the current frame took. Used to measure FPS.
+        /// </summary>
         private long ThisTime { get; set; }
 
         /// <summary>
@@ -27,6 +28,9 @@ namespace LightningGL
         /// </summary>
         public double DeltaTime { get; set; }
 
+        /// <summary>
+        /// Private: Frame-timer used for measuring frametime.
+        /// </summary>
         private Stopwatch FrameTimer { get; set; }
 
         /// <summary>
@@ -54,10 +58,13 @@ namespace LightningGL
             FrameTimer = new Stopwatch();
             // Start the delta timer.
             FrameTimer.Start();
-            LastTime = 0;
             ThisTime = 0;
         }
 
+        /// <summary>
+        /// Starts this window.
+        /// </summary>
+        /// <param name="windowSettings">The window settings to use when starting this window - see <see cref="WindowSettings"/></param>
         public void Start(WindowSettings windowSettings)
         {
             // Check that the engine has been started.
@@ -92,8 +99,6 @@ namespace LightningGL
 
         private void Update()
         {
-            // Set the last frame time.
-            LastTime = FrameTimer.ElapsedTicks;
             FrameTimer.Restart();
             SDL_RenderClear(Settings.RendererHandle);
         }
