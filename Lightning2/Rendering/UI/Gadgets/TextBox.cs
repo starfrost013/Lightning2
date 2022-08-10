@@ -59,9 +59,9 @@ namespace LightningGL
             OnKeyPressed += KeyPressed;
             OnRender += Render;
             CursorThickness = 2;
-            CursorBlinkFrequency = 25;
+            CursorBlinkFrequency = 100;
             CursorColour = Color.White;
-            CursorBlinkLength = 1;
+            CursorBlinkLength = 50;
         }
 
         /// <summary>
@@ -133,7 +133,8 @@ namespace LightningGL
                 Vector2 cursorPosition = new Vector2(Position.X + fontSize.X, Position.Y);
 
                 // actually blink it
-                if (cWindow.FrameNumber % CursorBlinkFrequency <= (CursorBlinkLength - 1)) PrimitiveRenderer.DrawLine(cWindow, cursorPosition, cursorPosition + Size, CursorThickness, CursorColour, true);
+                if (cWindow.FrameNumber % CursorBlinkFrequency <= (CursorBlinkLength - 1)) PrimitiveRenderer.DrawLine(cWindow, cursorPosition, 
+                    new Vector2(cursorPosition.X, cursorPosition.Y + Size.Y), CursorThickness, CursorColour);
             }
         }
     }
