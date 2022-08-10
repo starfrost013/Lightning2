@@ -173,7 +173,7 @@ namespace LightningGL
             // do not lock it if we are already locked
             if (!Locked) Lock();
 
-            if (Size == default) _ = new NCException($"Invalid size - cannot get pixel!", 16, "Texture.GetPixel", NCExceptionSeverity.FatalError);
+            if (Size == default) _ = new NCException($"Invalid size - cannot get pixel!", 16, "Texture::Size property was invalid", NCExceptionSeverity.FatalError);
 
             if (x < 0 || y < 0
                 || x > Size.X || y > Size.Y) _ = new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y})!", 12, "An SDL error occurred in Texture::GetPixel", NCExceptionSeverity.FatalError);

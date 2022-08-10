@@ -34,6 +34,7 @@
 
 #region Using Statements
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 #endregion
 
@@ -66,6 +67,10 @@ namespace NuCore.SDL2
         {
             // print a sign-on message so that we know it's initialising
             Console.WriteLine(SDL2CS_VERSION);
+
+            // Prevent silent exit if debugger is attached
+            if (Debugger.IsAttached) SDL_SetHint(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");
+
             return SDL_Init__INTERNAL(flags);
         }
 
