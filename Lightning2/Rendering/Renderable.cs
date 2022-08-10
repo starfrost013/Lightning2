@@ -46,7 +46,20 @@ namespace LightningGL
         /// </summary>
         public virtual Vector2 Size { get; set; }
 
+        /// <summary>
+        /// Determines if this Renderable will be drawn in world-relative space or camera-relative space.
+        /// </summary>
         public bool SnapToScreen { get; set; }
+
+        /// <summary>
+        /// Determines if this Renderable has actually been loaded or not.
+        /// </summary>
+        internal bool Loaded { get; set; }
+
+        /// <summary>
+        /// Draws this Renderable.
+        /// </summary>
+        /// <param name="cWindow">The window to draw the renderable to.</param>
         public virtual void Draw(Window cWindow)
         {
 

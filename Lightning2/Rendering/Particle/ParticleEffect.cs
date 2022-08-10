@@ -240,16 +240,25 @@ namespace LightningGL
         /// </summary>
         public void Play()
         { 
-            if (NeedsManualTrigger && !Playing) Playing = true;
+            if (NeedsManualTrigger 
+                && !Playing) Playing = true;
         }
 
+        /// <summary>
+        /// Stops this particle effect. Does nothing if <see cref="NeedsManualTrigger"/> is not set.
+        /// </summary>
         public void Stop()
         {
-            if (NeedsManualTrigger && Playing) Playing = false;
+            if (NeedsManualTrigger 
+                && Playing) Playing = false;
         }
 
+        /// <summary>
+        /// Unloads this particle effect.
+        /// </summary>
         public void Unload()
         {
+            Stop();
             Particles.Clear();
         }
         

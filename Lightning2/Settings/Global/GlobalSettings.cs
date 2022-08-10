@@ -53,7 +53,7 @@ namespace LightningGL
         /// <summary>
         /// Determines if the FPS rate will be shown.
         /// </summary>
-        public static bool ShowFPS { get; internal set; }
+        public static bool ShowDebugInfo { get; internal set; }
 
         /// <summary>
         /// See <see cref="WindowSettings.WindowFlags"/>
@@ -130,7 +130,7 @@ namespace LightningGL
 
             // Load the General section.
             string generalMaxFps = generalSection.GetValue("MaxFPS");
-            string generalShowFps = generalSection.GetValue("ShowFPS");
+            string generalShowDebugInfo = generalSection.GetValue("ShowDebugInfo");
             string generalProfilePerf = generalSection.GetValue("PerformanceProfiler");
             string generalAboutScreenOnF9 = generalSection.GetValue("EngineAboutScreenOnShiftF9");
             string generalDeleteUnpackedFilesOnExit = generalSection.GetValue("DeleteUnpackedFilesOnExit");
@@ -138,7 +138,7 @@ namespace LightningGL
 
             // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
             int generalMaxFpsValue = 0;
-            bool generalShowFpsValue = false;
+            bool generalShowDebugInfoValue = false;
             bool generalProfilePerfValue = false;
             bool generalAboutScreenOnF9Value = false;
             bool generalDeleteUnpackedFilesOnExitValue = false;
@@ -146,13 +146,13 @@ namespace LightningGL
             _ = int.TryParse(generalMaxFps, out generalMaxFpsValue);
 
             // we don't care about the values here
-            _ = bool.TryParse(generalShowFps, out generalShowFpsValue);
+            _ = bool.TryParse(generalShowDebugInfo, out generalShowDebugInfoValue);
             _ = bool.TryParse(generalProfilePerf, out generalProfilePerfValue);
             if (!bool.TryParse(generalAboutScreenOnF9, out generalAboutScreenOnF9Value)) generalAboutScreenOnF9Value = true; // force the default value, true for now
             _ = bool.TryParse(generalDeleteUnpackedFilesOnExit, out generalDeleteUnpackedFilesOnExitValue);
 
             MaxFPS = generalMaxFpsValue;
-            ShowFPS = generalShowFpsValue;
+            ShowDebugInfo = generalShowDebugInfoValue;
             ProfilePerf = generalProfilePerfValue;
             EngineAboutScreenOnShiftF9 = generalAboutScreenOnF9Value;
             DeleteUnpackedFilesOnExit = generalDeleteUnpackedFilesOnExitValue;

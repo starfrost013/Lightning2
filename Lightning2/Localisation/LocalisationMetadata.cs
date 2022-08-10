@@ -20,7 +20,7 @@
         public string Description { get; set; }
 
         /// <summary>
-        /// The version of the localisation.
+        /// The version of the language's localisation files.
         /// </summary>
         public string Version { get; set; }
     }

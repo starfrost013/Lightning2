@@ -9,7 +9,7 @@ namespace LightningGL
     /// <summary>
     /// WindowSettings
     /// 
-    /// Defines settings for the window.
+    /// Defines settings for a <see cref="Window"/>.
     /// </summary>
     public class WindowSettings
     {

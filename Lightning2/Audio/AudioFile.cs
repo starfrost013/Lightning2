@@ -59,6 +59,9 @@ namespace LightningGL
         /// </summary>
         private double RealVolume { get; set; }
 
+        /// <summary>
+        /// Loads this audio file.
+        /// </summary>
         internal void Load()
         {
             if (!File.Exists(Path)) _ = new NCException($"Error loading audio file: The path {Path} does not exist!", 50, "AudioFile.Load", NCExceptionSeverity.FatalError);

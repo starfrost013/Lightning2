@@ -97,12 +97,19 @@ namespace LightningGL
             if (Settings.RendererHandle == IntPtr.Zero) _ = new NCException($"Failed to create Renderer: {SDL_GetError()}", 9, "Window::AddWindow - SDL_CreateRenderer failed to create renderer", NCExceptionSeverity.FatalError);
         }
 
+        /// <summary>
+        /// Run at the end of each frame.
+        /// </summary>
         private void Update()
         {
             FrameTimer.Restart();
             SDL_RenderClear(Settings.RendererHandle);
         }
 
+        /// <summary>
+        /// Runs the main loop.
+        /// </summary>
+        /// <returns>A boolean determining if the window is to keep running or close.</returns>
         public bool Run()
         {
             Update();
@@ -163,9 +170,11 @@ namespace LightningGL
             return true;
         }
 
+        /// <summary>
+        /// Manages the render loop.
+        /// </summary>
         public void Render()
         {
-
             // Call all render events
             UIManager.Render(this);
 
@@ -187,7 +196,7 @@ namespace LightningGL
             // draw fps on top always (by drawing it last. we don't have zindex, but we will later). Also snap it to the screen like a hud element. 
             // check the showfps global setting first
             // do this BEFORE present. then measure frametime in Render_MeasureFps, this makes it accurate.
-            if (GlobalSettings.ShowFPS) Render_DrawDebugInformation();
+            if (GlobalSettings.ShowDebugInfo) Render_DrawDebugInformation();
 
             // Correctly draw the background
             SDL_SetRenderDrawColor(Settings.RendererHandle, Settings.Background.R, Settings.Background.G, Settings.Background.B, Settings.Background.A);
@@ -211,6 +220,9 @@ namespace LightningGL
             Render_UpdateFps();
         }
 
+        /// <summary>
+        /// Draws debug information to the screen if the <see cref="GlobalSettings.ShowDebugInfo"/> setting is enabled.
+        /// </summary>
         private void Render_DrawDebugInformation()
         {
             int currentY = (int)Settings.Camera.Position.Y;
@@ -251,7 +263,7 @@ namespace LightningGL
         {
             NCMessageBox messageBox = new()
             {
-                Message = $"Powered by LightningGL\n" +
+                Text = $"Powered by LightningGL\n" +
                 $"Version {L2Version.LIGHTNING_VERSION_EXTENDED_STRING}",
                 Title = "About",
                 Icon = SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION

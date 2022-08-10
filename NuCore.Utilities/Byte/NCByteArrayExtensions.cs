@@ -8,7 +8,7 @@ namespace NuCore.Utilities
     /// 
     /// Provides extremely fast solutions for byte array equality.
     /// </summary>
-    public static class ByteArrayExtensions
+    public static class NCByteArrayExtensions
     {
         /// <summary>
         /// Extremely fast byte array comparison algorithm using unsafe code, 

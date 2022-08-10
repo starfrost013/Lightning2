@@ -17,10 +17,10 @@ windowSettings.Title = "LightningGL Example";
 
 cWindow.Start(windowSettings);
 
-FontManager.LoadFont("Arial", 11, null, "Arial.11pt");
-FontManager.LoadFont("Arial", 18, null, "Arial.18pt");
-FontManager.LoadFont("Arial", 24, null, "Arial.24pt");
-FontManager.LoadFont("Arial", 36, null, "Arial.36pt");
+FontManager.LoadFont("Arial", 11, "Arial.11pt");
+FontManager.LoadFont("Arial", 18, "Arial.18pt");
+FontManager.LoadFont("Arial", 24, "Arial.24pt");
+FontManager.LoadFont("Arial", 36, "Arial.36pt");
 
 cWindow.Clear(Color.FromArgb(255, 127, 127, 127));
 Texture texture = new Texture(cWindow, new(64, 64));
@@ -87,7 +87,7 @@ ParticleEffect testEffect = new(testEffectTexture)
     Mode = ParticleMode.Normal,
 };
 
-ParticleManager.AddParticleEffect(cWindow, testEffect);
+ParticleManager.AddEffect(cWindow, testEffect);
 
 LightManager.AddLight(cWindow, new Light
 {

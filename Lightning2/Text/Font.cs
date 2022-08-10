@@ -12,70 +12,78 @@ namespace LightningGL
     /// </summary>
     public class Font
     {
+        /// <summary>
+        /// A name used to describe this font in rendering operations.
+        /// </summary>
         public string FriendlyName { get; set; }
 
+        /// <summary>
+        /// The name of this font.
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// The size of this font.
+        /// </summary>
         public int Size { get; set; }
 
+        /// <summary>
+        /// The smoothing type of this font - see <see cref="FontSmoothingType"/>.
+        /// </summary>
         public FontSmoothingType SmoothingType { get; set; }
-
+        
+        /// <summary>
+        /// Private: Pointer to the unmanaged TTF_Font containing this font.
+        /// </summary>
         public IntPtr Handle { get; private set; }
 
-        public static Font Load(string name, int size, string path = null, string friendlyName = null, int index = -1) // probably static
+        /// <summary>
+        /// Internal: Loads this font.
+        /// </summary>
+        /// <param name="name">The name of the font to load.</param>
+        /// <param name="size">The size of the font to load.</param>
+        /// <param name="friendlyName">The friendly name of the font to load.</param>
+        /// <param name="path">The path to this font. If it is null, it will be loaded from the system font directory.</param>
+        /// <param name="index">Index of the font in the font file to load. Will default to 0.</param>
+        internal static Font Load(string name, int size, string friendlyName, string path = null, int index = 0) 
         {
-            Font temp_font = new Font();
+            Font font = new Font();
 
-            temp_font.Name = name;
-
-            if (friendlyName == null)
-            {
-                temp_font.FriendlyName = name;
-            }
-            else
-            {
-                temp_font.FriendlyName = friendlyName;
-            }
-
-            temp_font.Size = size;
-
-            string temp_path = null;
+            font.Name = name;
+            font.FriendlyName = friendlyName;
+            font.Size = size;
 
             if (path == null) // default to system load path 
             {
-                temp_path = @$"{Environment.GetFolderPath(Environment.SpecialFolder.Fonts)}\{name}.ttf";
+                path = @$"{Environment.GetFolderPath(Environment.SpecialFolder.Fonts)}\{name}.ttf";
             }
             else
             {
-                temp_path = $"{path}.ttf";
+                path = $"{path}.ttf";
             }
 
-            if (!File.Exists(temp_path)) _ = new NCException($"Error loading font: Attempted to load nonexistent font at {temp_path}", 35, "Font.Load()", NCExceptionSeverity.Error);
+            if (!File.Exists(path)) _ = new NCException($"Error loading font: Attempted to load nonexistent font at {path}", 35, "Font.:Path does not exist", NCExceptionSeverity.Error);
 
-            if (!temp_path.Contains(".ttf")) _ = new NCException($"Error loading font: Only TTF fonts are supported!", 36, "Font.Load()", NCExceptionSeverity.Error);
+            if (!path.Contains(".ttf")) _ = new NCException($"Error loading font: Only TTF fonts are supported!", 36, "Font::Path is not a TrueType font", NCExceptionSeverity.Error);
 
-            if (size <= 0) _ = new NCException($"Error loading font: Invalid font size {size}, must be at least 1!", 37, "Font.Load()", NCExceptionSeverity.Error);
+            if (size < 1) _ = new NCException($"Error loading font: Invalid font size {size}, must be at least 1!", 37, "size parameter to Font::Load is not a valid font size!", NCExceptionSeverity.Error);
 
-            if (index == -1)
-            {
-                temp_font.Handle = SDL_ttf.TTF_OpenFont(temp_path, size);
-            }
-            else
-            {
-                temp_font.Handle = SDL_ttf.TTF_OpenFontIndex(temp_path, size, index);
-            }
+            font.Handle = SDL_ttf.TTF_OpenFontIndex(path, size, index);
 
-            if (temp_font.Handle == IntPtr.Zero) _ = new NCException($"Error loading font at {path}: {SDL_ttf.TTF_GetError()}", 38, "Font.Load()", NCExceptionSeverity.Error);
+            if (font.Handle == IntPtr.Zero) _ = new NCException($"Error loading font at {path}: {SDL_ttf.TTF_GetError()}", 38, "An SDL error occurred during font loading from Font::Load!", NCExceptionSeverity.Error);
 
-            NCLogging.Log($"Loaded font {temp_font.Name}, size {temp_font.Size} at {temp_path}");
-            return temp_font;
+            NCLogging.Log($"Loaded font {font.Name}, size {font.Size} at {path}");
+            return font;
         }
 
-        public void Unload()
+        /// <summary>
+        /// Unloads this font. Should ONLY be called if this font is about to be removed
+        /// </summary>
+        internal void Unload()
         {
             SDL_ttf.TTF_CloseFont(Handle);
-            NCLogging.Log($"Unloaded font {Name}, size {Size}");
+            Handle = IntPtr.Zero;
+            NCLogging.Log($"Unloaded font {FriendlyName}, size {Size}");
         }
-
     }
 }

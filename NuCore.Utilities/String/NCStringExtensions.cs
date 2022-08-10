@@ -10,7 +10,7 @@ namespace NuCore.Utilities
     /// 
     /// String extension methods
     /// </summary>
-    public static class StringExtensions
+    public static class NCStringExtensions
     {
         /// <summary>
         /// Exact replace method; only matches the exact string.

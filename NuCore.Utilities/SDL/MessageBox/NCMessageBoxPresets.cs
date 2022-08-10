@@ -142,7 +142,7 @@ namespace NuCore.Utilities
         {
             NCMessageBox msgbox = new NCMessageBox();
             msgbox.Title = title;
-            msgbox.Message = message;
+            msgbox.Text = message;
             msgbox.Icon = icon;
             return msgbox;
         }

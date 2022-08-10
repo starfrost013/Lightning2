@@ -111,7 +111,7 @@ namespace LightningGL
         public bool Focused { get; internal set; }
 
         /// <summary>
-        /// The font this button will use.
+        /// The FriendlyName property of the font this button will use.
         /// If this value is set to null or a font that is not loaded is specified, the default SDL2_gfx font will be used.
         /// </summary>
         public string Font { get; set; }

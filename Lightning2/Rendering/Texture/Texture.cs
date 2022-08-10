@@ -91,19 +91,10 @@ namespace LightningGL
         public int Pitch { get; set; }
 
         /// <summary>
-        /// Determines if this object has been destroyed.
-        /// </summary>
-        private bool Destroyed { get; set; }
-
-        /// <summary>
         /// Private: Texture format allocated for internal use
         /// </summary>
-        private IntPtr CFormat { get; set; }
+        private IntPtr FormatHandle { get; set; }
 
-        /// <summary>
-        /// Determines if this texture has actually been loaded or not.
-        /// </summary>
-        internal bool Loaded { get; private set; } 
 
         /// <summary>
         /// Initialises a new texture with the size specified in the <paramref name="nSize"/> parameter.
@@ -154,10 +145,10 @@ namespace LightningGL
         {
             uint currentFormat = SDL_GetWindowPixelFormat(cWindow.Settings.WindowHandle);
 
-            CFormat = SDL_AllocFormat(currentFormat);
+            FormatHandle = SDL_AllocFormat(currentFormat);
 
             // probably not the best to actually like, allocate formats like this
-            if (CFormat == IntPtr.Zero) _ = new NCException($"Error allocating texture format for texture at {Path}: {SDL_GetError()}", 13, "An SDL error occurred in Texture::Init_AllocFormat", NCExceptionSeverity.FatalError);
+            if (FormatHandle == IntPtr.Zero) _ = new NCException($"Error allocating texture format for texture at {Path}: {SDL_GetError()}", 13, "An SDL error occurred in Texture::Init_AllocFormat", NCExceptionSeverity.FatalError);
         }
 
         /// <summary>
@@ -360,5 +351,16 @@ namespace LightningGL
         /// </summary>
         /// <param name="blendMode">The <see cref="SDL_BlendMode"/> to set the texture to.</param>
         public void SetBlendMode(SDL_BlendMode blendMode) => SDL_SetTextureBlendMode(Handle, blendMode);
+
+        /// <summary>
+        /// Unloads this texture.
+        /// </summary>
+        public void Unload()
+        {
+            Loaded = false;
+            SDL_DestroyTexture(Handle);
+            FormatHandle = IntPtr.Zero;
+            Handle = IntPtr.Zero;
+        }
     }
 }
