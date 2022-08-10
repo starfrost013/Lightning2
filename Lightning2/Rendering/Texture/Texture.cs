@@ -45,7 +45,7 @@ namespace LightningGL
         }
 
         /// <summary>
-        /// Pointer to unmanaged memory for the <see cref="SDL_Texture"/> of this Texture.
+        /// Pointer to unmanaged memory for the SDL_Texture of this Texture.
         /// </summary>
         public IntPtr Handle { get; private set; }
 
@@ -114,12 +114,12 @@ namespace LightningGL
         {
             Size = nSize;
 
-            if (Size == default) _ = new NCException($"Error creating texture: Must have a size!", 20, "Texture.Create", NCExceptionSeverity.FatalError);
+            if (Size == default) _ = new NCException($"Error creating texture: Must have a size!", 20, "Texture constructor called with invalid size", NCExceptionSeverity.FatalError);
 
             Handle = SDL_CreateTexture(cWindow.Settings.RendererHandle, SDL_PIXELFORMAT_ARGB8888, SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, (int)Size.X, (int)Size.Y);
 
             // check if texture failed to load
-            if (Handle == IntPtr.Zero) _ = new NCException($"Error creating texture: {SDL_GetError()}", 11, "Texture.Create", NCExceptionSeverity.FatalError);
+            if (Handle == IntPtr.Zero) _ = new NCException($"Error creating texture: {SDL_GetError()}", 119, "Texture constructor called with invalid size", NCExceptionSeverity.FatalError);
 
             Init_AllocFormat(cWindow);
         }
@@ -131,13 +131,13 @@ namespace LightningGL
         /// <exception cref="NCException">An error occurred loading the texture.</exception>
         public virtual void Load(Window cWindow)
         {
-            if (!File.Exists(Path)) _ = new NCException($"{Path} does not exist!", 9, "!File.Exists(this.Path) in Texture::Load!", NCExceptionSeverity.FatalError);
+            if (!File.Exists(Path)) _ = new NCException($"{Path} does not exist!", 9, "Texture::Path property does not exist", NCExceptionSeverity.FatalError);
 
             Handle = IMG_LoadTexture(cWindow.Settings.RendererHandle, Path);
 
             if (Handle == IntPtr.Zero)
             {
-                _ = new NCException($"Failed to load texture at {Path} - {SDL_GetError()}", 10, "Error in SDL_image.IMG_LoadTexture", NCExceptionSeverity.Error);
+                _ = new NCException($"Failed to load texture at {Path} - {SDL_GetError()}", 10, "An SDL error occurred in Texture::Load", NCExceptionSeverity.Error);
             }
             else
             {
@@ -157,7 +157,7 @@ namespace LightningGL
             CFormat = SDL_AllocFormat(currentFormat);
 
             // probably not the best to actually like, allocate formats like this
-            if (CFormat == IntPtr.Zero) _ = new NCException($"Error allocating texture format for texture at {Path}: {SDL_GetError()}", 13, "Texture.Init_AllocFormat", NCExceptionSeverity.FatalError);
+            if (CFormat == IntPtr.Zero) _ = new NCException($"Error allocating texture format for texture at {Path}: {SDL_GetError()}", 13, "An SDL error occurred in Texture::Init_AllocFormat", NCExceptionSeverity.FatalError);
         }
 
         /// <summary>
@@ -170,17 +170,18 @@ namespace LightningGL
         /// <exception cref="NCException">An invalid coordinate was supplied or the texture does not have a valid size.</exception>
         public virtual Color GetPixel(int x, int y, bool unlockNow = false)
         {
-            if (Size == default) _ = new NCException($"Invalid size - cannot get pixel!", 16, "Texture.GetPixel", NCExceptionSeverity.FatalError);
-
+            // do not lock it if we are already locked
             if (!Locked) Lock();
 
+            if (Size == default) _ = new NCException($"Invalid size - cannot get pixel!", 16, "Texture.GetPixel", NCExceptionSeverity.FatalError);
+
             if (x < 0 || y < 0
-                || x > Size.X || y > Size.Y) _ = new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y})!", 12, "Texture.GetPixel", NCExceptionSeverity.FatalError);
+                || x > Size.X || y > Size.Y) _ = new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y})!", 12, "An SDL error occurred in Texture::GetPixel", NCExceptionSeverity.FatalError);
 
             int pixelToGet = y * (int)Size.X + x;
             int maxPixelID = Pitch / 4 * Pitch;
 
-            if (pixelToGet > maxPixelID) _ = new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {pixelToGet} > {maxPixelID}!", 14, "Texture.GetPixel", NCExceptionSeverity.FatalError);
+            if (pixelToGet > maxPixelID) _ = new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {pixelToGet} > {maxPixelID}!)", 14, "An SDL error occurred in Texture::GetPixel", NCExceptionSeverity.FatalError);
 
             int pixel = Pixels[pixelToGet];
 
@@ -198,15 +199,16 @@ namespace LightningGL
         /// <exception cref="NCException">An invalid coordinate was supplied or the texture does not have a valid size.</exception>
         public virtual void SetPixel(int x, int y, Color colour, bool unlockNow = false)
         {
+            // do not lock it if we are already locked
             if (!Locked) Lock();
 
             if (x < 0 || y < 0
-                || x > Size.X || y > Size.Y) _ = new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y}) ", 15, "Texture.SetPixel", NCExceptionSeverity.FatalError);
+                || x > Size.X || y > Size.Y) _ = new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y}) ", 15, "An SDL error occurred in Texture::SetPixel", NCExceptionSeverity.FatalError);
             
             int pixelToGet = (y * (int)Size.X) + x;
             int maxPixelId = Pitch / 4 * Pitch;
 
-            if (pixelToGet > maxPixelId) _ = new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {pixelToGet} > {maxPixelId}!", 16, "Texture.SetPixel", NCExceptionSeverity.FatalError);
+            if (pixelToGet > maxPixelId) _ = new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {pixelToGet} > {maxPixelId}!)", 16, "An SDL error occurred in Texture::SetPixel", NCExceptionSeverity.FatalError);
 
             // use pixeltoget to twiddle the pixel that we need using the number we calculated before
             Pixels[pixelToGet] = colour.ToArgb();
@@ -223,11 +225,12 @@ namespace LightningGL
         {
             // do nothing if we are calling this on an already locked texture
             if (Locked) return;
+
             Locked = true;
 
             SDL_Rect rect = new SDL_Rect(0, 0, (int)Size.X, (int)Size.Y);
 
-            if (SDL_LockTexture(Handle, ref rect, out var nPixels, out var nPitch) < 0) _ = new NCException($"Error locking pixels for texture with path {Path}, error {SDL_GetError()}.", 11, "Texture.Lock", NCExceptionSeverity.FatalError);
+            if (SDL_LockTexture(Handle, ref rect, out var nPixels, out var nPitch) < 0) _ = new NCException($"Error locking pixels for texture with path {Path}: {SDL_GetError()}.", 11, "An SDL error occurred in Texture::Lock", NCExceptionSeverity.FatalError);
 
             Pitch = nPitch;
             // convert to C pointer
@@ -239,7 +242,9 @@ namespace LightningGL
         /// </summary>
         public void Unlock()
         {
+            // don't unlock if already unlocked
             if (!Locked) return;
+
             Locked = false;
 
             SDL_UnlockTexture(Handle);
