@@ -50,12 +50,12 @@ namespace LightningGL
         internal static void Start()
         {
             DateTime now = DateTime.Now;
-            FileName = $"LightningGL-Perf-{now.ToString("yyyyMMdd_HHmmss")}.csv";
+            FileName = $"Lightning-Perf-{now.ToString("yyyyMMdd_HHmmss")}.csv";
 
             try
             {
                 FileStream = new StreamWriter(new FileStream(FileName, FileMode.OpenOrCreate));
-                FileStream.WriteLine("Frame,FrametimeMS,Fps");
+                FileStream.WriteLine("Frame,FrametimeMs,Fps");
                 Initialised = true;
             }
             catch (Exception ex)
