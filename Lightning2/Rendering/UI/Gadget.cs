@@ -116,6 +116,9 @@ namespace LightningGL
         /// </summary>
         public string Font { get; set; }
 
+        /// <summary>
+        /// Gadget constructor.
+        /// </summary>
         public Gadget()
         {
             OnMousePressed += MousePressed;
@@ -125,12 +128,22 @@ namespace LightningGL
 
         #region Default event handlers
 
+        /// <summary>
+        /// Default gadget event handler for mouse pressed events.
+        /// </summary>
+        /// <param name="button">The mouse button that has been pressed.</param>
+        /// <param name="position">The position of that mouse button.</param>
         public virtual void MousePressed(SDL_MouseButton button, Vector2 position)
         {
             CurBackgroundColour = PressedColour;
             Pressed = true;
         }
 
+        /// <summary>
+        /// Default gadget event handler for mouse released events.
+        /// </summary>
+        /// <param name="button">The mouse button that has been pressed.</param>
+        /// <param name="position">The position of that mouse button.</param>
         public virtual void MouseReleased(SDL_MouseButton button, Vector2 position)
         {
             // this changes from pressed to hover colour
@@ -147,6 +160,12 @@ namespace LightningGL
             Pressed = false;
         }
 
+        /// <summary>
+        /// Default gadget event handler for mouse move events.
+        /// </summary>
+        /// <param name="button">The mouse button that has been pressed.</param>
+        /// <param name="position">The position of that mouse button.</param>
+        /// <param name="velocity">The movement of the button.</param>
         public virtual void MouseMove(SDL_MouseButton button, Vector2 position, Vector2 velocity)
         {
             if (AABB.Intersects(this, position))

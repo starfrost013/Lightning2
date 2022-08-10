@@ -84,12 +84,21 @@ namespace LightningGL
         /// </summary>
         private bool Playing { get; set; }
 
+        /// <summary>
+        /// Constructor for particle effect.
+        /// </summary>
+        /// <param name="nTexture">The texture to use for particle effects</param>
         public ParticleEffect(Texture nTexture)
         {
             Texture = nTexture;
             Mode = ParticleMode.SinCos;
         }
 
+        /// <summary>
+        /// Loads this particle effect.
+        /// </summary>
+        /// <param name="nTexture"></param>
+        /// <param name="cWindow"></param>
         public void Load(Texture nTexture, Window cWindow)
         {
             NCLogging.Log($"Loading particle effect at path {nTexture.Path}...");
@@ -102,6 +111,8 @@ namespace LightningGL
 
         public void Render(Window cWindow)
         {
+            if (Texture == null) _ = new NCException("Attempted to draw a particle effect without loading it!", 120, "ParticleEffect::Render called before ParticleEffect::Load!", NCExceptionSeverity.FatalError);
+
             // create a list of particles to remove
             List<Particle> particlesToRemove = new List<Particle>();
 
@@ -112,10 +123,8 @@ namespace LightningGL
                 if (particle.Lifetime > Lifetime) particlesToRemove.Add(particle);
             }
 
-            foreach (Particle particleToRemove in particlesToRemove)
-            {
-                Particles.Remove(particleToRemove);
-            }
+            // remove all the particles we need to remove.
+            foreach (Particle particleToRemove in particlesToRemove) Particles.Remove(particleToRemove);
 
             // determine if a new particle set is to be created. check if under max AND if frame skip
             bool createNewParticleSet = (Particles.Count < Amount);
@@ -226,6 +235,9 @@ namespace LightningGL
             Particles.Add(particle);
         }
 
+        /// <summary>
+        /// Plays this particle effect. Does nothing if <see cref="NeedsManualTrigger"/> is not set.
+        /// </summary>
         public void Play()
         { 
             if (NeedsManualTrigger && !Playing) Playing = true;

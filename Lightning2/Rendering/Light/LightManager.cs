@@ -9,7 +9,7 @@ namespace LightningGL
     /// <summary>
     /// LightManager
     /// 
-    /// April 8, 2022 (modified April 15, 2022)
+    /// April 8, 2022 (modified August 10, 2022)
     /// 
     /// Static class that manages lights and generates a screen-space lightmap.
     /// </summary>
@@ -35,29 +35,36 @@ namespace LightningGL
         /// </summary>
         internal static bool Initialised { get; private set; }
 
+        /// <summary>
+        /// Constructor for the Light Manager.
+        /// </summary>
         static LightManager()
         {
             Lights = new List<Light>();
         }
 
-        public static void Init(Window Win)
+        /// <summary>
+        /// Initialises a light.
+        /// </summary>
+        /// <param name="cWindow"></param>
+        public static void Init(Window cWindow)
         {
             // move this if it is slower
-            ScreenSpaceMap = new Texture(Win, Win.Settings.Size);
+            ScreenSpaceMap = new Texture(cWindow, cWindow.Settings.Size);
             SetEnvironmentalLightBlendMode(SDL_BlendMode.SDL_BLENDMODE_BLEND);
             // This is used so we don't build lightmaps when LightManager.Init hasn't been called
             Initialised = true;
         }
 
-        public static void AddLight(Window win, Light Light)
+        public static void AddLight(Window window, Light light)
         {
             if (ScreenSpaceMap.Handle == IntPtr.Zero) _ = new NCException("You must initialise the Light Manager before using it!", 61, "LightManager.AddLight called before LightManager.Init!", NCExceptionSeverity.FatalError);
-            Light.RenderToTexture(win);
-            Lights.Add(Light);
+            light.RenderToTexture(window);
+            Lights.Add(light);
         }
-        public static void SetEnvironmentalLight(Color Colour)
+        public static void SetEnvironmentalLight(Color colour)
         {
-            EnvironmentalLight = Colour;
+            EnvironmentalLight = colour;
 
             if (EnvironmentalLight == default(Color)) EnvironmentalLight = Color.FromArgb(255, 255, 255, 255);
 
@@ -65,14 +72,14 @@ namespace LightningGL
             ScreenSpaceMap.Clear(EnvironmentalLight);
         }
 
-        public static void SetEnvironmentalLightBlendMode(SDL_BlendMode BlendMode) => SDL_SetTextureBlendMode(ScreenSpaceMap.Handle, BlendMode);
+        public static void SetEnvironmentalLightBlendMode(SDL_BlendMode blendMode) => SDL_SetTextureBlendMode(ScreenSpaceMap.Handle, blendMode);
 
-        public static void RenderLightmap(Window win)
+        public static void RenderLightmap(Window cWindow)
         {
             if (ScreenSpaceMap.Handle == IntPtr.Zero) _ = new NCException("You must initialise the Light Manager before using it!", 62, "LightManager.RenderLightmap called before LightManager.Init!", NCExceptionSeverity.FatalError);
 
             ScreenSpaceMap.Unlock();
-            ScreenSpaceMap.Draw(win);
+            ScreenSpaceMap.Draw(cWindow);
         }
 
         /// <summary>

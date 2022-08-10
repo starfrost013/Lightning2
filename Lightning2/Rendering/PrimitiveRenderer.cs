@@ -39,14 +39,14 @@ namespace LightningGL
         /// <summary>
         /// Draws a line to the screen.
         /// </summary>
-        /// <param name="cWindow"></param>
-        /// <param name="start"></param>
-        /// <param name="End"></param>
-        /// <param name="thickness"></param>
-        /// <param name="colour"></param>
-        /// <param name="antiAliased"></param>
-        /// <param name="snapToScreen"></param>
-        public static void DrawLine(Window cWindow, Vector2 start, Vector2 End, short thickness, Color colour, bool antiAliased = true, bool snapToScreen = false)
+        /// <param name="cWindow">The window to draw this line to.</param>
+        /// <param name="start">The start point of this line.</param>
+        /// <param name="end">The endpoint of this line.</param>
+        /// <param name="thickness">The thickness of this line.</param>
+        /// <param name="colour">The colour of this line.</param>
+        /// <param name="antiAliased">Determines if this line will be anti-aliased or not.</param>
+        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
+        public static void DrawLine(Window cWindow, Vector2 start, Vector2 end, short thickness, Color colour, bool antiAliased = true, bool snapToScreen = false)
         {
             // lineRGBA(); just calls SDL.SDL_RenderDrawLine
             // thickLine does other stuff. 
@@ -68,28 +68,40 @@ namespace LightningGL
             {
                 start.X -= currentCamera.Position.X;
                 start.Y -= currentCamera.Position.Y;
-                End.X -= currentCamera.Position.X;
-                End.Y -= currentCamera.Position.Y;
+                end.X -= currentCamera.Position.X;
+                end.Y -= currentCamera.Position.Y;
             }
 
             if (thickness == 1)
             {
                 if (antiAliased)
                 {
-                    SDL_gfx.aalineRGBA(cWindow.Settings.RendererHandle, (int)start.X, (int)start.Y, (int)End.X, (int)End.Y, colour.R, colour.G, colour.B, colour.A);
+                    SDL_gfx.aalineRGBA(cWindow.Settings.RendererHandle, (int)start.X, (int)start.Y, (int)end.X, (int)end.Y, colour.R, colour.G, colour.B, colour.A);
                 }
                 else
                 {
-                    SDL_gfx.lineRGBA(cWindow.Settings.RendererHandle, (int)start.X, (int)start.Y, (int)End.X, (int)End.Y, colour.R, colour.G, colour.B, colour.A);
+                    SDL_gfx.lineRGBA(cWindow.Settings.RendererHandle, (int)start.X, (int)start.Y, (int)end.X, (int)end.Y, colour.R, colour.G, colour.B, colour.A);
                 }
             }
-            else // sdl2_gfx limitaitons, can't be bothered to rebuild SDL2-gfx 
+            else 
             {
-                SDL_gfx.thickLineRGBA(cWindow.Settings.RendererHandle, (int)start.X, (int)start.Y, (int)End.X, (int)End.Y, thickness, colour.R, colour.G, colour.B, colour.A);
+                SDL_gfx.thickLineRGBA(cWindow.Settings.RendererHandle, (int)start.X, (int)start.Y, (int)end.X, (int)end.Y, thickness, colour.R, colour.G, colour.B, colour.A);
             }
         }
 
-        public static void DrawRectangle(Window cWindow, Vector2 position, Vector2 size, Color colour, bool filled = false, Color borderColor = default(Color), Vector2 borderSize = default(Vector2), bool snapToScreen = false)
+        /// <summary>
+        /// Draws a rectangle to the screen.
+        /// </summary>
+        /// <param name="cWindow">The window to draw this line to.</param>
+        /// <param name="position">The position of the rectangle to draw</param>
+        /// <param name="size">The size of the rectangle to draw.</param>
+        /// <param name="colour">The colour of the rectangle to draw.</param>
+        /// <param name="filled">Determines if this rectangle will be filled or not.</param>
+        /// <param name="borderColor">The colour of this rectangle's border.</param>
+        /// <param name="borderSize">The size of this rectangle's border.</param>
+        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
+        public static void DrawRectangle(Window cWindow, Vector2 position, Vector2 size, Color colour, bool filled = false, Color borderColor = default(Color), 
+            Vector2 borderSize = default(Vector2), bool snapToScreen = false)
         {
             
             // Check for a set camera and move relative to the position of that camera if it is set.
@@ -121,6 +133,16 @@ namespace LightningGL
 
         }
 
+        /// <summary>
+        /// Draws a rounded rectangle to the screen.
+        /// </summary>
+        /// <param name="cWindow">The window to draw this rectangle to.</param>
+        /// <param name="position">The position of the rectangle to draw</param>
+        /// <param name="size">The size of the rectangle to draw.</param>
+        /// <param name="colour">The colour of the rectangle to draw.</param>
+        /// <param name="cornerRadius">The radius, in pixels, of this rectangle's corners.</param>
+        /// <param name="filled">Determines if this rectangle will be filled or not.</param>
+        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
         public static void DrawRoundedRectangle(Window cWindow, Vector2 position, Vector2 size, Color colour, int cornerRadius, bool filled, bool snapToScreen = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
@@ -147,7 +169,7 @@ namespace LightningGL
         }
 
         /// <summary>
-        /// Draws a triangle using SDL2_gfx
+        /// Draws a triangle to the screen
         /// </summary>
         /// <param name="cWindow">The Window to draw the triangle to.</param>
         /// <param name="point1">The first point of the triangle.</param>
@@ -155,6 +177,7 @@ namespace LightningGL
         /// <param name="point3">The third point of the triangle.</param>
         /// <param name="colour">The colour of the triangle - see <see cref="Color"/></param>
         /// <param name="filled">Determines if the triangle will be filled.</param>
+        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
         public static void DrawTriangle(Window cWindow, Vector2 point1, Vector2 point2, Vector2 point3, Color colour, bool filled, bool snapToScreen = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
@@ -174,14 +197,26 @@ namespace LightningGL
 
             if (filled)
             {
-                SDL_gfx.filledTrigonRGBA(cWindow.Settings.RendererHandle, (int)point1.X, (int)point1.Y, (int)point2.X, (int)point2.Y, (int)point3.X, (int)point3.Y, colour.R, colour.G, colour.B, colour.A);
+                SDL_gfx.filledTrigonRGBA(cWindow.Settings.RendererHandle, (int)point1.X, (int)point1.Y, (int)point2.X, (int)point2.Y, (int)point3.X, 
+                    (int)point3.Y, colour.R, colour.G, colour.B, colour.A);
             }
             else
             {
-                SDL_gfx.trigonRGBA(cWindow.Settings.RendererHandle, (int)point1.X, (int)point1.Y, (int)point2.X, (int)point2.Y, (int)point3.X, (int)point3.Y, colour.R, colour.G, colour.B, colour.A);
+                SDL_gfx.trigonRGBA(cWindow.Settings.RendererHandle, (int)point1.X, (int)point1.Y, (int)point2.X, (int)point2.Y, (int)point3.X, 
+                    (int)point3.Y, colour.R, colour.G, colour.B, colour.A);
             }
         }
 
+        /// <summary>
+        /// Draws a circle to the screen.
+        /// </summary>
+        /// <param name="cWindow">The window to draw this circle to.</param>
+        /// <param name="position">The position of the circle to draw</param>
+        /// <param name="size">The size of the circle to draw.</param>
+        /// <param name="colour">The colour of the circle to draw.</param>
+        /// <param name="filled">Determines if this circle is filled.</param>
+        /// <param name="antiAliased">Determines if this circle is anti-aliased. Only has an effect on unfilled circles for now</param>
+        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
         public static void DrawCircle(Window cWindow, Vector2 position, Vector2 size, Color colour, bool filled, bool antiAliased = false, bool snapToScreen = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
@@ -204,6 +239,14 @@ namespace LightningGL
             }
         }
 
+        /// <summary>
+        /// Private: Draws an unfilled circle to the screen.
+        /// </summary>
+        /// <param name="cWindow">The window to draw this circle to.</param>
+        /// <param name="position">The position of the circle to draw</param>
+        /// <param name="size">The size of the circle to draw.</param>
+        /// <param name="colour">The colour of the circle to draw.</param>
+        /// <param name="antiAliased">Determines if this circle is anti-aliased.</param>
         private static void DrawCircle_DrawUnfilledCircle(Window cWindow, Vector2 position, Vector2 size, Color colour, bool antiAliased = false)
         {
             if (!antiAliased)
@@ -216,19 +259,27 @@ namespace LightningGL
             }
         }
 
+        /// <summary>
+        /// Private: Draws a filled circle to the screen.
+        /// </summary>
+        /// <param name="cWindow">The window to draw this circle to.</param>
+        /// <param name="position">The position of the circle to draw</param>
+        /// <param name="size">The size of the circle to draw.</param>
+        /// <param name="colour">The colour of the circle to draw.</param>
         private static void DrawCircle_DrawFilledCircle(Window cWindow, Vector2 position, Vector2 size, Color colour)
         {
             SDL_gfx.filledEllipseRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y, (int)size.X, (int)size.Y, colour.R, colour.G, colour.B, colour.A);
         }
 
         /// <summary>
-        /// Draws simple text using SDL2_gfx.
+        /// Draws simple text to the screen using a debug font.
         /// </summary>
         /// <param name="cWindow">The Window to draw the text to.</param>
         /// <param name="text">The text to draw.</param>
         /// <param name="position">The position to draw the text to. </param>
         /// <param name="colour">The colour to draw the text as.</param>
         /// <param name="localise">If true, the text will be localised with <see cref="LocalisationManager"/> before being drawn.</param>
+        ///  <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
         public static void DrawText(Window cWindow, string text, Vector2 position, Color colour, bool localise = true, bool snapToScreen = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
