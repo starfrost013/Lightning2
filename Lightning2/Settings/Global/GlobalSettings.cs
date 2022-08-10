@@ -14,7 +14,7 @@ namespace LightningGL
     /// </summary>
     public static class GlobalSettings
     {
-        public static string GLOBALSETTINGS_FILE_PATH = @"Content\Engine.ini";
+        public static string GLOBALSETTINGS_PATH = @"Content\Engine.ini";
 
         #region General settings
         /// <summary>
@@ -42,6 +42,20 @@ namespace LightningGL
         /// </summary>
         public static string LocalSettingsPath { get; internal set; }
 
+        /// <summary>
+        /// Path to the package file that is to be loaded.
+        /// </summary>
+        public static string PackageFile { get; internal set; }
+
+        /// <summary>
+        /// The content folder to use for the game.
+        /// </summary>
+        public static string ContentFolder { get; internal set; }
+
+        /// <summary>
+        /// Determines if the Scene Manager will be turned off.
+        /// </summary>
+        public static bool DontUseSceneManager { get; internal set; }
         #endregion
 
         #region Graphics settings
@@ -59,6 +73,11 @@ namespace LightningGL
         /// See <see cref="WindowSettings.WindowFlags"/>
         /// </summary>
         public static SDL_WindowFlags WindowFlags { get; internal set; }
+
+        /// <summary>
+        /// See <see cref="WindowSettings.RenderFlags"/>
+        /// </summary>
+        public static SDL_RendererFlags RenderFlags { get; internal set; }
 
         /// <summary>
         /// The X component of the window resolution.
@@ -82,7 +101,7 @@ namespace LightningGL
 
         #endregion
 
-        #region Requirements
+        #region System requirements
 
         /// <summary>
         /// Minimum ram in MiB (mebibytes)
@@ -106,11 +125,19 @@ namespace LightningGL
         public static SystemInfoOperatingSystem MinimumOperatingSystem { get; internal set; }
         #endregion
 
+        #region Scene settings
+
+        /// <summary>
+        /// The startup scene name.
+        /// </summary>
+        public static string StartupScene { get; set; } 
+        #endregion
+
         internal static void Load()
         {
             // Possible todo: Serialise these to properties and get rid of the loader/sections
             // Consider this
-            NCINIFile ncIni = NCINIFile.Parse(GLOBALSETTINGS_FILE_PATH);
+            NCINIFile ncIni = NCINIFile.Parse(GLOBALSETTINGS_PATH);
 
             if (ncIni == null) _ = new NCException("Failed to load Engine.ini!", 28, "GlobalSettings.Load()", NCExceptionSeverity.FatalError);
 
@@ -118,6 +145,7 @@ namespace LightningGL
             NCINIFileSection graphicsSection = ncIni.GetSection("Graphics");
             NCINIFileSection locSection = ncIni.GetSection("Localisation");
             NCINIFileSection requirementsSection = ncIni.GetSection("Requirements");
+            NCINIFileSection sceneSection = ncIni.GetSection("Scene");
 
             if (generalSection == null) _ = new NCException("Engine.ini must have a General section!", 41, "GlobalSettings.Load()", NCExceptionSeverity.FatalError);
             if (locSection == null) _ = new NCException("Engine.ini must have a Localisation section!", 29, "GlobalSettings.Load()", NCExceptionSeverity.FatalError);
@@ -135,6 +163,9 @@ namespace LightningGL
             string generalAboutScreenOnF9 = generalSection.GetValue("EngineAboutScreenOnShiftF9");
             string generalDeleteUnpackedFilesOnExit = generalSection.GetValue("DeleteUnpackedFilesOnExit");
             string generalLocalSettingsPath = generalSection.GetValue("LocalSettingsPath");
+            string generalPackageFile = generalSection.GetValue("PackageFile");
+            string generalContentFolder = generalSection.GetValue("ContentFolder");
+            string generalDontUseSceneManager = generalSection.GetValue("UseSceneManager");
 
             // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
             int generalMaxFpsValue = 0;
@@ -142,6 +173,7 @@ namespace LightningGL
             bool generalProfilePerfValue = false;
             bool generalAboutScreenOnF9Value = false;
             bool generalDeleteUnpackedFilesOnExitValue = false;
+            bool generalDontUseSceneManagerValue = false;
 
             _ = int.TryParse(generalMaxFps, out generalMaxFpsValue);
 
@@ -150,6 +182,7 @@ namespace LightningGL
             _ = bool.TryParse(generalProfilePerf, out generalProfilePerfValue);
             if (!bool.TryParse(generalAboutScreenOnF9, out generalAboutScreenOnF9Value)) generalAboutScreenOnF9Value = true; // force the default value, true for now
             _ = bool.TryParse(generalDeleteUnpackedFilesOnExit, out generalDeleteUnpackedFilesOnExitValue);
+            _ = bool.TryParse(generalDontUseSceneManager, out generalDontUseSceneManagerValue);
 
             MaxFPS = generalMaxFpsValue;
             ShowDebugInfo = generalShowDebugInfoValue;
@@ -157,30 +190,37 @@ namespace LightningGL
             EngineAboutScreenOnShiftF9 = generalAboutScreenOnF9Value;
             DeleteUnpackedFilesOnExit = generalDeleteUnpackedFilesOnExitValue;
             LocalSettingsPath = generalLocalSettingsPath;
+            PackageFile = generalPackageFile;
+            ContentFolder = generalContentFolder;
+            DontUseSceneManager = generalDontUseSceneManagerValue;
 
+            // Load the Graphics section if it exists.
             if (graphicsSection != null)
             {
-                // Load the Graphics section.
                 string resolutionX = graphicsSection.GetValue("ResolutionX");
                 string resolutionY = graphicsSection.GetValue("ResolutionY");
                 string positionX = graphicsSection.GetValue("PositionX");
                 string positionY = graphicsSection.GetValue("PositionY");
                 string windowFlags = graphicsSection.GetValue("WindowFlags");
+                string renderFlags = graphicsSection.GetValue("RenderFlags");
 
                 // Set default values up. 0 is not a valid SDL_WindowFlags value and nobody has a 0 x 0 display.
                 uint resolutionXValue = 0;
                 uint resolutionYValue = 0;
 
                 SDL_WindowFlags windowFlagsValue = 0;
+                SDL_RendererFlags renderFlagsValue = 0; 
 
                 _ = uint.TryParse(resolutionX, out resolutionXValue);
                 _ = uint.TryParse(resolutionY, out resolutionYValue);
                 _ = Enum.TryParse(windowFlags, true, out windowFlagsValue);
+                _ = Enum.TryParse(renderFlags, true, out renderFlagsValue);
 
                 // Set those values.
                 ResolutionX = resolutionXValue;
                 ResolutionY = resolutionYValue;
                 WindowFlags = windowFlagsValue;
+                RenderFlags = renderFlagsValue;
 
                 uint positionXValue = 0;
                 uint positionYValue = 0;
@@ -200,6 +240,7 @@ namespace LightningGL
                 PositionY = positionYValue;
             }
 
+            // Load the Requirements section if it exists.
             if (requirementsSection != null)
             {
                 string minRam = requirementsSection.GetValue("MinimumSystemRam");
@@ -221,6 +262,12 @@ namespace LightningGL
                 MinimumLogicalProcessors = minLogicalProcessorsValue;
                 MinimumCpuCapabilities = minimumCpuCapabilitiesValue;
                 MinimumOperatingSystem = minimumOperatingSystemValue;
+            }
+
+            // load the scene section 
+            if (!DontUseSceneManager)
+            {
+
             }
         }
 

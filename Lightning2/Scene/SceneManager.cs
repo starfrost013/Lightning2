@@ -57,7 +57,7 @@ namespace LightningGL
                 {
                     Scene scene = (Scene)Activator.CreateInstance(t);
 
-                    if (scene == null) throw new NCException($"Error initialising SceneManager: failed to initialise scene {scene.GetName()}: failed to create instance!", 1000, "SceneManager::Init", NCExceptionSeverity.FatalError);
+                    if (scene == null) throw new NCException($"Error initialising SceneManager: failed to initialise scene {scene.GetName()}, failed to create instance!", 1000, "SceneManager::Init", NCExceptionSeverity.FatalError);
 
                     SceneList.Add(scene);
 
@@ -102,6 +102,7 @@ namespace LightningGL
                     }
                 }
 
+                // Render the current scene.
                 CurrentScene.Render(MainWindow);
 
                 MainWindow.Render();

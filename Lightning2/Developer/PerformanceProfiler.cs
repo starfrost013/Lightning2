@@ -15,14 +15,29 @@ namespace LightningGL
     /// </summary>
     public static class PerformanceProfiler
     {
+        /// <summary>
+        /// The filename to use for outputting performance information.
+        /// </summary>
         private static string FileName { get; set; }
 
+        /// <summary>
+        /// The stream used for outputting performance information.
+        /// </summary>
         private static StreamWriter FileStream { get; set; }
 
+        /// <summary>
+        /// List of FPS values for the performance profiler.
+        /// </summary>
         private static List<double> FPSList { get; set; }
 
+        /// <summary>
+        /// Indicates if the performance profiler has been initialised.
+        /// </summary>
         private static bool Initialised { get; set; }
 
+        /// <summary>
+        /// Constructor for the performance profiler.
+        /// </summary>
         static PerformanceProfiler()
         {
             FPSList = new List<double>();

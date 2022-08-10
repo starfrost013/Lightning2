@@ -4,11 +4,12 @@ using NuCore.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Numerics;
 
 namespace LightningGL
 {
     /// <summary>
-    /// LightningGL
+    /// Lightning
     /// A lightweight, easy-to-use, and elegantly designed C# game framework
     /// 
     /// © 2022 starfrost
@@ -74,6 +75,27 @@ namespace LightningGL
                     PerformanceProfiler.Start();
                 }
 
+                // load global settings package file if init settings one was not specified
+                if (InitSettings.PackageFile == null
+                    && GlobalSettings.PackageFile != null)
+                {
+                    NCLogging.Log($"User specified package file {GlobalSettings.PackageFile} to load, loading it...");
+
+                    if (!Packager.LoadPackage(GlobalSettings.PackageFile, GlobalSettings.ContentFolder)) _ = new NCException($"An error occurred loading {GlobalSettings.PackageFile}. The game cannot be loaded.", 104, "Packager::LoadPackager returned false", NCExceptionSeverity.FatalError);
+                }
+
+                // Load the Scene Manager
+                // TODO: specify startup settings in SceneManager
+                if (!GlobalSettings.DontUseSceneManager) SceneManager.Init(new WindowSettings
+                {
+                    Position = new Vector2(GlobalSettings.PositionX, GlobalSettings.PositionY),
+                    Size = new Vector2(GlobalSettings.ResolutionX, GlobalSettings.ResolutionY),
+                    WindowFlags = GlobalSettings.WindowFlags,
+
+                });
+
+
+                // Load LocalSettings
                 if (GlobalSettings.LocalSettingsPath != null)
                 {
                     NCLogging.Log($"Loading local settings from {GlobalSettings.LocalSettingsPath}");
@@ -84,7 +106,7 @@ namespace LightningGL
             }
             catch (Exception err)
             {
-                _ = new NCException($"An unknown fatal error occurred during engine initialisation. The installation may be corrupted", 0x0000DEAD, "Fatal error occurred in LightningGL::Init!", NCExceptionSeverity.FatalError, err);
+                _ = new NCException($"An unknown fatal error occurred during engine initialisation. The installation may be corrupted", 0x0000DEAD, "A fatal error occurred in LightningGL::Init!", NCExceptionSeverity.FatalError, err);
             }
         }
 

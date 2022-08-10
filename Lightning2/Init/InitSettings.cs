@@ -5,9 +5,10 @@ namespace LightningGL
     /// <summary>
     /// InitSettings
     /// 
-    /// July 30, 2022
+    /// July 30, 2022 (modified August 10, 2022)
     /// 
     /// Stores initialisation settings.
+    /// These are STRICTLY intended ONLY for debugging purposes.
     /// - It is my hope that these are the only command-line arguments needed, as I am trying to avoid them
     /// </summary>
     public class InitSettings
