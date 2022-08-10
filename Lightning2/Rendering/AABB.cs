@@ -14,6 +14,12 @@ namespace LightningGL
     /// </summary>
     public class AABB
     {
+        /// <summary>
+        /// Tests if two <see cref="Renderable"/>s are intersecting.
+        /// </summary>
+        /// <param name="render1">The first renderable to test for intersection.</param>
+        /// <param name="render2">The second renderable to test for intersection.</param>
+        /// <returns>A boolean determining if the two renderables are intersecting or not</returns>
         public static bool Intersects(Renderable render1, Renderable render2)
         {
             Vector2 render1Min = render1.RenderPosition;
@@ -27,6 +33,12 @@ namespace LightningGL
                 && render1Max.Y >= render2Min.Y); 
         }
 
+        /// <summary>
+        /// Tests if a <see cref="Renderable"/> is intersecting with the position <paramref name="render2"/>.
+        /// </summary>
+        /// <param name="render1">The first renderable to test for intersection.</param>
+        /// <param name="render2">The position to test for intersection with <paramref name="render1"/>.</param>
+        /// <returns>A boolean determining if the two renderables are intersecting or not</returns>
         public static bool Intersects(Renderable render1, Vector2 render2)
         {
             Vector2 render1Min = render1.RenderPosition;

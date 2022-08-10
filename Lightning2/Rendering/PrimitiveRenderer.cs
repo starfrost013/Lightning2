@@ -14,6 +14,13 @@ namespace LightningGL
     /// </summary>
     public static class PrimitiveRenderer
     {
+        /// <summary>
+        /// Draws a pixel on the screen.
+        /// </summary>
+        /// <param name="cWindow">The window to draw the pixel to.</param>
+        /// <param name="position">The position of the pixel to draw.</param>
+        /// <param name="colour">The <see cref="Color"/> of the pixel to draw.</param>
+        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
         public static void DrawPixel(Window cWindow, Vector2 position, Color colour, bool snapToScreen = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
@@ -29,7 +36,17 @@ namespace LightningGL
             SDL_gfx.pixelRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y, colour.R, colour.G, colour.B, colour.A);
         }
 
-        public static void DrawLine(Window cWindow, Vector2 start, Vector2 End, short thickness, Color colour, bool antiAliased, bool snapToScreen = false)
+        /// <summary>
+        /// Draws a line to the screen.
+        /// </summary>
+        /// <param name="cWindow"></param>
+        /// <param name="start"></param>
+        /// <param name="End"></param>
+        /// <param name="thickness"></param>
+        /// <param name="colour"></param>
+        /// <param name="antiAliased"></param>
+        /// <param name="snapToScreen"></param>
+        public static void DrawLine(Window cWindow, Vector2 start, Vector2 End, short thickness, Color colour, bool antiAliased = true, bool snapToScreen = false)
         {
             // lineRGBA(); just calls SDL.SDL_RenderDrawLine
             // thickLine does other stuff. 

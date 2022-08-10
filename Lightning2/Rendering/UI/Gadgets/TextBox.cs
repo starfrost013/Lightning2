@@ -23,15 +23,35 @@ namespace LightningGL
             }
         }
 
+        /// <summary>
+        /// A boolean determining if the cursor is hidden or not.
+        /// </summary>
         public bool HideCursor { get; set; }
 
+        /// <summary>
+        /// The capacity of the textbox.
+        /// </summary>
         public int Capacity { get; set; }
 
-        public int CursorThickness { get; set; }
+        /// <summary>
+        /// The thickness of the cursor in pixels.
+        /// </summary>
+        public short CursorThickness { get; set; }
         
+        /// <summary>
+        /// The colour of the cursor.
+        /// </summary>
         public Color CursorColour { get; set; } 
 
+        /// <summary>
+        /// The number of frames between cursor blinks.
+        /// </summary>
         public int CursorBlinkFrequency { get; set; }
+
+        /// <summary>
+        /// The length of time the cursor will blink.
+        /// </summary>
+        public int CursorBlinkLength { get; set; }
 
         public TextBox(int capacity) : base()
         {
@@ -41,8 +61,13 @@ namespace LightningGL
             CursorThickness = 2;
             CursorBlinkFrequency = 25;
             CursorColour = Color.White;
+            CursorBlinkLength = 1;
         }
 
+        /// <summary>
+        /// Keypress handler for TextBoxes.
+        /// </summary>
+        /// <param name="key">The key that has been pressed.</param>
         public void KeyPressed(Key key)
         {
             // reject if text longer than capacity
@@ -108,7 +133,7 @@ namespace LightningGL
                 Vector2 cursorPosition = new Vector2(Position.X + fontSize.X, Position.Y);
 
                 // actually blink it
-                if (cWindow.FrameNumber % CursorBlinkFrequency == 0) PrimitiveRenderer.DrawRectangle(cWindow, cursorPosition, new Vector2(CursorThickness, Size.Y), CursorColour);
+                if (cWindow.FrameNumber % CursorBlinkFrequency <= (CursorBlinkLength - 1)) PrimitiveRenderer.DrawLine(cWindow, cursorPosition, cursorPosition + Size, CursorThickness, CursorColour, true);
             }
         }
     }
