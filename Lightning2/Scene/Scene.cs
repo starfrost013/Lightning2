@@ -56,14 +56,6 @@ namespace LightningGL
             return typeName;
         }
 
-        /// <summary>
-        /// Determines if this scene is the startup scene. If true, this scene will be initialised at engine start.
-        /// There must be at least one startup scene.
-        /// 
-        /// If multiple scenes are set as the startup scene, the first one set will be used.
-        /// </summary>
-        public virtual bool StartupScene => false;
-
         public Scene(string name = null)
         {
             Name = name;

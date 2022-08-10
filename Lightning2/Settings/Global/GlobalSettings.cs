@@ -162,9 +162,9 @@ namespace LightningGL
             string generalProfilePerf = generalSection.GetValue("PerformanceProfiler");
             string generalAboutScreenOnF9 = generalSection.GetValue("EngineAboutScreenOnShiftF9");
             string generalDeleteUnpackedFilesOnExit = generalSection.GetValue("DeleteUnpackedFilesOnExit");
-            string generalLocalSettingsPath = generalSection.GetValue("LocalSettingsPath");
-            string generalPackageFile = generalSection.GetValue("PackageFile");
-            string generalContentFolder = generalSection.GetValue("ContentFolder");
+            LocalSettingsPath = generalSection.GetValue("LocalSettingsPath");
+            PackageFile = generalSection.GetValue("PackageFile");
+            ContentFolder = generalSection.GetValue("ContentFolder");
             string generalDontUseSceneManager = generalSection.GetValue("UseSceneManager");
 
             // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
@@ -189,9 +189,6 @@ namespace LightningGL
             ProfilePerf = generalProfilePerfValue;
             EngineAboutScreenOnShiftF9 = generalAboutScreenOnF9Value;
             DeleteUnpackedFilesOnExit = generalDeleteUnpackedFilesOnExitValue;
-            LocalSettingsPath = generalLocalSettingsPath;
-            PackageFile = generalPackageFile;
-            ContentFolder = generalContentFolder;
             DontUseSceneManager = generalDontUseSceneManagerValue;
 
             // Load the Graphics section if it exists.
@@ -267,7 +264,9 @@ namespace LightningGL
             // load the scene section 
             if (!DontUseSceneManager)
             {
+                if (sceneSection == null) _ = new NCException("DontUseSceneManager not specified, but no [Scene] section is present in Engine.ini!", 121, $"GlobalSettings::DontUseSceneManager not specified, but no [Scene] section in Engine.ini!", NCExceptionSeverity.FatalError);
 
+                StartupScene = sceneSection.GetValue("StartupScene");
             }
         }
 

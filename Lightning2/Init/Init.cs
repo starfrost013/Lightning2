@@ -84,23 +84,22 @@ namespace LightningGL
                     if (!Packager.LoadPackage(GlobalSettings.PackageFile, GlobalSettings.ContentFolder)) _ = new NCException($"An error occurred loading {GlobalSettings.PackageFile}. The game cannot be loaded.", 104, "Packager::LoadPackager returned false", NCExceptionSeverity.FatalError);
                 }
 
-                // Load the Scene Manager
-                // TODO: specify startup settings in SceneManager
-                if (!GlobalSettings.DontUseSceneManager) SceneManager.Init(new WindowSettings
-                {
-                    Position = new Vector2(GlobalSettings.PositionX, GlobalSettings.PositionY),
-                    Size = new Vector2(GlobalSettings.ResolutionX, GlobalSettings.ResolutionY),
-                    WindowFlags = GlobalSettings.WindowFlags,
-
-                });
-
-
                 // Load LocalSettings
                 if (GlobalSettings.LocalSettingsPath != null)
                 {
                     NCLogging.Log($"Loading local settings from {GlobalSettings.LocalSettingsPath}");
                     LocalSettings.Load();
                 }
+
+                // Load the Scene Manager
+                // This should ALWAYS be the last thing initialised
+                if (!GlobalSettings.DontUseSceneManager) SceneManager.Init(new WindowSettings
+                {
+                    Position = new Vector2(GlobalSettings.PositionX, GlobalSettings.PositionY),
+                    Size = new Vector2(GlobalSettings.ResolutionX, GlobalSettings.ResolutionY),
+                    WindowFlags = GlobalSettings.WindowFlags,
+                    RenderFlags = GlobalSettings.RenderFlags,
+                });
 
                 Initialised = true;
             }
