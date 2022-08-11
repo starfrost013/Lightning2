@@ -6,10 +6,11 @@ using System.Diagnostics;
 // August 11, 2022
 //
 // Builds the SDK...duh.
+// Very quick and dirty
 
 NCLogging.Init();
 
-NCLogging.Log("Lightning SDK Builder version 1.0");
+NCLogging.Log("Lightning SDK Builder version 1.1");
 
 NCLogging.Log("Copying build files from LightningGL build directory...");
 
@@ -68,7 +69,7 @@ NCFile.RecursiveCopy(docPath, @"SDK\Documentation");
 NCLogging.Log("Building examples...");
 
 Directory.CreateDirectory(@"SDK\Examples");
-string examplePath = $@"..\..\..\..\Lightning2\Content\Examples";
+string examplePath = $@"..\..\..\..\Examples";
 
 if (!Directory.Exists(examplePath)) _ = new NCException($"Examples directory not found ({examplePath}", 1400, "examplePath not found in Program::Main");
 foreach (string fileName in Directory.GetFiles(examplePath))
@@ -84,4 +85,24 @@ foreach (string fileName in Directory.GetFiles(examplePath))
 
 NCFile.RecursiveCopy(examplePath, @"SDK\Examples");
 
+string innoInstallDir = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)}\Inno Setup 6";
+
+if (!Directory.Exists(innoInstallDir))
+{
+    NCLogging.Log("Inno Setup not installed, skipping installer generation phase..."); 
+}
+else
+{
+    NCLogging.Log("Generating installer...");
+    
+    Process innoSetup = Process.Start($@"{innoInstallDir}\ISCC.exe", @"..\..\..\..\Lightning2\Content\Setup\Setup.iss");  
+
+    // wait for inno to complete
+    while (!innoSetup.HasExited) { };
+
+    if (innoSetup.ExitCode > 0)
+    {
+        NCLogging.Log("Error: Inno Setup failed to generate the SDK installer", ConsoleColor.Red);
+    }
+}
 NCLogging.Log("Done!");

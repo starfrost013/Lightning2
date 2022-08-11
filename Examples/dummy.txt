@@ -1,0 +1,1 @@
+Inno Setup can't cope with empty directories, so I have to create this stupid text file for now

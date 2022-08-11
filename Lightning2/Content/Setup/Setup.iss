@@ -27,11 +27,13 @@ DefaultGroupName={#MyAppName}
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=commandline
 OutputDir=C:\Users\FiercePC\Lightning2\SDKBuild\bin\Debug\net6.0\SDK\Setup
-OutputBaseFilename=SDKSetup.exe
+OutputBaseFilename=SDKSetup
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
-
+; we are 64-bit only
+ArchitecturesInstallIn64BitMode=x64 arm64
+ArchitecturesAllowed=x64 arm64
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
