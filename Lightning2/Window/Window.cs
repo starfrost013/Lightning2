@@ -310,5 +310,11 @@ namespace LightningGL
 
             Settings.Camera = nCamera;
         }
+
+        /// <summary>
+        /// Sets the window to be fullscreen or windowed.
+        /// </summary>
+        /// <param name="fullscreen">A boolean determining if the window is fullscreen (TRUE) or windowed (FALSE)</param>
+        public void SetFullscreen(bool fullscreen) => SDL_SetWindowFullscreen(Settings.WindowHandle, fullscreen ? (uint)SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
     }
 }
