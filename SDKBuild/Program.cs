@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 NCLogging.Init();
 
-NCLogging.Log("Lightning SDK Builder version 1.1");
+NCLogging.Log("Lightning SDK Builder version 1.2");
 
 NCLogging.Log("Copying build files from LightningGL build directory...");
 
