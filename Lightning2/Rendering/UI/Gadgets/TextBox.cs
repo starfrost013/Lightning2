@@ -58,10 +58,10 @@ namespace LightningGL
             Capacity = capacity;
             OnKeyPressed += KeyPressed;
             OnRender += Render;
-            CursorThickness = 2;
-            CursorBlinkFrequency = 100;
-            CursorColour = Color.White;
-            CursorBlinkLength = 50;
+            if (CursorThickness == 0) CursorThickness = 2;
+            if (CursorBlinkFrequency == 0) CursorBlinkFrequency = 100;
+            if (CursorColour == default) CursorColour = Color.White;
+            if (CursorBlinkLength == 0) CursorBlinkLength = 50;
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace LightningGL
 
         public void Render(Window cWindow)
         {
-            PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, BackgroundColour, true, BorderColour, BorderSize);
+            PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, CurBackgroundColour, true, BorderColour, BorderSize, SnapToScreen);
             FontManager.DrawText(cWindow, Text, Font, Position, ForegroundColour);
 
             if (!HideCursor)

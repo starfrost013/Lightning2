@@ -35,6 +35,7 @@ namespace LightningGL
         {
             foreach (Gadget uiElement in UIElements)
             {
+                if (uiElement.Size == default) _ = new NCException($"Attempted to draw a UI element with no size, you will not see it!", 122, "Gadget::Size = (0,0)!", NCExceptionSeverity.Warning, null, true);
                 if (uiElement.OnRender != null)
                 {
                     uiElement.OnRender(cWindow);

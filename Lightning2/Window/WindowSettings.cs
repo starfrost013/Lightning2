@@ -104,7 +104,7 @@ namespace LightningGL
         /// <summary>
         /// The background colour of this window.
         /// </summary>
-        public Color Background { get; internal set; }
+        public Color BackgroundColour { get; internal set; }
 
         public WindowSettings()
         {
@@ -116,7 +116,7 @@ namespace LightningGL
             if (WindowFlags == 0) WindowFlags = SDL_WindowFlags.SDL_WINDOW_SHOWN;
             if (Size == default(Vector2)) Size = new Vector2(960, 640);
             if (Position == default(Vector2)) Position = new Vector2(GlobalSettings.PositionX, GlobalSettings.PositionY);
-            Background = Color.FromArgb(255, 0, 0, 0);
+            BackgroundColour = Color.FromArgb(255, 0, 0, 0);
         }
     }
 }

@@ -39,7 +39,7 @@ namespace LightningGL
             // This is a bit of a hack, but it works for now
             if (CurBackgroundColour == default(Color)) CurBackgroundColour = BackgroundColour;
 
-            PrimitiveRenderer.DrawRectangle(cWindow, RenderPosition, Size, CurBackgroundColour, Filled, BorderColour, BorderSize);
+            PrimitiveRenderer.DrawRectangle(cWindow, RenderPosition, Size, CurBackgroundColour, Filled, BorderColour, BorderSize, SnapToScreen);
 
             Font curFont = FontManager.GetFont(Font);
 

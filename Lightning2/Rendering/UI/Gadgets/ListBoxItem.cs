@@ -28,7 +28,7 @@ namespace LightningGL
             // set the default background colour
             if (CurBackgroundColour == default(Color)) CurBackgroundColour = BackgroundColour;
 
-            PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, CurBackgroundColour, Filled, BorderColour, BorderSize);
+            PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, CurBackgroundColour, Filled, BorderColour, BorderSize, SnapToScreen);
 
             Font curFont = FontManager.GetFont(Font);
 

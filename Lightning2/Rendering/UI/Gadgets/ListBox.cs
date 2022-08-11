@@ -123,11 +123,11 @@ namespace LightningGL
             // set the default background colour
             if (CurBackgroundColour == default(Color)) CurBackgroundColour = BackgroundColour;
 
-            PrimitiveRenderer.DrawRectangle(cWindow, Position, BoxSize, CurBackgroundColour, Filled, BorderColour, BorderSize);
+            PrimitiveRenderer.DrawRectangle(cWindow, Position, BoxSize, CurBackgroundColour, Filled, BorderColour, BorderSize, SnapToScreen);
 
             Font curFont = FontManager.GetFont(Font);
 
-            // draw text:
+            // draw the currently selected item:
             // if the font is invalid use the default font
             // otherwise, use the Font Manager
             if (Items.Count > 0) 
@@ -142,6 +142,7 @@ namespace LightningGL
                 }
             }
 
+            // draw the items if they are open
             if (Open)
             {
                 foreach (ListBoxItem item in Items)

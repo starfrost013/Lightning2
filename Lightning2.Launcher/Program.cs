@@ -216,6 +216,18 @@ TextBox textBox1 = new TextBox(300)
     Filled = true
 };
 
+CheckBox checkBox1 = new CheckBox
+{
+    Position = new(500, 150),
+    Size = new(40, 40),
+    BackgroundColour = Color.BlueViolet,
+    HoverColour = Color.Blue,
+    PressedColour = Color.LightBlue,
+    ForegroundColour = Color.White,
+    Font = "Arial.11pt",
+    Filled = true
+};
+
 listBox1.AddItem(new("test 1"));
 listBox1.AddItem(new("test 2"));
 listBox1.AddItem(new("dfsdfsdfsdfsdfsdf"));
@@ -225,6 +237,7 @@ listBox1.AddItem(new("qasqsdfwqer"));
 UIManager.AddElement(btn1);
 UIManager.AddElement(listBox1);
 UIManager.AddElement(textBox1);
+UIManager.AddElement(checkBox1);
 
 TextureManager.AddTexture(texture);
 TextureManager.AddTexture(animatedTexture1);
