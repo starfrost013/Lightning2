@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <None Remove="Content\Engine.ini" />
-    <None Remove="Libraries\ManagedLzma.dll" />
     <None Remove="Content\Localisation\en-GB-test.ini" />
     <None Remove="Content\Localisation\pseudo.ini" />
     <None Remove="Libraries\libFLAC-8.dll" />
@@ -49,9 +48,6 @@
 
   <ItemGroup>
     <Content Include="Content\Engine.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\ManagedLzma.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Localisation\en-GB-test.ini">
