@@ -3,42 +3,53 @@ using System.IO;
 
 namespace NuCore.Utilities
 {
+    /// <summary>
+    /// NCFile
+    /// 
+    /// August 11, 2022
+    /// 
+    /// File utilities.
+    /// </summary>
     public static class NCFile
     {
-        public static void RecursiveCopy(string sourceDir, string destinationDir = null, List<string> excludedPatterns = null)
+        /// <summary>
+        /// Recursively copies files.
+        /// </summary>
+        /// <param name="sourceDir">The source directory to copy from.</param>
+        /// <param name="destinationDir">The destination directory to copy from.</param>
+        /// <param name="originalDir">Internal: The original directory</param>
+        /// <param name="excludedPatterns">Patterns that are excluded</param>
+        public static void RecursiveCopy(string sourceDir, string destinationDir = null, string originalDir = null, List<string> excludedPatterns = null)
         {
             if (destinationDir == null) destinationDir = ".";
-            if (excludedPatterns == null) excludedPatterns = new List<string> { ".tmp", "~$" };
+            if (excludedPatterns == null) excludedPatterns = new List<string> { ".tmp", "~$", ".g.cs", ".cache", 
+                ".editorconfig", ".props", ".targets", ".vsidx", ".lock", ".v1", ".v2", "dgspec", "AssemblyAttributes", "basic.AssemblyInfo" };
+
+            if (originalDir == null) originalDir = sourceDir;
 
             // this is really really bad
             foreach (string dirName in Directory.GetDirectories(sourceDir))
             {
                 foreach (string fileName in Directory.GetFiles(dirName))
                 {
-                    string destinationDirectory = destinationDir.Replace(sourceDir, "");
-                    string destinationPath = fileName.Replace($"..{Path.DirectorySeparatorChar}", "");
-                    
-                    // don't duplicate the first directory
-                    destinationPath = destinationPath.Substring(destinationPath.IndexOf(Path.DirectorySeparatorChar));
+                    string relativeDestinationPath = fileName.Replace(originalDir, "");
                     // determine if we will copy
                     bool performCopy = true;
-                    // check all excluded patterns
+
                     foreach (string excludedPattern in excludedPatterns)
                     {
                         // skip any excluded pattern
                         if (fileName.Contains(excludedPattern)) performCopy = false;
                     }
 
-                    string finalFilePath = $@"{destinationDirectory}\{destinationPath}";
-                    string finalDirPath = finalFilePath.Substring(0, finalFilePath.LastIndexOf(Path.DirectorySeparatorChar));
+                    string finalPath = $"{destinationDir}\\{relativeDestinationPath}";
+                    string finalDirectory = finalPath.Substring(0, finalPath.LastIndexOf(Path.DirectorySeparatorChar));
 
-                    // create the directory if it does not exist
-                    if (!Directory.Exists(finalDirPath)) Directory.CreateDirectory(finalDirPath);
-
-                    if (performCopy) File.Copy(fileName, finalFilePath, true);
+                    if (!Directory.Exists(finalDirectory)) Directory.CreateDirectory(finalDirectory);
+                    if (performCopy) File.Copy(fileName, finalPath, true);
                 }
 
-                if (Directory.GetDirectories(dirName).Length > 0) RecursiveCopy(dirName, destinationDir);
+                if (Directory.GetDirectories(dirName).Length > 0) RecursiveCopy(dirName, destinationDir, originalDir);
             }
         }
     }
