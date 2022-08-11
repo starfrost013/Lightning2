@@ -177,6 +177,7 @@ namespace LightningGL
 
                 }
 
+                // change the open state of the listbox
                 if (AABB.Intersects(this, button.Position)) Open = !Open;
             }
             else

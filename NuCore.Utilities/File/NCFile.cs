@@ -16,8 +16,10 @@ namespace NuCore.Utilities
                 foreach (string fileName in Directory.GetFiles(dirName))
                 {
                     string destinationDirectory = destinationDir.Replace(sourceDir, "");
-                    string destinationPath = fileName.Replace(sourceDir, "");
-
+                    string destinationPath = fileName.Replace($"..{Path.DirectorySeparatorChar}", "");
+                    
+                    // don't duplicate the first directory
+                    destinationPath = destinationPath.Substring(destinationPath.IndexOf(Path.DirectorySeparatorChar));
                     // determine if we will copy
                     bool performCopy = true;
                     // check all excluded patterns
@@ -28,7 +30,7 @@ namespace NuCore.Utilities
                     }
 
                     string finalFilePath = $@"{destinationDirectory}\{destinationPath}";
-                    string finalDirPath = finalFilePath.Substring(0, finalFilePath.LastIndexOf('\\'));
+                    string finalDirPath = finalFilePath.Substring(0, finalFilePath.LastIndexOf(Path.DirectorySeparatorChar));
 
                     // create the directory if it does not exist
                     if (!Directory.Exists(finalDirPath)) Directory.CreateDirectory(finalDirPath);
