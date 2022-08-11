@@ -136,6 +136,28 @@ namespace LightningGL
             }
         }
 
+        public static void FocusGained()
+        {
+            foreach (Gadget uiElement in UIElements)
+            {
+                if (uiElement.OnFocusGained != null)
+                {
+                    uiElement.OnFocusGained();
+                }
+            }
+        }
+
+        public static void FocusLost()
+        {
+            foreach (Gadget uiElement in UIElements)
+            {
+                if (uiElement.OnFocusLost != null)
+                {
+                    uiElement.OnFocusLost();
+                }
+            }
+        }
+
         public static void MouseMove(Window cWindow, MouseButton button)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.

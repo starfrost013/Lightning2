@@ -34,14 +34,24 @@ namespace LightningGL
         public MouseReleasedEvent OnMouseReleased { get; set; }
 
         /// <summary>
-        /// Event handler for the <see cref="GenericEvent"/> event.
+        /// Event handler for the mouse enter event.
         /// </summary>
         public GenericEvent OnMouseEnter { get; set; }
 
         /// <summary>
-        /// Event handler for the <see cref="GenericEvent"/> event.
+        /// Event handler for the mouse leave event.
         /// </summary>
         public GenericEvent OnMouseLeave { get; set; }
+
+        /// <summary>
+        /// Event handler for the focus gained event.
+        /// </summary>
+        public GenericEvent OnFocusGained { get; set; }
+
+        /// <summary>
+        /// Event handler for the focus lost event.
+        /// </summary>
+        public GenericEvent OnFocusLost { get; set; }
 
         /// <summary>
         /// Event handler for the <see cref="MouseMoveEvent"/> event.

@@ -1,6 +1,5 @@
 ﻿using NuCore.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Numerics;
@@ -155,6 +154,12 @@ namespace LightningGL
                                 return true;
                             case SDL_WindowEventID.SDL_WINDOWEVENT_LEAVE:
                                 UIManager.MouseLeave();
+                                return true;
+                            case SDL_WindowEventID.SDL_WINDOWEVENT_FOCUS_GAINED:
+                                UIManager.FocusGained();
+                                return true;
+                            case SDL_WindowEventID.SDL_WINDOWEVENT_FOCUS_LOST:
+                                UIManager.FocusLost();
                                 return true;
                         }
 
