@@ -80,7 +80,11 @@ namespace NuCore.Utilities
 
         public static void Log(string Information, ConsoleColor color = ConsoleColor.White, bool printMetadata = true, bool logToFile = true)
         {
-            if (!Initialised) return;
+            if (!Initialised)
+            {
+                Console.WriteLine("NCLogging not initialised, not logging anything.");
+                return;
+            }
 
             string now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
