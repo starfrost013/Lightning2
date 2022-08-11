@@ -153,12 +153,12 @@ namespace LightningGL
 
         }
 
-        public void ListBoxMousePressed(SDL_MouseButton button, Vector2 position)
+        public void ListBoxMousePressed(MouseButton button)
         {
             if (Open)
             {
                 // call the default handler
-                base.MousePressed(button, position);
+                base.MousePressed(button);
 
                 // check if the item is intersecting and if so pass the event on
                 // and don't close it
@@ -166,24 +166,24 @@ namespace LightningGL
                 {
                     ListBoxItem item = Items[curItem];
 
-                    if (AABB.Intersects(item, position))
+                    if (AABB.Intersects(item, button.Position))
                     {
                         // select the messagebox 
                         SelectedIndex = curItem;
 
                         // allow the user to override positions
-                        item.OnMousePressed(button, position);
+                        item.OnMousePressed(button);
                     }
 
                 }
 
-                if (AABB.Intersects(this, position)) Open = !Open;
+                if (AABB.Intersects(this, button.Position)) Open = !Open;
             }
             else
             { 
-                if (BoxIntersects(position))
+                if (BoxIntersects(button.Position))
                 {
-                    base.MousePressed(button, position);
+                    base.MousePressed(button);
                     Open = !Open;
                 }
             }
@@ -204,9 +204,9 @@ namespace LightningGL
             return intersects;
         }
 
-        public void ListBoxMouseReleased(SDL_MouseButton button, Vector2 position)
+        public void ListBoxMouseReleased(MouseButton button)
         {
-            base.MouseReleased(button, position);
+            base.MouseReleased(button);
 
             if (Open)
             {
@@ -214,17 +214,17 @@ namespace LightningGL
                 // and don't close it
                 foreach (ListBoxItem item in Items)
                 {
-                    if (AABB.Intersects(item, position))
+                    if (AABB.Intersects(item, button.Position))
                     {
                         // allow the user to override positions
-                        item.OnMouseReleased(button, position);
+                        item.OnMouseReleased(button);
                     }
                 }
             }
             else
             {
                 // terrible handler
-                if (BoxIntersects(position))
+                if (BoxIntersects(button.Position))
                 {
                     // we are hovering over the button so switch to the background colour
                     CurBackgroundColour = HoverColour;
@@ -237,15 +237,15 @@ namespace LightningGL
 
         }
 
-        public virtual void ListBoxMouseMove(SDL_MouseButton button, Vector2 position, Vector2 velocity)
+        public virtual void ListBoxMouseMove(MouseButton button)
         {
             if (Open)
             {
-                base.MouseMove(button, position, velocity);
+                base.MouseMove(button);
             }
             else
             {
-                if (BoxIntersects(position))
+                if (BoxIntersects(button.Position))
                 {
                     CurBackgroundColour = HoverColour;
                 }
@@ -260,7 +260,7 @@ namespace LightningGL
             foreach (ListBoxItem item in Items)
             {
                 // don't check for intersection as that's done here.
-                item.OnMouseMove(button, position, velocity);
+                item.OnMouseMove(button);
             }
         }
     }

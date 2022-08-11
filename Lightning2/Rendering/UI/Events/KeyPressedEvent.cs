@@ -3,7 +3,7 @@
     /// <summary>
     /// KeyPressedEvent
     /// 
-    /// May 15, 2022 (modified July 10, 2022: remove unnecessary "repeat" parameter, as it's already stored in the key field)
+    /// May 15, 2022 (modified July 10, 2022: remove unnecessary "repeat" parameter, as it's already stored in the key class)
     /// 
     /// Defines a LightningGL keypress event.
     /// </summary>

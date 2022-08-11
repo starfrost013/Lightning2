@@ -133,7 +133,7 @@ namespace LightningGL
         /// </summary>
         /// <param name="button">The mouse button that has been pressed.</param>
         /// <param name="position">The position of that mouse button.</param>
-        public virtual void MousePressed(SDL_MouseButton button, Vector2 position)
+        public virtual void MousePressed(MouseButton button)
         {
             CurBackgroundColour = PressedColour;
             Pressed = true;
@@ -144,10 +144,10 @@ namespace LightningGL
         /// </summary>
         /// <param name="button">The mouse button that has been pressed.</param>
         /// <param name="position">The position of that mouse button.</param>
-        public virtual void MouseReleased(SDL_MouseButton button, Vector2 position)
+        public virtual void MouseReleased(MouseButton button)
         {
             // this changes from pressed to hover colour
-            if (AABB.Intersects(this, position))
+            if (AABB.Intersects(this, button.Position))
             {
                 // we are hovering over the button so switch to the background colour
                 CurBackgroundColour = HoverColour;
@@ -166,9 +166,9 @@ namespace LightningGL
         /// <param name="button">The mouse button that has been pressed.</param>
         /// <param name="position">The position of that mouse button.</param>
         /// <param name="velocity">The movement of the button.</param>
-        public virtual void MouseMove(SDL_MouseButton button, Vector2 position, Vector2 velocity)
+        public virtual void MouseMove(MouseButton button)
         {
-            if (AABB.Intersects(this, position))
+            if (AABB.Intersects(this, button.Position))
             {
                 CurBackgroundColour = HoverColour;
             }

@@ -139,24 +139,22 @@ namespace LightningGL
                         UIManager.KeyPressed(curKey);
                         return true; 
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN: // Mouse down event
-                        UIManager.MousePressed(this, currentEvent.button.button, new Vector2(currentEvent.button.x, currentEvent.button.y));
+                        UIManager.MousePressed(this, (MouseButton)currentEvent.button);
                         return true;
                     case SDL_EventType.SDL_MOUSEBUTTONUP: // Mouse up event
-                        UIManager.MouseReleased(this, currentEvent.button.button, new Vector2(currentEvent.button.x, currentEvent.button.y));
+                        UIManager.MouseReleased(this, (MouseButton)currentEvent.button);
                         return true;
                     case SDL_EventType.SDL_MOUSEMOTION: // Mouse move event
-                        UIManager.MouseMove(this, new Vector2(currentEvent.motion.x, currentEvent.motion.y),
-                            new Vector2(currentEvent.motion.xrel, currentEvent.motion.yrel),
-                            (SDL_MouseButton)currentEvent.motion.state);
+                        UIManager.MouseMove(this, (MouseButton)currentEvent.motion);
                         return true; 
                     case SDL_EventType.SDL_WINDOWEVENT: // Window Event - check subtypes
                         switch (currentEvent.window.windowEvent)
                         {
                             case SDL_WindowEventID.SDL_WINDOWEVENT_ENTER:
-                                UIManager.MouseEnter(this);
+                                UIManager.MouseEnter();
                                 return true;
                             case SDL_WindowEventID.SDL_WINDOWEVENT_LEAVE:
-                                UIManager.MouseLeave(this);
+                                UIManager.MouseLeave();
                                 return true;
                         }
 

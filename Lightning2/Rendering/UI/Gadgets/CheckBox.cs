@@ -32,6 +32,10 @@ namespace LightningGL
             if (Thickness == 0) Thickness = 2;
         }
 
+        /// <summary>
+        /// Renders this CheckBox.
+        /// </summary>
+        /// <param name="cWindow">The window to render this checkbox to.</param>
         public void Render(Window cWindow)
         {
             PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, CurBackgroundColour, Filled, BorderColour, BorderSize, SnapToScreen);
@@ -48,9 +52,14 @@ namespace LightningGL
             }
         }
 
-        public void CheckBoxMousePressed(SDL_MouseButton button, Vector2 position)
+        /// <summary>
+        /// The default mouse pressed event handler for CheckBoxes.
+        /// </summary>
+        /// <param name="button"></param>
+        /// <param name="position"></param>
+        public void CheckBoxMousePressed(MouseButton button)
         {
-            base.MousePressed(button, position);
+            base.MousePressed(button);
             Checked = !Checked;
         }
     }

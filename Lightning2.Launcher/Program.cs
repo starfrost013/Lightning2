@@ -251,11 +251,11 @@ while (cWindow.Run())
         switch (curEvent.type)
         {
             case SDL.SDL_EventType.SDL_KEYDOWN: // Key is held down.
-                Key nkey = (Key)curEvent.key;
+                Key key = (Key)curEvent.key;
 
-                string keyString = nkey.ToString();
+                string keyString = key.ToString();
 
-                nkey.Repeated = (curEvent.key.repeat > 0);
+                key.Repeated = (curEvent.key.repeat > 0);
 
                 switch (keyString)
                 {

@@ -54,7 +54,7 @@ namespace LightningGL
             }
         }
 
-        public static void MousePressed(Window cWindow, SDL_MouseButton mouseButton, Vector2 position)
+        public static void MousePressed(Window cWindow, MouseButton button)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;
@@ -64,14 +64,14 @@ namespace LightningGL
             if (currentCamera != null)
             {
                 // get the real position that we are checking
-                cameraPosition = new Vector2
-                    (cameraPosition.X + position.X,
-                    cameraPosition.Y + position.Y);
+                button.Position = new Vector2
+                    (cameraPosition.X + button.Position.X,
+                    cameraPosition.Y + button.Position.Y);
             }
 
             foreach (Gadget uiElement in UIElements)
             {
-                bool intersects = AABB.Intersects(uiElement, cameraPosition);
+                bool intersects = AABB.Intersects(uiElement, button.Position);
 
                 // check if it is focused...
                 uiElement.Focused = intersects;
@@ -79,12 +79,12 @@ namespace LightningGL
                 if (intersects
                     && uiElement.OnMousePressed != null)
                 {
-                    uiElement.OnMousePressed(mouseButton, cameraPosition);
+                    uiElement.OnMousePressed(button);
                 }
             }
         }
 
-        public static void MouseReleased(Window cWindow, SDL_MouseButton mouseButton, Vector2 position)
+        public static void MouseReleased(Window cWindow, MouseButton button)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;
@@ -94,14 +94,14 @@ namespace LightningGL
             if (currentCamera != null)
             {
                 // get the real position that we are checking
-                cameraPosition = new Vector2
-                    (cameraPosition.X + position.X,
-                    cameraPosition.Y + position.Y);
+                button.Position = new Vector2
+                    (cameraPosition.X + button.Position.X,
+                    cameraPosition.Y + button.Position.Y);
             }
 
             foreach (Gadget uiElement in UIElements)
             {
-                bool intersects = AABB.Intersects(uiElement, cameraPosition);
+                bool intersects = AABB.Intersects(uiElement, button.Position);
 
                 // check if it is focused...
                 uiElement.Focused = intersects;
@@ -109,12 +109,12 @@ namespace LightningGL
                 if (AABB.Intersects(uiElement, cameraPosition)
                     && uiElement.OnMouseReleased != null)
                 {
-                    uiElement.OnMouseReleased(mouseButton, cameraPosition);
+                    uiElement.OnMouseReleased(button);
                 }
             }
         }
 
-        public static void MouseEnter(Window cWindow)
+        public static void MouseEnter()
         {
             foreach (Gadget uiElement in UIElements)
             {
@@ -125,7 +125,7 @@ namespace LightningGL
             }
         }
 
-        public static void MouseLeave(Window cWindow)
+        public static void MouseLeave()
         {
             foreach (Gadget uiElement in UIElements)
             {
@@ -136,7 +136,7 @@ namespace LightningGL
             }
         }
 
-        public static void MouseMove(Window cWindow, Vector2 position, Vector2 velocity, SDL_MouseButton mouseButton)
+        public static void MouseMove(Window cWindow, MouseButton button)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;
@@ -146,16 +146,16 @@ namespace LightningGL
             if (currentCamera != null)
             {
                 // get the real position that we are checking
-                cameraPosition = new Vector2
-                    (cameraPosition.X + position.X,
-                    cameraPosition.Y + position.Y);
+                button.Position = new Vector2
+                    (cameraPosition.X + button.Position.X,
+                    cameraPosition.Y + button.Position.Y);
             }
 
             foreach (Gadget uiElement in UIElements)
             {
                 if (uiElement.OnMouseMove != null) // this one is passed regardless of intersection for things like button highlighting
                 {
-                    uiElement.OnMouseMove(mouseButton, cameraPosition, velocity);
+                    uiElement.OnMouseMove(button);
                 }
             }
         }

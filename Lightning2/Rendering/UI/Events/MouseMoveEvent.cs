@@ -1,20 +1,15 @@
-﻿using static NuCore.SDL2.SDL;
-using System.Numerics;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// MouseMoveEvent
     /// 
-    /// June 15, 2022
+    /// June 15, 2022 (modified August 11, 2022)
     /// 
     /// Defines a LightningGL event fired when the mouse is moved.
     /// </summary>
-    /// <param name="position">The position of the last mouse move.</param> 
+    /// <param name="button">The mouse that moved.</param> 
     public delegate void MouseMoveEvent
     (
-        SDL_MouseButton button,
-        Vector2 position,
-        Vector2 velocity
+        MouseButton button
     );
 }
