@@ -99,6 +99,10 @@ namespace LightningGL
         /// </summary>
         public static uint PositionY { get; internal set; }
 
+        /// <summary>
+        /// The title of the Window
+        /// </summary>
+        public static string WindowTitle { get; internal set; }
         #endregion
 
         #region System requirements
@@ -200,6 +204,7 @@ namespace LightningGL
                 string positionY = graphicsSection.GetValue("PositionY");
                 string windowFlags = graphicsSection.GetValue("WindowFlags");
                 string renderFlags = graphicsSection.GetValue("RenderFlags");
+                WindowTitle = graphicsSection.GetValue("WindowTitle");
 
                 // Set default values up. 0 is not a valid SDL_WindowFlags value and nobody has a 0 x 0 display.
                 uint resolutionXValue = 0;

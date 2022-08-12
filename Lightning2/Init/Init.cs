@@ -93,15 +93,24 @@ namespace LightningGL
 
                 // Load the Scene Manager
                 // This should ALWAYS be the last thing initialised
-                if (!GlobalSettings.DontUseSceneManager) SceneManager.Init(new WindowSettings
+                if (!GlobalSettings.DontUseSceneManager)
                 {
-                    Position = new Vector2(GlobalSettings.PositionX, GlobalSettings.PositionY),
-                    Size = new Vector2(GlobalSettings.ResolutionX, GlobalSettings.ResolutionY),
-                    WindowFlags = GlobalSettings.WindowFlags,
-                    RenderFlags = GlobalSettings.RenderFlags,
-                });
-
-                Initialised = true;
+                    Initialised = true;
+                    SceneManager.Init(new WindowSettings
+                    {
+                        Position = new Vector2(GlobalSettings.PositionX, GlobalSettings.PositionY),
+                        Size = new Vector2(GlobalSettings.ResolutionX, GlobalSettings.ResolutionY),
+                        WindowFlags = GlobalSettings.WindowFlags,
+                        RenderFlags = GlobalSettings.RenderFlags,
+                        Title = GlobalSettings.WindowTitle
+                    });
+                    SceneManager.Main();
+                }
+                else
+                {
+                    Initialised = true;
+                }
+                
             }
             catch (Exception err)
             {

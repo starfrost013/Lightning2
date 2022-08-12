@@ -19,7 +19,7 @@ namespace LightningGL
         /// <summary>
         /// The list of scenes in the Scene Manager.
         /// </summary>
-        public static List<Scene> SceneList { get; set; }
+        public static List<Scene> Scenes { get; set; }
 
         /// <summary>
         /// The current scene that is being run.
@@ -38,7 +38,7 @@ namespace LightningGL
 
         static SceneManager()
         {
-            SceneList = new List<Scene>();
+            Scenes = new List<Scene>();
         }
 
         public static void Init(WindowSettings windowSettings)
@@ -57,9 +57,9 @@ namespace LightningGL
                 {
                     Scene scene = (Scene)Activator.CreateInstance(t);
 
-                    if (scene == null) throw new NCException($"Error initialising SceneManager: failed to initialise scene {scene.GetName()}, failed to create instance!", 1000, "SceneManager::Init", NCExceptionSeverity.FatalError);
+                    if (scene == null) throw new NCException($"Error initialising SceneManager: failed to initialise scene {scene.GetName()}, failed to create instance!", 1000, "Scene initialisation failed in SceneManager::Init", NCExceptionSeverity.FatalError);
 
-                    SceneList.Add(scene);
+                    Scenes.Add(scene);
 
                     NCLogging.Log($"Initialising scene {scene.GetName()}...");
 
@@ -69,12 +69,14 @@ namespace LightningGL
                 }
             }
 
-            if (CurrentScene == null) throw new NCException($"There must be a startup scene set!", 1001, "SceneManager::Init", NCExceptionSeverity.FatalError);
+
+            if (Scenes.Count == 0) throw new NCException($"There are no scenes defined!", 1002, "SceneManager::Scenes Count = 0!", NCExceptionSeverity.FatalError);
+            if (CurrentScene == null) throw new NCException($"There must be a startup scene set!", 1001, "No current scene specified!", NCExceptionSeverity.FatalError);
 
             Running = true;
         }
 
-        public static void Main()
+        internal static void Main()
         {
             while (MainWindow.Run())
             {
@@ -86,7 +88,7 @@ namespace LightningGL
                     {
                         case SDL.SDL_EventType.SDL_QUIT:
                             NCLogging.Log("Shutting down scene...");
-                            foreach (Scene scene in SceneList)
+                            foreach (Scene scene in Scenes)
                             {
                                 // shutdown every scene
                                 NCLogging.Log($"Shutting down scene {scene.GetName()}...");
