@@ -23,7 +23,8 @@ namespace NuCore.Utilities
         {
             if (destinationDir == null) destinationDir = ".";
             if (excludedPatterns == null) excludedPatterns = new List<string> { ".tmp", "~$", ".g.cs", ".cache", 
-                ".editorconfig", ".props", ".targets", ".vsidx", ".lock", ".v1", ".v2", "dgspec", "AssemblyAttributes", "basic.AssemblyInfo" };
+                ".editorconfig", ".props", ".targets", ".vsidx", ".lock", ".v1", ".v2", "dgspec", "AssemblyAttributes", 
+                "basic.AssemblyInfo", "assets.json", ".suo" };
 
             if (originalDir == null) originalDir = sourceDir;
 
