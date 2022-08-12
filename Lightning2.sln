@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightningPackager", "Lightn
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakePackage", "MakePackage\MakePackage.csproj", "{48A97737-89DF-42AB-9E82-47DA146A3154}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDKBuild", "SDKBuild\SDKBuild.csproj", "{A64DCE3C-B2FE-403B-A4AC-36E44F8FC7E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SDKBuild", "SDKBuild\SDKBuild.csproj", "{A64DCE3C-B2FE-403B-A4AC-36E44F8FC7E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

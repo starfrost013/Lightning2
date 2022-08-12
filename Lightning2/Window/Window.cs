@@ -155,34 +155,34 @@ namespace LightningGL
                             && GlobalSettings.EngineAboutScreenOnShiftF9) ShowEngineAboutScreen();
 
                         UIManager.KeyPressed(curKey);
-                        return true; 
+                        break; 
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN: // Mouse down event
                         UIManager.MousePressed(this, (MouseButton)currentEvent.button);
-                        return true;
+                        break;
                     case SDL_EventType.SDL_MOUSEBUTTONUP: // Mouse up event
                         UIManager.MouseReleased(this, (MouseButton)currentEvent.button);
-                        return true;
+                        break;
                     case SDL_EventType.SDL_MOUSEMOTION: // Mouse move event
                         UIManager.MouseMove(this, (MouseButton)currentEvent.motion);
-                        return true; 
+                        break;
                     case SDL_EventType.SDL_WINDOWEVENT: // Window Event - check subtypes
                         switch (currentEvent.window.windowEvent)
                         {
                             case SDL_WindowEventID.SDL_WINDOWEVENT_ENTER:
                                 UIManager.MouseEnter();
-                                return true;
+                                break;
                             case SDL_WindowEventID.SDL_WINDOWEVENT_LEAVE:
                                 UIManager.MouseLeave();
-                                return true;
+                                break;
                             case SDL_WindowEventID.SDL_WINDOWEVENT_FOCUS_GAINED:
                                 UIManager.FocusGained();
-                                return true;
+                                break;
                             case SDL_WindowEventID.SDL_WINDOWEVENT_FOCUS_LOST:
                                 UIManager.FocusLost();
-                                return true;
+                                break;
                         }
 
-                        return true; 
+                        break;
                     case SDL_EventType.SDL_QUIT: // User requested a quit, so shut down
                         Lightning.Shutdown(this);
                         return false;
