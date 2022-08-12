@@ -49,7 +49,7 @@ namespace LightningGL
             MainWindow.Start(windowSettings);
 
             // Initialise the scenes.
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            Assembly assembly = Assembly.GetEntryAssembly();
 
             foreach (Type t in assembly.GetTypes())
             {

@@ -3,4 +3,3 @@
 using LightningGL;
 
 Lightning.Init(args);
-SceneManager.Main();
