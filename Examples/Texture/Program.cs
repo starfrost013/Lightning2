@@ -27,6 +27,6 @@ while (window.Run())
 
     texture.Draw(window);
 
-    PrimitiveRenderer.DrawText(window, "Basic example", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
+    PrimitiveRenderer.DrawText(window, "Texture API example", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
     window.Render();
 }
