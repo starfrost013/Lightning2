@@ -86,6 +86,19 @@ namespace NuCore.SDL2
             public int max_texture_height;
         }
 
+        /// <summary>
+        /// Unofficial function
+        /// </summary>
+        /// <param name="index">The index of the renderer driver to obtain the name of.</param>
+        /// <returns>The name of the rendering backend.</returns>
+        public static string SDLu_GetRenderDriverName(int index = 0)
+        {
+            SDL_RendererInfo info = new SDL_RendererInfo();
+            SDL_GetRenderDriverInfo(index, out info);
+
+            return (UTF8_ToManaged(info.name));
+        }
+
         /* Only available in 2.0.11 or higher. */
         public enum SDL_ScaleMode
         {

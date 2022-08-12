@@ -92,6 +92,14 @@ namespace LightningGL
             // Create the renderer.
             Settings.RendererHandle = SDL_CreateRenderer(Settings.WindowHandle, (int)Settings.ID, Settings.RenderFlags);
 
+            // Get the renderer driver name using our unofficial SDL function
+            string renderDriverName = SDLu_GetRenderDriverName();
+
+            if (renderDriverName != renderer)
+            {
+                _ = new NCException($"Specified renderer {renderer} is not supported. Using {renderDriverName} instead", 123, "Renderer not supported in current environment", NCExceptionSeverity.Warning, null, true);
+            }
+
             if (Settings.Camera == null)
             {
                 Camera camera = new Camera(CameraType.Follow);
