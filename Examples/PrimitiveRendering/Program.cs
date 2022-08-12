@@ -2,7 +2,7 @@
 using System.Drawing; // for color
 using System.Numerics;
 
-//Lightning Primitive Rendering Example (Scene Manager NOT used)
+//Lightning Primitive Rendering Example
 //©2022 starfrost, August 12, 2022
 
 // Initialise Lightning

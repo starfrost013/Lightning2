@@ -2,7 +2,7 @@
 using System.Drawing; // for color
 using System.Numerics;
 
-//Basic Lightning Example (Scene Manager NOT used)
+//Localisation example
 //©2022 starfrost, August 12, 2022
 
 // Initialise Lightning

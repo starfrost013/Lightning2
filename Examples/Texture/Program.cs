@@ -1,9 +1,8 @@
 ﻿using LightningGL; // use lightninggl
-using System;
 using System.Drawing; // for color
 using System.Numerics;
 
-//Basic Lightning Example (Scene Manager NOT used)
+//Texture example (Scene Manager NOT used)
 //©2022 starfrost, August 12, 2022
 
 // Initialise Lightning
