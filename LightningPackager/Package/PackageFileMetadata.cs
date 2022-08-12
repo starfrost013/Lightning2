@@ -22,7 +22,7 @@
             GameVersion = "1.0";
             // temporary version
             EngineVersion = "1.0.154";
-            CompressionMode = PackageFileCompressionMode.LZMA | PackageFileCompressionMode.XOR;
+            CompressionMode = PackageFileCompressionMode.XOR;
         }
     }
 }

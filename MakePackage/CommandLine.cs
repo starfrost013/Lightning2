@@ -60,7 +60,7 @@ namespace MakePackage
 
         static CommandLine()
         {
-            CompressionMode = PackageFileCompressionMode.LZMA | PackageFileCompressionMode.XOR;
+            CompressionMode = PackageFileCompressionMode.XOR;
         }
 
         public static bool Parse(string[] args)

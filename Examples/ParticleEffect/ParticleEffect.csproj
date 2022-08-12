@@ -46,6 +46,7 @@
 	  <None Remove="../shared/Content/Libraries/SDL2_image-v2.0.5-x64.dll" />
 	  <None Remove="../shared/Content/Libraries/SDL2_ttf-v2.0.18-x64.dll" />
 	  <None Remove="../shared/Content/Libraries/SDL2_mixer-v2.0.4-x64.dll" />
+	  <None Remove="Content\ParticleEffect.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -75,7 +76,7 @@
 	  </Content>
 	  <Content Include="../shared/libpng16-16.dll">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <Link>llibpng16-16.dll</Link>
+		  <Link>libpng16-16.dll</Link>
 	  </Content>
 	  <Content Include="../shared/libvorbis-0.dll">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -136,6 +137,9 @@
 	  <Content Include="../shared/Libraries/SDL2_mixer-v2.0.4-x64.dll">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		  <Link>Libraries/SDL2_mixer-v2.0.4-x64.dll</Link>
+	  </Content>
+	  <Content Include="Content\ParticleEffect.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
   </ItemGroup>
 

@@ -16,11 +16,6 @@ namespace LightningPackager
         None = 0,
 
         /// <summary>
-        /// LZMA compression using ManagedLZMA.
-        /// </summary>
-        LZMA = 1,
-
-        /// <summary>
         /// Basic obfuscation with XOR
         /// </summary>
         XOR = 2

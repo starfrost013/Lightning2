@@ -26,7 +26,7 @@ namespace LightningGL
         /// <summary>
         /// Unloads all effects and shuts down the Particle Manager.
         /// </summary>
-        public static void Shutdown()
+        internal static void Shutdown()
         {
             foreach (ParticleEffect effect in Effects)
             {
@@ -50,7 +50,7 @@ namespace LightningGL
         /// Renders all particle effects to a window.
         /// </summary>
         /// <param name="cWindow">The window to render these particle effects to.</param>
-        public static void Render(Window cWindow)
+        internal static void Render(Window cWindow)
         {
             foreach (ParticleEffect particleEffect in Effects)
             {
