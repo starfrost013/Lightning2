@@ -254,28 +254,26 @@ while (cWindow.Run())
 
                 string keyString = key.ToString();
 
-                key.Repeated = (curEvent.key.repeat > 0);
-
                 switch (keyString)
                 {
                     case "LEFT":
                     case "A":
                         camera.Position -= new Vector2(10, 0);
-                        continue;
+                        break;
                     case "RIGHT":
                     case "D":
                         camera.Position += new Vector2(10, 0);
-                        continue;
+                        break;
                     case "UP":
                     case "W":
                         camera.Position -= new Vector2(0, 10);
-                        continue;
+                        break;
                     case "DOWN":
                     case "S":
                         camera.Position += new Vector2(0, 10);
-                        continue;
+                        break;
                 }
-                continue;
+                break;
         }
     }
 

@@ -232,6 +232,9 @@ namespace LightningGL
 
                     point.X -= currentCamera.Position.X;
                     point.Y -= currentCamera.Position.Y;
+
+                    // Vector2s cannot be returned by reference so we have to do this terribleness
+                    points[curPoint] = point;
                 }
             }
 

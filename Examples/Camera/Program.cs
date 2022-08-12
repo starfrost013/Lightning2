@@ -1,4 +1,5 @@
 ﻿using LightningGL; // use lightninggl
+using static NuCore.SDL2.SDL; // for sdl 
 using System.Drawing; // for color
 using System.Numerics;
 
@@ -10,6 +11,10 @@ Lightning.Init(args);
 
 Window window = new Window();
 window.Start(new WindowSettings()); // use default windowsettings
+
+// setup camera
+Camera camera = new Camera(CameraType.Follow);
+window.SetCurrentCamera(camera);
 
 while (window.Run())
 {
@@ -45,6 +50,39 @@ while (window.Run())
     PrimitiveRenderer.DrawPolygon(window, polyPoints1, Color.BlueViolet, false); // draw an unfilled blue-violet polygon with the points polyPoints1
     PrimitiveRenderer.DrawPolygon(window, polyPoints2, Color.BlueViolet, true); // draw a filled blue-violet polygon with the points polyPoints2
 
-    PrimitiveRenderer.DrawText(window, "Primitive rendering example", new Vector2(300, 300), Color.White); // no fonts loaded so we use the debug font
+    PrimitiveRenderer.DrawText(window, "Camera example", new Vector2(300, 300), Color.White); // no fonts loaded so we use the debug font
+
+    if (window.EventWaiting)
+    {
+        switch (window.LastEvent.type)
+        {
+            case SDL_EventType.SDL_KEYDOWN: // Key is held down.
+                Key key = (Key)window.LastEvent.key;
+
+                string keyString = key.ToString();
+
+                switch (keyString)
+                {
+                    case "LEFT":
+                    case "A":
+                        camera.Position -= new Vector2(10, 0);
+                        break;
+                    case "RIGHT":
+                    case "D":
+                        camera.Position += new Vector2(10, 0);
+                        break;
+                    case "UP":
+                    case "W":
+                        camera.Position -= new Vector2(0, 10);
+                        break;
+                    case "DOWN":
+                    case "S":
+                        camera.Position += new Vector2(0, 10);
+                        break;
+                }
+                break;
+        }
+    }
+
     window.Render();
 }
