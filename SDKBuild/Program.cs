@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 NCLogging.Init();
 
-NCLogging.Log("Lightning SDK Builder version 1.3");
+NCLogging.Log("Lightning SDK Builder version 1.4");
 
 NCLogging.Log("Copying build files from LightningGL build directory...");
 
@@ -31,19 +31,6 @@ NCLogging.Log($"Building SDK, release {versionInfo.ProductVersion} ({config})");
 
 Directory.CreateDirectory("SDK");
 
-foreach (string fileName in Directory.GetFiles(buildPath))
-{
-    // make the path relative
-    string finalFilePath = fileName.Replace(buildPath, "");
-
-    if (!finalFilePath.Contains("~$")
-        && !finalFilePath.Contains(".tmp")
-        && !finalFilePath.Contains(".pdb"))
-    {
-        File.Copy(fileName, $@"SDK\{finalFilePath}", true);
-    }
-}
-
 /// top-level statements ???? wtf is it doing here this is the same namespace and class
 NCFile.RecursiveCopy(buildPath, "SDK");
 
@@ -51,19 +38,6 @@ NCFile.RecursiveCopy(buildPath, "SDK");
 NCLogging.Log("Copying MakePackage build files...");
 
 string makePackagePath = $@"..\..\..\..\MakePackage\bin\{config}\net6.0\";
-
-foreach (string fileName in Directory.GetFiles(makePackagePath))
-{
-    // make the path relative
-    string finalFilePath = fileName.Replace(makePackagePath, "");
-
-    if (!finalFilePath.Contains("~$")
-        && !finalFilePath.Contains(".tmp")
-        && !finalFilePath.Contains(".pdb"))
-    {
-        File.Copy(fileName, $@"SDK\{finalFilePath}", true);
-    }
-}
 
 NCFile.RecursiveCopy(makePackagePath, "SDK");
 
@@ -73,17 +47,6 @@ string docPath = $@"..\..\..\..\Lightning2\Content\Documentation";
 if (!Directory.Exists(docPath)) _ = new NCException($"Documentation directory not found ({docPath}", 1401, "docPath not found in Program::Main");
 
 Directory.CreateDirectory(@"SDK\Documentation");
-foreach (string fileName in Directory.GetFiles(docPath))
-{
-    // make the path relative
-    string finalFilePath = fileName.Replace(docPath, "");
-
-    if (!finalFilePath.Contains("~$")
-        && !finalFilePath.Contains(".tmp"))
-    {
-        File.Copy(fileName, $@"SDK\Documentation\{finalFilePath}", true);
-    }
-}
 
 NCFile.RecursiveCopy(docPath, @"SDK\Documentation");
 
@@ -93,17 +56,6 @@ Directory.CreateDirectory(@"SDK\Examples");
 string examplePath = $@"..\..\..\..\Examples";
 
 if (!Directory.Exists(examplePath)) _ = new NCException($"Examples directory not found ({examplePath}", 1400, "examplePath not found in Program::Main");
-foreach (string fileName in Directory.GetFiles(examplePath))
-{
-    string finalFilePath = fileName.Replace(examplePath, "");
-
-    if (!finalFilePath.Contains("~$") 
-        && !finalFilePath.Contains(".tmp")
-        && !finalFilePath.Contains(".pdb"))
-    {
-        File.Copy(fileName, $@"SDK\Examples\{finalFilePath}", true);
-    }
-}
 
 NCFile.RecursiveCopy(examplePath, @"SDK\Examples");
 
