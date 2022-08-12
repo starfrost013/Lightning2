@@ -84,7 +84,7 @@ namespace LightningGL
 
             foreach (string texturePath in FramesPath)
             {
-                Texture newTexture = new Texture(cWindow, Size);
+                Texture newTexture = new Texture(cWindow, Size.X, Size.Y);
                 newTexture.Path = texturePath;
                 newTexture.Position = Position;
                 newTexture.Repeat = TextureRepeat;  // do this in the getter/setter?

@@ -23,7 +23,7 @@ FontManager.LoadFont("Arial", 24, "Arial.24pt");
 FontManager.LoadFont("Arial", 36, "Arial.36pt");
 
 cWindow.Clear(Color.FromArgb(255, 127, 127, 127));
-Texture texture = new Texture(cWindow, new(64, 64));
+Texture texture = new Texture(cWindow, 64, 64);
 
 Random rnd = new Random();
 
@@ -72,7 +72,7 @@ LightManager.SetEnvironmentalLight(Color.FromArgb(0, 0, 0, 255));
 
 // todo: particleeffectsettings?
 
-Texture testEffectTexture = new(cWindow, new(16, 16));
+Texture testEffectTexture = new(cWindow, 16, 16);
 
 testEffectTexture.Path = @"Content\Sparkles.png";
 

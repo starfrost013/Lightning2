@@ -99,11 +99,11 @@ namespace LightningGL
         /// <summary>
         /// Initialises a new texture with the size specified in the <paramref name="nSize"/> parameter.
         /// </summary>
-        /// <param name="X">The width of the texture in pixels.</param>
-        /// <param name="Y">The height of the texture in pixels.</param>
-        public Texture(Window cWindow, Vector2 nSize)
+        /// <param name="sizeX">The width of the texture in pixels.</param>
+        /// <param name="sizeY">The height of the texture in pixels.</param>
+        public Texture(Window cWindow, float sizeX, float sizeY)
         {
-            Size = nSize;
+            Size = new Vector2(sizeX, sizeY);
 
             if (Size == default) _ = new NCException($"Error creating texture: Must have a size!", 20, "Texture constructor called with invalid size", NCExceptionSeverity.FatalError);
 

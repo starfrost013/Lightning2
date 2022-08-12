@@ -50,7 +50,7 @@ namespace LightningGL
         public static void Init(Window cWindow)
         {
             // move this if it is slower
-            ScreenSpaceMap = new Texture(cWindow, cWindow.Settings.Size);
+            ScreenSpaceMap = new Texture(cWindow, cWindow.Settings.Size.X, cWindow.Settings.Size.Y);
             SetEnvironmentalLightBlendMode(SDL_BlendMode.SDL_BLENDMODE_BLEND);
             // This is used so we don't build lightmaps when LightManager.Init hasn't been called
             Initialised = true;
