@@ -99,9 +99,9 @@ namespace LightningGL
             Settings.RendererHandle = SDL_CreateRenderer(Settings.WindowHandle, (int)Settings.ID, Settings.RenderFlags);
 
             // Get the renderer driver name using our unofficial SDL function
-            string renderDriverName = SDLu_GetRenderDriverName();
+            string realRenderDriverName = SDLu_GetRenderDriverName();
 
-            if (renderDriverName != renderer) _ = new NCException($"Specified renderer {renderer} is not supported. Using {renderDriverName} instead", 123, "Renderer not supported in current environment", NCExceptionSeverity.Warning, null, true);
+            if (realRenderDriverName != renderer) _ = new NCException($"Specified renderer {renderer} is not supported. Using {realRenderDriverName} instead!", 123, "Renderer not supported in current environment", NCExceptionSeverity.Warning, null, true);
             
             if (Settings.Camera == null)
             {
@@ -110,6 +110,9 @@ namespace LightningGL
             }
 
             if (Settings.RendererHandle == IntPtr.Zero) _ = new NCException($"Failed to create Renderer: {SDL_GetError()}", 9, "Window::AddWindow - SDL_CreateRenderer failed to create renderer", NCExceptionSeverity.FatalError);
+
+            // Initialise the Light Manager.
+            LightManager.Init(this);
         }
 
         /// <summary>
@@ -204,7 +207,7 @@ namespace LightningGL
             ParticleManager.Render(this);
 
             // Render the lightmap.
-            if (LightManager.Initialised) LightManager.RenderLightmap(this);
+            LightManager.Render(this);
 
             // Render the UI.
             UIManager.Render(this);

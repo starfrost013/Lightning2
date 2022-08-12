@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "basic", "basic\basic.csproj", "{CA72B019-4E78-4192-A591-C4E1DCCFAB9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basic", "basic\Basic.csproj", "{CA72B019-4E78-4192-A591-C4E1DCCFAB9F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasicScene", "BasicScene\BasicScene.csproj", "{1EA422DE-9499-483A-8512-D3FE94764F26}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextureAtlas", "TextureAtlas\TextureAtlas.csproj", "{DAE52969-95FE-441C-A1CB-982AFDB794F8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextureAnimation", "TextureAnimation\TextureAnimation.csproj", "{1DE02D1C-9EF6-4A8C-8F39-D2931940592C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lighting", "Lighting\Lighting.csproj", "{AE03E5E0-D30E-4F23-803C-3A4E72864207}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{1DE02D1C-9EF6-4A8C-8F39-D2931940592C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DE02D1C-9EF6-4A8C-8F39-D2931940592C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DE02D1C-9EF6-4A8C-8F39-D2931940592C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE03E5E0-D30E-4F23-803C-3A4E72864207}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE03E5E0-D30E-4F23-803C-3A4E72864207}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE03E5E0-D30E-4F23-803C-3A4E72864207}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE03E5E0-D30E-4F23-803C-3A4E72864207}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

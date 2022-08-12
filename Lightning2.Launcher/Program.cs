@@ -67,7 +67,6 @@ animatedTexture1.Position = new(320, 256);
 
 animatedTexture1.Load(cWindow);
 
-LightManager.Init(cWindow);
 LightManager.SetEnvironmentalLight(Color.FromArgb(0, 0, 0, 255));
 
 // todo: particleeffectsettings?

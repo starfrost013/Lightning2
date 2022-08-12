@@ -11,6 +11,16 @@ Lightning.Init(args);
 Window window = new Window();
 window.Start(new WindowSettings()); // use default windowsettings
 
+// set the environmental light
+LightManager.SetEnvironmentalLight(Color.Black);
+
+Light newLight = new Light
+{
+    Brightness = 100,
+    Range = 20,
+    Position = new Vector2(100, 100)
+};
+
 while (window.Run())
 {
     PrimitiveRenderer.DrawText(window, "Lighting example", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
