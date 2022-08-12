@@ -18,8 +18,8 @@ Random Random = new Random();
 
 while (window.Run())
 {
-    int rX = Random.Next(0, 513); // exclusive upper bound
-    int rY = Random.Next(0, 513);
+    int rX = Random.Next(0, 512); // exclusive upper bound
+    int rY = Random.Next(0, 512);
 
     // you shouldn't lock/unlock constantly, it's not very efficient
     // this is solely done for the purpose of this demo ONLY

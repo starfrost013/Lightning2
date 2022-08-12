@@ -76,10 +76,16 @@ namespace LightningGL
             // localise the window title
             Settings.Title = LocalisationManager.ProcessString(Settings.Title);
 
-            // set the renderer
-            string renderer = GlobalSettings.Renderer.ToString().ToLowerInvariant(); // needs to be lowercase
-            NCLogging.Log($"Using renderer: {renderer}");
-            SDL_SetHintWithPriority("SDL_HINT_RENDER_DRIVER", renderer, SDL_HintPriority.SDL_HINT_OVERRIDE);
+            // set the renderer if the user specified one
+            string renderer = SDLu_GetRenderDriverName();
+
+            if (GlobalSettings.Renderer != default(Renderer))
+            {
+                // set the renderer
+                renderer = GlobalSettings.Renderer.ToString().ToLowerInvariant(); // needs to be lowercase
+                NCLogging.Log($"Using renderer: {renderer}");
+                SDL_SetHintWithPriority("SDL_HINT_RENDER_DRIVER", renderer, SDL_HintPriority.SDL_HINT_OVERRIDE);
+            }
 
             // Create the window,
             Settings.WindowHandle = SDL_CreateWindow(Settings.Title, (int)Settings.Position.X, (int)Settings.Position.Y, (int)Settings.Size.X, (int)Settings.Size.Y, Settings.WindowFlags);
@@ -95,11 +101,8 @@ namespace LightningGL
             // Get the renderer driver name using our unofficial SDL function
             string renderDriverName = SDLu_GetRenderDriverName();
 
-            if (renderDriverName != renderer)
-            {
-                _ = new NCException($"Specified renderer {renderer} is not supported. Using {renderDriverName} instead", 123, "Renderer not supported in current environment", NCExceptionSeverity.Warning, null, true);
-            }
-
+            if (renderDriverName != renderer) _ = new NCException($"Specified renderer {renderer} is not supported. Using {renderDriverName} instead", 123, "Renderer not supported in current environment", NCExceptionSeverity.Warning, null, true);
+            
             if (Settings.Camera == null)
             {
                 Camera camera = new Camera(CameraType.Follow);

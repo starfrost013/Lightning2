@@ -120,7 +120,7 @@ namespace LightningGL
 
         public void Render(Window cWindow)
         {
-            // set the default background colour
+            // set the default background colour if it's not set. a hack...
             if (CurBackgroundColour == default(Color)) CurBackgroundColour = BackgroundColour;
 
             PrimitiveRenderer.DrawRectangle(cWindow, Position, BoxSize, CurBackgroundColour, Filled, BorderColour, BorderSize, SnapToScreen);

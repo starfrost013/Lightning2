@@ -194,7 +194,7 @@ namespace LightningGL
             if (!Locked) Lock();
 
             if (x < 0 || y < 0
-                || x > Size.X || y > Size.Y) _ = new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y}) ", 15, "An SDL error occurred in Texture::SetPixel", NCExceptionSeverity.FatalError);
+                || x >= Size.X || y >= Size.Y) _ = new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y}) ", 15, "An SDL error occurred in Texture::SetPixel", NCExceptionSeverity.FatalError);
             
             int pixelToGet = (y * (int)Size.X) + x;
             int maxPixelId = Pitch / 4 * Pitch;
