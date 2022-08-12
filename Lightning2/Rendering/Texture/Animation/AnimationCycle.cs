@@ -24,11 +24,12 @@
         /// </summary>
         public uint FrameLength { get; set; }
 
-        public AnimationCycle()
-        {
-            FrameLength = 1;
-        }
-
+        /// <summary>
+        /// Constructor for animation cycles.
+        /// </summary>
+        /// <param name="nStartFrame">The start frame of the animation cycle.</param>
+        /// <param name="nEndFrame">The end frame of the animation cycle</param>
+        /// <param name="nFrameLength">The length of each aniamtion cycle in frames.</param>
         public AnimationCycle(int nStartFrame, int nEndFrame, uint nFrameLength)
         {
             StartFrame = nStartFrame;

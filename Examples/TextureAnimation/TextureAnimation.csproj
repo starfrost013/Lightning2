@@ -47,6 +47,11 @@
 		<None Remove="../shared/Content/Libraries/SDL2_image-v2.0.5-x64.dll" />
 		<None Remove="../shared/Content/Libraries/SDL2_ttf-v2.0.18-x64.dll" />
 		<None Remove="../shared/Content/Libraries/SDL2_mixer-v2.0.4-x64.dll" />
+		<None Remove="Content\AnimTextureTest\AnimTextureTestF0.png" />
+		<None Remove="Content\AnimTextureTest\AnimTextureTestF1.png" />
+		<None Remove="Content\AnimTextureTest\AnimTextureTestF2.png" />
+		<None Remove="Content\AnimTextureTest\AnimTextureTestF3.png" />
+		<None Remove="Content\Engine.ini" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -137,6 +142,21 @@
 		<Content Include="../shared/Libraries/SDL2_mixer-v2.0.4-x64.dll">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<Link>Libraries/SDL2_mixer-v2.0.4-x64.dll</Link>
+		</Content>
+		<Content Include="Content\AnimTextureTest\AnimTextureTestF0.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Content\AnimTextureTest\AnimTextureTestF1.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Content\AnimTextureTest\AnimTextureTestF2.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Content\AnimTextureTest\AnimTextureTestF3.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Content\Engine.ini">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
 </Project>

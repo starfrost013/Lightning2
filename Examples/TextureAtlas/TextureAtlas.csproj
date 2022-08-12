@@ -77,7 +77,7 @@
 	  </Content>
 	  <Content Include="../shared/libpng16-16.dll">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <Link>llibpng16-16.dll</Link>
+		  <Link>libpng16-16.dll</Link>
 	  </Content>
 	  <Content Include="../shared/libvorbis-0.dll">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
