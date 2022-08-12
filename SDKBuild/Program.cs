@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 NCLogging.Init();
 
-NCLogging.Log("Lightning SDK Builder version 1.2");
+NCLogging.Log("Lightning SDK Builder version 1.2.1");
 
 NCLogging.Log("Copying build files from LightningGL build directory...");
 
@@ -95,7 +95,7 @@ else
 {
     NCLogging.Log("Generating installer...");
     
-    Process innoSetup = Process.Start($@"{innoInstallDir}\ISCC.exe", @"..\..\..\..\Lightning2\Content\Setup\Setup.iss");  
+    Process innoSetup = Process.Start($@"{innoInstallDir}\ISCC.exe", @"..\..\..\..\Setup\Setup.iss");  
 
     // wait for inno to complete
     while (!innoSetup.HasExited) { };
