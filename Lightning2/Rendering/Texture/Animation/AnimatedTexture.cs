@@ -35,7 +35,7 @@ namespace LightningGL
         /// <summary>
         /// The list of paths to load the string from.
         /// </summary>
-        public List<string> FramesPath { get; set; }
+        private List<string> FramePaths { get; set; }
 
         /// <summary>
         /// Determines if this texture repeats, and if so
@@ -69,7 +69,7 @@ namespace LightningGL
         public AnimatedTexture(int sizeX, int sizeY)
         {
             Frames = new List<Texture>();
-            FramesPath = new List<string>();
+            FramePaths = new List<string>();
             Size = new Vector2(sizeX, sizeY);
         }
 
@@ -82,7 +82,7 @@ namespace LightningGL
             if (Size == default(Vector2)) _ = new NCException("Cannot load an animated texture with no texture size", 44, "AnimatedTexture::Size property = (0,0)", NCExceptionSeverity.FatalError);
             if (Cycle == null) _ = new NCException("AnimatedTextures must have a valid Cycle property", 54, "AnimatedTexture::Cycle property = null", NCExceptionSeverity.FatalError);
 
-            foreach (string texturePath in FramesPath)
+            foreach (string texturePath in FramePaths)
             {
                 Texture newTexture = new Texture(cWindow, Size.X, Size.Y);
                 newTexture.Path = texturePath;
@@ -146,5 +146,7 @@ namespace LightningGL
                 }
             }
         }
+
+        public void AddFrame(string framePath) => FramePaths.Add(framePath);
     }
 }
