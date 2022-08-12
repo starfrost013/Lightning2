@@ -29,12 +29,12 @@ namespace LightningGL
         /// <summary>
         /// The main window of the application.
         /// </summary>
-        public static Window MainWindow { get; set; }
+        public static Window MainWindow { get; private set; }
 
         /// <summary>
         /// Determines if the scene manager is running.
         /// </summary>
-        public static bool Running { get; set; }
+        public static bool Running { get; private set; }
 
         static SceneManager()
         {
