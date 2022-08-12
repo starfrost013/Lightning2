@@ -1,5 +1,7 @@
 ﻿using NuCore.SDL2;
 using NuCore.Utilities;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 
@@ -204,6 +206,61 @@ namespace LightningGL
             {
                 SDL_gfx.trigonRGBA(cWindow.Settings.RendererHandle, (int)point1.X, (int)point1.Y, (int)point2.X, (int)point2.Y, (int)point3.X, 
                     (int)point3.Y, colour.R, colour.G, colour.B, colour.A);
+            }
+        }
+
+        /// <summary>
+        /// Draws a polygon to the screen.
+        /// </summary>
+        /// <param name="cWindow">The window to draw the polygon to.</param>
+        /// <param name="points">The points of the polygon.</param>
+        /// <param name="colour">The colour of the polygon.</param>
+        /// <param name="filled">Determines if the polygon will be filled or not.</param>
+        /// <param name="antiAliased">Determines if the polygon will be anti-aliased - UNFILLED POLYGONS ONLY</param>
+        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
+        public static void DrawPolygon(Window cWindow, List<Vector2> points, Color colour, bool filled, bool antiAliased = false, bool snapToScreen = false)
+        {
+            // Check for a set camera and move relative to the position of that camera if it is set.
+            Camera currentCamera = cWindow.Settings.Camera;
+
+            if (currentCamera != null
+                && !snapToScreen)
+            {
+                for (int curPoint = 0; curPoint < points.Count; curPoint++)
+                {
+                    Vector2 point = points[curPoint];
+
+                    point.X -= currentCamera.Position.X;
+                    point.Y -= currentCamera.Position.Y;
+                }
+            }
+
+            // build a list of points
+            // convert to make sdl2-gfx happy
+            List<short> finalPointsX = new List<short>();
+            List<short> finalPointsY = new List<short>();
+
+            foreach (Vector2 point in points)
+            {
+                finalPointsX.Add(Convert.ToInt16(point.X));
+                finalPointsY.Add(Convert.ToInt16(point.Y));
+            }
+
+            // count will always be the same
+            if (filled)
+            {
+                SDL_gfx.filledPolygonRGBA(cWindow.Settings.RendererHandle, finalPointsX.ToArray(), finalPointsY.ToArray(), finalPointsX.Count, colour.R, colour.G, colour.B, colour.A);
+            }
+            else
+            {
+                if (antiAliased)
+                {
+                    SDL_gfx.aapolygonRGBA(cWindow.Settings.RendererHandle, finalPointsX.ToArray(), finalPointsY.ToArray(), finalPointsX.Count, colour.R, colour.G, colour.B, colour.A);
+                }
+                else
+                {
+                    SDL_gfx.polygonRGBA(cWindow.Settings.RendererHandle, finalPointsX.ToArray(), finalPointsY.ToArray(), finalPointsX.Count, colour.R, colour.G, colour.B, colour.A);
+                }
             }
         }
 
