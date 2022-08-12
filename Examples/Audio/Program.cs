@@ -12,6 +12,10 @@ Lightning.Init(args);
 Window window = new Window();
 window.Start(new WindowSettings()); // use default windowsettings
 
+AudioManager.LoadFile(@"Content\deepbluecalm.flac", "deepblue");
+AudioManager.LoadFile(@"Content\projectx.mod", "projectx");
+AudioManager.LoadFile(@"Content\royksopp.mp3", "royksopp");
+
 while (window.Run())
 {
     if (window.EventWaiting)

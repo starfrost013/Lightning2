@@ -23,12 +23,12 @@ namespace LightningGL
         /// <summary>
         /// A name used to describe this audio file.
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; internal set; }
 
         /// <summary>
         /// Determines if the current audio file is playing
         /// </summary>
-        public bool Playing { get; set; }
+        public bool Playing { get; internal set; }
 
         /// <summary>
         /// The number of times this audio file will repeat.
@@ -40,7 +40,7 @@ namespace LightningGL
         /// <summary>
         /// The path to the audio file to be loaded.
         /// </summary>
-        public string Path { get; set; }
+        public string Path { get; internal set; }
 
         /// <summary>
         /// Internal: Set by AudioManager. The SDL_mixer channel this sound uses.

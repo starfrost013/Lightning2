@@ -46,6 +46,10 @@
 	  <None Remove="../shared/Content/Libraries/SDL2_image-v2.0.5-x64.dll" />
 	  <None Remove="../shared/Content/Libraries/SDL2_ttf-v2.0.18-x64.dll" />
 	  <None Remove="../shared/Content/Libraries/SDL2_mixer-v2.0.4-x64.dll" />
+	  <None Remove="Content\deepbluecalm.flac" />
+	  <None Remove="Content\demarco.mp3" />
+	  <None Remove="Content\projectx.mod" />
+	  <None Remove="Content\royksopp.mp3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -136,6 +140,15 @@
 	  <Content Include="../shared/Libraries/SDL2_mixer-v2.0.4-x64.dll">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		  <Link>Libraries/SDL2_mixer-v2.0.4-x64.dll</Link>
+	  </Content>
+	  <Content Include="Content\deepbluecalm.flac">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Content\projectx.mod">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Content\royksopp.mp3">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
   </ItemGroup>
 </Project>

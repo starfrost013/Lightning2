@@ -14,7 +14,7 @@ namespace LightningGL
     /// </summary>
     public static class AudioManager
     {
-        public static List<AudioFile> AudioFiles { get; set; }
+        internal static List<AudioFile> AudioFiles { get; set; }
 
         static AudioManager()
         {
