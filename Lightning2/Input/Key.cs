@@ -7,17 +7,17 @@ namespace LightningGL
         /// <summary>
         /// The <see cref="SDL_Keysym"/> of the keyboard that has been pressed.
         /// </summary>
-        public SDL_Keysym KeySym { get; set; }
+        public SDL_Keysym KeySym { get; internal set; }
 
         /// <summary>
         /// The keyboard modifier state at the time that this button was pressed.
         /// </summary>
-        public SDL_Keymod Modifiers { get; set; }
+        public SDL_Keymod Modifiers { get; internal set; }
 
         /// <summary>
         /// Determines if this key is being repeated or not. This begins a short time after it is first held down, NOT when it is held down!
         /// </summary>
-        public bool Repeated { get; set; }
+        public bool Repeated { get; internal set; }
         
         /// <summary>
         /// Key cast operator from SDL_KeyboardEvent

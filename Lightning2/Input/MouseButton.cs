@@ -15,23 +15,23 @@ namespace LightningGL
         /// <summary>
         /// The mouse button that is being pressed - see <see cref="SDL_MouseButton"/>
         /// </summary>
-        public SDL_MouseButton Button { get; set; }
+        public SDL_MouseButton Button { get; internal set; }
 
         /// <summary>
         /// The position of the mouse click.
         /// </summary>
-        public Vector2 Position { get; set; }
+        public Vector2 Position { get; internal set; }
 
         /// <summary>
         /// The velocity of the mouse movement relative to the last mouse movement.
         /// Only used for mouse movement events.
         /// </summary>
-        public Vector2 Velocity { get; set; }
+        public Vector2 Velocity { get; internal set; }
 
         /// <summary>
         /// The number of clicks of the mouse
         /// </summary>
-        public int ClickCount { get; set; }
+        public int ClickCount { get; internal set; }
 
         /// <summary>
         /// Converts a SDL mouse button event (see <see cref="SDL_MouseButtonEvent"/> to a <see cref="MouseButton"/>
