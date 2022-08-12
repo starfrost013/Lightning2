@@ -162,8 +162,8 @@ namespace LightningGL
             }
             else
             {
-                SDL_gfx.rectangleRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y,
-                    (int)position.X + (int)size.X, (int)position.Y + (int)size.Y, colour.R, colour.G, colour.B, colour.A);
+                SDL_gfx.roundedRectangleRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y,
+                    (int)position.X + (int)size.X, (int)position.Y + (int)size.Y, cornerRadius, colour.R, colour.G, colour.B, colour.A);
             }
 
         }
