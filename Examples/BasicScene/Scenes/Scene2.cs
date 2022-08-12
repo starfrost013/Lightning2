@@ -5,7 +5,7 @@ using System.Numerics;
 
 namespace BasicScene
 {
-    public class MainScene : Scene
+    public class Scene2 : Scene
     {
         public override void Start()
         {
@@ -29,12 +29,12 @@ namespace BasicScene
 
         public override void Render(Window cWindow)
         {
-            PrimitiveRenderer.DrawText(cWindow, "Hello from MainScene", new Vector2(300, 300), Color.Red);
+            PrimitiveRenderer.DrawText(cWindow, "Hello from Scene2", new Vector2(300, 300), Color.PaleTurquoise);
 
             // change the scene
             if (cWindow.EventWaiting)
             {
-                if (cWindow.LastEvent.type == SDL_EventType.SDL_KEYDOWN) SceneManager.SetCurrentScene("Scene2");
+                if (cWindow.LastEvent.type == SDL_EventType.SDL_KEYDOWN) SceneManager.SetCurrentScene("MainScene");
             }
         }
     }
