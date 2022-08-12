@@ -83,9 +83,9 @@ namespace LightningGL
             {
                 // set the renderer
                 renderer = GlobalSettings.Renderer.ToString().ToLowerInvariant(); // needs to be lowercase
-                NCLogging.Log($"Using renderer: {renderer}");
                 SDL_SetHintWithPriority("SDL_HINT_RENDER_DRIVER", renderer, SDL_HintPriority.SDL_HINT_OVERRIDE);
             }
+            NCLogging.Log($"Using renderer: {renderer}");
 
             // Create the window,
             Settings.WindowHandle = SDL_CreateWindow(Settings.Title, (int)Settings.Position.X, (int)Settings.Position.Y, (int)Settings.Size.X, (int)Settings.Size.Y, Settings.WindowFlags);
