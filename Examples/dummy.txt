@@ -1,1 +1,1 @@
-Inno Setup can't cope with empty directories, so I have to create this stupid text file for now
+These are various Lightning examples that you can use in order to get to grips with the engine. They all demonstrate a particular function of the engine and are intended to be played around with by the user. Go nuts!

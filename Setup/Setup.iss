@@ -55,13 +55,13 @@ Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\libvorbis-0.dll"; DestDir: "{
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\libvorbisfile-3.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\LightningGL.deps.json"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\LightningGL.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\LightningGL.pdb"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\LightningPackager.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\LightningPackager.pdb"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\MakePackage.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\MakePackage.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\MakePackage.deps.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\MakePackage.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\NuCore.SDL2.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\NuCore.SDL2.pdb"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\NuCore.Utilities.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\NuCore.Utilities.pdb"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\zlib1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\Content\*"; DestDir: "{app}\Content"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\Documentation\*"; DestDir: "{app}\Documentation"; Flags: ignoreversion recursesubdirs createallsubdirs
