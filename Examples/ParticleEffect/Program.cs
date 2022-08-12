@@ -12,7 +12,7 @@ Window window = new Window();
 window.Start(new WindowSettings()); // use default windowsettings
 
 // Load a texture from a file using Texture::Load
-Texture texture = new Texture(window, 36, 21) // yes thats the image size blame my lazy cropping
+Texture texture = new Texture(window, 18, 11) // yes thats the image size blame my lazy cropping
 {
     Path = "Content/ParticleEffect.png",
 };
@@ -21,21 +21,22 @@ Texture texture = new Texture(window, 36, 21) // yes thats the image size blame 
 texture.Load(window);
 
 // Create a particle effect.
-ParticleEffect pe = new ParticleEffect(texture)
+ParticleEffect particleEffect = new ParticleEffect(texture)
 {
-    MaxNumberCreatedEachFrame = 20,
-    Amount = 400,
-    Lifetime = 60,
+    MaxNumberCreatedEachFrame = 3,
+    FrameSkipBetweenCreatingParticles = 2,
+    Amount = 200,
+    Lifetime = 200,
     Variance = 10,
     Position = new(100, 300),
-    Velocity = new(3, 3),
-    Mode = ParticleMode.AbsoluteVelocity,
+    Velocity = new(4f, 4f), // it's a float so use f
+    Mode = ParticleMode.Explode,
 };
 
-ParticleManager.AddEffect(window, pe);
+ParticleManager.AddEffect(window, particleEffect);
 
 while (window.Run())
 {
-    PrimitiveRenderer.DrawText(window, "Basic example", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
+    PrimitiveRenderer.DrawText(window, "Particle effect example", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
     window.Render();
 }

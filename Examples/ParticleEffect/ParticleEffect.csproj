@@ -90,9 +90,8 @@
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		  <Link>zlib1.dll</Link>
 	  </Content>
-	  <Content Include="../shared/Content/Engine.ini">
+	  <Content Include="Content/Engine.ini">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <Link>Content/Engine.ini</Link>
 	  </Content>
 	  <Content Include="../shared/Content/Localisation/en-GB-test.ini">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
