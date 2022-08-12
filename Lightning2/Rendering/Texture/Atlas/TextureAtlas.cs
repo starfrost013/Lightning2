@@ -18,7 +18,7 @@ namespace LightningGL
         /// <summary>
         /// The current index of this texture to draw.
         /// </summary>
-        public uint Index { get; set; }
+        public int Index { get; set; }
 
         /// <summary>
         /// Optional name of this texture.

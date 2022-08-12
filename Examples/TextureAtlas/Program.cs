@@ -11,6 +11,7 @@ Lightning.Init(args);
 Window window = new Window();
 window.Start(new WindowSettings()); // use default windowsettings
 
+Random Random = new Random();
 // create a texture atlas
 TextureAtlas texture = new TextureAtlas(window, new(64, 64), new(4, 4))
 {
@@ -22,10 +23,10 @@ texture.Load(window);
 
 while (window.Run())
 {
-    texture.Index = 1;
+    texture.Index = Random.Next(0, 15);
     texture.Position = new(200, 200);
     texture.Draw(window);
-    texture.Index = 5;
+    texture.Index = Random.Next(0, 15);
     texture.Position = new(200, 250);
     texture.Draw(window);
 
