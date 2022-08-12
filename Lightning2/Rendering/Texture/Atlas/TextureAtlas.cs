@@ -34,7 +34,7 @@ namespace LightningGL
         /// </summary>
         public Vector2 TextureCount { get; set; }
 
-        public TextureAtlas(Window cWindow, Vector2 frameSize, Vector2 textureCount) : base(cWindow, new((frameSize.X * textureCount.X) + 1, (frameSize.Y * textureCount.Y) + 1)) // + 1 so that we do not set an out of bounds viewport
+        public TextureAtlas(Window cWindow, Vector2 frameSize, Vector2 textureCount) : base(cWindow, (frameSize.X * textureCount.X) + 1, frameSize.Y * textureCount.Y + 1) // + 1 so that we do not set an out of bounds viewport
         {
             FrameSize = frameSize;
             TextureCount = textureCount;
@@ -42,7 +42,7 @@ namespace LightningGL
 
         public override void Load(Window cWindow)
         {
-            if (FrameSize == default(Vector2)) _ = new NCException("Cannot load a texture with no texture frame size!", 45, "TextureAtlas's FrameSize property = (0,0)!", NCExceptionSeverity.FatalError);
+            if (FrameSize == default(Vector2)) _ = new NCException("Cannot load a texture with no texture frame size!", 45, "TextureAtlas::FrameSize property = (0,0)!", NCExceptionSeverity.FatalError);
 
             if (TextureCount.X < 1 || TextureCount.Y < 1) _ = new NCException($"A texture atlas must have at least one frame, set to {TextureCount.X},{TextureCount.Y}!", 46, "TextureAtlas::TextureCount::X or Y < 1!", NCExceptionSeverity.FatalError);
 
