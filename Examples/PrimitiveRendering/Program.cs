@@ -14,7 +14,7 @@ window.Start(new WindowSettings()); // use default windowsettings
 while (window.Run())
 {
     PrimitiveRenderer.DrawPixel(window, new Vector2(20, 100), Color.FromArgb(255, 100, 100, 255)); // draw a pixel @ 0,0, colour ARGB 255,100,100,255
-    PrimitiveRenderer.DrawLine(window, new Vector2(40, 100), new Vector2(40, 150), 5, Color.Blue); // draw a line from 10,0 to 50,0, thickness 5, colour blue
+    PrimitiveRenderer.DrawLine(window, new Vector2(40, 100), new Vector2(40, 250), 5, Color.Blue); // draw a line from 10,0 to 50,0, thickness 5, colour blue
     PrimitiveRenderer.DrawCircle(window, new Vector2(40, 100), new Vector2(25, 25), Color.Yellow, false, true); // draw an anti-aliased, yellow unfilled circle size (25,25) at (40,100)
     PrimitiveRenderer.DrawCircle(window, new Vector2(93, 100), new Vector2(25, 25), Color.Yellow, true); // draw a yellow filled circle size (25,25) at (93,100)
     PrimitiveRenderer.DrawRectangle(window, new Vector2(120, 100), new Vector2(25, 25), Color.Orange, false); // draw an orange unfilled rectangle size (25,25) at (120,100)
@@ -33,7 +33,7 @@ while (window.Run())
       new Vector2(400, 100)
     };
 
-    // Basically a diamond
+    // Also a diamond but offset
     List<Vector2> polyPoints2 = new List<Vector2>
     { new Vector2(400, 200),
       new Vector2(430, 230),
@@ -45,6 +45,6 @@ while (window.Run())
     PrimitiveRenderer.DrawPolygon(window, polyPoints1, Color.BlueViolet, false); // draw an unfilled blue-violet polygon with the points polyPoints1
     PrimitiveRenderer.DrawPolygon(window, polyPoints2, Color.BlueViolet, true); // draw a filled blue-violet polygon with the points polyPoints2
 
-    PrimitiveRenderer.DrawText(window, "Basic example", new Vector2(560, 100), Color.White); // no fonts loaded so we use the debug font
+    PrimitiveRenderer.DrawText(window, "Polygon drawing example", new Vector2(300, 300), Color.White); // no fonts loaded so we use the debug font
     window.Render();
 }
