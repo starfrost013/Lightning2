@@ -19,7 +19,7 @@ namespace LightningGL
         /// <summary>
         /// The list of scenes in the Scene Manager.
         /// </summary>
-        public static List<Scene> Scenes { get; set; }
+        public static List<Scene> Scenes { get; private set; }
 
         /// <summary>
         /// The current scene that is being run.
@@ -41,6 +41,11 @@ namespace LightningGL
             Scenes = new List<Scene>();
         }
 
+        /// <summary>
+        /// Initialises the Scene Manager.
+        /// </summary>
+        /// <param name="windowSettings">The window settings to use for the Scene Manager.</param>
+        /// <exception cref="NCException">An error occurred initialising the Scene Manager.</exception>
         public static void Init(WindowSettings windowSettings)
         {
             // Initialise Lightning2 window.
@@ -76,6 +81,9 @@ namespace LightningGL
             Running = true;
         }
 
+        /// <summary>
+        /// Internal: Main loop for the Scene Manager.
+        /// </summary>
         internal static void Main()
         {
             while (MainWindow.Run())
@@ -111,12 +119,47 @@ namespace LightningGL
             }
         }
 
+        /// <summary>
+        /// Sets the current scene to the scene <see cref="Scene"/>.
+        /// </summary>
+        /// <param name="newScene">The new <see cref="Scene"/> to set to be the current scene.</param>
         public static void SetCurrentScene(Scene newScene)
         {
             NCLogging.Log($"Setting scene to {newScene.GetName()}...");
             CurrentScene.SwitchAway(newScene);
             newScene.SwitchTo(CurrentScene);
             CurrentScene = newScene;
+        }
+
+        /// <summary>
+        /// Sets the current scene to the scene <see cref="Scene"/>.
+        /// </summary>
+        /// <param name="newScene">The new <see cref="Scene"/> to set to be the current scene.</param>
+        public static void SetCurrentScene(string name)
+        {
+            Scene scene = GetScene(name);
+
+            if (scene == null) _ = new NCException($"Tried to set invalid scene {name}!", 1003, "Called SceneManager::GetCurrentScene with an invalid scene name");
+
+            SetCurrentScene(scene);
+        }
+
+        /// <summary>
+        /// Gets the current scene.
+        /// </summary>
+        /// <param name="name">The <see cref="Scene.Name"/> of the scene</param>
+        /// <returns>A <see cref="Scene"/> object containing the first scene with the name <see cref="name"/>, or <c>null</c> if there is no scene by that name.</returns>
+        public static Scene GetScene(string name)
+        {
+            foreach (Scene scene in Scenes)
+            {
+                if (scene.GetName() == name)
+                {
+                    return scene;
+                }
+            }
+
+            return null;
         }
     }
 }
