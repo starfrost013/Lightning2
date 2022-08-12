@@ -1,4 +1,5 @@
 ﻿using NuCore.Utilities;
+using System;
 using System.Drawing;
 using System.Numerics;
 
@@ -53,13 +54,16 @@ namespace LightningGL
 
         public override void Draw(Window cWindow)
         {
-            if (Index < 0
-                || Index > (FrameSize.X * FrameSize.Y)) _ = new NCException($"Cannot draw invalid TextureAtlas ({Name}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)", 47, "TextureAtlas::LoadIndexed", NCExceptionSeverity.FatalError);
+            // save the maximum index
+            int maxIndex = Convert.ToInt32((TextureCount.X * TextureCount.Y)) - 1;
 
-            int row = (int)(Index / FrameSize.Y);
+            if (Index < 0
+                || Index > maxIndex) _ = new NCException($"Cannot draw invalid TextureAtlas ({Name}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)", 47, "TextureAtlas::LoadIndexed", NCExceptionSeverity.FatalError);
+
+            int row = (int)(Index / TextureCount.Y);
 
             // set the viewport
-            float startX = FrameSize.X * (Index / (row + 1));
+            float startX = FrameSize.X * (Index % TextureCount.X);
             float startY = FrameSize.Y * row;
             float endX = startX + FrameSize.X;
             float endY = startY + FrameSize.Y;
