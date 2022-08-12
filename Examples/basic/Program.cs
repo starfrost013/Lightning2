@@ -9,7 +9,10 @@ using System.Numerics;
 Lightning.Init(args);
 
 Window window = new Window();
-window.Start(new WindowSettings()); // use default windowsettings
+window.Start(new WindowSettings
+{
+    Title = "Basic Lightning2 Demo"
+}); // use default windowsettings except title
 
 while (window.Run())
 {
