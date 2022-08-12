@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicScene", "BasicScene\Ba
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimitiveRendering", "PrimitiveRendering\PrimitiveRendering.csproj", "{9E61C779-FF77-47C8-A6EA-B98F56C41F18}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Texture", "Texture\Texture.csproj", "{4DB1F8B5-C698-4EB8-B0E8-CAFBED8F0245}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9E61C779-FF77-47C8-A6EA-B98F56C41F18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E61C779-FF77-47C8-A6EA-B98F56C41F18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E61C779-FF77-47C8-A6EA-B98F56C41F18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DB1F8B5-C698-4EB8-B0E8-CAFBED8F0245}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DB1F8B5-C698-4EB8-B0E8-CAFBED8F0245}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DB1F8B5-C698-4EB8-B0E8-CAFBED8F0245}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DB1F8B5-C698-4EB8-B0E8-CAFBED8F0245}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

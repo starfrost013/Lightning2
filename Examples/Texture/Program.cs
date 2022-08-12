@@ -1,4 +1,5 @@
 ﻿using LightningGL; // use lightninggl
+using System;
 using System.Drawing; // for color
 using System.Numerics;
 
@@ -12,10 +13,20 @@ Window window = new Window();
 window.Start(new WindowSettings()); // use default windowsettings
 
 // create a texture
-Texture texture = new Texture(window, new(512, 512));
+Texture texture = new Texture(window, 512, 512);
+Random Random = new Random();
 
 while (window.Run())
 {
+    int rX = Random.Next(0, 513); // exclusive upper bound
+    int rY = Random.Next(0, 513);
+
+    // you shouldn't lock/unlock constantly, it's not very efficient
+    // this is solely done for the purpose of this demo ONLY
+    texture.SetPixel(rX, rY, Color.White);
+
+    texture.Draw(window);
+
     PrimitiveRenderer.DrawText(window, "Basic example", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
     window.Render();
 }

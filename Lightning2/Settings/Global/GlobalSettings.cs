@@ -103,6 +103,12 @@ namespace LightningGL
         /// The title of the Window
         /// </summary>
         public static string WindowTitle { get; internal set; }
+
+        /// <summary>
+        /// The rendering backend to use. Default is <see cref="Renderer.OpenGL"/>
+        /// </summary>
+        public static Renderer Renderer { get; internal set; }
+
         #endregion
 
         #region System requirements
@@ -172,21 +178,15 @@ namespace LightningGL
             string generalDontUseSceneManager = generalSection.GetValue("DontUseSceneManager");
 
             // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
-            int generalMaxFpsValue = 0;
-            bool generalShowDebugInfoValue = false;
-            bool generalProfilePerfValue = false;
-            bool generalAboutScreenOnF9Value = false;
-            bool generalDeleteUnpackedFilesOnExitValue = false;
-            bool generalDontUseSceneManagerValue = false;
 
-            _ = int.TryParse(generalMaxFps, out generalMaxFpsValue);
+            _ = int.TryParse(generalMaxFps, out var generalMaxFpsValue);
 
             // we don't care about the values here
-            _ = bool.TryParse(generalShowDebugInfo, out generalShowDebugInfoValue);
-            _ = bool.TryParse(generalProfilePerf, out generalProfilePerfValue);
-            if (!bool.TryParse(generalAboutScreenOnF9, out generalAboutScreenOnF9Value)) generalAboutScreenOnF9Value = true; // force the default value, true for now
-            _ = bool.TryParse(generalDeleteUnpackedFilesOnExit, out generalDeleteUnpackedFilesOnExitValue);
-            _ = bool.TryParse(generalDontUseSceneManager, out generalDontUseSceneManagerValue);
+            _ = bool.TryParse(generalShowDebugInfo, out var generalShowDebugInfoValue);
+            _ = bool.TryParse(generalProfilePerf, out var generalProfilePerfValue);
+            if (!bool.TryParse(generalAboutScreenOnF9, out var generalAboutScreenOnF9Value)) generalAboutScreenOnF9Value = true; // force the default value, true for now
+            _ = bool.TryParse(generalDeleteUnpackedFilesOnExit, out var generalDeleteUnpackedFilesOnExitValue);
+            _ = bool.TryParse(generalDontUseSceneManager, out var generalDontUseSceneManagerValue);
 
             MaxFPS = generalMaxFpsValue;
             ShowDebugInfo = generalShowDebugInfoValue;
@@ -205,31 +205,29 @@ namespace LightningGL
                 string windowFlags = graphicsSection.GetValue("WindowFlags");
                 string renderFlags = graphicsSection.GetValue("RenderFlags");
                 WindowTitle = graphicsSection.GetValue("WindowTitle");
-
-                // Set default values up. 0 is not a valid SDL_WindowFlags value and nobody has a 0 x 0 display.
-                uint resolutionXValue = 0;
-                uint resolutionYValue = 0;
+                string renderer = graphicsSection.GetValue("Renderer");
 
                 SDL_WindowFlags windowFlagsValue = 0;
-                SDL_RendererFlags renderFlagsValue = 0; 
+                SDL_RendererFlags renderFlagsValue = 0;
+                Renderer rendererValue = 0;
 
-                _ = uint.TryParse(resolutionX, out resolutionXValue);
-                _ = uint.TryParse(resolutionY, out resolutionYValue);
+                // inexplicably the overload i used isn't supported here
+                _ = uint.TryParse(resolutionX, out var resolutionXValue);
+                _ = uint.TryParse(resolutionY, out var resolutionYValue);
                 _ = Enum.TryParse(windowFlags, true, out windowFlagsValue);
                 _ = Enum.TryParse(renderFlags, true, out renderFlagsValue);
+                _ = Enum.TryParse(renderer, true, out rendererValue);
 
                 // Set those values.
                 ResolutionX = resolutionXValue;
                 ResolutionY = resolutionYValue;
                 WindowFlags = windowFlagsValue;
                 RenderFlags = renderFlagsValue;
-
-                uint positionXValue = 0;
-                uint positionYValue = 0;
+                Renderer = rendererValue;
 
                 // parse positionX/positionY
-                _ = uint.TryParse(positionX, out positionXValue);
-                _ = uint.TryParse(positionY, out positionYValue);
+                _ = uint.TryParse(positionX, out var positionXValue);
+                _ = uint.TryParse(positionY, out var positionYValue);
 
                 // failed to load, set default values (middle of screen)
                 if (positionXValue == 0 && positionYValue == 0)
@@ -250,13 +248,11 @@ namespace LightningGL
                 string minimumCpuCapabilities = requirementsSection.GetValue("MinimumCpuCapabilities");
                 string minimumOperatingSystem = requirementsSection.GetValue("MinimumOperatingSystem");
 
-                int minRamValue = 0;
-                int minLogicalProcessorsValue = 0;
                 SystemInfoCPUCapabilities minimumCpuCapabilitiesValue = 0;
                 SystemInfoOperatingSystem minimumOperatingSystemValue = 0;
 
-                _ = int.TryParse(minRam, out minRamValue);
-                _ = int.TryParse(minLogicalProcessors, out minLogicalProcessorsValue);
+                _ = int.TryParse(minRam, out var minRamValue);
+                _ = int.TryParse(minLogicalProcessors, out var minLogicalProcessorsValue);
                 _ = Enum.TryParse(minimumCpuCapabilities, out minimumCpuCapabilitiesValue);
                 _ = Enum.TryParse(minimumOperatingSystem, out minimumOperatingSystemValue);
 
