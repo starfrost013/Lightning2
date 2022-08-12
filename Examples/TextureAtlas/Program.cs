@@ -27,7 +27,7 @@ while (window.Run())
     texture.Position = new(200, 200);
     texture.Draw(window);
     texture.Index = Random.Next(0, 15);
-    texture.Position = new(200, 250);
+    texture.Position = new(200, 264);
     texture.Draw(window);
 
     PrimitiveRenderer.DrawText(window, "Texture atlas example", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
