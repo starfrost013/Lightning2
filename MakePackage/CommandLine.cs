@@ -153,7 +153,7 @@ namespace MakePackage
         public static void ShowHelp()
         {
             NCLogging.Log("MakePackage -infolder [input folder] -outfile [output folder] [args...]\n" +
-                "MakePackage -extract [file] [output folder]\n" +
+                "MakePackage -infile [file] -outfolder [output folder]\n" +
                 "Makes a Lightning package (WAD) file.\n\n" +
                 "Required arguments:\n\n" +
                 "-infolder: Input folder to generate the package file from.\n" +
