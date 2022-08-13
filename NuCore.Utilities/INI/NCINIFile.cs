@@ -148,6 +148,8 @@ namespace NuCore.Utilities
 
                 }
 
+                // close the stream
+                iniStream.Close();
                 // in case of success
                 return iniFile;
             }
