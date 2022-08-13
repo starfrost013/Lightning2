@@ -39,6 +39,8 @@ ArchitecturesInstallIn64BitMode=x64 arm64
 ArchitecturesAllowed=x64 arm64
 ; icon
 SetupIconFile = Lightning.ico
+DisableDirPage = yes
+
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
