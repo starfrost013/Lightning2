@@ -81,7 +81,7 @@ namespace LightningGL
                 {
                     NCLogging.Log($"User specified package file {GlobalSettings.PackageFile} to load, loading it...");
 
-                    if (GlobalSettings.ContentFolder == null) _ = new NCException($"You must specify a ContentFolder if you specify a PackageFile to load!", 125, "GlobalSettings::PackageFile is not null, but GlobalSettings::ContentFolder is");
+                    if (GlobalSettings.ContentFolder == null) _ = new NCException($"You must specify a ContentFolder if you specify a PackageFile to load!", 125, "GlobalSettings::PackageFile is not null, but GlobalSettings::ContentFolder is!", NCExceptionSeverity.FatalError);
                     if (!Packager.LoadPackage(GlobalSettings.PackageFile, GlobalSettings.ContentFolder)) _ = new NCException($"An error occurred loading {GlobalSettings.PackageFile}. The game cannot be loaded.", 104, "Packager::LoadPackager returned false", NCExceptionSeverity.FatalError);
                 }
 

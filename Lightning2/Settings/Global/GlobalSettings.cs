@@ -149,7 +149,7 @@ namespace LightningGL
             // Consider this
             NCINIFile ncIni = NCINIFile.Parse(GLOBALSETTINGS_PATH);
 
-            if (ncIni == null) _ = new NCException("Failed to load Engine.ini!", 28, "GlobalSettings::Load failed to load engine.ini", NCExceptionSeverity.FatalError);
+            if (ncIni == null) _ = new NCException("Failed to load Engine.ini!", 28, "GlobalSettings::Load failed to load Engine.ini!", NCExceptionSeverity.FatalError);
 
             NCINIFileSection generalSection = ncIni.GetSection("General");
             NCINIFileSection graphicsSection = ncIni.GetSection("Graphics");
