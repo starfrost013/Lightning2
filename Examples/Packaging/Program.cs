@@ -40,6 +40,6 @@ while (window.Run())
     coll1.Draw(window);
     coll2.Draw(window);
 
-    PrimitiveRenderer.DrawText(window, "Packaging example (files extracted from package)", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
+    PrimitiveRenderer.DrawText(window, "Packaging example (files are extracted from package and deleted at shutdown)", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
     window.Render();
 }
