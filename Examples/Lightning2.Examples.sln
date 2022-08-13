@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Collision", "Collision\Coll
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Packaging", "Packaging\Packaging.csproj", "{B8EEE196-9A04-456F-86BB-8DC67B4680BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{D394C59E-32F0-46F2-A4E5-9D0ED5563A63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{B8EEE196-9A04-456F-86BB-8DC67B4680BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8EEE196-9A04-456F-86BB-8DC67B4680BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8EEE196-9A04-456F-86BB-8DC67B4680BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D394C59E-32F0-46F2-A4E5-9D0ED5563A63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D394C59E-32F0-46F2-A4E5-9D0ED5563A63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D394C59E-32F0-46F2-A4E5-9D0ED5563A63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D394C59E-32F0-46F2-A4E5-9D0ED5563A63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

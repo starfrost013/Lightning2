@@ -10,7 +10,7 @@
     /// </summary>
     /// <param name="key">The <see cref="Key"/> on the keyboard that has been released</param>
     /// <param name="Repeat">If true, the key is currently being repeated - this is NOT the same as held down!</param>
-    public delegate void KeyReleaseEvent
+    public delegate void KeyReleasedEvent
     (
         Key key
     );

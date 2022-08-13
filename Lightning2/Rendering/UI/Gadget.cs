@@ -19,9 +19,9 @@ namespace LightningGL
         public KeyPressedEvent OnKeyPressed { get; set; }
 
         /// <summary>
-        /// Event handler for the <see cref="KeyReleaseEvent"/> event.
+        /// Event handler for the <see cref="KeyReleasedEvent"/> event.
         /// </summary>
-        public KeyReleaseEvent OnKeyReleased { get; set; }
+        public KeyReleasedEvent OnKeyReleased { get; set; }
 
         /// <summary>
         /// Event handler for the <see cref="MousePressedEvent"/> event.
