@@ -2,9 +2,10 @@
 using System.Drawing; // for color
 using System.Numerics;
 
-//Basic Lightning Example (Scene Manager NOT used)
-//©2022 starfrost, August 12, 2022
+//Lightning Visual Studio Template
+//©2022 starfrost, August 13, 2022
 
+// Use this to get started
 // Initialise Lightning
 Lightning.Init(args);
 

@@ -10,16 +10,16 @@
 
   <ItemGroup>
     <Reference Include="LightningGL">
-      <HintPath>..\shared\LightningGL.dll</HintPath>
+      <HintPath>$(ProgramFiles)/Lightning Software Development Kit/LightningGL.dll</HintPath>
     </Reference>
     <Reference Include="LightningPackager">
-      <HintPath>..\shared\LightningPackager.dll</HintPath>
+      <HintPath>$(ProgramFiles)/Lightning Software Development Kit/LightningPackager.dll</HintPath>
     </Reference>
     <Reference Include="NuCore.SDL2">
-      <HintPath>..\shared\NuCore.SDL2.dll</HintPath>
+      <HintPath>$(ProgramFiles)/Lightning Software Development Kit/NuCore.SDL2.dll</HintPath>
     </Reference>
     <Reference Include="NuCore.Utilities">
-      <HintPath>..\shared\NuCore.Utilities.dll</HintPath>
+      <HintPath>$(ProgramFiles)/Lightning Software Development Kit/NuCore.Utilities.dll</HintPath>
     </Reference>
   </ItemGroup>
 

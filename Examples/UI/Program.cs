@@ -1,6 +1,5 @@
 ﻿using LightningGL; // use lightninggl
 using System.Drawing; // for color
-using System.Numerics;
 
 //Basic Lightning UI Example 
 //©2022 starfrost, August 13, 2022

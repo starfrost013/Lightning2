@@ -1,0 +1,34 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>Lightning Game Project</Name>
+    <Description>A game using the Lightning game engine.</Description>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>
+    </ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>Lightning Game Project</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <CreateInPlace>true</CreateInPlace>
+    <Icon>__TemplateIcon.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="basic.csproj" File="basic.csproj" ReplaceParameters="true">
+      <Folder Name=".vs" TargetFolderName=".vs" />
+      <Folder Name="Content" TargetFolderName="Content">
+        <Folder Name="Localisation" TargetFolderName="Localisation">
+          <ProjectItem ReplaceParameters="true" TargetFileName="en-GB-test.ini">en-GB-test.ini</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="pseudo.ini">pseudo.ini</ProjectItem>
+        </Folder>
+        <ProjectItem ReplaceParameters="true" TargetFileName="Engine.ini">Engine.ini</ProjectItem>
+      </Folder>
+      <Folder Name="Libraries" TargetFolderName="Libraries" />
+      <Folder Name="Scenes" TargetFolderName="Scenes">
+        <ProjectItem ReplaceParameters="true" TargetFileName="MainScene.cs">MainScene.cs</ProjectItem>
+      </Folder>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>
