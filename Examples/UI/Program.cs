@@ -29,6 +29,7 @@ Button button1 = new Button() // 150 char capacirty
     
 };
 
+// register event handlers
 button1.OnMousePressed += OnMousePressed;
 button1.OnMouseReleased += OnMouseReleased;
 
@@ -38,7 +39,7 @@ string buttonHeldDownText = "Button not held down";
 
 while (window.Run())
 {
-    PrimitiveRenderer.DrawText(window, "Basic example", new(100, 100), Color.White); // no fonts loaded so we use the debug font - new is vector2
+    PrimitiveRenderer.DrawText(window, "UI example", new(100, 100), Color.White); // no fonts loaded so we use the debug font - new is vector2
     PrimitiveRenderer.DrawText(window, buttonHeldDownText, new(100, 120), Color.White);
     window.Render();
 }

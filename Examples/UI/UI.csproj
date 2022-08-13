@@ -139,8 +139,4 @@
 			<Link>Libraries/SDL2_mixer-v2.0.4-x64.dll</Link>
 		</Content>
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="GadgetExtension\" />
-	</ItemGroup>
 </Project>
