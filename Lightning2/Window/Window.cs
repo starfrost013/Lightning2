@@ -69,6 +69,8 @@ namespace LightningGL
             // Check that the engine has been started.
             if (!Lightning.Initialised) _ = new NCException("You cannot start a window without initialising the engine - call Lightning::Init first!", 0x0001DEAD, "Window::Start called before Lightning::Init!", NCExceptionSeverity.FatalError);
 
+            if (!GlobalSettings.DontUseSceneManager
+                && SceneManager.Initialised) _ = new NCException("GlobalSettings::DontUseSceneManager needs to be set to initialise Windows without using the Scene Manager!", 127, "Window::Init called when GlobalSettings::DontUseSceneManager is FALSE and SceneManager::Initialised is TRUE", NCExceptionSeverity.FatalError);
             if (windowSettings == null) _ = new NCException("Passed null WindowSettings to Window init method!", 7, "Window::AddWindow windowSettings parameter null", NCExceptionSeverity.FatalError);
 
             Settings = windowSettings;

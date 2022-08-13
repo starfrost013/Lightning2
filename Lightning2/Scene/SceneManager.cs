@@ -34,7 +34,7 @@ namespace LightningGL
         /// <summary>
         /// Determines if the scene manager is running.
         /// </summary>
-        public static bool Running { get; private set; }
+        public static bool Initialised { get; private set; }
 
         static SceneManager()
         {
@@ -78,7 +78,7 @@ namespace LightningGL
             if (Scenes.Count == 0) throw new NCException($"There are no scenes defined!", 1002, "SceneManager::Scenes Count = 0!", NCExceptionSeverity.FatalError);
             if (CurrentScene == null) throw new NCException($"There must be a startup scene set!", 1001, "No current scene specified!", NCExceptionSeverity.FatalError);
 
-            Running = true;
+            Initialised = true;
         }
 
         /// <summary>
