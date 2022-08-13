@@ -66,7 +66,14 @@ namespace LightningPackager
                 if (deleteAll)
                 {
                     NCLogging.Log("Cleaning up content directory...");
-                    Directory.Delete(ContentDirectory, true);
+
+                    foreach (string fileName in Directory.EnumerateFiles(ContentDirectory, "*", SearchOption.AllDirectories))
+                    {
+                        if (!fileName.ToLowerInvariant().Contains("engine.ini"))
+                        {
+                            File.Delete(fileName);
+                        }
+                    }
                 }
             }
             catch (Exception ex)
