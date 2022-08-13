@@ -9,6 +9,7 @@ validArgs = CommandLine.Parse(args);
 
 if (validArgs)
 {
+    // generate a package
     if (!PackageGenerator.StandardRun())
     {
         NCLogging.Log("A fatal error occurred generating a package.", ConsoleColor.Red, false, false);

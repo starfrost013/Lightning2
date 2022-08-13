@@ -13,23 +13,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Texture", "Texture\Texture.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Localisation", "Localisation\Localisation.csproj", "{C4D481A0-D6A1-4F6C-9BF2-1BD70F540F58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParticleEffect", "ParticleEffect\ParticleEffect.csproj", "{2591CB7E-9952-48F4-A2CD-E9B51A029CE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParticleEffect", "ParticleEffect\ParticleEffect.csproj", "{2591CB7E-9952-48F4-A2CD-E9B51A029CE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FontAndText", "FontAndText\FontAndText.csproj", "{2E8801E3-9970-4AC9-9A75-AD4264DE8668}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FontAndText", "FontAndText\FontAndText.csproj", "{2E8801E3-9970-4AC9-9A75-AD4264DE8668}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextureAtlas", "TextureAtlas\TextureAtlas.csproj", "{DAE52969-95FE-441C-A1CB-982AFDB794F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextureAtlas", "TextureAtlas\TextureAtlas.csproj", "{DAE52969-95FE-441C-A1CB-982AFDB794F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextureAnimation", "TextureAnimation\TextureAnimation.csproj", "{1DE02D1C-9EF6-4A8C-8F39-D2931940592C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextureAnimation", "TextureAnimation\TextureAnimation.csproj", "{1DE02D1C-9EF6-4A8C-8F39-D2931940592C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lighting", "Lighting\Lighting.csproj", "{AE03E5E0-D30E-4F23-803C-3A4E72864207}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lighting", "Lighting\Lighting.csproj", "{AE03E5E0-D30E-4F23-803C-3A4E72864207}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Input", "Input\Input.csproj", "{2E7A0AB5-9CE4-48C8-A8D7-530C10CB7C22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Input", "Input\Input.csproj", "{2E7A0AB5-9CE4-48C8-A8D7-530C10CB7C22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audio", "Audio\Audio.csproj", "{4D1517A9-8829-444F-A282-6E25E4B53C2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Audio", "Audio\Audio.csproj", "{4D1517A9-8829-444F-A282-6E25E4B53C2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Camera", "Camera\Camera.csproj", "{34FED6A8-CA25-4AD4-A2A1-BF948020D900}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Camera", "Camera\Camera.csproj", "{34FED6A8-CA25-4AD4-A2A1-BF948020D900}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collision", "Collision\Collision.csproj", "{8BCAB220-6CE6-49F1-81D4-B111B559A57B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Collision", "Collision\Collision.csproj", "{8BCAB220-6CE6-49F1-81D4-B111B559A57B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Packaging", "Packaging\Packaging.csproj", "{B8EEE196-9A04-456F-86BB-8DC67B4680BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +95,10 @@ Global
 		{8BCAB220-6CE6-49F1-81D4-B111B559A57B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BCAB220-6CE6-49F1-81D4-B111B559A57B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BCAB220-6CE6-49F1-81D4-B111B559A57B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8EEE196-9A04-456F-86BB-8DC67B4680BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8EEE196-9A04-456F-86BB-8DC67B4680BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8EEE196-9A04-456F-86BB-8DC67B4680BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8EEE196-9A04-456F-86BB-8DC67B4680BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

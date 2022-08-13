@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -34,7 +34,7 @@
 	  <None Remove="../shared/libvorbis-0.dll" />
 	  <None Remove="../shared/libvorbisfile-3.dll" />
 	  <None Remove="../shared/zlib.dll" />
-	  <None Remove="../shared/Content/Engine.ini" />
+	  <None Remove="Content/Engine.ini" />
 	  <None Remove="../shared/Content/Localisation/en-GB-test.ini" />
 	  <None Remove="../shared/Content/Localisation/pseudo.ini" />
 	  <None Remove="../shared/Content/Libraries/libfreetype-6.dll" />
