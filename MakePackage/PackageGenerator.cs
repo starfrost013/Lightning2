@@ -41,7 +41,8 @@ namespace MakePackage
                         && !fileName.Contains(".scr")
                         && !fileName.Contains(".cpl")
                         && !fileName.Contains(".winmd")
-                        && !fileName.Contains(".rll")))
+                        && !fileName.Contains(".rll")
+                        && !fileName.ToLowerInvariant().Contains("engine.ini")))
                     {
                         packageFile.AddEntry(new PackageFileCatalogEntry(fileName));
                     }
@@ -80,7 +81,7 @@ namespace MakePackage
                         && !fileName.Contains(".cpl")
                         && !fileName.Contains(".winmd")
                         && !fileName.Contains(".rll")
-                        && fileName.ToLower() == "engine.ini"))
+                        && !fileName.ToLowerInvariant().Contains("engine.ini")))
                     {
                         packageFile.AddEntry(new PackageFileCatalogEntry(fileName));
                     }
