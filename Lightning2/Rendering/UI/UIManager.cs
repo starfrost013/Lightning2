@@ -106,7 +106,7 @@ namespace LightningGL
                 // check if it is focused...
                 uiElement.Focused = intersects;
 
-                if (AABB.Intersects(uiElement, cameraPosition)
+                if (intersects
                     && uiElement.OnMouseReleased != null)
                 {
                     uiElement.OnMouseReleased(button);
