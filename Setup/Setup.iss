@@ -67,7 +67,7 @@ Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\Content\*"; DestDir: "{app}\C
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\Documentation\*"; DestDir: "{app}\Documentation"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\Examples\*"; DestDir: "{app}\Examples"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\Libraries\*"; DestDir: "{app}\Libraries"; Flags: ignoreversion recursesubdirs createallsubdirs
-
+Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\VSTemplate\*"; DestDir: "{userdocs}\Visual Studio 2022\Templates\ProjectTemplates"; 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

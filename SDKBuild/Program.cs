@@ -3,14 +3,14 @@ using NuCore.Utilities;
 using System.Diagnostics;
 
 // SDKBuild
-// August 11, 2022 (modified August 12, 2022)
+// August 11, 2022 (modified August 13, 2022)
 //
 // Builds the SDK...duh.
 // Very quick and dirty
 
 NCLogging.Init();
 
-NCLogging.Log("Lightning SDK Builder version 1.4");
+NCLogging.Log("Lightning SDK Builder version 1.5");
 
 NCLogging.Log("Copying build files from LightningGL build directory...");
 
@@ -58,6 +58,15 @@ string examplePath = $@"..\..\..\..\Examples";
 if (!Directory.Exists(examplePath)) _ = new NCException($"Examples directory not found ({examplePath}", 1400, "examplePath not found in Program::Main");
 
 NCFile.RecursiveCopy(examplePath, @"SDK\Examples");
+
+string vsTemplatePath = $@"..\..\..\..\VsTemplate";
+
+NCLogging.Log("Building VS templates...");
+
+// copy the zip file
+Directory.CreateDirectory(@"SDK\VSTemplate");
+
+File.Copy(@$"{vsTemplatePath}\Lightning Game Project.zip", @"SDK\VSTemplate\Lightning Game Project.zip");
 
 string innoInstallDir = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)}\Inno Setup 6";
 
