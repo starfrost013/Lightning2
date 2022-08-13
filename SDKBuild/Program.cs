@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 NCLogging.Init();
 
-NCLogging.Log("Lightning SDK Builder version 1.5");
+NCLogging.Log("Lightning SDK Builder version 1.5.1");
 
 NCLogging.Log("Copying build files from LightningGL build directory...");
 
@@ -43,7 +43,7 @@ NCFile.RecursiveCopy(makePackagePath, "SDK");
 
 NCLogging.Log("Building documentation...");
 
-string docPath = $@"..\..\..\..\Lightning2\Content\Documentation";
+string docPath = $@"..\..\..\..\Documentation";
 if (!Directory.Exists(docPath)) _ = new NCException($"Documentation directory not found ({docPath}", 1401, "docPath not found in Program::Main");
 
 Directory.CreateDirectory(@"SDK\Documentation");
@@ -66,7 +66,7 @@ NCLogging.Log("Building VS templates...");
 // copy the zip file
 Directory.CreateDirectory(@"SDK\VSTemplate");
 
-File.Copy(@$"{vsTemplatePath}\Lightning Game Project.zip", @"SDK\VSTemplate\Lightning Game Project.zip");
+File.Copy(@$"{vsTemplatePath}\Lightning Game Project.zip", @"SDK\VSTemplate\Lightning Game Project.zip", true);
 
 string innoInstallDir = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)}\Inno Setup 6";
 
