@@ -62,7 +62,7 @@ namespace LightningGL
                 {
                     Scene scene = (Scene)Activator.CreateInstance(t);
 
-                    if (scene == null) throw new NCException($"Error initialising SceneManager: failed to initialise scene {scene.GetName()}, failed to create instance!", 1000, "Scene initialisation failed in SceneManager::Init", NCExceptionSeverity.FatalError);
+                    if (scene == null) throw new NCException($"Error initialising SceneManager: failed to initialise scene {scene.GetName()}, failed to create instance!", 130, "Scene initialisation failed in SceneManager::Init", NCExceptionSeverity.FatalError);
 
                     Scenes.Add(scene);
 
@@ -75,8 +75,8 @@ namespace LightningGL
             }
 
 
-            if (Scenes.Count == 0) throw new NCException($"There are no scenes defined!", 1002, "SceneManager::Scenes Count = 0!", NCExceptionSeverity.FatalError);
-            if (CurrentScene == null) throw new NCException($"There must be a startup scene set!", 1001, "No current scene specified!", NCExceptionSeverity.FatalError);
+            if (Scenes.Count == 0) throw new NCException($"There are no scenes defined!", 131, "SceneManager::Scenes Count = 0!", NCExceptionSeverity.FatalError);
+            if (CurrentScene == null) throw new NCException($"There must be a startup scene set!", 132, "No current scene specified!", NCExceptionSeverity.FatalError);
 
             Initialised = true;
         }
@@ -139,7 +139,7 @@ namespace LightningGL
         {
             Scene scene = GetScene(name);
 
-            if (scene == null) _ = new NCException($"Tried to set invalid scene {name}!", 1003, "Called SceneManager::GetCurrentScene with an invalid scene name");
+            if (scene == null) _ = new NCException($"Tried to set invalid scene {name}!", 133, "Called SceneManager::GetCurrentScene with an invalid scene name");
 
             SetCurrentScene(scene);
         }
@@ -148,7 +148,7 @@ namespace LightningGL
         /// Gets the current scene.
         /// </summary>
         /// <param name="name">The <see cref="Scene.Name"/> of the scene</param>
-        /// <returns>A <see cref="Scene"/> object containing the first scene with the name <see cref="name"/>, or <c>null</c> if there is no scene by that name.</returns>
+        /// <returns>A <see cref="Scene"/> object containing the first scene with the name <paramref name="name"/>, or <c>null</c> if there is no scene by that name.</returns>
         public static Scene GetScene(string name)
         {
             foreach (Scene scene in Scenes)

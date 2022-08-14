@@ -62,10 +62,12 @@ namespace LightningGL
             set
             {
                 _size = value;
-                if (_size.X < 0
-                    || _size.Y < 0
+                // UWP but should work
+                // https://stackoverflow.com/questions/42932983/minimum-size-of-a-window
+                if (_size.X < 192
+                    || _size.Y < 48
                     || _size.X > SystemInfo.ScreenResolutionX
-                    || _size.Y > SystemInfo.ScreenResolutionY) _ = new NCException($"Attempted to change window to illegal resolution ({_size.X},{_size.Y}!). Range is 0,0 to {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY}", 117, "Set accessor of WindowSettings::Size detected an attempt to resize to an invalid window size", NCExceptionSeverity.FatalError);
+                    || _size.Y > SystemInfo.ScreenResolutionY) _ = new NCException($"Attempted to change window to illegal resolution ({_size.X},{_size.Y}!). Range is 1,1 to {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY}", 117, "Set accessor of WindowSettings::Size detected an attempt to resize to an invalid window size", NCExceptionSeverity.FatalError);
 
                 SDL_SetWindowSize(WindowHandle, Convert.ToInt32(_size.X), Convert.ToInt32(_size.Y));
             }

@@ -25,7 +25,7 @@
         Error = 2,
 
         /// <summary>
-        /// Defines a fatal error, an issue that terminates program execution.
+        /// Defines a fatal error, an issue that requires the termination of program execution.
         /// </summary>
         FatalError = 3
     }

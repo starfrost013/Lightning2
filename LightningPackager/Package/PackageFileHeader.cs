@@ -41,7 +41,7 @@ namespace LightningPackager
 
             if (magic != Magic)
             {
-                _ = new NCException($"Not a WAD file or magic is corrupt (expected {PackageFileHeader.Magic}, got {magic}!", 99, $"PackageFile::Read - could not identify obfuscated or non-obfuscated header!", NCExceptionSeverity.Error, null, true);
+                _ = new NCException($"Not a WAD file or magic is corrupt (expected {Magic}, got {magic}!", 99, $"PackageFile::Read - could not identify obfuscated or non-obfuscated header!", NCExceptionSeverity.Error, null, true);
                 return null;
             }
 

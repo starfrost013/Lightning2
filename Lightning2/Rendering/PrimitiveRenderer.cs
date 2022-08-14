@@ -60,7 +60,7 @@ namespace LightningGL
             // nobody will ever need a line more than 32,767 pixels wide
             // (he says, regretting this in the future). If we do we can just change to sint32 in c++.
 
-            if (thickness < 1) _ = new NCException($"Cannot draw a line with a thickness property below 1 pixel! (thickness = {thickness})", 18, "PrimitiveRenderer.DrawLine!", NCExceptionSeverity.FatalError);
+            if (thickness < 1) _ = new NCException($"Cannot draw a line with a thickness property below 1 pixel! (thickness = {thickness})", 18, "PrimitiveRenderer::DrawLine called with thickness property < 1", NCExceptionSeverity.FatalError);
 
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;

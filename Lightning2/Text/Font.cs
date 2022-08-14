@@ -62,7 +62,7 @@ namespace LightningGL
                 path = $"{path}.ttf";
             }
 
-            if (!File.Exists(path)) _ = new NCException($"Error loading font: Attempted to load nonexistent font at {path}", 35, "Font.:Path does not exist", NCExceptionSeverity.Error);
+            if (!File.Exists(path)) _ = new NCException($"Error loading font: Attempted to load nonexistent font at {path}", 34, "Font.:Path does not exist", NCExceptionSeverity.Error);
 
             if (!path.Contains(".ttf")) _ = new NCException($"Error loading font: Only TTF fonts are supported!", 36, "Font::Path is not a TrueType font", NCExceptionSeverity.Error);
 

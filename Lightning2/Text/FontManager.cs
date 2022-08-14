@@ -145,7 +145,7 @@ namespace LightningGL
 
             // check it's a real font
             if (font == null
-            || !Fonts.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.Size}) before trying to use it!", 81, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
+            || !Fonts.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.Size}) before trying to use it!", 82, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
 
             string[] lines = text.Split('\n');
 
@@ -211,7 +211,7 @@ namespace LightningGL
             // Get the font and throw an error if it's invalid
             Font curFont = GetFont(font);
 
-            if (curFont == null) _ = new NCException($"Attempted to acquire invalid font with name {font}", 39, "TextManager.DrawText", NCExceptionSeverity.FatalError);
+            if (curFont == null) _ = new NCException($"Attempted to acquire invalid font with name {font}", 39, "TextManager::DrawText font parameter is not a loaded font!", NCExceptionSeverity.FatalError);
 
             // Set the foreground colour
             SDL_Color fontColour = new SDL_Color(foreground.R, foreground.G, foreground.B, foreground.A);

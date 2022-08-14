@@ -110,7 +110,7 @@ namespace LightningGL
             Handle = SDL_CreateTexture(cWindow.Settings.RendererHandle, SDL_PIXELFORMAT_ARGB8888, SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, (int)Size.X, (int)Size.Y);
 
             // check if texture failed to load
-            if (Handle == IntPtr.Zero) _ = new NCException($"Error creating texture: {SDL_GetError()}", 119, "Texture constructor called with invalid size", NCExceptionSeverity.FatalError);
+            if (Handle == IntPtr.Zero) _ = new NCException($"Error creating texture: {SDL_GetError()}", 119, "An SDL error occurred in the Texture constructor", NCExceptionSeverity.FatalError);
 
             Init_AllocFormat(cWindow);
         }
@@ -163,8 +163,6 @@ namespace LightningGL
         {
             // do not lock it if we are already locked
             if (!Locked) Lock();
-
-            if (Size == default) _ = new NCException($"Invalid size - cannot get pixel!", 16, "Texture::Size property was invalid", NCExceptionSeverity.FatalError);
 
             if (x < 0 || y < 0
                 || x > Size.X || y > Size.Y) _ = new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y})!", 12, "An SDL error occurred in Texture::GetPixel", NCExceptionSeverity.FatalError);

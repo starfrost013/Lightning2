@@ -33,18 +33,18 @@ namespace LightningGL
             // globalsettings loader checks for valid file
             NCINIFile localisationIni = NCINIFile.Parse(GlobalSettings.LocalisationFile);
 
-            if (localisationIni == null) _ = new NCException($"Error in localisation INI {GlobalSettings.LocalisationFile}!", 31, "LocalisationManager.Load", NCExceptionSeverity.FatalError);
+            if (localisationIni == null) _ = new NCException($"Error in localisation INI {GlobalSettings.LocalisationFile}!", 31, "LocalisationManager::Load call to NCINIFile::Parse failed", NCExceptionSeverity.FatalError);
 
-            NCINIFileSection metaSection = localisationIni.GetSection("Metadata");
+            NCINIFileSection metadataSection = localisationIni.GetSection("Metadata");
 
             NCINIFileSection stringsSection = localisationIni.GetSection("Strings");
 
-            if (metaSection == null) _ = new NCException($"Error in localisation INI {GlobalSettings.LocalisationFile}: No metadata section!", 32, "LocalisationManager.Load", NCExceptionSeverity.FatalError);
-            if (stringsSection == null) _ = new NCException($"Error in localisation INI {GlobalSettings.LocalisationFile}: No strings section!", 33, "LocalisationManager.Load", NCExceptionSeverity.FatalError);
+            if (metadataSection == null) _ = new NCException($"Error in localisation INI {GlobalSettings.LocalisationFile}: No metadata section!", 32, "LocalisationManager::Load failed to obtain the Metadata section of a localisation file.", NCExceptionSeverity.FatalError);
+            if (stringsSection == null) _ = new NCException($"Error in localisation INI {GlobalSettings.LocalisationFile}: No strings section!", 33, "LocalisationManager.Load failed to obtain the Strings section of a localisation file.", NCExceptionSeverity.FatalError);
 
-            Metadata.Name = metaSection.GetValue("Name");
-            Metadata.Description = metaSection.GetValue("Description");
-            Metadata.Version = metaSection.GetValue("Version");
+            Metadata.Name = metadataSection.GetValue("Name");
+            Metadata.Description = metadataSection.GetValue("Description");
+            Metadata.Version = metadataSection.GetValue("Version");
 
             foreach (var value in stringsSection.Values)
             {

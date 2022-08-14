@@ -102,7 +102,7 @@ namespace NuCore.Utilities
                                 }
                                 else
                                 {
-                                    _ = new NCException("INI parsing error: Section name must terminate with [!", 24, "NCINIFile::Parse", NCExceptionSeverity.Error);
+                                    _ = new NCException("INI parsing error: Section name must terminate with ]!", 24, "NCINIFile::Parse", NCExceptionSeverity.Error);
                                     return null;
                                 }
                                 continue;
@@ -190,7 +190,7 @@ namespace NuCore.Utilities
             }
             catch (Exception ex)
             {
-                _ = new NCException($"Error writing to INi: {ex.Message}", 110, "An exception occurred in NCINIFile::Write", NCExceptionSeverity.Error);
+                _ = new NCException($"Error writing to INI: {ex.Message}", 110, "An exception occurred in NCINIFile::Write", NCExceptionSeverity.Error);
                 return false;
             }
         }

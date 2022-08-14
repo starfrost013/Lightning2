@@ -44,7 +44,16 @@ namespace NuCore.Utilities
         /// </summary>
         public bool DontShowMessageBox { get; set; }
 
-        public NCException(string nDescription, int nId, string nCause = null, NCExceptionSeverity nExceptionSeverity = NCExceptionSeverity.Message, Exception nBaseException = null, bool DontShowMessageBox = false) : base(nDescription)
+        /// <summary>
+        /// Throw an error.
+        /// </summary>
+        /// <param name="nDescription">A description of the error.</param>
+        /// <param name="nId">The ID of the error.</param>
+        /// <param name="nCause">An optional more detailed error cause - usually the code condition that caused it</param>
+        /// <param name="nExceptionSeverity">The severity of the exception - see <see cref="NCExceptionSeverity"/></param>
+        /// <param name="nBaseException">The .NET exception that caused the error, if present.</param>
+        /// <param name="dontShowMessageBox">Determines if a message box was shown or not</param>
+        public NCException(string nDescription, int nId, string nCause = null, NCExceptionSeverity nExceptionSeverity = NCExceptionSeverity.Message, Exception nBaseException = null, bool dontShowMessageBox = false) : base(nDescription)
         {
             Description = nDescription;
             Id = nId;
@@ -64,7 +73,7 @@ namespace NuCore.Utilities
 
             NCLogging.Log($"{ExceptionSeverity}:\n{err_string}", nExceptionSeverity);
 
-            if (!DontShowMessageBox)
+            if (!dontShowMessageBox)
             {
                 switch (ExceptionSeverity)
                 {

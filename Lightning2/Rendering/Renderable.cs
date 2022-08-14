@@ -17,6 +17,9 @@ namespace LightningGL
         /// </summary>
         public virtual Vector2 Position { get; set; }
 
+        /// <summary>
+        /// Backing field for <see cref="RenderPosition"/>
+        /// </summary>
         private Vector2 _renderPosition { get; set; }
 
         /// <summary>
