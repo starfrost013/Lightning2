@@ -114,18 +114,28 @@ namespace LightningGL
             }
         }
 
+        /// <summary>
+        /// Pause the current audio file.
+        /// </summary>
         public void Pause()
         {
             SDL_mixer.Mix_Pause(Channel);
             Playing = false;
         }
 
+        /// <summary>
+        /// Stop the current audio file.
+        /// </summary>
         public void Stop()
         {
             SDL_mixer.Mix_HaltChannel(Channel);
             Playing = false;
         }
 
+        /// <summary>
+        /// Set the current audio volume.
+        /// </summary>
+        /// <param name="Volume">A double, range 0 to 1, setting the volume of this audio file.</param>
         public void SetVolume(double Volume)
         {
             RealVolume = Volume;

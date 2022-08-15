@@ -14,9 +14,26 @@ namespace LightningGL
     public class WindowSettings
     {
         /// <summary>
+        /// Backing field for <see cref="Title"/>.
+        /// </summary>
+        private string _title { get; set; }
+        
+        /// <summary>
         /// The title of the window.
         /// </summary>
-        public string Title { get; set; }
+        public string Title
+        {
+            get
+            {
+                return _title;
+            }
+            set
+            {
+                _title = value;
+
+                if (WindowHandle != default) SDL_SetWindowTitle(WindowHandle, _title);
+            }
+        }
 
         /// <summary>
         /// Backing field for <see cref="Position"/>.
@@ -41,7 +58,7 @@ namespace LightningGL
                     || _position.X > SystemInfo.ScreenResolutionX
                     || _position.Y > SystemInfo.ScreenResolutionY) _ = new NCException($"Attempted to change window to illegal position ({_position.X},{_position.Y}!). Range is 0,0 to {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY}", 118, "Set accessor of WindowSettings::Size detected an attempt to resize to an invalid window size", NCExceptionSeverity.FatalError);
 
-                SDL_SetWindowPosition(WindowHandle, Convert.ToInt32(_position.X), Convert.ToInt32(_position.Y));
+                if (WindowHandle != default) SDL_SetWindowPosition(WindowHandle, Convert.ToInt32(_position.X), Convert.ToInt32(_position.Y));
             }
         }
 
@@ -69,7 +86,7 @@ namespace LightningGL
                     || _size.X > SystemInfo.ScreenResolutionX
                     || _size.Y > SystemInfo.ScreenResolutionY) _ = new NCException($"Attempted to change window to illegal resolution ({_size.X},{_size.Y}!). Range is 1,1 to {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY}", 117, "Set accessor of WindowSettings::Size detected an attempt to resize to an invalid window size", NCExceptionSeverity.FatalError);
 
-                SDL_SetWindowSize(WindowHandle, Convert.ToInt32(_size.X), Convert.ToInt32(_size.Y));
+                if (WindowHandle != default) SDL_SetWindowSize(WindowHandle, Convert.ToInt32(_size.X), Convert.ToInt32(_size.Y));
             }
         }
 
