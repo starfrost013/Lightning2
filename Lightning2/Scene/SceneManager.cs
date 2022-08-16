@@ -46,7 +46,7 @@ namespace LightningGL
         /// </summary>
         /// <param name="windowSettings">The window settings to use for the Scene Manager.</param>
         /// <exception cref="NCException">An error occurred initialising the Scene Manager.</exception>
-        public static void Init(WindowSettings windowSettings)
+        internal static void Init(WindowSettings windowSettings)
         {
             // Initialise Lightning2 window.
             MainWindow = new Window();
