@@ -106,9 +106,7 @@ namespace LightningGL
                             // shut down the engine
                             Lightning.Shutdown(MainWindow);
 
-                            // TEMP code
-                            return;
-                            // END TEMP code
+                            break;
                     }
                 }
 
