@@ -37,5 +37,26 @@ namespace LightningGL
         {
             LocalSettingsFile.Write(Path);
         }
+
+        /// <summary>
+        /// Adds a section to the local settings file.
+        /// </summary>
+        /// <param name="sectionName">The name of the section to add.</param>
+        public static void AddSection(string sectionName)
+        {
+            LocalSettingsFile.Sections.Add(new NCINIFileSection(sectionName));
+        }
+
+        /// <summary>
+        /// Adds a value to the local settings file.
+        /// </summary>
+        /// <param name="sectionName">The name of the setting to add to hte local settings file.</param>
+        /// <param name="key">The key of the value to add.</param>
+        /// <param name="value">The value of the value.</param>
+        public static void AddValue(string sectionName, string key, string value)
+        {
+            NCINIFileSection section = LocalSettingsFile.GetSection(sectionName);
+            section.Values.Add(key, value);
+        }
     }
 }
