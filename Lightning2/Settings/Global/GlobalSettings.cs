@@ -17,7 +17,7 @@ namespace LightningGL
         /// <summary>
         /// Contains the path to the global settings INI file.
         /// </summary>
-        public static string GLOBALSETTINGS_PATH = @"Content\Engine.ini";
+        internal static string GLOBALSETTINGS_PATH = @"Content\Engine.ini";
 
         #region General settings
         /// <summary>

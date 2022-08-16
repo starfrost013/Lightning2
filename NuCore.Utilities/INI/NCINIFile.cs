@@ -196,15 +196,15 @@ namespace NuCore.Utilities
         }
 
         /// <summary>
-        /// Acquires the INI file section with the name <paramref name="Name"/>
+        /// Acquires the INI file section with the name <paramref name="name"/>
         /// </summary>
-        /// <param name="Name">The name of the INI file section you wish to obtain.</param>
+        /// <param name="name">The name of the INI file section you wish to obtain.</param>
         /// <returns>A <see cref="NCINIFileSection"/> instance representing the INI file with section <see cref="Name"/> if the section could be found, otherwise null.</returns>
-        public NCINIFileSection GetSection(string Name)
+        public NCINIFileSection GetSection(string name)
         {
             foreach (NCINIFileSection iniSection in Sections)
             {
-                if (iniSection.Name == Name)
+                if (iniSection.Name == name)
                 {
                     return iniSection;
                 }
