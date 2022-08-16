@@ -14,6 +14,7 @@ namespace NuCore.Utilities
     /// Updated July 2, 2022 in order to handle comments on the same line as values, handle newlines and rename variables to camelCase
     /// Updated August 2, 2022 to fix a bug with INI comments on the same line as values in non-section lines, as well as to make searches case-insensitive.
     /// Updated August 9, 2022 to add serialisation to file.
+    /// Updated August 16, 2022 to add an additional constructor to NCINIFileSection and fix some non-camelCase parameter names.
     /// </summary>
     public class NCINIFile
     {
