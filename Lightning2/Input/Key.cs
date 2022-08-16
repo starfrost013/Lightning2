@@ -57,5 +57,10 @@ namespace LightningGL
         /// </summary>
         /// <returns></returns>
         public bool EitherCtrlPressed() => (Modifiers.HasFlag(SDL_Keymod.KMOD_LCTRL) || Modifiers.HasFlag(SDL_Keymod.KMOD_RCTRL));
+
+        /// <summary>
+        /// Determines if either GUI/Apple/Windows key is pressed. Do not use <see cref="SDL_Keymod.KMOD_GUI"/> for this as it checks BOTH GUI keys!
+        /// </summary>
+        /// <returns></returns>
+        public bool EitherGuiPressed() => (Modifiers.HasFlag(SDL_Keymod.KMOD_LGUI) || Modifiers.HasFlag(SDL_Keymod.KMOD_RGUI));
     }
-}
