@@ -15,7 +15,7 @@
         Follow = 0,
 
         /// <summary>
-        /// Chase camera - focuses behind the target position by <see cref="Camera.FocusDelta"/>, or (windowwidth-100) pixels behind the target position if not set.
+        /// Chase camera - focuses behind the target position by <see cref="Camera.FocusDelta"/>, or -(Settings.Size.X / 2) pixels behind the target position if not set.
         /// </summary>
         Chase = 1
     }
