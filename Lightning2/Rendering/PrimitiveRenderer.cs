@@ -22,7 +22,7 @@ namespace LightningGL
         /// <param name="cWindow">The window to draw the pixel to.</param>
         /// <param name="position">The position of the pixel to draw.</param>
         /// <param name="colour">The <see cref="Color"/> of the pixel to draw.</param>
-        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
+        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or screen-relative space.</param>
         public static void DrawPixel(Window cWindow, Vector2 position, Color colour, bool snapToScreen = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
@@ -47,7 +47,7 @@ namespace LightningGL
         /// <param name="thickness">The thickness of this line.</param>
         /// <param name="colour">The colour of this line.</param>
         /// <param name="antiAliased">Determines if this line will be anti-aliased or not.</param>
-        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
+        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or screen-relative space.</param>
         public static void DrawLine(Window cWindow, Vector2 start, Vector2 end, short thickness, Color colour, bool antiAliased = true, bool snapToScreen = false)
         {
             // lineRGBA(); just calls SDL.SDL_RenderDrawLine
@@ -101,7 +101,7 @@ namespace LightningGL
         /// <param name="filled">Determines if this rectangle will be filled or not.</param>
         /// <param name="borderColor">The colour of this rectangle's border.</param>
         /// <param name="borderSize">The size of this rectangle's border.</param>
-        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
+        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or screen-relative space.</param>
         public static void DrawRectangle(Window cWindow, Vector2 position, Vector2 size, Color colour, bool filled = false, Color borderColor = default(Color), 
             Vector2 borderSize = default(Vector2), bool snapToScreen = false)
         {
@@ -144,7 +144,7 @@ namespace LightningGL
         /// <param name="colour">The colour of the rectangle to draw.</param>
         /// <param name="cornerRadius">The radius, in pixels, of this rectangle's corners.</param>
         /// <param name="filled">Determines if this rectangle will be filled or not.</param>
-        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
+        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or screen-relative space.</param>
         public static void DrawRoundedRectangle(Window cWindow, Vector2 position, Vector2 size, Color colour, int cornerRadius, bool filled, bool snapToScreen = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
@@ -179,7 +179,7 @@ namespace LightningGL
         /// <param name="point3">The third point of the triangle.</param>
         /// <param name="colour">The colour of the triangle - see <see cref="Color"/></param>
         /// <param name="filled">Determines if the triangle will be filled.</param>
-        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
+        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or screen-relative space.</param>
         public static void DrawTriangle(Window cWindow, Vector2 point1, Vector2 point2, Vector2 point3, Color colour, bool filled, bool snapToScreen = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
@@ -217,7 +217,7 @@ namespace LightningGL
         /// <param name="colour">The colour of the polygon.</param>
         /// <param name="filled">Determines if the polygon will be filled or not.</param>
         /// <param name="antiAliased">Determines if the polygon will be anti-aliased - UNFILLED POLYGONS ONLY</param>
-        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
+        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or screen-relative space.</param>
         public static void DrawPolygon(Window cWindow, List<Vector2> points, Color colour, bool filled, bool antiAliased = false, bool snapToScreen = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
@@ -276,7 +276,7 @@ namespace LightningGL
         /// <param name="colour">The colour of the circle to draw.</param>
         /// <param name="filled">Determines if this circle is filled.</param>
         /// <param name="antiAliased">Determines if this circle is anti-aliased. Only has an effect on unfilled circles for now</param>
-        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
+        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or screen-relative space.</param>
         public static void DrawCircle(Window cWindow, Vector2 position, Vector2 size, Color colour, bool filled, bool antiAliased = false, bool snapToScreen = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
@@ -339,7 +339,7 @@ namespace LightningGL
         /// <param name="position">The position to draw the text to. </param>
         /// <param name="colour">The colour to draw the text as.</param>
         /// <param name="localise">If true, the text will be localised with <see cref="LocalisationManager"/> before being drawn.</param>
-        ///  <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
+        ///  <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or screen-relative space.</param>
         public static void DrawText(Window cWindow, string text, Vector2 position, Color colour, bool localise = true, bool snapToScreen = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.

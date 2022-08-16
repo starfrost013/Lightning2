@@ -50,7 +50,7 @@ namespace LightningGL
         public virtual Vector2 Size { get; set; }
 
         /// <summary>
-        /// Determines if this Renderable will be drawn in world-relative space or camera-relative space.
+        /// Determines if this Renderable will be drawn in world-relative space or screen-relative space.
         /// </summary>
         public bool SnapToScreen { get; set; }
 
