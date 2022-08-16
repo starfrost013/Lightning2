@@ -23,7 +23,7 @@ namespace LightningGL
         /// <summary>
         /// The file to use when loading localisation strings.
         /// </summary>
-        public static string LocalisationFile { get; internal set; }
+        public static string Language { get; internal set; }
 
         /// <summary>
         /// Determines whether the performance profiler will be loaded or not.
@@ -167,10 +167,10 @@ namespace LightningGL
             if (locSection == null) _ = new NCException("Engine.ini must have a Localisation section!", 29, "GlobalSettings::Load call to NCINIFile::GetSection failed for Localisation section", NCExceptionSeverity.FatalError);
 
             // Load the Localisation section.
-            string locLang = locSection.GetValue("Language");
-            LocalisationFile = @$"Content\Localisation\{locLang}.ini";
+            string language = locSection.GetValue("Language");
+            Language = @$"Content\Localisation\{language}.ini";
 
-            if (!File.Exists(LocalisationFile)) _ = new NCException("Engine.ini's Localisation section must have a valid Language value!", 30, "GlobalSettings::Load call to NCINIFileSection::GetValue failed for Language value", NCExceptionSeverity.FatalError);
+            if (!File.Exists(Language)) _ = new NCException("Engine.ini's Localisation section must have a valid Language value!", 30, "GlobalSettings::Load call to NCINIFileSection::GetValue failed for Language value", NCExceptionSeverity.FatalError);
 
             // Load the General section.
             string generalMaxFps = generalSection.GetValue("MaxFPS");
