@@ -300,8 +300,21 @@ namespace LightningGL
                 _ = new NCException($"Insufficient CPU capabilities to run game. {MinimumCpuCapabilities} capabilities required, you have {SystemInfo.Cpu.Capabilities}!", 113, $"CPU capabilities less than GlobalSettings::MinimumCpuCapabilities!", NCExceptionSeverity.FatalError);
             }
 
+            bool failedOsCheck = false;
+
+            if (SystemInfo.CurOperatingSystem < SystemInfoOperatingSystem.MacOS1013
+                && MinimumOperatingSystem < SystemInfoOperatingSystem.MacOS1013) // windows
+            {
+                if (MinimumOperatingSystem > SystemInfo.CurOperatingSystem) failedOsCheck = true;
+            }
+            else if (SystemInfo.CurOperatingSystem < SystemInfoOperatingSystem.Linux
+                && MinimumOperatingSystem < SystemInfoOperatingSystem.Linux) // macos
+            {
+                if (MinimumOperatingSystem > SystemInfo.CurOperatingSystem) failedOsCheck = true;
+            }
+
             // test OS version
-            if (MinimumOperatingSystem > SystemInfo.CurOperatingSystem)
+            if (failedOsCheck)
             {
                 _ = new NCException($"Insufficient OS version to run game. {MinimumOperatingSystem} must be used, you have {SystemInfo.CurOperatingSystem}!", 114, $"OS version less than GlobalSettings::MinimumOperatingSystem!", NCExceptionSeverity.FatalError);
             }
