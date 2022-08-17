@@ -277,7 +277,7 @@ namespace LightningGL
         /// <param name="filled">Determines if this circle is filled.</param>
         /// <param name="antiAliased">Determines if this circle is anti-aliased. Only has an effect on unfilled circles for now</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public static void DrawCircle(Window cWindow, Vector2 position, Vector2 size, Color colour, bool filled, bool antiAliased = false, bool snapToScreen = false)
+        public static void DrawCircle(Window cWindow, Vector2 position, Vector2 size, Color colour, bool filled = false, bool antiAliased = false, bool snapToScreen = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;
