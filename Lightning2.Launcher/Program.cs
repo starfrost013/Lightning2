@@ -282,7 +282,7 @@ while (cWindow.Run())
     PrimitiveRenderer.DrawLine(cWindow, new Vector2(500, 240), new Vector2(600, 240), 7, Color.FromArgb(255, 255, 255, 255), false);
     PrimitiveRenderer.DrawLine(cWindow, new Vector2(500, 210), new Vector2(600, 210), 15, Color.FromArgb(255, 255, 255, 255), true);
 
-    PrimitiveRenderer.DrawCircle(cWindow, new Vector2(500, 10), new Vector2(50, 50), Color.FromArgb(255, 255, 255, 255), true);
+    PrimitiveRenderer.DrawCircle(cWindow, new Vector2(0, 0), new Vector2(50, 50), Color.FromArgb(255, 255, 255, 255), true);
     PrimitiveRenderer.DrawCircle(cWindow, new Vector2(500, 309), new Vector2(50, 50), Color.FromArgb(127, 255, 255, 255), false);
 
     PrimitiveRenderer.DrawRectangle(cWindow, new Vector2(552, 10), new Vector2(30, 30), Color.FromArgb(255, 255, 255, 255), false);

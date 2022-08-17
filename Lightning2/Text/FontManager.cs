@@ -190,7 +190,7 @@ namespace LightningGL
         /// <param name="outlineSize">Optional: Size of the font outline in pixels. Range is 1 to 15.</param>
         /// <param name="lineLength">Optional: Maximum line length in pixels. Ignores newlines.</param>
         /// <param name="smoothing">Optional: The <see cref="FontSmoothingType"/> of the text.</param>
-        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or screen-relative space.</param>
+        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space (false) or screen-relative space (true).</param>
         public static void DrawText(Window cWindow, string text, string font, Vector2 position, Color foreground, Color background = default(Color), 
             TTF_FontStyle style = TTF_FontStyle.Normal, int resizeFont = -1, int outlineSize = -1, int lineLength = -1, FontSmoothingType smoothing = FontSmoothingType.Default, 
             bool snapToScreen = false)

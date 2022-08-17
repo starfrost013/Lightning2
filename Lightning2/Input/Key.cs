@@ -18,7 +18,7 @@ namespace LightningGL
         /// Determines if this key is being repeated or not. This begins a short time after it is first held down, NOT when it is held down!
         /// </summary>
         public bool Repeated { get; internal set; }
-        
+
         /// <summary>
         /// Key cast operator from SDL_KeyboardEvent
         /// </summary>
@@ -64,3 +64,4 @@ namespace LightningGL
         /// <returns></returns>
         public bool EitherGuiPressed() => (Modifiers.HasFlag(SDL_Keymod.KMOD_LGUI) || Modifiers.HasFlag(SDL_Keymod.KMOD_RGUI));
     }
+}
