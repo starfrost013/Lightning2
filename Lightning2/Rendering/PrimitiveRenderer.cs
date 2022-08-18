@@ -144,7 +144,7 @@ namespace LightningGL
         /// <param name="cornerRadius">The radius, in pixels, of this rectangle's corners.</param>
         /// <param name="filled">Determines if this rectangle will be filled or not.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public static void DrawRoundedRectangle(Window cWindow, Vector2 position, Vector2 size, Color colour, int cornerRadius, bool filled, bool snapToScreen = false)
+        public static void DrawRoundedRectangle(Window cWindow, Vector2 position, Vector2 size, Color colour, int cornerRadius, bool filled = false, bool snapToScreen = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;
