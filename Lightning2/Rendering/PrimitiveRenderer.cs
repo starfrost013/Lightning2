@@ -99,10 +99,10 @@ namespace LightningGL
         /// <param name="size">The size of the rectangle to draw.</param>
         /// <param name="colour">The colour of the rectangle to draw.</param>
         /// <param name="filled">Determines if this rectangle will be filled or not.</param>
-        /// <param name="borderColor">The colour of this rectangle's border.</param>
+        /// <param name="borderColour">The colour of this rectangle's border.</param>
         /// <param name="borderSize">The size of this rectangle's border.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space (false) or screen-relative space (true).</param>
-        public static void DrawRectangle(Window cWindow, Vector2 position, Vector2 size, Color colour, bool filled = false, Color borderColor = default(Color), 
+        public static void DrawRectangle(Window cWindow, Vector2 position, Vector2 size, Color colour, bool filled = false, Color borderColour = default(Color), 
             Vector2 borderSize = default(Vector2), bool snapToScreen = false)
         {
             
@@ -116,6 +116,12 @@ namespace LightningGL
                 position.Y -= currentCamera.Position.Y;
             }
 
+            if (borderColour != default(Color))
+            {
+                SDL_gfx.rectangleRGBA(cWindow.Settings.RendererHandle, (int)position.X - (int)borderSize.X, (int)position.Y - (int)borderSize.Y,
+                    (int)position.X + (int)size.X + ((int)borderSize.X * 2), (int)position.Y + (int)size.Y + ((int)borderSize.Y * 2), colour.R, colour.G, colour.B, colour.A);
+            }
+
             if (filled)
             {
                 SDL_gfx.boxRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y,
@@ -126,13 +132,6 @@ namespace LightningGL
                 SDL_gfx.rectangleRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y,
                     (int)position.X + (int)size.X, (int)position.Y + (int)size.Y, colour.R, colour.G, colour.B, colour.A);
             }
-
-            if (borderColor != default(Color))
-            {
-                SDL_gfx.rectangleRGBA(cWindow.Settings.RendererHandle, (int)position.X - (int)borderSize.X, (int)position.Y - (int)borderSize.Y,
-                    (int)position.X + (int)size.X + ((int)borderSize.X * 2), (int)position.Y + (int)size.Y + ((int)borderSize.Y * 2), colour.R, colour.G, colour.B, colour.A);
-            }
-
         }
 
         /// <summary>
