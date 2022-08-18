@@ -179,7 +179,7 @@ namespace LightningGL
         /// <param name="colour">The colour of the triangle - see <see cref="Color"/></param>
         /// <param name="filled">Determines if the triangle will be filled.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public static void DrawTriangle(Window cWindow, Vector2 point1, Vector2 point2, Vector2 point3, Color colour, bool filled, bool snapToScreen = false)
+        public static void DrawTriangle(Window cWindow, Vector2 point1, Vector2 point2, Vector2 point3, Color colour, bool filled = false, bool snapToScreen = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;
@@ -217,7 +217,7 @@ namespace LightningGL
         /// <param name="filled">Determines if the polygon will be filled or not.</param>
         /// <param name="antiAliased">Determines if the polygon will be anti-aliased - UNFILLED POLYGONS ONLY</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public static void DrawPolygon(Window cWindow, List<Vector2> points, Color colour, bool filled, bool antiAliased = false, bool snapToScreen = false)
+        public static void DrawPolygon(Window cWindow, List<Vector2> points, Color colour, bool filled = false, bool antiAliased = false, bool snapToScreen = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;
