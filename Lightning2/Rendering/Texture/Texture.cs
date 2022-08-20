@@ -54,7 +54,7 @@ namespace LightningGL
         /// 
         /// NULL if not locked.
         /// </summary>
-        public int* Pixels { get; set; }
+        public int* Pixels { get; private set; }
 
         /// <summary>
         /// Determines if this texture repeats, and if so
