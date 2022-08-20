@@ -20,7 +20,7 @@ namespace LightningGL
         /// <summary>
         /// The frames of this texture. A list of <see cref="Texture"/> objects.
         /// </summary>
-        public List<Texture> Frames { get; set; }
+        public List<Texture> Frames { get; private set; }
 
         /// <summary>
         /// The current frame in the animationcycle.
