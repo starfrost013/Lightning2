@@ -21,11 +21,6 @@ namespace LightningGL
         public int Index { get; set; }
 
         /// <summary>
-        /// Optional name of this texture.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
         /// The size of an individual texture in this texture atlas.
         /// </summary>
         public Vector2 FrameSize { get; set; }
@@ -58,7 +53,7 @@ namespace LightningGL
             int maxIndex = Convert.ToInt32((TextureCount.X * TextureCount.Y)) - 1;
 
             if (Index < 0
-                || Index > maxIndex) _ = new NCException($"Cannot draw invalid TextureAtlas ({Name}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)", 47, "TextureAtlas::LoadIndexed", NCExceptionSeverity.FatalError);
+                || Index > maxIndex) _ = new NCException($"Cannot draw invalid TextureAtlas ({Path}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)", 47, "TextureAtlas::LoadIndexed", NCExceptionSeverity.FatalError);
 
             int row = (int)(Index / TextureCount.Y);
 
