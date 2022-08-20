@@ -83,12 +83,12 @@ namespace LightningGL
         /// <summary>
         /// Updated when the texture is locked in C++. Used to determine if the pixels can be acquired.
         /// </summary>
-        public bool Locked { get; set; }
+        public bool Locked { get; private set; }
 
         /// <summary>
         /// The pitch of this texture
         /// </summary>
-        public int Pitch { get; set; }
+        public int Pitch { get; private set; }
 
         /// <summary>
         /// Private: Texture format allocated for internal use
