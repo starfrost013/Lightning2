@@ -28,11 +28,6 @@ namespace LightningGL
         internal int CurrentFrame { get; set; }
 
         /// <summary>
-        /// The name of this texture.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
         /// The list of paths to load the string from.
         /// </summary>
         private List<string> FramePaths { get; set; }
