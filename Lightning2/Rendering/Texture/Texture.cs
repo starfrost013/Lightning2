@@ -95,7 +95,6 @@ namespace LightningGL
         /// </summary>
         private IntPtr FormatHandle { get; set; }
 
-
         /// <summary>
         /// Initialises a new texture with the size specified in the <paramref name="nSize"/> parameter.
         /// </summary>
@@ -359,6 +358,8 @@ namespace LightningGL
             SDL_DestroyTexture(Handle);
             FormatHandle = IntPtr.Zero;
             Handle = IntPtr.Zero;
+            Pitch = 0;
+            Pixels = null;
         }
     }
 }
