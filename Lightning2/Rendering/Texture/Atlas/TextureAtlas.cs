@@ -23,12 +23,12 @@ namespace LightningGL
         /// <summary>
         /// The size of an individual texture in this texture atlas.
         /// </summary>
-        public Vector2 FrameSize { get; set; }
+        public Vector2 FrameSize { get; init; }
         
         /// <summary>
         /// The number of textures in this atlas texture.
         /// </summary>
-        public Vector2 TextureCount { get; set; }
+        public Vector2 TextureCount { get; init; }
 
         public TextureAtlas(Window cWindow, Vector2 frameSize, Vector2 textureCount) : base(cWindow, (frameSize.X * textureCount.X) + 1, frameSize.Y * textureCount.Y + 1) // + 1 so that we do not set an out of bounds viewport
         {
