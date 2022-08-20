@@ -359,5 +359,7 @@ public unsafe class Texture : Renderable
         SDL_DestroyTexture(Handle);
         FormatHandle = IntPtr.Zero;
         Handle = IntPtr.Zero;
+        Pitch = 0;
+        Pixels = null;
     }
 }
