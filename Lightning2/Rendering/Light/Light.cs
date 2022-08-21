@@ -33,7 +33,7 @@ namespace LightningGL
         /// Renders this Light to a texture
         /// </summary>
         /// <param name="cWindow">The window to render this Light to.</param>
-        public void RenderToTexture(Window cWindow)
+        internal void RenderToTexture(Window cWindow)
         {
             // Code nicked and modified from
             // https://stackoverflow.com/questions/10878209/midpoint-circle-algorithm-for-filled-circles
