@@ -47,7 +47,7 @@ namespace LightningGL
         /// Initialises a light.
         /// </summary>
         /// <param name="cWindow"></param>
-        public static void Init(Window cWindow)
+        internal static void Init(Window cWindow)
         {
             if (Initialised) return; // don't initialise twice
             // move this if it is slower
