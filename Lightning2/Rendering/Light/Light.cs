@@ -23,6 +23,9 @@ namespace LightningGL
         /// </summary>
         public double Range { get; set; }
 
+        /// <summary>
+        /// Constructor of the Light class. Sets the default range to 10 and the default brightness to 255.
+        /// </summary>
         public Light()
         {
             Brightness = 255;
