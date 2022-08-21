@@ -39,7 +39,10 @@ namespace LightningGL
         /// </summary>
         public static SystemInfoOperatingSystem CurOperatingSystem { get; private set; }
 
-        public static void Load()
+        /// <summary>
+        /// Acquires information about the engine Lightning is running on.
+        /// </summary>
+        internal static void Load()
         {
             // cannot put in static constructor as this depends on SDL being initialised.
             // Initialise CPU info
