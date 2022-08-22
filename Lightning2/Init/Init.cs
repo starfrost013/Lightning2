@@ -69,7 +69,7 @@ namespace LightningGL
                 NCLogging.Log("Initialising LocalisationManager...");
                 LocalisationManager.Load();
 
-                if (GlobalSettings.ProfilePerf)
+                if (GlobalSettings.ProfilePerformance)
                 {
                     NCLogging.Log("Performance Profiler enabled, initialising profiler...");
                     PerformanceProfiler.Start();
@@ -135,7 +135,7 @@ namespace LightningGL
             NCLogging.Log("Calling UI shutdown events...");
             UIManager.Shutdown(cWindow);
 
-            if (GlobalSettings.ProfilePerf)
+            if (GlobalSettings.ProfilePerformance)
             {
                 NCLogging.Log("Shutting down performance profiler...");
                 PerformanceProfiler.Shutdown();
