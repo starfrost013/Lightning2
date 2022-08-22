@@ -1,5 +1,8 @@
-﻿namespace LightningGL
+﻿using System;
+
+namespace LightningGL
 {
+    [Flags]
     /// <summary>
     /// SystemInfoCPUCapabilities
     /// </summary>

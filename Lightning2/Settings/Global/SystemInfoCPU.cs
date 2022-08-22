@@ -35,7 +35,10 @@ namespace LightningGL
         /// </summary>
         public SystemInfoCPUCapabilities Capabilities { get; private set; }
 
-        public SystemInfoCPU()
+        /// <summary>
+        /// Acquires CPU information
+        /// </summary>
+        internal SystemInfoCPU()
         {
             NCLogging.Log("Acquiring CPU information...");
             Threads = SDL_GetCPUCount();
