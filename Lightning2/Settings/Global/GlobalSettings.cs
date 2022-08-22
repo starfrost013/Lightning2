@@ -28,7 +28,7 @@ namespace LightningGL
         /// <summary>
         /// Determines whether the performance profiler will be loaded or not.
         /// </summary>
-        public static bool ProfilePerf { get; internal set; }
+        public static bool ProfilePerformance { get; internal set; }
 
         /// <summary>
         /// Bring up the "About Lightning" messagebox when the Shift-F9 combination is pressed.
@@ -175,7 +175,7 @@ namespace LightningGL
             // Load the General section.
             string generalMaxFps = generalSection.GetValue("MaxFPS");
             string generalShowDebugInfo = generalSection.GetValue("ShowDebugInfo");
-            string generalProfilePerf = generalSection.GetValue("PerformanceProfiler");
+            string generalProfilePerf = generalSection.GetValue("ProfilePerformance");
             string generalAboutScreenOnF9 = generalSection.GetValue("EngineAboutScreenOnShiftF9");
             string generalDeleteUnpackedFilesOnExit = generalSection.GetValue("DeleteUnpackedFilesOnExit");
             LocalSettingsPath = generalSection.GetValue("LocalSettingsPath");
@@ -196,7 +196,7 @@ namespace LightningGL
 
             MaxFPS = generalMaxFpsValue;
             ShowDebugInfo = generalShowDebugInfoValue;
-            ProfilePerf = generalProfilePerfValue;
+            ProfilePerformance = generalProfilePerfValue;
             EngineAboutScreenOnShiftF9 = generalAboutScreenOnF9Value;
             DeleteUnpackedFilesOnExit = generalDeleteUnpackedFilesOnExitValue;
             DontUseSceneManager = generalDontUseSceneManagerValue;

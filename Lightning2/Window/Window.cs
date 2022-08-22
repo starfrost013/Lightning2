@@ -276,7 +276,7 @@ namespace LightningGL
 
             DeltaTime = ((double)ThisTime / 10000);
 
-            if (GlobalSettings.ProfilePerf) PerformanceProfiler.Update(this);
+            if (GlobalSettings.ProfilePerformance) PerformanceProfiler.Update(this);
             FrameNumber++;
         }
         
