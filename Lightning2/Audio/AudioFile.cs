@@ -133,10 +133,10 @@ namespace LightningGL
         /// <summary>
         /// Set the current audio volume.
         /// </summary>
-        /// <param name="Volume">A double, range 0 to 1, setting the volume of this audio file.</param>
-        public void SetVolume(double Volume)
+        /// <param name="volume">A double, range 0 to 1, setting the volume of this audio file.</param>
+        public void SetVolume(double volume)
         {
-            RealVolume = Volume;
+            RealVolume = volume;
             SDL_mixer.Mix_Volume(Channel, (int)(RealVolume * 128));
         }
     }
