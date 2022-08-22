@@ -91,7 +91,7 @@ namespace LightningGL
         /// Only call if <see cref="PositionalSound"/> is true.
         /// </summary>
         /// <param name="cWindow"></param>
-        public void Update(Window cWindow)
+        internal void Update(Window cWindow)
         {
             if (!PositionalSound) return;
 
