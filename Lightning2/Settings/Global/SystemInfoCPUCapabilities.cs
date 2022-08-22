@@ -11,7 +11,7 @@
         MMX = 0x1,
 
         /// <summary>
-        /// AMD (before Ryzen 1000 series): This system supports the 3DNow! instruction set.
+        /// AMD (before Bulldozer series): This system supports the 3DNow! instruction set.
         /// </summary>
         ThreeDNow = 0x2,
 

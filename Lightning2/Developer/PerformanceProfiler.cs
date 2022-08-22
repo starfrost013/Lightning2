@@ -111,7 +111,7 @@ namespace LightningGL
                 double percentile01 = FPSList[percentile01Index];
 
                 // Write some notable values.
-                FileStream.WriteLine("Notable values\n:");
+                FileStream.WriteLine("Notable values:\n");
                 FileStream.WriteLine($"Average={average}");
                 FileStream.WriteLine($"99th%ile={percentile99.ToString("F1")}");
                 FileStream.WriteLine($"95th%ile={percentile95.ToString("F1")}");
