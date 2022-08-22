@@ -35,6 +35,9 @@ namespace LightningGL
         /// </summary>
         public SystemInfoCPUCapabilities Capabilities { get; private set; }
 
+        /// <summary>
+        /// Acquires CPU information
+        /// </summary>
         internal SystemInfoCPU()
         {
             NCLogging.Log("Acquiring CPU information...");
