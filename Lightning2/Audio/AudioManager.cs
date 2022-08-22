@@ -8,14 +8,20 @@ namespace LightningGL
     /// <summary>
     /// AudioManager
     /// 
-    /// March 24, 2022
+    /// March 24, 2022 (modified August 22, 2022: add error check for unloadfile)
     /// 
     /// Defines APIs for playing an arbitrary number of audio files at once.
     /// </summary>
     public static class AudioManager
     {
+        /// <summary>
+        /// Internal: The list of loaded audio files.
+        /// </summary>
         internal static List<AudioFile> AudioFiles { get; set; }
 
+        /// <summary>
+        /// Constructor for AudioManager that initialises the <see cref="AudioFiles"/> class
+        /// </summary>
         static AudioManager()
         {
             AudioFiles = new List<AudioFile>();
@@ -77,9 +83,21 @@ namespace LightningGL
             }
         }
 
+        /// <summary>
+        /// Unloads the AudioFile <paramref name="file"/> and removes it from the internal audio file list.
+        /// </summary>
+        /// <param name="file">The <see cref="AudioFile"/> to unload</param>
         public static void UnloadFile(AudioFile file)
         {
             NCLogging.Log($"Unloading audio file {file.Name}...");
+            
+            if (!AudioFiles.Contains(file))
+            {
+                _ = new NCException($"Attempted to load an audio file {file.Name} (path {file.Path}) that is not present in the audio files list and therefore has not been loaded!", 135, 
+                    "AudioManager::UnloadFile file parameter is not a loaded AudioFile present within AudioManager::AudioFiles!", NCExceptionSeverity.Warning, null, true);
+                return;
+            }
+
             file.Unload();
             AudioFiles.Remove(file);
         }
@@ -120,6 +138,10 @@ namespace LightningGL
             return null;
         }
 
+        /// <summary>
+        /// Internal: Updates all loaded and playing audio files.
+        /// </summary>
+        /// <param name="cWindow">The window to update audio on.</param>
         internal static void Update(Window cWindow)
         {
             foreach (AudioFile file in AudioFiles)
