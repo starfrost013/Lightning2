@@ -86,12 +86,10 @@ namespace LightningGL
         }
 
         /// <summary>
-        /// Update positional sound volume based on current main camera position.
-        /// 
-        /// Only call if <see cref="PositionalSound"/> is true.
+        /// Internal: Update positional sound volume based on current main camera position.
         /// </summary>
         /// <param name="cWindow"></param>
-        public void Update(Window cWindow)
+        internal void Update(Window cWindow)
         {
             if (!PositionalSound) return;
 
