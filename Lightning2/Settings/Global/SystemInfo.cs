@@ -51,9 +51,7 @@ namespace LightningGL
             // get the resolution of the first monitor as most people have one monitor. 
             // this is pre-window initialisation so we can't query the monitor the window is on because there's no window yet, there is no other way SDL provides this
 
-            SDL_DisplayMode displayMode = new SDL_DisplayMode();
-
-            SDL_GetCurrentDisplayMode(0, out displayMode);
+            SDL_GetCurrentDisplayMode(0, out var displayMode);
 
             // store the screen resolution
             ScreenResolutionX = Convert.ToUInt32(displayMode.w);
