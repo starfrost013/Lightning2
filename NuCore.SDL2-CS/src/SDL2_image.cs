@@ -1,6 +1,7 @@
 #region License
 /* SDL2# - C# Wrapper for SDL2
- *
+ * Version 3.1.0
+ * Copyright © 2022 starfrost
  * Copyright (c) 2013-2021 Ethan Lee.
  *
  * This software is provided 'as-is', without any express or implied warranty.
@@ -27,6 +28,7 @@
 #endregion
 
 #region Using Statements
+using static NuCore.SDL2.SDL;
 using System;
 using System.Runtime.InteropServices;
 #endregion
@@ -39,9 +41,9 @@ namespace NuCore.SDL2
 
         /* Used by DllImport to load the native library. */
 #if X64 // x86-64
-        private const string nativeLibName = @"Libraries\SDL2_image-v2.0.5-x64";
+        private const string nativeLibName = @"Libraries\SDL2_image-x64";
 #elif ARM64 // AArch64 v8.0+
-		private const string nativeLibName = @"Libraries\SDL2_image-v2.0.5-ARM64";
+		private const string nativeLibName = @"Libraries\SDL2_image-ARM64";
 #endif
 
         #endregion
@@ -53,18 +55,20 @@ namespace NuCore.SDL2
 		 * program!
 		 */
         public const int SDL_IMAGE_EXPECTED_MAJOR_VERSION = 2;
-        public const int SDL_IMAGE_EXPECTED_MINOR_VERSION = 0;
-        public const int SDL_IMAGE_EXPECTED_PATCHLEVEL = 6;
+        public const int SDL_IMAGE_EXPECTED_MINOR_VERSION = 6;
+        public const int SDL_IMAGE_EXPECTED_PATCHLEVEL = 2;
 
         [Flags]
         public enum IMG_InitFlags
         {
-            IMG_INIT_JPG = 0x00000001,
-            IMG_INIT_PNG = 0x00000002,
-            IMG_INIT_TIF = 0x00000004,
-            IMG_INIT_WEBP = 0x00000008,
+            IMG_INIT_JPG = 0x1, // JPEG
+            IMG_INIT_PNG = 0x2, // PNG (Portable Network Graphics)
+            IMG_INIT_TIF = 0x4, // TIF (Tag Image File Format)
+            IMG_INIT_WEBP = 0x8, // WebPicture
+            IMG_INIT_JXL = 0x10, // JPEG-XL 
+            IMG_INIT_AVIF = 0x20, // Advanced Video and Image Format
             IMG_INIT_EVERYTHING =
-            (IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_WEBP)
+            (IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_WEBP | IMG_INIT_JXL | IMG_INIT_AVIF)
         }
 
         public static void SDL_IMAGE_VERSION(out SDL.SDL_version X)
@@ -76,19 +80,46 @@ namespace NuCore.SDL2
 
         [DllImport(nativeLibName, EntryPoint = "IMG_Linked_Version", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr INTERNAL_IMG_Linked_Version();
-        public static SDL.SDL_version IMG_Linked_Version()
+        public static SDL_version IMG_Linked_Version()
         {
-            SDL.SDL_version result;
+            SDL_version result;
             IntPtr result_ptr = INTERNAL_IMG_Linked_Version();
-            result = (SDL.SDL_version)Marshal.PtrToStructure(
+            result = (SDL_version)Marshal.PtrToStructure(
                 result_ptr,
-                typeof(SDL.SDL_version)
+                typeof(SDL_version)
             );
             return result;
         }
 
-        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int IMG_Init(IMG_InitFlags flags);
+        public static readonly int SDL_IMAGE_EXPECTED_COMPILEDVERSION = SDL_VERSIONNUM(
+            SDL_IMAGE_EXPECTED_MAJOR_VERSION,
+            SDL_IMAGE_EXPECTED_MINOR_VERSION,
+            SDL_IMAGE_EXPECTED_PATCHLEVEL
+            );
+
+        public static bool IMG_VERSION_ATLEAST(int X, int Y, int Z) => SDL_IMAGE_EXPECTED_COMPILEDVERSION >= SDL_VERSIONNUM(X, Y, Z);
+
+        [DllImport(nativeLibName, EntryPoint = "IMG_Init", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int INTERNAL_IMG_Init(IMG_InitFlags flags);
+
+        public static int IMG_Init(IMG_InitFlags flags)
+        {
+            // check for version information
+            // verify a sufficient SDL version (as we dynamically link) - get the real version of SDL2.dll to do this
+            SDL_version realVersion = IMG_Linked_Version();
+
+            bool versionIsCompatible = IMG_VERSION_ATLEAST(SDL_IMAGE_EXPECTED_MAJOR_VERSION, SDL_IMAGE_EXPECTED_MINOR_VERSION, SDL_IMAGE_EXPECTED_PATCHLEVEL);
+
+            // if SDL is too load
+            if (!versionIsCompatible)
+            {
+                IMG_SetError($"Incorrect SDL_image version. Version {SDL_IMAGE_EXPECTED_MAJOR_VERSION}.{SDL_IMAGE_EXPECTED_MINOR_VERSION}.{SDL_IMAGE_EXPECTED_PATCHLEVEL} is required," +
+                    $" got {realVersion.major}.{realVersion.minor}.{realVersion.patch}!");
+                return -94002; // NEGATIVE is an error code
+            }
+
+            return INTERNAL_IMG_Init(flags);
+        }
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void IMG_Quit();
@@ -100,7 +131,7 @@ namespace NuCore.SDL2
         );
         public static unsafe IntPtr IMG_Load(string file)
         {
-            byte* utf8File = SDL.Utf8EncodeHeap(file);
+            byte* utf8File = Utf8EncodeHeap(file);
             IntPtr handle = INTERNAL_IMG_Load(
                 utf8File
             );
@@ -108,12 +139,21 @@ namespace NuCore.SDL2
             return handle;
         }
 
-        /* src refers to an SDL_RWops*, IntPtr to an SDL_Surface* */
+        /* src refers to an SDL_RWops*, IntPtr return typeto an SDL_Surface* */
         /* THIS IS A PUBLIC RWops FUNCTION! */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr IMG_Load_RW(
             IntPtr src,
             int freesrc
+        );
+
+        /* src refers to an SDL_RWops*, IntPtr return type to an SDL_Surface* */
+        /* THIS IS A PUBLIC RWops FUNCTION! */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr IMG_LoadSizedSVG_RW(
+            IntPtr src,
+            int width,
+            int height
         );
 
         /* src refers to an SDL_RWops*, IntPtr to an SDL_Surface* */
@@ -124,18 +164,19 @@ namespace NuCore.SDL2
             int freesrc,
             byte* type
         );
+
         public static unsafe IntPtr IMG_LoadTyped_RW(
             IntPtr src,
             int freesrc,
             string type
         )
         {
-            int utf8TypeBufSize = SDL.Utf8Size(type);
+            int utf8TypeBufSize = Utf8Size(type);
             byte* utf8Type = stackalloc byte[utf8TypeBufSize];
             return INTERNAL_IMG_LoadTyped_RW(
                 src,
                 freesrc,
-                SDL.Utf8Encode(type, utf8Type, utf8TypeBufSize)
+                Utf8Encode(type, utf8Type, utf8TypeBufSize)
             );
         }
 
@@ -150,7 +191,7 @@ namespace NuCore.SDL2
             string file
         )
         {
-            byte* utf8File = SDL.Utf8EncodeHeap(file);
+            byte* utf8File = Utf8EncodeHeap(file);
             IntPtr handle = INTERNAL_IMG_LoadTexture(
                 renderer,
                 utf8File
@@ -190,7 +231,7 @@ namespace NuCore.SDL2
             string type
         )
         {
-            byte* utf8Type = SDL.Utf8EncodeHeap(type);
+            byte* utf8Type = Utf8EncodeHeap(type);
             IntPtr handle = INTERNAL_IMG_LoadTextureTyped_RW(
                 renderer,
                 src,
@@ -208,12 +249,21 @@ namespace NuCore.SDL2
                 string[] xpm
         );
 
+        /* IntPtr refers to an SDL_Surface*
+         * Only available in 2.6.0 and higher */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr IMG_ReadXPMFromArrayToRGB888(
+            [In()] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] // null terminated 
+                string[] xpm
+        );
+
         /* surface refers to an SDL_Surface* */
         [DllImport(nativeLibName, EntryPoint = "IMG_SavePNG", CallingConvention = CallingConvention.Cdecl)]
         private static extern unsafe int INTERNAL_IMG_SavePNG(
             IntPtr surface,
             byte* file
         );
+
         public static unsafe int IMG_SavePNG(IntPtr surface, string file)
         {
             byte* utf8File = SDL.Utf8EncodeHeap(file);
@@ -263,15 +313,9 @@ namespace NuCore.SDL2
             int quality
         );
 
-        public static string IMG_GetError()
-        {
-            return SDL.SDL_GetError();
-        }
+        public static string IMG_GetError() => SDL_GetError();
 
-        public static void IMG_SetError(string fmtAndArglist)
-        {
-            SDL.SDL_SetError(fmtAndArglist);
-        }
+        public static void IMG_SetError(string fmtAndArglist) => SDL_SetError(fmtAndArglist);
 
         #region Animated Image Support
 

@@ -1,9 +1,9 @@
 #region License
 /* NuCore SDL2 Bindings
  * 
- * Version 3.0.4
+ * Version 3.1.0
  * Copyright © 2021-2022 starfrost
- * February 15, 2022
+ * August 24, 2022
  * 
  * This software is based on the open-source SDL2# - C# Wrapper for SDL2 library.
  *
@@ -44,9 +44,9 @@ namespace NuCore.SDL2
     {
         #region SDL2# Variables
 
-        // This has been reverted, as it turns out that SDL2_image etc have a dependency on "SDL2.dll" therefore we can't rename it as it fails to load when renamed.
-        // Currently using .csproj <Link> element to get around this currently.
-        // We CAN get around it by catching the failed to load assembly event, try to look at this
+        /// <summary>
+        /// Name of the SDL2 library.
+        /// </summary>
         private const string nativeLibName = @"Libraries\SDL2";
 
         /// <summary>

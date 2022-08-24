@@ -128,7 +128,7 @@ namespace LightningGL
 
             if (Handle == IntPtr.Zero)
             {
-                _ = new NCException($"Failed to load texture at {Path} - {SDL_GetError()}", 10, "An SDL error occurred in Texture::Load", NCExceptionSeverity.Error);
+                _ = new NCException($"Failed to load texture at {Path} - {SDL_GetError()}", 10, "An SDL error occurred in Texture::Load!", NCExceptionSeverity.Error);
             }
             else
             {

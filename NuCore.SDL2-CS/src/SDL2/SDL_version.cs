@@ -72,15 +72,9 @@ namespace NuCore.SDL2
             x.patch = SDL_EXPECTED_PATCHLEVEL;
         }
 
-        public static int SDL_VERSIONNUM(int X, int Y, int Z)
-        {
-            return (X * 1000) + (Y * 100) + Z;
-        }
+        public static int SDL_VERSIONNUM(int X, int Y, int Z) => (X * 1000) + (Y * 100) + Z;
 
-        public static bool SDL_VERSION_ATLEAST(int X, int Y, int Z)
-        {
-            return (SDL_EXPECTED_COMPILEDVERSION >= SDL_VERSIONNUM(X, Y, Z));
-        }
+        public static bool SDL_VERSION_ATLEAST(int X, int Y, int Z) => SDL_EXPECTED_COMPILEDVERSION >= SDL_VERSIONNUM(X, Y, Z);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_GetVersion(out SDL_version ver);

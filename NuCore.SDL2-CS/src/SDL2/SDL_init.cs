@@ -74,34 +74,21 @@ namespace NuCore.SDL2
             // verify a sufficient SDL version (as we dynamically link) - get the real version of SDL2.dll to do this
             SDL_GetVersion(out var realVersion);
 
-            bool versionTooOld = false;
-
-            // reject everything SDL 2.0.22 or below
-            if (realVersion.minor == 0
-                && realVersion.patch <= 22)
-            {
-                versionTooOld = true;
-            }
-            else
-            {
-                // xx is update to SDL2
-                if (SDL_EXPECTED_MINOR_VERSION > realVersion.minor) versionTooOld = true;
-            }
+            bool versionIsCompatible = SDL_VERSION_ATLEAST(SDL_EXPECTED_MAJOR_VERSION, SDL_EXPECTED_MINOR_VERSION, SDL_EXPECTED_PATCHLEVEL);
 
             // if SDL is too load
-            if (versionTooOld)
+            if (!versionIsCompatible)
             {
                 SDL_SetError($"Incorrect SDL version. Version {SDL_EXPECTED_MAJOR_VERSION}.{SDL_EXPECTED_MINOR_VERSION}.{SDL_EXPECTED_PATCHLEVEL} is required," +
                     $" got {realVersion.major}.{realVersion.minor}.{realVersion.patch}!");
                 return -94001; // NEGATIVE is an error code
             }
 
-
-            return SDL_Init__INTERNAL(flags);
+            return INTERNAL_SDL_Init(flags);
         }
 
         [DllImport(nativeLibName, EntryPoint = "SDL_Init", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_Init__INTERNAL(
+        public static extern int INTERNAL_SDL_Init(
         [MarshalAs(UnmanagedType.U4)]
         SDL_InitFlags flags);
 
