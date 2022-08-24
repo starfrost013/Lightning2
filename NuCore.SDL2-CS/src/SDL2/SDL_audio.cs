@@ -208,6 +208,7 @@ namespace NuCore.SDL2
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_AudioStatus SDL_GetAudioStatus();
 
+
         [DllImport(nativeLibName, EntryPoint = "SDL_GetCurrentAudioDriver", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr INTERNAL_SDL_GetCurrentAudioDriver();
         public static string SDL_GetCurrentAudioDriver()
@@ -220,6 +221,28 @@ namespace NuCore.SDL2
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetNumAudioDrivers();
+
+
+        [DllImport(nativeLibName, EntryPoint = "SDL_GetDefaultAudioDevice", CallingConvention = CallingConvention.Cdecl)]
+        private static unsafe extern int INTERNAL_SDL_GetDefaultAudioDevice
+            (byte* name,
+            out SDL_AudioSpec audioSpec,
+            int iscapture);
+
+        /* Only available in 2.24.0 and later */
+        public static unsafe int SDL_GetDefaultAudioDevice
+            (string name,
+            out SDL_AudioSpec audioSpec,
+            int iscapture)
+        {
+            int nameUtf8Size = Utf8Size(name);
+            byte* nameUtf8Str = stackalloc byte[nameUtf8Size];
+
+            return INTERNAL_SDL_GetDefaultAudioDevice
+                (Utf8Encode(name, nameUtf8Str, nameUtf8Size),
+                out audioSpec,
+                iscapture);
+        }
 
         /* audio_buf refers to a malloc()'d buffer, IntPtr to an SDL_AudioSpec* */
         /* THIS IS AN RWops FUNCTION! */

@@ -149,6 +149,11 @@ namespace NuCore.SDL2
             int hat
         );
 
+        /* joystick refers to an SDL_Joystick*.
+         * Only available in 2.24.0 or higher */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int SDL_JoystickGetFirmwareVersion(IntPtr joystick);
+
         /* joystick refers to an SDL_Joystick* */
         [DllImport(nativeLibName, EntryPoint = "SDL_JoystickName", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr INTERNAL_SDL_JoystickName(
@@ -347,6 +352,31 @@ namespace NuCore.SDL2
             int naxes,
             int nbuttons,
             int nhats
+        );
+
+        /* Only available in 2.24.0 or higher.*/
+        [StructLayout(LayoutKind.Sequential)]
+        public unsafe struct SDL_VirtualJoystickInfo
+        {
+            short version;
+            short type;
+            short naxes;
+            short nbuttons;
+            short nhats;
+            short vendor_id;
+            short product_id;
+            short padding;
+            // you need to convert this
+            byte* name;
+            IntPtr userdata;
+            IntPtr update;
+        }
+
+        /* Only available in 2.24.0 or higher.
+        */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int SDL_JoystickAttachVirtualEx(
+            ref SDL_VirtualJoystickInfo stick
         );
 
         /* Only available in 2.0.14 or higher. */

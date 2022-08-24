@@ -68,8 +68,34 @@ namespace NuCore.SDL2
             // print a sign-on message so that we know it's initialising
             Console.WriteLine(SDL2CS_VERSION);
 
-            // Prevent silent exit if debugger is attached
+            // Prevent silent exit if debugger is attached in some cases
             if (Debugger.IsAttached) SDL_SetHint(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");
+
+            // verify a sufficient SDL version (as we dynamically link) - get the real version of SDL2.dll to do this
+            SDL_GetVersion(out var realVersion);
+
+            bool versionTooOld = false;
+
+            // reject everything SDL 2.0.22 or below
+            if (realVersion.minor == 0
+                && realVersion.patch <= 22)
+            {
+                versionTooOld = true;
+            }
+            else
+            {
+                // xx is update to SDL2
+                if (SDL_EXPECTED_MINOR_VERSION > realVersion.minor) versionTooOld = true;
+            }
+
+            // if SDL is too load
+            if (versionTooOld)
+            {
+                SDL_SetError($"Incorrect SDL version. Version {SDL_EXPECTED_MAJOR_VERSION}.{SDL_EXPECTED_MINOR_VERSION}.{SDL_EXPECTED_PATCHLEVEL} is required," +
+                    $" got {realVersion.major}.{realVersion.minor}.{realVersion.patch}!");
+                return -94001; // NEGATIVE is an error code
+            }
+
 
             return SDL_Init__INTERNAL(flags);
         }

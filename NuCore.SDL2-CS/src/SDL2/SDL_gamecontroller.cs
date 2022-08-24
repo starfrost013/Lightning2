@@ -321,6 +321,11 @@ namespace NuCore.SDL2
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GameControllerEventState(int state);
 
+        /* gamecontroller refers to an SDL_GameController*. Currently for DualSense (PS5 controller) ONLY!
+         * Only available in 2.24.0 or higher */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int SDL_GameControllerGetFirmwareVersion(IntPtr gameController);
+
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_GameControllerUpdate();
 

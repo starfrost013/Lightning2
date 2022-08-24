@@ -52,9 +52,9 @@ namespace NuCore.SDL2
 		 * running with. You will likely want to check this somewhere in your
 		 * program!
 		 */
-        public const int SDL_MIXER_MAJOR_VERSION = 2;
-        public const int SDL_MIXER_MINOR_VERSION = 0;
-        public const int SDL_MIXER_PATCHLEVEL = 5;
+        public const int SDL_MIXER_EXPECTED_MAJOR_VERSION = 2;
+        public const int SDL_MIXER_EXPECTED_MINOR_VERSION = 0;
+        public const int SDL_MIXER_EXPECTED_PATCHLEVEL = 5;
 
         /* In C, you can redefine this value before including SDL_mixer.h.
 		 * We're not going to allow this in SDL2#, since the value of this
@@ -145,9 +145,9 @@ namespace NuCore.SDL2
 
         public static void SDL_MIXER_VERSION(out SDL.SDL_version X)
         {
-            X.major = SDL_MIXER_MAJOR_VERSION;
-            X.minor = SDL_MIXER_MINOR_VERSION;
-            X.patch = SDL_MIXER_PATCHLEVEL;
+            X.major = SDL_MIXER_EXPECTED_MAJOR_VERSION;
+            X.minor = SDL_MIXER_EXPECTED_MINOR_VERSION;
+            X.patch = SDL_MIXER_EXPECTED_PATCHLEVEL;
         }
 
         [DllImport(nativeLibName, EntryPoint = "MIX_Linked_Version", CallingConvention = CallingConvention.Cdecl)]

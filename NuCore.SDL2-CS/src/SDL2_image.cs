@@ -52,9 +52,9 @@ namespace NuCore.SDL2
 		 * running with. You will likely want to check this somewhere in your
 		 * program!
 		 */
-        public const int SDL_IMAGE_MAJOR_VERSION = 2;
-        public const int SDL_IMAGE_MINOR_VERSION = 0;
-        public const int SDL_IMAGE_PATCHLEVEL = 6;
+        public const int SDL_IMAGE_EXPECTED_MAJOR_VERSION = 2;
+        public const int SDL_IMAGE_EXPECTED_MINOR_VERSION = 0;
+        public const int SDL_IMAGE_EXPECTED_PATCHLEVEL = 6;
 
         [Flags]
         public enum IMG_InitFlags
@@ -69,9 +69,9 @@ namespace NuCore.SDL2
 
         public static void SDL_IMAGE_VERSION(out SDL.SDL_version X)
         {
-            X.major = SDL_IMAGE_MAJOR_VERSION;
-            X.minor = SDL_IMAGE_MINOR_VERSION;
-            X.patch = SDL_IMAGE_PATCHLEVEL;
+            X.major = SDL_IMAGE_EXPECTED_MAJOR_VERSION;
+            X.minor = SDL_IMAGE_EXPECTED_MINOR_VERSION;
+            X.patch = SDL_IMAGE_EXPECTED_PATCHLEVEL;
         }
 
         [DllImport(nativeLibName, EntryPoint = "IMG_Linked_Version", CallingConvention = CallingConvention.Cdecl)]

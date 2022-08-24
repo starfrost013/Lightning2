@@ -47,14 +47,14 @@ namespace NuCore.SDL2
 		 * running with. You will likely want to check this somewhere in your
 		 * program!
 		 */
-        public const int SDL_MAJOR_VERSION = 2;
-        public const int SDL_MINOR_VERSION = 0;
-        public const int SDL_PATCHLEVEL = 22;
+        public const int SDL_EXPECTED_MAJOR_VERSION = 2;
+        public const int SDL_EXPECTED_MINOR_VERSION = 24;
+        public const int SDL_EXPECTED_PATCHLEVEL = 0;
 
-        public static readonly int SDL_COMPILEDVERSION = SDL_VERSIONNUM(
-            SDL_MAJOR_VERSION,
-            SDL_MINOR_VERSION,
-            SDL_PATCHLEVEL
+        public static readonly int SDL_EXPECTED_COMPILEDVERSION = SDL_VERSIONNUM(
+            SDL_EXPECTED_MAJOR_VERSION,
+            SDL_EXPECTED_MINOR_VERSION,
+            SDL_EXPECTED_PATCHLEVEL
         );
 
         [StructLayout(LayoutKind.Sequential)]
@@ -67,9 +67,9 @@ namespace NuCore.SDL2
 
         public static void SDL_VERSION(out SDL_version x)
         {
-            x.major = SDL_MAJOR_VERSION;
-            x.minor = SDL_MINOR_VERSION;
-            x.patch = SDL_PATCHLEVEL;
+            x.major = SDL_EXPECTED_MAJOR_VERSION;
+            x.minor = SDL_EXPECTED_MINOR_VERSION;
+            x.patch = SDL_EXPECTED_PATCHLEVEL;
         }
 
         public static int SDL_VERSIONNUM(int X, int Y, int Z)
@@ -79,7 +79,7 @@ namespace NuCore.SDL2
 
         public static bool SDL_VERSION_ATLEAST(int X, int Y, int Z)
         {
-            return (SDL_COMPILEDVERSION >= SDL_VERSIONNUM(X, Y, Z));
+            return (SDL_EXPECTED_COMPILEDVERSION >= SDL_VERSIONNUM(X, Y, Z));
         }
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]

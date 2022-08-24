@@ -434,6 +434,16 @@ namespace NuCore.SDL2
             IntPtr window
         );
 
+        /* Only avaiable in 2.24.0 and higher. */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int SDL_GetPointDisplayIndex(
+            out SDL_Point point);
+
+        /* Only avaiable in 2.24.0 and higher. */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int SDL_GetRectDisplayIndex(
+            out SDL_Rect point);
+
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetWindowDisplayMode(

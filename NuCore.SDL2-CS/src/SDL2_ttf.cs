@@ -52,12 +52,12 @@ namespace NuCore.SDL2
 		 * running with. You will likely want to check this somewhere in your
 		 * program!
 		 */
-        public const int SDL_TTF_MAJOR_VERSION = 2;
-        public const int SDL_TTF_MINOR_VERSION = 0;
-        public const int SDL_TTF_PATCHLEVEL = 18;
+        public const int SDL_TTF_EXPECTED_MAJOR_VERSION = 2;
+        public const int SDL_TTF_EXPECTED_MINOR_VERSION = 0;
+        public const int SDL_TTF_EXPECTED_PATCHLEVEL = 18;
 
-        public const int UNICODE_BOM_NATIVE = 0xFEFF;
-        public const int UNICODE_BOM_SWAPPED = 0xFFFE;
+        public const int UNICODE_BOM_NATIVE = 0xFEFF; // Unicode little endian byte order mark.
+        public const int UNICODE_BOM_SWAPPED = 0xFFFE; // Unicode big endian byte order mark
 
         [Flags]
         public enum TTF_FontStyle
@@ -88,9 +88,9 @@ namespace NuCore.SDL2
 
         public static void SDL_TTF_VERSION(out SDL.SDL_version X)
         {
-            X.major = SDL_TTF_MAJOR_VERSION;
-            X.minor = SDL_TTF_MINOR_VERSION;
-            X.patch = SDL_TTF_PATCHLEVEL;
+            X.major = SDL_TTF_EXPECTED_MAJOR_VERSION;
+            X.minor = SDL_TTF_EXPECTED_MINOR_VERSION;
+            X.patch = SDL_TTF_EXPECTED_PATCHLEVEL;
         }
 
         [DllImport(nativeLibName, EntryPoint = "TTF_LinkedVersion", CallingConvention = CallingConvention.Cdecl)]

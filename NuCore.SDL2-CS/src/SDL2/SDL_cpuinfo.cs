@@ -88,6 +88,14 @@ namespace NuCore.SDL2
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_bool SDL_HasNEON();
 
+        /* Only available in 2.24.0 or higher */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern SDL_bool SDL_HasLSX();
+
+        /* Only available in 2.24.0 or higher */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern SDL_bool SDL_HasLASX();
+
         /* Only available in 2.0.1 or higher. */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetSystemRAM();

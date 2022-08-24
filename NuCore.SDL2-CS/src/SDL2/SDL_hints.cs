@@ -41,8 +41,7 @@ namespace NuCore.SDL2
 {
     public static partial class SDL
     {
-        #region SDL_hints.h
-
+        #region 2.0.0 hints
         public const string SDL_HINT_FRAMEBUFFER_ACCELERATION =
             "SDL_FRAMEBUFFER_ACCELERATION";
         public const string SDL_HINT_RENDER_DRIVER =
@@ -79,11 +78,15 @@ namespace NuCore.SDL2
             "SDL_TIMER_RESOLUTION";
         public const string SDL_HINT_RENDER_SCALE_QUALITY =
             "SDL_RENDER_SCALE_QUALITY";
+        #endregion
 
+        #region 2.0.1 hints
         /* Only available in SDL 2.0.1 or higher. */
         public const string SDL_HINT_VIDEO_HIGHDPI_DISABLED =
             "SDL_VIDEO_HIGHDPI_DISABLED";
+        #endregion
 
+        #region 2.0.2 hints
         /* Only available in SDL 2.0.2 or higher. */
         public const string SDL_HINT_CTRL_CLICK_EMULATE_RIGHT_CLICK =
             "SDL_CTRL_CLICK_EMULATE_RIGHT_CLICK";
@@ -99,7 +102,9 @@ namespace NuCore.SDL2
             "SDL_ACCELEROMETER_AS_JOYSTICK";
         public const string SDL_HINT_VIDEO_MAC_FULLSCREEN_SPACES =
             "SDL_VIDEO_MAC_FULLSCREEN_SPACES";
+        #endregion
 
+        #region 2.0.3 hints
         /* Only available in SDL 2.0.3 or higher. */
         public const string SDL_HINT_WINRT_PRIVACY_POLICY_URL =
             "SDL_WINRT_PRIVACY_POLICY_URL";
@@ -107,7 +112,9 @@ namespace NuCore.SDL2
             "SDL_WINRT_PRIVACY_POLICY_LABEL";
         public const string SDL_HINT_WINRT_HANDLE_BACK_BUTTON =
             "SDL_WINRT_HANDLE_BACK_BUTTON";
+        #endregion
 
+        #region 2.0.4 hints
         /* Only available in SDL 2.0.4 or higher. */
         public const string SDL_HINT_NO_SIGNAL_HANDLERS =
             "SDL_NO_SIGNAL_HANDLERS";
@@ -135,7 +142,9 @@ namespace NuCore.SDL2
             "SDL_ANDROID_APK_EXPANSION_MAIN_FILE_VERSION";
         public const string SDL_HINT_ANDROID_APK_EXPANSION_PATCH_FILE_VERSION =
             "SDL_ANDROID_APK_EXPANSION_PATCH_FILE_VERSION";
+        #endregion
 
+        #region 2.0.5 hints
         /* Only available in 2.0.5 or higher. */
         public const string SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH =
             "SDL_MOUSE_FOCUS_CLICKTHROUGH";
@@ -145,7 +154,9 @@ namespace NuCore.SDL2
             "SDL_WINDOWS_DISABLE_THREAD_NAMING";
         public const string SDL_HINT_APPLE_TV_REMOTE_ALLOW_ROTATION =
             "SDL_APPLE_TV_REMOTE_ALLOW_ROTATION";
+        #endregion
 
+        #region 2.0.6 hints
         /* Only available in 2.0.6 or higher. */
         public const string SDL_HINT_AUDIO_RESAMPLING_MODE =
             "SDL_AUDIO_RESAMPLING_MODE";
@@ -161,7 +172,9 @@ namespace NuCore.SDL2
             "SDL_WINDOWS_INTRESOURCE_ICON";
         public const string SDL_HINT_WINDOWS_INTRESOURCE_ICON_SMALL =
             "SDL_WINDOWS_INTRESOURCE_ICON_SMALL";
+        #endregion
 
+        #region 2.0.8 hints
         /* Only available in 2.0.8 or higher. */
         public const string SDL_HINT_IOS_HIDE_HOME_INDICATOR =
             "SDL_IOS_HIDE_HOME_INDICATOR";
@@ -169,7 +182,9 @@ namespace NuCore.SDL2
             "SDL_TV_REMOTE_AS_JOYSTICK";
         public const string SDL_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR =
             "SDL_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR";
+        #endregion
 
+        #region 2.0.9 hints
         /* Only available in 2.0.9 or higher. */
         public const string SDL_HINT_MOUSE_DOUBLE_CLICK_TIME =
             "SDL_MOUSE_DOUBLE_CLICK_TIME";
@@ -191,7 +206,9 @@ namespace NuCore.SDL2
             "SDL_ENABLE_STEAM_CONTROLLERS";
         public const string SDL_HINT_ANDROID_TRAP_BACK_BUTTON =
             "SDL_ANDROID_TRAP_BACK_BUTTON";
+        #endregion
 
+        #region 2.0.10 hints
         /* Only available in 2.0.10 or higher. */
         public const string SDL_HINT_MOUSE_TOUCH_EVENTS =
             "SDL_MOUSE_TOUCH_EVENTS";
@@ -209,7 +226,9 @@ namespace NuCore.SDL2
             "SDL_WAVE_TRUNCATION";
         public const string SDL_HINT_WAVE_FACT_CHUNK =
             "SDL_WAVE_FACT_CHUNK";
+        #endregion
 
+        #region 2.0.11 hints
         /* Only available in 2.0.11 or higher. */
         public const string SDL_HINT_VIDO_X11_WINDOW_VISUALID =
             "SDL_VIDEO_X11_WINDOW_VISUALID";
@@ -225,7 +244,9 @@ namespace NuCore.SDL2
             "SDL_VIDEO_X11_FORCE_EGL";
         public const string SDL_HINT_GAMECONTROLLERTYPE =
             "SDL_GAMECONTROLLERTYPE";
+        #endregion
 
+        #region 2.0.14 hints
         /* Only available in 2.0.14 or higher. */
         public const string SDL_HINT_JOYSTICK_HIDAPI_CORRELATE_XINPUT =
             "SDL_JOYSTICK_HIDAPI_CORRELATE_XINPUT"; /* NOTE: This was removed in 2.0.16. */
@@ -259,7 +280,9 @@ namespace NuCore.SDL2
             "SDL_MOUSE_RELATIVE_SCALING";
         public const string SDL_HINT_JOYSTICK_HIDAPI_PS5_RUMBLE =
             "SDL_JOYSTICK_HIDAPI_PS5_RUMBLE";
+        #endregion
 
+        #region 2.0.16 hints
         /* Only available in 2.0.16 or higher. */
         public const string SDL_HINT_WINDOWS_FORCE_MUTEX_CRITICAL_SECTIONS =
             "SDL_WINDOWS_FORCE_MUTEX_CRITICAL_SECTIONS";
@@ -291,7 +314,9 @@ namespace NuCore.SDL2
             "SDL_AUDIO_INCLUDE_MONITORS";
         public const string SDL_HINT_VIDEO_WAYLAND_ALLOW_LIBDECOR =
             "SDL_VIDEO_WAYLAND_ALLOW_LIBDECOR";
+        #endregion
 
+        #region 2.0.18 hints
         /* Only available in 2.0.18 or higher. */
         public const string SDL_HINT_VIDEO_EGL_ALLOW_TRANSPARENCY =
             "SDL_VIDEO_EGL_ALLOW_TRANSPARENCY";
@@ -310,10 +335,15 @@ namespace NuCore.SDL2
         public const string SDL_HINT_LINUX_JOYSTICK_CLASSIC =
             "SDL_LINUX_JOYSTICK_CLASSIC";
 
+        #endregion
+
+        #region 2.0.20 hints
         /* Only available in 2.0.20 or higher. */
         public const string SDL_HINT_RENDER_LINE_METHOD =
             "SDL_RENDER_LINE_METHOD";
+        #endregion
 
+        #region 2.0.22 hints
         /* Only available in 2.0.22 or higher. */
         public const string SDL_HINT_FORCE_RAISEWINDOW =
             "SDL_HINT_FORCE_RAISEWINDOW";
@@ -339,7 +369,39 @@ namespace NuCore.SDL2
             "SDL_X11_WINDOW_TYPE";
         public const string SDL_HINT_QUIT_ON_LAST_WINDOW_CLOSE =
             "SDL_QUIT_ON_LAST_WINDOW_CLOSE";
+        #endregion
 
+        #region 2.24.0 hints
+        /* Only available in 2.24.0 or higher. */
+        public const string SDL_HINT_MOUSE_RELATIVE_WARP_MOTION =
+            "SDL_HINT_MOUSE_RELATIVE_WARP_MOTION";
+        public const string SDL_HINT_TRACKPAD_IS_TOUCH_ONLY =
+            "SDL_HINT_TRACKPAD_IS_TOUCH_ONLY";
+        public const string SDL_HINT_JOYSTICK_HIDAPI_JOYCON_HOME_LED =
+            "SDL_HINT_JOYSTICK_HIDAPI_JOYCON_HOME_LED";
+        public const string SDL_HINT_JOYSTICK_HIDAPI_SWITCH_PLAYER_LED =
+            "SDL_HINT_JOYSTICK_HIDAPI_SWITCH_PLAYER_LED";
+        public const string SDL_HINT_JOYSTICK_HIDAPI_NINTENDO_CLASSIC =
+            "SDL_HINT_JOYSTICK_HIDAPI_NINTENDO_CLASSIC";
+        public const string SDL_HINT_JOYSTICK_HIDAPI_SHIELD =
+            "SDL_HINT_JOYSTICK_HIDAPI_SHIELD";
+        public const string SDL_HINT_WINDOWS_DPI_AWARENESS =
+            "SDL_HINT_WINDOWS_DPI_AWARENESS";
+        public const string SDL_HINT_WINDOWS_DPI_SCALING =
+            "SDL_HINT_WINDOWS_DPI_SCALING";
+        public const string SDL_HINT_DIRECTINPUT_ENABLED =
+            "SDL_HINT_DIRECTINPUT_ENABLED";
+        public const string SDL_HINT_VIDEO_WAYLAND_MODE_EMULATION =
+            "SDL_HINT_VIDEO_WAYLAND_MODE_EMULATION";
+        public const string SDL_HINT_KMSDRM_DEVICE_INDEX =
+            "SDL_HINT_KMSDRM_DEVICE_INDEX";
+        public const string SDL_HINT_LINUX_DIGITAL_HATS =
+            "SDL_HINT_LINUX_DIGITAL_HATS";
+        public const string SDL_HINT_LINUX_HAT_DEADZONES =
+            "SDL_HINT_LINUX_HAT_DEADZONES";
+        #endregion
+
+        #region Hint functions (SDL_hint.h)
         public enum SDL_HintPriority
         {
             SDL_HINT_DEFAULT,
@@ -413,6 +475,7 @@ namespace NuCore.SDL2
             byte* name,
             SDL_bool default_value
         );
+
         public static unsafe SDL_bool SDL_GetHintBoolean(
             string name,
             SDL_bool default_value
@@ -426,6 +489,22 @@ namespace NuCore.SDL2
             );
         }
 
+        /* Only available in 2.24.0 or higher. */
+        [DllImport(nativeLibName, EntryPoint = "SDL_ResetHint", CallingConvention = CallingConvention.Cdecl)]
+        private static extern unsafe SDL_bool INTERNAL_SDL_ResetHint
+            (byte* name);
+
+        public static unsafe SDL_bool SDL_ResetHint(
+            string name
+        )
+        {
+            int utf8NameBufSize = Utf8Size(name);
+            byte* utf8Name = stackalloc byte[utf8NameBufSize];
+            return INTERNAL_SDL_ResetHint
+                (
+                    Utf8Encode(name, utf8Name, utf8NameBufSize)
+                );
+        }
         #endregion
     }
 }

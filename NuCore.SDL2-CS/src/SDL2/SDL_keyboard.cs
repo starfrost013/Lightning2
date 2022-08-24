@@ -186,6 +186,10 @@ namespace NuCore.SDL2
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_bool SDL_IsScreenKeyboardShown(IntPtr window);
 
+        /* Resets keyboard state.
+         * Only available in 2.24.0 and later */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void SDL_ResetKeyboard();
         #endregion
 
     }
