@@ -1,6 +1,8 @@
 #region License
 /* SDL2# - C# Wrapper for SDL2
- *
+ * August 25, 2022
+ * 
+ * Copyright © 2022 starfrost
  * Copyright (c) 2013-2021 Ethan Lee.
  *
  * This software is provided 'as-is', without any express or implied warranty.
@@ -27,6 +29,7 @@
 #endregion
 
 #region Using Statements
+using static NuCore.SDL2.SDL;
 using System;
 using System.Runtime.InteropServices;
 #endregion
@@ -39,22 +42,20 @@ namespace NuCore.SDL2
 
         /* Used by DllImport to load the native library. */
 #if X64 // x86-64
-        private const string nativeLibName = @"Libraries\SDL2_mixer-v2.0.4-x64";
+        private const string nativeLibName = @"Libraries\SDL2_mixer-x64";
 #elif ARM64 // AArch64 v8.0+
-		private const string nativeLibName = @"Libraries\SDL2_mixer-v2.0.4-ARM64";
+		private const string nativeLibName = @"Libraries\SDL2_mixer-ARM64";
 #endif
 
         #endregion
-
-        #region SDL_mixer.h
 
         /* Similar to the headers, this is the version we're expecting to be
 		 * running with. You will likely want to check this somewhere in your
 		 * program!
 		 */
         public const int SDL_MIXER_EXPECTED_MAJOR_VERSION = 2;
-        public const int SDL_MIXER_EXPECTED_MINOR_VERSION = 0;
-        public const int SDL_MIXER_EXPECTED_PATCHLEVEL = 5;
+        public const int SDL_MIXER_EXPECTED_MINOR_VERSION = 6;
+        public const int SDL_MIXER_EXPECTED_PATCHLEVEL = 2;
 
         /* In C, you can redefine this value before including SDL_mixer.h.
 		 * We're not going to allow this in SDL2#, since the value of this
@@ -64,10 +65,11 @@ namespace NuCore.SDL2
 
         public static readonly int MIX_DEFAULT_FREQUENCY = 44100;
         public static readonly ushort MIX_DEFAULT_FORMAT =
-            BitConverter.IsLittleEndian ? SDL.AUDIO_S16LSB : SDL.AUDIO_S16MSB;
+            (ushort)(BitConverter.IsLittleEndian ? Mix_AudioFormat.AUDIO_S16LSB : Mix_AudioFormat.AUDIO_S16MSB); // why is there a cast here? it inherits from ushort...
         public static readonly int MIX_DEFAULT_CHANNELS = 2;
         public static readonly byte MIX_MAX_VOLUME = 128;
 
+        #region Enums and structs
         [Flags]
         public enum MIX_InitFlags
         {
@@ -110,6 +112,8 @@ namespace NuCore.SDL2
             MUS_OPUS
         }
 
+        #endregion
+        #region Delegates
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void MixFuncDelegate(
             IntPtr udata, // void*
@@ -142,29 +146,62 @@ namespace NuCore.SDL2
             IntPtr a, // const char*
             IntPtr b // void*
         );
+        #endregion
 
-        public static void SDL_MIXER_VERSION(out SDL.SDL_version X)
+        #region Versioning
+        public static void Mix_Version(out SDL_version x)
         {
-            X.major = SDL_MIXER_EXPECTED_MAJOR_VERSION;
-            X.minor = SDL_MIXER_EXPECTED_MINOR_VERSION;
-            X.patch = SDL_MIXER_EXPECTED_PATCHLEVEL;
+            x.major = SDL_MIXER_EXPECTED_MAJOR_VERSION;
+            x.minor = SDL_MIXER_EXPECTED_MINOR_VERSION;
+            x.patch = SDL_MIXER_EXPECTED_PATCHLEVEL;
         }
 
-        [DllImport(nativeLibName, EntryPoint = "MIX_Linked_Version", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_MIX_Linked_Version();
-        public static SDL.SDL_version MIX_Linked_Version()
+        public static readonly int SDL_MIXER_EXPECTED_COMPILEDVERSION = SDL_VERSIONNUM
+        (
+            SDL_MIXER_EXPECTED_MAJOR_VERSION,
+            SDL_MIXER_EXPECTED_MINOR_VERSION,
+            SDL_MIXER_EXPECTED_PATCHLEVEL
+        );
+
+        [DllImport(nativeLibName, EntryPoint = "Mix_Linked_Version", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr INTERNAL_Mix_Linked_Version();
+
+        public static bool Mix_VERSION_ATLEAST(int X, int Y, int Z) => SDL_MIXER_EXPECTED_COMPILEDVERSION >= SDL_VERSIONNUM(X, Y, Z);
+        public static SDL_version Mix_Linked_Version()
         {
-            SDL.SDL_version result;
-            IntPtr result_ptr = INTERNAL_MIX_Linked_Version();
-            result = (SDL.SDL_version)Marshal.PtrToStructure(
+            SDL_version result;
+            IntPtr result_ptr = INTERNAL_Mix_Linked_Version();
+            result = (SDL_version)Marshal.PtrToStructure(
                 result_ptr,
-                typeof(SDL.SDL_version)
+                typeof(SDL_version)
             );
             return result;
         }
 
-        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int Mix_Init(MIX_InitFlags flags);
+        #endregion
+
+        #region Functions
+        [DllImport(nativeLibName, EntryPoint = "Mix_Init", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int INTERNAL_Mix_Init(MIX_InitFlags FLAGS);
+
+        public static int Mix_Init(MIX_InitFlags flags)
+        {
+            // check for version information
+            // verify a sufficient SDL version (as we dynamically link) - get the real version of SDL2.dll to do this
+            SDL_version realVersion = Mix_Linked_Version();
+
+            bool versionIsCompatible = Mix_VERSION_ATLEAST(SDL_MIXER_EXPECTED_MAJOR_VERSION, SDL_MIXER_EXPECTED_MINOR_VERSION, SDL_MIXER_EXPECTED_PATCHLEVEL);
+
+            // if SDL is too load
+            if (!versionIsCompatible)
+            {
+                Mix_SetError($"Incorrect SDL_mixer version. Version {SDL_MIXER_EXPECTED_MAJOR_VERSION}.{SDL_MIXER_EXPECTED_MINOR_VERSION}.{SDL_MIXER_EXPECTED_PATCHLEVEL} is required," +
+                    $" got {realVersion.major}.{realVersion.minor}.{realVersion.patch}!");
+                return -94003; // NEGATIVE is an error code
+            }
+
+            return INTERNAL_Mix_Init(flags);
+        }
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Mix_Quit();
@@ -201,7 +238,7 @@ namespace NuCore.SDL2
         /* This is an RWops macro in the C header. */
         public static IntPtr Mix_LoadWAV(string file)
         {
-            IntPtr rwops = SDL.SDL_RWFromFile(file, "rb");
+            IntPtr rwops = SDL_RWFromFile(file, "rb");
             return Mix_LoadWAV_RW(rwops, 1);
         }
 
@@ -212,7 +249,7 @@ namespace NuCore.SDL2
         );
         public static unsafe IntPtr Mix_LoadMUS(string file)
         {
-            byte* utf8File = SDL.Utf8EncodeHeap(file);
+            byte* utf8File = Utf8EncodeHeap(file);
             IntPtr handle = INTERNAL_Mix_LoadMUS(
                 utf8File
             );
@@ -243,6 +280,7 @@ namespace NuCore.SDL2
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Mix_FreeMusic(IntPtr music);
 
+
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Mix_GetNumChunkDecoders();
 
@@ -250,9 +288,18 @@ namespace NuCore.SDL2
         private static extern IntPtr INTERNAL_Mix_GetChunkDecoder(int index);
         public static string Mix_GetChunkDecoder(int index)
         {
-            return SDL.UTF8_ToManaged(
+            return UTF8_ToManaged(
                 INTERNAL_Mix_GetChunkDecoder(index)
             );
+        }
+
+        [DllImport(nativeLibName, EntryPoint = "Mix_HasMusicDecoder", CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe SDL_bool INTERNAL_Mix_HasMusicDecoder(byte* name);
+        public static unsafe SDL_bool Mix_HasMusicDecoder(string name)
+        {
+            int utf8Size = Utf8Size(name);
+            byte* buffer = stackalloc byte[utf8Size];
+            return INTERNAL_Mix_HasMusicDecoder(Utf8Encode(name, buffer, utf8Size));
         }
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -262,7 +309,7 @@ namespace NuCore.SDL2
         private static extern IntPtr INTERNAL_Mix_GetMusicDecoder(int index);
         public static string Mix_GetMusicDecoder(int index)
         {
-            return SDL.UTF8_ToManaged(
+            return UTF8_ToManaged(
                 INTERNAL_Mix_GetMusicDecoder(index)
             );
         }
@@ -278,31 +325,31 @@ namespace NuCore.SDL2
         public static extern IntPtr INTERNAL_Mix_GetMusicTitle(IntPtr music);
         public static string Mix_GetMusicTitle(IntPtr music)
         {
-            return SDL.UTF8_ToManaged(
+            return UTF8_ToManaged(
                 INTERNAL_Mix_GetMusicTitle(music)
             );
         }
 
         /* music refers to a Mix_Music*
-		 * Only available in 2.0.5 or higher.
+		 * Only available in 2.6.0 or higher.
 		 */
         [DllImport(nativeLibName, EntryPoint = "Mix_GetMusicTitleTag", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr INTERNAL_Mix_GetMusicTitleTag(IntPtr music);
         public static string Mix_GetMusicTitleTag(IntPtr music)
         {
-            return SDL.UTF8_ToManaged(
+            return UTF8_ToManaged(
                 INTERNAL_Mix_GetMusicTitleTag(music)
             );
         }
 
         /* music refers to a Mix_Music*
-		 * Only available in 2.0.5 or higher.
+		 * Only available in 2.6.0 or higher.
 		 */
         [DllImport(nativeLibName, EntryPoint = "Mix_GetMusicArtistTag", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr INTERNAL_Mix_GetMusicArtistTag(IntPtr music);
         public static string Mix_GetMusicArtistTag(IntPtr music)
         {
-            return SDL.UTF8_ToManaged(
+            return UTF8_ToManaged(
                 INTERNAL_Mix_GetMusicArtistTag(music)
             );
         }
@@ -311,15 +358,15 @@ namespace NuCore.SDL2
         /// Audio formats
         /// 
         /// May 4, 2021 for Lightning
-        /// 
+        /// August 25, 2022: Make inherit from ushort
         /// TODO: Move all existing code to use this?
         /// </summary>
-        public enum Mix_AudioFormat
+        public enum Mix_AudioFormat : ushort
         {
             UDIO_U8 = 0x0008,
             AUDIO_S8 = 0x8008,
             AUDIO_U16LSB = 0x0010,
-            AUDIO_S16LSB = 0x8010,
+            AUDIO_S16LSB =  0x8010,
             AUDIO_U16MSB = 0x1010,
             AUDIO_S16MSB = 0x9010,
             AUDIO_U16 = AUDIO_U16LSB,
@@ -340,25 +387,25 @@ namespace NuCore.SDL2
         }
 
         /* music refers to a Mix_Music*
-		 * Only available in 2.0.5 or higher.
+		 * Only available in 2.6.0 or higher.
 		 */
         [DllImport(nativeLibName, EntryPoint = "Mix_GetMusicAlbumTag", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr INTERNAL_Mix_GetMusicAlbumTag(IntPtr music);
         public static string Mix_GetMusicAlbumTag(IntPtr music)
         {
-            return SDL.UTF8_ToManaged(
+            return UTF8_ToManaged(
                 INTERNAL_Mix_GetMusicAlbumTag(music)
             );
         }
 
         /* music refers to a Mix_Music*
-		 * Only available in 2.0.5 or higher.
+		 * Only available in 2.6.0 or higher.
 		 */
         [DllImport(nativeLibName, EntryPoint = "Mix_GetMusicCopyrightTag", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr INTERNAL_Mix_GetMusicCopyrightTag(IntPtr music);
         public static string Mix_GetMusicCopyrightTag(IntPtr music)
         {
-            return SDL.UTF8_ToManaged(
+            return UTF8_ToManaged(
                 INTERNAL_Mix_GetMusicCopyrightTag(music)
             );
         }
@@ -511,6 +558,11 @@ namespace NuCore.SDL2
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Mix_Volume(int channel, int volume);
 
+        /* -1 to query 
+         * Only available in 2.6.0 or later */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int Mix_MasterVolume(int volume);
+
         /* chunk refers to a Mix_Chunk* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Mix_VolumeChunk(
@@ -579,34 +631,40 @@ namespace NuCore.SDL2
         public static extern int Mix_SetMusicPosition(double position);
 
         /* music refers to a Mix_Music*
-		 * Only available in 2.0.5 or higher.
+		 * Only available in 2.6.0 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern double Mix_GetMusicPosition(IntPtr music);
 
         /* music refers to a Mix_Music*
-		 * Only available in 2.0.5 or higher.
+		 * Only available in 2.6.0 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern double Mix_MusicDuration(IntPtr music);
 
         /* music refers to a Mix_Music*
-		 * Only available in 2.0.5 or higher.
+		 * Only available in 2.6.0 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern double Mix_GetMusicLoopStartTime(IntPtr music);
 
         /* music refers to a Mix_Music*
-		 * Only available in 2.0.5 or higher.
+		 * Only available in 2.6.0 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern double Mix_GetMusicLoopEndTime(IntPtr music);
 
         /* music refers to a Mix_Music*
-		 * Only available in 2.0.5 or higher.
+		 * Only available in 2.6.0 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern double Mix_GetMusicLoopLengthTime(IntPtr music);
+
+        /* music refers to a Mix_Music*
+        * Only available in 2.6.0 or higher.
+        */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int Mix_GetMusicVolume(IntPtr music);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Mix_Playing(int channel);
@@ -620,7 +678,7 @@ namespace NuCore.SDL2
         );
         public static unsafe int Mix_SetMusicCMD(string command)
         {
-            byte* utf8Cmd = SDL.Utf8EncodeHeap(command);
+            byte* utf8Cmd = Utf8EncodeHeap(command);
             int result = INTERNAL_Mix_SetMusicCMD(
                 utf8Cmd
             );
@@ -640,7 +698,7 @@ namespace NuCore.SDL2
         );
         public static unsafe int Mix_SetSoundFonts(string paths)
         {
-            byte* utf8Paths = SDL.Utf8EncodeHeap(paths);
+            byte* utf8Paths = Utf8EncodeHeap(paths);
             int result = INTERNAL_Mix_SetSoundFonts(
                 utf8Paths
             );
@@ -652,7 +710,7 @@ namespace NuCore.SDL2
         private static extern IntPtr INTERNAL_Mix_GetSoundFonts();
         public static string Mix_GetSoundFonts()
         {
-            return SDL.UTF8_ToManaged(
+            return UTF8_ToManaged(
                 INTERNAL_Mix_GetSoundFonts()
             );
         }
@@ -663,7 +721,7 @@ namespace NuCore.SDL2
             IntPtr data // void*
         );
 
-        /* Only available in 2.0.5 or later. */
+        /* Only available in 2.6.0 or later. */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Mix_SetTimidityCfg(
             [In()] [MarshalAs(UnmanagedType.LPStr)]
@@ -675,7 +733,7 @@ namespace NuCore.SDL2
         public static extern IntPtr INTERNAL_Mix_GetTimidityCfg();
         public static string Mix_GetTimidityCfg()
         {
-            return SDL.UTF8_ToManaged(
+            return UTF8_ToManaged(
                 INTERNAL_Mix_GetTimidityCfg()
             );
         }
@@ -689,22 +747,11 @@ namespace NuCore.SDL2
 
         // New from upstream - March 5, 2022
 
-        public static string Mix_GetError()
-        {
-            return SDL.SDL_GetError();
-        }
+        public static string Mix_GetError() => SDL_GetError();
 
-        public static void Mix_SetError(string fmtAndArglist)
-        {
-            SDL.SDL_SetError(fmtAndArglist);
-        }
+        public static void Mix_SetError(string fmtAndArglist) => SDL_SetError(fmtAndArglist);
 
-        public static void Mix_ClearError()
-        {
-            SDL.SDL_ClearError();
-        }
-
-
+        public static void Mix_ClearError() => SDL_ClearError();
 
         #endregion
     }

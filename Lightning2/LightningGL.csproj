@@ -42,6 +42,7 @@
     <None Remove="Libraries\SDL2_gfx-v1.0.6-x64.dll" />
     <None Remove="Libraries\SDL2_image-v2.0.5-x64.dll" />
     <None Remove="Libraries\SDL2_image-x64.dll" />
+    <None Remove="Libraries\SDL2_mixer-x64.dll" />
     <None Remove="Libraries\SDL2_ttf-v2.0.15-x64.dll" />
     <None Remove="Libraries\SDL2_ttf-v2.0.18-x64.dll" />
     <None Remove="Libraries\zlib1.dll" />
@@ -93,6 +94,9 @@
     <Content Include="Libraries\SDL2_image-x64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Libraries\SDL2_mixer-x64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="libvorbis-0.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -100,9 +104,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Libraries\libwebp-7.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\SDL2_mixer-v2.0.4-x64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Libraries\SDL2_ttf-v2.0.18-x64.dll">
