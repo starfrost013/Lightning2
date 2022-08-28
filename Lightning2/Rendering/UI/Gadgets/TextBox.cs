@@ -109,6 +109,9 @@ namespace LightningGL
                 case SDL_Scancode.SDL_SCANCODE_RGUI:
                 case SDL_Scancode.SDL_SCANCODE_LCTRL:
                 case SDL_Scancode.SDL_SCANCODE_RCTRL:
+                case SDL_Scancode.SDL_SCANCODE_RETURN:
+                case SDL_Scancode.SDL_SCANCODE_RETURN2:
+                case SDL_Scancode.SDL_SCANCODE_KP_ENTER:
                     return;
                 default:
                     string keyStr = key.KeySym.ToString();
@@ -122,6 +125,10 @@ namespace LightningGL
 
         }
 
+        /// <summary>
+        /// Renders this TextBox.
+        /// </summary>
+        /// <param name="cWindow">The window to render this <see cref="TextBox"/> to.</param>
         public void Render(Window cWindow)
         {
             PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, CurBackgroundColour, true, BorderColour, BorderSize, SnapToScreen);

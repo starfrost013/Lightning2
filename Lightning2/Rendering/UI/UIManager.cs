@@ -54,7 +54,7 @@ namespace LightningGL
             }
         }
 
-        public static void MousePressed(Window cWindow, MouseButton button)
+        internal static void MousePressed(Window cWindow, MouseButton button)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;
@@ -84,7 +84,7 @@ namespace LightningGL
             }
         }
 
-        public static void MouseReleased(Window cWindow, MouseButton button)
+        internal static void MouseReleased(Window cWindow, MouseButton button)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;
@@ -114,7 +114,7 @@ namespace LightningGL
             }
         }
 
-        public static void MouseEnter()
+        internal static void MouseEnter()
         {
             foreach (Gadget uiElement in UIElements)
             {
@@ -125,7 +125,7 @@ namespace LightningGL
             }
         }
 
-        public static void MouseLeave()
+        internal static void MouseLeave()
         {
             foreach (Gadget uiElement in UIElements)
             {
@@ -136,7 +136,7 @@ namespace LightningGL
             }
         }
 
-        public static void FocusGained()
+        internal static void FocusGained()
         {
             foreach (Gadget uiElement in UIElements)
             {
@@ -147,7 +147,7 @@ namespace LightningGL
             }
         }
 
-        public static void FocusLost()
+        internal static void FocusLost()
         {
             foreach (Gadget uiElement in UIElements)
             {
@@ -158,7 +158,7 @@ namespace LightningGL
             }
         }
 
-        public static void MouseMove(Window cWindow, MouseButton button)
+        internal static void MouseMove(Window cWindow, MouseButton button)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;
@@ -182,7 +182,7 @@ namespace LightningGL
             }
         }
 
-        public static void KeyPressed(Key key)
+        internal static void KeyPressed(Key key)
         {
             foreach (Gadget uiElement in UIElements)
             {
@@ -195,7 +195,7 @@ namespace LightningGL
             }
         }
 
-        public static void KeyReleased(Key key)
+        internal static void KeyReleased(Key key)
         {
             foreach (Gadget uiElement in UIElements)
             {
