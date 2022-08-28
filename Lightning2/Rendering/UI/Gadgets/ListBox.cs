@@ -2,7 +2,7 @@
 using NuCore.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Drawing; 
+using System.Drawing;
 using System.Numerics;
 
 namespace LightningGL
@@ -16,26 +16,39 @@ namespace LightningGL
     /// </summary>
     public class ListBox : Gadget
     {
+        /// <summary>
+        /// Determines if the list box is open or not.
+        /// </summary>
         public bool Open { get; set; }
 
+        /// <summary>
+        /// List of items in the list box.
+        /// </summary>
         public List<ListBoxItem> Items { get; private set; }
 
         private int _selectedindex;
 
+        /// <summary>
+        /// The current selected index
+        /// </summary>
         public int SelectedIndex
         {
             get
             {
-                return _selectedindex; 
+                return _selectedindex;
             }
             set
             {
-                if (value > Items.Count - 1) _ = new NCException("Attempted to set an invalid SelectedIndex for this ListBox!", 83, "ListBox::SelectedIndex > ListBox::Items::Count - 1!", NCExceptionSeverity.FatalError);
-                
+                if (value < 0
+                    || value > Items.Count - 1) _ = new NCException("Attempted to set an invalid SelectedIndex for this ListBox!", 83, "ListBox::SelectedIndex > ListBox::Items::Count - 1!", NCExceptionSeverity.FatalError);
+
                 _selectedindex = value;
             }
         }
 
+        /// <summary>
+        /// The current selected item. Simply returns Items[SelectedIndex].
+        /// </summary>
         public ListBoxItem SelectedItem => Items[SelectedIndex];
 
         /// <summary>
@@ -54,6 +67,9 @@ namespace LightningGL
         /// </summary>
         private Vector2 BoxSize { get; set; }
 
+        /// <summary>
+        /// Static listbox constructor.
+        /// </summary>
         public ListBox() : base()
         {
             Items = new List<ListBoxItem>();
@@ -68,6 +84,10 @@ namespace LightningGL
             AlternateItemColoursAmount = 30;
         }
 
+        /// <summary>
+        /// Adds an item to this ListBox.
+        /// </summary>
+        /// <param name="item">The <see cref="ListBoxItem"/> to add to this ListBox.</param>
         public void AddItem(ListBoxItem item)
         {
             item.Font = Font;
@@ -110,7 +130,7 @@ namespace LightningGL
 
             item.HoverColour = HoverColour;
             item.PressedColour = PressedColour;
-           
+
             item.Filled = true; // set for now
 
             // resize the listbox 
@@ -118,6 +138,10 @@ namespace LightningGL
             Items.Add(item);
         }
 
+        /// <summary>
+        /// Renders this ListBox.
+        /// </summary>
+        /// <param name="cWindow">The window to render this listbox to.</param>
         public void Render(Window cWindow)
         {
             // set the default background colour if it's not set. a hack...
@@ -130,7 +154,7 @@ namespace LightningGL
             // draw the currently selected item:
             // if the font is invalid use the default font
             // otherwise, use the Font Manager
-            if (Items.Count > 0) 
+            if (Items.Count > 0)
             {
                 if (curFont == null)
                 {
@@ -153,7 +177,11 @@ namespace LightningGL
 
         }
 
-        internal void ListBoxMousePressed(MouseButton button)
+        /// <summary>
+        /// Default mouse press event handler for listbox.
+        /// </summary>
+        /// <param name="button">The <see cref="MouseButton"/> that triggered the event.</param>
+        public void ListBoxMousePressed(MouseButton button)
         {
             if (Open)
             {
@@ -181,7 +209,7 @@ namespace LightningGL
                 if (AABB.Intersects(this, button.Position)) Open = !Open;
             }
             else
-            { 
+            {
                 if (BoxIntersects(button.Position))
                 {
                     base.MousePressed(button);
@@ -205,6 +233,10 @@ namespace LightningGL
             return intersects;
         }
 
+        /// <summary>
+        /// Default mouse release event handler for listbox.
+        /// </summary>
+        /// <param name="button">The <see cref="MouseButton"/> that triggered the event.</param>
         public void ListBoxMouseReleased(MouseButton button)
         {
             base.MouseReleased(button);
@@ -238,6 +270,10 @@ namespace LightningGL
 
         }
 
+        /// <summary>
+        /// Default mouse move event handler for listbox.
+        /// </summary>
+        /// <param name="button">The <see cref="MouseButton"/> that triggered the event.</param>
         public virtual void ListBoxMouseMove(MouseButton button)
         {
             if (Open)
