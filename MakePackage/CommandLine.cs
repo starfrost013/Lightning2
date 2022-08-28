@@ -157,17 +157,16 @@ namespace MakePackage
                 "Makes a Lightning package (WAD) file.\n\n" +
                 "Required arguments:\n\n" +
                 "-infolder: Input folder to generate the package file from.\n" +
-                "-outfile: Output file for the package file. Should be .wad.\n" +
+                "-outfile: Output file for the package file. It is recommended that this file have a .wad extension.\n" +
                 "OR\n" +
-                "-extract: Extract mode\n" +
                 "-infile: Input file to extract the package file from\n" +
                 "-outfolder: Output folder for the contents of the package file (Default value: current directory)\n" +
                 "Optional arguments:\n\n" +
                 "-gamename [-name]: Optional game name.\n" +
                 "-gameversion: Optional game version.\n" +
-                "-engineversion: Optional engine version.\n" +
+                "-engineversion: Optional engine version. Currently not checked by any component of the engine.\n" +
                 "-allowbinaries: Allow binaries in the WAD file. The default value is false.\n" +
-                "-compressionmode: Final compression mode of the WAD file.", ConsoleColor.White, false, false);
+                "-compressionmode: Final packaging mode of the WAD file. Valid values are None (for none) and XOR (for XOR obfuscation)", ConsoleColor.White, false, false);
         }
     }
 }
