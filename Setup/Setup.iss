@@ -8,7 +8,7 @@
 ; Intended to be run from the SDKBuild tool.
 
 #define MyAppName "Lightning Software Development Kit"
-#define MyAppVersion "1.0-beta1"
+#define MyAppVersion "1.1.0-alpha"
 #define MyAppPublisher "starfrost"
 #define MyAppURL "https://lightning.starfrost.net"
 #define BuildConfig "Debug"
@@ -29,7 +29,7 @@ DefaultGroupName={#MyAppName}
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=commandline
-OutputDir=..\SDKBuild\bin\Debug\net6.0\SDK\Setup
+OutputDir=..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\Setup
 OutputBaseFilename=SDKSetup
 Compression=lzma
 SolidCompression=yes
