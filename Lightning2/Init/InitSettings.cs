@@ -16,13 +16,16 @@ namespace LightningGL
         /// <summary>
         /// The package file containing the game files.
         /// </summary>
-        public static string PackageFile { get; set; }
+        public static string PackageFile { get; private set; }
 
         /// <summary>
         /// The folder to extract the package file specified by <see cref="PackageFile"/> to.
         /// </summary>
-        public static string ContentFolder { get; set; }
+        public static string ContentFolder { get; private set; }
 
+        /// <summary>
+        /// Static constructor for InitSettings
+        /// </summary>
         static InitSettings()
         {
             ContentFolder = "Content";
@@ -33,7 +36,7 @@ namespace LightningGL
         /// </summary>
         /// <param name="args">The command-line arguments passed to your application.</param>
         /// <returns>A boolean determining if command-line arguments were parsed successfully.</returns>
-        public static bool Parse(string[] args)
+        internal static bool Parse(string[] args)
         {
             for (int curArg = 0; curArg < args.Length; curArg++)
             {
