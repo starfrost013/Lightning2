@@ -99,7 +99,7 @@ namespace LightningGL
         /// </summary>
         /// <param name="nTexture"></param>
         /// <param name="cWindow"></param>
-        public void Load(Texture nTexture, Window cWindow)
+        internal void Load(Texture nTexture, Window cWindow)
         {
             NCLogging.Log($"Loading particle effect at path {nTexture.Path}...");
             Particles = new List<Particle>();
@@ -109,7 +109,7 @@ namespace LightningGL
             if (MaxNumberCreatedEachFrame == 0) MaxNumberCreatedEachFrame = Amount / 150;
         }
 
-        public void Render(Window cWindow)
+        internal void Render(Window cWindow)
         {
             if (Texture == null) _ = new NCException("Attempted to draw a particle effect without loading it!", 120, "ParticleEffect::Render called before ParticleEffect::Load!", NCExceptionSeverity.FatalError);
 
@@ -202,7 +202,7 @@ namespace LightningGL
             for (int i = 0; i < numToAddThisFrame; i++) AddParticle();
         }
 
-        public void AddParticle()
+        internal void AddParticle()
         {
             // if needsmanualtrigger then don't play if we are not playing the particle effect
             if (NeedsManualTrigger
