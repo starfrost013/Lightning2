@@ -123,6 +123,10 @@ namespace LightningGL
             }
         }
 
+        /// <summary>
+        /// Renders this textbox to a window.
+        /// </summary>
+        /// <param name="cWindow">The window to render this textbox to.</param>
         public void Render(Window cWindow)
         {
             PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, CurBackgroundColour, true, BorderColour, BorderSize, SnapToScreen);
