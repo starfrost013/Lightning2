@@ -151,6 +151,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Text2\" />
+    <Folder Include="Splash\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 
