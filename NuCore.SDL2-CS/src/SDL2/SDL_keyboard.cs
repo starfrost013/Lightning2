@@ -74,6 +74,7 @@ namespace NuCore.SDL2
                 processedString = processedString.Replace("RETURN2", "\n");
                 processedString = processedString.Replace("RETURN", "\n");
                 processedString = processedString.Replace("MINUS", "-");
+                processedString = processedString.Replace("BACKQUOTE", "`");
                 return processedString; 
             }
         }

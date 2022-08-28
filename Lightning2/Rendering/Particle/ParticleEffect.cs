@@ -151,15 +151,16 @@ namespace LightningGL
 
                     double angleRads = 0;
 
-                    if (Mode == ParticleMode.SinCos)
+                    switch (Mode)
                     {
-                        angleRads = particleAngleId / (180 * Math.PI);
-                    }
-                    else if (Mode == ParticleMode.Normal
-                        || Mode == ParticleMode.Explode)
-                    {
-                        // put it in degreeeeeeees mode
-                        angleRads = particleAngleId;
+                        case ParticleMode.SinCos:
+                            angleRads = particleAngleId / (180 * Math.PI);
+                            break;
+                        case ParticleMode.Normal:
+                        case ParticleMode.Explode:
+                            // put it in degreeeeeeees mode
+                            angleRads = particleAngleId;
+                            break;
                     }
 
                     double xMul = Math.Sin(angleRads);
