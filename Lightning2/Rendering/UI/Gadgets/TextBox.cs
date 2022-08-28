@@ -109,6 +109,9 @@ namespace LightningGL
                 case SDL_Scancode.SDL_SCANCODE_RGUI:
                 case SDL_Scancode.SDL_SCANCODE_LCTRL:
                 case SDL_Scancode.SDL_SCANCODE_RCTRL:
+                case SDL_Scancode.SDL_SCANCODE_RETURN:
+                case SDL_Scancode.SDL_SCANCODE_RETURN2:
+                case SDL_Scancode.SDL_SCANCODE_KP_ENTER:
                     return;
                 default:
                     string keyStr = key.KeySym.ToString();
@@ -118,8 +121,6 @@ namespace LightningGL
                     Text = $"{Text}{keyStr}";
                     return;
             }
-
-
         }
 
         public void Render(Window cWindow)
