@@ -124,7 +124,7 @@ namespace LightningGL
         /// Acquires the <see cref="AudioFile"/> with path <see cref="Path"/>.
         /// </summary>
         /// <param name="name">The path of the audio file to obtain.</param>
-        /// <returns>The first instance of <see cref="AudioFile"/> in <see cref="AudioFiles"/> with the path <see cref="Name"/>, or <c>null</c> if there is no audio file with that path.</returns>
+        /// <returns>The first instance of <see cref="AudioFile"/> in <see cref="AudioFiles"/> with the path <paramref name="name"/>, or <c>null</c> if there is no audio file with that path.</returns>
         public static AudioFile GetFileWithPath(string name)
         {
             foreach (AudioFile file in AudioFiles)

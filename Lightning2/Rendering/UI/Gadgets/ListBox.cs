@@ -153,7 +153,7 @@ namespace LightningGL
 
         }
 
-        public void ListBoxMousePressed(MouseButton button)
+        internal void ListBoxMousePressed(MouseButton button)
         {
             if (Open)
             {

@@ -111,6 +111,7 @@ namespace LightningGL
             // check if texture failed to load
             if (Handle == IntPtr.Zero) _ = new NCException($"Error creating texture: {SDL_GetError()}", 119, "An SDL error occurred in the Texture constructor", NCExceptionSeverity.FatalError);
 
+            // Allocate a texture format
             Init_AllocFormat(cWindow);
         }
 
