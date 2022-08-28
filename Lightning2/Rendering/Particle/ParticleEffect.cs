@@ -25,7 +25,7 @@ namespace LightningGL
         public int Lifetime { get; set; }
 
         /// <summary>
-        /// The variance on each particle's lifetime in frames
+        /// The variance on each particle's starting position in frames
         /// </summary>
         public double Variance { get; set; }
 
