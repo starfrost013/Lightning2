@@ -26,11 +26,6 @@ namespace LightningGL
         /// The size of this font.
         /// </summary>
         public int Size { get; set; }
-
-        /// <summary>
-        /// The smoothing type of this font - see <see cref="FontSmoothingType"/>.
-        /// </summary>
-        public FontSmoothingType SmoothingType { get; set; }
         
         /// <summary>
         /// Private: Pointer to the unmanaged TTF_Font containing this font.
