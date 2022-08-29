@@ -87,8 +87,7 @@ namespace LightningGL
 
             if (fontToUnload == null) _ = new NCException($"Attempted to unload invalid font FriendlyName {friendlyName}!", 71, "nonexistent friendlyName passed to TextManager::UnloadFont(string)!", NCExceptionSeverity.FatalError); // possibly not fatal?
 
-            fontToUnload.Unload();
-            Fonts.Remove(fontToUnload);
+            return UnloadFont(fontToUnload);
         }
 
         /// <summary>
