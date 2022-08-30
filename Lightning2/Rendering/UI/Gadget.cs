@@ -26,12 +26,12 @@ namespace LightningGL
         /// <summary>
         /// Event handler for the <see cref="MousePressedEvent"/> event.
         /// </summary>
-        public MousePressedEvent OnMousePressed { get; set; }
+        public MouseEvent OnMousePressed { get; set; }
 
         /// <summary>
         /// Event handler for the <see cref="MouseReleasedEvent"/> event.
         /// </summary>
-        public MouseReleasedEvent OnMouseReleased { get; set; }
+        public MouseEvent OnMouseReleased { get; set; }
 
         /// <summary>
         /// Event handler for the mouse enter event.
@@ -54,9 +54,9 @@ namespace LightningGL
         public GenericEvent OnFocusLost { get; set; }
 
         /// <summary>
-        /// Event handler for the <see cref="MouseMoveEvent"/> event.
+        /// Event handler for the <see cref="MouseEvent"/> event.
         /// </summary>
-        public MouseMoveEvent OnMouseMove { get; set; }
+        public MouseEvent OnMouseMove { get; set; }
 
         /// <summary>
         /// Event handler for <see cref="RenderEvent"/> event.
