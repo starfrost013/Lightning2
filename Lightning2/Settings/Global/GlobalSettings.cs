@@ -12,7 +12,7 @@ namespace LightningGL
     /// 
     /// Defines the global settings, located in Engine.ini
     /// </summary>
-    internal static class GlobalSettings
+    public static class GlobalSettings
     {
         /// <summary>
         /// Contains the path to the global settings INI file.
