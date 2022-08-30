@@ -76,7 +76,7 @@
 		</Content>
 		<Content Include="$(ProgramFiles)/Lightning Software Development Kit/libpng16-16.dll">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<Link>llibpng16-16.dll</Link>
+			<Link>libpng16-16.dll</Link>
 		</Content>
 		<Content Include="$(ProgramFiles)/Lightning Software Development Kit/libvorbis-0.dll">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

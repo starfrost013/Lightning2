@@ -13,28 +13,39 @@ namespace LightningGL
     /// </summary>
     public static class UIManager
     {
-        private static List<Gadget> UIElements { get; set; }
+        private static List<Gadget> Gadgets { get; set; }
 
         static UIManager()
         {
-            UIElements = new List<Gadget>();
+            Gadgets = new List<Gadget>();
         }
 
         /// <summary>
         /// Adds a <see cref="Gadget"/> to the UI manager.
         /// </summary>
-        /// <param name="uiElement"></param>
-        public static void AddElement(Gadget uiElement)
+        /// <param name="gadget">The <see cref=""/></param>
+        public static void AddElement(Gadget gadget)
         {
-            NCLogging.Log($"Creating new Gadget::{uiElement.GetType().Name}");
-            UIElements.Add(uiElement);
+            NCLogging.Log($"Creating new Gadget::{gadget.GetType().Name}");
+            Gadgets.Add(gadget);
         }
 
+        public static void RemoveElement(Gadget gadget)
+        {
+            if (!Gadgets.Contains(gadget)) _ = new NCException($"Attempted to remove a gadget of type ({gadget.GetType().Name} that is not in the UI Manager - you must add it first!", 135, "Called UIManager::RemoveElement with a gadget property that does not correspond to a Gadget loaded by the UI Manager");
+            NCLogging.Log($"Removing Gadget::{gadget.GetType().Name} from UIManager");
+            Gadgets.Remove(gadget));
+        }
+
+        /// <summary>
+        /// Renders all UI elements.
+        /// </summary>
+        /// <param name="cWindow">The UI element to render.</param>
         internal static void Render(Window cWindow)
         {
-            foreach (Gadget uiElement in UIElements)
+            foreach (Gadget uiElement in Gadgets)
             {
-                if (uiElement.Size == default) _ = new NCException($"Attempted to draw a UI element with no size, you will not see it!", 122, "Gadget::Size = (0,0)!", NCExceptionSeverity.Warning, null, true);
+                if (uiElement.Size == default) _ = new NCException($"Attempted to draw a gadget with no size, you will not see it!", 122, "Gadget::Size = (0,0)!", NCExceptionSeverity.Warning, null, true);
                 if (uiElement.OnRender != null)
                 {
                     uiElement.OnRender(cWindow);
@@ -44,7 +55,7 @@ namespace LightningGL
 
         internal static void Shutdown(Window cWindow)
         {
-            foreach (Gadget uiElement in UIElements)
+            foreach (Gadget uiElement in Gadgets)
             {
                 if (uiElement.OnShutdown != null)
                 {
@@ -68,7 +79,7 @@ namespace LightningGL
                     cameraPosition.Y + button.Position.Y);
             }
 
-            foreach (Gadget uiElement in UIElements)
+            foreach (Gadget uiElement in Gadgets)
             {
                 bool intersects = AABB.Intersects(uiElement, button.Position);
 
@@ -98,7 +109,7 @@ namespace LightningGL
                     cameraPosition.Y + button.Position.Y);
             }
 
-            foreach (Gadget uiElement in UIElements)
+            foreach (Gadget uiElement in Gadgets)
             {
                 bool intersects = AABB.Intersects(uiElement, button.Position);
 
@@ -115,7 +126,7 @@ namespace LightningGL
 
         internal static void MouseEnter()
         {
-            foreach (Gadget uiElement in UIElements)
+            foreach (Gadget uiElement in Gadgets)
             {
                 if (uiElement.OnMouseEnter != null)
                 {
@@ -126,7 +137,7 @@ namespace LightningGL
 
         internal static void MouseLeave()
         {
-            foreach (Gadget uiElement in UIElements)
+            foreach (Gadget uiElement in Gadgets)
             {
                 if (uiElement.OnMouseLeave != null)
                 {
@@ -137,7 +148,7 @@ namespace LightningGL
 
         internal static void FocusGained()
         {
-            foreach (Gadget uiElement in UIElements)
+            foreach (Gadget uiElement in Gadgets)
             {
                 if (uiElement.OnFocusGained != null)
                 {
@@ -148,7 +159,7 @@ namespace LightningGL
 
         internal static void FocusLost()
         {
-            foreach (Gadget uiElement in UIElements)
+            foreach (Gadget uiElement in Gadgets)
             {
                 if (uiElement.OnFocusLost != null)
                 {
@@ -172,7 +183,7 @@ namespace LightningGL
                     cameraPosition.Y + button.Position.Y);
             }
 
-            foreach (Gadget uiElement in UIElements)
+            foreach (Gadget uiElement in Gadgets)
             {
                 if (uiElement.OnMouseMove != null) // this one is passed regardless of intersection for things like button highlighting
                 {
@@ -183,7 +194,7 @@ namespace LightningGL
 
         internal static void KeyPressed(Key key)
         {
-            foreach (Gadget uiElement in UIElements)
+            foreach (Gadget uiElement in Gadgets)
             {
                 // check if the UI element is focused.
                 if (uiElement.Focused
@@ -196,7 +207,7 @@ namespace LightningGL
 
         internal static void KeyReleased(Key key)
         {
-            foreach (Gadget uiElement in UIElements)
+            foreach (Gadget uiElement in Gadgets)
             {
                 // check if the UI element is focused.
                 if (uiElement.Focused
