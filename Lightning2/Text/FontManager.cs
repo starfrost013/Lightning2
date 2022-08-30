@@ -169,7 +169,7 @@ namespace LightningGL
         /// <param name="font">The font used for <paramref name="text"/></param>
         /// <param name="text">The text to get the font size for</param>
         /// <returns>A <see cref="Vector2"/> containing the size of <paramref name="text"/> in pixels.</returns>
-        public static Vector2 GetLargestTextSize(string font, string text)
+        internal static Vector2 GetLargestTextSize(string font, string text)
         {
             Font curFont = GetFont(font);
 
