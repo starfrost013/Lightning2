@@ -12,7 +12,7 @@ namespace LightningGL
     /// 
     /// Defines the global settings, located in Engine.ini
     /// </summary>
-    internal static class GlobalSettings
+    public static class GlobalSettings
     {
         /// <summary>
         /// Contains the path to the global settings INI file.
@@ -59,6 +59,16 @@ namespace LightningGL
         /// Determines if the Scene Manager will be turned off.
         /// </summary>
         public static bool DontUseSceneManager { get; internal set; }
+
+        /// <summary>
+        /// Determines if the splash screen is enabled.
+        /// </summary>
+        public static bool SplashScreenEnabled { get; internal set; }
+
+        /// <summary>
+        /// Determines the splash screen image to show.
+        /// </summary>
+        public static string SplashScreenImage { get; internal set; }
         #endregion
 
         #region Graphics settings
@@ -182,6 +192,8 @@ namespace LightningGL
             PackageFile = generalSection.GetValue("PackageFile");
             ContentFolder = generalSection.GetValue("ContentFolder");
             string generalDontUseSceneManager = generalSection.GetValue("DontUseSceneManager");
+            string generalSplashScreenEnabled = generalSection.GetValue("SplashScreenEnabled");
+            SplashScreenImage = generalSection.GetValue("SplashScreen");
 
             // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
 
@@ -193,6 +205,7 @@ namespace LightningGL
             if (!bool.TryParse(generalAboutScreenOnF9, out var generalAboutScreenOnF9Value)) generalAboutScreenOnF9Value = true; // force the default value, true for now
             _ = bool.TryParse(generalDeleteUnpackedFilesOnExit, out var generalDeleteUnpackedFilesOnExitValue);
             _ = bool.TryParse(generalDontUseSceneManager, out var generalDontUseSceneManagerValue);
+            _ = bool.TryParse(generalSplashScreenEnabled, out var generalSplashScreenEnabledValue);
 
             MaxFPS = generalMaxFpsValue;
             ShowDebugInfo = generalShowDebugInfoValue;
@@ -200,6 +213,11 @@ namespace LightningGL
             EngineAboutScreenOnShiftF9 = generalAboutScreenOnF9Value;
             DeleteUnpackedFilesOnExit = generalDeleteUnpackedFilesOnExitValue;
             DontUseSceneManager = generalDontUseSceneManagerValue;
+            SplashScreenEnabled = generalSplashScreenEnabledValue;
+
+
+            if (SplashScreenEnabled
+                && SplashScreenImage == null) SplashScreenImage = @"Content\Splash\Splash.png";
 
             // Load the Graphics section if it exists.
             if (graphicsSection != null)
