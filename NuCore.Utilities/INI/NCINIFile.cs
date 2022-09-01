@@ -148,9 +148,9 @@ namespace NuCore.Utilities
 
                 }
 
+                // in case of success, close the stream and return
                 // close the stream
                 iniStream.Close();
-                // in case of success
                 return iniFile;
             }
             catch (Exception ex)

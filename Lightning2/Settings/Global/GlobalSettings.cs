@@ -19,6 +19,11 @@ namespace LightningGL
         /// </summary>
         internal static string GLOBALSETTINGS_PATH = @"Content\Engine.ini";
 
+        /// <summary>
+        /// The INI file object containing the Global Settings.
+        /// </summary>
+        internal static NCINIFile IniFile { get; private set; }
+
         #region General settings
         /// <summary>
         /// The file to use when loading localisation strings.
@@ -286,22 +291,13 @@ namespace LightningGL
         internal static void Validate()
         {
             // test system ram
-            if (MinimumSystemRam > SystemInfo.SystemRam)
-            {
-                _ = new NCException($"Insufficient RAM to run game. {MinimumSystemRam}MB required, you have {SystemInfo.SystemRam}MB!", 111, $"System RAM less than GlobalSettings::MinimumSystemRam!", NCExceptionSeverity.FatalError);
-            }
+            if (MinimumSystemRam > SystemInfo.SystemRam) _ = new NCException($"Insufficient RAM to run game. {MinimumSystemRam}MB required, you have {SystemInfo.SystemRam}MB!", 111, $"System RAM less than GlobalSettings::MinimumSystemRam!", NCExceptionSeverity.FatalError);
 
             // test threads
-            if (MinimumLogicalProcessors > SystemInfo.Cpu.Threads)
-            {
-                _ = new NCException($"Insufficient logical processors to run game. {MinimumLogicalProcessors} threads required, you have {SystemInfo.Cpu.Threads}!", 112, $"System logical processor count less than GlobalSettings::MinimumLogicalProcessors!", NCExceptionSeverity.FatalError);
-            }
+            if (MinimumLogicalProcessors > SystemInfo.Cpu.Threads)  = new NCException($"Insufficient logical processors to run game. {MinimumLogicalProcessors} threads required, you have {SystemInfo.Cpu.Threads}!", 112, $"System logical processor count less than GlobalSettings::MinimumLogicalProcessors!", NCExceptionSeverity.FatalError);
 
             // test cpu functionality
-            if (MinimumCpuCapabilities > SystemInfo.Cpu.Capabilities)
-            {
-                _ = new NCException($"Insufficient CPU capabilities to run game. {MinimumCpuCapabilities} capabilities required, you have {SystemInfo.Cpu.Capabilities}!", 113, $"CPU capabilities less than GlobalSettings::MinimumCpuCapabilities!", NCExceptionSeverity.FatalError);
-            }
+            if (MinimumCpuCapabilities > SystemInfo.Cpu.Capabilities) _ = new NCException($"Insufficient CPU capabilities to run game. {MinimumCpuCapabilities} capabilities required, you have {SystemInfo.Cpu.Capabilities}!", 113, $"CPU capabilities less than GlobalSettings::MinimumCpuCapabilities!", NCExceptionSeverity.FatalError);
 
             bool failedOsCheck = false;
 
@@ -317,11 +313,12 @@ namespace LightningGL
             }
 
             // test OS version
-            if (failedOsCheck)
-            {
-                _ = new NCException($"Insufficient OS version to run game. {MinimumOperatingSystem} must be used, you have {SystemInfo.CurOperatingSystem}!", 114, $"OS version less than GlobalSettings::MinimumOperatingSystem!", NCExceptionSeverity.FatalError);
-            }
+            if (failedOsCheck) _ = new NCException($"Insufficient OS version to run game. {MinimumOperatingSystem} must be used, you have {SystemInfo.CurOperatingSystem}!", 114, $"OS version less than GlobalSettings::MinimumOperatingSystem!", NCExceptionSeverity.FatalError);
         }
 
+        public static void Write()
+        {
+            IniFile.Write(GLOBALSETTINGS_PATH);
+        }
     }
 }
