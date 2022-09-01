@@ -52,15 +52,15 @@ namespace LightningGL
         public ListBoxItem SelectedItem => Items[SelectedIndex];
 
         /// <summary>
-        /// Determines if item colours will not be alternated on every other item.
+        /// Determines if item colors will not be alternated on every other item.
         /// </summary>
-        public bool DontAlternateItemColours { get; set; }
+        public bool DontAlternateItemcolors { get; set; }
 
         /// <summary>
-        /// Determines how much the alternate item colours will be modified by.
-        /// A negative value brightens the colours. Default value is 30.
+        /// Determines how much the alternate item colors will be modified by.
+        /// A negative value brightens the colors. Default value is 30.
         /// </summary>
-        public int AlternateItemColoursAmount { get; set; }
+        public int AlternateItemcolorsAmount { get; set; }
 
         /// <summary>
         /// Private: Size used to determine the size of the box that is actually drawn when the item is not open
@@ -81,7 +81,7 @@ namespace LightningGL
             OnMouseReleased += ListBoxMouseReleased;
             OnMouseMove += ListBoxMouseMove;
 
-            AlternateItemColoursAmount = 30;
+            AlternateItemcolorsAmount = 30;
         }
 
         /// <summary>
@@ -101,19 +101,19 @@ namespace LightningGL
 
             // move the item so that it gets drawn in the right place
             item.Position = new Vector2(Position.X, Position.Y + ((itemFontSize.Y * 1.25f) * (Items.Count + 1)));
-            if (item.BackgroundColour == default(Color)) item.BackgroundColour = BackgroundColour;
-            if (item.ForegroundColour == default(Color)) item.ForegroundColour = ForegroundColour;
-            if (item.BorderColour == default(Color)) item.BorderColour = BorderColour;
+            if (item.BackgroundColor == default(Color)) item.BackgroundColor = BackgroundColor;
+            if (item.ForegroundColor == default(Color)) item.ForegroundColor = ForegroundColor;
+            if (item.Bordercolor == default(Color)) item.Bordercolor = Bordercolor;
 
-            // alternate the colours so they look a bit better
+            // alternate the colors so they look a bit better
             if (Items.Count % 2 == 0
-                && !DontAlternateItemColours)
+                && !DontAlternateItemcolors)
             {
-                int altR = item.BackgroundColour.R - AlternateItemColoursAmount,
-                    altG = item.BackgroundColour.G - AlternateItemColoursAmount,
-                    altB = item.BackgroundColour.B - AlternateItemColoursAmount;
+                int altR = item.BackgroundColor.R - AlternateItemcolorsAmount,
+                    altG = item.BackgroundColor.G - AlternateItemcolorsAmount,
+                    altB = item.BackgroundColor.B - AlternateItemcolorsAmount;
 
-                // make sure we are in valid colour ranges (not required for alpha)
+                // make sure we are in valid color ranges (not required for alpha)
                 if (altR < 0) altR = 0;
                 if (altG < 0) altG = 0;
                 if (altB < 0) altB = 0;
@@ -122,14 +122,14 @@ namespace LightningGL
                 if (altG > 255) altG = 255;
                 if (altB > 255) altB = 255;
 
-                item.BackgroundColour = Color.FromArgb(item.BackgroundColour.A,
+                item.BackgroundColor = Color.FromArgb(item.BackgroundColor.A,
                         altR,
                         altG,
                         altB);
             }
 
-            item.HoverColour = HoverColour;
-            item.PressedColour = PressedColour;
+            item.HoverColor = HoverColor;
+            item.PressedColor = PressedColor;
            
             item.Filled = true; // set for now
 
@@ -144,10 +144,10 @@ namespace LightningGL
         /// <param name="cWindow">The window to render this listbox to.</param>
         public void Render(Window cWindow)
         {
-            // set the default background colour if it's not set. a hack...
-            if (CurBackgroundColour == default(Color)) CurBackgroundColour = BackgroundColour;
+            // set the default background color if it's not set. a hack...
+            if (CurBackgroundColor == default(Color)) CurBackgroundColor = BackgroundColor;
 
-            PrimitiveRenderer.DrawRectangle(cWindow, Position, BoxSize, CurBackgroundColour, Filled, BorderColour, BorderSize, SnapToScreen);
+            PrimitiveRenderer.DrawRectangle(cWindow, Position, BoxSize, CurBackgroundColor, Filled, Bordercolor, BorderSize, SnapToScreen);
 
             Font curFont = FontManager.GetFont(Font);
 
@@ -158,11 +158,11 @@ namespace LightningGL
             {
                 if (curFont == null)
                 {
-                    PrimitiveRenderer.DrawText(cWindow, Items[SelectedIndex].Text, Position, ForegroundColour, true);
+                    PrimitiveRenderer.DrawText(cWindow, Items[SelectedIndex].Text, Position, ForegroundColor, true);
                 }
                 else
                 {
-                    FontManager.DrawText(cWindow, Items[SelectedIndex].Text, Font, Position, ForegroundColour);
+                    FontManager.DrawText(cWindow, Items[SelectedIndex].Text, Font, Position, ForegroundColor);
                 }
             }
 
@@ -259,12 +259,12 @@ namespace LightningGL
                 // terrible handler
                 if (BoxIntersects(button.Position))
                 {
-                    // we are hovering over the button so switch to the background colour
-                    CurBackgroundColour = HoverColour;
+                    // we are hovering over the button so switch to the background color
+                    CurBackgroundColor = HoverColor;
                 }
                 else
                 {
-                    CurBackgroundColour = BackgroundColour;
+                    CurBackgroundColor = BackgroundColor;
                 }
             }
 
@@ -284,11 +284,11 @@ namespace LightningGL
             {
                 if (BoxIntersects(button.Position))
                 {
-                    CurBackgroundColour = HoverColour;
+                    CurBackgroundColor = HoverColor;
                 }
                 else
                 {
-                    CurBackgroundColour = BackgroundColour;
+                    CurBackgroundColor = BackgroundColor;
                 }
             }
 

@@ -15,7 +15,7 @@
         Default = 0,
 
         /// <summary>
-        /// Indicates that the text will be shaded using a background colour.
+        /// Indicates that the text will be shaded using a background color.
         /// </summary>
         Shaded = 1,
 

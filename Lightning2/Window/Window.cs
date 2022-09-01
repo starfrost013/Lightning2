@@ -223,7 +223,7 @@ namespace LightningGL
             if (GlobalSettings.ShowDebugInfo) Render_DrawDebugInformation();
 
             // Correctly draw the background
-            SDL_SetRenderDrawColor(Settings.RendererHandle, Settings.BackgroundColour.R, Settings.BackgroundColour.G, Settings.BackgroundColour.B, Settings.BackgroundColour.A);
+            SDL_SetRenderDrawColor(Settings.RendererHandle, Settings.BackgroundColor.R, Settings.BackgroundColor.G, Settings.BackgroundColor.B, Settings.BackgroundColor.A);
 
             SDL_RenderPresent(Settings.RendererHandle);
 
@@ -307,15 +307,15 @@ namespace LightningGL
         }
 
         /// <summary>
-        /// Clears the renderer and optionally sets the colour to the Color <paramref name="colour"/>
+        /// Clears the renderer and optionally sets the color to the Color <paramref name="color"/>
         /// </summary>
-        /// <param name="colour"></param>
-        public void Clear(Color colour = default(Color))
+        /// <param name="color"></param>
+        public void Clear(Color color = default(Color))
         {
             // default(Color) is 0,0,0,0, no special case code needed
-            SDL_SetRenderDrawColor(Settings.RendererHandle, colour.R, colour.G, colour.B, colour.A);
+            SDL_SetRenderDrawColor(Settings.RendererHandle, color.R, color.G, color.B, color.A);
             SDL_RenderClear(Settings.RendererHandle);
-            Settings.BackgroundColour = colour;
+            Settings.BackgroundColor = color;
         }
 
         /// <summary>

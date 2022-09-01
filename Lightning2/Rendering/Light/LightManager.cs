@@ -26,7 +26,7 @@ namespace LightningGL
         internal static Texture ScreenSpaceMap { get; private set; }
 
         /// <summary>
-        /// The default colour of the environment.
+        /// The default color of the environment.
         /// </summary>
         public static Color EnvironmentalLight { get; private set; }
 
@@ -70,17 +70,17 @@ namespace LightningGL
         }
 
         /// <summary>
-        /// Sets the environmental light colour.
+        /// Sets the environmental light color.
         /// </summary>
-        /// <param name="colour">The <see cref="Color"/> to set as the environmental light colour.</param>
-        public static void SetEnvironmentalLight(Color colour)
+        /// <param name="color">The <see cref="Color"/> to set as the environmental light color.</param>
+        public static void SetEnvironmentalLight(Color color)
         {
             if (ScreenSpaceMap.Handle == IntPtr.Zero) _ = new NCException("The Light Manager must be initialised before using it!", 124, "LightManager::SetEnvironmentalLight called before LightManager::Init!", NCExceptionSeverity.FatalError);
-            EnvironmentalLight = colour;
+            EnvironmentalLight = color;
 
             if (EnvironmentalLight == default(Color)) EnvironmentalLight = Color.FromArgb(255, 255, 255, 255);
 
-            // Set all pixels in the texture to the environmental light colour.
+            // Set all pixels in the texture to the environmental light color.
             ScreenSpaceMap.Clear(EnvironmentalLight);
         }
 

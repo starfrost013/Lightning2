@@ -73,27 +73,27 @@ namespace LightningGL
         /// <summary>
         /// The colour used for the background of this gadget.
         /// </summary>
-        public Color BackgroundColour { get; set; }
+        public Color BackgroundColor { get; set; }
 
         /// <summary>
         /// The colour used for the foreground of this gadget.
         /// </summary>
-        public Color ForegroundColour { get; set; }
+        public Color ForegroundColor { get; set; }
 
         /// <summary>
         /// The colour used when the mouse is hovering over this Gadget.
         /// </summary>
-        public Color HoverColour { get; set; }
+        public Color HoverColor { get; set; }
 
         /// <summary>
         /// The colour used when the mouse is pressing down on this gadget.
         /// </summary>
-        public Color PressedColour { get; set; }
+        public Color PressedColor { get; set; }
 
         /// <summary>
         /// The colour used for the border of this gadget.
         /// </summary>
-        public Color BorderColour { get; set; }
+        public Color Bordercolor { get; set; }
 
         /// <summary>
         /// Border size of this gadget.
@@ -106,9 +106,9 @@ namespace LightningGL
         public bool Filled { get; set; }
 
         /// <summary>
-        /// Private: current colour used for swapping between pressed/held colour
+        /// Private: current color used for swapping between pressed/held color
         /// </summary>
-        protected Color CurBackgroundColour { get; set; }
+        protected Color CurBackgroundColor { get; set; }
 
         /// <summary>
         /// Determines if the mouse is currently clicking on this gadget or not.
@@ -145,7 +145,7 @@ namespace LightningGL
         /// <param name="position">The position of that mouse button.</param>
         public virtual void MousePressed(MouseButton button)
         {
-            CurBackgroundColour = PressedColour;
+            CurBackgroundColor = PressedColor;
             Pressed = true;
         }
 
@@ -156,15 +156,15 @@ namespace LightningGL
         /// <param name="position">The position of that mouse button.</param>
         public virtual void MouseReleased(MouseButton button)
         {
-            // this changes from pressed to hover colour
+            // this changes from pressed to hover color
             if (AABB.Intersects(this, button.Position))
             {
-                // we are hovering over the button so switch to the background colour
-                CurBackgroundColour = HoverColour;
+                // we are hovering over the button so switch to the background color
+                CurBackgroundColor = HoverColor;
             }
             else
             {
-                CurBackgroundColour = BackgroundColour;
+                CurBackgroundColor = BackgroundColor;
             }
             
             Pressed = false;
@@ -180,11 +180,11 @@ namespace LightningGL
         {
             if (AABB.Intersects(this, button.Position))
             {
-                CurBackgroundColour = HoverColour;
+                CurBackgroundColor = HoverColor;
             }
             else
             {
-                CurBackgroundColour = BackgroundColour;
+                CurBackgroundColor = BackgroundColor;
             }
         }
         #endregion

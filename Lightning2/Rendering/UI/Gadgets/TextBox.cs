@@ -39,9 +39,9 @@ namespace LightningGL
         public short CursorThickness { get; set; }
         
         /// <summary>
-        /// The colour of the cursor.
+        /// The color of the cursor.
         /// </summary>
-        public Color CursorColour { get; set; } 
+        public Color Cursorcolor { get; set; } 
 
         /// <summary>
         /// The number of frames between cursor blinks.
@@ -60,7 +60,7 @@ namespace LightningGL
             OnRender += Render;
             if (CursorThickness == 0) CursorThickness = 2;
             if (CursorBlinkFrequency == 0) CursorBlinkFrequency = 100;
-            if (CursorColour == default) CursorColour = Color.White;
+            if (Cursorcolor == default) Cursorcolor = Color.White;
             if (CursorBlinkLength == 0) CursorBlinkLength = 50;
         }
 
@@ -131,8 +131,8 @@ namespace LightningGL
         /// <param name="cWindow">The window to render this <see cref="TextBox"/> to.</param>
         public void Render(Window cWindow)
         {
-            PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, CurBackgroundColour, true, BorderColour, BorderSize, SnapToScreen);
-            FontManager.DrawText(cWindow, Text, Font, Position, ForegroundColour);
+            PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, CurBackgroundColor, true, Bordercolor, BorderSize, SnapToScreen);
+            FontManager.DrawText(cWindow, Text, Font, Position, ForegroundColor);
 
             if (!HideCursor)
             {
@@ -141,7 +141,7 @@ namespace LightningGL
 
                 // actually blink it
                 if (cWindow.FrameNumber % CursorBlinkFrequency <= (CursorBlinkLength - 1)) PrimitiveRenderer.DrawLine(cWindow, cursorPosition, 
-                    new Vector2(cursorPosition.X, cursorPosition.Y + Size.Y), CursorThickness, CursorColour);
+                    new Vector2(cursorPosition.X, cursorPosition.Y + Size.Y), CursorThickness, Cursorcolor);
             }
         }
     }

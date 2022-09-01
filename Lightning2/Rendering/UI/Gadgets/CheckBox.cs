@@ -38,7 +38,7 @@ namespace LightningGL
         /// <param name="cWindow">The window to render this checkbox to.</param>
         public void Render(Window cWindow)
         {
-            PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, CurBackgroundColour, Filled, BorderColour, BorderSize, SnapToScreen);
+            PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, CurBackgroundColor, Filled, Bordercolor, BorderSize, SnapToScreen);
             
             if (Checked)
             {
@@ -47,8 +47,8 @@ namespace LightningGL
                 Vector2 line2Start = line1End;
                 Vector2 line2End = new Vector2(Position.X + Size.X, Position.Y);
 
-                PrimitiveRenderer.DrawLine(cWindow, line1Start, line1End, Thickness, ForegroundColour, true, SnapToScreen);
-                PrimitiveRenderer.DrawLine(cWindow, line2Start, line2End, Thickness, ForegroundColour, true, SnapToScreen);
+                PrimitiveRenderer.DrawLine(cWindow, line1Start, line1End, Thickness, ForegroundColor, true, SnapToScreen);
+                PrimitiveRenderer.DrawLine(cWindow, line2Start, line2End, Thickness, ForegroundColor, true, SnapToScreen);
             }
         }
 

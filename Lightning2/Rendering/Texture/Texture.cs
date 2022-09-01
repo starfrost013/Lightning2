@@ -161,7 +161,7 @@ namespace LightningGL
         /// <param name="x">The X coordinate of the pixel to acquire.</param>
         /// <param name="y">The Y coordinate of the pixel to acquire.</param>
         /// <param name="unlockNow">Unlocks the texture immediately - use this if you do not need to draw any more pixels</param>
-        /// <returns>A <see cref="Color"/> instance containing the colour data of the pixel acquired</returns>
+        /// <returns>A <see cref="Color"/> instance containing the color data of the pixel acquired</returns>
         /// <exception cref="NCException">An invalid coordinate was supplied or the texture does not have a valid size.</exception>
         public virtual Color GetPixel(int x, int y, bool unlockNow = false)
         {
@@ -184,13 +184,13 @@ namespace LightningGL
         }
 
         /// <summary>
-        /// Sets the pixel at coordinates <see cref="X"/>,<see cref="Y"/> to the colour specified by the <see cref="Colour"/> parameter.
+        /// Sets the pixel at coordinates <see cref="X"/>,<see cref="Y"/> to the color specified by the <see cref="color"/> parameter.
         /// </summary>
         /// <param name="x">The X coordinate of the pixel to set.</param>
         /// <param name="y">The Y coordinate of the pixel to set.</param>
         /// <param name="unlockNow">Unlocks the texture immediately - use this if you do not need to draw any more pixels</param>
         /// <exception cref="NCException">An invalid coordinate was supplied or the texture does not have a valid size.</exception>
-        public virtual void SetPixel(int x, int y, Color colour, bool unlockNow = false)
+        public virtual void SetPixel(int x, int y, Color color, bool unlockNow = false)
         {
             // do not lock it if we are already locked
             if (!Locked) Lock();
@@ -204,7 +204,7 @@ namespace LightningGL
             if (pixelToGet > maxPixelId) _ = new NCException($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {pixelToGet} > {maxPixelId}!)", 16, "An SDL error occurred in Texture::SetPixel", NCExceptionSeverity.FatalError);
 
             // use pixeltoget to twiddle the pixel that we need using the number we calculated before
-            Pixels[pixelToGet] = colour.ToArgb();
+            Pixels[pixelToGet] = color.ToArgb();
 
             // unlock the texture if unlocknow specified
             if (unlockNow) Unlock();
@@ -330,21 +330,21 @@ namespace LightningGL
         }
 
         /// <summary>
-        /// Clears the texture with the colour specified in the <paramref name="colour"/> parameter. If this is not set, it will default to ARGB <c>0,0,0,0</c>.
+        /// Clears the texture with the color specified in the <paramref name="color"/> parameter. If this is not set, it will default to ARGB <c>0,0,0,0</c>.
         /// </summary>
-        /// <param name="colour">The optional colour to clear the texture with.</param>
-        public void Clear(Color colour = default)
+        /// <param name="color">The optional color to clear the texture with.</param>
+        public void Clear(Color color = default)
         {
             
-            Color clearColour = Color.FromArgb(0, 0, 0, 0);
+            Color clearcolor = Color.FromArgb(0, 0, 0, 0);
 
-            if (colour != default) clearColour = colour;
+            if (color != default) clearcolor = color;
 
             for (int y = 0; y < Size.Y; y++)
             {
                 for (int x = 0; x < Size.X; x++)
                 {
-                    SetPixel(x, y, clearColour);
+                    SetPixel(x, y, clearcolor);
                 }
             }
         }

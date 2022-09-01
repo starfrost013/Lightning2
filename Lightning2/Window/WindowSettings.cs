@@ -121,13 +121,13 @@ namespace LightningGL
         public Camera Camera { get; internal set; }
 
         /// <summary>
-        /// The background colour of this window.
+        /// The background color of this window.
         /// </summary>
-        public Color BackgroundColour { get; internal set; }
+        public Color BackgroundColor { get; internal set; }
 
         public WindowSettings()
         {
-            // Show the window by default, set its colour to RGBA 0,0,0,255 (solid black), and set the rendering blend mode to SDL_BLENDMODE_BLEND.
+            // Show the window by default, set its color to RGBA 0,0,0,255 (solid black), and set the rendering blend mode to SDL_BLENDMODE_BLEND.
             WindowFlags = GlobalSettings.WindowFlags;
             Size = new Vector2(GlobalSettings.ResolutionX, GlobalSettings.ResolutionY);
 
@@ -136,7 +136,7 @@ namespace LightningGL
             if (Size == default(Vector2)) Size = new Vector2(960, 640);
             if (Position == default(Vector2)) Position = new Vector2(GlobalSettings.PositionX, GlobalSettings.PositionY);
             if (Title == null) Title = GlobalSettings.WindowTitle;
-            BackgroundColour = Color.FromArgb(255, 0, 0, 0);
+            BackgroundColor = Color.FromArgb(255, 0, 0, 0);
         }
     }
 }

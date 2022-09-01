@@ -183,10 +183,10 @@ Button btn1 = new Button()
     Position = new(150, 150),
     Size = new(44, 44),
     Text = "button",
-    BackgroundColour = Color.PaleGoldenrod,
-    HoverColour = Color.Goldenrod,
-    PressedColour = Color.DarkGoldenrod,
-    ForegroundColour = Color.Black,
+    BackgroundColor = Color.PaleGoldenrod,
+    HoverColor = Color.Goldenrod,
+    PressedColor = Color.DarkGoldenrod,
+    ForegroundColor = Color.Black,
     Filled = true,
     Font = "Arial.11pt"
 };
@@ -195,10 +195,10 @@ ListBox listBox1 = new ListBox
 {
     Position = new(70, 150),
     Size = new(90, 44),
-    BackgroundColour = Color.PaleGoldenrod,
-    HoverColour = Color.Goldenrod,
-    PressedColour = Color.DarkGoldenrod,
-    ForegroundColour = Color.Black,
+    BackgroundColor = Color.PaleGoldenrod,
+    HoverColor = Color.Goldenrod,
+    PressedColor = Color.DarkGoldenrod,
+    ForegroundColor = Color.Black,
     Filled = true,
     Font = "Arial.11pt"
 };
@@ -207,10 +207,10 @@ TextBox textBox1 = new TextBox(300)
 {
     Size = new(90, 44),
     Position = new(350, 150),
-    BackgroundColour = Color.Red,
-    HoverColour = Color.DarkRed,
-    PressedColour = Color.Maroon,
-    ForegroundColour = Color.White,
+    BackgroundColor = Color.Red,
+    HoverColor = Color.DarkRed,
+    PressedColor = Color.Maroon,
+    ForegroundColor = Color.White,
     Font = "Arial.11pt",
     Filled = true
 };
@@ -219,10 +219,10 @@ CheckBox checkBox1 = new CheckBox
 {
     Position = new(500, 150),
     Size = new(40, 40),
-    BackgroundColour = Color.BlueViolet,
-    HoverColour = Color.Blue,
-    PressedColour = Color.LightBlue,
-    ForegroundColour = Color.White,
+    BackgroundColor = Color.BlueViolet,
+    HoverColor = Color.Blue,
+    PressedColor = Color.LightBlue,
+    ForegroundColor = Color.White,
     Font = "Arial.11pt",
     Filled = true
 };

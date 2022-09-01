@@ -25,20 +25,20 @@ namespace LightningGL
         /// <param name="cWindow">The <see cref="Window"/> to render the ListBoxItem to.</param>
         public void Render(Window cWindow)
         {
-            // set the default background colour
-            if (CurBackgroundColour == default(Color)) CurBackgroundColour = BackgroundColour;
+            // set the default background color
+            if (CurBackgroundColor == default(Color)) CurBackgroundColor = BackgroundColor;
 
-            PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, CurBackgroundColour, Filled, BorderColour, BorderSize, SnapToScreen);
+            PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, CurBackgroundColor, Filled, Bordercolor, BorderSize, SnapToScreen);
 
             Font curFont = FontManager.GetFont(Font);
 
             if (curFont == null)
             {
-                PrimitiveRenderer.DrawText(cWindow, Text, Position, ForegroundColour, true);
+                PrimitiveRenderer.DrawText(cWindow, Text, Position, ForegroundColor, true);
             }
             else
             {
-                FontManager.DrawText(cWindow, Text, Font, Position, ForegroundColour);
+                FontManager.DrawText(cWindow, Text, Font, Position, ForegroundColor);
             }
         }
     }

@@ -182,8 +182,8 @@ namespace LightningGL
         /// <param name="text">The text to draw.</param>
         /// <param name="font">The <see cref="Font.FriendlyName"/> of the <see cref="Font"/> to draw this text in.</param>
         /// <param name="position">The position to draw the text.</param>
-        /// <param name="foreground">The foreground colour of the text.</param>
-        /// <param name="background">Optional: The background colour of the text.</param>
+        /// <param name="foreground">The foreground color of the text.</param>
+        /// <param name="background">Optional: The background color of the text.</param>
         /// <param name="style">Optional: The <see cref="TTF_FontStyle"/> of the text.</param>
         /// <param name="resizeFont">Optional: Font size to resize the font to.</param>
         /// <param name="outlineSize">Optional: Size of the font outline in pixels. Range is 1 to 15.</param>
@@ -212,8 +212,8 @@ namespace LightningGL
 
             if (curFont == null) _ = new NCException($"Attempted to acquire invalid font with name {font}", 39, "TextManager::DrawText font parameter is not a loaded font!", NCExceptionSeverity.FatalError);
 
-            // Set the foreground colour
-            SDL_Color fontColour = new SDL_Color(foreground.R, foreground.G, foreground.B, foreground.A);
+            // Set the foreground color
+            SDL_Color fontcolor = new SDL_Color(foreground.R, foreground.G, foreground.B, foreground.A);
 
             // Resize font if specified
             if (resizeFont > 0)
@@ -226,16 +226,16 @@ namespace LightningGL
             // add the length of each line to the text length
             string[] textLines = text.Split("\n");
 
-            // default to entirely transparent background (if the user has specified shasded for some reason, we still need a BG colour...)
-            SDL_Color bgColour = new SDL_Color(0, 0, 0, 0);
+            // default to entirely transparent background (if the user has specified shasded for some reason, we still need a BG color...)
+            SDL_Color bgcolor = new SDL_Color(0, 0, 0, 0);
 
             int fontSizeX = -1;
             int fontSizeY = -1;
 
             if (background != default(Color)) // draw the background (which requires sizing the entire text)
             {
-                // Set the background colour
-                bgColour = new SDL_Color(background.R, background.G, background.B, background.A);
+                // Set the background color
+                bgcolor = new SDL_Color(background.R, background.G, background.B, background.A);
 
                 Vector2 fontSize = GetTextSize(curFont, text);
 
@@ -264,7 +264,7 @@ namespace LightningGL
                 if (numberOfLines > 1) totalSizeX = (int)GetLargestTextSize(curFont, text).X;
 
                 // camera-aware is false for this as we have already "pushed" the position, so we don't need to do it again.
-                PrimitiveRenderer.DrawRectangle(cWindow, position, new(totalSizeX, totalSizeY), Color.FromArgb(bgColour.a, bgColour.r, bgColour.g, bgColour.b), true, default, default, true);
+                PrimitiveRenderer.DrawRectangle(cWindow, position, new(totalSizeX, totalSizeY), Color.FromArgb(bgcolor.a, bgcolor.r, bgcolor.g, bgcolor.b), true, default, default, true);
             }
 
             // Set the font outline, size and style
@@ -292,7 +292,7 @@ namespace LightningGL
                 switch (smoothing)
                 {
                     case FontSmoothingType.Default: // Antialiased
-                        textPtr = TTF_RenderUTF8_Blended(curFont.Handle, line, fontColour);
+                        textPtr = TTF_RenderUTF8_Blended(curFont.Handle, line, fontcolor);
                         textTexturePtr = SDL_CreateTextureFromSurface(cWindow.Settings.RendererHandle, textPtr);
 
                         SDL_RenderCopy(cWindow.Settings.RendererHandle, textTexturePtr, ref fontSrcRect, ref fontDstRect);
@@ -312,7 +312,7 @@ namespace LightningGL
 
                         continue;
                     case FontSmoothingType.Shaded: // Only shaded
-                        textPtr = TTF_RenderUTF8_Shaded(curFont.Handle, line, fontColour, bgColour);
+                        textPtr = TTF_RenderUTF8_Shaded(curFont.Handle, line, fontcolor, bgcolor);
                         textTexturePtr = SDL_CreateTextureFromSurface(cWindow.Settings.RendererHandle, textPtr);
 
                         SDL_RenderCopy(cWindow.Settings.RendererHandle, textTexturePtr, ref fontSrcRect, ref fontDstRect);
@@ -332,7 +332,7 @@ namespace LightningGL
 
                         continue;
                     case FontSmoothingType.Solid: // No processing done
-                        textPtr = TTF_RenderUTF8_Solid(curFont.Handle, line, fontColour);
+                        textPtr = TTF_RenderUTF8_Solid(curFont.Handle, line, fontcolor);
                         textTexturePtr = SDL_CreateTextureFromSurface(cWindow.Settings.RendererHandle, textPtr);
 
                         SDL_RenderCopy(cWindow.Settings.RendererHandle, textTexturePtr, ref fontSrcRect, ref fontDstRect);

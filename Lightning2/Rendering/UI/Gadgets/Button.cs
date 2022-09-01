@@ -8,7 +8,7 @@ namespace LightningGL
     /// <summary>
     /// Button
     /// 
-    /// June 12, 2022 (modified June 15, 2022: add highlight colour)
+    /// June 12, 2022 (modified June 15, 2022: add highlight color)
     /// 
     /// Defines a button class.
     /// </summary>
@@ -37,16 +37,16 @@ namespace LightningGL
         public void Render(Window cWindow)
         {
             // This is a bit of a hack, but it works for now
-            if (CurBackgroundColour == default(Color)) CurBackgroundColour = BackgroundColour;
+            if (CurBackgroundColor == default(Color)) CurBackgroundColor = BackgroundColor;
 
-            PrimitiveRenderer.DrawRectangle(cWindow, RenderPosition, Size, CurBackgroundColour, Filled, BorderColour, BorderSize, SnapToScreen);
+            PrimitiveRenderer.DrawRectangle(cWindow, RenderPosition, Size, CurBackgroundColor, Filled, Bordercolor, BorderSize, SnapToScreen);
 
             Font curFont = FontManager.GetFont(Font);
 
             if (FontManager.GetFont(Font) == null)
             {
                 // Use the default font.
-                PrimitiveRenderer.DrawText(cWindow, Text, RenderPosition, ForegroundColour, true);
+                PrimitiveRenderer.DrawText(cWindow, Text, RenderPosition, ForegroundColor, true);
             }
             else
             {
@@ -55,7 +55,7 @@ namespace LightningGL
                 textPos.X = textPos.X - (Size.X / 2) - (textSize.X / 2);
                 textPos.Y = textPos.Y - (Size.Y / 2) - (textSize.Y / 2);
 
-                FontManager.DrawText(cWindow, Text, Font, textPos, ForegroundColour, default(Color), Style);
+                FontManager.DrawText(cWindow, Text, Font, textPos, ForegroundColor, default(Color), Style);
             }
         }
     }

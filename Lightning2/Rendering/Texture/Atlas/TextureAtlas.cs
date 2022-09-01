@@ -85,7 +85,7 @@ namespace LightningGL
             }
         }
 
-        public override void SetPixel(int x, int y, Color colour, bool relative = false)
+        public override void SetPixel(int x, int y, Color color, bool relative = false)
         {
             int row = (int)(Index / Size.Y) + 1;
 
@@ -93,11 +93,11 @@ namespace LightningGL
             {
                 int relativeX = (int)(FrameSize.X * (Index / (row + 1)));
                 int relativeY = (int)(FrameSize.Y * row);
-                base.SetPixel(relativeX, relativeY, colour);
+                base.SetPixel(relativeX, relativeY, color);
             }
             else
             {
-                base.SetPixel(x, y, colour);
+                base.SetPixel(x, y, color);
             }
         }
     }
