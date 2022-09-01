@@ -35,7 +35,7 @@ namespace LightningGL
         /// <summary>
         /// Internal: The current rate of frames rendered per second.
         /// </summary>
-        internal double CurFPS { get; private set; }
+        public double CurFPS { get; private set; }
 
         /// <summary>
         /// Internal: The number of frames since the engine started rendering. 

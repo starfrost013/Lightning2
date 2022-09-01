@@ -50,7 +50,7 @@ namespace NuCore.SDL2
         public const string NativeDLLPath = @"Libraries\FreeType2-ARM64.dll";
 #endif
 
-        #region Core
+        #region Base Interface
 
         /// <summary>
         /// Defines a version of FreeType2

@@ -215,7 +215,6 @@ namespace LightningGL
             DontUseSceneManager = generalDontUseSceneManagerValue;
             SplashScreenEnabled = generalSplashScreenEnabledValue;
 
-
             if (SplashScreenEnabled
                 && SplashScreenImage == null) SplashScreenImage = @"Content\Splash\Splash.png";
 

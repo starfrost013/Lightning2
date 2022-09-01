@@ -89,7 +89,7 @@ namespace LightningGL
                 // Load LocalSettings
                 if (GlobalSettings.LocalSettingsPath != null)
                 {
-                    NCLogging.Log($"Loading local settings from {GlobalSettings.LocalSettingsPath}");
+                    NCLogging.Log($"Loading local settings from {GlobalSettings.LocalSettingsPath}...");
                     LocalSettings.Load();
                 }
 

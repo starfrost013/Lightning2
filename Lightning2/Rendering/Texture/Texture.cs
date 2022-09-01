@@ -94,7 +94,11 @@ namespace LightningGL
         /// Private: Texture format allocated for internal use
         /// </summary>
         private IntPtr FormatHandle { get; set; }
-
+        
+        /// <summary>
+        /// Types of texture acess.
+        /// </summary>
+        public SDL_TextureAccess Access { get; internal set; }
 
         /// <summary>
         /// Initialises a new texture with the size specified in the <paramref name="nSize"/> parameter.
@@ -331,6 +335,7 @@ namespace LightningGL
         /// <param name="colour">The optional colour to clear the texture with.</param>
         public void Clear(Color colour = default)
         {
+            
             Color clearColour = Color.FromArgb(0, 0, 0, 0);
 
             if (colour != default) clearColour = colour;
