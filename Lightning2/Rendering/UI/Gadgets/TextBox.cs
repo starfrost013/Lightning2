@@ -53,6 +53,11 @@ namespace LightningGL
         /// </summary>
         public int CursorBlinkLength { get; set; }
 
+        /// <summary>
+        /// Determines if multiple lines are allowed in this text box.
+        /// </summary>
+        public bool AllowMultiline { get; set; }
+
         public TextBox(int capacity) : base()
         {
             Capacity = capacity;
@@ -109,9 +114,14 @@ namespace LightningGL
                 case SDL_Scancode.SDL_SCANCODE_RGUI:
                 case SDL_Scancode.SDL_SCANCODE_LCTRL:
                 case SDL_Scancode.SDL_SCANCODE_RCTRL:
+                    return;
                 case SDL_Scancode.SDL_SCANCODE_RETURN:
                 case SDL_Scancode.SDL_SCANCODE_RETURN2:
                 case SDL_Scancode.SDL_SCANCODE_KP_ENTER:
+                    if (AllowMultiline)
+                    {
+                        Text = $"{Text}\n";
+                    }
                     return;
                 default:
                     string keyStr = key.KeySym.ToString();

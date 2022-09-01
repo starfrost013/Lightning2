@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Numerics;
+using System.Threading;
 
 namespace LightningGL
 {
@@ -54,12 +55,14 @@ namespace LightningGL
                 NCLogging.Log("Initialising SDL_mixer...");
                 if (SDL_mixer.Mix_Init(SDL_mixer.MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2_mixer: {SDL.SDL_GetError()}", 3, "Failed to initialise SDL2_mixer during Lightning::Init", NCExceptionSeverity.FatalError);
 
-                NCLogging.Log("Initialising audio device...");
+                NCLogging.Log("Initialising audio device (44Khz, stereo)...");
                 if (SDL_mixer.Mix_OpenAudio(44100, SDL_mixer.Mix_AudioFormat.MIX_DEFAULT_FORMAT, 2, 2048) < 0) _ = new NCException($"Error initialising audio device: {SDL.SDL_GetError()}", 56, "Failed to initialise audio device during Lightning::Init", NCExceptionSeverity.FatalError);
 
+                // this should always be the earliest step
                 NCLogging.Log("Obtaining system information...");
                 SystemInfo.Load();
 
+                // this should always be the second earliest step
                 NCLogging.Log("Loading Engine.ini...");
                 GlobalSettings.Load();
 

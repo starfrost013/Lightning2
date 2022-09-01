@@ -60,15 +60,6 @@ namespace LightningGL
         /// </summary>
         public static bool DontUseSceneManager { get; internal set; }
 
-        /// <summary>
-        /// Determines if the splash screen is enabled.
-        /// </summary>
-        public static bool SplashScreenEnabled { get; internal set; }
-
-        /// <summary>
-        /// Determines the splash screen image to show.
-        /// </summary>
-        public static string SplashScreenImage { get; internal set; }
         #endregion
 
         #region Graphics settings
@@ -193,7 +184,6 @@ namespace LightningGL
             ContentFolder = generalSection.GetValue("ContentFolder");
             string generalDontUseSceneManager = generalSection.GetValue("DontUseSceneManager");
             string generalSplashScreenEnabled = generalSection.GetValue("SplashScreenEnabled");
-            SplashScreenImage = generalSection.GetValue("SplashScreen");
 
             // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
 
@@ -213,10 +203,6 @@ namespace LightningGL
             EngineAboutScreenOnShiftF9 = generalAboutScreenOnF9Value;
             DeleteUnpackedFilesOnExit = generalDeleteUnpackedFilesOnExitValue;
             DontUseSceneManager = generalDontUseSceneManagerValue;
-            SplashScreenEnabled = generalSplashScreenEnabledValue;
-
-            if (SplashScreenEnabled
-                && SplashScreenImage == null) SplashScreenImage = @"Content\Splash\Splash.png";
 
             // Load the Graphics section if it exists.
             if (graphicsSection != null)
