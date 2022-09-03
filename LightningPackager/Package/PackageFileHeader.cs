@@ -100,7 +100,6 @@ namespace LightningPackager
                 $"version of the engine,, or your game has somehow been bundled with an incompatible engine version - in which case you should contact the game developer for a fix.", 
                 137, $"PackageFile header parser: Major and minor versions were not identical to the values in PackagerVersion::LIGHTNING_VERSION_MAJOR and PackagerVersion::LIGHTNING_VERSION_MINOR",
                 NCExceptionSeverity.FatalError);
-            
 
             NCLogging.Log("WAD File Metadata:\n" +
                 $"Format version: {formatVersionMajor}.{formatVersionMinor}\n" +
