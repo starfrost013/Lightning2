@@ -19,7 +19,10 @@ namespace LightningGL
         /// </summary>
         internal static string GLOBALSETTINGS_PATH = @"Content\Engine.ini";
 
-
+        /// <summary>
+        /// The <see cref="NCINIFile"/> containing the GlobalSettings vlaues
+        /// </summary>
+        public static NCINIFile IniFile { get; private set; }
 
         #region General settings
         /// <summary>
@@ -155,15 +158,15 @@ namespace LightningGL
         {
             // Possible todo: Serialise these to properties and get rid of the loader/sections
             // Consider this
-            NCINIFile iniFile = NCINIFile.Parse(GLOBALSETTINGS_PATH);
+            IniFile = NCINIFile.Parse(GLOBALSETTINGS_PATH);
 
-            if (iniFile == null) _ = new NCException("Failed to load Engine.ini!", 28, "GlobalSettings::Load failed to load Engine.ini!", NCExceptionSeverity.FatalError);
+            if (IniFile == null) _ = new NCException("Failed to load Engine.ini!", 28, "GlobalSettings::Load failed to load Engine.ini!", NCExceptionSeverity.FatalError);
 
-            NCINIFileSection generalSection = iniFile.GetSection("General");
-            NCINIFileSection graphicsSection = iniFile.GetSection("Graphics");
-            NCINIFileSection locSection = iniFile.GetSection("Localisation");
-            NCINIFileSection requirementsSection = iniFile.GetSection("Requirements");
-            NCINIFileSection sceneSection = iniFile.GetSection("Scene");
+            NCINIFileSection generalSection = IniFile.GetSection("General");
+            NCINIFileSection graphicsSection = IniFile.GetSection("Graphics");
+            NCINIFileSection locSection = IniFile.GetSection("Localisation");
+            NCINIFileSection requirementsSection = IniFile.GetSection("Requirements");
+            NCINIFileSection sceneSection = IniFile.GetSection("Scene");
 
             if (generalSection == null) _ = new NCException("Engine.ini must have a General section!", 41, "GlobalSettings::Load call to NCINIFile::GetSection failed for General section", NCExceptionSeverity.FatalError);
             if (locSection == null) _ = new NCException("Engine.ini must have a Localisation section!", 29, "GlobalSettings::Load call to NCINIFile::GetSection failed for Localisation section", NCExceptionSeverity.FatalError);
@@ -322,5 +325,9 @@ namespace LightningGL
             }
         }
 
+        public static void Write()
+        {
+            IniFile.Write(GLOBALSETTINGS_PATH);
+        }
     }
 }
