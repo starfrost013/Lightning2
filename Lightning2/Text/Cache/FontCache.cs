@@ -37,7 +37,8 @@ namespace LightningGL
                 FontCacheEntry entry = Entries[entryId];
                 if (!entry.UsedThisFrame)
                 {
-                    NCLogging.Log($"Removing unused cached text (font={entry.Font}, text = {entry.Text}, style={entry.Style})");
+                    NCLogging.Log($"Removing unused cached text (font={entry.Font}, text={entry.Text}, style={entry.Style}, " +
+                        $"smoothing type={entry.SmoothingType}, bgcolor={entry.BackgroundColor}, outline size={entry.OutlineSize})");
                     DeleteEntry(entry);
                 }
             }
@@ -50,11 +51,11 @@ namespace LightningGL
             {
                 if (entry.Font == font
                     && entry.Text == text
-                    && entry.Color == color
+                    && entry.Color.Equals(color)
                     && entry.Style == style
                     && entry.SmoothingType == type
                     && entry.OutlineSize == outlineSize
-                    && entry.BackgroundColor == bgColor)
+                    && entry.BackgroundColor.Equals(bgColor))
                 {
                     return entry;
                 }

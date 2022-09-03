@@ -513,32 +513,6 @@ namespace NuCore.SDL2
                 b = nb;
                 a = na;
             }
-
-            public static bool operator ==(SDL_Color color1, SDL_Color color2)
-            {
-                return (color1.a == color2.a
-                    && color1.r == color2.r
-                    && color1.g == color2.g
-                    && color1.b == color2.b);
-            }
-
-            public static bool operator !=(SDL_Color color1, SDL_Color color2)
-            {
-                return (color1.a != color2.a
-                    && color1.r != color2.r
-                    && color1.g != color2.g
-                    && color1.b != color2.b);
-            }
-
-            public override int GetHashCode()
-            {
-                return base.GetHashCode();
-            }
-
-            public override bool Equals([NotNullWhen(true)] object obj)
-            {
-                return base.Equals(obj);
-            }
         }
 
         [StructLayout(LayoutKind.Sequential)]
