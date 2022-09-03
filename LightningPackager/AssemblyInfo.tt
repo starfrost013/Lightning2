@@ -1,0 +1,45 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Text" #>
+<#@ output extension=".cs" #>
+// This file obtains the version information (from Lightning2) - generated using the AssemblyInfo.tt T4 template.
+// Automatically generated file - do not modify
+
+using System.Reflection;
+
+[assembly: AssemblyVersion("<#= LIGHTNING_VERSION_MAJOR #>.<#= LIGHTNING_VERSION_MINOR #>.<#= LIGHTNING_VERSION_REVISION #>.<#= LIGHTNING_VERSION_BUILD #>")]
+[assembly: AssemblyFileVersion("<#= LIGHTNING_VERSION_MAJOR #>.<#= LIGHTNING_VERSION_MINOR #>.<#= LIGHTNING_VERSION_REVISION #>.<#= LIGHTNING_VERSION_BUILD #>")]
+[assembly: AssemblyInformationalVersion("<#= LIGHTNING_VERSION_EXTENDED_STRING #>")]
+[assembly: AssemblyTitle("Lightning Packaging Library")]
+
+namespace LightningPackager
+{
+	public static class PackagerVersion
+	{
+		public static int LIGHTNING_VERSION_MAJOR = <#= LIGHTNING_VERSION_MAJOR #>;
+		public static int LIGHTNING_VERSION_MINOR = <#= LIGHTNING_VERSION_MINOR #>; 
+		public static int LIGHTNING_VERSION_REVISION = <#= LIGHTNING_VERSION_REVISION #>;
+		public static int LIGHTNING_VERSION_BUILD = <#= LIGHTNING_VERSION_BUILD #>;
+		public static string LIGHTNING_VERSION_SPECIFIER = "<#= LIGHTNING_VERSION_SPECIFIER #>";
+		public static string LIGHTNING_VERSION_STRING = "<#= LIGHTNING_VERSION_STRING #>";
+		public static string LIGHTNING_VERSION_BUILD_STRING = "<#= LIGHTNING_VERSION_BUILD_STRING #>";
+		public static string LIGHTNING_VERSION_EXTENDED_STRING = "<#= LIGHTNING_VERSION_EXTENDED_STRING #>";
+	}
+}
+
+<#+
+
+public static int LIGHTNING_VERSION_MAJOR = 1;
+public static int LIGHTNING_VERSION_MINOR = 1; 
+public static int LIGHTNING_VERSION_REVISION = 0;
+public static int LIGHTNING_VERSION_BUILD = (DateTime.UtcNow - new DateTime(2022, 02, 26)).Days;
+
+public static string LIGHTNING_VERSION_SPECIFIER = "-alpha";
+public static string LIGHTNING_VERSION_STRING = $"{LIGHTNING_VERSION_MAJOR}.{LIGHTNING_VERSION_MINOR}.{LIGHTNING_VERSION_REVISION}{LIGHTNING_VERSION_SPECIFIER}";
+public static string LIGHTNING_VERSION_BUILD_STRING = $"{LIGHTNING_VERSION_MAJOR}.{LIGHTNING_VERSION_MINOR}.{LIGHTNING_VERSION_REVISION}.{LIGHTNING_VERSION_BUILD}";
+public static string LIGHTNING_VERSION_EXTENDED_STRING = $"{LIGHTNING_VERSION_STRING} build {LIGHTNING_VERSION_BUILD}, built {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}";
+
+#>

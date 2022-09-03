@@ -116,7 +116,7 @@ namespace MakePackage
                 if (Name == null) Name = "Game name here";
                 if (GameVersion == null) GameVersion = "1.0";
                 // temporary version
-                if (EngineVersion == null) EngineVersion = "1.0.138";
+                if (EngineVersion == null) EngineVersion = PackagerVersion.LIGHTNING_VERSION_BUILD_STRING;
 
                 //bad code
                 if (InFile == null)

@@ -21,7 +21,7 @@
             Name = "Game name here";
             GameVersion = "1.0";
             // temporary version
-            EngineVersion = "1.0.154";
+            EngineVersion = PackagerVersion.LIGHTNING_VERSION_BUILD_STRING;
             CompressionMode = PackageFileCompressionMode.XOR;
         }
     }

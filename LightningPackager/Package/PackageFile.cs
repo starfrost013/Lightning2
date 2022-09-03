@@ -64,7 +64,7 @@ namespace LightningPackager
 
             PackageFileHeader header = PackageFileHeader.Read(reader);
 
-            if (header == null) _ = new NCException($"{path} is invalid: Header is invalid", 105, "PackageFileHeader::Read returned null", NCExceptionSeverity.FatalError, null, true);
+            if (header == null) _ = new NCException($"{path} is invalid: Package header is invalid", 105, "PackageFileHeader::Read returned null", NCExceptionSeverity.FatalError, null, true);
 
             PackageFile file = new PackageFile(header.Metadata);
 

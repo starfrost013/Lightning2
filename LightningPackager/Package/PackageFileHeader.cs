@@ -65,6 +65,43 @@ namespace LightningPackager
                 EngineVersion = reader.ReadString()
             };
 
+            // perform an engine version check on the WAD
+            // special case 1.0.138 (1.0 placeholder for this functionality)
+
+            bool failedCompatCheck = (metadata.EngineVersion == "1.0.138");
+
+            // don't try to parse versions older than 1.1 that are incompatible
+            if (!failedCompatCheck)
+            {
+                // check engine version
+                string[] engineVersionComponents = metadata.EngineVersion.Split('.');
+                int major = Convert.ToInt32(engineVersionComponents[0]),
+                    minor = Convert.ToInt32(engineVersionComponents[1]),
+                    revision = Convert.ToInt32(engineVersionComponents[2]),
+                    build = Convert.ToInt32(engineVersionComponents[3]);
+
+                if (major != PackagerVersion.LIGHTNING_VERSION_MAJOR
+                    || minor != PackagerVersion.LIGHTNING_VERSION_MINOR) failedCompatCheck = true;
+
+                // print a warning message on wrong revision
+                if (revision != PackagerVersion.LIGHTNING_VERSION_REVISION
+                    || build != PackagerVersion.LIGHTNING_VERSION_BUILD)
+                {
+                    _ = new NCException($"Incorrect engine patch version. You may encounter issues with this game not anticipated by the developers! (expected version {PackagerVersion.LIGHTNING_VERSION_BUILD_STRING}, got {metadata.EngineVersion}!)", 138,
+                        "Revision and build values of a WAD's EngineVersion were not identical to the values in PackagerVersion::LIGHTNING_VERSION_REVISION and PackagerVersion::LIGHTNING_VERSION_BUILD respectively.!",
+                        NCExceptionSeverity.Warning, null, false);
+                }
+            }
+
+            if (failedCompatCheck) _ = new NCException("This WAD file is incompatible with this version of Lightning.\n\n" +
+                $"WAD Version: {metadata.EngineVersion}\n" +
+                $"Lightning Version: {PackagerVersion.LIGHTNING_VERSION_BUILD_STRING} \n\n" +
+                $"Only versions that have the same major and minor version are compatible. Either regenerate your game WAD using MakePackage.exe to be compatible with the latest " +
+                $"version of the engine,, or your game has somehow been bundled with an incompatible engine version - in which case you should contact the game developer for a fix.", 
+                137, $"PackageFile header parser: Major and minor versions were not identical to the values in PackagerVersion::LIGHTNING_VERSION_MAJOR and PackagerVersion::LIGHTNING_VERSION_MINOR",
+                NCExceptionSeverity.FatalError);
+            
+
             NCLogging.Log("WAD File Metadata:\n" +
                 $"Format version: {formatVersionMajor}.{formatVersionMinor}\n" +
                 $"TimeStamp: {DateTimeOffset.FromUnixTimeSeconds(metadata.TimeStamp).ToString("yyyy-MM-dd HH:mm:ss")}\n" +

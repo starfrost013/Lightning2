@@ -105,7 +105,7 @@ namespace LightningGL
                     "FontCache::Render - font parameter is not a font, or text parameter is purely null!", NCExceptionSeverity.FatalError);
             }
 
-            NCLogging.Log($"Precaching font bitmap - font={font}, text={text}, color={fgColor}, smoothing type={smoothingType}, bgcolor={bgColor}, outline size={outlineSize}");
+            NCLogging.Log($"Precaching font bitmap (font={font}, text={text}, color={fgColor}, smoothing type={smoothingType}, bgcolor={bgColor}, outline size={outlineSize})");
 
             // split the text into lines
             // add the length of each line to the text length

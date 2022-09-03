@@ -24,7 +24,6 @@ if (validArgs)
         {
             NCLogging.Log($"Successfully extracted package to {CommandLine.OutFolder}!");
         }
-
     }
 
 }
