@@ -33,7 +33,7 @@ namespace LightningGL
         /// Adds a texture to the Texture Manager.
         /// </summary>
         /// <param name="renderable">A <see cref="Texture"/> to add to the texture manager</param>
-        public static void AddTexture(Renderable renderable) => Textures.Add(renderable);
+        public static void AddElement(Renderable renderable) => Textures.Add(renderable);
 
         /// <summary>
         /// Renders all of the textures in the texture manager.

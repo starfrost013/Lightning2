@@ -5,13 +5,13 @@ namespace LightningGL
     /// <summary>
     /// Base class for Lightning asset managers.
     /// </summary>
-    public abstract class AssetManager<T>
+    internal abstract class AssetManager<T>
     {
-        public List<T> AssetList { get; internal set; }
+        internal List<T> AssetList { get; set; }
 
-        public abstract T Load(T asset);
+        internal abstract T Load(T asset);
 
-        public virtual void AddElement(T asset)
+        internal virtual void AddElement(T asset)
         {
             AssetList.Add(asset);
         }

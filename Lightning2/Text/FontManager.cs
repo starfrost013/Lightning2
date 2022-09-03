@@ -190,10 +190,10 @@ namespace LightningGL
         /// <param name="style">Optional: The <see cref="TTF_FontStyle"/> of the text.</param>
         /// <param name="outlineSize">Optional: Size of the font outline . Range is 1 to the font size.</param>
         /// <param name="lineLength">Optional: Maximum line length in pixels. Ignores newlines.</param>
-        /// <param name="smoothing">Optional: The <see cref="FontSmoothingType"/> of the text.</param>
+        /// <param name="smoothingType">Optional: The <see cref="FontSmoothingType"/> of the text.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
         public static void DrawText(Window cWindow, string text, string font, Vector2 position, Color foreground, Color background = default(Color), 
-            TTF_FontStyle style = TTF_FontStyle.Normal, int outlineSize = -1, int lineLength = -1, FontSmoothingType smoothing = FontSmoothingType.Default, 
+            TTF_FontStyle style = TTF_FontStyle.Normal, int outlineSize = -1, int lineLength = -1, FontSmoothingType smoothingType = FontSmoothingType.Default, 
             bool snapToScreen = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
@@ -228,7 +228,8 @@ namespace LightningGL
             int fontSizeY = -1;
 
             // Draw the background
-            if (background != default(Color)) // draw the background (which requires sizing the entire text)
+            if (background != default(Color)
+                && smoothingType != FontSmoothingType.Shaded) // draw the background (which requires sizing the entire text)
             {
                 // Set the background color
                 bgColor = new SDL_Color(background.R, background.G, background.B, background.A);
@@ -264,13 +265,15 @@ namespace LightningGL
             }
 
             // use the cached entry if it exists
-            FontCacheEntry cacheEntry = Cache.GetEntry(font, text, fgColor, style, smoothing, outlineSize, bgColor);
+            FontCacheEntry cacheEntry = Cache.GetEntry(font, text, fgColor, style, smoothingType, outlineSize, bgColor);
 
             if (cacheEntry == null)
             {
                 NCLogging.Log("Cached text not found. Caching now");
-                cacheEntry = Cache.AddEntry(cWindow, font, text, fgColor, style, smoothing, outlineSize, bgColor);
+                cacheEntry = Cache.AddEntry(cWindow, font, text, fgColor, style, smoothingType, outlineSize, bgColor);
             }
+
+            cacheEntry.UsedThisFrame = true;
 
             SDL_Rect fontSrcRect = new SDL_Rect(0, 0, fontSizeX, fontSizeY);
             SDL_Rect fontDstRect = new SDL_Rect((int)position.X, (int)position.Y, fontSizeX, fontSizeY);
@@ -298,6 +301,12 @@ namespace LightningGL
 
             // weird hack. if we don't do this weird stuff happens
             if (outlineSize > -1) TTF_SetFontOutline(curFont.Handle, -1);
+        }
+
+        internal static void Update()
+        {
+            Cache.PurgeUnusedEntries();
+            foreach (FontCacheEntry entry in Cache.Entries) entry.UsedThisFrame = false;
         }
 
         /// <summary>

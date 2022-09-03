@@ -1,8 +1,7 @@
 ﻿using static NuCore.SDL2.SDL;
 using static NuCore.SDL2.SDL_ttf;
-using System;
+using NuCore.Utilities;
 using System.Collections.Generic;
-using System.Drawing;
 
 namespace LightningGL
 {
@@ -32,7 +31,16 @@ namespace LightningGL
 
         internal void PurgeUnusedEntries()
         {
-            // todo (reuqired to prevent memory leaks
+            // memory leaks are bad
+            for (int entryId = 0; entryId < Entries.Count; entryId++)
+            {
+                FontCacheEntry entry = Entries[entryId];
+                if (!entry.UsedThisFrame)
+                {
+                    NCLogging.Log($"Removing unused cached text (font={entry.Font}, text = {entry.Text}, style={entry.Style})");
+                    DeleteEntry(entry);
+                }
+            }
         }
 
         internal FontCacheEntry GetEntry(string font, string text, 
@@ -60,6 +68,11 @@ namespace LightningGL
         {
             FontCacheEntry fontEntry = GetEntry(font, text, color, style, type, outlineSize, bgColor);
 
+            DeleteEntry(fontEntry); 
+        }
+
+        internal void DeleteEntry(FontCacheEntry fontEntry)
+        {
             if (fontEntry != null)
             {
                 fontEntry.Unload();

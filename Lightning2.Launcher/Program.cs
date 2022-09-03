@@ -238,8 +238,8 @@ UIManager.AddElement(listBox1);
 UIManager.AddElement(textBox1);
 UIManager.AddElement(checkBox1);
 
-TextureManager.AddTexture(texture);
-TextureManager.AddTexture(animatedTexture1);
+TextureManager.AddElement(texture);
+TextureManager.AddElement(animatedTexture1);
 
 while (cWindow.Run())
 {

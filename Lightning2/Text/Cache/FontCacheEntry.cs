@@ -71,6 +71,12 @@ namespace LightningGL
         /// </summary>
         internal int OutlineSize { get; set; }
 
+        /// <summary>
+        /// Determines if this cache entry was used this frame.
+        /// If not, it will be removed.
+        /// </summary>
+        internal bool UsedThisFrame { get; set; }
+
         internal FontCacheEntry()
         {
             Lines = new List<FontCacheEntryLine>();
