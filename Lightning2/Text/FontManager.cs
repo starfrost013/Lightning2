@@ -267,11 +267,8 @@ namespace LightningGL
             // use the cached entry if it exists
             FontCacheEntry cacheEntry = Cache.GetEntry(font, text, fgColor, style, smoothingType, outlineSize, bgColor);
 
-            if (cacheEntry == null)
-            {
-                NCLogging.Log("Cached text not found. Caching now");
-                cacheEntry = Cache.AddEntry(cWindow, font, text, fgColor, style, smoothingType, outlineSize, bgColor);
-            }
+            // if it doesn't exist add it
+            if (cacheEntry == null) cacheEntry = Cache.AddEntry(cWindow, font, text, fgColor, style, smoothingType, outlineSize, bgColor);
 
             cacheEntry.UsedThisFrame = true;
 
