@@ -148,7 +148,7 @@ namespace LightningGL
         /// <summary>
         /// The startup scene name.
         /// </summary>
-        public static string StartupScene { get; set; } 
+        public static string StartupScene { get; internal set; } 
         #endregion
 
         /// <summary>
@@ -325,7 +325,7 @@ namespace LightningGL
             }
         }
 
-        public static void Write()
+        public static void Save()
         {
             IniFile.Write(GLOBALSETTINGS_PATH);
         }
