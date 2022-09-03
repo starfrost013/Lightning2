@@ -211,9 +211,6 @@ namespace LightningGL
             // Render the lightmap.
             LightManager.Render(this);
 
-            // Render the UI.
-            UIManager.Render(this);
-
             // Render audio.
             AudioManager.Update(this);
 

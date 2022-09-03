@@ -33,7 +33,7 @@ namespace LightningGL
 
 public static int LIGHTNING_VERSION_MAJOR = 1;
 public static int LIGHTNING_VERSION_MINOR = 0; 
-public static int LIGHTNING_VERSION_REVISION = 1;
+public static int LIGHTNING_VERSION_REVISION = 2;
 public static int LIGHTNING_VERSION_BUILD = (DateTime.UtcNow - new DateTime(2022, 02, 26)).Days;
 
 public static string LIGHTNING_VERSION_SPECIFIER = "";

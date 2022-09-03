@@ -19,6 +19,8 @@ namespace LightningGL
         /// </summary>
         internal static string GLOBALSETTINGS_PATH = @"Content\Engine.ini";
 
+
+
         #region General settings
         /// <summary>
         /// The file to use when loading localisation strings.
