@@ -1,18 +1,24 @@
-﻿using System.Collections.Generic;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// Base class for Lightning asset managers.
     /// </summary>
-    internal abstract class AssetManager<T>
+    public abstract class AssetManager<T>
     {
         internal List<T> AssetList { get; set; }
 
-        internal abstract T Load(T asset);
-
-        internal virtual void AddElement(T asset)
+        public AssetManager()
         {
+            AssetList = new List<T>();
+        }
+
+        public abstract T Load(Window cWindow,
+            T asset);
+
+        public virtual void AddAsset(Window cWindow,
+            T asset)
+        {
+            Load(cWindow, asset);
             AssetList.Add(asset);
         }
     }

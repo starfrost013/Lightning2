@@ -1,10 +1,4 @@
-﻿using NuCore.SDL2;
-using NuCore.Utilities;
-using System;
-using System.IO;
-using System.Numerics;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// AudioFile
@@ -64,7 +58,7 @@ namespace LightningGL
         /// </summary>
         internal void Load()
         {
-            AudioHandle = SDL_mixer.Mix_LoadWAV(Path);
+            AudioHandle = Mix_LoadWAV(Path);
 
             if (AudioHandle == IntPtr.Zero) _ = new NCException($"Error loading audio file at {Path}: {SDL_mixer.Mix_GetError()}", 51, "An SDL_mixer error occurred in AudioFile::Load", NCExceptionSeverity.Error);
 
@@ -74,14 +68,14 @@ namespace LightningGL
         /// <summary>
         /// Internal: Used by AudioManager ONLY to unload file
         /// </summary>
-        internal void Unload() => SDL_mixer.Mix_FreeChunk(AudioHandle); // loadmus used therefore we are freeing chunks
+        internal void Unload() => Mix_FreeChunk(AudioHandle); // loadmus used therefore we are freeing chunks
 
         /// <summary>
         /// Plays this audio file until <see cref="Stop"/> is called.
         /// </summary>
         public void Play()
         {
-            SDL_mixer.Mix_PlayChannel(Channel, AudioHandle, Repeat);
+            Mix_PlayChannel(Channel, AudioHandle, Repeat);
             Playing = true;
         }
 
@@ -103,12 +97,12 @@ namespace LightningGL
             {
                 // /12 to make sounds fade out slower.
                 int volumeToSet = (int)(RealVolume / (magnitude / 12) * 128);
-                SDL_mixer.Mix_Volume(Channel, volumeToSet);
+                Mix_Volume(Channel, volumeToSet);
             }
             else // set to (realvolume * 128) if <= 0
             {
                 int volumeToSet = (int)(RealVolume * 128);
-                SDL_mixer.Mix_Volume(Channel, volumeToSet);
+                Mix_Volume(Channel, volumeToSet);
             }
         }
 
@@ -117,7 +111,7 @@ namespace LightningGL
         /// </summary>
         public void Pause()
         {
-            SDL_mixer.Mix_Pause(Channel);
+            Mix_Pause(Channel);
             Playing = false;
         }
 
@@ -126,7 +120,7 @@ namespace LightningGL
         /// </summary>
         public void Stop()
         {
-            SDL_mixer.Mix_HaltChannel(Channel);
+            Mix_HaltChannel(Channel);
             Playing = false;
         }
 
@@ -137,7 +131,7 @@ namespace LightningGL
         public void SetVolume(double volume)
         {
             RealVolume = volume;
-            SDL_mixer.Mix_Volume(Channel, (int)(RealVolume * 128));
+            Mix_Volume(Channel, (int)(RealVolume * 128));
         }
     }
 }

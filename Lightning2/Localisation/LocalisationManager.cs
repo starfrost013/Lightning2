@@ -1,7 +1,4 @@
-﻿using NuCore.Utilities;
-using System.Collections.Generic;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// LightningGL Localisation Manager

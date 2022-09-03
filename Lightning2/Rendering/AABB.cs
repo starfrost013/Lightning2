@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// AABB
@@ -30,7 +28,7 @@ namespace LightningGL
             return (render1Min.X <= render2Max.X
                 && render1Min.Y <= render2Max.Y
                 && render1Max.X >= render2Min.X
-                && render1Max.Y >= render2Min.Y); 
+                && render1Max.Y >= render2Min.Y);
         }
 
         /// <summary>

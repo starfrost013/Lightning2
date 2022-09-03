@@ -1,12 +1,4 @@
-﻿using static NuCore.SDL2.SDL;
-using static NuCore.SDL2.SDL_ttf;
-using NuCore.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Numerics;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// FontCacheEntry
@@ -49,7 +41,7 @@ namespace LightningGL
         /// The colour of this font.
         /// </summary>
         internal SDL_Color Color { get; private set; }
-        
+
         /// <summary>
         /// The background colour of this font.
         /// Ignored if the value of <see cref="SmoothingType"/> is not <see cref="FontSmoothingType.Blended"/>
@@ -82,8 +74,8 @@ namespace LightningGL
             Lines = new List<FontCacheEntryLine>();
         }
 
-        internal static FontCacheEntry Render(Window cWindow, string font, string text, 
-            SDL_Color fgColor, TTF_FontStyle style, FontSmoothingType smoothingType = FontSmoothingType.Default, 
+        internal static FontCacheEntry Render(Window cWindow, string font, string text,
+            SDL_Color fgColor, TTF_FontStyle style, FontSmoothingType smoothingType = FontSmoothingType.Default,
             int outlineSize = -1, SDL_Color bgColor = default)
         {
             FontCacheEntry entry = new FontCacheEntry();
@@ -93,7 +85,7 @@ namespace LightningGL
             entry.Style = style;
             entry.SmoothingType = smoothingType;
             entry.BackgroundColor = bgColor;
-            entry.OutlineSize = outlineSize;    
+            entry.OutlineSize = outlineSize;
 
             // render the font
             Font fontForRender = FontManager.GetFont(font);
@@ -101,7 +93,7 @@ namespace LightningGL
             if (fontForRender == null
                 || text == null)
             {
-                _ = new NCException("Cannot render a non-existent font or text into the font cache!", 136, 
+                _ = new NCException("Cannot render a non-existent font or text into the font cache!", 136,
                     "FontCache::Render - font parameter is not a font, or text parameter is purely null!", NCExceptionSeverity.FatalError);
             }
 

@@ -1,7 +1,4 @@
-﻿using NuCore.Utilities;
-using System;
-using System.IO;
-using static NuCore.SDL2.SDL;
+﻿using System.IO;
 
 namespace LightningGL
 {
@@ -149,7 +146,7 @@ namespace LightningGL
         /// <summary>
         /// The startup scene name.
         /// </summary>
-        public static string StartupScene { get; set; } 
+        public static string StartupScene { get; set; }
         #endregion
 
         /// <summary>

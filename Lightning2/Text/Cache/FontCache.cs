@@ -1,9 +1,4 @@
-﻿using static NuCore.SDL2.SDL;
-using static NuCore.SDL2.SDL_ttf;
-using NuCore.Utilities;
-using System.Collections.Generic;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// FontCache
@@ -44,7 +39,7 @@ namespace LightningGL
             }
         }
 
-        internal FontCacheEntry GetEntry(string font, string text, 
+        internal FontCacheEntry GetEntry(string font, string text,
             SDL_Color color, TTF_FontStyle style, FontSmoothingType type = FontSmoothingType.Default, int outlineSize = -1, SDL_Color bgColor = default)
         {
             foreach (FontCacheEntry entry in Entries)
@@ -69,7 +64,7 @@ namespace LightningGL
         {
             FontCacheEntry fontEntry = GetEntry(font, text, color, style, type, outlineSize, bgColor);
 
-            DeleteEntry(fontEntry); 
+            DeleteEntry(fontEntry);
         }
 
         internal void DeleteEntry(FontCacheEntry fontEntry)

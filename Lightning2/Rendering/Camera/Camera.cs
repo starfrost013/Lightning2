@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// Camera

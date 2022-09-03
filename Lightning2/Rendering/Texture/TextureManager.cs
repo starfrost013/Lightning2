@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Numerics;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// TextureManager
@@ -10,40 +7,34 @@ namespace LightningGL
     /// 
     /// Manager for texture rendering.
     /// </summary>
-    public static class TextureManager
+    public class TextureAssetManager : AssetManager<Texture>
     {
         /// <summary>
         /// If true, screen-space coordinates will be used for this layer instead of world-space coordinates.
         /// </summary>
         public static bool SnapToScreen { get; set; }
 
-        /// <summary>
-        /// The list of <see cref="Textures"/> in this layer.
-        /// 
-        /// Todo: refactor AnimatedTexture and then change this to a list of textures
-        /// </summary>
-        public static List<Renderable> Textures { get; private set; }
-
-        static TextureManager()
+        public override Texture Load(Window cWindow, Texture asset)
         {
-            Textures = new List<Renderable>();   
+            asset.Load(cWindow);
+            return asset;
         }
 
-        /// <summary>
-        /// Adds a texture to the Texture Manager.
-        /// </summary>
-        /// <param name="renderable">A <see cref="Texture"/> to add to the texture manager</param>
-        public static void AddElement(Renderable renderable) => Textures.Add(renderable);
+        // this is here for reasons (so that it can be used from using static LightningGL.Window)
+        public override void AddAsset(Window cWindow, Texture asset)
+        {
+            base.AddAsset(cWindow, asset);
+        }
 
         /// <summary>
         /// Renders all of the textures in the texture manager.
         /// </summary>
         /// <param name="cWindow"></param>
-        internal static void Render(Window cWindow)
+        internal void Render(Window cWindow)
         {
             Camera curCamera = cWindow.Settings.Camera;
 
-            foreach (Renderable renderable in Textures)
+            foreach (Renderable renderable in AssetList)
             {
                 if (curCamera != null
                     && !renderable.SnapToScreen)
@@ -59,7 +50,6 @@ namespace LightningGL
                     renderable.RenderPosition = renderable.Position;
                 }
 
-                
                 renderable.Draw(cWindow);
             }
         }

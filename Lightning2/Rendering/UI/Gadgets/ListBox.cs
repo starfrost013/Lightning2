@@ -1,11 +1,4 @@
-﻿using static NuCore.SDL2.SDL;
-using NuCore.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Drawing; 
-using System.Numerics;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// ListBox
@@ -35,13 +28,13 @@ namespace LightningGL
         {
             get
             {
-                return _selectedindex; 
+                return _selectedindex;
             }
             set
             {
                 if (value < 0
                     || value > Items.Count - 1) _ = new NCException("Attempted to set an invalid SelectedIndex for this ListBox!", 83, "ListBox::SelectedIndex > ListBox::Items::Count - 1!", NCExceptionSeverity.FatalError);
-                
+
                 _selectedindex = value;
             }
         }
@@ -130,7 +123,7 @@ namespace LightningGL
 
             item.HoverColor = HoverColor;
             item.PressedColor = PressedColor;
-           
+
             item.Filled = true; // set for now
 
             // resize the listbox 
@@ -154,7 +147,7 @@ namespace LightningGL
             // draw the currently selected item:
             // if the font is invalid use the default font
             // otherwise, use the Font Manager
-            if (Items.Count > 0) 
+            if (Items.Count > 0)
             {
                 if (curFont == null)
                 {
@@ -209,7 +202,7 @@ namespace LightningGL
                 if (AABB.Intersects(this, button.Position)) Open = !Open;
             }
             else
-            { 
+            {
                 if (BoxIntersects(button.Position))
                 {
                     base.MousePressed(button);

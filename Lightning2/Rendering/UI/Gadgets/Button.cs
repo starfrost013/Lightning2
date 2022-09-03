@@ -1,9 +1,4 @@
-﻿using static NuCore.SDL2.SDL_ttf;
-using NuCore.Utilities;
-using System.Drawing;
-using System.Numerics;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// Button

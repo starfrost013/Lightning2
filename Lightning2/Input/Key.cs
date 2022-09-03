@@ -1,6 +1,4 @@
-﻿using static NuCore.SDL2.SDL;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     public class Key
     {
@@ -18,7 +16,7 @@ namespace LightningGL
         /// Determines if this key is being repeated or not. This begins a short time after it is first held down, NOT when it is held down!
         /// </summary>
         public bool Repeated { get; internal set; }
-        
+
         /// <summary>
         /// Key cast operator from SDL_KeyboardEvent
         /// </summary>

@@ -1,7 +1,4 @@
-﻿using static NuCore.SDL2.SDL;
-using NuCore.Utilities;
-using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace LightningGL
 {

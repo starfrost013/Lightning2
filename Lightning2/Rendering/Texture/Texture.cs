@@ -1,9 +1,4 @@
-﻿using NuCore.Utilities;
-using System;
-using System.Drawing;
-using System.IO;
-using System.Numerics;
-using static NuCore.SDL2.SDL;
+﻿using System.IO;
 using static NuCore.SDL2.SDL_image;
 
 namespace LightningGL
@@ -94,7 +89,7 @@ namespace LightningGL
         /// Private: Texture format allocated for internal use
         /// </summary>
         private IntPtr FormatHandle { get; set; }
-        
+
         /// <summary>
         /// Types of texture acess.
         /// </summary>
@@ -335,7 +330,7 @@ namespace LightningGL
         /// <param name="color">The optional color to clear the texture with.</param>
         public void Clear(Color color = default)
         {
-            
+
             Color clearcolor = Color.FromArgb(0, 0, 0, 0);
 
             if (color != default) clearcolor = color;

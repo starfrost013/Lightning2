@@ -1,7 +1,4 @@
-﻿using NuCore.SDL2;
-using NuCore.Utilities;
-using System;
-using System.IO;
+﻿using System.IO;
 
 namespace LightningGL
 {
@@ -26,7 +23,7 @@ namespace LightningGL
         /// The size of this font.
         /// </summary>
         public int Size { get; set; }
-        
+
         /// <summary>
         /// Private: Pointer to the unmanaged TTF_Font containing this font.
         /// </summary>
@@ -40,7 +37,7 @@ namespace LightningGL
         /// <param name="friendlyName">The friendly name of the font to load.</param>
         /// <param name="path">The path to this font. If it is null, it will be loaded from the system font directory.</param>
         /// <param name="index">Index of the font in the font file to load. Will default to 0.</param>
-        internal static Font Load(string name, int size, string friendlyName, string path = null, int index = 0) 
+        internal static Font Load(string name, int size, string friendlyName, string path = null, int index = 0)
         {
             Font font = new Font();
 

@@ -1,7 +1,4 @@
-﻿using NuCore.Utilities;
-using System;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// LocalSettings
@@ -31,7 +28,7 @@ namespace LightningGL
         }
 
         /// <summary>
-        /// Saves the LocaL sETTINGS.
+        /// Saves the local settings.
         /// </summary>
         public static void Save()
         {

@@ -1,13 +1,4 @@
-﻿using LightningPackager;
-using NuCore.SDL2;
-using NuCore.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Numerics;
-using System.Threading;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// Lightning
@@ -21,6 +12,16 @@ namespace LightningGL
         /// Determines if the engine has been initialised correctly.
         /// </summary>
         public static bool Initialised { get; private set; }
+
+        #region Asset managers
+        public static TextureAssetManager TextureManager { get; set; }
+
+        #endregion
+
+        static Lightning()
+        {
+            TextureManager = new TextureAssetManager();
+        }
 
         public static void Init(string[] args)
         {
@@ -39,7 +40,7 @@ namespace LightningGL
                 if (InitSettings.PackageFile != null)
                 {
                     NCLogging.Log($"User specified package file {InitSettings.PackageFile} to load, loading it...");
-                    
+
                     if (!Packager.LoadPackage(InitSettings.PackageFile, InitSettings.ContentFolder)) _ = new NCException($"An error occurred loading {InitSettings.PackageFile}. The game cannot be loaded.", 104, "Packager::LoadPackager returned false", NCExceptionSeverity.FatalError);
                 }
 
@@ -115,7 +116,7 @@ namespace LightningGL
                 {
                     Initialised = true;
                 }
-                
+
             }
             catch (Exception err)
             {

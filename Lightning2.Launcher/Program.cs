@@ -4,6 +4,7 @@
 // © 2022 starfrost
 
 using LightningGL;
+using static LightningGL.Lightning;
 using NuCore.SDL2;
 using System.Drawing;
 using System.Numerics;
@@ -238,8 +239,8 @@ UIManager.AddElement(listBox1);
 UIManager.AddElement(textBox1);
 UIManager.AddElement(checkBox1);
 
-TextureManager.AddElement(texture);
-TextureManager.AddElement(animatedTexture1);
+TextureManager.AddAsset(cWindow, texture);
+TextureManager.AddAsset(cWindow, animatedTexture1);
 
 while (cWindow.Run())
 {

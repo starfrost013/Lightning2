@@ -1,12 +1,4 @@
-﻿using NuCore.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Numerics;
-using static NuCore.SDL2.SDL;
-using static NuCore.SDL2.SDL_ttf;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// FontManager
@@ -108,7 +100,7 @@ namespace LightningGL
             // call the multiline text function
             if (text.Contains('\n')) return GetLargestTextSize(font, text);
 
-            if (font == null  
+            if (font == null
                 || !Fonts.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.Size}) before trying to use it!", 81, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
 
             int fontSizeX,
@@ -192,8 +184,8 @@ namespace LightningGL
         /// <param name="lineLength">Optional: Maximum line length in pixels. Ignores newlines.</param>
         /// <param name="smoothingType">Optional: The <see cref="FontSmoothingType"/> of the text.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public static void DrawText(Window cWindow, string text, string font, Vector2 position, Color foreground, Color background = default(Color), 
-            TTF_FontStyle style = TTF_FontStyle.Normal, int outlineSize = -1, int lineLength = -1, FontSmoothingType smoothingType = FontSmoothingType.Default, 
+        public static void DrawText(Window cWindow, string text, string font, Vector2 position, Color foreground, Color background = default(Color),
+            TTF_FontStyle style = TTF_FontStyle.Normal, int outlineSize = -1, int lineLength = -1, FontSmoothingType smoothingType = FontSmoothingType.Default,
             bool snapToScreen = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.

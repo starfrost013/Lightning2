@@ -1,9 +1,4 @@
-﻿using NuCore.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Numerics;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// ParticleEffect
@@ -68,7 +63,7 @@ namespace LightningGL
         /// Private field used for efficient generation of random numbers.
         /// </summary>
         private Random Random = new Random();
-        
+
         /// <summary>
         /// Last particle ID created. Used only when <see cref="Mode"/> is set to <see cref="ParticleMode.Explode"/>
         /// </summary>
@@ -169,7 +164,7 @@ namespace LightningGL
                     // set up the velocity
                     Vector2 velocity = new Vector2(Convert.ToSingle(((Velocity.X * xMul) / 100) * particle.Lifetime),
                         Convert.ToSingle(((Velocity.Y * yMul) / 100) * particle.Lifetime));
-                    
+
                     // Clamp velocity on "Normal" mode as opposed to explode
                     if (Mode != ParticleMode.Explode)
                     {
@@ -240,8 +235,8 @@ namespace LightningGL
         /// Plays this particle effect. Does nothing if <see cref="NeedsManualTrigger"/> is not set.
         /// </summary>
         public void Play()
-        { 
-            if (NeedsManualTrigger 
+        {
+            if (NeedsManualTrigger
                 && !Playing) Playing = true;
         }
 
@@ -250,7 +245,7 @@ namespace LightningGL
         /// </summary>
         public void Stop(bool forceStop = false)
         {
-            if (NeedsManualTrigger 
+            if (NeedsManualTrigger
                 && Playing) Playing = false;
 
             if (forceStop) Particles.Clear();
@@ -263,7 +258,8 @@ namespace LightningGL
         {
             Stop();
             Particles.Clear();
+            Texture.Unload();
         }
-        
+
     }
 }

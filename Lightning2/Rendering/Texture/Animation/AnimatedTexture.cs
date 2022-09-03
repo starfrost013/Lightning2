@@ -1,10 +1,4 @@
-﻿using LightningGL;
-using NuCore.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Numerics;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// AnimatedTexture
@@ -128,7 +122,7 @@ namespace LightningGL
                 if (endCycle)
                 {
                     CurRepeats++;
-                    if (CurRepeats > AnimationRepeat 
+                    if (CurRepeats > AnimationRepeat
                         && (AnimationRepeat != 0)) AnimationFinished = true;
                     endCycle = false;
                 }

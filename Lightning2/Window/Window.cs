@@ -1,9 +1,5 @@
-﻿using NuCore.Utilities;
-using System;
+﻿global using static LightningGL.Lightning;
 using System.Diagnostics;
-using System.Drawing;
-using System.Numerics;
-using static NuCore.SDL2.SDL;
 
 namespace LightningGL
 {
@@ -104,7 +100,7 @@ namespace LightningGL
             string realRenderDriverName = SDLu_GetRenderDriverName();
 
             if (realRenderDriverName != renderer) _ = new NCException($"Specified renderer {renderer} is not supported. Using {realRenderDriverName} instead!", 123, "Renderer not supported in current environment", NCExceptionSeverity.Warning, null, true);
-            
+
             if (Settings.Camera == null)
             {
                 Camera camera = new Camera(CameraType.Follow);
@@ -152,12 +148,12 @@ namespace LightningGL
                         string curKeyString = curKey.KeySym.ToString();
 
                         if (curKeyString == "F9"
-                            && (curKey.Modifiers.HasFlag(SDL_Keymod.KMOD_LSHIFT) 
+                            && (curKey.Modifiers.HasFlag(SDL_Keymod.KMOD_LSHIFT)
                             || curKey.Modifiers.HasFlag(SDL_Keymod.KMOD_RSHIFT))
                             && GlobalSettings.EngineAboutScreenOnShiftF9) ShowEngineAboutScreen();
 
                         UIManager.KeyPressed(curKey);
-                        break; 
+                        break;
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN: // Mouse down event
                         UIManager.MousePressed(this, (MouseButton)currentEvent.button);
                         break;
@@ -279,7 +275,7 @@ namespace LightningGL
             if (GlobalSettings.ProfilePerformance) PerformanceProfiler.Update(this);
             FrameNumber++;
         }
-        
+
         /// <summary>
         /// Sets up a simple message box displaying engine version information.
         /// </summary>

@@ -1,6 +1,4 @@
-﻿using LightningPackager;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// InitSettings

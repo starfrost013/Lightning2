@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     [Flags]
     /// <summary>

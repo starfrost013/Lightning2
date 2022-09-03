@@ -1,8 +1,4 @@
-﻿using static NuCore.SDL2.SDL;
-using System.Drawing;
-using System.Numerics; 
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// Gadget
@@ -166,7 +162,7 @@ namespace LightningGL
             {
                 CurBackgroundColor = BackgroundColor;
             }
-            
+
             Pressed = false;
         }
 

@@ -1,10 +1,4 @@
-﻿using NuCore.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using static NuCore.SDL2.SDL;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// LightManager

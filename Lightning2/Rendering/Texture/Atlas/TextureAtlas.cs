@@ -1,9 +1,4 @@
-﻿using NuCore.Utilities;
-using System;
-using System.Drawing;
-using System.Numerics;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// TextureAtlas
@@ -24,7 +19,7 @@ namespace LightningGL
         /// The size of an individual texture in this texture atlas.
         /// </summary>
         public Vector2 FrameSize { get; init; }
-        
+
         /// <summary>
         /// The number of textures in this atlas texture.
         /// </summary>

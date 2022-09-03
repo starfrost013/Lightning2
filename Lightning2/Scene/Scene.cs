@@ -1,7 +1,4 @@
-﻿using NuCore.SDL2;
-using System;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// Scene

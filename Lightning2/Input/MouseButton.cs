@@ -1,7 +1,4 @@
-﻿using static NuCore.SDL2.SDL;
-using System.Numerics;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// MouseButton

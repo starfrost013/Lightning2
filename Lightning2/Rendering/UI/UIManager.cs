@@ -1,8 +1,4 @@
-﻿using NuCore.Utilities;
-using System.Collections.Generic;
-using System.Numerics;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// UIManager

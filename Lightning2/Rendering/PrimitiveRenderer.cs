@@ -1,11 +1,4 @@
-﻿using NuCore.SDL2;
-using NuCore.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Numerics;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// PrimitiveRenderer
@@ -28,14 +21,14 @@ namespace LightningGL
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;
 
-            if (currentCamera != null 
+            if (currentCamera != null
                 && !snapToScreen)
             {
                 position.X -= currentCamera.Position.X;
                 position.Y -= currentCamera.Position.Y;
             }
 
-            SDL_gfx.pixelRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y, color.R, color.G, color.B, color.A);
+            pixelRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y, color.R, color.G, color.B, color.A);
         }
 
         /// <summary>
@@ -78,16 +71,16 @@ namespace LightningGL
             {
                 if (antiAliased)
                 {
-                    SDL_gfx.aalineRGBA(cWindow.Settings.RendererHandle, (int)start.X, (int)start.Y, (int)end.X, (int)end.Y, color.R, color.G, color.B, color.A);
+                    aalineRGBA(cWindow.Settings.RendererHandle, (int)start.X, (int)start.Y, (int)end.X, (int)end.Y, color.R, color.G, color.B, color.A);
                 }
                 else
                 {
-                    SDL_gfx.lineRGBA(cWindow.Settings.RendererHandle, (int)start.X, (int)start.Y, (int)end.X, (int)end.Y, color.R, color.G, color.B, color.A);
+                    lineRGBA(cWindow.Settings.RendererHandle, (int)start.X, (int)start.Y, (int)end.X, (int)end.Y, color.R, color.G, color.B, color.A);
                 }
             }
-            else 
+            else
             {
-                SDL_gfx.thickLineRGBA(cWindow.Settings.RendererHandle, (int)start.X, (int)start.Y, (int)end.X, (int)end.Y, thickness, color.R, color.G, color.B, color.A);
+                thickLineRGBA(cWindow.Settings.RendererHandle, (int)start.X, (int)start.Y, (int)end.X, (int)end.Y, thickness, color.R, color.G, color.B, color.A);
             }
         }
 
@@ -118,18 +111,18 @@ namespace LightningGL
 
             if (bordercolor != default(Color))
             {
-                SDL_gfx.rectangleRGBA(cWindow.Settings.RendererHandle, (int)position.X - (int)borderSize.X, (int)position.Y - (int)borderSize.Y,
+                rectangleRGBA(cWindow.Settings.RendererHandle, (int)position.X - (int)borderSize.X, (int)position.Y - (int)borderSize.Y,
                     (int)position.X + (int)size.X + ((int)borderSize.X * 2), (int)position.Y + (int)size.Y + ((int)borderSize.Y * 2), color.R, color.G, color.B, color.A);
             }
 
             if (filled)
             {
-                SDL_gfx.boxRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y,
+                boxRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y,
                     (int)position.X + (int)size.X, (int)position.Y + (int)size.Y, color.R, color.G, color.B, color.A);
             }
             else
             {
-                SDL_gfx.rectangleRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y,
+                rectangleRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y,
                     (int)position.X + (int)size.X, (int)position.Y + (int)size.Y, color.R, color.G, color.B, color.A);
             }
         }
@@ -158,12 +151,12 @@ namespace LightningGL
 
             if (filled)
             {
-                SDL_gfx.roundedBoxRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y, (int)position.X + (int)size.X,
+                roundedBoxRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y, (int)position.X + (int)size.X,
                     (int)position.Y + (int)size.Y, cornerRadius, color.R, color.G, color.B, color.A);
             }
             else
             {
-                SDL_gfx.roundedRectangleRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y,
+                roundedRectangleRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y,
                     (int)position.X + (int)size.X, (int)position.Y + (int)size.Y, cornerRadius, color.R, color.G, color.B, color.A);
             }
 
@@ -198,12 +191,12 @@ namespace LightningGL
 
             if (filled)
             {
-                SDL_gfx.filledTrigonRGBA(cWindow.Settings.RendererHandle, (int)point1.X, (int)point1.Y, (int)point2.X, (int)point2.Y, (int)point3.X, 
+                filledTrigonRGBA(cWindow.Settings.RendererHandle, (int)point1.X, (int)point1.Y, (int)point2.X, (int)point2.Y, (int)point3.X,
                     (int)point3.Y, color.R, color.G, color.B, color.A);
             }
             else
             {
-                SDL_gfx.trigonRGBA(cWindow.Settings.RendererHandle, (int)point1.X, (int)point1.Y, (int)point2.X, (int)point2.Y, (int)point3.X, 
+                trigonRGBA(cWindow.Settings.RendererHandle, (int)point1.X, (int)point1.Y, (int)point2.X, (int)point2.Y, (int)point3.X,
                     (int)point3.Y, color.R, color.G, color.B, color.A);
             }
         }
@@ -251,17 +244,17 @@ namespace LightningGL
             // count will always be the same
             if (filled)
             {
-                SDL_gfx.filledPolygonRGBA(cWindow.Settings.RendererHandle, finalPointsX.ToArray(), finalPointsY.ToArray(), finalPointsX.Count, color.R, color.G, color.B, color.A);
+                filledPolygonRGBA(cWindow.Settings.RendererHandle, finalPointsX.ToArray(), finalPointsY.ToArray(), finalPointsX.Count, color.R, color.G, color.B, color.A);
             }
             else
             {
                 if (antiAliased)
                 {
-                    SDL_gfx.aapolygonRGBA(cWindow.Settings.RendererHandle, finalPointsX.ToArray(), finalPointsY.ToArray(), finalPointsX.Count, color.R, color.G, color.B, color.A);
+                    aapolygonRGBA(cWindow.Settings.RendererHandle, finalPointsX.ToArray(), finalPointsY.ToArray(), finalPointsX.Count, color.R, color.G, color.B, color.A);
                 }
                 else
                 {
-                    SDL_gfx.polygonRGBA(cWindow.Settings.RendererHandle, finalPointsX.ToArray(), finalPointsY.ToArray(), finalPointsX.Count, color.R, color.G, color.B, color.A);
+                    polygonRGBA(cWindow.Settings.RendererHandle, finalPointsX.ToArray(), finalPointsY.ToArray(), finalPointsX.Count, color.R, color.G, color.B, color.A);
                 }
             }
         }
@@ -310,11 +303,11 @@ namespace LightningGL
         {
             if (!antiAliased)
             {
-                SDL_gfx.ellipseRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y, (int)size.X, (int)size.Y, color.R, color.G, color.B, color.A);
+                ellipseRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y, (int)size.X, (int)size.Y, color.R, color.G, color.B, color.A);
             }
             else
             {
-                SDL_gfx.aaellipseRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y, (int)size.X, (int)size.Y, color.R, color.G, color.B, color.A);
+                aaellipseRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y, (int)size.X, (int)size.Y, color.R, color.G, color.B, color.A);
             }
         }
 
@@ -327,7 +320,7 @@ namespace LightningGL
         /// <param name="color">The color of the circle to draw.</param>
         private static void DrawCircle_DrawFilledCircle(Window cWindow, Vector2 position, Vector2 size, Color color)
         {
-            SDL_gfx.filledEllipseRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y, (int)size.X, (int)size.Y, color.R, color.G, color.B, color.A);
+            filledEllipseRGBA(cWindow.Settings.RendererHandle, (int)position.X, (int)position.Y, (int)size.X, (int)size.Y, color.R, color.G, color.B, color.A);
         }
 
         /// <summary>
@@ -354,7 +347,7 @@ namespace LightningGL
             if (localise) text = LocalisationManager.ProcessString(text);
 
             // todo: in c++: recompile sdl2_gfx to use sint32, not sint16, and modify pinvoke accordingly
-            SDL_gfx.stringRGBA(cWindow.Settings.RendererHandle, (short)position.X, (short)position.Y, text, color.R, color.G, color.B, color.A);
+            stringRGBA(cWindow.Settings.RendererHandle, (short)position.X, (short)position.Y, text, color.R, color.G, color.B, color.A);
         }
     }
 }

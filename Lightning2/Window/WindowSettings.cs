@@ -1,10 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Numerics;
-using static NuCore.SDL2.SDL;
-using NuCore.Utilities;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// WindowSettings
@@ -17,7 +11,7 @@ namespace LightningGL
         /// Backing field for <see cref="Title"/>.
         /// </summary>
         private string _title { get; set; }
-        
+
         /// <summary>
         /// The title of the window.
         /// </summary>
@@ -47,7 +41,7 @@ namespace LightningGL
         {
             get
             {
-                return _position;   
+                return _position;
             }
             set
             {

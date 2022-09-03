@@ -1,13 +1,8 @@
-﻿using static NuCore.SDL2.SDL;
-using NuCore.Utilities;
-using System.Drawing;
-using System.Numerics;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     public class TextBox : Gadget
     {
-        public string Text { get; set; }    
+        public string Text { get; set; }
 
         private int _curcursorposition { get; set; }
 
@@ -37,11 +32,11 @@ namespace LightningGL
         /// The thickness of the cursor in pixels.
         /// </summary>
         public short CursorThickness { get; set; }
-        
+
         /// <summary>
         /// The color of the cursor.
         /// </summary>
-        public Color Cursorcolor { get; set; } 
+        public Color Cursorcolor { get; set; }
 
         /// <summary>
         /// The number of frames between cursor blinks.
@@ -127,7 +122,7 @@ namespace LightningGL
                     string keyStr = key.KeySym.ToString();
 
                     // check if lowercase
-                    if (lowercase) keyStr = keyStr.ToLower();   
+                    if (lowercase) keyStr = keyStr.ToLower();
                     Text = $"{Text}{keyStr}";
                     return;
             }
@@ -150,7 +145,7 @@ namespace LightningGL
                 Vector2 cursorPosition = new Vector2(Position.X + fontSize.X, Position.Y);
 
                 // actually blink it
-                if (cWindow.FrameNumber % CursorBlinkFrequency <= (CursorBlinkLength - 1)) PrimitiveRenderer.DrawLine(cWindow, cursorPosition, 
+                if (cWindow.FrameNumber % CursorBlinkFrequency <= (CursorBlinkLength - 1)) PrimitiveRenderer.DrawLine(cWindow, cursorPosition,
                     new Vector2(cursorPosition.X, cursorPosition.Y + Size.Y), CursorThickness, Cursorcolor);
             }
         }

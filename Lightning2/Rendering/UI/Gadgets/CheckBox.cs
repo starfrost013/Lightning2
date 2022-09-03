@@ -1,7 +1,4 @@
-﻿using static NuCore.SDL2.SDL;
-using System.Numerics;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// CheckBox
@@ -39,7 +36,7 @@ namespace LightningGL
         public void Render(Window cWindow)
         {
             PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, CurBackgroundColor, Filled, Bordercolor, BorderSize, SnapToScreen);
-            
+
             if (Checked)
             {
                 Vector2 line1Start = new Vector2(Position.X, Position.Y + (Size.Y / 2));
