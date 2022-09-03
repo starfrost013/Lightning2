@@ -1,0 +1,11 @@
+Lightning 1.2 focus:
+- Controller support
+- MultiTexturing
+- New Lighting engine 
+- Particle Keyframes or integration into 1.1 animation engine
+- More SDL bypass?
+- Nullable (DEFINITELY)
+- .NET 7.0?
+Very early thoughts, not final
+
+There will also be a fully OpenGL-based Lightning 2.0, probably after 1.2 or 1.3

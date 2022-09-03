@@ -1,0 +1,162 @@
+﻿using static NuCore.SDL2.SDL;
+using static NuCore.SDL2.SDL_ttf;
+using NuCore.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Numerics;
+
+namespace LightningGL
+{
+    /// <summary>
+    /// FontCacheEntry
+    /// 
+    /// September 3, 2022
+    /// 
+    /// Defines an entry into the font cache.
+    /// </summary>
+    internal class FontCacheEntry
+    {
+        /// <summary>
+        /// The font of this font cache entry.
+        /// </summary>
+        internal string Font { get; private set; }
+
+        internal string Text
+        {
+            get
+            {
+                string final = "";
+
+                for (int curLineId = 0; curLineId < Lines.Count; curLineId++)
+                {
+                    string curLine = Lines[curLineId].Text;
+                    final = $"{final}{curLine}";
+
+                    if (Lines.Count - curLineId > 1) final = $"{final}\n";
+                }
+
+                return final;
+            }
+        }
+
+        /// <summary>
+        /// The set of lines in this font cache entry.
+        /// </summary>
+        internal List<FontCacheEntryLine> Lines { get; private set; }
+
+        /// <summary>
+        /// The colour of this font.
+        /// </summary>
+        internal SDL_Color Color { get; private set; }
+        
+        /// <summary>
+        /// The background colour of this font.
+        /// Ignored if the value of <see cref="SmoothingType"/> is not <see cref="FontSmoothingType.Blended"/>
+        /// </summary>
+        internal SDL_Color BackgroundColor { get; private set; }
+
+        /// <summary>
+        /// The font style of this font.
+        /// </summary>
+        internal TTF_FontStyle Style { get; private set; }
+
+        /// <summary>
+        /// The smoothing type of this font.
+        /// </summary>
+        internal FontSmoothingType SmoothingType { get; set; }
+
+        /// <summary>
+        /// The outline size of this font.
+        /// </summary>
+        internal int OutlineSize { get; set; }
+
+        internal FontCacheEntry()
+        {
+            Lines = new List<FontCacheEntryLine>();
+        }
+
+        internal static FontCacheEntry Render(Window cWindow, string font, string text, 
+            SDL_Color color, TTF_FontStyle style, FontSmoothingType smoothingType = FontSmoothingType.Default, 
+            int outlineSize = -1, SDL_Color bgColor = default)
+        {
+            FontCacheEntry entry = new FontCacheEntry();
+
+            entry.Color = color;
+            entry.Font = font;
+            entry.Style = style;
+            entry.SmoothingType = smoothingType;
+            entry.BackgroundColor = bgColor;
+            entry.OutlineSize = outlineSize;    
+
+            // render the font
+            Font fontForRender = FontManager.GetFont(font);
+
+            if (fontForRender == null
+                || text == null)
+            {
+                _ = new NCException("Cannot render a non-existent font or text into the font cache!", 136, 
+                    "FontCache::Render - font parameter is not a font, or text parameter is purely null!", NCExceptionSeverity.FatalError);
+            }
+
+            NCLogging.Log($"Precaching font bitmap - font: {font}, text: {text}, color: {color}, smoothing type: {smoothingType}.");
+
+            // split the text into lines
+            // add the length of each line to the text length
+            string[] textLines = text.Split("\n");
+
+            TTF_SetFontStyle(fontForRender.Handle, style);
+            if (outlineSize > 0) TTF_SetFontOutline(fontForRender.Handle, outlineSize);
+
+            foreach (string line in textLines)
+            {
+                FontCacheEntryLine cachedLine = new FontCacheEntryLine
+                {
+                    Text = line,
+                };
+
+                TTF_SizeUTF8(fontForRender.Handle, line, out var sizeX, out var sizeY);
+
+                cachedLine.Size = new Vector2(
+                    sizeX,
+                    sizeY);
+
+                switch (smoothingType)
+                {
+                    case FontSmoothingType.Default: // Antialiased
+                        IntPtr surfaceBlended = TTF_RenderUTF8_Blended(fontForRender.Handle, cachedLine.Text, color);
+                        cachedLine.Handle = SDL_CreateTextureFromSurface(cWindow.Settings.RendererHandle, surfaceBlended);
+
+                        SDL_FreeSurface(surfaceBlended);
+                        break;
+                    case FontSmoothingType.Shaded: // Only shaded
+                        IntPtr surfaceShaded = TTF_RenderUTF8_Shaded(fontForRender.Handle, cachedLine.Text, color, bgColor);
+                        cachedLine.Handle = SDL_CreateTextureFromSurface(cWindow.Settings.RendererHandle, surfaceShaded);
+
+                        SDL_FreeSurface(surfaceShaded);
+                        break;
+                    case FontSmoothingType.Solid: // No processing done
+                        IntPtr surfaceSolid = TTF_RenderUTF8_Solid(fontForRender.Handle, cachedLine.Text, color);
+                        cachedLine.Handle = SDL_CreateTextureFromSurface(cWindow.Settings.RendererHandle, surfaceSolid);
+
+                        SDL_FreeSurface(surfaceSolid);
+                        break;
+                }
+
+                entry.Lines.Add(cachedLine);
+            }
+
+            return entry;
+        }
+
+        internal void Unload()
+        {
+            for (int lineId = 0; lineId < Lines.Count; lineId++)
+            {
+                FontCacheEntryLine line = Lines[lineId];
+                SDL_DestroyTexture(line.Handle);
+                Lines.Remove(line);
+            }
+        }
+    }
+}

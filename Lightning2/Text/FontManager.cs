@@ -20,12 +20,15 @@ namespace LightningGL
         /// </summary>
         public static List<Font> Fonts { get; private set; }
 
+        internal static FontCache Cache { get; private set; }
+
         /// <summary>
         /// Constructor for the Font Manager.
         /// </summary>
         static FontManager()
         {
             Fonts = new List<Font>();
+            Cache = new FontCache();
         }
 
         /// <summary>
@@ -185,13 +188,12 @@ namespace LightningGL
         /// <param name="foreground">The foreground color of the text.</param>
         /// <param name="background">Optional: The background color of the text.</param>
         /// <param name="style">Optional: The <see cref="TTF_FontStyle"/> of the text.</param>
-        /// <param name="resizeFont">Optional: Font size to resize the font to.</param>
-        /// <param name="outlineSize">Optional: Size of the font outline in pixels. Range is 1 to 15.</param>
+        /// <param name="outlineSize">Optional: Size of the font outline . Range is 1 to the font size.</param>
         /// <param name="lineLength">Optional: Maximum line length in pixels. Ignores newlines.</param>
         /// <param name="smoothing">Optional: The <see cref="FontSmoothingType"/> of the text.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
         public static void DrawText(Window cWindow, string text, string font, Vector2 position, Color foreground, Color background = default(Color), 
-            TTF_FontStyle style = TTF_FontStyle.Normal, int resizeFont = -1, int outlineSize = -1, int lineLength = -1, FontSmoothingType smoothing = FontSmoothingType.Default, 
+            TTF_FontStyle style = TTF_FontStyle.Normal, int outlineSize = -1, int lineLength = -1, FontSmoothingType smoothing = FontSmoothingType.Default, 
             bool snapToScreen = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
@@ -213,29 +215,23 @@ namespace LightningGL
             if (curFont == null) _ = new NCException($"Attempted to acquire invalid font with name {font}", 39, "TextManager::DrawText font parameter is not a loaded font!", NCExceptionSeverity.FatalError);
 
             // Set the foreground color
-            SDL_Color fontcolor = new SDL_Color(foreground.R, foreground.G, foreground.B, foreground.A);
-
-            // Resize font if specified
-            if (resizeFont > 0)
-            {
-                TTF_SetFontSize(curFont.Handle, resizeFont);
-                curFont.Size = resizeFont;
-            }
+            SDL_Color fgColor = new SDL_Color(foreground.R, foreground.G, foreground.B, foreground.A);
 
             // split the text into lines
             // add the length of each line to the text length
             string[] textLines = text.Split("\n");
 
             // default to entirely transparent background (if the user has specified shasded for some reason, we still need a BG color...)
-            SDL_Color bgcolor = new SDL_Color(0, 0, 0, 0);
+            SDL_Color bgColor = default;
 
             int fontSizeX = -1;
             int fontSizeY = -1;
 
+            // Draw the background
             if (background != default(Color)) // draw the background (which requires sizing the entire text)
             {
                 // Set the background color
-                bgcolor = new SDL_Color(background.R, background.G, background.B, background.A);
+                bgColor = new SDL_Color(background.R, background.G, background.B, background.A);
 
                 Vector2 fontSize = GetTextSize(curFont, text);
 
@@ -248,7 +244,7 @@ namespace LightningGL
                 int totalSizeX = fontSizeX;
                 int totalSizeY = fontSizeY;
 
-                for (int i = 0; i < numberOfLines - 1; i++) // -1 to prevent double-counting the first line
+                for (int lineId = 0; lineId < numberOfLines - 1; lineId++) // -1 to prevent double-counting the first line
                 {
                     if (lineLength < 0)
                     {
@@ -264,94 +260,59 @@ namespace LightningGL
                 if (numberOfLines > 1) totalSizeX = (int)GetLargestTextSize(curFont, text).X;
 
                 // camera-aware is false for this as we have already "pushed" the position, so we don't need to do it again.
-                PrimitiveRenderer.DrawRectangle(cWindow, position, new(totalSizeX, totalSizeY), Color.FromArgb(bgcolor.a, bgcolor.r, bgcolor.g, bgcolor.b), true, default, default, true);
+                PrimitiveRenderer.DrawRectangle(cWindow, position, new(totalSizeX, totalSizeY), Color.FromArgb(bgColor.a, bgColor.r, bgColor.g, bgColor.b), true, default, default, true);
             }
 
-            // Set the font outline, size and style
-            // Too much larger than the font size in pt causes C++ exceptions in SDL2 (probably larger than the surface it's being drawn to...) so we just use that as a limit
-            if (outlineSize > 0 || outlineSize <= curFont.Size) TTF_SetFontOutline(curFont.Handle, outlineSize);
+            // use the cached entry if it exists
+            FontCacheEntry cacheEntry = Cache.GetEntry(font, text, fgColor, style, smoothing, outlineSize, bgColor);
 
-            TTF_SetFontStyle(curFont.Handle, style);
-
-            IntPtr textPtr = IntPtr.Zero;
-            IntPtr textTexturePtr = IntPtr.Zero;
+            if (cacheEntry == null)
+            {
+                NCLogging.Log("Cached text not found. Caching now");
+                cacheEntry = Cache.AddEntry(cWindow, font, text, fgColor, style, smoothing, outlineSize, bgColor);
+            }
 
             SDL_Rect fontSrcRect = new SDL_Rect(0, 0, fontSizeX, fontSizeY);
             SDL_Rect fontDstRect = new SDL_Rect((int)position.X, (int)position.Y, fontSizeX, fontSizeY);
 
-            foreach (string line in textLines)
+            foreach (FontCacheEntryLine line in cacheEntry.Lines)
             {
-                Vector2 lineSize = GetTextSize(curFont, line);
+                fontSrcRect.w = (int)line.Size.X;
+                fontSrcRect.h = (int)line.Size.Y;
 
-                fontSrcRect.w = (int)lineSize.X;
-                fontSrcRect.h = (int)lineSize.Y;
+                fontDstRect.w = fontSrcRect.w;
+                fontDstRect.h = fontSrcRect.h;
 
-                fontDstRect.w = (int)lineSize.X;
-                fontDstRect.h = (int)lineSize.Y;
+                SDL_RenderCopy(cWindow.Settings.RendererHandle, line.Handle, ref fontSrcRect, ref fontDstRect);
 
-                switch (smoothing)
+                // increment by the line length
+                if (lineLength < 0)
                 {
-                    case FontSmoothingType.Default: // Antialiased
-                        textPtr = TTF_RenderUTF8_Blended(curFont.Handle, line, fontcolor);
-                        textTexturePtr = SDL_CreateTextureFromSurface(cWindow.Settings.RendererHandle, textPtr);
-
-                        SDL_RenderCopy(cWindow.Settings.RendererHandle, textTexturePtr, ref fontSrcRect, ref fontDstRect);
-
-                        SDL_FreeSurface(textPtr);
-                        SDL_DestroyTexture(textTexturePtr);
-
-                        // increment by the line length
-                        if (lineLength < 0)
-                        {
-                            fontDstRect.y += fontSizeY;
-                        }
-                        else
-                        {
-                            fontDstRect.y += lineLength;
-                        }
-
-                        continue;
-                    case FontSmoothingType.Shaded: // Only shaded
-                        textPtr = TTF_RenderUTF8_Shaded(curFont.Handle, line, fontcolor, bgcolor);
-                        textTexturePtr = SDL_CreateTextureFromSurface(cWindow.Settings.RendererHandle, textPtr);
-
-                        SDL_RenderCopy(cWindow.Settings.RendererHandle, textTexturePtr, ref fontSrcRect, ref fontDstRect);
-
-                        SDL_FreeSurface(textPtr);
-                        SDL_DestroyTexture(textTexturePtr);
-
-                        // increment by the line length
-                        if (lineLength < 0)
-                        {
-                            fontDstRect.y += fontSizeY;
-                        }
-                        else
-                        {
-                            fontDstRect.y += lineLength;
-                        }
-
-                        continue;
-                    case FontSmoothingType.Solid: // No processing done
-                        textPtr = TTF_RenderUTF8_Solid(curFont.Handle, line, fontcolor);
-                        textTexturePtr = SDL_CreateTextureFromSurface(cWindow.Settings.RendererHandle, textPtr);
-
-                        SDL_RenderCopy(cWindow.Settings.RendererHandle, textTexturePtr, ref fontSrcRect, ref fontDstRect);
-
-                        SDL_FreeSurface(textPtr);
-                        SDL_DestroyTexture(textTexturePtr);
-
-                        // increment by the line length
-                        if (lineLength < 0)
-                        {
-                            fontDstRect.y += fontSizeY;
-                        }
-                        else
-                        {
-                            fontDstRect.y += lineLength;
-                        }
-
-                        continue;
+                    fontDstRect.y += fontSizeY;
                 }
+                else
+                {
+                    fontDstRect.y += lineLength;
+                }
+            }
+
+            // weird hack. if we don't do this weird stuff happens
+            if (outlineSize > -1) TTF_SetFontOutline(curFont.Handle, -1);
+        }
+
+        /// <summary>
+        /// Internal: Shuts down the Font Manager.
+        /// </summary>
+        internal static void Shutdown()
+        {
+            NCLogging.Log("Uncaching all cached text - shutdown requested");
+            Cache.Unload();
+
+            for (int curFontId = 0; curFontId < Fonts.Count; curFontId++)
+            {
+                Font curFont = Fonts[curFontId];
+                NCLogging.Log($"Unloading font {curFont.FriendlyName}...");
+                UnloadFont(curFont);
             }
         }
     }

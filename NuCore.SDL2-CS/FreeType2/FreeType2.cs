@@ -50,7 +50,7 @@ namespace NuCore.SDL2
         public const string NativeDLLPath = @"Libraries\FreeType2-ARM64.dll";
 #endif
 
-        #region Base Interface
+        #region Base Interface Core
 
         /// <summary>
         /// Defines a version of FreeType2
@@ -117,6 +117,59 @@ namespace NuCore.SDL2
         public static unsafe extern IntPtr INTERNAL_FT_Error_String(int errCode);
 
         public static string FT_Error_String(int errCode) => UTF8_ToManaged(INTERNAL_FT_Error_String(errCode));
+
+        #endregion
+
+        #region Base Interface Font loading
+
+        [DllImport(NativeDLLPath, EntryPoint = "FT_New_Face", CallingConvention = CallingConvention.Cdecl)]
+        private static unsafe extern int INTERNAL_FT_New_Face(IntPtr library,
+            byte* filepathname,
+            long index,
+            out IntPtr face
+            );
+
+        public static unsafe int FT_New_Face(IntPtr library,
+            string filepathname,
+            long index,
+            out IntPtr face)
+        {
+            int utf8TextSize = Utf8Size(filepathname);
+            byte* utf8Buffer = stackalloc byte[utf8TextSize];
+
+            return INTERNAL_FT_New_Face(library, utf8Buffer, index, out face);
+        }
+
+        [DllImport(NativeDLLPath, CallingConvention = CallingConvention.Cdecl)]
+        public static unsafe extern int FT_Done_Face(IntPtr face);
+
+        [DllImport(NativeDLLPath, CallingConvention = CallingConvention.Cdecl)]
+        public static unsafe extern uint FT_Get_Char_Index(IntPtr face, 
+            int charcode);
+
+        [DllImport(NativeDLLPath, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int FT_Set_Char_Size(IntPtr face,
+            double char_width,
+            double char_height,
+            uint horz_dpi,
+            uint vert_dpi);
+
+        [DllImport(NativeDLLPath, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int FT_Set_Pixel_Sizes(IntPtr face,
+            uint pixel_width,
+            uint pixel_height);
+
+        [DllImport(NativeDLLPath, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int FT_Load_Glyph(IntPtr face,
+            uint index,
+            [MarshalAs(UnmanagedType.I4)]
+            FT2LoadFlags load_flags
+            );
+
+        [DllImport(NativeDLLPath, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int FT_Render_Glyph(IntPtr slot,
+            FT2RenderMode render_mode);
+
         #endregion
     }
 }

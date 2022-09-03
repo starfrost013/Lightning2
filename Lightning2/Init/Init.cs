@@ -147,18 +147,15 @@ namespace LightningGL
             NCLogging.Log("Destroying window and renderer...");
             cWindow.Shutdown();
 
+            NCLogging.Log("Shutting down the Font Manager...");
+            FontManager.Shutdown();
+
             // create a list of fonts and audiofiles to unload
             // just foreaching through each font and audiofile doesn't work as collection is being modified 
-            List<Font> fontsToUnload = new List<Font>();
             List<AudioFile> audioFilesToUnload = new List<AudioFile>();
-
-            foreach (Font fontToUnload in FontManager.Fonts) fontsToUnload.Add(fontToUnload);
             foreach (AudioFile audioFileToUnload in AudioManager.AudioFiles) audioFilesToUnload.Add(audioFileToUnload);
 
-            NCLogging.Log("Unloading fonts...");
-            foreach (Font fontToUnload in fontsToUnload) FontManager.UnloadFont(fontToUnload);
-
-            NCLogging.Log("Unloading audio...");
+            NCLogging.Log("Unloading all audio files...");
             foreach (AudioFile audioFileToUnload in audioFilesToUnload) AudioManager.UnloadFile(audioFileToUnload);
 
             // Shut down the light manager if it has been started.

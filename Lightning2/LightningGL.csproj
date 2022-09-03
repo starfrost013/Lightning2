@@ -155,7 +155,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Text2\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 
