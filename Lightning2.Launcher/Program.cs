@@ -56,7 +56,7 @@ textureAtlas1.Position = new Vector2(256, 256);
 
 textureAtlas1.Load(cWindow);
 
-AnimatedTexture animatedTexture1 = new AnimatedTexture(256, 256);
+AnimatedTexture animatedTexture1 = new AnimatedTexture(cWindow, 256, 256);
 animatedTexture1.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF0.png");
 animatedTexture1.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF1.png");
 animatedTexture1.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF2.png");

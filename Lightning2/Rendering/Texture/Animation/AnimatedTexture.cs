@@ -15,7 +15,7 @@ namespace LightningGL
     /// 
     /// awaiting refactor 3/20/22
     /// </summary>
-    public class AnimatedTexture : Renderable
+    public class AnimatedTexture : Texture
     {
         /// <summary>
         /// The frames of this texture. A list of <see cref="Texture"/> objects.
@@ -33,18 +33,10 @@ namespace LightningGL
         private List<string> FramePaths { get; set; }
 
         /// <summary>
-        /// Determines if this texture repeats, and if so
-        /// by how many tiles. 
-        /// 
-        /// If NULL or zero, the texture will be drawn only once.
-        /// </summary>
-        public Vector2 TextureRepeat { get; set; }
-
-        /// <summary>
         /// Determines the number of times the animation repeats.
         /// 0 makes the animation repeat infintiely.
         /// </summary>
-        public int Repeat { get; set; }
+        public int AnimationRepeat { get; set; }
 
         /// <summary>
         /// Internal: the number of times the animation has repeated.
@@ -61,7 +53,7 @@ namespace LightningGL
         /// </summary>
         public AnimationCycle Cycle { get; set; }
 
-        public AnimatedTexture(int sizeX, int sizeY)
+        public AnimatedTexture(Window cWindow, float sizeX, float sizeY) : base(cWindow, sizeX, sizeY)
         {
             Frames = new List<Texture>();
             FramePaths = new List<string>();
@@ -72,7 +64,7 @@ namespace LightningGL
         /// Loads this animated texture.
         /// </summary>
         /// <param name="cWindow">The window to load this animated texture to.</param>
-        public void Load(Window cWindow)
+        public override void Load(Window cWindow)
         {
             if (Size == default(Vector2)) _ = new NCException("Cannot load an animated texture with no texture size", 44, "AnimatedTexture::Size property = (0,0)", NCExceptionSeverity.FatalError);
             if (Cycle == null) _ = new NCException("AnimatedTextures must have a valid Cycle property", 54, "AnimatedTexture::Cycle property = null", NCExceptionSeverity.FatalError);
@@ -82,7 +74,7 @@ namespace LightningGL
                 Texture newTexture = new Texture(cWindow, Size.X, Size.Y);
                 newTexture.Path = texturePath;
                 newTexture.Position = Position;
-                newTexture.Repeat = TextureRepeat;  // do this in the getter/setter?
+                newTexture.Repeat = Repeat;  // do this in the getter/setter?
                 // Texture will only load current or throw fatal error. Maybe add Loaded attribute that checks if TextureHandle isn't a nullptr?
                 newTexture.Load(cWindow);
 
@@ -104,7 +96,7 @@ namespace LightningGL
             Texture curFrame = Frames[CurrentFrame];
 
             curFrame.RenderPosition = Position;
-            curFrame.Repeat = TextureRepeat;
+            curFrame.Repeat = Repeat;
             curFrame.Size = Size;
 
             curFrame.Draw(cWindow);
@@ -136,7 +128,8 @@ namespace LightningGL
                 if (endCycle)
                 {
                     CurRepeats++;
-                    if (CurRepeats > Repeat && (Repeat != 0)) AnimationFinished = true;
+                    if (CurRepeats > AnimationRepeat 
+                        && (AnimationRepeat != 0)) AnimationFinished = true;
                     endCycle = false;
                 }
             }
