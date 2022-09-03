@@ -30,6 +30,11 @@ namespace LightningGL
             return entry;
         }
 
+        internal void PurgeUnusedEntries()
+        {
+            // todo (reuqired to prevent memory leaks
+        }
+
         internal FontCacheEntry GetEntry(string font, string text, 
             SDL_Color color, TTF_FontStyle style, FontSmoothingType type = FontSmoothingType.Default, int outlineSize = -1, SDL_Color bgColor = default)
         {
@@ -55,7 +60,11 @@ namespace LightningGL
         {
             FontCacheEntry fontEntry = GetEntry(font, text, color, style, type, outlineSize, bgColor);
 
-            if (fontEntry != null) Entries.Remove(fontEntry);
+            if (fontEntry != null)
+            {
+                fontEntry.Unload();
+                Entries.Remove(fontEntry);
+            }
         }
 
         internal void Unload()
