@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NuCore.SDL2
+﻿namespace NuCore.SDL2
 {
     public enum FT2KerningMode
     {

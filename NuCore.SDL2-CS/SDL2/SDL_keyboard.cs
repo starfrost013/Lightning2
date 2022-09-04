@@ -34,9 +34,9 @@
 #endregion
 
 #region Using Statements
-using static NuCore.SDL2.Utf8Marshaling;
 using System;
 using System.Runtime.InteropServices;
+using static NuCore.SDL2.Utf8Marshaling;
 #endregion
 
 namespace NuCore.SDL2
@@ -77,7 +77,7 @@ namespace NuCore.SDL2
                 processedString = processedString.Replace("RETURN", "\n");
                 processedString = processedString.Replace("MINUS", "-");
                 processedString = processedString.Replace("BACKQUOTE", "`");
-                return processedString; 
+                return processedString;
             }
         }
 

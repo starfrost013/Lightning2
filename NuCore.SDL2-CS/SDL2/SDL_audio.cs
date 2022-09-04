@@ -34,9 +34,9 @@
 #endregion
 
 #region Using Statements
-using static NuCore.SDL2.Utf8Marshaling;
 using System;
 using System.Runtime.InteropServices;
+using static NuCore.SDL2.Utf8Marshaling;
 #endregion
 
 namespace NuCore.SDL2
@@ -62,7 +62,7 @@ namespace NuCore.SDL2
 
         public static bool SDL_AUDIO_ISLITTLEENDIAN(ushort x) => (x & SDL_AUDIO_MASK_ENDIAN) == 0;
 
-        public static bool SDL_AUDIO_ISUNSIGNED(ushort x) =>  (x & SDL_AUDIO_MASK_SIGNED) == 0;
+        public static bool SDL_AUDIO_ISUNSIGNED(ushort x) => (x & SDL_AUDIO_MASK_SIGNED) == 0;
 
         public const ushort AUDIO_U8 = 0x0008;
         public const ushort AUDIO_S8 = 0x8008;
@@ -79,9 +79,9 @@ namespace NuCore.SDL2
         public const ushort AUDIO_F32MSB = 0x9120;
         public const ushort AUDIO_F32 = AUDIO_F32LSB;
 
-        public static readonly ushort AUDIO_U16SYS = 
+        public static readonly ushort AUDIO_U16SYS =
             BitConverter.IsLittleEndian ? AUDIO_U16LSB : AUDIO_U16MSB;
-        public static readonly ushort AUDIO_S16SYS = 
+        public static readonly ushort AUDIO_S16SYS =
             BitConverter.IsLittleEndian ? AUDIO_S16LSB : AUDIO_S16MSB;
         public static readonly ushort AUDIO_S32SYS =
             BitConverter.IsLittleEndian ? AUDIO_S32LSB : AUDIO_S32MSB;

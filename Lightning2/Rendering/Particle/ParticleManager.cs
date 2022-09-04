@@ -5,27 +5,14 @@
     /// 
     /// Basic manager class for <see cref="ParticleEffect"/>s.
     /// </summary>
-    public static class ParticleManager
+    public class ParticleAssetManager : AssetManager<ParticleEffect>
     {
-        /// <summary>
-        /// The list of particle effects currently loaded.
-        /// </summary>
-        private static List<ParticleEffect> Effects { get; set; }
-
-        /// <summary>
-        /// Constructor for the Particle Manager.
-        /// </summary>
-        static ParticleManager()
-        {
-            Effects = new List<ParticleEffect>();
-        }
-
         /// <summary>
         /// Unloads all effects and shuts down the Particle Manager.
         /// </summary>
-        internal static void Shutdown()
+        internal void Shutdown()
         {
-            foreach (ParticleEffect effect in Effects)
+            foreach (ParticleEffect effect in AssetList)
             {
                 NCLogging.Log($"Unloading particle effect at path {effect.Texture.Path}...");
                 effect.Unload();
@@ -37,19 +24,30 @@
         /// </summary>
         /// <param name="cWindow">The window to add the particle effect for.</param>
         /// <param name="particle">The particle effect to add to the window.</param>
-        public static void AddEffect(Window cWindow, ParticleEffect particle)
+        public override void AddAsset(Window cWindow, ParticleEffect particle)
         {
             particle.Load(particle.Texture, cWindow);
-            Effects.Add(particle);
+            AssetList.Add(particle);
+        }
+
+        /// <summary>
+        /// Removes the particle effect <see cref="ParticleEffect"/> for the window <paramref name="cWindow"/> from the Particle Manager.
+        /// </summary>
+        /// <param name="cWindow">The window to remove the particle effect from.</param>
+        /// <param name="asset">The particle effect to remove.</param>
+        public override void RemoveAsset(Window cWindow, ParticleEffect asset)
+        {
+            asset.Unload();
+            AssetList.Remove(asset);
         }
 
         /// <summary>
         /// Renders all particle effects to a window.
         /// </summary>
         /// <param name="cWindow">The window to render these particle effects to.</param>
-        internal static void Render(Window cWindow)
+        internal void Render(Window cWindow)
         {
-            foreach (ParticleEffect particleEffect in Effects)
+            foreach (ParticleEffect particleEffect in AssetList)
             {
                 particleEffect.Render(cWindow);
             }

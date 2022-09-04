@@ -4,12 +4,12 @@
 // © 2022 starfrost
 
 using LightningGL;
-using static LightningGL.Lightning;
 using NuCore.SDL2;
 using System.Drawing;
 using System.Numerics;
+using static LightningGL.Lightning;
 
-Lightning.Init(args); // Initialise LightningGL
+Init(args); // Initialise LightningGL
 Window cWindow = new Window();
 WindowSettings windowSettings = new WindowSettings();
 
@@ -68,7 +68,7 @@ animatedTexture1.Position = new(320, 256);
 
 animatedTexture1.Load(cWindow);
 
-LightManager.SetEnvironmentalLight(Color.FromArgb(0, 0, 0, 255));
+LightManager.SetEnvironmentalLight(Color.FromArgb(255, 0, 0, 255));
 
 // todo: particleeffectsettings?
 
@@ -87,72 +87,72 @@ ParticleEffect testEffect = new(testEffectTexture)
     Mode = ParticleMode.Normal,
 };
 
-ParticleManager.AddEffect(cWindow, testEffect);
+ParticleManager.AddAsset(cWindow, testEffect);
 
-LightManager.AddLight(cWindow, new Light
+LightManager.AddAsset(cWindow, new Light
 {
     Position = new(50, 375),
     Range = 4,
     Brightness = 15,
 });
 
-LightManager.AddLight(cWindow, new Light
+LightManager.AddAsset(cWindow, new Light
 {
     Position = new(250, 300),
     Range = 4,
     Brightness = 31,
 });
 
-LightManager.AddLight(cWindow, new Light
+LightManager.AddAsset(cWindow, new Light
 {
     Position = new(450, 225),
     Range = 4,
     Brightness = 63,
 });
 
-LightManager.AddLight(cWindow, new Light
+LightManager.AddAsset(cWindow, new Light
 {
     Position = new(650, 150),
     Range = 4,
     Brightness = 127,
 });
 
-LightManager.AddLight(cWindow, new Light
+LightManager.AddAsset(cWindow, new Light
 {
     Position = new(850, 75),
     Range = 4,
     Brightness = 255,
 });
 
-LightManager.AddLight(cWindow, new Light
+LightManager.AddAsset(cWindow, new Light
 {
     Position = new(850, 275),
     Range = 4,
     Brightness = 255,
 });
 
-LightManager.AddLight(cWindow, new Light
+LightManager.AddAsset(cWindow, new Light
 {
     Position = new(850, 475),
     Range = 4,
     Brightness = 255,
 });
 
-LightManager.AddLight(cWindow, new Light
+LightManager.AddAsset(cWindow, new Light
 {
     Position = new(850, 675),
     Range = 4,
     Brightness = 255,
 });
 
-LightManager.AddLight(cWindow, new Light
+LightManager.AddAsset(cWindow, new Light
 {
     Position = new(0, 0),
     Range = 4,
     Brightness = 255,
 });
 
-LightManager.AddLight(cWindow, new Light
+LightManager.AddAsset(cWindow, new Light
 {
     Position = new(200, 0),
     Range = 4,
@@ -213,7 +213,8 @@ TextBox textBox1 = new TextBox(300)
     PressedColor = Color.Maroon,
     ForegroundColor = Color.White,
     Font = "Arial.11pt",
-    Filled = true
+    Filled = true,
+    AllowMultiline = true,
 };
 
 CheckBox checkBox1 = new CheckBox
@@ -234,10 +235,10 @@ listBox1.AddItem(new("dfsdfsdfsdfsdfsdf"));
 listBox1.AddItem(new("zxczxzxzx"));
 listBox1.AddItem(new("qasqsdfwqer"));
 
-UIManager.AddElement(btn1);
-UIManager.AddElement(listBox1);
-UIManager.AddElement(textBox1);
-UIManager.AddElement(checkBox1);
+UIManager.AddAsset(cWindow, btn1);
+UIManager.AddAsset(cWindow, listBox1);
+UIManager.AddAsset(cWindow, textBox1);
+UIManager.AddAsset(cWindow, checkBox1);
 
 TextureManager.AddAsset(cWindow, texture);
 TextureManager.AddAsset(cWindow, animatedTexture1);

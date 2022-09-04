@@ -34,10 +34,10 @@
 #endregion
 
 #region Using Statements
-using static NuCore.SDL2.SDL;
-using static NuCore.SDL2.Utf8Marshaling;
 using System;
 using System.Runtime.InteropServices;
+using static NuCore.SDL2.SDL;
+using static NuCore.SDL2.Utf8Marshaling;
 #endregion
 
 namespace NuCore.SDL2
@@ -372,7 +372,7 @@ namespace NuCore.SDL2
             UDIO_U8 = 0x0008,
             AUDIO_S8 = 0x8008,
             AUDIO_U16LSB = 0x0010,
-            AUDIO_S16LSB =  0x8010,
+            AUDIO_S16LSB = 0x8010,
             AUDIO_U16MSB = 0x1010,
             AUDIO_S16MSB = 0x9010,
             AUDIO_U16 = AUDIO_U16LSB,

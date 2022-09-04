@@ -12,14 +12,13 @@
             AssetList = new List<T>();
         }
 
-        public abstract T Load(Window cWindow,
+        public abstract void AddAsset(Window cWindow,
             T asset);
 
-        public virtual void AddAsset(Window cWindow,
+        public virtual void RemoveAsset(Window cWindow,
             T asset)
         {
-            Load(cWindow, asset);
-            AssetList.Add(asset);
+            AssetList.Remove(asset);
         }
     }
 }

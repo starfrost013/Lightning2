@@ -7,39 +7,32 @@
     /// 
     /// A simple UI manager - all UI is on one layer, there is no hierarchy
     /// </summary>
-    public static class UIManager
+    public class UIAssetManager : AssetManager<Gadget>
     {
-        private static List<Gadget> Gadgets { get; set; }
-
-        static UIManager()
-        {
-            Gadgets = new List<Gadget>();
-        }
-
         /// <summary>
         /// Adds a <see cref="Gadget"/> to the UI manager.
         /// </summary>
         /// <param name="gadget">The <see cref=""/></param>
-        public static void AddElement(Gadget gadget)
+        public override void AddAsset(Window cWindow, Gadget gadget)
         {
             NCLogging.Log($"Creating new Gadget::{gadget.GetType().Name}");
-            Gadgets.Add(gadget);
+            AssetList.Add(gadget);
         }
 
-        public static void RemoveElement(Gadget gadget)
+        public override void RemoveAsset(Window cWindow, Gadget gadget)
         {
-            if (!Gadgets.Contains(gadget)) _ = new NCException($"Attempted to remove a gadget of type ({gadget.GetType().Name} that is not in the UI Manager - you must add it first!", 135, "Called UIManager::RemoveElement with a gadget property that does not correspond to a Gadget loaded by the UI Manager!", NCExceptionSeverity.Warning);
-            NCLogging.Log($"Removing Gadget::{gadget.GetType().Name} from UIManager");
-            Gadgets.Remove(gadget);
+            if (!AssetList.Contains(gadget)) _ = new NCException($"Attempted to remove a gadget of type ({gadget.GetType().Name} that is not in the UI Manager - you must add it first!", 135, "Called UIManager::RemoveElement with a gadget property that does not correspond to a Gadget loaded by the UI Manager!", NCExceptionSeverity.Warning);
+            NCLogging.Log($"Removing A Gadget::{gadget.GetType().Name} from UIManager");
+            AssetList.Remove(gadget);
         }
 
         /// <summary>
         /// Renders all UI elements.
         /// </summary>
         /// <param name="cWindow">The UI element to render.</param>
-        internal static void Render(Window cWindow)
+        internal void Render(Window cWindow)
         {
-            foreach (Gadget uiElement in Gadgets)
+            foreach (Gadget uiElement in AssetList)
             {
                 if (uiElement.Size == default) _ = new NCException($"Attempted to draw a gadget with no size, you will not see it!", 122, "Gadget::Size = (0,0)!", NCExceptionSeverity.Warning, null, true);
                 if (uiElement.OnRender != null)
@@ -49,9 +42,9 @@
             }
         }
 
-        internal static void Shutdown(Window cWindow)
+        internal void Shutdown(Window cWindow)
         {
-            foreach (Gadget uiElement in Gadgets)
+            foreach (Gadget uiElement in AssetList)
             {
                 if (uiElement.OnShutdown != null)
                 {
@@ -60,7 +53,7 @@
             }
         }
 
-        internal static void MousePressed(Window cWindow, MouseButton button)
+        internal void MousePressed(Window cWindow, MouseButton button)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;
@@ -75,7 +68,7 @@
                     cameraPosition.Y + button.Position.Y);
             }
 
-            foreach (Gadget uiElement in Gadgets)
+            foreach (Gadget uiElement in AssetList)
             {
                 bool intersects = AABB.Intersects(uiElement, button.Position);
 
@@ -90,7 +83,7 @@
             }
         }
 
-        internal static void MouseReleased(Window cWindow, MouseButton button)
+        internal void MouseReleased(Window cWindow, MouseButton button)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;
@@ -105,7 +98,7 @@
                     cameraPosition.Y + button.Position.Y);
             }
 
-            foreach (Gadget uiElement in Gadgets)
+            foreach (Gadget uiElement in AssetList)
             {
                 bool intersects = AABB.Intersects(uiElement, button.Position);
 
@@ -120,9 +113,9 @@
             }
         }
 
-        internal static void MouseEnter()
+        internal void MouseEnter()
         {
-            foreach (Gadget uiElement in Gadgets)
+            foreach (Gadget uiElement in AssetList)
             {
                 if (uiElement.OnMouseEnter != null)
                 {
@@ -131,9 +124,9 @@
             }
         }
 
-        internal static void MouseLeave()
+        internal void MouseLeave()
         {
-            foreach (Gadget uiElement in Gadgets)
+            foreach (Gadget uiElement in AssetList)
             {
                 if (uiElement.OnMouseLeave != null)
                 {
@@ -142,9 +135,9 @@
             }
         }
 
-        internal static void FocusGained()
+        internal void FocusGained()
         {
-            foreach (Gadget uiElement in Gadgets)
+            foreach (Gadget uiElement in AssetList)
             {
                 if (uiElement.OnFocusGained != null)
                 {
@@ -153,9 +146,9 @@
             }
         }
 
-        internal static void FocusLost()
+        internal void FocusLost()
         {
-            foreach (Gadget uiElement in Gadgets)
+            foreach (Gadget uiElement in AssetList)
             {
                 if (uiElement.OnFocusLost != null)
                 {
@@ -164,7 +157,7 @@
             }
         }
 
-        internal static void MouseMove(Window cWindow, MouseButton button)
+        internal void MouseMove(Window cWindow, MouseButton button)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = cWindow.Settings.Camera;
@@ -179,7 +172,7 @@
                     cameraPosition.Y + button.Position.Y);
             }
 
-            foreach (Gadget uiElement in Gadgets)
+            foreach (Gadget uiElement in AssetList)
             {
                 if (uiElement.OnMouseMove != null) // this one is passed regardless of intersection for things like button highlighting
                 {
@@ -188,9 +181,9 @@
             }
         }
 
-        internal static void KeyPressed(Key key)
+        internal void KeyPressed(Key key)
         {
-            foreach (Gadget uiElement in Gadgets)
+            foreach (Gadget uiElement in AssetList)
             {
                 // check if the UI element is focused.
                 if (uiElement.Focused
@@ -201,9 +194,9 @@
             }
         }
 
-        internal static void KeyReleased(Key key)
+        internal void KeyReleased(Key key)
         {
-            foreach (Gadget uiElement in Gadgets)
+            foreach (Gadget uiElement in AssetList)
             {
                 // check if the UI element is focused.
                 if (uiElement.Focused

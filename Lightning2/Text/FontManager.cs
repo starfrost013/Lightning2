@@ -5,32 +5,35 @@
     /// 
     /// Provides functions for managing fonts and drawing text.
     /// </summary>
-    public static class FontManager
+    public class FontAssetManager : AssetManager<Font>
     {
-        /// <summary>
-        /// The list of loaded fonts.
-        /// </summary>
-        public static List<Font> Fonts { get; private set; }
 
+        /// <summary>
+        /// The font cache, used to increase speed.
+        /// See <see cref="FontCache"/>.
+        /// </summary>
         internal static FontCache Cache { get; private set; }
 
         /// <summary>
         /// Constructor for the Font Manager.
         /// </summary>
-        static FontManager()
+        static FontAssetManager()
         {
-            Fonts = new List<Font>();
             Cache = new FontCache();
         }
+
+        public override void AddAsset(Window cWindow, Font asset) => LoadFont(asset.Name, asset.Size, asset.FriendlyName, asset.Path, asset.Index);
+
+        public override void RemoveAsset(Window cWindow, Font asset) => asset.Unload();
 
         /// <summary>
         /// Acquires a Font if it is loaded, given its <see cref="Font.FriendlyName"/>.
         /// </summary>
         /// <param name="friendlyName">The <see cref="Font.FriendlyName"/></param>
         /// <returns></returns>
-        public static Font GetFont(string friendlyName)
+        public  Font GetFont(string friendlyName)
         {
-            foreach (Font font in Fonts)
+            foreach (Font font in AssetList)
             {
                 if (font.FriendlyName == friendlyName)
                 {
@@ -49,12 +52,12 @@
         /// <param name="friendlyName">The friendly name of the font to load.</param>
         /// <param name="path">The path to this font. If it is null, it will be loaded from the system font directory.</param>
         /// <param name="index">Index of the font in the font file to load. Will default to 0.</param>
-        public static void LoadFont(string name, int size, string friendlyName, string path = null, int index = 0)
+        public void LoadFont(string name, int size, string friendlyName, string path = null, int index = 0)
         {
             try
             {
                 Font font = Font.Load(name, size, friendlyName, path, index);
-                Fonts.Add(font);
+                AssetList.Add(font);
             }
             catch (Exception) // NC Exception
             {
@@ -66,17 +69,17 @@
         /// Unloads a font.
         /// </summary>
         /// <param name="font">The font to unload.</param>
-        public static void UnloadFont(Font font)
+        public void UnloadFont(Font font)
         {
             try
             {
                 font.Unload();
-                Fonts.Remove(font);
+                AssetList.Remove(font);
             }
             catch (Exception) { };
         }
 
-        public static void UnloadFont(string friendlyName)
+        public void UnloadFont(string friendlyName)
         {
             Font fontToUnload = GetFont(friendlyName);
 
@@ -92,7 +95,7 @@
         /// <param name="font">The font used for <paramref name="text"/></param>
         /// <param name="text">The text to get the font size for</param>
         /// <returns>A <see cref="Vector2"/> containing the size of <paramref name="text"/> in pixels.</returns>
-        public static Vector2 GetTextSize(Font font, string text)
+        public Vector2 GetTextSize(Font font, string text)
         {
             // check the string is not empty
             if (string.IsNullOrWhiteSpace(text)) return default(Vector2);
@@ -101,7 +104,7 @@
             if (text.Contains('\n')) return GetLargestTextSize(font, text);
 
             if (font == null
-                || !Fonts.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.Size}) before trying to use it!", 81, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
+                || !AssetList.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.Size}) before trying to use it!", 81, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
 
             int fontSizeX,
                 fontSizeY;
@@ -118,7 +121,7 @@
         /// <param name="font">The font used for <paramref name="text"/></param>
         /// <param name="text">The text to get the font size for</param>
         /// <returns>A <see cref="Vector2"/> containing the size of <paramref name="text"/> in pixels.</returns>
-        public static Vector2 GetTextSize(string font, string text)
+        public Vector2 GetTextSize(string font, string text)
         {
             Font curFont = GetFont(font);
 
@@ -132,14 +135,14 @@
         /// <param name="font">The font used for <paramref name="text"/></param>
         /// <param name="text">The text to get the font size for</param>
         /// <returns>A <see cref="Vector2"/> containing the size of <paramref name="text"/> in pixels.</returns>
-        internal static Vector2 GetLargestTextSize(Font font, string text)
+        internal Vector2 GetLargestTextSize(Font font, string text)
         {
             // check the string is not empty
             if (string.IsNullOrWhiteSpace(text)) return default(Vector2);
 
             // check it's a real font
             if (font == null
-            || !Fonts.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.Size}) before trying to use it!", 82, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
+            || !AssetList.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.Size}) before trying to use it!", 82, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
 
             string[] lines = text.Split('\n');
 
@@ -163,7 +166,7 @@
         /// <param name="font">The font used for <paramref name="text"/></param>
         /// <param name="text">The text to get the font size for</param>
         /// <returns>A <see cref="Vector2"/> containing the size of <paramref name="text"/> in pixels.</returns>
-        internal static Vector2 GetLargestTextSize(string font, string text)
+        internal Vector2 GetLargestTextSize(string font, string text)
         {
             Font curFont = GetFont(font);
 
@@ -184,7 +187,7 @@
         /// <param name="lineLength">Optional: Maximum line length in pixels. Ignores newlines.</param>
         /// <param name="smoothingType">Optional: The <see cref="FontSmoothingType"/> of the text.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public static void DrawText(Window cWindow, string text, string font, Vector2 position, Color foreground, Color background = default(Color),
+        public void DrawText(Window cWindow, string text, string font, Vector2 position, Color foreground, Color background = default(Color),
             TTF_FontStyle style = TTF_FontStyle.Normal, int outlineSize = -1, int lineLength = -1, FontSmoothingType smoothingType = FontSmoothingType.Default,
             bool snapToScreen = false)
         {
@@ -292,7 +295,7 @@
             if (outlineSize > -1) TTF_SetFontOutline(curFont.Handle, -1);
         }
 
-        internal static void Update()
+        internal void Update()
         {
             Cache.PurgeUnusedEntries();
             foreach (FontCacheEntry entry in Cache.Entries) entry.UsedThisFrame = false;
@@ -301,14 +304,14 @@
         /// <summary>
         /// Internal: Shuts down the Font Manager.
         /// </summary>
-        internal static void Shutdown()
+        internal void Shutdown()
         {
             NCLogging.Log("Uncaching all cached text - shutdown requested");
             Cache.Unload();
 
-            for (int curFontId = 0; curFontId < Fonts.Count; curFontId++)
+            for (int curFontId = 0; curFontId < AssetList.Count; curFontId++)
             {
-                Font curFont = Fonts[curFontId];
+                Font curFont = AssetList[curFontId];
                 NCLogging.Log($"Unloading font {curFont.FriendlyName}...");
                 UnloadFont(curFont);
             }

@@ -1,5 +1,4 @@
-﻿using System.IO;
-using static NuCore.SDL2.SDL_image;
+﻿using static NuCore.SDL2.SDL_image;
 
 namespace LightningGL
 {
@@ -12,6 +11,8 @@ namespace LightningGL
     /// </summary>
     public unsafe class Texture : Renderable
     {
+        internal const string CREATED_TEXTURE_PATH = "<<<CREATED TEXTURE>>>";
+
         /// <summary>
         /// Backing field for <see cref="Path"/>
         /// </summary>
@@ -26,7 +27,7 @@ namespace LightningGL
             {
                 if (_path == null)
                 {
-                    return "<<<CREATED TEXTURE>>>";
+                    return CREATED_TEXTURE_PATH;
                 }
                 else
                 {

@@ -113,10 +113,7 @@
                 case SDL_Scancode.SDL_SCANCODE_RETURN:
                 case SDL_Scancode.SDL_SCANCODE_RETURN2:
                 case SDL_Scancode.SDL_SCANCODE_KP_ENTER:
-                    if (AllowMultiline)
-                    {
-                        Text = $"{Text}\n";
-                    }
+                    if (AllowMultiline) Text = $"{Text}\n";
                     return;
                 default:
                     string keyStr = key.KeySym.ToString();

@@ -20,6 +20,16 @@
         public double Range { get; set; }
 
         /// <summary>
+        /// The real range of this light used when drawing
+        /// </summary>
+        private int RealRange => (int)((Range * 40) * sinus);
+
+        /// <summary>
+        /// sin(45) but (slightly) faster
+        /// </summary>
+        const float sinus = 0.70710678118f;
+
+        /// <summary>
         /// Constructor of the Light class. Sets the default range to 10 and the default brightness to 255.
         /// </summary>
         public Light()
@@ -37,33 +47,28 @@
             // Code nicked and modified from
             // https://stackoverflow.com/questions/10878209/midpoint-circle-algorithm-for-filled-circles
 
-            // This here is sin(45) but i just hard-coded it.
-            const float sinus = 0.70710678118f;
-            // This is the distance on the axis from sin(90) to sin(45). 
-
-            int range = (int)((Range * 40) * sinus);
-
             int x = (int)Position.X;
             int y = (int)Position.Y;
 
             float maxSizeX = cWindow.Settings.Size.X;
             float maxSizeY = cWindow.Settings.Size.Y;
 
-            Color transparent = Color.FromArgb(0, LightManager.EnvironmentalLight.R, LightManager.EnvironmentalLight.G, LightManager.EnvironmentalLight.B);
+            Color transparentBaseColor = Color.FromArgb(0, LightManager.EnvironmentalLight.R, LightManager.EnvironmentalLight.G, LightManager.EnvironmentalLight.B);
 
             // calculate magnitude of vector so that the alpha can be calculated
 
-            Vector2 init = new Vector2(x, y);
-            for (int curX = x - range + 1; curX < x + range; curX++)
+            Vector2 initialPos = new Vector2(x, y);
+
+            for (int curX = x - RealRange + 1; curX < x + RealRange; curX++)
             {
-                for (int curY = y - range + 1; curY < y + range; curY++)
+                for (int curY = y - RealRange + 1; curY < y + RealRange; curY++)
                 {
                     // don't draw offscreen pixels
                     if (curX >= 0 && curY >= 0 && curX < maxSizeX && curY < maxSizeY)
                     {
                         Vector2 final = new Vector2(curX, curY);
 
-                        double newDistance = Vector2.Distance(init, final);
+                        double newDistance = Vector2.Distance(initialPos, final);
 
                         double transparency = 0;
 
@@ -79,11 +84,39 @@
                             // math.clamp has aggressive inlining and is therefore a bit faster
                             transparency = Math.Clamp(transparency, 0, LightManager.EnvironmentalLight.A);
 
-                            transparent = Color.FromArgb((byte)transparency, transparent.R, transparent.G, transparent.B);
+                            transparentBaseColor = Color.FromArgb((byte)transparency, transparentBaseColor.R, transparentBaseColor.G, transparentBaseColor.B);
 
-                            LightManager.ScreenSpaceMap.SetPixel(curX, curY, transparent);
+                            LightManager.ScreenSpaceMap.SetPixel(curX, curY, transparentBaseColor);
                         }
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes this Light from the texture.
+        /// </summary>
+        /// <param name="cWindow">The window to remove this light from.</param>
+        internal void RemoveFromTexture(Window cWindow)
+        {
+            // Code nicked and modified from
+            // https://stackoverflow.com/questions/10878209/midpoint-circle-algorithm-for-filled-circles
+
+            int x = (int)Position.X;
+            int y = (int)Position.Y;
+
+            float maxSizeX = cWindow.Settings.Size.X;
+            float maxSizeY = cWindow.Settings.Size.Y;
+
+            // calculate magnitude of vector so that the alpha can be calculated
+
+            for (int curX = x - RealRange + 1; curX < x + RealRange; curX++)
+            {
+                for (int curY = y - RealRange + 1; curY < y + RealRange; curY++)
+                {
+                    // set all non-offscreen pixels of the light (we don't draw offscreen light pixels currently) to the environmental light colour
+                    // don't draw offscreen pixels
+                    if (curX >= 0 && curY >= 0 && curX < maxSizeX && curY < maxSizeY) LightManager.ScreenSpaceMap.SetPixel(x, curY, LightManager.EnvironmentalLight);
                 }
             }
         }

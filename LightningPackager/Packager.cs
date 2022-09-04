@@ -49,7 +49,7 @@ namespace LightningPackager
             try
             {
                 packageFile.Write(path);
-                return true; 
+                return true;
             }
             catch (Exception err)
             {

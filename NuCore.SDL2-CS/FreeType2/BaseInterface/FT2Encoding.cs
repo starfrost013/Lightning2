@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NuCore.SDL2
+﻿namespace NuCore.SDL2
 {
     /// <summary>
     /// This is not an enum because it needs to be a set of strings.

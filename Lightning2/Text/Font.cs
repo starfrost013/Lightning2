@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// Font
@@ -30,6 +28,17 @@ namespace LightningGL
         public IntPtr Handle { get; private set; }
 
         /// <summary>
+        /// The path of this Font.
+        /// NULL if this font was loaded from the system font directory.
+        /// </summary>
+        public string Path { get; internal set; }
+
+        /// <summary>
+        /// The index of this font.
+        /// </summary>
+        public int Index { get; internal set; }
+
+        /// <summary>
         /// Internal: Loads this font.
         /// </summary>
         /// <param name="name">The name of the font to load.</param>
@@ -44,6 +53,7 @@ namespace LightningGL
             font.Name = name;
             font.FriendlyName = friendlyName;
             font.Size = size;
+            font.Index = index;
 
             if (path == null) // default to system load path 
             {
@@ -58,9 +68,12 @@ namespace LightningGL
 
             if (!path.Contains(".ttf")) _ = new NCException($"Error loading font: Only TTF fonts are supported!", 36, "Font::Path is not a TrueType font", NCExceptionSeverity.Error);
 
+            // set the font after it's been processed
+            font.Path = path;
+
             if (size < 1) _ = new NCException($"Error loading font: Invalid font size {size}, must be at least 1!", 37, "size parameter to Font::Load is not a valid font size!", NCExceptionSeverity.Error);
 
-            font.Handle = SDL_ttf.TTF_OpenFontIndex(path, size, index);
+            font.Handle = TTF_OpenFontIndex(path, size, index);
 
             if (font.Handle == IntPtr.Zero) _ = new NCException($"Error loading font at {path}: {SDL_ttf.TTF_GetError()}", 38, "An SDL error occurred during font loading from Font::Load!", NCExceptionSeverity.Error);
 
@@ -73,7 +86,7 @@ namespace LightningGL
         /// </summary>
         internal void Unload()
         {
-            SDL_ttf.TTF_CloseFont(Handle);
+            TTF_CloseFont(Handle);
             Handle = IntPtr.Zero;
             NCLogging.Log($"Unloaded font {FriendlyName}, size {Size}");
         }

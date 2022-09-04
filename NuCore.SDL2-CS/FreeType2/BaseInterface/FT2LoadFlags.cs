@@ -6,14 +6,14 @@ namespace NuCore.SDL2
     public enum FT2LoadFlags
     {
         FT_LOAD_DEFAULT = 0x1,
-        
+
         FT_LOAD_NO_SCALE = 0x2,
-        
+
         FT_LOAD_NO_HINTING = 0x4,
 
         FT_LOAD_RENDER = 0x8,
 
-        FT_LOAD_NO_BITMAP = 0x10,  
+        FT_LOAD_NO_BITMAP = 0x10,
 
         FT_LOAD_VERTICAL_LAYOUT = 0x20,
 
@@ -40,7 +40,7 @@ namespace NuCore.SDL2
         FT_LOAD_COLOR = 0x80000,
 
         FT_LOAD_COMPUTE_METRICS = 0x100000,
-        
+
         FT_LOAD_BITMAP_METRICS_ONLY = 0x200000
     }
 }

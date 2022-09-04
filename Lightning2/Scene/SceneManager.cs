@@ -99,7 +99,7 @@ namespace LightningGL
                             }
 
                             // shut down the engine
-                            Lightning.Shutdown(MainWindow);
+                            Shutdown(MainWindow);
 
                             break;
                     }

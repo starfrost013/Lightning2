@@ -34,9 +34,9 @@
 #endregion
 
 #region Using Statements
-using static NuCore.SDL2.Utf8Marshaling;
 using System;
 using System.Runtime.InteropServices;
+using static NuCore.SDL2.Utf8Marshaling;
 #endregion
 
 namespace NuCore.SDL2
@@ -436,7 +436,7 @@ namespace NuCore.SDL2
             SDL.SDL_Color fg
         )
         {
-            byte* utf8Text =Utf8EncodeHeap(text);
+            byte* utf8Text = Utf8EncodeHeap(text);
             IntPtr result = INTERNAL_TTF_RenderUTF8_Solid(
                 font,
                 utf8Text,

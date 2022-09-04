@@ -23,7 +23,7 @@ if (args.Contains("-release"))
 
 string buildPath = $@"..\..\..\..\Lightning2\bin\{config}\net6.0\";
 
-if (!Directory.Exists(buildPath)) _ = new NCException($"Build directory not found ({buildPath}). Please build Lightning in the specified configuration (provide -release for Release)", 
+if (!Directory.Exists(buildPath)) _ = new NCException($"Build directory not found ({buildPath}). Please build Lightning in the specified configuration (provide -release for Release)",
     1402, "buildPath not found in Program::Main");
 
 FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo($@"{buildPath}\LightningGL.dll");
@@ -72,13 +72,13 @@ string innoInstallDir = $@"{Environment.GetFolderPath(Environment.SpecialFolder.
 
 if (!Directory.Exists(innoInstallDir))
 {
-    NCLogging.Log("Inno Setup not installed, skipping installer generation phase..."); 
+    NCLogging.Log("Inno Setup not installed, skipping installer generation phase...");
 }
 else
 {
     NCLogging.Log("Generating installer...");
-    
-    Process innoSetup = Process.Start($@"{innoInstallDir}\ISCC.exe", @"..\..\..\..\Setup\Setup.iss");  
+
+    Process innoSetup = Process.Start($@"{innoInstallDir}\ISCC.exe", @"..\..\..\..\Setup\Setup.iss");
 
     // wait for inno to complete
     while (!innoSetup.HasExited) { };

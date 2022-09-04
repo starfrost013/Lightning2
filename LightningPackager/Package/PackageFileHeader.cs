@@ -13,7 +13,7 @@ namespace LightningPackager
     {
         internal const string Magic = "feed me data!";
 
-        internal static byte[] ObfuscatedMagic = { 0xD9, 0xB4, 0xB1, 0xB1, 0xB2, 0xEE, 0xB9, 0xB1};
+        internal static byte[] ObfuscatedMagic = { 0xD9, 0xB4, 0xB1, 0xB1, 0xB2, 0xEE, 0xB9, 0xB1 };
         internal const byte FormatVersionMajor = 2;
         internal const byte FormatVersionMinor = 2;
 
@@ -97,7 +97,7 @@ namespace LightningPackager
                 $"WAD Version: {metadata.EngineVersion}\n" +
                 $"Lightning Version: {PackagerVersion.LIGHTNING_VERSION_BUILD_STRING} \n\n" +
                 $"Only versions that have the same major and minor version are compatible. Either regenerate your game WAD using MakePackage.exe to be compatible with the latest " +
-                $"version of the engine,, or your game has somehow been bundled with an incompatible engine version - in which case you should contact the game developer for a fix.", 
+                $"version of the engine,, or your game has somehow been bundled with an incompatible engine version - in which case you should contact the game developer for a fix.",
                 137, $"PackageFile header parser: Major and minor versions were not identical to the values in PackagerVersion::LIGHTNING_VERSION_MAJOR and PackagerVersion::LIGHTNING_VERSION_MINOR",
                 NCExceptionSeverity.FatalError);
 

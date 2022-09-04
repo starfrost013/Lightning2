@@ -1,7 +1,7 @@
-﻿using static NuCore.SDL2.SDL;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static NuCore.SDL2.SDL;
 
 namespace NuCore.SDL2
 {

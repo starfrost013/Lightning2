@@ -26,7 +26,7 @@ namespace NuCore.Utilities
         /// </summary>
         public NCINIFileSection()
         {
-            Values = new Dictionary<string, string>(); 
+            Values = new Dictionary<string, string>();
         }
 
         /// <summary>

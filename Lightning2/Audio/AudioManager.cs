@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// AudioManager
@@ -9,19 +7,11 @@ namespace LightningGL
     /// 
     /// Defines APIs for playing an arbitrary number of audio files at once.
     /// </summary>
-    public static class AudioManager
+    public class AudioAssetManager : AssetManager<AudioFile>
     {
-        /// <summary>
-        /// Internal: The list of loaded audio files.
-        /// </summary>
-        internal static List<AudioFile> AudioFiles { get; set; }
-
-        /// <summary>
-        /// Constructor for AudioManager that initialises the <see cref="AudioFiles"/> class
-        /// </summary>
-        static AudioManager()
+        public override void AddAsset(Window cWindow, AudioFile asset)
         {
-            AudioFiles = new List<AudioFile>();
+            LoadFile(asset.Path, asset.Name);
         }
 
         /// <summary>
@@ -30,7 +20,7 @@ namespace LightningGL
         /// <param name="path">The path of the file to load.</param>
         /// <param name="name">A name to assign to the audio file. Optional, will be automatically generated from the file path (extension and directory removed) if not supplied.</param>
         /// <exception cref="NCException">An error occurred loading the file.</exception>
-        public static void LoadFile(string path, string name = null)
+        public void LoadFile(string path, string name = null)
         {
             if (!File.Exists(path)) _ = new NCException($"Error loading audio file: The path {path} does not exist!", 52, "AudioManager::Load path parameter does not exist!", NCExceptionSeverity.FatalError);
 
@@ -74,9 +64,9 @@ namespace LightningGL
 
             if (tempAudio.AudioHandle != IntPtr.Zero)
             {
-                tempAudio.Channel = AudioFiles.Count;
+                tempAudio.Channel = AssetList.Count;
                 NCLogging.Log($"Loaded audio file at {path} to channel {tempAudio.Channel}");
-                AudioFiles.Add(tempAudio);
+                AssetList.Add(tempAudio);
             }
         }
 
@@ -84,11 +74,11 @@ namespace LightningGL
         /// Unloads the AudioFile <paramref name="file"/> and removes it from the internal audio file list.
         /// </summary>
         /// <param name="file">The <see cref="AudioFile"/> to unload</param>
-        public static void UnloadFile(AudioFile file)
+        public void UnloadFile(AudioFile file)
         {
             NCLogging.Log($"Unloading audio file {file.Name}...");
 
-            if (!AudioFiles.Contains(file))
+            if (!AssetList.Contains(file))
             {
                 _ = new NCException($"Attempted to load an audio file {file.Name} (path {file.Path}) that is not present in the audio files list and therefore has not been loaded!", 135,
                     "AudioManager::UnloadFile file parameter is not a loaded AudioFile present within AudioManager::AudioFiles!", NCExceptionSeverity.Warning, null, true);
@@ -96,7 +86,7 @@ namespace LightningGL
             }
 
             file.Unload();
-            AudioFiles.Remove(file);
+            AssetList.Remove(file);
         }
 
         /// <summary>
@@ -104,9 +94,9 @@ namespace LightningGL
         /// </summary>
         /// <param name="name">The name of the audio file to obtain.</param>
         /// <returns>The first instance of <see cref="AudioFile"/> in <see cref="AudioFiles"/> with the name <see cref="Name"/>, or <c>null</c> if there is no audio file with that name.</returns>
-        public static AudioFile GetFileWithName(string name)
+        public AudioFile GetFileWithName(string name)
         {
-            foreach (AudioFile file in AudioFiles)
+            foreach (AudioFile file in AssetList)
             {
                 if (file.Name == name)
                 {
@@ -122,9 +112,9 @@ namespace LightningGL
         /// </summary>
         /// <param name="name">The path of the audio file to obtain.</param>
         /// <returns>The first instance of <see cref="AudioFile"/> in <see cref="AudioFiles"/> with the path <paramref name="name"/>, or <c>null</c> if there is no audio file with that path.</returns>
-        public static AudioFile GetFileWithPath(string name)
+        public AudioFile GetFileWithPath(string name)
         {
-            foreach (AudioFile file in AudioFiles)
+            foreach (AudioFile file in AssetList)
             {
                 if (file.Path == name)
                 {
@@ -139,9 +129,9 @@ namespace LightningGL
         /// Internal: Updates all loaded and playing audio files.
         /// </summary>
         /// <param name="cWindow">The window to update audio on.</param>
-        internal static void Update(Window cWindow)
+        internal void Update(Window cWindow)
         {
-            foreach (AudioFile file in AudioFiles)
+            foreach (AudioFile file in AssetList)
             {
                 if (file.Playing) file.Update(cWindow);
             }

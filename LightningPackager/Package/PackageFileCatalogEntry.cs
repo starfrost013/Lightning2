@@ -1,5 +1,4 @@
 ﻿using NuCore.Utilities;
-using System.IO;
 
 namespace LightningPackager
 {
@@ -34,7 +33,7 @@ namespace LightningPackager
         public DateTime TimeStamp { get; set; }
 
         public uint Crc32 { get; set; }
-        
+
         public long Start { get; set; }
 
         internal long Size { get; set; }
@@ -48,7 +47,7 @@ namespace LightningPackager
                 // + 4 for Crc32
                 // + 8 for timestamp
                 // + 16 for two ulongs (start and size)
-                return (uint)(RealPath.Length + 1) + 4 + 8 + 16; 
+                return (uint)(RealPath.Length + 1) + 4 + 8 + 16;
             }
         }
         public PackageFileCatalogEntry(string path, bool extract = false)
@@ -118,7 +117,7 @@ namespace LightningPackager
             byte[] fileData = reader.ReadBytes(Convert.ToInt32(Size));
 
             // Write using writeallbytes
-            File.WriteAllBytes(finalPath, fileData) ;
+            File.WriteAllBytes(finalPath, fileData);
 
             // will be this value if we do not specify CRC32 compression mode
             if (Crc32 != default(uint))

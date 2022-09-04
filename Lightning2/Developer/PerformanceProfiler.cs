@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// PerformanceProfiler

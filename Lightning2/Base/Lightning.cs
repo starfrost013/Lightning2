@@ -14,20 +14,35 @@
         public static bool Initialised { get; private set; }
 
         #region Asset managers
-        public static TextureAssetManager TextureManager { get; set; }
+        public static TextureAssetManager TextureManager { get; private set; } // init not valid on static members
 
+        public static AudioAssetManager AudioManager { get; private set; }
+
+        public static ParticleAssetManager ParticleManager { get; private set; }
+
+        public static UIAssetManager UIManager { get; private set; }
+
+        public static FontAssetManager FontManager { get; private set; }
+
+        public static LightAssetManager LightManager { get; private set; }
         #endregion
 
         static Lightning()
         {
+            // Initialise all asset managers
             TextureManager = new TextureAssetManager();
+            AudioManager = new AudioAssetManager();
+            ParticleManager = new ParticleAssetManager();
+            UIManager = new UIAssetManager();
+            FontManager = new FontAssetManager();
+            LightManager = new LightAssetManager();
         }
 
         public static void Init(string[] args)
         {
             try
             {
-                // Set culture to invariant so things like different decimal symbols don't choke
+                // Set culture to invariant so things like different decimal symbols don't crash
                 CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
                 Init_InitLogging();
 
@@ -45,19 +60,19 @@
                 }
 
                 NCLogging.Log("Initialising SDL...");
-                if (SDL.SDL_Init(SDL.SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2: {SDL.SDL_GetError()}", 0, "Failed to initialise SDL2 during Lightning::Init", NCExceptionSeverity.FatalError);
+                if (SDL_Init(SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2: {SDL.SDL_GetError()}", 0, "Failed to initialise SDL2 during Lightning::Init", NCExceptionSeverity.FatalError);
 
                 NCLogging.Log("Initialising SDL_image...");
-                if (SDL_image.IMG_Init(SDL_image.IMG_InitFlags.IMG_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2_image: {SDL.SDL_GetError()}", 1, "Failed to initialise SDL2_image during Lightning::Init", NCExceptionSeverity.FatalError);
+                if (IMG_Init(IMG_InitFlags.IMG_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2_image: {SDL.SDL_GetError()}", 1, "Failed to initialise SDL2_image during Lightning::Init", NCExceptionSeverity.FatalError);
 
                 NCLogging.Log("Initialising SDL_ttf...");
-                if (SDL_ttf.TTF_Init() < 0) _ = new NCException($"Error initialising SDL2_ttf: {SDL.SDL_GetError()}", 2, "Failed to initialise SDL2_ttf during Lightning::Init", NCExceptionSeverity.FatalError);
+                if (TTF_Init() < 0) _ = new NCException($"Error initialising SDL2_ttf: {SDL.SDL_GetError()}", 2, "Failed to initialise SDL2_ttf during Lightning::Init", NCExceptionSeverity.FatalError);
 
                 NCLogging.Log("Initialising SDL_mixer...");
-                if (SDL_mixer.Mix_Init(SDL_mixer.MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2_mixer: {SDL.SDL_GetError()}", 3, "Failed to initialise SDL2_mixer during Lightning::Init", NCExceptionSeverity.FatalError);
+                if (Mix_Init(MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2_mixer: {SDL.SDL_GetError()}", 3, "Failed to initialise SDL2_mixer during Lightning::Init", NCExceptionSeverity.FatalError);
 
                 NCLogging.Log("Initialising audio device (44Khz, stereo)...");
-                if (SDL_mixer.Mix_OpenAudio(44100, SDL_mixer.Mix_AudioFormat.MIX_DEFAULT_FORMAT, 2, 2048) < 0) _ = new NCException($"Error initialising audio device: {SDL.SDL_GetError()}", 56, "Failed to initialise audio device during Lightning::Init", NCExceptionSeverity.FatalError);
+                if (Mix_OpenAudio(44100, Mix_AudioFormat.MIX_DEFAULT_FORMAT, 2, 2048) < 0) _ = new NCException($"Error initialising audio device: {SDL.SDL_GetError()}", 56, "Failed to initialise audio device during Lightning::Init", NCExceptionSeverity.FatalError);
 
                 // this should always be the earliest step
                 NCLogging.Log("Obtaining system information...");
@@ -154,7 +169,7 @@
             // create a list of fonts and audiofiles to unload
             // just foreaching through each font and audiofile doesn't work as collection is being modified 
             List<AudioFile> audioFilesToUnload = new List<AudioFile>();
-            foreach (AudioFile audioFileToUnload in AudioManager.AudioFiles) audioFilesToUnload.Add(audioFileToUnload);
+            foreach (AudioFile audioFileToUnload in AudioManager.AssetList) audioFilesToUnload.Add(audioFileToUnload);
 
             NCLogging.Log("Unloading all audio files...");
             foreach (AudioFile audioFileToUnload in audioFilesToUnload) AudioManager.UnloadFile(audioFileToUnload);
@@ -171,18 +186,18 @@
             NCLogging.Log("Cleaning up loaded package files, if any...");
             Packager.Shutdown(GlobalSettings.DeleteUnpackedFilesOnExit);
 
-            // Shut all SDL subsystems down in reverse order.
+            // Shut all SDL libraries down in reverse order.
             NCLogging.Log("Shutting down SDL_ttf...");
-            SDL_ttf.TTF_Quit();
+            TTF_Quit();
 
             NCLogging.Log("Shutting down SDL_mixer...");
-            SDL_mixer.Mix_Quit();
+            Mix_Quit();
 
             NCLogging.Log("Shutting down SDL_image..");
-            SDL_image.IMG_Quit();
+            IMG_Quit();
 
             NCLogging.Log("Shutting down SDL...");
-            SDL.SDL_Quit();
+            SDL_Quit();
         }
     }
 }

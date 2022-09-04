@@ -22,8 +22,8 @@ namespace NuCore.Utilities
         public static void RecursiveCopy(string sourceDir, string destinationDir = null, List<string> excludedPatterns = null)
         {
             if (destinationDir == null) destinationDir = ".";
-            if (excludedPatterns == null) excludedPatterns = new List<string> { ".tmp", "~$", ".g.cs", ".cache", 
-                ".editorconfig", ".props", ".targets", ".vsidx", ".lock", ".v1", ".v2", "dgspec", "AssemblyAttributes", 
+            if (excludedPatterns == null) excludedPatterns = new List<string> { ".tmp", "~$", ".g.cs", ".cache",
+                ".editorconfig", ".props", ".targets", ".vsidx", ".lock", ".v1", ".v2", "dgspec", "AssemblyAttributes",
                 "basic.AssemblyInfo", "assets.json", ".suo", ".pdb", ".log", "test.wad" };
 
             foreach (string fileName in Directory.EnumerateFiles(sourceDir, "*", SearchOption.AllDirectories))

@@ -1,6 +1,6 @@
-﻿using static NuCore.SDL2.SDL;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
+using static NuCore.SDL2.SDL;
 
 namespace NuCore.Utilities
 {
@@ -82,7 +82,7 @@ namespace NuCore.Utilities
             mbData.title = Title;
             mbData.message = Text;
             mbData.flags = Icon;
-            
+
             // Show the message box
             if (SDL_ShowMessageBox(ref mbData, out var buttonId) < 0) _ = new NCException($"Error creating messagebox - {SDL_GetError()}", 19, "SDL2 error occurred in NCMessageBox::Show", NCExceptionSeverity.FatalError);
 

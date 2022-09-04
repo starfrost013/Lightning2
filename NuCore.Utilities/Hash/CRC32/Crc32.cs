@@ -1,7 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Runtime.InteropServices;
-using System.Runtime.Intrinsics.Arm; 
+using System.Runtime.Intrinsics.Arm;
 
 namespace NuCore.Utilities
 {

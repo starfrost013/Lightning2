@@ -81,7 +81,7 @@ namespace LightningPackager
             // May need to do a bit of refactoring to make this a bit easier to read
             writer.Write(Magic);
             writer.Write(NumberOfEntries);
-            
+
             // write each entry in the catalog 
             foreach (PackageFileCatalogEntry entry in Entries) entry.Write(writer);
 
@@ -91,12 +91,12 @@ namespace LightningPackager
 
             // iterate through all of the entries.
             for (int curEntry = 0; curEntry < Entries.Count; curEntry++)
-            {     
+            {
                 PackageFileCatalogEntry entry = Entries[curEntry];
                 entryPosition += entry.Length;
 
                 NCLogging.Log($"Writing file {entry.FilePath} to WAD...");
-                
+
                 // Read the file that this entry corresponds to.
                 byte[] fileData = File.ReadAllBytes(entry.FilePath);
 

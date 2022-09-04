@@ -29,12 +29,12 @@ namespace LightningPackager
         /// <summary>
         /// Stores the input folder of the package. Used to create relative paths.
         /// </summary>
-        public static string InFolder { get; set; } 
+        public static string InFolder { get; set; }
 
         public PackageFile(PackageFileMetadata metadata)
         {
             Header = new PackageFileHeader(metadata);
-            Catalog = new PackageFileCatalog(); 
+            Catalog = new PackageFileCatalog();
         }
 
         public void AddEntry(PackageFileCatalogEntry entry) => Catalog.AddEntry(entry);
@@ -102,7 +102,7 @@ namespace LightningPackager
 
             for (int curChunk = 0; curChunk <= numOfChunks; curChunk++)
             {
-                byte[] fileBytes = reader.ReadBytes(DeobfuscateChunkLength); 
+                byte[] fileBytes = reader.ReadBytes(DeobfuscateChunkLength);
 
                 // read that chunk
                 foreach (byte b in fileBytes)
@@ -119,7 +119,7 @@ namespace LightningPackager
             File.WriteAllBytes(DeobfuscatedPath, deobfuscatedBytes.ToArray());
 
             reader = new BinaryReader(new FileStream(DeobfuscatedPath, FileMode.Open));
-            return reader; 
+            return reader;
         }
 
         internal void Write(string path)

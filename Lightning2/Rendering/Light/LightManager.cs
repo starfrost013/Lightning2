@@ -3,49 +3,37 @@
     /// <summary>
     /// LightManager
     /// 
-    /// April 8, 2022 (modified August 10, 2022)
+    /// April 8, 2022 (modified September 4, 2022)
     /// 
     /// Static class that manages lights and generates a screen-space lightmap.
     /// </summary>
-    public static class LightManager
+    public class LightAssetManager : AssetManager<Light>
     {
-        /// <summary>
-        /// The lights that have been loaded.
-        /// </summary>
-        private static List<Light> Lights { get; set; }
-
         /// <summary>
         /// Internal: Texture used for rendering lights
         /// </summary>
-        internal static Texture ScreenSpaceMap { get; private set; }
+        internal Texture ScreenSpaceMap { get; private set; }
 
         /// <summary>
         /// The default color of the environment.
         /// </summary>
-        public static Color EnvironmentalLight { get; private set; }
+        public Color EnvironmentalLight { get; private set; }
 
         /// <summary>
         /// Internal: determines if the light manager is initialised
         /// </summary>
-        internal static bool Initialised { get; private set; }
-
-        /// <summary>
-        /// Constructor for the Light Manager.
-        /// </summary>
-        static LightManager()
-        {
-            Lights = new List<Light>();
-        }
+        internal bool Initialised { get; private set; }
 
         /// <summary>
         /// Initialises the Light Manager.
         /// </summary>
         /// <param name="cWindow"></param>
-        internal static void Init(Window cWindow)
+        internal void Init(Window cWindow)
         {
             if (Initialised) return; // don't initialise twice
             // move this if it is slower
             ScreenSpaceMap = new Texture(cWindow, cWindow.Settings.Size.X, cWindow.Settings.Size.Y);
+            ScreenSpaceMap.SnapToScreen = true;
             SetEnvironmentalLightBlendMode(SDL_BlendMode.SDL_BLENDMODE_BLEND);
             // This is used so we don't build lightmaps when LightManager.Init hasn't been called
             Initialised = true;
@@ -55,19 +43,31 @@
         /// Adds a light.
         /// </summary>
         /// <param name="window">The window to add the light to.</param>
-        /// <param name="light">The <see cref="Light"/> object to add to the light manager.</param>
-        public static void AddLight(Window window, Light light)
+        /// <param name="asset">The <see cref="Light"/> object to add to the light manager.</param>
+        public override void AddAsset(Window window, Light asset)
         {
             if (ScreenSpaceMap.Handle == IntPtr.Zero) _ = new NCException("The Light Manager must be initialised before using it!", 61, "LightManager::AddLight called before LightManager::Init!", NCExceptionSeverity.FatalError);
-            light.RenderToTexture(window);
-            Lights.Add(light);
+            asset.RenderToTexture(window);
+            AssetList.Add(asset);
+        }
+
+        /// <summary>
+        /// Removes a light.
+        /// </summary>
+        /// <param name="cWindow"></param>
+        /// <param name="asset"></param>
+        public override void RemoveAsset(Window cWindow,
+            Light asset)
+        {
+            asset.RemoveFromTexture(cWindow);
+            AssetList.Remove(asset);
         }
 
         /// <summary>
         /// Sets the environmental light color.
         /// </summary>
         /// <param name="color">The <see cref="Color"/> to set as the environmental light color.</param>
-        public static void SetEnvironmentalLight(Color color)
+        public void SetEnvironmentalLight(Color color)
         {
             if (ScreenSpaceMap.Handle == IntPtr.Zero) _ = new NCException("The Light Manager must be initialised before using it!", 124, "LightManager::SetEnvironmentalLight called before LightManager::Init!", NCExceptionSeverity.FatalError);
             EnvironmentalLight = color;
@@ -82,9 +82,10 @@
         /// Sets the blend mode of the environmental light.
         /// </summary>
         /// <param name="blendMode">The <see cref="SDL_BlendMode"/> of the environmental light texture to set,</param>
-        public static void SetEnvironmentalLightBlendMode(SDL_BlendMode blendMode)
+        public void SetEnvironmentalLightBlendMode(SDL_BlendMode blendMode)
         {
-            if (ScreenSpaceMap.Handle == IntPtr.Zero) _ = new NCException("The Light Manager must be initialised before using it!", 125, "LightManager::SetEnvironmentalLightBlendMode called before LightManager::Init!", NCExceptionSeverity.FatalError);
+            if (ScreenSpaceMap.Handle == IntPtr.Zero) _ = new NCException("The Light Manager must be initialised before using it!", 
+                125, "LightManager::SetEnvironmentalLightBlendMode called before LightManager::Init!", NCExceptionSeverity.FatalError);
             SDL_SetTextureBlendMode(ScreenSpaceMap.Handle, blendMode);
         }
 
@@ -92,17 +93,16 @@
         /// Internal: Renders the current screen-space lightmap.
         /// </summary>
         /// <param name="cWindow">The window to render the current screen-space light map to.</param>
-        internal static void Render(Window cWindow)
+        internal void Render(Window cWindow)
         {
-            if (ScreenSpaceMap.Handle == IntPtr.Zero) _ = new NCException("The Light Manager must be initialised before using it!", 62, "LightManager::RenderLightmap called before LightManager::Init!", NCExceptionSeverity.FatalError);
-
-            ScreenSpaceMap.Unlock();
+            if (ScreenSpaceMap.Handle == IntPtr.Zero) _ = new NCException("The Light Manager must be initialised before using it!",
+                62, "LightManager::RenderLightmap called before LightManager::Init!", NCExceptionSeverity.FatalError);
             ScreenSpaceMap.Draw(cWindow);
         }
 
         /// <summary>
         /// Internal - used by LightningGL.Shutdown
         /// </summary>
-        internal static void Shutdown() => SDL_DestroyTexture(ScreenSpaceMap.Handle);
+        internal void Shutdown() => SDL_DestroyTexture(ScreenSpaceMap.Handle);
     }
 }

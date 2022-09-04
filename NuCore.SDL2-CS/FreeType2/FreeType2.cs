@@ -28,9 +28,9 @@
 #endregion
 
 #region Using Statements
-using static NuCore.SDL2.Utf8Marshaling;
 using System;
 using System.Runtime.InteropServices;
+using static NuCore.SDL2.Utf8Marshaling;
 #endregion
 
 namespace NuCore.SDL2
@@ -84,8 +84,8 @@ namespace NuCore.SDL2
         }
 
         private static bool FREETYPE2_VERSION_ATLEAST(IntPtr library,
-            int x, 
-            int y, 
+            int x,
+            int y,
             int z)
         {
             // verify correct version
@@ -144,7 +144,7 @@ namespace NuCore.SDL2
         public static unsafe extern int FT_Done_Face(IntPtr face);
 
         [DllImport(NativeDLLPath, CallingConvention = CallingConvention.Cdecl)]
-        public static unsafe extern uint FT_Get_Char_Index(IntPtr face, 
+        public static unsafe extern uint FT_Get_Char_Index(IntPtr face,
             int charcode);
 
         [DllImport(NativeDLLPath, CallingConvention = CallingConvention.Cdecl)]

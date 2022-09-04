@@ -15,7 +15,7 @@ namespace NuCore.SDL2
 
         FT_FACE_FLAG_HORIZONTAL = 0x10,
 
-        FT_FACE_FLAG_VERTICAL = 0x20,   
+        FT_FACE_FLAG_VERTICAL = 0x20,
 
         FT_FACE_FLAG_KERNING = 0x40,
 
@@ -40,7 +40,7 @@ namespace NuCore.SDL2
         FT_FACE_FLAG_SVG = 0x10000,
 
         FT_FACE_FLAG_SBIX = 0x20000,
-        
+
         FT_FACE_FLAG_SBIX_OVERLAY = 0x40000,
     }
 }

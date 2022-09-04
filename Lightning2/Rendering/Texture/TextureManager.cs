@@ -14,16 +14,16 @@
         /// </summary>
         public static bool SnapToScreen { get; set; }
 
-        public override Texture Load(Window cWindow, Texture asset)
-        {
-            asset.Load(cWindow);
-            return asset;
-        }
-
         // this is here for reasons (so that it can be used from using static LightningGL.Window)
         public override void AddAsset(Window cWindow, Texture asset)
         {
-            base.AddAsset(cWindow, asset);
+            if (asset.Path != Texture.CREATED_TEXTURE_PATH) asset.Load(cWindow);
+        }
+
+        public override void RemoveAsset(Window cWindow, Texture asset)
+        {
+            asset.Unload();
+            AssetList.Remove(asset);
         }
 
         /// <summary>
