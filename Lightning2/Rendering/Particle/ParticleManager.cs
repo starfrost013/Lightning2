@@ -39,22 +39,24 @@ namespace LightningGL
         /// Adds the particle effect <see cref="ParticleEffect"/> for the window <paramref name="cWindow"/>.
         /// </summary>
         /// <param name="cWindow">The window to add the particle effect for.</param>
-        /// <param name="particle">The particle effect to add to the window.</param>
-        public static void AddEffect(Window cWindow, ParticleEffect particle)
+        /// <param name="particleEffect">The particle effect to add to the window.</param>
+        public static void AddEffect(Window cWindow, ParticleEffect particleEffect)
         {
-            particle.Load(particle.Texture, cWindow);
-            Effects.Add(particle);
+            particleEffect.Load(particleEffect.Texture, cWindow);
+            Effects.Add(particleEffect);
         }
 
         /// <summary>
         /// Adds the particle effect <see cref="ParticleEffect"/> for the window <paramref name="cWindow"/>.
         /// </summary>
         /// <param name="cWindow">The window to add the particle effect for.</param>
-        /// <param name="particle">The particle effect to add to the window.</param>
-        public static void RemoveEffect(ParticleEffect particle)
+        /// <param name="particleEffect">The particle effect to add to the window.</param>
+        public static void RemoveEffect(ParticleEffect particleEffect)
         {
-            particle.Unload();
-            Effects.Remove(particle);
+            if (!Effects.Contains(particleEffect)) _ = new NCException($"Attempted to remove a particle effect (loaded from {particleEffect.Texture.Path}) without loading it first!",
+                136, "You must load a particle effect before trying to remove it!", NCExceptionSeverity.Error);
+            particleEffect.Unload();
+            Effects.Remove(particleEffect);
         }
 
         /// <summary>
