@@ -102,8 +102,6 @@ namespace LightningGL
         internal static void Render(Window cWindow)
         {
             if (ScreenSpaceMap.Handle == IntPtr.Zero) _ = new NCException("The Light Manager must be initialised before using it!", 62, "LightManager::RenderLightmap called before LightManager::Init!", NCExceptionSeverity.FatalError);
-
-            ScreenSpaceMap.Unlock();
             ScreenSpaceMap.Draw(cWindow);
         }
 

@@ -8,7 +8,7 @@
 ; Intended to be run from the SDKBuild tool.
 
 #define MyAppName "Lightning Software Development Kit"
-#define MyAppVersion "1.0.2"
+#define MyAppVersion "1.0.3"
 #define MyAppPublisher "starfrost"
 #define MyAppURL "https://lightning.starfrost.net"
 #define BuildConfig "Release"
