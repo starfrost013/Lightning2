@@ -16,14 +16,14 @@
         public override void AddAsset(Window cWindow, Gadget gadget)
         {
             NCLogging.Log($"Creating new Gadget::{gadget.GetType().Name}");
-            AssetList.Add(gadget);
+            Assets.Add(gadget);
         }
 
         public override void RemoveAsset(Window cWindow, Gadget gadget)
         {
-            if (!AssetList.Contains(gadget)) _ = new NCException($"Attempted to remove a gadget of type ({gadget.GetType().Name} that is not in the UI Manager - you must add it first!", 135, "Called UIManager::RemoveElement with a gadget property that does not correspond to a Gadget loaded by the UI Manager!", NCExceptionSeverity.Warning);
+            if (!Assets.Contains(gadget)) _ = new NCException($"Attempted to remove a gadget of type ({gadget.GetType().Name} that is not in the UI Manager - you must add it first!", 135, "Called UIManager::RemoveElement with a gadget property that does not correspond to a Gadget loaded by the UI Manager!", NCExceptionSeverity.Warning);
             NCLogging.Log($"Removing A Gadget::{gadget.GetType().Name} from UIManager");
-            AssetList.Remove(gadget);
+            Assets.Remove(gadget);
         }
 
         /// <summary>
@@ -32,7 +32,7 @@
         /// <param name="cWindow">The UI element to render.</param>
         internal void Render(Window cWindow)
         {
-            foreach (Gadget uiElement in AssetList)
+            foreach (Gadget uiElement in Assets)
             {
                 if (uiElement.Size == default) _ = new NCException($"Attempted to draw a gadget with no size, you will not see it!", 122, "Gadget::Size = (0,0)!", NCExceptionSeverity.Warning, null, true);
                 if (uiElement.OnRender != null)
@@ -44,7 +44,7 @@
 
         internal void Shutdown(Window cWindow)
         {
-            foreach (Gadget uiElement in AssetList)
+            foreach (Gadget uiElement in Assets)
             {
                 if (uiElement.OnShutdown != null)
                 {
@@ -68,7 +68,7 @@
                     cameraPosition.Y + button.Position.Y);
             }
 
-            foreach (Gadget uiElement in AssetList)
+            foreach (Gadget uiElement in Assets)
             {
                 bool intersects = AABB.Intersects(uiElement, button.Position);
 
@@ -98,7 +98,7 @@
                     cameraPosition.Y + button.Position.Y);
             }
 
-            foreach (Gadget uiElement in AssetList)
+            foreach (Gadget uiElement in Assets)
             {
                 bool intersects = AABB.Intersects(uiElement, button.Position);
 
@@ -115,7 +115,7 @@
 
         internal void MouseEnter()
         {
-            foreach (Gadget uiElement in AssetList)
+            foreach (Gadget uiElement in Assets)
             {
                 if (uiElement.OnMouseEnter != null)
                 {
@@ -126,7 +126,7 @@
 
         internal void MouseLeave()
         {
-            foreach (Gadget uiElement in AssetList)
+            foreach (Gadget uiElement in Assets)
             {
                 if (uiElement.OnMouseLeave != null)
                 {
@@ -137,7 +137,7 @@
 
         internal void FocusGained()
         {
-            foreach (Gadget uiElement in AssetList)
+            foreach (Gadget uiElement in Assets)
             {
                 if (uiElement.OnFocusGained != null)
                 {
@@ -148,7 +148,7 @@
 
         internal void FocusLost()
         {
-            foreach (Gadget uiElement in AssetList)
+            foreach (Gadget uiElement in Assets)
             {
                 if (uiElement.OnFocusLost != null)
                 {
@@ -172,7 +172,7 @@
                     cameraPosition.Y + button.Position.Y);
             }
 
-            foreach (Gadget uiElement in AssetList)
+            foreach (Gadget uiElement in Assets)
             {
                 if (uiElement.OnMouseMove != null) // this one is passed regardless of intersection for things like button highlighting
                 {
@@ -183,7 +183,7 @@
 
         internal void KeyPressed(Key key)
         {
-            foreach (Gadget uiElement in AssetList)
+            foreach (Gadget uiElement in Assets)
             {
                 // check if the UI element is focused.
                 if (uiElement.Focused
@@ -196,7 +196,7 @@
 
         internal void KeyReleased(Key key)
         {
-            foreach (Gadget uiElement in AssetList)
+            foreach (Gadget uiElement in Assets)
             {
                 // check if the UI element is focused.
                 if (uiElement.Focused

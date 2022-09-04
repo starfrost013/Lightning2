@@ -49,9 +49,7 @@
                 Strings.Add(value.Key, value.Value);
             }
 
-#if DEBUG
             NCLogging.Log($"Loaded language: {Metadata.Description} (Version {Metadata.Version})");
-#endif
         }
 
         public static string GetString(string Key)

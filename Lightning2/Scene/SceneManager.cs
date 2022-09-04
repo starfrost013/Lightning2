@@ -9,31 +9,26 @@ namespace LightningGL
     /// 
     /// Defines the Scene Manager, which manages scenes in Lightning (optional)
     /// </summary>
-    public static class SceneManager
+    public class SceneAssetManager : AssetManager<Scene>
     {
-        /// <summary>
-        /// The list of scenes in the Scene Manager.
-        /// </summary>
-        public static List<Scene> Scenes { get; private set; }
-
         /// <summary>
         /// The current scene that is being run.
         /// </summary>
-        private static Scene CurrentScene { get; set; }
+        private Scene CurrentScene { get; set; }
 
         /// <summary>
         /// The main window of the application.
         /// </summary>
-        public static Window MainWindow { get; private set; }
+        public Window MainWindow { get; private set; }
 
         /// <summary>
         /// Determines if the scene manager is running.
         /// </summary>
-        public static bool Initialised { get; private set; }
+        public bool Initialised { get; private set; }
 
-        static SceneManager()
+        public override void AddAsset(Window cWindow, Scene asset)
         {
-            Scenes = new List<Scene>();
+            throw new NotImplementedException("AddAsset not implemented for SceneManager");
         }
 
         /// <summary>
@@ -41,7 +36,7 @@ namespace LightningGL
         /// </summary>
         /// <param name="windowSettings">The window settings to use for the Scene Manager.</param>
         /// <exception cref="NCException">An error occurred initialising the Scene Manager.</exception>
-        internal static void Init(WindowSettings windowSettings)
+        internal void Init(WindowSettings windowSettings)
         {
             // Initialise Lightning2 window.
             MainWindow = new Window();
@@ -59,7 +54,7 @@ namespace LightningGL
 
                     if (scene == null) throw new NCException($"Error initialising SceneManager: failed to initialise scene {scene.GetName()}, failed to create instance!", 130, "Scene initialisation failed in SceneManager::Init", NCExceptionSeverity.FatalError);
 
-                    Scenes.Add(scene);
+                    Assets.Add(scene);
 
                     NCLogging.Log($"Initialising scene {scene.GetName()}...");
 
@@ -70,7 +65,7 @@ namespace LightningGL
             }
 
 
-            if (Scenes.Count == 0) throw new NCException($"There are no scenes defined!", 131, "SceneManager::Scenes Count = 0!", NCExceptionSeverity.FatalError);
+            if (Assets.Count == 0) throw new NCException($"There are no scenes defined!", 131, "SceneManager::Scenes Count = 0!", NCExceptionSeverity.FatalError);
             if (CurrentScene == null) throw new NCException($"There must be a startup scene set!", 132, "No current scene specified!", NCExceptionSeverity.FatalError);
 
             Initialised = true;
@@ -79,7 +74,7 @@ namespace LightningGL
         /// <summary>
         /// Internal: Main loop for the Scene Manager.
         /// </summary>
-        internal static void Main()
+        internal void Main()
         {
             while (MainWindow.Run())
             {
@@ -91,7 +86,7 @@ namespace LightningGL
                     {
                         case SDL.SDL_EventType.SDL_QUIT:
                             NCLogging.Log("Shutting down scene...");
-                            foreach (Scene scene in Scenes)
+                            foreach (Scene scene in Assets)
                             {
                                 // shutdown every scene
                                 NCLogging.Log($"Shutting down scene {scene.GetName()}...");
@@ -116,7 +111,7 @@ namespace LightningGL
         /// Sets the current scene to the scene <see cref="Scene"/>.
         /// </summary>
         /// <param name="newScene">The new <see cref="Scene"/> to set to be the current scene.</param>
-        public static void SetCurrentScene(Scene newScene)
+        public void SetCurrentScene(Scene newScene)
         {
             NCLogging.Log($"Setting scene to {newScene.GetName()}...");
             CurrentScene.SwitchAway(newScene);
@@ -128,7 +123,7 @@ namespace LightningGL
         /// Sets the current scene to the scene <see cref="Scene"/>.
         /// </summary>
         /// <param name="newScene">The new <see cref="Scene"/> to set to be the current scene.</param>
-        public static void SetCurrentScene(string name)
+        public void SetCurrentScene(string name)
         {
             Scene scene = GetScene(name);
 
@@ -142,9 +137,9 @@ namespace LightningGL
         /// </summary>
         /// <param name="name">The <see cref="Scene.Name"/> of the scene</param>
         /// <returns>A <see cref="Scene"/> object containing the first scene with the name <paramref name="name"/>, or <c>null</c> if there is no scene by that name.</returns>
-        public static Scene GetScene(string name)
+        public Scene GetScene(string name)
         {
-            foreach (Scene scene in Scenes)
+            foreach (Scene scene in Assets)
             {
                 if (scene.GetName() == name)
                 {

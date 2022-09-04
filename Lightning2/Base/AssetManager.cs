@@ -5,11 +5,11 @@
     /// </summary>
     public abstract class AssetManager<T>
     {
-        internal List<T> AssetList { get; set; }
+        internal List<T> Assets { get; set; }
 
         public AssetManager()
         {
-            AssetList = new List<T>();
+            Assets = new List<T>();
         }
 
         public abstract void AddAsset(Window cWindow,
@@ -18,7 +18,7 @@
         public virtual void RemoveAsset(Window cWindow,
             T asset)
         {
-            AssetList.Remove(asset);
+            Assets.Remove(asset);
         }
     }
 }

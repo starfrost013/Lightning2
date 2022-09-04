@@ -64,9 +64,9 @@
 
             if (tempAudio.AudioHandle != IntPtr.Zero)
             {
-                tempAudio.Channel = AssetList.Count;
+                tempAudio.Channel = Assets.Count;
                 NCLogging.Log($"Loaded audio file at {path} to channel {tempAudio.Channel}");
-                AssetList.Add(tempAudio);
+                Assets.Add(tempAudio);
             }
         }
 
@@ -78,7 +78,7 @@
         {
             NCLogging.Log($"Unloading audio file {file.Name}...");
 
-            if (!AssetList.Contains(file))
+            if (!Assets.Contains(file))
             {
                 _ = new NCException($"Attempted to load an audio file {file.Name} (path {file.Path}) that is not present in the audio files list and therefore has not been loaded!", 135,
                     "AudioManager::UnloadFile file parameter is not a loaded AudioFile present within AudioManager::AudioFiles!", NCExceptionSeverity.Warning, null, true);
@@ -86,7 +86,7 @@
             }
 
             file.Unload();
-            AssetList.Remove(file);
+            Assets.Remove(file);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@
         /// <returns>The first instance of <see cref="AudioFile"/> in <see cref="AudioFiles"/> with the name <see cref="Name"/>, or <c>null</c> if there is no audio file with that name.</returns>
         public AudioFile GetFileWithName(string name)
         {
-            foreach (AudioFile file in AssetList)
+            foreach (AudioFile file in Assets)
             {
                 if (file.Name == name)
                 {
@@ -114,7 +114,7 @@
         /// <returns>The first instance of <see cref="AudioFile"/> in <see cref="AudioFiles"/> with the path <paramref name="name"/>, or <c>null</c> if there is no audio file with that path.</returns>
         public AudioFile GetFileWithPath(string name)
         {
-            foreach (AudioFile file in AssetList)
+            foreach (AudioFile file in Assets)
             {
                 if (file.Path == name)
                 {
@@ -131,7 +131,7 @@
         /// <param name="cWindow">The window to update audio on.</param>
         internal void Update(Window cWindow)
         {
-            foreach (AudioFile file in AssetList)
+            foreach (AudioFile file in Assets)
             {
                 if (file.Playing) file.Update(cWindow);
             }

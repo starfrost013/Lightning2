@@ -48,7 +48,7 @@
         {
             if (ScreenSpaceMap.Handle == IntPtr.Zero) _ = new NCException("The Light Manager must be initialised before using it!", 61, "LightManager::AddLight called before LightManager::Init!", NCExceptionSeverity.FatalError);
             asset.RenderToTexture(window);
-            AssetList.Add(asset);
+            Assets.Add(asset);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@
             Light asset)
         {
             asset.RemoveFromTexture(cWindow);
-            AssetList.Remove(asset);
+            Assets.Remove(asset);
         }
 
         /// <summary>

@@ -23,7 +23,7 @@
         public override void RemoveAsset(Window cWindow, Texture asset)
         {
             asset.Unload();
-            AssetList.Remove(asset);
+            Assets.Remove(asset);
         }
 
         /// <summary>
@@ -34,7 +34,7 @@
         {
             Camera curCamera = cWindow.Settings.Camera;
 
-            foreach (Renderable renderable in AssetList)
+            foreach (Renderable renderable in Assets)
             {
                 if (curCamera != null
                     && !renderable.SnapToScreen)

@@ -33,7 +33,7 @@
         /// <returns></returns>
         public  Font GetFont(string friendlyName)
         {
-            foreach (Font font in AssetList)
+            foreach (Font font in Assets)
             {
                 if (font.FriendlyName == friendlyName)
                 {
@@ -57,7 +57,7 @@
             try
             {
                 Font font = Font.Load(name, size, friendlyName, path, index);
-                AssetList.Add(font);
+                Assets.Add(font);
             }
             catch (Exception) // NC Exception
             {
@@ -74,7 +74,7 @@
             try
             {
                 font.Unload();
-                AssetList.Remove(font);
+                Assets.Remove(font);
             }
             catch (Exception) { };
         }
@@ -104,7 +104,7 @@
             if (text.Contains('\n')) return GetLargestTextSize(font, text);
 
             if (font == null
-                || !AssetList.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.Size}) before trying to use it!", 81, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
+                || !Assets.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.Size}) before trying to use it!", 81, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
 
             int fontSizeX,
                 fontSizeY;
@@ -142,7 +142,7 @@
 
             // check it's a real font
             if (font == null
-            || !AssetList.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.Size}) before trying to use it!", 82, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
+            || !Assets.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.Size}) before trying to use it!", 82, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
 
             string[] lines = text.Split('\n');
 
@@ -309,9 +309,9 @@
             NCLogging.Log("Uncaching all cached text - shutdown requested");
             Cache.Unload();
 
-            for (int curFontId = 0; curFontId < AssetList.Count; curFontId++)
+            for (int curFontId = 0; curFontId < Assets.Count; curFontId++)
             {
-                Font curFont = AssetList[curFontId];
+                Font curFont = Assets[curFontId];
                 NCLogging.Log($"Unloading font {curFont.FriendlyName}...");
                 UnloadFont(curFont);
             }

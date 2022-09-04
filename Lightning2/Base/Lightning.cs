@@ -25,6 +25,8 @@
         public static FontAssetManager FontManager { get; private set; }
 
         public static LightAssetManager LightManager { get; private set; }
+
+        public static SceneAssetManager SceneManager { get; private set; }
         #endregion
 
         static Lightning()
@@ -36,6 +38,7 @@
             UIManager = new UIAssetManager();
             FontManager = new FontAssetManager();
             LightManager = new LightAssetManager();
+            SceneManager = new SceneAssetManager();
         }
 
         public static void Init(string[] args)
@@ -169,7 +172,7 @@
             // create a list of fonts and audiofiles to unload
             // just foreaching through each font and audiofile doesn't work as collection is being modified 
             List<AudioFile> audioFilesToUnload = new List<AudioFile>();
-            foreach (AudioFile audioFileToUnload in AudioManager.AssetList) audioFilesToUnload.Add(audioFileToUnload);
+            foreach (AudioFile audioFileToUnload in AudioManager.Assets) audioFilesToUnload.Add(audioFileToUnload);
 
             NCLogging.Log("Unloading all audio files...");
             foreach (AudioFile audioFileToUnload in audioFilesToUnload) AudioManager.UnloadFile(audioFileToUnload);
