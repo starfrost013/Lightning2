@@ -17,6 +17,11 @@
         public List<Texture> Frames { get; private set; }
 
         /// <summary>
+        /// The current animation cycle.for this animation - see <see cref="AnimationCycle"/>
+        /// </summary>
+        public AnimationCycle Cycle { get; set; }
+
+        /// <summary>
         /// The current frame in the animationcycle.
         /// </summary>
         internal int CurrentFrame { get; set; }
@@ -43,15 +48,18 @@
         private bool AnimationFinished { get; set; }
 
         /// <summary>
-        /// The current animation cycle.for this animation - see <see cref="AnimationCycle"/>
+        /// Stores the number of frames until the next frame.
         /// </summary>
-        public AnimationCycle Cycle { get; set; }
+        private int FramesUntilNextFrame { get; set; }
 
-        public AnimatedTexture(Window cWindow, float sizeX, float sizeY) : base(cWindow, sizeX, sizeY)
+        public AnimatedTexture(Window cWindow, float sizeX, float sizeY, AnimationCycle cycle) : base(cWindow, sizeX, sizeY)
         {
             Frames = new List<Texture>();
             FramePaths = new List<string>();
             Size = new Vector2(sizeX, sizeY);
+            Cycle = cycle;
+            // reasonable default
+            FramesUntilNextFrame = Convert.ToInt32(Cycle.FrameLength / 8);
         }
 
         /// <summary>
@@ -95,8 +103,17 @@
 
             curFrame.Draw(cWindow);
 
-            if (cWindow.FrameNumber % Cycle.FrameLength == 0)
+            // decrement the frames remaining until the next frame
+            FramesUntilNextFrame--;
+
+            if (FramesUntilNextFrame == 0)
             {
+                // set a new number of frames until the next frame
+                // check to prevent division by zero because of lightning having just started
+                if (cWindow.DeltaTime > 0) FramesUntilNextFrame = Convert.ToInt32(Cycle.FrameLength / cWindow.DeltaTime);
+
+                NCLogging.Log(FramesUntilNextFrame.ToString());
+
                 // will be set to true if the cycle is to end.
                 bool endCycle = false;
 

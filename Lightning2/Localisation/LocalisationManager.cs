@@ -1,7 +1,7 @@
 ﻿namespace LightningGL
 {
     /// <summary>
-    /// LightningGL Localisation Manager
+    /// Lightning Localisation Manager
     /// 
     /// March 7, 2022 (modified June 15, 2022: correct variable naming convention)
     /// 
@@ -49,7 +49,7 @@
                 Strings.Add(value.Key, value.Value);
             }
 
-            NCLogging.Log($"Loaded language: {Metadata.Description} (Version {Metadata.Version})");
+            NCLogging.Log($"Loaded language: {Metadata.Description} (version {Metadata.Version})");
         }
 
         public static string GetString(string Key)

@@ -18,6 +18,7 @@
         public override void AddAsset(Window cWindow, Texture asset)
         {
             if (asset.Path != Texture.CREATED_TEXTURE_PATH) asset.Load(cWindow);
+            Assets.Add(asset);
         }
 
         public override void RemoveAsset(Window cWindow, Texture asset)
@@ -29,28 +30,28 @@
         /// <summary>
         /// Renders all of the textures in the texture manager.
         /// </summary>
-        /// <param name="cWindow"></param>
+        /// <param name="cWindow">The window to render the textures to.</param>
         internal void Render(Window cWindow)
         {
             Camera curCamera = cWindow.Settings.Camera;
 
-            foreach (Renderable renderable in Assets)
+            foreach (Texture texture in Assets)
             {
                 if (curCamera != null
-                    && !renderable.SnapToScreen)
+                    && !texture.SnapToScreen)
                 {
-                    renderable.RenderPosition = new Vector2
+                    texture.RenderPosition = new Vector2
                         (
-                            renderable.Position.X - curCamera.Position.X,
-                            renderable.Position.Y - curCamera.Position.Y
+                            texture.Position.X - curCamera.Position.X,
+                            texture.Position.Y - curCamera.Position.Y
                         );
                 }
                 else
                 {
-                    renderable.RenderPosition = renderable.Position;
+                    texture.RenderPosition = texture.Position;
                 }
 
-                renderable.Draw(cWindow);
+                texture.Draw(cWindow);
             }
         }
 

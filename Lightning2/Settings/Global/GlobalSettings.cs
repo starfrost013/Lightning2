@@ -113,6 +113,10 @@
         /// </summary>
         public static Renderer Renderer { get; internal set; }
 
+        /// <summary>
+        /// Delta-time multiplier
+        /// </summary>
+        public static int DeltaMultiplier { get; internal set; }
         #endregion
 
         #region System requirements
@@ -215,6 +219,7 @@
                 string renderFlags = graphicsSection.GetValue("RenderFlags");
                 WindowTitle = graphicsSection.GetValue("WindowTitle");
                 string renderer = graphicsSection.GetValue("Renderer");
+                string deltaMultiplier = graphicsSection.GetValue("DeltaMultiplier");
 
                 SDL_WindowFlags windowFlagsValue = 0;
                 SDL_RendererFlags renderFlagsValue = 0;
@@ -226,6 +231,7 @@
                 _ = Enum.TryParse(windowFlags, true, out windowFlagsValue);
                 _ = Enum.TryParse(renderFlags, true, out renderFlagsValue);
                 _ = Enum.TryParse(renderer, true, out rendererValue);
+                _ = int.TryParse(deltaMultiplier, out var deltaMultiplierValue);
 
                 // Set those values.
                 ResolutionX = resolutionXValue;
@@ -233,6 +239,7 @@
                 WindowFlags = windowFlagsValue;
                 RenderFlags = renderFlagsValue;
                 Renderer = rendererValue;
+
 
                 // parse positionX/positionY
                 _ = uint.TryParse(positionX, out var positionXValue);
@@ -245,6 +252,10 @@
                     positionYValue = Convert.ToUInt32(SystemInfo.ScreenResolutionY / 2) - ResolutionY / 2;
                 }
 
+                // set the default delta multiplier value
+                if (deltaMultiplierValue == 0) deltaMultiplierValue = 1;
+
+                DeltaMultiplier = deltaMultiplierValue;
                 PositionX = positionXValue;
                 PositionY = positionYValue;
             }

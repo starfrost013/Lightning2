@@ -57,18 +57,17 @@ textureAtlas1.Position = new Vector2(256, 256);
 
 textureAtlas1.Load(cWindow);
 
-AnimatedTexture animatedTexture1 = new AnimatedTexture(cWindow, 256, 256);
+AnimatedTexture animatedTexture1 = new AnimatedTexture(cWindow, 256, 256, new(0, 3, 1000));
 animatedTexture1.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF0.png");
 animatedTexture1.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF1.png");
 animatedTexture1.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF2.png");
 animatedTexture1.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF3.png");
-animatedTexture1.Cycle = new(0, 3, 60);
 
 animatedTexture1.Position = new(320, 256);
 
 animatedTexture1.Load(cWindow);
 
-LightManager.SetEnvironmentalLight(Color.FromArgb(255, 0, 0, 255));
+LightManager.SetEnvironmentalLight(Color.FromArgb(0, 0, 0, 255));
 
 // todo: particleeffectsettings?
 

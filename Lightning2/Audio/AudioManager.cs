@@ -9,10 +9,7 @@
     /// </summary>
     public class AudioAssetManager : AssetManager<AudioFile>
     {
-        public override void AddAsset(Window cWindow, AudioFile asset)
-        {
-            LoadFile(asset.Path, asset.Name);
-        }
+        public override void AddAsset(Window cWindow, AudioFile asset) => LoadFile(asset.Path, asset.Name);
 
         /// <summary>
         /// Loads the audio file at path <see cref="Path"/>, if it exists.

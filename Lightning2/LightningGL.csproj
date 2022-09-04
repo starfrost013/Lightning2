@@ -27,7 +27,6 @@
     <None Remove="Content\Engine.ini" />
     <None Remove="Content\Localisation\en-GB-test.ini" />
     <None Remove="Content\Localisation\pseudo.ini" />
-    <None Remove="Content\Splash\Splash.png" />
     <None Remove="Libraries\libFLAC-8.dll" />
     <None Remove="Libraries\libfreetype-6.dll" />
     <None Remove="Libraries\libjpeg-9.dll" />
@@ -57,9 +56,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Localisation\pseudo.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Splash\Splash.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Libraries\SDL2_gfx-v1.0.6-x64.dll">
