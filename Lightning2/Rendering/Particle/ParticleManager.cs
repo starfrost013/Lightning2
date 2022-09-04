@@ -47,6 +47,17 @@ namespace LightningGL
         }
 
         /// <summary>
+        /// Adds the particle effect <see cref="ParticleEffect"/> for the window <paramref name="cWindow"/>.
+        /// </summary>
+        /// <param name="cWindow">The window to add the particle effect for.</param>
+        /// <param name="particle">The particle effect to add to the window.</param>
+        public static void RemoveEffect(ParticleEffect particle)
+        {
+            particle.Unload();
+            Effects.Remove(particle);
+        }
+
+        /// <summary>
         /// Renders all particle effects to a window.
         /// </summary>
         /// <param name="cWindow">The window to render these particle effects to.</param>

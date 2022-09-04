@@ -262,6 +262,8 @@ namespace LightningGL
         {
             Stop();
             Particles.Clear();
+            Texture.Unload();
+
         }
 
     }
