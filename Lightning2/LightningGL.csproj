@@ -27,25 +27,23 @@
     <None Remove="Content\Engine.ini" />
     <None Remove="Content\Localisation\en-GB-test.ini" />
     <None Remove="Content\Localisation\pseudo.ini" />
-    <None Remove="Libraries\libFLAC-8.dll" />
-    <None Remove="Libraries\libfreetype-6.dll" />
-    <None Remove="Libraries\libjpeg-9.dll" />
-    <None Remove="Libraries\libmodplug-1.dll" />
-    <None Remove="Libraries\libmpg123-0.dll" />
-    <None Remove="Libraries\libogg-0.dll" />
-    <None Remove="Libraries\libtiff-5.dll" />
-    <None Remove="Libraries\libvorbis-0.dll" />
-    <None Remove="Libraries\libvorbisfile-3.dll" />
-    <None Remove="Libraries\libwebp-7.dll" />
-    <None Remove="Libraries\SDL2-v2.0.20-x64.dll" />
-    <None Remove="Libraries\SDL2_gfx-v1.0.5-x64.dll" />
-    <None Remove="Libraries\SDL2_gfx-v1.0.6-x64.dll" />
-    <None Remove="Libraries\SDL2_image-v2.0.5-x64.dll" />
-    <None Remove="Libraries\SDL2_image-x64.dll" />
-    <None Remove="Libraries\SDL2_mixer-x64.dll" />
-    <None Remove="Libraries\SDL2_ttf-v2.0.15-x64.dll" />
-    <None Remove="Libraries\SDL2_ttf-v2.0.18-x64.dll" />
-    <None Remove="Libraries\zlib1.dll" />
+    <None Remove="..\Libraries\libFLAC-8.dll" />
+    <None Remove="..\Libraries\libfreetype-6.dll" />
+    <None Remove="..\Libraries\libjpeg-9.dll" />
+    <None Remove="..\Libraries\libmodplug-1.dll" />
+    <None Remove="..\Libraries\libmpg123-0.dll" />
+    <None Remove="..\Libraries\libogg-0.dll" />
+    <None Remove="..\Libraries\libtiff-5.dll" />
+    <None Remove="..\Libraries\libvorbis-0.dll" />
+    <None Remove="..\Libraries\libvorbisfile-3.dll" />
+    <None Remove="..\Libraries\libwebp-7.dll" />
+    <None Remove="..\Libraries\SDL2-v2.0.20-x64.dll" />
+    <None Remove="..\Libraries\SDL2_gfx-v1.0.6-x64.dll" />
+    <None Remove="..\Libraries\SDL2_image-v2.0.5-x64.dll" />
+    <None Remove="..\Libraries\SDL2_image-x64.dll" />
+    <None Remove="..\Libraries\SDL2_mixer-x64.dll" />
+    <None Remove="..\Libraries\SDL2_ttf-v2.0.18-x64.dll" />
+    <None Remove="..\Libraries\zlib1.dll" />
   </ItemGroup>
 
   <ItemGroup>
@@ -58,62 +56,81 @@
     <Content Include="Content\Localisation\pseudo.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Libraries\SDL2_gfx-v1.0.6-x64.dll">
+    <Content Include="..\Libraries\SDL2_gfx-v1.0.6-x64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Link>Libraries\SDL2_gfx-v1.0.6-x64.dll</Link>
     </Content>
-    <Content Include="libFLAC-8.dll">
+    <Content Include="..\Libraries\libFLAC-8.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Link>libFLAC-8.dll</Link>
     </Content>
-    <Content Include="Libraries\libfreetype-6.dll">
+    <Content Include="..\Libraries\libfreetype-6.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Link>Libraries\libfreetype-6.dll</Link>
     </Content>
-    <Content Include="Libraries\libjpeg-9.dll">
+    <Content Include="..\Libraries\libjpeg-9.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Link>Libraries\libjpeg-5.dll</Link>
     </Content>
-    <Content Include="libmodplug-1.dll">
+    <Content Include="..\Libraries\libmodplug-1.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Link>libmodplug-1.dll</Link>
     </Content>
-    <Content Include="libmpg123-0.dll">
+    <Content Include="..\Libraries\libmpg123-0.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Link>libmpg123-0.dll</Link>
     </Content>
-    <Content Include="libogg-0.dll">
+    <Content Include="..\Libraries\libogg-0.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Link>libogg-0.dll</Link>
     </Content>
-    <Content Include="libopus-0.dll">
+    <Content Include="..\Libraries\libopus-0.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Link>libopus-0.dll</Link>
     </Content>
-    <Content Include="libopusfile-0.dll">
+    <Content Include="..\Libraries\libopusfile-0.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Link>libopusfile-0.dll</Link>
     </Content>
-    <Content Include="libpng16-16.dll">
+    <Content Include="..\Libraries\libpng16-16.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Link>libpng16-16.dll</Link>
     </Content>
-    <Content Include="Libraries\libtiff-5.dll">
+    <Content Include="..\Libraries\libtiff-5.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Link>Libraries\libtiff-5.dll</Link>
     </Content>
-    <Content Include="Libraries\SDL2_image-x64.dll">
+    <Content Include="..\Libraries\SDL2_image-x64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Link>Libraries\SDL2_image-x64.dll</Link>
     </Content>
-    <Content Include="Libraries\SDL2_mixer-x64.dll">
+    <Content Include="..\Libraries\SDL2_mixer-x64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Link>Libraries\SDL2_mixer-x64.dll</Link>
     </Content>
-    <Content Include="libvorbis-0.dll">
+    <Content Include="..\Libraries\libvorbis-0.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Link>libvorbis-0.dll</Link>
     </Content>
-    <Content Include="libvorbisfile-3.dll">
+    <Content Include="..\Libraries\libvorbisfile-3.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Link>libvorbisfile-3.dll</Link>
     </Content>
-    <Content Include="Libraries\libwebp-7.dll">
+    <Content Include="..\Libraries\libwebp-7.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Link>Libraries\libwebp-7.dll</Link>
     </Content>
-    <Content Include="Libraries\SDL2_ttf-v2.0.18-x64.dll">
+    <Content Include="..\Libraries\SDL2_ttf-v2.0.18-x64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Link>Libraries\SDL2_ttf-v2.0.18-x64.dll</Link>
     </Content>
-	<Content Include="Libraries\SDL2.dll">
+    <Content Include="..\Libraries\SDL2.dll">
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</Content>
-    <Content Include="zlib1.dll">
+	  <Link>Libraries\SDL2.dll</Link>
+    </Content>
+    <Content Include="..\Libraries\zlib1.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	<Link>zlib1.dll</Link>
     </Content>
   </ItemGroup>
 
@@ -152,6 +169,12 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Libraries\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

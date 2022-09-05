@@ -6,8 +6,6 @@
     /// March 19, 2022
     /// 
     /// Defines an animated texture loaded from a series of images.
-    /// 
-    /// awaiting refactor 3/20/22
     /// </summary>
     public class AnimatedTexture : Texture
     {
@@ -116,8 +114,6 @@
                 // set a new number of frames until the next frame
                 // check to prevent division by zero because of lightning having just started
                 if (cWindow.DeltaTime > 0) FramesUntilNextFrame = Convert.ToInt32(Cycle.FrameLength / cWindow.DeltaTime);
-
-                NCLogging.Log(FramesUntilNextFrame.ToString());
 
                 // will be set to true if the cycle is to end.
                 bool endCycle = false;
