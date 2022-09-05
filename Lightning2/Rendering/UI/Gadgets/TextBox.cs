@@ -36,10 +36,10 @@
         /// <summary>
         /// The color of the cursor.
         /// </summary>
-        public Color Cursorcolor { get; set; }
+        public Color CursorColor { get; set; }
 
         /// <summary>
-        /// The number of frames between cursor blinks.
+        /// The number of milliseconds between cursor blinks.
         /// </summary>
         public int CursorBlinkFrequency { get; set; }
 
@@ -53,15 +53,28 @@
         /// </summary>
         public bool AllowMultiline { get; set; }
 
+        /// <summary>
+        /// The number of frames until the next cursor blink.
+        /// </summary>
+        private int NumberOfFramesUntilNextBlink { get; set; }
+
+        /// <summary>
+        /// Determines if the text box is blinking
+        /// </summary>
+        private bool IsActive { get; set; }
+
         public TextBox(int capacity) : base()
         {
             Capacity = capacity;
             OnKeyPressed += KeyPressed;
             OnRender += Render;
             if (CursorThickness == 0) CursorThickness = 2;
-            if (CursorBlinkFrequency == 0) CursorBlinkFrequency = 100;
-            if (Cursorcolor == default) Cursorcolor = Color.White;
+            if (CursorBlinkFrequency == 0) CursorBlinkFrequency = 300;
+            if (CursorColor == default) CursorColor = Color.White;
             if (CursorBlinkLength == 0) CursorBlinkLength = 50;
+
+            // reasonable default
+            NumberOfFramesUntilNextBlink = CursorBlinkFrequency;
         }
 
         /// <summary>
@@ -136,14 +149,29 @@
             PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, CurBackgroundColor, true, Bordercolor, BorderSize, SnapToScreen);
             FontManager.DrawText(cWindow, Text, Font, Position, ForegroundColor);
 
+            // slight hack
+            if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
+
             if (!HideCursor)
             {
                 Vector2 fontSize = FontManager.GetLargestTextSize(Font, Text);
                 Vector2 cursorPosition = new Vector2(Position.X + fontSize.X, Position.Y);
 
                 // actually blink it
-                if (cWindow.FrameNumber % CursorBlinkFrequency <= (CursorBlinkLength - 1)) PrimitiveRenderer.DrawLine(cWindow, cursorPosition,
-                    new Vector2(cursorPosition.X, cursorPosition.Y + Size.Y), CursorThickness, Cursorcolor);
+                if (NumberOfFramesUntilNextBlink == 0)
+                {
+                    IsActive = !IsActive;
+                    if (cWindow.DeltaTime > 0) NumberOfFramesUntilNextBlink = Convert.ToInt32((CursorBlinkLength - 1) + (CursorBlinkFrequency / cWindow.DeltaTime));
+                }
+
+                // if it's active, draw the line
+                if (IsActive)
+                {
+                    PrimitiveRenderer.DrawLine(cWindow, cursorPosition,
+                    new(cursorPosition.X, cursorPosition.Y + Size.Y), CursorThickness, CursorColor);
+                }
+
+                NumberOfFramesUntilNextBlink--;
             }
         }
     }

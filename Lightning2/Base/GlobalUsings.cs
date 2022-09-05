@@ -3,6 +3,7 @@
 
 #region Global using statements
 global using LightningPackager;
+global using Newtonsoft.Json;
 global using NuCore.SDL2;
 global using NuCore.Utilities;
 global using System;
@@ -12,7 +13,7 @@ global using System.Globalization;
 global using System.IO;
 global using System.Numerics;
 global using System.Runtime.InteropServices;
-global using static NuCore.SDL2.FreeType2; // FreeType2 bindingd
+global using static NuCore.SDL2.FreeType2; // FreeType2 bindingds
 global using static NuCore.SDL2.SDL;
 global using static NuCore.SDL2.SDL_image;
 global using static NuCore.SDL2.SDL_gfx;
