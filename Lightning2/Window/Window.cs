@@ -272,7 +272,7 @@ namespace LightningGL
 
             DeltaTime = ((double)ThisTime / 10000);
             
-            DeltaTime *= GlobalSettings.DeltaMultiplier;
+            DeltaTime *= GlobalSettings.TickSpeed;
 
             if (GlobalSettings.ProfilePerformance) PerformanceProfiler.Update(this);
             FrameNumber++;

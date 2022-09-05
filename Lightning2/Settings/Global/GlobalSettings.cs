@@ -114,9 +114,10 @@
         public static Renderer Renderer { get; internal set; }
 
         /// <summary>
-        /// Delta-time multiplier
+        /// Delta-time / tick speed multiplier
+        /// Default is 1.0
         /// </summary>
-        public static int DeltaMultiplier { get; internal set; }
+        public static int TickSpeed { get; internal set; }
         #endregion
 
         #region System requirements
@@ -219,7 +220,7 @@
                 string renderFlags = graphicsSection.GetValue("RenderFlags");
                 WindowTitle = graphicsSection.GetValue("WindowTitle");
                 string renderer = graphicsSection.GetValue("Renderer");
-                string deltaMultiplier = graphicsSection.GetValue("DeltaMultiplier");
+                string tickSpeed = graphicsSection.GetValue("TickSpeed");
 
                 SDL_WindowFlags windowFlagsValue = 0;
                 SDL_RendererFlags renderFlagsValue = 0;
@@ -231,7 +232,7 @@
                 _ = Enum.TryParse(windowFlags, true, out windowFlagsValue);
                 _ = Enum.TryParse(renderFlags, true, out renderFlagsValue);
                 _ = Enum.TryParse(renderer, true, out rendererValue);
-                _ = int.TryParse(deltaMultiplier, out var deltaMultiplierValue);
+                _ = int.TryParse(tickSpeed, out var tickSpeedValue);
 
                 // Set those values.
                 ResolutionX = resolutionXValue;
@@ -239,7 +240,6 @@
                 WindowFlags = windowFlagsValue;
                 RenderFlags = renderFlagsValue;
                 Renderer = rendererValue;
-
 
                 // parse positionX/positionY
                 _ = uint.TryParse(positionX, out var positionXValue);
@@ -253,9 +253,9 @@
                 }
 
                 // set the default delta multiplier value
-                if (deltaMultiplierValue == 0) deltaMultiplierValue = 1;
+                if (tickSpeedValue == 0) tickSpeedValue = 1;
 
-                DeltaMultiplier = deltaMultiplierValue;
+                TickSpeed = tickSpeedValue;
                 PositionX = positionXValue;
                 PositionY = positionYValue;
             }
