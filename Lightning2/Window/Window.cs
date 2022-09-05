@@ -271,6 +271,8 @@ namespace LightningGL
             CurFPS = 10000000 / ThisTime;
 
             DeltaTime = ((double)ThisTime / 10000);
+            
+            DeltaTime *= GlobalSettings.DeltaMultiplier;
 
             if (GlobalSettings.ProfilePerformance) PerformanceProfiler.Update(this);
             FrameNumber++;

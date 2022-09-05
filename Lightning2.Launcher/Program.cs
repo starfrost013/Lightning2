@@ -80,10 +80,10 @@ ParticleEffect testEffect = new(testEffectTexture)
     Amount = 100,
     Lifetime = 70,
     Variance = 40,
-    Velocity = new(0.4f, -0.4f),
+    Velocity = new(0.04f, -0.04f),
     Position = new(150, 500),
     MaxNumberCreatedEachFrame = 1,
-    Mode = ParticleMode.Normal,
+    Mode = ParticleMode.AbsoluteVelocity,
 };
 
 ParticleManager.AddAsset(cWindow, testEffect);

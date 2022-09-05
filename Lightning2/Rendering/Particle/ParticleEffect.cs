@@ -80,6 +80,11 @@
         private bool Playing { get; set; }
 
         /// <summary>
+        /// Private: Divisor for the final velocity after it has been multiplied by the delta-time.
+        /// </summary>
+        private int FINAL_VELOCITY_DIVISOR = 100;
+
+        /// <summary>
         /// Constructor for particle effect.
         /// </summary>
         /// <param name="nTexture">The texture to use for particle effects</param>
@@ -140,7 +145,8 @@
                 // Check if absolute velocity mode is on.
                 // This means we treat velocity as an absolute value and do not
                 // vary particle positions. Use if we only want particles going in one direction
-                if (Mode != ParticleMode.AbsoluteVelocity)
+                if (Mode != ParticleMode.AbsoluteVelocity
+                    && Mode != ParticleMode.ConstantVelocity)
                 {
                     int particleAngleId = particle.Id;
 
@@ -162,24 +168,33 @@
                     double yMul = Math.Cos(angleRads);
 
                     // set up the velocity
-                    Vector2 velocity = new Vector2(Convert.ToSingle(((Velocity.X * xMul) / 100) * particle.Lifetime),
-                        Convert.ToSingle(((Velocity.Y * yMul) / 100) * particle.Lifetime));
+                    Vector2 finalVelocity = new Vector2(Convert.ToSingle((((Velocity.X * xMul) / 100) * particle.Lifetime) * cWindow.DeltaTime),
+                        Convert.ToSingle((((Velocity.Y * yMul) / 100) * particle.Lifetime) * (cWindow.DeltaTime / 10)));
 
                     // Clamp velocity on "Normal" mode as opposed to explode
                     if (Mode != ParticleMode.Explode)
                     {
-                        if (velocity.X > Math.Abs(Velocity.X)) velocity.X = Math.Abs(Velocity.X);
-                        if (velocity.Y > Math.Abs(Velocity.Y)) velocity.Y = Math.Abs(Velocity.Y);
+                        if (finalVelocity.X > Math.Abs(Velocity.X)) finalVelocity.X = Math.Abs(Velocity.X);
+                        if (finalVelocity.Y > Math.Abs(Velocity.Y)) finalVelocity.Y = Math.Abs(Velocity.Y);
 
-                        if (velocity.X < -Math.Abs(Velocity.X)) velocity.X = -Math.Abs(Velocity.X);
-                        if (velocity.Y < -Math.Abs(Velocity.Y)) velocity.Y = -Math.Abs(Velocity.Y);
+                        if (finalVelocity.X < -Math.Abs(Velocity.X)) finalVelocity.X = -Math.Abs(Velocity.X);
+                        if (finalVelocity.Y < -Math.Abs(Velocity.Y)) finalVelocity.Y = -Math.Abs(Velocity.Y);
                     }
 
-                    particle.Position += velocity;
+                    particle.Position += finalVelocity;
                 }
                 else
                 {
-                    particle.Position += new Vector2((Velocity.X / 100) * particle.Lifetime, (Velocity.Y / 100) * particle.Lifetime);
+                    Vector2 finalVelocity = new Vector2(Convert.ToSingle(Velocity.X * cWindow.DeltaTime), Convert.ToSingle(Velocity.Y * cWindow.DeltaTime));
+
+                    if (Mode == ParticleMode.AbsoluteVelocity)
+                    {
+                        particle.Position += new Vector2((finalVelocity.X / FINAL_VELOCITY_DIVISOR) * particle.Lifetime, (finalVelocity.Y / FINAL_VELOCITY_DIVISOR) * particle.Lifetime);
+                    }
+                    else
+                    {
+                        particle.Position += new Vector2((finalVelocity.X / FINAL_VELOCITY_DIVISOR), (finalVelocity.Y / FINAL_VELOCITY_DIVISOR));
+                    }
                 }
 
                 Texture.Position = particle.Position;

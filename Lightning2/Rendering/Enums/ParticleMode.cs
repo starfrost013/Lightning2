@@ -15,14 +15,19 @@
         AbsoluteVelocity = 0,
 
         /// <summary>
+        /// Same as <see cref="AbsoluteVelocity"/>he velocity does not increase over time.
+        /// </summary>
+        ConstantVelocity = 1,
+
+        /// <summary>
         /// The velocity is put through a trigonometric function in order to create a single point where the particles emanate from in the centre.
         /// </summary>
-        SinCos = 1,
+        SinCos = 2,
 
         /// <summary>
         /// Normal particle mode. A toned down explosion mode
         /// </summary>
-        Normal = 2,
+        Normal = 3,
 
         /// <summary>
         /// Value used for the default particle mode.
@@ -32,6 +37,6 @@
         /// <summary>
         /// Explosion mode. The particles explode around a specific point.
         /// </summary>
-        Explode = 3
+        Explode = 4
     }
 }
