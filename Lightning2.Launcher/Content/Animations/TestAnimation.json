@@ -1,0 +1,48 @@
+{
+  "Properties": [
+    {
+      "Name": "Position",
+      "Type": "Vector2",
+      "Keyframes": [
+        {
+          "Position": 0,
+          "Value": "0, 240"
+        },
+        {
+          "Position": 500,
+          "Value": "100, 240"
+        },
+        {
+          "Position": 1000,
+          "Value": "200, 240"
+        },
+        {
+          "Position": 1500,
+          "Value": "300, 240"
+        },
+        {
+          "Position": 2000,
+          "Value": "400, 240"
+        },
+        {
+          "Position": 2500,
+          "Value": "450, 240"
+        },
+        {
+          "Position": 3000,
+          "Value": "500, 240"
+        },
+        {
+          "Position": 3500,
+          "Value": "550, 240"
+        },
+        {
+          "Position": 4000,
+          "Value": "600, 240"
+        }
+      ]
+    }
+  ],
+  "Name": "Test Animation",
+  "Length": 4000
+}

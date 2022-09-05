@@ -21,17 +21,14 @@ namespace LightningGL
         public string Type { get; set; }
 
         /// <summary>
-        /// The value of the animation property.
-        /// </summary>
-        public object Value { get; set; }
-
-        /// <summary>
         /// The keyframes of this animation property.
         /// </summary>
-        public List<AnimationKeyframe> Keyframes { get; set; }  
+        public List<AnimationKeyframe> Keyframes { get; set; } 
 
-        public AnimationProperty()
+        public AnimationProperty(string name, string type)
         {
+            Name = name;
+            Type = type;
             Keyframes = new List<AnimationKeyframe>();
         }
     }

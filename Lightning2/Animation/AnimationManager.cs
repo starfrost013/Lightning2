@@ -7,11 +7,35 @@
     /// 
     /// September 5, 2022
     /// </summary>
-    public class AnimationManager : AssetManager<Animation>
+    public class AnimationAssetManager : AssetManager<Animation>
     {
         public override void AddAsset(Window cWindow, Animation asset)
         {
-            throw new NotImplementedException();
+            if (!File.Exists(asset.Path)) _ = new NCException("Attempted to load a nonexistent animation", 138,
+                "Animation::Load called with Path property that does not point to a valid path!", NCExceptionSeverity.FatalError);
+
+            NCLogging.Log($"Deserialising animation JSON from {asset.Path}...");
+
+            // try to deserialise
+            try
+            {
+                asset = JsonConvert.DeserializeObject<Animation>(File.ReadAllText(asset.Path));
+
+                if (asset == null) _ = new NCException($"A fatal error occurred while deserialising an animation JSON.", 140,
+                    "Animation::Load - JsonConvert::DeserializeObject returned null", NCExceptionSeverity.FatalError);
+            }
+            catch (Exception err)
+            {
+                _ = new NCException($"A fatal error occurred while deserialising an animation JSON. See base exception information for further information.", 139,
+                    "Animation::Load - fatal error in call to JsonConvert::DeserializeObject", NCExceptionSeverity.FatalError, err);
+            }
+
+            // load the asset
+            asset.Loaded = true;
+
+            NCLogging.Log($"Validating animation JSON from {asset.Path}...");
+            asset.Validate();
+            Assets.Add(asset);
         }
     }
 }

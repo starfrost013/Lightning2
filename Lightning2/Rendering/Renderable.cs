@@ -58,6 +58,19 @@
         internal bool Loaded { get; set; }
 
         /// <summary>
+        /// List of animations in this Renderable
+        /// </summary>
+        public List<Animation> Animations { get; set; }
+
+        /// <summary>
+        /// Constructor for the Renderable class.
+        /// </summary>
+        public Renderable()
+        {
+            Animations = new List<Animation>();
+        }
+
+        /// <summary>
         /// Draws this Renderable.
         /// </summary>
         /// <param name="cWindow">The window to draw the renderable to.</param>

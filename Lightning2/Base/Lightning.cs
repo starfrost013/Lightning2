@@ -27,6 +27,8 @@
         public static LightAssetManager LightManager { get; private set; }
 
         public static SceneAssetManager SceneManager { get; private set; }
+
+        public static AnimationAssetManager AnimationManager { get; private set; }
         #endregion
 
         static Lightning()
@@ -39,6 +41,7 @@
             FontManager = new FontAssetManager();
             LightManager = new LightAssetManager();
             SceneManager = new SceneAssetManager();
+            AnimationManager = new AnimationAssetManager();
         }
 
         public static void Init(string[] args)
