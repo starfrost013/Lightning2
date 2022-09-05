@@ -52,6 +52,11 @@
         /// </summary>
         private int FramesUntilNextFrame { get; set; }
 
+        /// <summary>
+        /// Private: stores the current texture.
+        /// </summary>
+        private Texture CurrentTexture { get; set; }
+
         public AnimatedTexture(Window cWindow, float sizeX, float sizeY, AnimationCycle cycle) : base(cWindow, sizeX, sizeY)
         {
             Frames = new List<Texture>();
@@ -95,13 +100,13 @@
             bool reverseAnimation = (Cycle.StartFrame > Cycle.EndFrame);
             if (AnimationFinished) return;
 
-            Texture curFrame = Frames[CurrentFrame];
+            CurrentTexture = Frames[CurrentFrame];
 
-            curFrame.RenderPosition = Position;
-            curFrame.Repeat = Repeat;
-            curFrame.Size = Size;
+            CurrentTexture.RenderPosition = Position;
+            CurrentTexture.Repeat = Repeat;
+            CurrentTexture.Size = Size;
 
-            curFrame.Draw(cWindow);
+            CurrentTexture.Draw(cWindow);
 
             // decrement the frames remaining until the next frame
             FramesUntilNextFrame--;
@@ -146,6 +151,40 @@
             }
         }
 
+        /// <summary>
+        /// Adds a frame to this AnimatedTexture.
+        /// </summary>
+        /// <param name="framePath">The path to the frame to add.</param>
         public void AddFrame(string framePath) => FramePaths.Add(framePath);
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="x"><inheritdoc/></param>
+        /// <param name="y"><inheritdoc/></param>
+        /// <param name="unlockNow"><inheritdoc/></param>
+        /// <returns><inheritdoc/></returns>
+        public override Color GetPixel(int x, int y, bool unlockNow = false) => CurrentTexture.GetPixel(x, y, unlockNow);
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="x"><inheritdoc/></param>
+        /// <param name="y"><inheritdoc/></param>
+        /// <param name="unlockNow"><inheritdoc/></param>
+        /// <returns><inheritdoc/></returns>
+        public override void SetPixel(int x, int y, Color color, bool unlockNow = false) => CurrentTexture.SetPixel(x, y, color, unlockNow);
+
+        /// <summary>
+        /// Sets a pixel on every frame of this animated texture.
+        /// </summary>
+        /// <param name="x">The X coordinate of the pixel to set.</param>
+        /// <param name="y">The Y coordinate of the pixel to set.</param>
+        /// <param name="unlockNow">Unlocks the texture immediately - use this if you do not need to draw any more pixels</param>
+        /// <exception cref="NCException">An invalid coordinate was supplied or the texture does not have a valid size.</exception>
+        public void SetPixelGlobal(int x, int y, Color color, bool unlockNow = false)
+        {
+            foreach (Texture texture in Frames) texture.SetPixel(x, y, color, unlockNow);
+        }
     }
 }
