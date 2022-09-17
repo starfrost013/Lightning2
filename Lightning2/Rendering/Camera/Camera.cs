@@ -31,14 +31,47 @@
         public Vector2 FocusDelta { get; set; }
 
         /// <summary>
+        /// Backing field for <see cref="Type"/>
+        /// </summary>
+        private CameraType _type;
+
+        /// <summary>
         /// The type of this camera.
         /// See <see cref="CameraType"/>.
         /// </summary>
-        public CameraType Type { get; internal set; }
+        public CameraType Type
+        {
+            get
+            {
+                if (FocusDelta == default)
+                {
+                    switch (_type)
+                    {
+                        default:
+                            break;
+                        case CameraType.Chase:
+                            FocusDelta = new Vector2(-(GlobalSettings.ResolutionX / 2), 0);
+                            break;
+                        case CameraType.Floor:
+                            FocusDelta = new Vector2(0, -(GlobalSettings.ResolutionY / 2));
+                            break;
+                    }
+                    
+                }
+
+                return _type;
+            }
+            internal set
+            {
+                _type = value;
+            }
+        }
 
         public Camera(CameraType type)
         {
             Type = type;
+
+           
         }
     }
 }

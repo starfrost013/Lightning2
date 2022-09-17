@@ -63,6 +63,13 @@
         public List<Animation> Animations { get; private set; }
 
         /// <summary>
+        /// Animation timer.
+        /// </summary>
+        internal Stopwatch AnimationTimer { get; set; }
+
+        internal bool AnimationRunning => AnimationTimer.IsRunning;
+
+        /// <summary>
         /// Constructor for the Renderable class.
         /// </summary>
         public Renderable()
@@ -77,14 +84,6 @@
         public virtual void Draw(Window cWindow)
         {
 
-        }
-
-        internal virtual void AttachAnimation(Animation animation)
-        {
-            if (!Loaded) _ = new NCException($"Attempted to attach an animation to an unloaded renderable!", 
-                146, "Renderable::AttachAnimation called when Renderable::Loaded is set to FALSE", NCExceptionSeverity.FatalError);
-            NCLogging.Log($"Attaching animation {animation.Path} to renderable of type {GetType().Name}");
-            Animations.Add(animation);      
         }
     }
 }

@@ -14,12 +14,12 @@ namespace LightningGL
         /// <summary>
         /// Screen resolution X; loaded by the settings loader and not set by the developer.
         /// </summary>
-        public static uint ScreenResolutionX { get; private set; }
+        public static int ScreenResolutionX { get; private set; }
 
         /// <summary>
         /// Screen resolution X; loaded by the settings loader and not set by the developer.
         /// </summary>
-        public static uint ScreenResolutionY { get; private set; }
+        public static int ScreenResolutionY { get; private set; }
 
         /// <summary>
         /// The total amount of system RAM in MiB.
@@ -51,8 +51,8 @@ namespace LightningGL
             SDL_GetCurrentDisplayMode(0, out var displayMode);
 
             // store the screen resolution
-            ScreenResolutionX = Convert.ToUInt32(displayMode.w);
-            ScreenResolutionY = Convert.ToUInt32(displayMode.h);
+            ScreenResolutionX = displayMode.w;
+            ScreenResolutionY = displayMode.h;
 
             NCLogging.Log($"Screen resolution of the primary monitor = {ScreenResolutionX}x{ScreenResolutionY}");
 

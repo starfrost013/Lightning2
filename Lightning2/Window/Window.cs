@@ -320,15 +320,7 @@ namespace LightningGL
         /// Sets the window's current <see cref="Camera"/> to <paramref name="nCamera"/>.
         /// </summary>
         /// <param name="nCamera">The <see cref="Camera"/> instance to set the window's current camerat o</param>
-        public void SetCurrentCamera(Camera nCamera)
-        {
-            if (nCamera.Type == CameraType.Chase)
-            {
-                if (nCamera.FocusDelta == default(Vector2)) nCamera.FocusDelta = new Vector2(-(Settings.Size.X / 2), 0);
-            }
-
-            Settings.Camera = nCamera;
-        }
+        public void SetCurrentCamera(Camera nCamera) => Settings.Camera = nCamera;
 
         /// <summary>
         /// Sets the window to be fullscreen or windowed.

@@ -36,6 +36,11 @@
         public int Repeat { get; internal set; }
 
         /// <summary>
+        /// The current number of times this animation has repeated.
+        /// </summary>
+        private int RepeatCount { get; set; }
+
+        /// <summary>
         /// Determines if the animation will play in reverse or not.
         /// </summary>
         public bool Reverse { get; internal set; }  
@@ -46,22 +51,12 @@
         /// </summary>
         internal bool Loaded { get; set; }
 
-        [JsonIgnore]
-        /// <summary>
-        /// Animation timer.
-        /// </summary>
-        internal Stopwatch AnimationTimer { get; set; }
-
-        [JsonIgnore]
-        private bool Running => AnimationTimer.IsRunning;
-
         /// <summary>
         /// Constructor for the Animation class
         /// </summary>
         public Animation()
         {
             Properties = new List<AnimationProperty>();
-            AnimationTimer = new Stopwatch();
         }
         
         /// <summary>
@@ -111,21 +106,33 @@
             }
         }
 
-        internal void StartAnimationFor(Renderable renderable)
+        public void StartAnimationFor(Renderable renderable)
         {
-            AnimationTimer.Restart();
+            renderable.AnimationTimer.Restart();
         }
 
-        internal void StopAnimationFor(Renderable renderable)
+        public void StopAnimationFor(Renderable renderable)
         {
-            if (!AnimationTimer.IsRunning) return;
+            if (!renderable.AnimationTimer.IsRunning) return;
 
-            AnimationTimer.Stop();
+            renderable.AnimationTimer.Stop();
         }
 
-        internal void UpdateAnimationFor(Renderable renderable)
+        public void UpdateAnimationFor(Renderable renderable)
         {
-            if (AnimationTimer.ElapsedMilliseconds > Length) AnimationTimer.Restart();
+            if (renderable.AnimationTimer.ElapsedMilliseconds > Length)
+            {
+                if (Repeat > 0
+                    && RepeatCount < Repeat)
+                {
+                    RepeatCount++;
+                    renderable.AnimationTimer.Restart();
+                }
+                else
+                {
+                    StopAnimationFor(renderable);
+                }
+            }
 
             foreach (AnimationProperty property in Properties)
             {
@@ -141,8 +148,8 @@
 
                     if (nextKeyframe != null)
                     {
-                        needToCheck = (AnimationTimer.ElapsedMilliseconds >= thisKeyframe.Position
-                        && AnimationTimer.ElapsedMilliseconds <= nextKeyframe.Position);
+                        needToCheck = (renderable.AnimationTimer.ElapsedMilliseconds >= thisKeyframe.Position
+                        && renderable.AnimationTimer.ElapsedMilliseconds <= nextKeyframe.Position);
                     }
 
                     if (needToCheck)
@@ -165,7 +172,7 @@
                             object finalValue = null;
 
                             long max = nextKeyframe.Position - thisKeyframe.Position;
-                            long cur = nextKeyframe.Position - AnimationTimer.ElapsedMilliseconds;
+                            long cur = nextKeyframe.Position - renderable.AnimationTimer.ElapsedMilliseconds;
 
                             // get various animation types
                             if (value1 is int

@@ -7,10 +7,13 @@
     /// </summary>
     public class WindowSettings
     {
+        private int MINIMUM_WINDOW_SIZE_X = 192;
+        private int MINIMUM_WINDOW_SIZE_Y = 48;
+
         /// <summary>
         /// Backing field for <see cref="Title"/>.
         /// </summary>
-        private string _title { get; set; }
+        private string _title;
 
         /// <summary>
         /// The title of the window.
@@ -47,12 +50,21 @@
             {
                 _position = value;
 
-                if (_position.X < 0
-                    || _position.Y < 0
+                if (_position.X < MINIMUM_WINDOW_SIZE_X
+                    || _position.Y < MINIMUM_WINDOW_SIZE_Y
                     || _position.X > SystemInfo.ScreenResolutionX
                     || _position.Y > SystemInfo.ScreenResolutionY) _ = new NCException($"Attempted to change window to illegal position ({_position.X},{_position.Y}!). Range is 0,0 to {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY}", 118, "Set accessor of WindowSettings::Size detected an attempt to resize to an invalid window size", NCExceptionSeverity.FatalError);
 
-                if (WindowHandle != default) SDL_SetWindowPosition(WindowHandle, Convert.ToInt32(_position.X), Convert.ToInt32(_position.Y));
+                if (WindowHandle != default)
+                {
+                    int intPosX = Convert.ToInt32(_position.X),
+                        intPosY = Convert.ToInt32(_position.Y);
+
+                    GlobalSettings.ResolutionX = Convert.ToInt32(intPosX);
+                    GlobalSettings.ResolutionY = Convert.ToInt32(intPosY);
+
+                    SDL_SetWindowPosition(WindowHandle, Convert.ToInt32(intPosX), Convert.ToInt32(intPosY));
+                }
             }
         }
 
@@ -80,7 +92,16 @@
                     || _size.X > SystemInfo.ScreenResolutionX
                     || _size.Y > SystemInfo.ScreenResolutionY) _ = new NCException($"Attempted to change window to illegal resolution ({_size.X},{_size.Y}!). Range is 1,1 to {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY}", 117, "Set accessor of WindowSettings::Size detected an attempt to resize to an invalid window size", NCExceptionSeverity.FatalError);
 
-                if (WindowHandle != default) SDL_SetWindowSize(WindowHandle, Convert.ToInt32(_size.X), Convert.ToInt32(_size.Y));
+                if (WindowHandle != default)
+                {
+                    int intSizeX = Convert.ToInt32(_size.X),
+                        intSizeY = Convert.ToInt32(_size.Y);
+
+                    GlobalSettings.ResolutionX = Convert.ToInt32(intSizeX);
+                    GlobalSettings.ResolutionY = Convert.ToInt32(intSizeY);
+
+                    SDL_SetWindowSize(WindowHandle, Convert.ToInt32(intSizeX), Convert.ToInt32(intSizeY));
+                }
             }
         }
 
@@ -121,7 +142,7 @@
 
         public WindowSettings()
         {
-            // Show the window by default, set its color to RGBA 0,0,0,255 (solid black), and set the rendering blend mode to SDL_BLENDMODE_BLEND.
+            // Show the window and set its color to RGBA 0,0,0,255 (solid black) by default
             WindowFlags = GlobalSettings.WindowFlags;
             Size = new Vector2(GlobalSettings.ResolutionX, GlobalSettings.ResolutionY);
 

@@ -86,22 +86,22 @@
         /// <summary>
         /// The X component of the window resolution.
         /// </summary>
-        public static uint ResolutionX { get; internal set; }
+        public static int ResolutionX { get; internal set; }
 
         /// <summary>
         /// The Y component of the window resolution.
         /// </summary>
-        public static uint ResolutionY { get; internal set; }
+        public static int ResolutionY { get; internal set; }
 
         /// <summary>
         /// Default window position X. Default is (screen resolution / 2) - size.
         /// </summary>
-        public static uint PositionX { get; internal set; }
+        public static int PositionX { get; internal set; }
 
         /// <summary>
         /// Default window position Y. Default is (screen resolution / 2) - size.
         /// </summary>
-        public static uint PositionY { get; internal set; }
+        public static int PositionY { get; internal set; }
 
         /// <summary>
         /// The title of the Window
@@ -227,8 +227,8 @@
                 Renderer rendererValue = 0;
 
                 // inexplicably the overload i used isn't supported here
-                _ = uint.TryParse(resolutionX, out var resolutionXValue);
-                _ = uint.TryParse(resolutionY, out var resolutionYValue);
+                _ = int.TryParse(resolutionX, out var resolutionXValue);
+                _ = int.TryParse(resolutionY, out var resolutionYValue);
                 _ = Enum.TryParse(windowFlags, true, out windowFlagsValue);
                 _ = Enum.TryParse(renderFlags, true, out renderFlagsValue);
                 _ = Enum.TryParse(renderer, true, out rendererValue);
@@ -242,14 +242,14 @@
                 Renderer = rendererValue;
 
                 // parse positionX/positionY
-                _ = uint.TryParse(positionX, out var positionXValue);
-                _ = uint.TryParse(positionY, out var positionYValue);
+                _ = int.TryParse(positionX, out var positionXValue);
+                _ = int.TryParse(positionY, out var positionYValue);
 
                 // failed to load, set default values (middle of screen)
                 if (positionXValue == 0 && positionYValue == 0)
                 {
-                    positionXValue = Convert.ToUInt32(SystemInfo.ScreenResolutionX / 2) - ResolutionX / 2;
-                    positionYValue = Convert.ToUInt32(SystemInfo.ScreenResolutionY / 2) - ResolutionY / 2;
+                    positionXValue = SystemInfo.ScreenResolutionX / 2 - (ResolutionX / 2);
+                    positionYValue = SystemInfo.ScreenResolutionY / 2 - (ResolutionY / 2);
                 }
 
                 // set the default delta multiplier value
