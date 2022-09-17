@@ -24,9 +24,9 @@ FontManager.LoadFont("Arial", 24, "Arial.24pt");
 FontManager.LoadFont("Arial", 36, "Arial.36pt");
 
 cWindow.Clear(Color.FromArgb(255, 127, 127, 127));
-Texture texture = new Texture(cWindow, 64, 64);
+Texture texture = new(cWindow, 64, 64);
 
-Random rnd = new Random();
+Random rnd = new();
 
 // Texture API test
 byte r = (byte)rnd.Next(0, 256);
@@ -49,11 +49,11 @@ texture.Unlock();
 texture.Position = new Vector2(0, 0);
 texture.Repeat = new Vector2(3, 3);
 
-TextureAtlas textureAtlas1 = new TextureAtlas(cWindow, new(64, 64), new(4, 4));
+TextureAtlas textureAtlas1 = new(cWindow, new(64, 64), new(4, 4));
 
 textureAtlas1.Path = @"Content\TextureAtlasTest.png";
 
-textureAtlas1.Position = new Vector2(256, 256);
+textureAtlas1.Position = new(256, 256);
 
 textureAtlas1.Load(cWindow);
 

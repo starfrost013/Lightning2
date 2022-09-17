@@ -60,7 +60,7 @@
         /// <summary>
         /// List of animations in this Renderable
         /// </summary>
-        public List<Animation> Animations { get; set; }
+        public List<Animation> Animations { get; private set; }
 
         /// <summary>
         /// Constructor for the Renderable class.
@@ -77,6 +77,14 @@
         public virtual void Draw(Window cWindow)
         {
 
+        }
+
+        internal virtual void AttachAnimation(Animation animation)
+        {
+            if (!Loaded) _ = new NCException($"Attempted to attach an animation to an unloaded renderable!", 
+                146, "Renderable::AttachAnimation called when Renderable::Loaded is set to FALSE", NCExceptionSeverity.FatalError);
+            NCLogging.Log($"Attaching animation {animation.Path} to renderable of type {GetType().Name}");
+            Animations.Add(animation);      
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// Animation
@@ -12,10 +10,10 @@ namespace LightningGL
     public class Animation
     {
         /// <summary>
-        /// The list of animation 
+        /// The list of properties animated by this animation.
         /// </summary>
         public List<AnimationProperty> Properties { get; private set; }
-
+        
         /// <summary>
         /// Name of this animation
         /// </summary>
@@ -32,11 +30,30 @@ namespace LightningGL
         /// </summary>
         public int Length { get; internal set; }
 
+        /// <summary>
+        /// Determines if this animation repeats. 0 does not repeat, -1 or lower repeats endlessly
+        /// </summary>
+        public int Repeat { get; internal set; }
+
+        /// <summary>
+        /// Determines if the animation will play in reverse or not.
+        /// </summary>
+        public bool Reverse { get; internal set; }  
+
         [JsonIgnore]
         /// <summary>
         /// Determines if this animation has been loaded.
         /// </summary>
         internal bool Loaded { get; set; }
+
+        [JsonIgnore]
+        /// <summary>
+        /// Animation timer.
+        /// </summary>
+        internal Stopwatch AnimationTimer { get; set; }
+
+        [JsonIgnore]
+        private bool Running => AnimationTimer.IsRunning;
 
         /// <summary>
         /// Constructor for the Animation class
@@ -44,6 +61,7 @@ namespace LightningGL
         public Animation()
         {
             Properties = new List<AnimationProperty>();
+            AnimationTimer = new Stopwatch();
         }
         
         /// <summary>
@@ -93,5 +111,100 @@ namespace LightningGL
             }
         }
 
+        internal void StartAnimationFor(Renderable renderable)
+        {
+            AnimationTimer.Restart();
+        }
+
+        internal void StopAnimationFor(Renderable renderable)
+        {
+            if (!AnimationTimer.IsRunning) return;
+
+            AnimationTimer.Stop();
+        }
+
+        internal void UpdateAnimationFor(Renderable renderable)
+        {
+            if (AnimationTimer.ElapsedMilliseconds > Length) AnimationTimer.Restart();
+
+            foreach (AnimationProperty property in Properties)
+            {
+                Type renderableType = property.GetType();
+
+                for (int keyframeId = 0; keyframeId < property.Keyframes.Count; keyframeId++)
+                {
+                    AnimationKeyframe thisKeyframe = property.Keyframes[keyframeId];
+                    AnimationKeyframe nextKeyframe = null;
+                    if (property.Keyframes.Count - keyframeId > 1) nextKeyframe = property.Keyframes[keyframeId + 1];
+
+                    bool needToCheck = false;
+
+                    if (nextKeyframe != null)
+                    {
+                        needToCheck = (AnimationTimer.ElapsedMilliseconds >= thisKeyframe.Position
+                        && AnimationTimer.ElapsedMilliseconds <= nextKeyframe.Position);
+                    }
+
+                    if (needToCheck)
+                    {
+                        try
+                        {
+                            // todo: propertycache
+                            // this is very inefficient
+
+                            if (thisKeyframe.GetType() 
+                                != nextKeyframe.GetType())
+                            {
+                                _ = new NCException($"All Keyframes of an animation property must be of the same type!", 148, "The value of thisKeyframe::GetType is not the same as nextKeyframe::GetType in a call to Animation::UpdateAnimationFor", 
+                                    NCExceptionSeverity.FatalError);
+                            }
+
+                            // enumerate valid animation types
+                            object value1 = TypeDescriptor.GetConverter(property.Type).ConvertFromInvariantString(thisKeyframe.Value);
+                            object value2 = TypeDescriptor.GetConverter(property.Type).ConvertFromInvariantString(nextKeyframe.Value);
+                            object finalValue = null;
+
+                            long max = nextKeyframe.Position - thisKeyframe.Position;
+                            long cur = nextKeyframe.Position - AnimationTimer.ElapsedMilliseconds;
+
+                            // get various animation types
+                            if (value1 is int
+                                && value2 is int)
+                            {
+                                finalValue = AnimationPropertyFactory.GetIntValue(value1, value2, cur, max);
+                            }
+                            else if (value1 is float
+                                && value2 is float)
+                            {
+                                finalValue = AnimationPropertyFactory.GetFloatValue(value1, value2, cur, max);
+                            }
+                            else if (value1 is double
+                                && value2 is double)
+                            {
+                                finalValue = AnimationPropertyFactory.GetDoubleValue(value1, value2, cur, max);
+                            }
+                            else if (value1 is Vector2
+                                && value2 is Vector2)
+                            {
+                                finalValue = AnimationPropertyFactory.GetVector2Value(value1, value2, cur, max);
+                            }
+                            else
+                            {
+                                _ = new NCException($"Invalid animation property type. Only int, float, double, and Vector2 are supported!", 148, "Animation::UpdateAnimationFor attempted to set a value of an unsupported animation property type ",
+                                    NCExceptionSeverity.FatalError);
+                            }
+
+                            PropertyInfo propertyInfo = renderableType.GetProperty(property.Name);
+                            propertyInfo.SetValue(renderable, finalValue, null);  
+
+                        }
+                        catch (Exception ex)
+                        {
+                            _ = new NCException($"Error: An error occurred converting an animation property of {property.Type}, value {thisKeyframe.Value}: \n\n{ex}", 147, "An exception occurred in Animation::UpdateAnimationFor");
+                        }
+                    }
+                }
+            }
+        }
     }
 }
