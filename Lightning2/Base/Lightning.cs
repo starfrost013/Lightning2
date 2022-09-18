@@ -136,6 +136,7 @@
                 }
                 else
                 {
+                    NCLogging.Log("Warning: Initialising Lightning without the Scene Manager is deprecated and will be removed in Lightning 1.2.0.", ConsoleColor.Yellow);
                     Initialised = true;
                 }
 

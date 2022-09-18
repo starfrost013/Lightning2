@@ -16,7 +16,7 @@ namespace LightningGL
         /// <summary>
         /// Backing field for <see cref="Path"/>
         /// </summary>
-        private string _path { get; set; }
+        private string _path;
 
         /// <summary>
         /// Path to the texture 

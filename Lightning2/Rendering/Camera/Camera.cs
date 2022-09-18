@@ -70,8 +70,6 @@
         public Camera(CameraType type)
         {
             Type = type;
-
-           
         }
     }
 }

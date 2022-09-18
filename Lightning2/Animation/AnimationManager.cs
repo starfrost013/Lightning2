@@ -19,8 +19,10 @@
             // try to deserialise
             try
             {
+                string tempPath = asset.Path;
                 asset = JsonConvert.DeserializeObject<Animation>(File.ReadAllText(asset.Path));
-
+                // this needs to be set again currently
+                asset.Path = tempPath;
                 if (asset == null) _ = new NCException($"A fatal error occurred while deserialising an animation JSON.", 140,
                     "Animation::Load - JsonConvert::DeserializeObject returned null", NCExceptionSeverity.FatalError);
             }
@@ -29,12 +31,11 @@
                 _ = new NCException($"A fatal error occurred while deserialising an animation JSON. See base exception information for further information.", 139,
                     "Animation::Load - fatal error in call to JsonConvert::DeserializeObject", NCExceptionSeverity.FatalError, err);
             }
+            NCLogging.Log($"Validating animation JSON from {asset.Path}...");
+            asset.Validate();
 
             // load the asset
             asset.Loaded = true;
-
-            NCLogging.Log($"Validating animation JSON from {asset.Path}...");
-            asset.Validate();
             Assets.Add(asset);
         }
     }

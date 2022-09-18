@@ -18,7 +18,7 @@
         /// <summary>
         /// Backing field for <see cref="RenderPosition"/>
         /// </summary>
-        private Vector2 _renderPosition { get; set; }
+        private Vector2 _renderPosition;
 
         /// <summary>
         /// Internal value holding the position the item is actually rendered at.

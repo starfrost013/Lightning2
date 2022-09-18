@@ -35,7 +35,7 @@
         /// <summary>
         /// Backing field for <see cref="Position"/>.
         /// </summary>
-        private Vector2 _position { get; set; }
+        private Vector2 _position;
 
         /// <summary>
         /// The position of this window.
@@ -71,7 +71,7 @@
         /// <summary>
         /// Backing field for <see cref="Size"/>. 
         /// </summary>
-        private Vector2 _size { get; set; }
+        private Vector2 _size;
 
         /// <summary>
         /// The size of this window.

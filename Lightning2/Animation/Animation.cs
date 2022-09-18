@@ -23,23 +23,26 @@
         /// <summary>
         /// Path to this animation's JSON file.
         /// </summary>
-        public string Path { get; internal set; }
+        internal string Path { get; set; }
 
+        [JsonProperty] // required for internal
         /// <summary>
         /// The length of this animation in milliseconds.
         /// </summary>
         public int Length { get; internal set; }
 
+        [JsonProperty] // required for internal
         /// <summary>
         /// Determines if this animation repeats. 0 does not repeat, -1 or lower repeats endlessly
         /// </summary>
-        public int Repeat { get; internal set; }
+        public int Repeat { get; set; }
 
         /// <summary>
         /// The current number of times this animation has repeated.
         /// </summary>
         private int RepeatCount { get; set; }
 
+        [JsonProperty] // required for internal
         /// <summary>
         /// Determines if the animation will play in reverse or not.
         /// </summary>
@@ -54,9 +57,10 @@
         /// <summary>
         /// Constructor for the Animation class
         /// </summary>
-        public Animation()
+        public Animation(string path)
         {
             Properties = new List<AnimationProperty>();
+            Path = path;
         }
         
         /// <summary>
@@ -99,7 +103,7 @@
                     AnimationKeyframe keyframe = property.Keyframes[keyframeId];
                     keyframe.Id = keyframeId;
 
-                    if (keyframe.Position <= 0
+                    if (keyframe.Position < 0
                         || keyframe.Position > Length) _ = new NCException($"Keyframe {keyframe.Id} for property {property.Name} is not within the animation. The value is {keyframe.Position}, range is (0,{Length})!",
                     143, "AnimationKeyframe::Position", NCExceptionSeverity.FatalError);
                 }

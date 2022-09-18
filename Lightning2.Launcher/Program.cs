@@ -242,6 +242,8 @@ UIManager.AddAsset(cWindow, checkBox1);
 TextureManager.AddAsset(cWindow, texture);
 TextureManager.AddAsset(cWindow, animatedTexture1);
 
+AnimationManager.AddAsset(cWindow, new Animation(@"Content\Animations\TestAnimation.json")) ;
+
 while (cWindow.Run())
 {
     SDL.SDL_Event curEvent = cWindow.LastEvent;

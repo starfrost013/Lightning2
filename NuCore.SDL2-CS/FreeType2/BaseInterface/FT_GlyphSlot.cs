@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Numerics;
 using System.Runtime.InteropServices;
 
 namespace NuCore.SDL2
@@ -26,7 +25,7 @@ namespace NuCore.SDL2
 
         double linearVertAdvance;
 
-        Vector2 advance; // temp
+        FT_Vector advance; // temp
 
         IntPtr format;
 
@@ -46,12 +45,12 @@ namespace NuCore.SDL2
 
         long control_len;
 
-        Vector2 lsb_delta;  // temp
+        FT_Vector lsb_delta;  // temp
 
-        Vector2 rsb_delta;  // temp
+        FT_Vector rsb_delta;  // temp
 
         void* other;
 
-        IntPtr _internal; // internal is a reserved keyword
+        IntPtr _internal; // internal is a reserved keyword in c#
     }
 }
