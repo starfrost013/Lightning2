@@ -7,7 +7,7 @@
     /// 
     /// Enumerates all supported SDL renderers.
     /// </summary>
-    public enum Renderer
+    public enum RenderingBackend
     {
         /// <summary>
         /// Use SDL's default renderer

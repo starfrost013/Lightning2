@@ -25,13 +25,13 @@
         /// </summary>
         public Vector2 TextureCount { get; init; }
 
-        public TextureAtlas(Window cWindow, Vector2 frameSize, Vector2 textureCount) : base(cWindow, (frameSize.X * textureCount.X) + 1, frameSize.Y * textureCount.Y + 1) // + 1 so that we do not set an out of bounds viewport
+        public TextureAtlas(Renderer cRenderer, Vector2 frameSize, Vector2 textureCount) : base(cRenderer, (frameSize.X * textureCount.X) + 1, frameSize.Y * textureCount.Y + 1) // + 1 so that we do not set an out of bounds viewport
         {
             FrameSize = frameSize;
             TextureCount = textureCount;
         }
 
-        public override void Load(Window cWindow)
+        internal override void Load(Renderer cRenderer)
         {
             if (FrameSize == default(Vector2)) _ = new NCException("Cannot load a texture with no texture frame size!", 45, "TextureAtlas::FrameSize property = (0,0)!", NCExceptionSeverity.FatalError);
 
@@ -39,10 +39,10 @@
 
             NCLogging.Log($"Loading atlas texture at path {Path}...");
 
-            base.Load(cWindow);
+            base.Load(cRenderer);
         }
 
-        public override void Draw(Window cWindow)
+        public new void Draw(Renderer cRenderer)
         {
             // save the maximum index
             int maxIndex = Convert.ToInt32((TextureCount.X * TextureCount.Y)) - 1;
@@ -61,7 +61,7 @@
             ViewportStart = new Vector2(startX, startY);
             ViewportEnd = new Vector2(endX, endY);
 
-            base.Draw(cWindow);
+            base.Draw(cRenderer);
         }
 
         public override Color GetPixel(int x, int y, bool relative = false)

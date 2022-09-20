@@ -5,7 +5,7 @@
     /// 
     /// Defines a font.
     /// </summary>
-    public class Font
+    public class Font : Renderable
     {
         /// <summary>
         /// A name used to describe this font in rendering operations.
@@ -20,7 +20,7 @@
         /// <summary>
         /// The size of this font.
         /// </summary>
-        public int Size { get; set; }
+        public int FontSize { get; set; }
 
         /// <summary>
         /// Private: Pointer to the unmanaged TTF_Font containing this font.
@@ -52,7 +52,7 @@
 
             font.Name = name;
             font.FriendlyName = friendlyName;
-            font.Size = size;
+            font.FontSize = size;
             font.Index = index;
 
             if (path == null) // default to system load path 
@@ -77,7 +77,7 @@
 
             if (font.Handle == IntPtr.Zero) _ = new NCException($"Error loading font at {path}: {SDL_ttf.TTF_GetError()}", 38, "An SDL error occurred during font loading from Font::Load!", NCExceptionSeverity.Error);
 
-            NCLogging.Log($"Loaded font {font.Name}, size {font.Size} at {path}");
+            NCLogging.Log($"Loaded font {font.Name}, size {font.FontSize} at {path}");
             return font;
         }
 
@@ -88,7 +88,7 @@
         {
             TTF_CloseFont(Handle);
             Handle = IntPtr.Zero;
-            NCLogging.Log($"Unloaded font {FriendlyName}, size {Size}");
+            NCLogging.Log($"Unloaded font {FriendlyName}, size {FontSize}");
         }
     }
 }

@@ -7,17 +7,38 @@
     /// 
     /// Defines an animation
     /// </summary>
-    public class Animation
+    public class Animation : Renderable
     {
         /// <summary>
         /// The list of properties animated by this animation.
         /// </summary>
         public List<AnimationProperty> Properties { get; private set; }
-        
+
+        /// <summary>
+        /// Backing field for <see cref="Name"/>
+        /// </summary>
+        private string _name;
+
         /// <summary>
         /// Name of this animation
         /// </summary>
-        public string Name { get; set; }
+        public string Name
+        {
+            get
+            {
+                if (_name == null)
+                {
+                    string tempName = Path.Substring(0, Path.LastIndexOf('.'));
+                    return tempName;
+                }
+
+                return _name;
+            }
+            set
+            {
+                _name = value;
+            }
+        }
 
         [JsonIgnore]
         /// <summary>
@@ -47,12 +68,6 @@
         /// Determines if the animation will play in reverse or not.
         /// </summary>
         public bool Reverse { get; internal set; }  
-
-        [JsonIgnore]
-        /// <summary>
-        /// Determines if this animation has been loaded.
-        /// </summary>
-        internal bool Loaded { get; set; }
 
         /// <summary>
         /// Constructor for the Animation class
@@ -110,10 +125,7 @@
             }
         }
 
-        public void StartAnimationFor(Renderable renderable)
-        {
-            renderable.AnimationTimer.Restart();
-        }
+        public void StartAnimationFor(Renderable renderable) => renderable.AnimationTimer.Restart();
 
         public void StopAnimationFor(Renderable renderable)
         {

@@ -15,9 +15,6 @@ namespace LightningGL
 
         public string Value { get; private set; }
 
-        [JsonIgnore]
-        public object RealValue { get; private set; }
-
         public AnimationKeyframe(int position, string value)
         {
             Position = position;

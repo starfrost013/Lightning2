@@ -143,11 +143,11 @@
         /// <summary>
         /// Renders this TextBox.
         /// </summary>
-        /// <param name="cWindow">The window to render this <see cref="TextBox"/> to.</param>
-        public void Render(Window cWindow)
+        /// <param name="cRenderer">The window to render this <see cref="TextBox"/> to.</param>
+        public void Render(Renderer cRenderer)
         {
-            PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, CurBackgroundColor, true, Bordercolor, BorderSize, SnapToScreen);
-            FontManager.DrawText(cWindow, Text, Font, Position, ForegroundColor);
+            PrimitiveRenderer.DrawRectangle(cRenderer, Position, Size, CurBackgroundColor, true, Bordercolor, BorderSize, SnapToScreen);
+            FontManager.DrawText(cRenderer, Text, Font, Position, ForegroundColor);
 
             // slight hack
             if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
@@ -161,13 +161,13 @@
                 if (NumberOfFramesUntilNextBlink == 0)
                 {
                     IsActive = !IsActive;
-                    if (cWindow.DeltaTime > 0) NumberOfFramesUntilNextBlink = Convert.ToInt32((CursorBlinkLength - 1) + (CursorBlinkFrequency / cWindow.DeltaTime));
+                    if (cRenderer.DeltaTime > 0) NumberOfFramesUntilNextBlink = Convert.ToInt32((CursorBlinkLength - 1) + (CursorBlinkFrequency / cRenderer.DeltaTime));
                 }
 
                 // if it's active, draw the line
                 if (IsActive)
                 {
-                    PrimitiveRenderer.DrawLine(cWindow, cursorPosition,
+                    PrimitiveRenderer.DrawLine(cRenderer, cursorPosition,
                     new(cursorPosition.X, cursorPosition.Y + Size.Y), CursorThickness, CursorColor);
                 }
 

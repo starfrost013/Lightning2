@@ -9,7 +9,7 @@
     /// Defines a scene in LightningGL.
     /// A scene is a single "part" of a game.
     /// </summary>
-    public abstract class Scene
+    public abstract class Scene : Renderable
     {
         internal string Name { get; set; }
 
@@ -21,7 +21,7 @@
         /// <summary>
         /// Run each frame
         /// </summary>
-        public abstract void Render(Window cWindow);
+        public abstract void Render(Renderer cRenderer);
 
         /// <summary>
         /// Run when this scene is about to be switched to.

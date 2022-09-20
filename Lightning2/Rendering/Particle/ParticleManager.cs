@@ -20,39 +20,27 @@
         }
 
         /// <summary>
-        /// Adds the particle effect <see cref="ParticleEffect"/> for the window <paramref name="cWindow"/>.
+        /// Adds the particle effect <see cref="ParticleEffect"/> for the window <paramref name="cRenderer"/>.
         /// </summary>
-        /// <param name="cWindow">The window to add the particle effect for.</param>
+        /// <param name="cRenderer">The window to add the particle effect for.</param>
         /// <param name="asset">The particle effect to add to the window.</param>
-        public override void AddAsset(Window cWindow, ParticleEffect asset)
+        public override void AddAsset(Renderer cRenderer, ParticleEffect asset)
         {
-            asset.Load(asset.Texture, cWindow);
+            asset.Load(cRenderer);
             Assets.Add(asset);
         }
 
         /// <summary>
-        /// Removes the particle effect <see cref="ParticleEffect"/> for the window <paramref name="cWindow"/> from the Particle Manager.
+        /// Removes the particle effect <see cref="ParticleEffect"/> for the window <paramref name="cRenderer"/> from the Particle Manager.
         /// </summary>
-        /// <param name="cWindow">The window to remove the particle effect from.</param>
+        /// <param name="cRenderer">The window to remove the particle effect from.</param>
         /// <param name="asset">The particle effect to remove.</param>
-        public override void RemoveAsset(Window cWindow, ParticleEffect asset)
+        public override void RemoveAsset(Renderer cRenderer, ParticleEffect asset)
         {
             if (!Assets.Contains(asset)) _ = new NCException($"Attempted to remove a particle effect (loaded from {asset.Texture.Path}) without loading it first!",
                 136, "You must load a particle effect before trying to remove it!", NCExceptionSeverity.Error);
             asset.Unload();
             Assets.Remove(asset);
-        }
-
-        /// <summary>
-        /// Renders all particle effects to a window.
-        /// </summary>
-        /// <param name="cWindow">The window to render these particle effects to.</param>
-        internal void Render(Window cWindow)
-        {
-            foreach (ParticleEffect particleEffect in Assets)
-            {
-                particleEffect.Render(cWindow);
-            }
         }
     }
 }

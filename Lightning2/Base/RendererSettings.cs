@@ -1,11 +1,11 @@
 ﻿namespace LightningGL
 {
     /// <summary>
-    /// WindowSettings
+    /// RendererSettings
     /// 
-    /// Defines settings for a <see cref="Window"/>.
+    /// Defines settings for a <see cref="Renderer"/>.
     /// </summary>
-    public class WindowSettings
+    public class RendererSettings
     {
         private int MINIMUM_WINDOW_SIZE_X = 192;
         private int MINIMUM_WINDOW_SIZE_Y = 48;
@@ -140,7 +140,7 @@
         /// </summary>
         public Color BackgroundColor { get; internal set; }
 
-        public WindowSettings()
+        public RendererSettings()
         {
             // Show the window and set its color to RGBA 0,0,0,255 (solid black) by default
             WindowFlags = GlobalSettings.WindowFlags;

@@ -41,8 +41,8 @@
         /// <summary>
         /// Renders this Light to a texture
         /// </summary>
-        /// <param name="cWindow">The window to render this Light to.</param>
-        internal void RenderToTexture(Window cWindow)
+        /// <param name="cRenderer">The window to render this Light to.</param>
+        internal void RenderToTexture(Renderer cRenderer)
         {
             // Code nicked and modified from
             // https://stackoverflow.com/questions/10878209/midpoint-circle-algorithm-for-filled-circles
@@ -50,8 +50,8 @@
             int x = (int)Position.X;
             int y = (int)Position.Y;
 
-            float maxSizeX = cWindow.Settings.Size.X;
-            float maxSizeY = cWindow.Settings.Size.Y;
+            float maxSizeX = cRenderer.Settings.Size.X;
+            float maxSizeY = cRenderer.Settings.Size.Y;
 
             Color transparentBaseColor = Color.FromArgb(0, LightManager.EnvironmentalLight.R, LightManager.EnvironmentalLight.G, LightManager.EnvironmentalLight.B);
 
@@ -96,8 +96,8 @@
         /// <summary>
         /// Removes this Light from the texture.
         /// </summary>
-        /// <param name="cWindow">The window to remove this light from.</param>
-        internal void RemoveFromTexture(Window cWindow)
+        /// <param name="cRenderer">The window to remove this light from.</param>
+        internal void RemoveFromTexture(Renderer cRenderer)
         {
             // Code nicked and modified from
             // https://stackoverflow.com/questions/10878209/midpoint-circle-algorithm-for-filled-circles
@@ -105,8 +105,8 @@
             int x = (int)Position.X;
             int y = (int)Position.Y;
 
-            float maxSizeX = cWindow.Settings.Size.X;
-            float maxSizeY = cWindow.Settings.Size.Y;
+            float maxSizeX = cRenderer.Settings.Size.X;
+            float maxSizeY = cRenderer.Settings.Size.Y;
 
             // calculate magnitude of vector so that the alpha can be calculated
 

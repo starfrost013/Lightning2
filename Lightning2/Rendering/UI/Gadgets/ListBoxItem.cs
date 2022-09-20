@@ -20,23 +20,23 @@
         /// <summary>
         /// Renders the ListBoxItem
         /// </summary>
-        /// <param name="cWindow">The <see cref="Window"/> to render the ListBoxItem to.</param>
-        public void Render(Window cWindow)
+        /// <param name="cRenderer">The <see cref="Renderer"/> to render the ListBoxItem to.</param>
+        public void Render(Renderer cRenderer)
         {
             // set the default background color
             if (CurBackgroundColor == default(Color)) CurBackgroundColor = BackgroundColor;
 
-            PrimitiveRenderer.DrawRectangle(cWindow, Position, Size, CurBackgroundColor, Filled, Bordercolor, BorderSize, SnapToScreen);
+            PrimitiveRenderer.DrawRectangle(cRenderer, Position, Size, CurBackgroundColor, Filled, Bordercolor, BorderSize, SnapToScreen);
 
             Font curFont = FontManager.GetFont(Font);
 
             if (curFont == null)
             {
-                PrimitiveRenderer.DrawText(cWindow, Text, Position, ForegroundColor, true);
+                PrimitiveRenderer.DrawText(cRenderer, Text, Position, ForegroundColor, true);
             }
             else
             {
-                FontManager.DrawText(cWindow, Text, Font, Position, ForegroundColor);
+                FontManager.DrawText(cRenderer, Text, Font, Position, ForegroundColor);
             }
         }
     }

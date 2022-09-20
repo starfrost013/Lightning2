@@ -134,13 +134,13 @@
         /// <summary>
         /// Renders this ListBox.
         /// </summary>
-        /// <param name="cWindow">The window to render this listbox to.</param>
-        public void Render(Window cWindow)
+        /// <param name="cRenderer">The window to render this listbox to.</param>
+        public void Render(Renderer cRenderer)
         {
             // set the default background color if it's not set. a hack...
             if (CurBackgroundColor == default(Color)) CurBackgroundColor = BackgroundColor;
 
-            PrimitiveRenderer.DrawRectangle(cWindow, Position, BoxSize, CurBackgroundColor, Filled, Bordercolor, BorderSize, SnapToScreen);
+            PrimitiveRenderer.DrawRectangle(cRenderer, Position, BoxSize, CurBackgroundColor, Filled, Bordercolor, BorderSize, SnapToScreen);
 
             Font curFont = FontManager.GetFont(Font);
 
@@ -151,11 +151,11 @@
             {
                 if (curFont == null)
                 {
-                    PrimitiveRenderer.DrawText(cWindow, Items[SelectedIndex].Text, Position, ForegroundColor, true);
+                    PrimitiveRenderer.DrawText(cRenderer, Items[SelectedIndex].Text, Position, ForegroundColor, true);
                 }
                 else
                 {
-                    FontManager.DrawText(cWindow, Items[SelectedIndex].Text, Font, Position, ForegroundColor);
+                    FontManager.DrawText(cRenderer, Items[SelectedIndex].Text, Font, Position, ForegroundColor);
                 }
             }
 
@@ -164,7 +164,7 @@
             {
                 foreach (ListBoxItem item in Items)
                 {
-                    item.OnRender(cWindow); // this is never null (set in constructor) so we do not need to check if it is.
+                    item.OnRender(cRenderer); // this is never null (set in constructor) so we do not need to check if it is.
                 }
             }
 

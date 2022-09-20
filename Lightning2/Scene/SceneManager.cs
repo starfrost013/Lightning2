@@ -19,14 +19,14 @@ namespace LightningGL
         /// <summary>
         /// The main window of the application.
         /// </summary>
-        public Window MainWindow { get; private set; }
+        public Renderer MainWindow { get; private set; }
 
         /// <summary>
         /// Determines if the scene manager is running.
         /// </summary>
         public bool Initialised { get; private set; }
 
-        public override void AddAsset(Window cWindow, Scene asset)
+        public override void AddAsset(Renderer cRenderer, Scene asset)
         {
             throw new NotImplementedException("AddAsset not implemented for SceneManager");
         }
@@ -36,10 +36,10 @@ namespace LightningGL
         /// </summary>
         /// <param name="windowSettings">The window settings to use for the Scene Manager.</param>
         /// <exception cref="NCException">An error occurred initialising the Scene Manager.</exception>
-        internal void Init(WindowSettings windowSettings)
+        internal void Init(RendererSettings windowSettings)
         {
             // Initialise Lightning2 window.
-            MainWindow = new Window();
+            MainWindow = new Renderer();
 
             MainWindow.Start(windowSettings);
 

@@ -9,7 +9,7 @@
     /// </summary>
     public class AudioAssetManager : AssetManager<AudioFile>
     {
-        public override void AddAsset(Window cWindow, AudioFile asset) => LoadFile(asset.Path, asset.Name);
+        public override void AddAsset(Renderer cRenderer, AudioFile asset) => LoadFile(cRenderer, asset.Path, asset.Name);
 
         /// <summary>
         /// Loads the audio file at path <see cref="Path"/>, if it exists.
@@ -17,7 +17,7 @@
         /// <param name="path">The path of the file to load.</param>
         /// <param name="name">A name to assign to the audio file. Optional, will be automatically generated from the file path (extension and directory removed) if not supplied.</param>
         /// <exception cref="NCException">An error occurred loading the file.</exception>
-        public void LoadFile(string path, string name = null)
+        public void LoadFile(Renderer cRenderer, string path, string name = null)
         {
             if (!File.Exists(path)) _ = new NCException($"Error loading audio file: The path {path} does not exist!", 52, "AudioManager::Load path parameter does not exist!", NCExceptionSeverity.FatalError);
 
@@ -57,7 +57,7 @@
                 tempAudio.Name = name;
             }
 
-            tempAudio.Load();
+            tempAudio.Load(cRenderer);
 
             if (tempAudio.AudioHandle != IntPtr.Zero)
             {
@@ -125,12 +125,12 @@
         /// <summary>
         /// Internal: Updates all loaded and playing audio files.
         /// </summary>
-        /// <param name="cWindow">The window to update audio on.</param>
-        internal void Update(Window cWindow)
+        /// <param name="cRenderer">The window to update audio on.</param>
+        internal override void Update(Renderer cRenderer)
         {
             foreach (AudioFile file in Assets)
             {
-                if (file.Playing) file.Update(cWindow);
+                if (file.Playing) file.Update(cRenderer);
             }
         }
     }

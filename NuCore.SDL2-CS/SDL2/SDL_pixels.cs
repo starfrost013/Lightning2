@@ -512,6 +512,8 @@ namespace NuCore.SDL2
                 b = nb;
                 a = na;
             }
+
+            public override string ToString() => $"ARGB {a},{r},{g},{b}";
         }
 
         [StructLayout(LayoutKind.Sequential)]

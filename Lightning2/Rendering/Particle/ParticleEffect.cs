@@ -92,24 +92,24 @@
         {
             Texture = nTexture;
             Mode = ParticleMode.SinCos;
+            OnRender += Draw;
         }
 
         /// <summary>
         /// Loads this particle effect.
         /// </summary>
         /// <param name="nTexture"></param>
-        /// <param name="cWindow"></param>
-        internal void Load(Texture nTexture, Window cWindow)
+        /// <param name="cRenderer"></param>
+        internal override void Load(Renderer cRenderer) 
         {
-            NCLogging.Log($"Loading particle effect at path {nTexture.Path}...");
+            NCLogging.Log($"Loading particle effect at path {Texture.Path}...");
             Particles = new List<Particle>();
-            Texture = nTexture;
-            Texture.Load(cWindow);
+            Texture.Load(cRenderer);
             Texture.SnapToScreen = SnapToScreen;
             if (MaxNumberCreatedEachFrame == 0) MaxNumberCreatedEachFrame = Amount / 150;
         }
 
-        internal void Render(Window cWindow)
+        internal override void Draw(Renderer cRenderer)
         {
             if (Texture == null) _ = new NCException("Attempted to draw a particle effect without loading it!", 120, "ParticleEffect::Render called before ParticleEffect::Load!", NCExceptionSeverity.FatalError);
 
@@ -131,7 +131,7 @@
 
             if (FrameSkipBetweenCreatingParticles > 0)
             {
-                if (cWindow.FrameNumber % (FrameSkipBetweenCreatingParticles + 1) != 0) createNewParticleSet = false;
+                if (cRenderer.FrameNumber % (FrameSkipBetweenCreatingParticles + 1) != 0) createNewParticleSet = false;
             }
 
             if (createNewParticleSet) AddParticleSet();
@@ -168,8 +168,8 @@
                     double yMul = Math.Cos(angleRads);
 
                     // set up the velocity
-                    Vector2 finalVelocity = new Vector2(Convert.ToSingle((((Velocity.X * xMul) / 100) * particle.Lifetime) * cWindow.DeltaTime),
-                        Convert.ToSingle((((Velocity.Y * yMul) / 100) * particle.Lifetime) * (cWindow.DeltaTime / 10)));
+                    Vector2 finalVelocity = new Vector2(Convert.ToSingle((((Velocity.X * xMul) / 100) * particle.Lifetime) * cRenderer.DeltaTime),
+                        Convert.ToSingle((((Velocity.Y * yMul) / 100) * particle.Lifetime) * (cRenderer.DeltaTime / 10)));
 
                     // Clamp velocity on "Normal" mode as opposed to explode
                     if (Mode != ParticleMode.Explode)
@@ -185,7 +185,7 @@
                 }
                 else
                 {
-                    Vector2 finalVelocity = new Vector2(Convert.ToSingle(Velocity.X * cWindow.DeltaTime), Convert.ToSingle(Velocity.Y * cWindow.DeltaTime));
+                    Vector2 finalVelocity = new Vector2(Convert.ToSingle(Velocity.X * cRenderer.DeltaTime), Convert.ToSingle(Velocity.Y * cRenderer.DeltaTime));
 
                     if (Mode == ParticleMode.AbsoluteVelocity)
                     {
@@ -199,7 +199,7 @@
 
                 Texture.Position = particle.Position;
 
-                Texture.Draw(cWindow);
+                Texture.Draw(cRenderer);
             }
         }
 

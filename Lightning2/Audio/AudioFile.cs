@@ -56,11 +56,11 @@
         /// <summary>
         /// Loads this audio file.
         /// </summary>
-        internal void Load()
+        internal override void Load(Renderer cRenderer)
         {
             AudioHandle = Mix_LoadWAV(Path);
 
-            if (AudioHandle == IntPtr.Zero) _ = new NCException($"Error loading audio file at {Path}: {SDL_mixer.Mix_GetError()}", 51, "An SDL_mixer error occurred in AudioFile::Load", NCExceptionSeverity.Error);
+            if (AudioHandle == IntPtr.Zero) _ = new NCException($"Error loading audio file at {Path}: {Mix_GetError()}", 51, "An SDL_mixer error occurred in AudioFile::Load", NCExceptionSeverity.Error);
 
             RealVolume = 1; // make sure there is always a value
         }
@@ -82,12 +82,12 @@
         /// <summary>
         /// Internal: Update positional sound volume based on current main camera position.
         /// </summary>
-        /// <param name="cWindow"></param>
-        internal void Update(Window cWindow)
+        /// <param name="cRenderer"></param>
+        internal void Update(Renderer cRenderer)
         {
             if (!PositionalSound) return;
 
-            Vector2 cameraPosition = cWindow.Settings.Camera.Position;
+            Vector2 cameraPosition = cRenderer.Settings.Camera.Position;
             Vector2 audioPosition = RenderPosition;
 
             // faster than math.pow

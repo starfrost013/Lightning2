@@ -124,7 +124,7 @@
                 if (!GlobalSettings.DontUseSceneManager)
                 {
                     Initialised = true;
-                    SceneManager.Init(new WindowSettings
+                    SceneManager.Init(new RendererSettings
                     {
                         Position = new Vector2(GlobalSettings.PositionX, GlobalSettings.PositionY),
                         Size = new Vector2(GlobalSettings.ResolutionX, GlobalSettings.ResolutionY),
@@ -154,22 +154,19 @@
             NCLogging.Init();
         }
 
-        public static void Shutdown(Window cWindow)
+        public static void Shutdown(Renderer cRenderer)
         {
             if (!Initialised) _ = new NCException("Attempted to shutdown without starting! Please call LightningGL::Init!", 95, "LightningGL::Initialised false when calling Lightning2::Shutdown", NCExceptionSeverity.FatalError);
             NCLogging.Log("Shutdown requested.");
 
-            NCLogging.Log("Calling UI shutdown events...");
-            UIManager.Shutdown(cWindow);
-
             if (GlobalSettings.ProfilePerformance)
             {
-                NCLogging.Log("Shutting down performance profiler...");
+                NCLogging.Log("Stopping performance profiling...");
                 PerformanceProfiler.Shutdown();
             }
 
-            NCLogging.Log("Destroying window and renderer...");
-            cWindow.Shutdown();
+            NCLogging.Log("Destroying renderer...");
+            cRenderer.Shutdown();
 
             NCLogging.Log("Shutting down the Font Manager...");
             FontManager.Shutdown();

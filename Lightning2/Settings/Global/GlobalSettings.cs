@@ -74,12 +74,12 @@
         public static bool ShowDebugInfo { get; internal set; }
 
         /// <summary>
-        /// See <see cref="WindowSettings.WindowFlags"/>
+        /// See <see cref="RendererSettings.WindowFlags"/>
         /// </summary>
         public static SDL_WindowFlags WindowFlags { get; internal set; }
 
         /// <summary>
-        /// See <see cref="WindowSettings.RenderFlags"/>
+        /// See <see cref="RendererSettings.RenderFlags"/>
         /// </summary>
         public static SDL_RendererFlags RenderFlags { get; internal set; }
 
@@ -111,7 +111,7 @@
         /// <summary>
         /// The rendering backend to use. Default is <see cref="Renderer.OpenGL"/>
         /// </summary>
-        public static Renderer Renderer { get; internal set; }
+        public static RenderingBackend RendererType { get; internal set; }
 
         /// <summary>
         /// Delta-time / tick speed multiplier
@@ -224,7 +224,7 @@
 
                 SDL_WindowFlags windowFlagsValue = 0;
                 SDL_RendererFlags renderFlagsValue = 0;
-                Renderer rendererValue = 0;
+                RenderingBackend rendererValue = 0;
 
                 // inexplicably the overload i used isn't supported here
                 _ = int.TryParse(resolutionX, out var resolutionXValue);
@@ -239,7 +239,7 @@
                 ResolutionY = resolutionYValue;
                 WindowFlags = windowFlagsValue;
                 RenderFlags = renderFlagsValue;
-                Renderer = rendererValue;
+                RendererType = rendererValue;
 
                 // parse positionX/positionY
                 _ = int.TryParse(positionX, out var positionXValue);

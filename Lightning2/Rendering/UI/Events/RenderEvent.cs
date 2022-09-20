@@ -5,9 +5,9 @@
     /// 
     /// Defines a LightningGL event called each time the window is rendered.
     /// </summary>
-    /// <param name="cWindow">The window that is currently being rendered.</param>
+    /// <param name="cRenderer">The window that is currently being rendered.</param>
     public delegate void RenderEvent
     (
-        Window cWindow
+        Renderer cRenderer
     );
 }

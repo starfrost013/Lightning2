@@ -21,7 +21,7 @@ namespace LightningGL
         public string Type { get; set; }
 
         /// <summary>
-        /// The keyframes of this animation property.
+        /// The keyframes of this animation property. See <see cref="AnimationKeyframe"/>
         /// </summary>
         public List<AnimationKeyframe> Keyframes { get; set; } 
 

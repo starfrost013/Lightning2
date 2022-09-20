@@ -1,17 +1,16 @@
 ﻿global using static LightningGL.Lightning;
-using System.Diagnostics;
 
 namespace LightningGL
 {
     /// <summary>
     /// Defines a LightningGL Window. 
     /// </summary>
-    public class Window
+    public class Renderer
     {
         /// <summary>
-        /// The settings of this window - see <see cref="WindowSettings"/>.
+        /// The settings of this window - see <see cref="RendererSettings"/>.
         /// </summary>
-        public WindowSettings Settings { get; internal set; }
+        public RendererSettings Settings { get; internal set; }
 
         /// <summary>
         /// Private: The time the current frame took. Used to measure FPS.
@@ -48,7 +47,12 @@ namespace LightningGL
         /// </summary>
         public bool EventWaiting { get; set; }
 
-        public Window()
+        /// <summary>
+        /// Composed renderable list
+        /// </summary>
+        private List<Renderable> Renderables { get; set; } 
+
+        public Renderer()
         {
             FrameTimer = new Stopwatch();
             // Start the delta timer.
@@ -59,11 +63,11 @@ namespace LightningGL
         /// <summary>
         /// Starts this window.
         /// </summary>
-        /// <param name="windowSettings">The window settings to use when starting this window - see <see cref="WindowSettings"/></param>
-        public void Start(WindowSettings windowSettings)
+        /// <param name="windowSettings">The window settings to use when starting this window - see <see cref="RendererSettings"/></param>
+        public void Start(RendererSettings windowSettings)
         {
             // Check that the engine has been started.
-            if (!Lightning.Initialised) _ = new NCException("You cannot start a window without initialising the engine - call Lightning::Init first!", 134, "Window::Start called before Lightning::Init!", NCExceptionSeverity.FatalError);
+            if (!Initialised) _ = new NCException("You cannot start a window without initialising the engine - call Lightning::Init first!", 134, "Window::Start called before Lightning::Init!", NCExceptionSeverity.FatalError);
 
             if (!GlobalSettings.DontUseSceneManager
                 && SceneManager.Initialised) _ = new NCException("GlobalSettings::DontUseSceneManager needs to be set to initialise Windows without using the Scene Manager!", 127, "Window::Init called when GlobalSettings::DontUseSceneManager is FALSE and SceneManager::Initialised is TRUE", NCExceptionSeverity.FatalError);
@@ -77,12 +81,13 @@ namespace LightningGL
             // set the renderer if the user specified one
             string renderer = SDLu_GetRenderDriverName();
 
-            if (GlobalSettings.Renderer != default(Renderer))
+            if (GlobalSettings.RendererType != default(RenderingBackend))
             {
                 // set the renderer
-                renderer = GlobalSettings.Renderer.ToString().ToLowerInvariant(); // needs to be lowercase
+                renderer = GlobalSettings.RendererType.ToString().ToLowerInvariant(); // needs to be lowercase
                 SDL_SetHintWithPriority("SDL_HINT_RENDER_DRIVER", renderer, SDL_HintPriority.SDL_HINT_OVERRIDE);
             }
+
             NCLogging.Log($"Using renderer: {renderer}");
 
             // Create the window,
@@ -152,31 +157,31 @@ namespace LightningGL
                             || curKey.Modifiers.HasFlag(SDL_Keymod.KMOD_RSHIFT))
                             && GlobalSettings.EngineAboutScreenOnShiftF9) ShowEngineAboutScreen();
 
-                        UIManager.KeyPressed(curKey);
+                        KeyPressed(curKey);
                         break;
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN: // Mouse down event
-                        UIManager.MousePressed(this, (MouseButton)currentEvent.button);
+                        MousePressed((MouseButton)currentEvent.button);
                         break;
                     case SDL_EventType.SDL_MOUSEBUTTONUP: // Mouse up event
-                        UIManager.MouseReleased(this, (MouseButton)currentEvent.button);
+                        MouseReleased((MouseButton)currentEvent.button);
                         break;
                     case SDL_EventType.SDL_MOUSEMOTION: // Mouse move event
-                        UIManager.MouseMove(this, (MouseButton)currentEvent.motion);
+                        MouseMove((MouseButton)currentEvent.motion);
                         break;
                     case SDL_EventType.SDL_WINDOWEVENT: // Window Event - check subtypes
                         switch (currentEvent.window.windowEvent)
                         {
                             case SDL_WindowEventID.SDL_WINDOWEVENT_ENTER:
-                                UIManager.MouseEnter();
+                                MouseEnter();
                                 break;
                             case SDL_WindowEventID.SDL_WINDOWEVENT_LEAVE:
-                                UIManager.MouseLeave();
+                                MouseLeave();
                                 break;
                             case SDL_WindowEventID.SDL_WINDOWEVENT_FOCUS_GAINED:
-                                UIManager.FocusGained();
+                                FocusGained();
                                 break;
                             case SDL_WindowEventID.SDL_WINDOWEVENT_FOCUS_LOST:
-                                UIManager.FocusLost();
+                                FocusLost();
                                 break;
                         }
 
@@ -195,28 +200,34 @@ namespace LightningGL
         /// </summary>
         public void Render()
         {
-            // Call all render events
-            UIManager.Render(this);
+            // Build a list of renderables to render from all asset managers.
+            List<Renderable> renderables = BuildRenderableList();
 
-            // Render all textures.
-            TextureManager.Render(this);
-
-            // Render all of the particle effects.
-            ParticleManager.Render(this);
+            // temporary compromise - we loaded new renderables
+            if (Renderables == null
+                || renderables.Count != Renderables.Count)
+            {
+                // we have to resort by z-index.
+                Renderables = renderables;
+                NCLogging.Log("Resorting renderable list by Z-index...");
+                Renderables.OrderBy(x => x.ZIndex);
+            }
+            
+            RenderAll();
 
             // Render the lightmap.
-            LightManager.Render(this);
+            LightManager.Update(this);
 
-            // Render audio.
+            // Update audio.
             AudioManager.Update(this);
 
             // Update the font manager
-            FontManager.Update();
+            FontManager.Update(this);
 
             // draw fps on top always (by drawing it last. we don't have zindex, but we will later). Also snap it to the screen like a hud element. 
             // check the showfps global setting first
             // do this BEFORE present. then measure frametime in Render_MeasureFps, this makes it accurate.
-            if (GlobalSettings.ShowDebugInfo) Render_DrawDebugInformation();
+            if (GlobalSettings.ShowDebugInfo) DrawDebugInformation();
 
             // Correctly draw the background
             SDL_SetRenderDrawColor(Settings.RendererHandle, Settings.BackgroundColor.R, Settings.BackgroundColor.G, Settings.BackgroundColor.B, Settings.BackgroundColor.A);
@@ -228,7 +239,7 @@ namespace LightningGL
             // Delay for frame limiter
             if (maxFps > 0)
             {
-                double targetFrameTime = (1000) / (double)maxFps;
+                double targetFrameTime = 1000 / (double)maxFps;
                 double actualFrameTime = DeltaTime;
 
                 double delayTime = targetFrameTime - actualFrameTime;
@@ -237,20 +248,22 @@ namespace LightningGL
             }
 
             // Update the internal FPS values.
-            Render_UpdateFps();
+            UpdateFps();
         }
 
         /// <summary>
         /// Draws debug information to the screen if the <see cref="GlobalSettings.ShowDebugInfo"/> setting is enabled.
         /// </summary>
-        private void Render_DrawDebugInformation()
+        private void DrawDebugInformation()
         {
             int currentY = (int)Settings.Camera.Position.Y;
+            int debugLineDistance = 12;
+
             PrimitiveRenderer.DrawText(this, $"FPS: {CurFPS.ToString("F1")} ({DeltaTime.ToString("F2")}ms)", new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 255, 255), true);
 
             if (CurFPS < GlobalSettings.MaxFPS)
             {
-                currentY += 12;
+                currentY += debugLineDistance;
 
                 int maxFps = GlobalSettings.MaxFPS;
 
@@ -259,11 +272,11 @@ namespace LightningGL
                 PrimitiveRenderer.DrawText(this, $"Running under target FPS ({maxFps})!", new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 0, 0), true);
             }
 
-            currentY += 12;
+            currentY += debugLineDistance;
             PrimitiveRenderer.DrawText(this, FrameNumber.ToString(), new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 255, 255), true);
         }
 
-        private void Render_UpdateFps()
+        private void UpdateFps()
         {
             // Set the current frame time.
             ThisTime = FrameTimer.ElapsedTicks;
@@ -285,7 +298,7 @@ namespace LightningGL
         {
             NCMessageBox messageBox = new()
             {
-                Text = $"Powered by LightningGL\n" +
+                Text = $"Powered by the Lightning Game Engine\n" +
                 $"Version {L2Version.LIGHTNING_VERSION_EXTENDED_STRING}",
                 Title = "About",
                 Icon = SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION
@@ -300,6 +313,8 @@ namespace LightningGL
         /// </summary>
         internal void Shutdown()
         {
+            NCLogging.Log("Renderer destruction requested. Calling UI shutdown events...");
+            NotifyShutdown();
             SDL_DestroyRenderer(Settings.RendererHandle);
             SDL_DestroyWindow(Settings.WindowHandle);
         }
@@ -327,5 +342,205 @@ namespace LightningGL
         /// </summary>
         /// <param name="fullscreen">A boolean determining if the window is fullscreen (TRUE) or windowed (FALSE)</param>
         public void SetFullscreen(bool fullscreen) => SDL_SetWindowFullscreen(Settings.WindowHandle, fullscreen ? (uint)SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
+
+        private List<Renderable> BuildRenderableList()
+        {
+            // lightmanager doesn't draw each frame and audiomanager needs to be updated on its own
+            List<Renderable> renderables = new List<Renderable>();
+
+            foreach (Renderable renderable in UIManager.Assets) renderables.Add(renderable);
+            foreach (Renderable renderable in TextureManager.Assets) renderables.Add(renderable);
+            foreach (Renderable renderable in ParticleManager.Assets) renderables.Add(renderable);
+            foreach (Renderable renderable in FontManager.Assets) renderables.Add(renderable);
+
+            return renderables;
+        }
+
+
+        #region Event handlers
+
+        /// <summary>
+        /// Renders all UI elements.
+        /// </summary>
+        /// <param name="cRenderer">The UI element to render.</param>
+        internal void RenderAll()
+        {
+            foreach (Renderable renderable in Renderables)
+            {
+                //if (renderable.Size == default) _ = new NCException($"Attempted to draw a gadget with no size, you will not see it!", 122, "Gadget::Size = (0,0)!", NCExceptionSeverity.Warning, null, true);
+                if (renderable.OnRender != null)
+                {
+                    renderable.OnRender(this);
+                    if (renderable.CurrentAnimation != null) renderable.CurrentAnimation.UpdateAnimationFor(renderable);
+                }
+            }
+        }
+
+        private void NotifyShutdown()
+        {
+            foreach (Renderable uiElement in Renderables)
+            {
+                if (uiElement.OnShutdown != null)
+                {
+                    uiElement.OnShutdown(this);
+                }
+            }
+        }
+
+        internal void MousePressed(MouseButton button)
+        {
+            // Check for a set camera and move relative to the position of that camera if it is set.
+            Camera currentCamera = Settings.Camera;
+
+            Vector2 cameraPosition = currentCamera.Position;
+
+            if (currentCamera != null)
+            {
+                // get the real position that we are checking
+                button.Position = new Vector2
+                    (cameraPosition.X + button.Position.X,
+                    cameraPosition.Y + button.Position.Y);
+            }
+
+            foreach (Renderable uiElement in Renderables)
+            {
+                bool intersects = AABB.Intersects(uiElement, button.Position);
+
+                // check if it is focused...
+                uiElement.Focused = intersects;
+
+                if (intersects
+                    && uiElement.OnMousePressed != null)
+                {
+                    uiElement.OnMousePressed(button);
+                }
+            }
+        }
+
+        internal void MouseReleased(MouseButton button)
+        {
+            // Check for a set camera and move relative to the position of that camera if it is set.
+            Camera currentCamera = Settings.Camera;
+
+            Vector2 cameraPosition = currentCamera.Position;
+
+            if (currentCamera != null)
+            {
+                // get the real position that we are checking
+                button.Position = new Vector2
+                    (cameraPosition.X + button.Position.X,
+                    cameraPosition.Y + button.Position.Y);
+            }
+
+            foreach (Renderable uiElement in Renderables)
+            {
+                bool intersects = AABB.Intersects(uiElement, button.Position);
+
+                // check if it is focused...
+                uiElement.Focused = intersects;
+
+                if (intersects
+                    && uiElement.OnMouseReleased != null)
+                {
+                    uiElement.OnMouseReleased(button);
+                }
+            }
+        }
+
+        internal void MouseEnter()
+        {
+            foreach (Renderable renderable in Renderables)
+            {
+                if (renderable.OnMouseEnter != null)
+                {
+                    renderable.OnMouseEnter();
+                }
+            }
+        }
+
+        internal void MouseLeave()
+        {
+            foreach (Renderable renderable in Renderables)
+            {
+                if (renderable.OnMouseLeave != null)
+                {
+                    renderable.OnMouseLeave();
+                }
+            }
+        }
+
+        internal void FocusGained()
+        {
+            foreach (Renderable renderable in Renderables)
+            {
+                if (renderable.OnFocusGained != null)
+                {
+                    renderable.OnFocusGained();
+                }
+            }
+        }
+
+        internal void FocusLost()
+        {
+            foreach (Renderable renderable in Renderables)
+            {
+                if (renderable.OnFocusLost != null)
+                {
+                    renderable.OnFocusLost();
+                }
+            }
+        }
+
+        internal void MouseMove(MouseButton button)
+        {
+            // Check for a set camera and move relative to the position of that camera if it is set.
+            Camera currentCamera = Settings.Camera;
+
+            Vector2 cameraPosition = currentCamera.Position;
+
+            if (currentCamera != null)
+            {
+                // get the real position that we are checking
+                button.Position = new Vector2
+                    (cameraPosition.X + button.Position.X,
+                    cameraPosition.Y + button.Position.Y);
+            }
+
+            foreach (Renderable renderable in Renderables)
+            {
+                if (renderable.OnMouseMove != null) // this one is passed regardless of intersection for things like button highlighting
+                {
+                    renderable.OnMouseMove(button);
+                }
+            }
+        }
+
+        internal void KeyPressed(Key key)
+        {
+            foreach (Renderable renderable in Renderables)
+            {
+                // check if the UI element is focused.
+                if (renderable.Focused
+                    && renderable.OnKeyPressed != null)
+                {
+                    renderable.OnKeyPressed(key);
+                }
+            }
+        }
+
+        internal void KeyReleased(Key key)
+        {
+            foreach (Renderable renderable in Renderables)
+            {
+                // check if the UI element is focused.
+                if (renderable.Focused
+                    && renderable.OnKeyReleased != null)
+                {
+                    renderable.OnKeyReleased(key);
+                }
+            }
+        }
+
+        #endregion
     }
 }

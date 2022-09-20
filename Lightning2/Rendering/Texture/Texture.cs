@@ -101,30 +101,33 @@ namespace LightningGL
         /// </summary>
         /// <param name="sizeX">The width of the texture in pixels.</param>
         /// <param name="sizeY">The height of the texture in pixels.</param>
-        public Texture(Window cWindow, float sizeX, float sizeY)
+        public Texture(Renderer cRenderer, float sizeX, float sizeY)
         {
             Size = new Vector2(sizeX, sizeY);
 
             if (Size == default) _ = new NCException($"Error creating texture: Must have a size!", 20, "Texture constructor called with invalid size", NCExceptionSeverity.FatalError);
 
-            Handle = SDL_CreateTexture(cWindow.Settings.RendererHandle, SDL_PIXELFORMAT_ARGB8888, SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, (int)Size.X, (int)Size.Y);
+            Handle = SDL_CreateTexture(cRenderer.Settings.RendererHandle, SDL_PIXELFORMAT_ARGB8888, SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, (int)Size.X, (int)Size.Y);
 
             // check if texture failed to load
             if (Handle == IntPtr.Zero) _ = new NCException($"Error creating texture: {SDL_GetError()}", 119, "An SDL error occurred in the Texture constructor", NCExceptionSeverity.FatalError);
 
-            Init_AllocFormat(cWindow);
+            OnRender += Draw;
+
+            Init_AllocFormat(cRenderer);
         }
 
         /// <summary>
-        /// Loads the texture for the window <see cref="cWindow"/>
+        /// Loads the texture for the window <see cref="cRenderer"/>
         /// </summary>
-        /// <param name="cWindow">The window to load the texture on.</param>
+        /// <param name="cRenderer">The window to load the texture on.</param>
         /// <exception cref="NCException">An error occurred loading the texture.</exception>
-        public virtual void Load(Window cWindow)
+        internal override void Load(Renderer cRenderer)
         {
+            if (Path == CREATED_TEXTURE_PATH) return;
             if (!File.Exists(Path)) _ = new NCException($"{Path} does not exist!", 9, "Texture::Path property does not exist", NCExceptionSeverity.FatalError);
 
-            Handle = IMG_LoadTexture(cWindow.Settings.RendererHandle, Path);
+            Handle = IMG_LoadTexture(cRenderer.Settings.RendererHandle, Path);
 
             if (Handle == IntPtr.Zero)
             {
@@ -139,11 +142,11 @@ namespace LightningGL
         /// <summary>
         /// Private method that allocates a texture format based on the window pixel format for this texture during loading. 
         /// </summary>
-        /// <param name="cWindow">The window to allocate the texture format for this texture.</param>
+        /// <param name="cRenderer">The window to allocate the texture format for this texture.</param>
         /// <exception cref="NCException">An error occurred while allocating a texture format.</exception>
-        private void Init_AllocFormat(Window cWindow)
+        private void Init_AllocFormat(Renderer cRenderer)
         {
-            uint currentFormat = SDL_GetWindowPixelFormat(cWindow.Settings.WindowHandle);
+            uint currentFormat = SDL_GetWindowPixelFormat(cRenderer.Settings.WindowHandle);
 
             FormatHandle = SDL_AllocFormat(currentFormat);
 
@@ -247,9 +250,9 @@ namespace LightningGL
         /// <summary>
         /// Draws this texture instance.
         /// </summary>
-        /// <param name="cWindow">The window to draw this texture to.</param>
+        /// <param name="cRenderer">The window to draw this texture to.</param>
         /// <exception cref="NCException">An error occurred rendering the texture. Extended information is available in <see cref="NCException.Description"/></exception>
-        public override void Draw(Window cWindow)
+        internal override void Draw(Renderer cRenderer)
         {
             if (!Loaded
                 && _path != null) _ = new NCException($"Texture {Path} being drawn without being loaded, you will see a black box!", 94, "Texture with image not loaded (Texture::Loaded = false)", NCExceptionSeverity.Warning, null, true); // don't show a message box
@@ -289,7 +292,7 @@ namespace LightningGL
                 destinationRect.h = ViewportEnd.Y - ViewportStart.Y;
             }
 
-            Camera curCamera = cWindow.Settings.Camera;
+            Camera curCamera = cRenderer.Settings.Camera;
 
             if (curCamera != null
                 && !SnapToScreen)
@@ -301,7 +304,7 @@ namespace LightningGL
             if (Repeat == default)
             {
                 // call to SDL - we are simply drawing it once.
-                SDL_RenderCopyF(cWindow.Settings.RendererHandle, Handle, ref sourceRect, ref destinationRect);
+                SDL_RenderCopyF(cRenderer.Settings.RendererHandle, Handle, ref sourceRect, ref destinationRect);
             }
             else
             {
@@ -310,11 +313,11 @@ namespace LightningGL
                 // Draws a tiled texture.
                 for (int y = 0; y < Repeat.Y; y++)
                 {
-                    SDL_RenderCopyF(cWindow.Settings.RendererHandle, Handle, ref sourceRect, ref newRect);
+                    SDL_RenderCopyF(cRenderer.Settings.RendererHandle, Handle, ref sourceRect, ref newRect);
 
                     for (int x = 0; x < Repeat.X; x++)
                     {
-                        SDL_RenderCopyF(cWindow.Settings.RendererHandle, Handle, ref sourceRect, ref newRect);
+                        SDL_RenderCopyF(cRenderer.Settings.RendererHandle, Handle, ref sourceRect, ref newRect);
 
                         newRect.x += destinationRect.w;
                     }

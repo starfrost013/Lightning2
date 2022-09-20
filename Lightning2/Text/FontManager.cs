@@ -22,9 +22,9 @@
             Cache = new FontCache();
         }
 
-        public override void AddAsset(Window cWindow, Font asset) => LoadFont(asset.Name, asset.Size, asset.FriendlyName, asset.Path, asset.Index);
+        public override void AddAsset(Renderer cRenderer, Font asset) => LoadFont(asset.Name, asset.FontSize, asset.FriendlyName, asset.Path, asset.Index);
 
-        public override void RemoveAsset(Window cWindow, Font asset) => asset.Unload();
+        public override void RemoveAsset(Renderer cRenderer, Font asset) => asset.Unload();
 
         /// <summary>
         /// Acquires a Font if it is loaded, given its <see cref="Font.FriendlyName"/>.
@@ -104,7 +104,7 @@
             if (text.Contains('\n')) return GetLargestTextSize(font, text);
 
             if (font == null
-                || !Assets.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.Size}) before trying to use it!", 81, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
+                || !Assets.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.FontSize}) before trying to use it!", 81, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
 
             int fontSizeX,
                 fontSizeY;
@@ -142,7 +142,7 @@
 
             // check it's a real font
             if (font == null
-            || !Assets.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.Size}) before trying to use it!", 82, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
+            || !Assets.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.FontSize}) before trying to use it!", 82, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
 
             string[] lines = text.Split('\n');
 
@@ -176,7 +176,7 @@
         /// <summary>
         /// Draws text to the screen.
         /// </summary>
-        /// <param name="cWindow">The Window to draw this text to.</param>
+        /// <param name="cRenderer">The Window to draw this text to.</param>
         /// <param name="text">The text to draw.</param>
         /// <param name="font">The <see cref="Font.FriendlyName"/> of the <see cref="Font"/> to draw this text in.</param>
         /// <param name="position">The position to draw the text.</param>
@@ -187,12 +187,12 @@
         /// <param name="lineLength">Optional: Maximum line length in pixels. Ignores newlines.</param>
         /// <param name="smoothingType">Optional: The <see cref="FontSmoothingType"/> of the text.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public void DrawText(Window cWindow, string text, string font, Vector2 position, Color foreground, Color background = default(Color),
+        public void DrawText(Renderer cRenderer, string text, string font, Vector2 position, Color foreground, Color background = default(Color),
             TTF_FontStyle style = TTF_FontStyle.Normal, int outlineSize = -1, int lineLength = -1, FontSmoothingType smoothingType = FontSmoothingType.Default,
             bool snapToScreen = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = cWindow.Settings.Camera;
+            Camera currentCamera = cRenderer.Settings.Camera;
 
             if (currentCamera != null
                 && !snapToScreen)
@@ -256,14 +256,14 @@
                 if (numberOfLines > 1) totalSizeX = (int)GetLargestTextSize(curFont, text).X;
 
                 // camera-aware is false for this as we have already "pushed" the position, so we don't need to do it again.
-                PrimitiveRenderer.DrawRectangle(cWindow, position, new(totalSizeX, totalSizeY), Color.FromArgb(bgColor.a, bgColor.r, bgColor.g, bgColor.b), true, default, default, true);
+                PrimitiveRenderer.DrawRectangle(cRenderer, position, new(totalSizeX, totalSizeY), Color.FromArgb(bgColor.a, bgColor.r, bgColor.g, bgColor.b), true, default, default, true);
             }
 
             // use the cached entry if it exists
             FontCacheEntry cacheEntry = Cache.GetEntry(font, text, fgColor, style, smoothingType, outlineSize, bgColor);
 
             // if it doesn't exist add it
-            if (cacheEntry == null) cacheEntry = Cache.AddEntry(cWindow, font, text, fgColor, style, smoothingType, outlineSize, bgColor);
+            if (cacheEntry == null) cacheEntry = Cache.AddEntry(cRenderer, font, text, fgColor, style, smoothingType, outlineSize, bgColor);
 
             cacheEntry.UsedThisFrame = true;
 
@@ -278,7 +278,7 @@
                 fontDstRect.w = fontSrcRect.w;
                 fontDstRect.h = fontSrcRect.h;
 
-                SDL_RenderCopy(cWindow.Settings.RendererHandle, line.Handle, ref fontSrcRect, ref fontDstRect);
+                SDL_RenderCopy(cRenderer.Settings.RendererHandle, line.Handle, ref fontSrcRect, ref fontDstRect);
 
                 // increment by the line length
                 if (lineLength < 0)
@@ -295,7 +295,7 @@
             if (outlineSize > -1) TTF_SetFontOutline(curFont.Handle, -1);
         }
 
-        internal void Update()
+        internal override void Update(Renderer cRenderer)
         {
             Cache.PurgeUnusedEntries();
             foreach (FontCacheEntry entry in Cache.Entries) entry.UsedThisFrame = false;

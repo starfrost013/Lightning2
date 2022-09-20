@@ -15,45 +15,16 @@
         public static bool SnapToScreen { get; set; }
 
         // this is here for reasons (so that it can be used from using static LightningGL.Window)
-        public override void AddAsset(Window cWindow, Texture asset)
+        public override void AddAsset(Renderer cRenderer, Texture asset)
         {
-            if (asset.Path != Texture.CREATED_TEXTURE_PATH) asset.Load(cWindow);
+            asset.Load(cRenderer);
             Assets.Add(asset);
         }
 
-        public override void RemoveAsset(Window cWindow, Texture asset)
+        public override void RemoveAsset(Renderer cRenderer, Texture asset)
         {
             asset.Unload();
             Assets.Remove(asset);
         }
-
-        /// <summary>
-        /// Renders all of the textures in the texture manager.
-        /// </summary>
-        /// <param name="cWindow">The window to render the textures to.</param>
-        internal void Render(Window cWindow)
-        {
-            Camera curCamera = cWindow.Settings.Camera;
-
-            foreach (Texture texture in Assets)
-            {
-                if (curCamera != null
-                    && !texture.SnapToScreen)
-                {
-                    texture.RenderPosition = new Vector2
-                        (
-                            texture.Position.X - curCamera.Position.X,
-                            texture.Position.Y - curCamera.Position.Y
-                        );
-                }
-                else
-                {
-                    texture.RenderPosition = texture.Position;
-                }
-
-                texture.Draw(cWindow);
-            }
-        }
-
     }
 }

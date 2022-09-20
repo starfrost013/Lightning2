@@ -16,10 +16,10 @@
             Entries = new List<FontCacheEntry>();
         }
 
-        internal FontCacheEntry AddEntry(Window cWindow, string font, string text,
+        internal FontCacheEntry AddEntry(Renderer cRenderer, string font, string text,
             SDL_Color color, TTF_FontStyle style, FontSmoothingType type = FontSmoothingType.Default, int outlineSize = -1, SDL_Color bgColor = default)
         {
-            FontCacheEntry entry = FontCacheEntry.Render(cWindow, font, text, color, style, type, outlineSize, bgColor);
+            FontCacheEntry entry = FontCacheEntry.Render(cRenderer, font, text, color, style, type, outlineSize, bgColor);
             Entries.Add(entry);
             return entry;
         }

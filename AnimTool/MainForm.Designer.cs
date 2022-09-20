@@ -41,8 +41,8 @@
             this.removeCurrentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewAPIReferenceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.propertiesTabPage = new System.Windows.Forms.TabPage();
             this.animationLengthLabel = new System.Windows.Forms.Label();
             this.propertyTypeTextLabel = new System.Windows.Forms.Label();
@@ -160,18 +160,19 @@
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
+            // viewAPIReferenceToolStripMenuItem
+            // 
+            this.viewAPIReferenceToolStripMenuItem.Name = "viewAPIReferenceToolStripMenuItem";
+            this.viewAPIReferenceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewAPIReferenceToolStripMenuItem.Text = "View API Reference";
+            this.viewAPIReferenceToolStripMenuItem.Click += new System.EventHandler(this.viewAPIReferenceToolStripMenuItem_Click);
+            // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-            // 
-            // viewAPIReferenceToolStripMenuItem
-            // 
-            this.viewAPIReferenceToolStripMenuItem.Name = "viewAPIReferenceToolStripMenuItem";
-            this.viewAPIReferenceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.viewAPIReferenceToolStripMenuItem.Text = "View API Reference";
             // 
             // propertiesTabPage
             // 
@@ -347,7 +348,6 @@
         private Label valueLabel;
         private Label propertyTypeLabel;
         private Label propertyNameLabel;
-        private Label label5;
         private ToolStripMenuItem setLengthToolStripMenuItem;
         private Label animationLengthLabel;
         private Label propertyTypeTextLabel;
