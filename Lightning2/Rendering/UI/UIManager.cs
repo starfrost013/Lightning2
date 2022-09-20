@@ -33,7 +33,7 @@ namespace LightningGL
         public static void RemoveElement(Gadget gadget)
         {
             if (!Gadgets.Contains(gadget)) _ = new NCException($"Attempted to remove a gadget of type ({gadget.GetType().Name} that is not in the UI Manager - you must add it first!", 135, "Called UIManager::RemoveElement with a gadget property that does not correspond to a Gadget loaded by the UI Manager!", NCExceptionSeverity.Warning);
-            NCLogging.Log($"Removing Gadget::{gadget.GetType().Name} from UIManager");
+            NCLogging.Log($"Removing a Gadget::{gadget.GetType().Name} from UIManager");
             Gadgets.Remove(gadget);
         }
 

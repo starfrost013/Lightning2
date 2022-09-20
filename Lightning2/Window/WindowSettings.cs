@@ -58,6 +58,9 @@ namespace LightningGL
                     || _position.X > SystemInfo.ScreenResolutionX
                     || _position.Y > SystemInfo.ScreenResolutionY) _ = new NCException($"Attempted to change window to illegal position ({_position.X},{_position.Y}!). Range is 0,0 to {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY}", 118, "Set accessor of WindowSettings::Size detected an attempt to resize to an invalid window size", NCExceptionSeverity.FatalError);
 
+                GlobalSettings.PositionX = Convert.ToUInt32(_position.X);
+                GlobalSettings.PositionY = Convert.ToUInt32(_position.Y);
+
                 if (WindowHandle != default) SDL_SetWindowPosition(WindowHandle, Convert.ToInt32(_position.X), Convert.ToInt32(_position.Y));
             }
         }
@@ -85,6 +88,9 @@ namespace LightningGL
                     || _size.Y < 48
                     || _size.X > SystemInfo.ScreenResolutionX
                     || _size.Y > SystemInfo.ScreenResolutionY) _ = new NCException($"Attempted to change window to illegal resolution ({_size.X},{_size.Y}!). Range is 1,1 to {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY}", 117, "Set accessor of WindowSettings::Size detected an attempt to resize to an invalid window size", NCExceptionSeverity.FatalError);
+
+                GlobalSettings.ResolutionX = Convert.ToUInt32(_size.X);
+                GlobalSettings.ResolutionY = Convert.ToUInt32(_size.Y);
 
                 if (WindowHandle != default) SDL_SetWindowSize(WindowHandle, Convert.ToInt32(_size.X), Convert.ToInt32(_size.Y));
             }
