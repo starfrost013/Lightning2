@@ -382,6 +382,8 @@ namespace LightningGL
             {
                 if (uiElement.OnShutdown != null)
                 {
+                    // stop animating this renderable - prevents "collection modified" issues
+                    uiElement.StopCurrentAnimation();
                     uiElement.OnShutdown(this);
                 }
             }

@@ -9,7 +9,7 @@
     /// </summary>
     public class AnimationAssetManager : AssetManager<Animation>
     {
-        public override void AddAsset(Renderer cRenderer, Animation asset)
+        public override Animation AddAsset(Renderer cRenderer, Animation asset)
         {
             if (!File.Exists(asset.Path)) _ = new NCException("Attempted to load a nonexistent animation", 138,
                 "Animation::Load called with Path property that does not point to a valid path!", NCExceptionSeverity.FatalError);
@@ -37,6 +37,7 @@
             // load the asset
             asset.Loaded = true;
             Assets.Add(asset);
+            return asset;
         }
 
         public Animation GetAnimationWithPath(string path)
@@ -57,6 +58,15 @@
             }
 
             return null;
+        }
+
+        public void Shutdown()
+        {
+            foreach (Animation animation in Assets)
+            {
+                NCLogging.Log($"Unloading animation {animation.Name} (path {animation.Path})...");
+                animation.Unload();
+            }
         }
     }
 }

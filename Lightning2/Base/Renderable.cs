@@ -122,7 +122,7 @@
         internal bool Loaded { get; set; }
 
         /// <summary>
-        /// List of animations in this Renderable
+        /// The current animation of this Renderable
         /// </summary>
         public Animation CurrentAnimation { get; private set; }
 
@@ -135,6 +135,11 @@
         /// Boolean determining if this animation is running automatically.
         /// </summary>
         internal bool AnimationRunning => AnimationTimer.IsRunning;
+
+        public Renderable()
+        {
+            AnimationTimer = new Stopwatch();
+        }
 
         /// <summary>
         /// Sets the animation of this Renderable. 
@@ -153,6 +158,11 @@
             CurrentAnimation = animation;
         }
 
+        public virtual void StartCurrentAnimation() => CurrentAnimation.StartAnimationFor(this);
+
+        public virtual void StopCurrentAnimation() => CurrentAnimation.StopAnimationFor(this);
+
+        public virtual void UpdateCurrentAnimation() => CurrentAnimation.UpdateAnimationFor(this);
         /// <summary>
         /// The Z-Index (priority) of this renderable.
         /// </summary>

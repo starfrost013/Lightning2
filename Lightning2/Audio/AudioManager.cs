@@ -9,7 +9,12 @@
     /// </summary>
     public class AudioAssetManager : AssetManager<AudioFile>
     {
-        public override void AddAsset(Renderer cRenderer, AudioFile asset) => LoadFile(cRenderer, asset.Path, asset.Name);
+        public override AudioFile AddAsset(Renderer cRenderer, AudioFile asset)
+        {
+            LoadFile(cRenderer, asset.Path, asset.Name);
+            return asset;
+        }
+
 
         /// <summary>
         /// Loads the audio file at path <see cref="Path"/>, if it exists.

@@ -24,10 +24,11 @@
         /// </summary>
         /// <param name="cRenderer">The window to add the particle effect for.</param>
         /// <param name="asset">The particle effect to add to the window.</param>
-        public override void AddAsset(Renderer cRenderer, ParticleEffect asset)
+        public override ParticleEffect AddAsset(Renderer cRenderer, ParticleEffect asset)
         {
             asset.Load(cRenderer);
             Assets.Add(asset);
+            return asset;
         }
 
         /// <summary>

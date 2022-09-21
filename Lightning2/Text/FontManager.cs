@@ -22,7 +22,11 @@
             Cache = new FontCache();
         }
 
-        public override void AddAsset(Renderer cRenderer, Font asset) => LoadFont(asset.Name, asset.FontSize, asset.FriendlyName, asset.Path, asset.Index);
+        public override Font AddAsset(Renderer cRenderer, Font asset)
+        {
+            LoadFont(asset.Name, asset.FontSize, asset.FriendlyName, asset.Path, asset.Index);
+            return asset;
+        }
 
         public override void RemoveAsset(Renderer cRenderer, Font asset) => asset.Unload();
 

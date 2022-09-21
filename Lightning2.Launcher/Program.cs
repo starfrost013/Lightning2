@@ -241,11 +241,15 @@ UIManager.AddAsset(cRenderer, checkBox1);
 TextureManager.AddAsset(cRenderer, texture);
 TextureManager.AddAsset(cRenderer, animatedTexture1);
 
-AnimationManager.AddAsset(cRenderer, new Animation(@"Content\Animations\TestAnimation.json")) ;
+Animation anim1 = new Animation(@"Content\Animations\TestAnimation.json");
+anim1 = AnimationManager.AddAsset(cRenderer, anim1) ;
 
+texture.ZIndex = -9999999;
+texture.SetAnimation(anim1);
+
+anim1.StartAnimationFor(texture);
 while (cRenderer.Run())
 {
-    
     SDL.SDL_Event curEvent = cRenderer.LastEvent;
 
     if (cRenderer.EventWaiting)

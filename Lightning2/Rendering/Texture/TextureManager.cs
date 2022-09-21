@@ -14,17 +14,35 @@
         /// </summary>
         public static bool SnapToScreen { get; set; }
 
-        // this is here for reasons (so that it can be used from using static LightningGL.Window)
-        public override void AddAsset(Renderer cRenderer, Texture asset)
+        // this is here for reasons (so that it can be used from using static LightningGL.Lightning)
+        public override Texture AddAsset(Renderer cRenderer, Texture asset)
         {
             asset.Load(cRenderer);
             Assets.Add(asset);
+            return asset;
         }
 
         public override void RemoveAsset(Renderer cRenderer, Texture asset)
         {
             asset.Unload();
             Assets.Remove(asset);
+        }
+
+        public Texture GetInstanceOfTexture(Renderer cRenderer, string path)
+        {
+            foreach (Texture texture in Assets)
+            {
+                if (texture.Path == path)
+                {
+                    return new Texture(cRenderer, texture.Size.X, texture.Size.Y)
+                    {
+                        Handle = texture.Handle,
+                        FormatHandle = texture.FormatHandle
+                    };
+                }
+            }
+
+            return null;
         }
     }
 }

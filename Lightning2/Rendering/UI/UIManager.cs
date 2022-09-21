@@ -13,10 +13,11 @@
         /// Adds a <see cref="Gadget"/> to the UI manager.
         /// </summary>
         /// <param name="gadget">The <see cref=""/></param>
-        public override void AddAsset(Renderer cRenderer, Gadget gadget)
+        public override Gadget AddAsset(Renderer cRenderer, Gadget gadget)
         {
             NCLogging.Log($"Creating new Gadget::{gadget.GetType().Name}");
             Assets.Add(gadget);
+            return gadget;
         }
 
         public override void RemoveAsset(Renderer cRenderer, Gadget gadget)

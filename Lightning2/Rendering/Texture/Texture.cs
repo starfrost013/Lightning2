@@ -43,7 +43,7 @@ namespace LightningGL
         /// <summary>
         /// Pointer to unmanaged memory for the SDL_Texture of this Texture.
         /// </summary>
-        public IntPtr Handle { get; private set; }
+        public IntPtr Handle { get; internal set; }
 
         /// <summary>
         /// Pointer to unmanaged SDL_Texture pixels.
@@ -89,7 +89,7 @@ namespace LightningGL
         /// <summary>
         /// Private: Texture format allocated for internal use
         /// </summary>
-        private IntPtr FormatHandle { get; set; }
+        internal IntPtr FormatHandle { get; set; }
 
         /// <summary>
         /// Types of texture acess.

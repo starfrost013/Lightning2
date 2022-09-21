@@ -18,27 +18,27 @@
         },
         {
           "Position": 1500,
-          "Value": "300, 240"
+          "Value": "300, 245"
         },
         {
           "Position": 2000,
-          "Value": "400, 240"
+          "Value": "400, 255"
         },
         {
           "Position": 2500,
-          "Value": "450, 240"
+          "Value": "450, 280"
         },
         {
           "Position": 3000,
-          "Value": "500, 240"
+          "Value": "500, 350"
         },
         {
           "Position": 3500,
-          "Value": "550, 240"
+          "Value": "550, 500"
         },
         {
           "Position": 4000,
-          "Value": "600, 240"
+          "Value": "600, 700"
         }
       ]
     }

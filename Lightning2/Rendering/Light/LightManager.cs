@@ -44,11 +44,12 @@
         /// </summary>
         /// <param name="window">The window to add the light to.</param>
         /// <param name="asset">The <see cref="Light"/> object to add to the light manager.</param>
-        public override void AddAsset(Renderer window, Light asset)
+        public override Light AddAsset(Renderer window, Light asset)
         {
             if (ScreenSpaceMap.Handle == IntPtr.Zero) _ = new NCException("The Light Manager must be initialised before using it!", 61, "LightManager::AddLight called before LightManager::Init!", NCExceptionSeverity.FatalError);
             asset.RenderToTexture(window);
             Assets.Add(asset);
+            return asset;
         }
 
         /// <summary>

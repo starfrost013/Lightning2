@@ -5,7 +5,7 @@ using System.Reflection;
 
 [assembly: AssemblyVersion("1.1.0.206")]
 [assembly: AssemblyFileVersion("1.1.0.206")]
-[assembly: AssemblyInformationalVersion("1.1.0-alpha build 206, built 2022-09-20 12:16:08")]
+[assembly: AssemblyInformationalVersion("1.1.0-alpha build 206, built 2022-09-20 14:18:10")]
 [assembly: AssemblyTitle("Lightning Packaging Library")]
 
 namespace LightningPackager
@@ -19,7 +19,7 @@ namespace LightningPackager
 		public static string LIGHTNING_VERSION_SPECIFIER = "-alpha";
 		public static string LIGHTNING_VERSION_STRING = "1.1.0-alpha";
 		public static string LIGHTNING_VERSION_BUILD_STRING = "1.1.0.206";
-		public static string LIGHTNING_VERSION_EXTENDED_STRING = "1.1.0-alpha build 206, built 2022-09-20 12:16:08";
+		public static string LIGHTNING_VERSION_EXTENDED_STRING = "1.1.0-alpha build 206, built 2022-09-20 14:18:10";
 	}
 }
 

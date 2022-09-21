@@ -26,7 +26,7 @@ namespace LightningGL
         /// </summary>
         public bool Initialised { get; private set; }
 
-        public override void AddAsset(Renderer cRenderer, Scene asset)
+        public override Scene AddAsset(Renderer cRenderer, Scene asset)
         {
             throw new NotImplementedException("AddAsset not implemented for SceneManager");
         }
