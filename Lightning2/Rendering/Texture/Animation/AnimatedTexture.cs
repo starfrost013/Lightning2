@@ -172,6 +172,26 @@
         public override void SetPixel(int x, int y, Color color, bool unlockNow = false) => CurrentTexture.SetPixel(x, y, color, unlockNow);
 
         /// <summary>
+        /// Gets a pixel for every frame of this animated texture.
+        /// </summary>
+        /// <param name="x">The X position of the pixel.</param>
+        /// <param name="y">The Y position of the pixel.</param>
+        /// <param name="unlockNow">Unlocks the texture immediately - use this if you do not need to draw any more pixels</param>
+        /// <exception cref="NCException">An invalid coordinate was supplied or the texture does not have a valid size.</exception>
+        /// <returns>A <see cref="List{T}"/> object containing the color of the pixels corresponding to the <paramref name="x"/> and <paramref name="y"/> parameters for each frame of this AnimatedTexture.</returns>
+        public List<Color> GetPixelGlobal(int x, int y, bool unlockNow = false)
+        {
+            List<Color> colours = new List<Color>();
+
+            foreach (Texture texture in Frames)
+            {
+                colours.Add(texture.GetPixel(x, y, unlockNow));
+            }
+
+            return colours;
+        }
+
+        /// <summary>
         /// Sets a pixel on every frame of this animated texture.
         /// </summary>
         /// <param name="x">The X coordinate of the pixel to set.</param>

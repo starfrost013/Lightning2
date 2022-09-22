@@ -3,9 +3,9 @@
 
 using System.Reflection;
 
-[assembly: AssemblyVersion("1.1.0.206")]
-[assembly: AssemblyFileVersion("1.1.0.206")]
-[assembly: AssemblyInformationalVersion("1.1.0-alpha build 206, built 2022-09-20 14:18:10")]
+[assembly: AssemblyVersion("1.1.0.207")]
+[assembly: AssemblyFileVersion("1.1.0.207")]
+[assembly: AssemblyInformationalVersion("1.1.0-alpha build 207, built 2022-09-21 21:59:41")]
 [assembly: AssemblyTitle("Lightning Packaging Library")]
 
 namespace LightningPackager
@@ -15,11 +15,11 @@ namespace LightningPackager
 		public static int LIGHTNING_VERSION_MAJOR = 1;
 		public static int LIGHTNING_VERSION_MINOR = 1; 
 		public static int LIGHTNING_VERSION_REVISION = 0;
-		public static int LIGHTNING_VERSION_BUILD = 206;
+		public static int LIGHTNING_VERSION_BUILD = 207;
 		public static string LIGHTNING_VERSION_SPECIFIER = "-alpha";
 		public static string LIGHTNING_VERSION_STRING = "1.1.0-alpha";
-		public static string LIGHTNING_VERSION_BUILD_STRING = "1.1.0.206";
-		public static string LIGHTNING_VERSION_EXTENDED_STRING = "1.1.0-alpha build 206, built 2022-09-20 14:18:10";
+		public static string LIGHTNING_VERSION_BUILD_STRING = "1.1.0.207";
+		public static string LIGHTNING_VERSION_EXTENDED_STRING = "1.1.0-alpha build 207, built 2022-09-21 21:59:41";
 	}
 }
 
