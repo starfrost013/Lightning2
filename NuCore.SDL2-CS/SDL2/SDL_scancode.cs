@@ -33,7 +33,7 @@
  */
 #endregion
 
-namespace NuCore.SDL2
+namespace LightningBase
 {
     public static partial class SDL
     {

@@ -4,7 +4,7 @@
 #region Global using statements
 global using LightningPackager;
 global using Newtonsoft.Json;
-global using NuCore.SDL2;
+global using LightningBase;
 global using NuCore.Utilities;
 global using System;
 global using System.Collections.Generic;
@@ -17,10 +17,10 @@ global using System.Linq;
 global using System.Numerics;
 global using System.Reflection;
 global using System.Runtime.InteropServices;
-global using static NuCore.SDL2.FreeType2; // FreeType2 bindings
-global using static NuCore.SDL2.SDL;
-global using static NuCore.SDL2.SDL_image;
-global using static NuCore.SDL2.SDL_gfx;
-global using static NuCore.SDL2.SDL_mixer;
-global using static NuCore.SDL2.SDL_ttf;
+global using static LightningBase.FreeType2; // FreeType2 bindings
+global using static LightningBase.SDL;
+global using static LightningBase.SDL_image;
+global using static LightningBase.SDL_gfx;
+global using static LightningBase.SDL_mixer;
+global using static LightningBase.SDL_ttf;
 #endregion

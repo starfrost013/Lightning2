@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NuCore.SDL2
+namespace LightningBase
 {
     public struct FT_Vector
     {

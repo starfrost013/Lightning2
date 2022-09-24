@@ -30,10 +30,10 @@
 #region Using Statements
 using System;
 using System.Runtime.InteropServices;
-using static NuCore.SDL2.Utf8Marshaling;
+using static LightningBase.Utf8Marshaling;
 #endregion
 
-namespace NuCore.SDL2
+namespace LightningBase
 {
     /// <summary>
     /// FreeType2 bindings

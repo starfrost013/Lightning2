@@ -31,7 +31,7 @@ using System.Runtime.InteropServices;
  */
 #endregion
 
-namespace NuCore.SDL2
+namespace LightningBase
 {
     /// <summary>
     /// P/Invoke definitions for SDL2_gfx 

@@ -1,4 +1,4 @@
-﻿using static NuCore.SDL2.SDL_image;
+﻿using static LightningBase.SDL_image;
 
 namespace LightningGL
 {

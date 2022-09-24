@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using static NuCore.SDL2.SDL;
+using static LightningBase.SDL;
 
 namespace NuCore.Utilities
 {

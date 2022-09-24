@@ -1,4 +1,4 @@
-﻿namespace NuCore.SDL2
+﻿namespace LightningBase
 {
     /// <summary>
     /// This is not an enum because it needs to be a set of strings.

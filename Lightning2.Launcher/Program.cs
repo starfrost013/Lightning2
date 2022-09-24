@@ -4,7 +4,7 @@
 // © 2022 starfrost
 
 using LightningGL;
-using NuCore.SDL2;
+using LightningBase;
 using System.Drawing;
 using System.Numerics;
 using static LightningGL.Lightning;

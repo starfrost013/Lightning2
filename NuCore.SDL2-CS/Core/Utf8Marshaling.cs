@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
-using static NuCore.SDL2.SDL;
+using static LightningBase.SDL;
 
-namespace NuCore.SDL2
+namespace LightningBase
 {
     /// <summary>
     /// Utf8Marshaling

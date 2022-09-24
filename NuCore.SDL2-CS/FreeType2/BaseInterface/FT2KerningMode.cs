@@ -1,4 +1,4 @@
-﻿namespace NuCore.SDL2
+﻿namespace LightningBase
 {
     public enum FT2KerningMode
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace NuCore.SDL2
+namespace LightningBase
 {
     /// <summary>
     /// Defines a Freetype2 glyph slot.
