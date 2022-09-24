@@ -239,6 +239,25 @@ UIManager.AddAsset(cRenderer, textBox1);
 UIManager.AddAsset(cRenderer, checkBox1);
 
 TextureManager.AddAsset(cRenderer, texture);
+
+// bug:
+// as it is the same handle, setpixel changes pixel for every single texture 
+Texture texture2 = TextureManager.GetInstanceOfTexture(cRenderer, texture);
+
+for (int x = 0; x < texture2.Size.X; x++)
+{
+    r += (byte)rnd.Next(-5, 5);
+    g += (byte)rnd.Next(-5, 5);
+    b += (byte)rnd.Next(-5, 5);
+    a += (byte)rnd.Next(-5, 5);
+
+    for (int y = 0; y < texture2.Size.Y; y++) texture2.SetPixel(x, y, Color.FromArgb(a, r, g, b));
+}
+
+texture2.Unlock();
+texture2.Position = new(-200, 0);
+TextureManager.AddAsset(cRenderer, texture2);
+
 TextureManager.AddAsset(cRenderer, animatedTexture1);
 
 Animation anim1 = new Animation(@"Content\Animations\TestAnimation.json");

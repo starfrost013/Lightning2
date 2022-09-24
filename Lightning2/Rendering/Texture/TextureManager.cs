@@ -44,5 +44,31 @@
 
             return null;
         }
+
+        public Texture GetInstanceOfTexture(Renderer cRenderer, Texture texture, bool clone = true)
+        {
+            if (Assets.Contains(texture))
+            {
+                Texture newTexture = new(cRenderer, texture.Size.X, texture.Size.Y)
+                {
+                    FormatHandle = texture.FormatHandle
+                };
+
+                // not sure if this is the best solution
+                if (clone)
+                {
+                    newTexture.Handle = texture.Handle;
+                }
+                else
+                {
+                    // especially this
+                    newTexture.Handle = IMG_LoadTexture(cRenderer.Settings.RendererHandle, texture.Path);
+                }
+
+                return newTexture;
+            }
+
+            return null;
+        }
     }
 }

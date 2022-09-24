@@ -104,6 +104,7 @@ namespace LightningGL
         public Texture(Renderer cRenderer, float sizeX, float sizeY, SDL_TextureAccess access = SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING)
         {
             Size = new Vector2(sizeX, sizeY);
+            Access = access;
 
             if (Size == default) _ = new NCException($"Error creating texture: Must have a size!", 20, "Texture constructor called with invalid size", NCExceptionSeverity.FatalError);
 
@@ -334,16 +335,15 @@ namespace LightningGL
         /// <param name="color">The optional color to clear the texture with.</param>
         public void Clear(Color color = default)
         {
+            Color clearColor = Color.FromArgb(0, 0, 0, 0);
 
-            Color clearcolor = Color.FromArgb(0, 0, 0, 0);
-
-            if (color != default) clearcolor = color;
+            if (color != default) clearColor = color;
 
             for (int y = 0; y < Size.Y; y++)
             {
                 for (int x = 0; x < Size.X; x++)
                 {
-                    SetPixel(x, y, clearcolor);
+                    SetPixel(x, y, clearColor);
                 }
             }
         }
