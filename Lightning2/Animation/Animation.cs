@@ -71,12 +71,6 @@ namespace LightningGL
         /// </summary>
         public bool Reverse { get; internal set; }
 
-        [JsonIgnore]
-        /// <summary>
-        /// Determines if this animation is loaded or not.
-        /// </summary>
-        public bool Loaded { get; internal set; }
-
         /// <summary>
         /// Constructor for the Animation class
         /// </summary>

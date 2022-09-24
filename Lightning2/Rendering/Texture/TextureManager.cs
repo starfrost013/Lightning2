@@ -45,7 +45,7 @@
             return null;
         }
 
-        public Texture GetInstanceOfTexture(Renderer cRenderer, Texture texture, bool clone = true)
+        public Texture GetInstanceOfTexture(Renderer cRenderer, Texture texture, bool clone = false)
         {
             if (Assets.Contains(texture))
             {
@@ -62,9 +62,12 @@
                 else
                 {
                     // especially this
-                    newTexture.Handle = IMG_LoadTexture(cRenderer.Settings.RendererHandle, texture.Path);
+                    // don't allocate a new texture format here (we already did it)
+                    newTexture.Path = texture.Path;
+                    newTexture.Load(cRenderer);
                 }
 
+                Assets.Add(newTexture);
                 return newTexture;
             }
 

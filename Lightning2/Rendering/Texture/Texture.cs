@@ -125,7 +125,13 @@ namespace LightningGL
         /// <exception cref="NCException">An error occurred loading the texture.</exception>
         internal override void Load(Renderer cRenderer)
         {
-            if (Path == CREATED_TEXTURE_PATH) return;
+            if (Path == CREATED_TEXTURE_PATH)
+            {
+                // not great
+                Loaded = true;
+                return;
+            }
+
             if (!File.Exists(Path)) _ = new NCException($"{Path} does not exist!", 9, "Texture::Path property does not exist", NCExceptionSeverity.FatalError);
 
             Handle = IMG_LoadTexture(cRenderer.Settings.RendererHandle, Path);
