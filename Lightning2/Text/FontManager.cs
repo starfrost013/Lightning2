@@ -214,7 +214,7 @@
             if (curFont == null) _ = new NCException($"Attempted to acquire invalid font with name {font}", 39, "TextManager::DrawText font parameter is not a loaded font!", NCExceptionSeverity.FatalError);
 
             // Set the foreground color
-            SDL_Color fgColor = new SDL_Color(foreground.R, foreground.G, foreground.B, foreground.A);
+            SDL_Color fgColor = new(foreground.R, foreground.G, foreground.B, foreground.A);
 
             // split the text into lines
             // add the length of each line to the text length
@@ -272,7 +272,7 @@
             cacheEntry.UsedThisFrame = true;
 
             SDL_Rect fontSrcRect = new SDL_Rect(0, 0, fontSizeX, fontSizeY);
-            SDL_Rect fontDstRect = new SDL_Rect((int)position.X, (int)position.Y, fontSizeX, fontSizeY);
+            SDL_FRect fontDstRect = new SDL_FRect(position.X, position.Y, fontSizeX, fontSizeY);
 
             foreach (FontCacheEntryLine line in cacheEntry.Lines)
             {
@@ -282,7 +282,7 @@
                 fontDstRect.w = fontSrcRect.w;
                 fontDstRect.h = fontSrcRect.h;
 
-                SDL_RenderCopy(cRenderer.Settings.RendererHandle, line.Handle, ref fontSrcRect, ref fontDstRect);
+                SDL_RenderCopyF(cRenderer.Settings.RendererHandle, line.Handle, ref fontSrcRect, ref fontDstRect);
 
                 // increment by the line length
                 if (lineLength < 0)

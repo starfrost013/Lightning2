@@ -361,7 +361,7 @@ namespace LightningGL
                 for (int x = 0; x < Size.X; x++)
                 {
                     Color pixelColour = GetPixel(x, y);
-                    SetPixel(x, y, Color.FromArgb(transparency, pixelColour.R, pixelColour.G, pixelColour.B);
+                    SetPixel(x, y, Color.FromArgb(transparency, pixelColour.R, pixelColour.G, pixelColour.B));
                 }
             }
         }
