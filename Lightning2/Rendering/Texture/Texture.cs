@@ -354,6 +354,19 @@ namespace LightningGL
             }
         }
 
+        public void SetTransparency(byte transparency)
+        {
+            for (int y = 0; y < Size.Y; y++)
+            {
+                for (int x = 0; x < Size.X; x++)
+                {
+                    Color pixelColour = GetPixel(x, y);
+                    SetPixel(x, y, Color.FromArgb(transparency, pixelColour.R, pixelColour.G, pixelColour.B);
+                }
+            }
+        }
+
+
         /// <summary>
         /// Sets the blend mode of this texture. See the documentation for the <see cref="SDL_BlendMode"/> enum.
         /// </summary>
