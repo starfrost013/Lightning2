@@ -17,7 +17,7 @@ namespace NuCore.Utilities
         /// <param name="Icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
         /// <param name="ColourScheme">The colour scheme of the message box (optional) - see <see cref="NCMessageBoxColourScheme"/>.</param>
         /// <returns>A <see cref="NCMessageBoxButton"/> containing the selected button.</returns>
-        public static NCMessageBoxButton MessageBoxOK(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
+        public static NCMessageBoxButton? MessageBoxOK(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
         {
             NCMessageBox msgbox = CreateBaseMessageBox(title, message, icon);
             msgbox.AddButton("OK", SDL.SDL_MessageBoxButtonFlags.SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT);
@@ -33,7 +33,7 @@ namespace NuCore.Utilities
         /// <param name="Icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
         /// <param name="ColourScheme">The colour scheme of the message box (optional) - see <see cref="NCMessageBoxColourScheme"/>.</param>
         /// <returns>A <see cref="NCMessageBoxButton"/> containing the selected button.</returns>
-        public static NCMessageBoxButton MessageBoxOKCancel(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
+        public static NCMessageBoxButton? MessageBoxOKCancel(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
         {
             NCMessageBox msgbox = CreateBaseMessageBox(title, message, icon);
             msgbox.AddButton("OK", SDL.SDL_MessageBoxButtonFlags.SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT);
@@ -50,7 +50,7 @@ namespace NuCore.Utilities
         /// <param name="Icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
         /// <param name="ColourScheme">The colour scheme of the message box (optional) - see <see cref="NCMessageBoxColourScheme"/>.</param>
         /// <returns>A <see cref="NCMessageBoxButton"/> containing the selected button.</returns>
-        public static NCMessageBoxButton MessageBoxRetryCancel(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
+        public static NCMessageBoxButton? MessageBoxRetryCancel(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
         {
             NCMessageBox msgbox = CreateBaseMessageBox(title, message, icon);
             msgbox.AddButton("Retry", SDL.SDL_MessageBoxButtonFlags.SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT);
@@ -67,7 +67,7 @@ namespace NuCore.Utilities
         /// <param name="Icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
         /// <param name="ColourScheme">The colour scheme of the message box (optional) - see <see cref="NCMessageBoxColourScheme"/>.</param>
         /// <returns>A <see cref="NCMessageBoxButton"/> containing the selected button.</returns>
-        public static NCMessageBoxButton MessageBoxYesNo(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
+        public static NCMessageBoxButton? MessageBoxYesNo(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
         {
             NCMessageBox msgbox = CreateBaseMessageBox(title, message, icon);
             msgbox.AddButton("Yes", SDL.SDL_MessageBoxButtonFlags.SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT);
@@ -84,7 +84,7 @@ namespace NuCore.Utilities
         /// <param name="Icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
         /// <param name="ColourScheme">The colour scheme of the message box (optional) - see <see cref="NCMessageBoxColourScheme"/>.</param>
         /// <returns>A <see cref="NCMessageBoxButton"/> containing the selected button.</returns>
-        public static NCMessageBoxButton MessageBoxYesNoCancel(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
+        public static NCMessageBoxButton? MessageBoxYesNoCancel(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
         {
             NCMessageBox msgbox = CreateBaseMessageBox(title, message, icon);
             msgbox.AddButton("Yes", SDL.SDL_MessageBoxButtonFlags.SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT);
@@ -103,7 +103,7 @@ namespace NuCore.Utilities
         /// <param name="Icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
         /// <param name="ColourScheme">The colour scheme of the message box (optional) - see <see cref="NCMessageBoxColourScheme"/>.</param>
         /// <returns>A <see cref="NCMessageBoxButton"/> containing the selected button.</returns>
-        public static NCMessageBoxButton MessageBoxAbortRetryIgnore(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
+        public static NCMessageBoxButton? MessageBoxAbortRetryIgnore(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
         {
             NCMessageBox msgbox = CreateBaseMessageBox(title, message, icon);
             msgbox.AddButton("Abort", SDL.SDL_MessageBoxButtonFlags.SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT);
@@ -121,7 +121,7 @@ namespace NuCore.Utilities
         /// <param name="Icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
         /// <param name="ColourScheme">The colour scheme of the message box (optional) - see <see cref="NCMessageBoxColourScheme"/>.</param>
         /// <returns>A <see cref="NCMessageBoxButton"/> containing the selected button.</returns>
-        public static NCMessageBoxButton MessageBoxCancelTryContinue(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
+        public static NCMessageBoxButton? MessageBoxCancelTryContinue(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
         {
             NCMessageBox msgbox = CreateBaseMessageBox(title, message, icon);
             msgbox.AddButton("Cancel");

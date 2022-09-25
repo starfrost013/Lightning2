@@ -50,7 +50,7 @@ namespace LightningGL
         /// <summary>
         /// Composed renderable list
         /// </summary>
-        private List<Renderable> Renderables { get; set; } 
+        private List<Renderable> Renderables { get; set; }
 
         public Renderer()
         {
@@ -313,7 +313,7 @@ namespace LightningGL
         /// </summary>
         internal void Shutdown()
         {
-            NCLogging.Log("Renderer destruction requested. Calling UI shutdown events...");
+            NCLogging.Log("Renderer destruction requested. Calling shutdown events...");
             NotifyShutdown();
             SDL_DestroyRenderer(Settings.RendererHandle);
             SDL_DestroyWindow(Settings.WindowHandle);
@@ -351,8 +351,30 @@ namespace LightningGL
             foreach (Renderable renderable in UIManager.Assets) renderables.Add(renderable);
             foreach (Renderable renderable in TextureManager.Assets) renderables.Add(renderable);
             foreach (Renderable renderable in ParticleManager.Assets) renderables.Add(renderable);
-            foreach (Renderable renderable in FontManager.Assets) renderables.Add(renderable);
 
+            // Cull stuff offscreen and move it with the camera
+            for (int renderableId = 0; renderableId < renderables.Count; renderableId++)
+            {
+                Renderable renderable = renderables[renderableId];
+            
+                if (Settings.Camera != null)
+                {
+                    renderable.RenderPosition = new(
+                        renderable.Position.X - Settings.Camera.Position.X + Random.Shared.Next(-(int)Settings.Camera.CameraShakeAmount.X, (int)Settings.Camera.CameraShakeAmount.X), 
+                        renderable.Position.Y - Settings.Camera.Position.Y + Random.Shared.Next(-(int)Settings.Camera.CameraShakeAmount.Y, (int)Settings.Camera.CameraShakeAmount.Y));
+
+                    bool isOnScreen = (renderable.RenderPosition.X >= 0
+                        && renderable.RenderPosition.Y >= 0
+                        && renderable.RenderPosition.X <= GlobalSettings.ResolutionX 
+                        && renderable.RenderPosition.Y <= GlobalSettings.ResolutionY);
+
+                    if (!isOnScreen)
+                    {
+                        renderables.Remove(renderable);
+                        renderableId--;
+                    }
+                }
+            }
             return renderables;
         }
 

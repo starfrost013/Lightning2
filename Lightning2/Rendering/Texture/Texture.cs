@@ -225,8 +225,6 @@ namespace LightningGL
             // do nothing if we are calling this on an already locked texture
             if (Locked) return;
 
-            Locked = true;
-
             SDL_Rect rect = new SDL_Rect(0, 0, (int)Size.X, (int)Size.Y);
 
             if (SDL_LockTexture(Handle, ref rect, out var nPixels, out var nPitch) < 0) _ = new NCException($"Error locking pixels for texture with path {Path}: {SDL_GetError()}.", 11, "An SDL error occurred in Texture::Lock", NCExceptionSeverity.FatalError);
@@ -234,6 +232,7 @@ namespace LightningGL
             Pitch = nPitch;
             // convert to C pointer
             Pixels = (int*)nPixels.ToPointer();
+            Locked = true;
         }
 
         /// <summary>
@@ -244,14 +243,14 @@ namespace LightningGL
             // don't unlock if already unlocked
             if (!Locked) return;
 
-            Locked = false;
-
             SDL_UnlockTexture(Handle);
 
             // these values are now invalid 
             Pixels = null;
 
             Pitch = 0;
+
+            Locked = false;
         }
 
         /// <summary>

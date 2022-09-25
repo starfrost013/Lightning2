@@ -67,19 +67,19 @@
                 }
 
                 NCLogging.Log("Initialising SDL...");
-                if (SDL_Init(SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2: {SDL.SDL_GetError()}", 0, "Failed to initialise SDL2 during Lightning::Init", NCExceptionSeverity.FatalError);
+                if (SDL_Init(SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2: {SDL_GetError()}", 0, "Failed to initialise SDL2 during Lightning::Init", NCExceptionSeverity.FatalError);
 
                 NCLogging.Log("Initialising SDL_image...");
-                if (IMG_Init(IMG_InitFlags.IMG_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2_image: {SDL.SDL_GetError()}", 1, "Failed to initialise SDL2_image during Lightning::Init", NCExceptionSeverity.FatalError);
+                if (IMG_Init(IMG_InitFlags.IMG_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2_image: {SDL_GetError()}", 1, "Failed to initialise SDL2_image during Lightning::Init", NCExceptionSeverity.FatalError);
 
                 NCLogging.Log("Initialising SDL_ttf...");
-                if (TTF_Init() < 0) _ = new NCException($"Error initialising SDL2_ttf: {SDL.SDL_GetError()}", 2, "Failed to initialise SDL2_ttf during Lightning::Init", NCExceptionSeverity.FatalError);
+                if (TTF_Init() < 0) _ = new NCException($"Error initialising SDL2_ttf: {SDL_GetError()}", 2, "Failed to initialise SDL2_ttf during Lightning::Init", NCExceptionSeverity.FatalError);
 
                 NCLogging.Log("Initialising SDL_mixer...");
-                if (Mix_Init(MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2_mixer: {SDL.SDL_GetError()}", 3, "Failed to initialise SDL2_mixer during Lightning::Init", NCExceptionSeverity.FatalError);
+                if (Mix_Init(MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2_mixer: {SDL_GetError()}", 3, "Failed to initialise SDL2_mixer during Lightning::Init", NCExceptionSeverity.FatalError);
 
                 NCLogging.Log("Initialising audio device (44Khz, stereo)...");
-                if (Mix_OpenAudio(44100, Mix_AudioFormat.MIX_DEFAULT_FORMAT, 2, 2048) < 0) _ = new NCException($"Error initialising audio device: {SDL.SDL_GetError()}", 56, "Failed to initialise audio device during Lightning::Init", NCExceptionSeverity.FatalError);
+                if (Mix_OpenAudio(44100, Mix_AudioFormat.MIX_DEFAULT_FORMAT, 2, 2048) < 0) _ = new NCException($"Error initialising audio device: {SDL_GetError()}", 56, "Failed to initialise audio device during Lightning::Init", NCExceptionSeverity.FatalError);
 
                 // this should always be the earliest step
                 NCLogging.Log("Obtaining system information...");
@@ -149,8 +149,11 @@
 
         private static void Init_InitLogging()
         {
-            NCLogging.Settings = new NCLoggingSettings();
-            NCLogging.Settings.WriteToLog = true;
+            NCLogging.Settings = new NCLoggingSettings
+            {
+                WriteToLog = true,
+            };
+            
             NCLogging.Init();
         }
 
@@ -173,7 +176,7 @@
 
             // create a list of fonts and audiofiles to unload
             // just foreaching through each font and audiofile doesn't work as collection is being modified 
-            List<AudioFile> audioFilesToUnload = new List<AudioFile>();
+            List<AudioFile> audioFilesToUnload = new();
             foreach (AudioFile audioFileToUnload in AudioManager.Assets) audioFilesToUnload.Add(audioFileToUnload);
 
             NCLogging.Log("Unloading all audio files...");

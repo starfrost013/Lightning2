@@ -25,7 +25,8 @@
         }
 
         /// <summary>
-        /// If <see cref="CameraType"/> is set to <see cref="Chase"/>, the camera will be offset by this amount when object positions are being calculated relative to it.
+        /// If the value of <see cref="CameraType"/> is not set to <see cref="CameraType.Follow"/>, the camera will be offset by this amount when object positions are being 
+        /// calculated relative to it.
         /// Otherwise it has no effect.
         /// </summary>
         public Vector2 FocusDelta { get; set; }
@@ -67,7 +68,8 @@
             }
         }
 
-        public void Camera(
+        public Vector2 CameraShakeAmount { get; set; } 
+
         public Camera(CameraType type)
         {
             Type = type;
