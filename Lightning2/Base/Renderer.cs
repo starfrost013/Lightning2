@@ -359,10 +359,6 @@ namespace LightningGL
             
                 if (Settings.Camera != null)
                 {
-                    renderable.RenderPosition = new(
-                        renderable.Position.X - Settings.Camera.Position.X + Random.Shared.Next(-(int)Settings.Camera.CameraShakeAmount.X, (int)Settings.Camera.CameraShakeAmount.X), 
-                        renderable.Position.Y - Settings.Camera.Position.Y + Random.Shared.Next(-(int)Settings.Camera.CameraShakeAmount.Y, (int)Settings.Camera.CameraShakeAmount.Y));
-
                     bool isOnScreen = (renderable.RenderPosition.X >= 0
                         && renderable.RenderPosition.Y >= 0
                         && renderable.RenderPosition.X <= GlobalSettings.ResolutionX 
