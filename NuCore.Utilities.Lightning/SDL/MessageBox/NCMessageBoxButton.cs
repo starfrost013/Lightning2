@@ -11,7 +11,7 @@ namespace NuCore.Utilities
     /// </summary>
     public class NCMessageBoxButton
     {
-        public string Text { get; set; }
+        public string? Text { get; set; }
         public SDL_MessageBoxButtonFlags Flags { get; set; }
         public int ID { get; internal set; }
 

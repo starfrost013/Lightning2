@@ -5,7 +5,7 @@
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="System.Text" #>
 <#@ output extension=".cs" #>
-// This file obtains the version information (from Lightning2) - generated using the AssemblyInfo.tt T4 template.
+// This file defines the version information - generated using the AssemblyInfo.tt T4 template in LightningBase.
 // Automatically generated file - do not modify
 
 using System.Reflection;
@@ -13,19 +13,19 @@ using System.Reflection;
 [assembly: AssemblyVersion("<#= LIGHTNING_VERSION_MAJOR #>.<#= LIGHTNING_VERSION_MINOR #>.<#= LIGHTNING_VERSION_REVISION #>.<#= LIGHTNING_VERSION_BUILD #>")]
 [assembly: AssemblyFileVersion("<#= LIGHTNING_VERSION_MAJOR #>.<#= LIGHTNING_VERSION_MINOR #>.<#= LIGHTNING_VERSION_REVISION #>.<#= LIGHTNING_VERSION_BUILD #>")]
 [assembly: AssemblyInformationalVersion("<#= LIGHTNING_VERSION_EXTENDED_STRING #>")]
-[assembly: AssemblyTitle("Lightning Packaging Library")]
+[assembly: AssemblyTitle("Lightning Base")]
 
-namespace LightningPackager
+namespace LightningBase
 {
-	public static class PackagerVersion
+	public static class LightningVersion
 	{
-		public static int LIGHTNING_VERSION_MAJOR = <#= LIGHTNING_VERSION_MAJOR #>;
-		public static int LIGHTNING_VERSION_MINOR = <#= LIGHTNING_VERSION_MINOR #>; 
-		public static int LIGHTNING_VERSION_REVISION = <#= LIGHTNING_VERSION_REVISION #>;
-		public static int LIGHTNING_VERSION_BUILD = <#= LIGHTNING_VERSION_BUILD #>;
-		public static string LIGHTNING_VERSION_SPECIFIER = "<#= LIGHTNING_VERSION_SPECIFIER #>";
-		public static string LIGHTNING_VERSION_STRING = "<#= LIGHTNING_VERSION_STRING #>";
-		public static string LIGHTNING_VERSION_BUILD_STRING = "<#= LIGHTNING_VERSION_BUILD_STRING #>";
+		public const int LIGHTNING_VERSION_MAJOR = <#= LIGHTNING_VERSION_MAJOR #>;
+		public const int LIGHTNING_VERSION_MINOR = <#= LIGHTNING_VERSION_MINOR #>; 
+		public const int LIGHTNING_VERSION_REVISION = <#= LIGHTNING_VERSION_REVISION #>;
+		public const int LIGHTNING_VERSION_BUILD = <#= LIGHTNING_VERSION_BUILD #>;
+		public const string LIGHTNING_VERSION_SPECIFIER = "<#= LIGHTNING_VERSION_SPECIFIER #>";
+		public const string LIGHTNING_VERSION_STRING = "<#= LIGHTNING_VERSION_STRING #>";
+		public const string LIGHTNING_VERSION_BUILD_STRING = "<#= LIGHTNING_VERSION_BUILD_STRING #>";
 		public static string LIGHTNING_VERSION_EXTENDED_STRING = "<#= LIGHTNING_VERSION_EXTENDED_STRING #>";
 	}
 }

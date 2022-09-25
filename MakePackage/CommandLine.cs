@@ -1,4 +1,5 @@
-﻿using LightningPackager;
+﻿using LightningBase;
+using LightningPackager;
 using NuCore.Utilities;
 
 namespace MakePackage
@@ -116,7 +117,7 @@ namespace MakePackage
                 if (Name == null) Name = "Game name here";
                 if (GameVersion == null) GameVersion = "1.0";
                 // temporary version
-                if (EngineVersion == null) EngineVersion = PackagerVersion.LIGHTNING_VERSION_BUILD_STRING;
+                if (EngineVersion == null) EngineVersion = LightningVersion.LIGHTNING_VERSION_BUILD_STRING;
 
                 //bad code
                 if (InFile == null)

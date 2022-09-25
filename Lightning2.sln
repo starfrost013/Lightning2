@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightningGL", "Lightning2\LightningGL.csproj", "{E13A0D7B-30AF-4C29-A702-0CF0766E032F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuCore.SDL2", "NuCore.SDL2-CS\NuCore.SDL2.csproj", "{81E34261-83B6-4A95-8690-BF518CE12DF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightningBase", "NuCore.SDL2-CS\LightningBase.csproj", "{81E34261-83B6-4A95-8690-BF518CE12DF8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuCore.Utilities", "NuCore.Utilities\NuCore.Utilities.csproj", "{2DA5C8F3-4F36-4C05-B2D7-09CEF107210C}"
 EndProject
@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakePackage", "MakePackage\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SDKBuild", "SDKBuild\SDKBuild.csproj", "{A64DCE3C-B2FE-403B-A4AC-36E44F8FC7E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimTool", "AnimTool\AnimTool.csproj", "{2FAA487F-382F-4E20-98CD-C6BFF9D15123}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnimTool", "AnimTool\AnimTool.csproj", "{2FAA487F-382F-4E20-98CD-C6BFF9D15123}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuCore.Utilities.Lightning", "NuCore.Utilities.Lightning\NuCore.Utilities.Lightning.csproj", "{DBC2F6F3-1B14-432C-BB0B-47934E431AFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{2FAA487F-382F-4E20-98CD-C6BFF9D15123}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FAA487F-382F-4E20-98CD-C6BFF9D15123}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FAA487F-382F-4E20-98CD-C6BFF9D15123}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBC2F6F3-1B14-432C-BB0B-47934E431AFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBC2F6F3-1B14-432C-BB0B-47934E431AFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBC2F6F3-1B14-432C-BB0B-47934E431AFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBC2F6F3-1B14-432C-BB0B-47934E431AFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

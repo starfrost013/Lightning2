@@ -135,36 +135,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Tools\AssemblyInfo.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>AssemblyInfo.tt</DependentUpon>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\LightningPackager\LightningPackager.csproj" />
-    <ProjectReference Include="..\LightningBase-CS\LightningBase.csproj" />
+    <ProjectReference Include="..\NuCore.SDL2-CS\LightningBase.csproj" />
+    <ProjectReference Include="..\NuCore.Utilities.Lightning\NuCore.Utilities.Lightning.csproj" />
     <ProjectReference Include="..\NuCore.Utilities\NuCore.Utilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Tools\AssemblyInfo.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Tools\AssemblyInfo.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>AssemblyInfo.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -175,6 +153,21 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\Libraries\Newtonsoft.Json.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Tools\AssemblyInfo.cs">
+      <DependentUpon>AssemblyInfo.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Tools\AssemblyInfo.tt">
+      <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGeneratorCore</Generator>
+    </None>
   </ItemGroup>
 
 </Project>

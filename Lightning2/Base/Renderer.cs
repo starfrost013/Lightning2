@@ -299,7 +299,7 @@ namespace LightningGL
             NCMessageBox messageBox = new()
             {
                 Text = $"Powered by the Lightning Game Engine\n" +
-                $"Version {L2Version.LIGHTNING_VERSION_EXTENDED_STRING}",
+                $"Version {LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING}",
                 Title = "About",
                 Icon = SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION
             };

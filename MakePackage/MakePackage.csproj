@@ -4,10 +4,16 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Nullable>disable</Nullable>
 	<Configurations>Debug;Release;Debug.Arm64;Release.Arm64</Configurations>
+	<TransformOnBuild>true</TransformOnBuild>
+	<TransformOutOfDateOnly>false</TransformOutOfDateOnly>
+	<OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
   </PropertyGroup>
 
+	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
+	
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<PlatformTarget>x64</PlatformTarget>
 		<DefineConstants>DEBUG;TRACE;WINDOWS,X64</DefineConstants>
@@ -31,7 +37,29 @@
 	
 	<ItemGroup>
     <ProjectReference Include="..\LightningPackager\LightningPackager.csproj" />
-    <ProjectReference Include="..\LightningBase-CS\LightningBase.csproj" />
+    <ProjectReference Include="..\NuCore.SDL2-CS\LightningBase.csproj" />
   </ItemGroup>
+
+	
+	<ItemGroup>
+	  <Compile Update="Tools\AssemblyInfo.cs">
+	    <DependentUpon>AssemblyInfo.tt</DependentUpon>
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	  </Compile>
+	</ItemGroup>
+
+	
+	<ItemGroup>
+	  <None Update="Tools\AssemblyInfo.tt">
+	    <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
+	    <Generator>TextTemplatingFileGeneratorCore</Generator>
+	  </None>
+	</ItemGroup>
+
+	
+	<ItemGroup>
+	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
 
 </Project>

@@ -1,30 +1,23 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
+    <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>NuCore.Utilities</RootNamespace>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	<PlatformTarget>x64</PlatformTarget>
-	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	  <TransformOnBuild>true</TransformOnBuild>
 	  <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
 	  <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
   </PropertyGroup>
 
+
 	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
 	
   <ItemGroup>
-    <Folder Include="Core\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Lightning2\LightningGL.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+    <ProjectReference Include="..\NuCore.SDL2-CS\LightningBase.csproj" />
+    <ProjectReference Include="..\NuCore.Utilities\NuCore.Utilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +33,10 @@
       <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
       <Generator>TextTemplatingFileGeneratorCore</Generator>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
 </Project>

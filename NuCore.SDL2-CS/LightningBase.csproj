@@ -4,16 +4,19 @@
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>LightningBase</RootNamespace>
     <Configurations>Debug;Release;Debug.Arm64;Release.Arm64</Configurations>
-    <AssemblyVersion>3.1.0.0</AssemblyVersion>
-    <FileVersion>3.1.0.0</FileVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <PackageId>NuCore.SDL2-CS</PackageId>
     <Description>Lightning Native Bindings</Description>
     <Authors>Ethan, starfrost</Authors>
-    <Version>3.1.0</Version>
     <SignAssembly>False</SignAssembly>
+	<TransformOnBuild>true</TransformOnBuild>
+	<OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
+	<TransformOutOfDateOnly>false</TransformOutOfDateOnly>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
+	<!-- Import text templating -->
+	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
+	
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;WINDOWS,X64</DefineConstants>
     <PlatformTarget>x64</PlatformTarget>
@@ -36,5 +39,20 @@
 
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Tools\AssemblyInfo.cs">
+      <DependentUpon>AssemblyInfo.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Tools\AssemblyInfo.tt">
+      <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
   </ItemGroup>
 </Project>

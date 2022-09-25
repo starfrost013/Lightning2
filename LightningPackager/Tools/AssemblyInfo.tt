@@ -16,4 +16,4 @@ using System.Reflection;
 [assembly: AssemblyVersion("<#= LightningVersion.LIGHTNING_VERSION_MAJOR #>.<#= LightningVersion.LIGHTNING_VERSION_MINOR #>.<#= LightningVersion.LIGHTNING_VERSION_REVISION #>.<#= LightningVersion.LIGHTNING_VERSION_BUILD #>")]
 [assembly: AssemblyFileVersion("<#= LightningVersion.LIGHTNING_VERSION_MAJOR #>.<#= LightningVersion.LIGHTNING_VERSION_MINOR #>.<#= LightningVersion.LIGHTNING_VERSION_REVISION #>.<#= LightningVersion.LIGHTNING_VERSION_BUILD #>")]
 [assembly: AssemblyInformationalVersion("<#= LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING #>")]
-[assembly: AssemblyTitle("Lightning Graphics Library")]
+[assembly: AssemblyTitle("Lightning Packaging Library")]

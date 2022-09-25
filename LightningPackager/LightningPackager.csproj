@@ -23,24 +23,10 @@
 	  <PlatformTarget>x64</PlatformTarget>
 	  <DefineConstants>TRACE;WINDOWS,X64</DefineConstants>
   </PropertyGroup>
-
-	<ItemGroup>
-		<None Include="AssemblyInfo.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>AssemblyInfo.tt</DependentUpon>
-		</None>
-	</ItemGroup>
 	
   <ItemGroup>
+    <ProjectReference Include="..\NuCore.SDL2-CS\LightningBase.csproj" />
     <ProjectReference Include="..\NuCore.Utilities\NuCore.Utilities.csproj" />
-  </ItemGroup>
-	
-  <ItemGroup>
-    <None Update="AssemblyInfo.tt">
-      <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
   </ItemGroup>
 	
   <ItemGroup>
@@ -48,11 +34,18 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <Compile Update="AssemblyInfo.cs">
+    <Compile Update="Tools\AssemblyInfo.cs">
+      <DependentUpon>AssemblyInfo.tt</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>AssemblyInfo.tt</DependentUpon>
     </Compile>
+  </ItemGroup>
+	
+  <ItemGroup>
+    <None Update="Tools\AssemblyInfo.tt">
+      <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGeneratorCore</Generator>
+    </None>
   </ItemGroup>
 
 </Project>

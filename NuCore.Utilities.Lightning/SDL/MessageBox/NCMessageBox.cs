@@ -21,12 +21,12 @@ namespace NuCore.Utilities
         /// <summary>
         /// The title to use for the message box window.
         /// </summary>
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         /// <summary>
         /// The text to use in the message box wiodow,
         /// </summary>
-        public string Text { get; set; }
+        public string? Text { get; set; }
 
         /// <summary>
         /// The buttons that are to be used in this message box.
@@ -60,7 +60,7 @@ namespace NuCore.Utilities
         /// Shows this message box.
         /// </summary>
         /// <returns>A value indicating if this message box was returned or not.</returns>
-        public NCMessageBoxButton Show()
+        public NCMessageBoxButton? Show()
         {
             // Create a new list of button data.
             List<SDL_MessageBoxButtonData> buttonData = new List<SDL_MessageBoxButtonData>();

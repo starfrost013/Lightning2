@@ -54,7 +54,7 @@
 
                 // Log the sign-on message
                 NCLogging.Log($"Lightning Game Engine");
-                NCLogging.Log($"Version {L2Version.LIGHTNING_VERSION_EXTENDED_STRING}");
+                NCLogging.Log($"Version {LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING}");
 
                 NCLogging.Log("Parsing command-line arguments...");
                 if (!InitSettings.Parse(args)) _ = new NCException($"An error occurred while parsing command-line arguments.", 103, "InitSettings::Parse returned false", NCExceptionSeverity.FatalError);

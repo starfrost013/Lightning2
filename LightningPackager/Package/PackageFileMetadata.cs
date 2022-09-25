@@ -1,4 +1,6 @@
-﻿namespace LightningPackager
+﻿using LightningBase;
+
+namespace LightningPackager
 {
     /// <summary>
     /// PackageFileMetadata
@@ -21,7 +23,7 @@
             Name = "Game name here";
             GameVersion = "1.0";
             // temporary version
-            EngineVersion = PackagerVersion.LIGHTNING_VERSION_BUILD_STRING;
+            EngineVersion = LightningVersion.LIGHTNING_VERSION_BUILD_STRING;
             CompressionMode = PackageFileCompressionMode.XOR;
         }
     }

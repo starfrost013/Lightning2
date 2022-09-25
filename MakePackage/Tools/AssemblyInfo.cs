@@ -5,4 +5,4 @@ using System.Reflection;
 [assembly: AssemblyVersion("1.1.0.211")]
 [assembly: AssemblyFileVersion("1.1.0.211")]
 [assembly: AssemblyInformationalVersion("1.1.0-alpha build 211, built 2022-09-25 13:42:27")]
-[assembly: AssemblyTitle("Lightning Graphics Library")]
+[assembly: AssemblyTitle("Lightning Package Editor Tool")]

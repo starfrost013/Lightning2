@@ -1,6 +1,6 @@
-﻿using LightningBase;
-using System;
+﻿using System;
 using System.Text;
+using System.Reflection;
 
 namespace NuCore.Utilities
 {
@@ -73,27 +73,55 @@ namespace NuCore.Utilities
 
             NCLogging.Log($"{ExceptionSeverity}:\n{errorString}", nExceptionSeverity);
 
-            if (!dontShowMessageBox)
+            // determine if the Lightning utilities are loaded.
+            // this is all kludge until we get a better msgbox api
+
+            Assembly assembly = NCAssembly.GetLoadedAssembly(NCAssembly.LIGHTNING_UTILITIES_NAME);
+
+            if (assembly != null
+                && !dontShowMessageBox)
             {
+                MethodBase msgBoxOk = assembly.GetType(NCAssembly.LIGHTNING_UTILITIES_PRESET_NAME).GetMethod("MessageBoxOK");
+
                 switch (ExceptionSeverity)
                 {
                     case NCExceptionSeverity.Message:
-                        NCMessageBoxPresets.MessageBoxOK("Information", errorString, SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION);
+                        msgBoxOk.Invoke(null, new object[] 
+                        { "Information", errorString, SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION } );
                         return;
                     case NCExceptionSeverity.Warning:
-                        NCMessageBoxPresets.MessageBoxOK("Warning", errorString, SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_WARNING);
+                        msgBoxOk.Invoke(null, new object[] 
+                        { "Warning", errorString, SDL_MessageBoxFlags.SDL_MESSAGEBOX_WARNING } );
                         return;
                     case NCExceptionSeverity.Error:
-                        NCMessageBoxPresets.MessageBoxOK("Error", errorString, SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR);
+                        msgBoxOk.Invoke(null, new object[] 
+                        { "Error", errorString, SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR });
                         return;
                     case NCExceptionSeverity.FatalError:
-                        NCMessageBoxPresets.MessageBoxOK("Fatal Error", $"A fatal error has occurred:\n\n{errorString}\n\n" +
-                            $"The program must exit. We are sorry for the inconvenience.", SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR);
+                        msgBoxOk.Invoke(null, new object[]
+                            { "Fatal Error", $"A fatal error has occurred:\n\n{errorString}\n\n" +
+                            $"The program must exit. We are sorry for the inconvenience.", SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR });
                         Environment.Exit(Id);
                         return;
 
                 }
             }
+
         }
     }
+}
+
+/// <summary>
+/// Define this here.
+/// 
+/// This is to reduce time spent in reflection which is very slow.
+/// </summary>
+[Flags]
+internal enum SDL_MessageBoxFlags : uint
+{
+    SDL_MESSAGEBOX_ERROR = 0x00000010,
+
+    SDL_MESSAGEBOX_WARNING = 0x00000020,
+
+    SDL_MESSAGEBOX_INFORMATION = 0x00000040
 }
