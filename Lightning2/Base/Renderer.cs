@@ -352,25 +352,30 @@ namespace LightningGL
             foreach (Renderable renderable in TextureManager.Assets) renderables.Add(renderable);
             foreach (Renderable renderable in ParticleManager.Assets) renderables.Add(renderable);
 
-            // Cull stuff offscreen and move it with the camera
-            for (int renderableId = 0; renderableId < renderables.Count; renderableId++)
+            // if we haven't specified otherwise...
+            if (!GlobalSettings.RenderOffScreenRenderables)
             {
-                Renderable renderable = renderables[renderableId];
-            
-                if (Settings.Camera != null)
+                // Cull stuff offscreen and move it with the camera
+                for (int renderableId = 0; renderableId < renderables.Count; renderableId++)
                 {
-                    bool isOnScreen = (renderable.RenderPosition.X >= Settings.Camera.Position.X - renderable.Size.X
-                        && renderable.RenderPosition.Y >= Settings.Camera.Position.Y - renderable.Size.Y
-                        && renderable.RenderPosition.X <= Settings.Camera.Position.X + GlobalSettings.ResolutionX
-                        && renderable.RenderPosition.Y <= Settings.Camera.Position.Y + GlobalSettings.ResolutionY) ;
+                    Renderable renderable = renderables[renderableId];
 
-                    if (!isOnScreen)
+                    if (Settings.Camera != null)
                     {
-                        renderables.Remove(renderable);
-                        renderableId--;
+                        bool isOnScreen = (renderable.RenderPosition.X >= Settings.Camera.Position.X - renderable.Size.X
+                            && renderable.RenderPosition.Y >= Settings.Camera.Position.Y - renderable.Size.Y
+                            && renderable.RenderPosition.X <= Settings.Camera.Position.X + GlobalSettings.ResolutionX
+                            && renderable.RenderPosition.Y <= Settings.Camera.Position.Y + GlobalSettings.ResolutionY);
+
+                        if (!isOnScreen)
+                        {
+                            renderables.Remove(renderable);
+                            renderableId--;
+                        }
                     }
                 }
             }
+
 
             return renderables;
         }

@@ -118,6 +118,12 @@
         /// Default is 1.0
         /// </summary>
         public static int TickSpeed { get; internal set; }
+
+        /// <summary>
+        /// Determines if offscreen <see cref="Renderables"/> will be culled from the rendering or not.
+        /// </summary>
+        public static bool RenderOffScreenRenderables { get; internal set; }
+
         #endregion
 
         #region System requirements
@@ -221,6 +227,7 @@
                 WindowTitle = graphicsSection.GetValue("WindowTitle");
                 string renderer = graphicsSection.GetValue("Renderer");
                 string tickSpeed = graphicsSection.GetValue("TickSpeed");
+                string renderOffScreenRenderables = graphicsSection.GetValue("RenderOffScreenRenderables");
 
                 SDL_WindowFlags windowFlagsValue = 0;
                 SDL_RendererFlags renderFlagsValue = 0;
@@ -233,6 +240,7 @@
                 _ = Enum.TryParse(renderFlags, true, out renderFlagsValue);
                 _ = Enum.TryParse(renderer, true, out rendererValue);
                 _ = int.TryParse(tickSpeed, out var tickSpeedValue);
+                _ = bool.TryParse(renderOffScreenRenderables, out var renderOffscreenRenderablesValue);
 
                 // Set those values.
                 ResolutionX = resolutionXValue;
@@ -240,6 +248,7 @@
                 WindowFlags = windowFlagsValue;
                 RenderFlags = renderFlagsValue;
                 RendererType = rendererValue;
+                RenderOffScreenRenderables = renderOffscreenRenderablesValue;
 
                 // parse positionX/positionY
                 _ = int.TryParse(positionX, out var positionXValue);

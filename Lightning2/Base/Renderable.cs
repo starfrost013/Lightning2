@@ -180,7 +180,6 @@
         internal virtual void Draw(Renderer cRenderer)
         {
             // temp?
-            
         }
     }
 }
