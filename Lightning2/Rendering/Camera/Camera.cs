@@ -67,6 +67,7 @@
             }
         }
 
+        public void Camera(
         public Camera(CameraType type)
         {
             Type = type;
