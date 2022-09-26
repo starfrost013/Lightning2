@@ -127,7 +127,11 @@
                                 double finalB = LightColor.B * ((double)opaqueness / 255);
 
                                 // adjust for brightness
+                                // increase alpha and multiply RGB
                                 finalA += (255 - Brightness);
+                                finalR *= ((double)Brightness / 255);
+                                finalG *= ((double)Brightness / 255);
+                                finalB *= ((double)Brightness / 255);
                                 if (finalA > 255) finalA = 255;
 
                                 transparentBaseColor = Color.FromArgb((byte)finalA,

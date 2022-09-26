@@ -155,7 +155,7 @@ LightManager.AddAsset(cRenderer, new Light
     Position = new(200, 0),
     LightColor = Color.FromArgb(255, 255, 0, 0),
     Range = 4,
-    Brightness = 255,
+    Brightness = 200,
 }) ;
 
 AudioManager.LoadFile(cRenderer, @"Content\xm_boot.mp3");
