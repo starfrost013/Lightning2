@@ -121,7 +121,7 @@
                             }
                             else
                             {
-                                double finalA = LightColor.A * ((double)(255 - opaqueness) / 255);
+                                double finalA = 255 * ((double)(255 - opaqueness) / 255);
                                 double finalR = LightColor.R * ((double)opaqueness / 255);
                                 double finalG = LightColor.G * ((double)opaqueness / 255);
                                 double finalB = LightColor.B * ((double)opaqueness / 255);

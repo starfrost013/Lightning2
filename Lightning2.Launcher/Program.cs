@@ -153,7 +153,7 @@ LightManager.AddAsset(cRenderer, new Light
 LightManager.AddAsset(cRenderer, new Light
 {
     Position = new(200, 0),
-    LightColor = Color.FromArgb(255, 255, 0, 0),
+    LightColor = Color.FromArgb(255, 255, 217, 0),
     Range = 4,
     Brightness = 200,
 }) ;
