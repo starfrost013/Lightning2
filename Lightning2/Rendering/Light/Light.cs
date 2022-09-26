@@ -102,6 +102,8 @@
                             {
                                 opaqueness = (double)(newDistance * (10 / Range));
 
+                                // set per-pixel opaqueness
+                                // this "inverts" the normal algorithm for masking out of a screenspace lightmap
                                 if (opaqueness < 255) opaqueness = 255 - opaqueness;
                             }
                         }
@@ -121,13 +123,14 @@
                             }
                             else
                             {
+                                // always use 255
                                 double finalA = 255 * ((double)(255 - opaqueness) / 255);
                                 double finalR = LightColor.R * ((double)opaqueness / 255);
                                 double finalG = LightColor.G * ((double)opaqueness / 255);
                                 double finalB = LightColor.B * ((double)opaqueness / 255);
 
                                 // adjust for brightness
-                                // increase alpha and multiply RGB
+                                // increase alpha/opaqueness and multiply RGB
                                 finalA += (255 - Brightness);
                                 finalR *= ((double)Brightness / 255);
                                 finalG *= ((double)Brightness / 255);
