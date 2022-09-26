@@ -31,6 +31,11 @@ namespace LightningBase
         public static string Language { get; internal set; }
 
         /// <summary>
+        /// The localisation folder to use 
+        /// </summary>
+        public static string LocalisationFolder { get; internal set; } 
+
+        /// <summary>
         /// Determines whether the performance profiler will be loaded or not.
         /// </summary>
         public static bool ProfilePerformance { get; internal set; }
@@ -180,14 +185,29 @@ namespace LightningBase
             NCINIFileSection requirementsSection = iniFile.GetSection("Requirements");
             NCINIFileSection sceneSection = iniFile.GetSection("Scene");
 
-            if (generalSection == null) _ = new NCException("Engine.ini must have a General section!", 41, "GlobalSettings::Load call to NCINIFile::GetSection failed for General section", NCExceptionSeverity.FatalError);
-            if (locSection == null) _ = new NCException("Engine.ini must have a Localisation section!", 29, "GlobalSettings::Load call to NCINIFile::GetSection failed for Localisation section", NCExceptionSeverity.FatalError);
+            if (generalSection == null) _ = new NCException("Engine.ini must have a General section!", 41, 
+                "GlobalSettings::Load call to NCINIFile::GetSection failed for General section", NCExceptionSeverity.FatalError);
+            if (locSection == null) _ = new NCException("Engine.ini must have a Localisation section!", 29, 
+                "GlobalSettings::Load call to NCINIFile::GetSection failed for Localisation section", NCExceptionSeverity.FatalError);
 
             // Load the Localisation section.
             string language = locSection.GetValue("Language");
-            Language = @$"Content\Localisation\{language}.ini";
+            string localisationFolder = locSection.GetValue("LocalisationFolder");
 
-            if (!File.Exists(Language)) _ = new NCException("Engine.ini's Localisation section must have a valid Language value!", 30, "GlobalSettings::Load call to NCINIFileSection::GetValue failed for Language value", NCExceptionSeverity.FatalError);
+            if (localisationFolder == null)
+            {
+                Language = @$"Content\Localisation\{language}.ini";
+            }
+            else
+            {
+                if (!Directory.Exists(localisationFolder)) _ = new NCException("Engine.ini must have a General section", 157,
+                    "GlobalSettings::Load - the LocalisationFolder value does not correspond to an extant folder!", NCExceptionSeverity.FatalError);
+                Language = @$"{localisationFolder}\{language}.ini";
+            }
+           
+
+            if (!File.Exists(Language)) _ = new NCException("Engine.ini's Localisation section must have a valid Language value!", 30, 
+                "GlobalSettings::Load call to NCINIFileSection::GetValue failed for Language value", NCExceptionSeverity.FatalError);
 
             // Load the General section.
             string generalMaxFps = generalSection.GetValue("MaxFPS");

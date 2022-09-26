@@ -75,7 +75,7 @@
 
             font.Handle = TTF_OpenFontIndex(path, size, index);
 
-            if (font.Handle == IntPtr.Zero) _ = new NCException($"Error loading font at {path}: {SDL_ttf.TTF_GetError()}", 38, "An SDL error occurred during font loading from Font::Load!", NCExceptionSeverity.Error);
+            if (font.Handle == IntPtr.Zero) _ = new NCException($"Error loading font at {path}: {TTF_GetError()}", 38, "An SDL error occurred during font loading from Font::Load!", NCExceptionSeverity.Error);
 
             NCLogging.Log($"Loaded font {font.Name}, size {font.FontSize} at {path}");
             return font;
