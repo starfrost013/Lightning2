@@ -1,4 +1,6 @@
-﻿namespace LightningGL
+﻿using NuCore.Utilities;
+
+namespace LightningBase
 {
     /// <summary>
     /// LocalSettings
@@ -22,7 +24,7 @@
         /// <summary>
         /// Loads the Local Settings.
         /// </summary>
-        internal static void Load()
+        public static void Load()
         {
             LocalSettingsFile = NCINIFile.Parse(Path);
         }

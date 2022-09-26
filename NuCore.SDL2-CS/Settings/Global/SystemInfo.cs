@@ -1,6 +1,9 @@
-﻿using System.Runtime.InteropServices;
+﻿using static LightningBase.SDL;
+using NuCore.Utilities;
+using System;
+using System.Runtime.InteropServices;
 
-namespace LightningGL
+namespace LightningBase
 {
     /// <summary>
     /// SystemInfo
@@ -39,7 +42,7 @@ namespace LightningGL
         /// <summary>
         /// Acquires information about the engine Lightning is running on.
         /// </summary>
-        internal static void Load()
+        public static void Load()
         {
             // cannot put in static constructor as this depends on SDL being initialised.
             // Initialise CPU info

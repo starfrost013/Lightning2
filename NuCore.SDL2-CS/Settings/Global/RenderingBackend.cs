@@ -1,4 +1,4 @@
-﻿namespace LightningGL
+﻿namespace LightningBase
 {
     /// <summary>
     /// Renderer

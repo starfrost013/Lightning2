@@ -1,6 +1,8 @@
-﻿using System.Runtime.InteropServices;
+﻿using static LightningBase.SDL;
+using NuCore.Utilities;
+using System.Runtime.InteropServices;
 
-namespace LightningGL
+namespace LightningBase
 {
     /// <summary>
     /// SystemInfoCPU

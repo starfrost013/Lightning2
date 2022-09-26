@@ -1,4 +1,9 @@
-﻿namespace LightningGL
+﻿using static LightningBase.SDL;
+using NuCore.Utilities;
+using System;
+using System.IO;
+
+namespace LightningBase
 {
     /// <summary>
     /// GlobalSettings
@@ -53,7 +58,7 @@
         /// <summary>
         /// The content folder to use for the game.
         /// </summary>
-        public static string ContentFolder { get; internal set; }
+        public static string ContentFolder { get; set; }
 
         /// <summary>
         /// Determines if the Scene Manager will be turned off.
@@ -86,22 +91,22 @@
         /// <summary>
         /// The X component of the window resolution.
         /// </summary>
-        public static int ResolutionX { get; internal set; }
+        public static int ResolutionX { get; set; }
 
         /// <summary>
         /// The Y component of the window resolution.
         /// </summary>
-        public static int ResolutionY { get; internal set; }
+        public static int ResolutionY { get; set; }
 
         /// <summary>
         /// Default window position X. Default is (screen resolution / 2) - size.
         /// </summary>
-        public static int PositionX { get; internal set; }
+        public static int PositionX { get; set; }
 
         /// <summary>
         /// Default window position Y. Default is (screen resolution / 2) - size.
         /// </summary>
-        public static int PositionY { get; internal set; }
+        public static int PositionY { get; set; }
 
         /// <summary>
         /// The title of the Window
@@ -161,7 +166,7 @@
         /// <summary>
         /// Loads the Global Settings.
         /// </summary>
-        internal static void Load()
+        public static void Load()
         {
             // Possible todo: Serialise these to properties and get rid of the loader/sections
             // Consider this
@@ -194,7 +199,6 @@
             PackageFile = generalSection.GetValue("PackageFile");
             ContentFolder = generalSection.GetValue("ContentFolder");
             string generalDontUseSceneManager = generalSection.GetValue("DontUseSceneManager");
-            string generalSplashScreenEnabled = generalSection.GetValue("SplashScreenEnabled");
 
             // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
 
@@ -206,7 +210,6 @@
             if (!bool.TryParse(generalAboutScreenOnF9, out var generalAboutScreenOnF9Value)) generalAboutScreenOnF9Value = true; // force the default value, true for now
             _ = bool.TryParse(generalDeleteUnpackedFilesOnExit, out var generalDeleteUnpackedFilesOnExitValue);
             _ = bool.TryParse(generalDontUseSceneManager, out var generalDontUseSceneManagerValue);
-            _ = bool.TryParse(generalSplashScreenEnabled, out var generalSplashScreenEnabledValue);
 
             MaxFPS = generalMaxFpsValue;
             ShowDebugInfo = generalShowDebugInfoValue;
@@ -303,7 +306,7 @@
         /// <summary>
         /// Validates your computer's hardware against the game's system requirements
         /// </summary>
-        internal static void Validate()
+        public static void Validate()
         {
             // test system ram
             if (MinimumSystemRam > SystemInfo.SystemRam) _ = new NCException($"Insufficient RAM to run game. {MinimumSystemRam}MB required, you have {SystemInfo.SystemRam}MB!", 111, $"System RAM less than GlobalSettings::MinimumSystemRam!", NCExceptionSeverity.FatalError);
@@ -316,13 +319,15 @@
 
             bool failedOsCheck = false;
 
+            // test windows compat
             if (SystemInfo.CurOperatingSystem < SystemInfoOperatingSystem.MacOS1013
-                && MinimumOperatingSystem < SystemInfoOperatingSystem.MacOS1013) // windows
+                && MinimumOperatingSystem < SystemInfoOperatingSystem.MacOS1013)
             {
                 if (MinimumOperatingSystem > SystemInfo.CurOperatingSystem) failedOsCheck = true;
             }
+            // test macos compat
             else if (SystemInfo.CurOperatingSystem < SystemInfoOperatingSystem.Linux
-                && MinimumOperatingSystem < SystemInfoOperatingSystem.Linux) // macos
+                && MinimumOperatingSystem < SystemInfoOperatingSystem.Linux)
             {
                 if (MinimumOperatingSystem > SystemInfo.CurOperatingSystem) failedOsCheck = true;
             }
@@ -331,9 +336,6 @@
             if (failedOsCheck) _ = new NCException($"Insufficient OS version to run game. {MinimumOperatingSystem} must be used, you have {SystemInfo.CurOperatingSystem}!", 114, $"OS version less than GlobalSettings::MinimumOperatingSystem!", NCExceptionSeverity.FatalError);
         }
 
-        public static void Write()
-        {
-            IniFile.Write(GLOBALSETTINGS_PATH);
-        }
+        public static void Write() => IniFile.Write(GLOBALSETTINGS_PATH);
     }
 }

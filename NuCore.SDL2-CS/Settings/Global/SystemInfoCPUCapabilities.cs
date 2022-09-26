@@ -1,4 +1,6 @@
-﻿namespace LightningGL
+﻿using System;
+
+namespace LightningBase
 {
     [Flags]
     /// <summary>
