@@ -25,6 +25,12 @@
         private int RealRange => (int)((Range * 40) * sinus);
 
         /// <summary>
+        /// The colour of this Light.
+        /// The alpha value is ignored.
+        /// </summary>
+        public Color LightColor { get; set; }
+
+        /// <summary>
         /// sin(45) but (slightly) faster
         /// </summary>
         const float sinus = 0.70710678118f;
@@ -53,7 +59,17 @@
             float maxSizeX = cRenderer.Settings.Size.X;
             float maxSizeY = cRenderer.Settings.Size.Y;
 
-            Color transparentBaseColor = Color.FromArgb(0, LightManager.EnvironmentalLight.R, LightManager.EnvironmentalLight.G, LightManager.EnvironmentalLight.B);
+            Color transparentBaseColor;
+
+            if (LightColor == default)
+            {
+                transparentBaseColor = Color.FromArgb(0, LightManager.EnvironmentalLight.R, LightManager.EnvironmentalLight.G, LightManager.EnvironmentalLight.B);
+            }
+            else
+            {
+                transparentBaseColor = Color.FromArgb(0, LightColor.R, LightColor.G, LightColor.B);
+            }
+
 
             // calculate magnitude of vector so that the alpha can be calculated
 
@@ -66,25 +82,59 @@
                     // don't draw offscreen pixels
                     if (curX >= 0 && curY >= 0 && curX < maxSizeX && curY < maxSizeY)
                     {
-                        Vector2 final = new Vector2(curX, curY);
+                        Vector2 final = new(curX, curY);
 
                         double newDistance = Vector2.Distance(initialPos, final);
 
-                        double transparency = 0;
+                        double opaqueness = 0;
 
-                        if (newDistance > 0) transparency = (double)(newDistance * (10 / Range));
+                        if (LightColor == default)
+                        {
+                            if (newDistance > 0) opaqueness = (double)(newDistance * (10 / Range));
 
-                        if (transparency > LightManager.EnvironmentalLight.A) transparency = LightManager.EnvironmentalLight.A;
+                            if (opaqueness > LightManager.EnvironmentalLight.A) opaqueness = LightManager.EnvironmentalLight.A;
 
-                        if (transparency < (255 - Brightness)) transparency = (255 - Brightness);
+                            if (opaqueness < (255 - Brightness)) opaqueness = (255 - Brightness);
+                        }
+                        else
+                        {
+                            if (newDistance > 0)
+                            {
+                                opaqueness = (double)(newDistance * (10 / Range));
+
+                                if (opaqueness < 255) opaqueness = 255 - opaqueness;
+                            }
+                        }
 
                         // optimisation: don't bother setting pixels we don't need to set
-                        if (transparency < LightManager.EnvironmentalLight.A)
+                        if (opaqueness < LightManager.EnvironmentalLight.A)
                         {
                             // math.clamp has aggressive inlining and is therefore a bit faster
-                            transparency = Math.Clamp(transparency, 0, LightManager.EnvironmentalLight.A);
+                            opaqueness = Math.Clamp(opaqueness, 0, LightManager.EnvironmentalLight.A);
 
-                            transparentBaseColor = Color.FromArgb((byte)transparency, transparentBaseColor.R, transparentBaseColor.G, transparentBaseColor.B);
+                            if (LightColor == default)
+                            {
+                                transparentBaseColor = Color.FromArgb((byte)opaqueness, 
+                                    transparentBaseColor.R, 
+                                    transparentBaseColor.G, 
+                                    transparentBaseColor.B);
+                            }
+                            else
+                            {
+                                double finalA = LightColor.A * ((double)(255 - opaqueness) / 255);
+                                double finalR = LightColor.R * ((double)opaqueness / 255);
+                                double finalG = LightColor.G * ((double)opaqueness / 255);
+                                double finalB = LightColor.B * ((double)opaqueness / 255);
+
+                                // adjust for brightness
+                                finalA += (255 - Brightness);
+                                if (finalA > 255) finalA = 255;
+
+                                transparentBaseColor = Color.FromArgb((byte)finalA,
+                                    (byte)finalR,
+                                    (byte)finalG,
+                                    (byte)finalB);
+                            }
 
                             LightManager.ScreenSpaceMap.SetPixel(curX, curY, transparentBaseColor);
                         }

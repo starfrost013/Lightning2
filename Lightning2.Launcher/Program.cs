@@ -66,7 +66,7 @@ animatedTexture1.Position = new(320, 256);
 
 TextureManager.AddAsset(cRenderer, animatedTexture1);
 
-LightManager.SetEnvironmentalLight(Color.FromArgb(0, 0, 0, 255));
+LightManager.SetEnvironmentalLight(Color.FromArgb(255, 0, 0, 0));
 
 // todo: particleeffectsettings?
 
@@ -153,9 +153,10 @@ LightManager.AddAsset(cRenderer, new Light
 LightManager.AddAsset(cRenderer, new Light
 {
     Position = new(200, 0),
+    LightColor = Color.FromArgb(255, 255, 0, 0),
     Range = 4,
     Brightness = 255,
-});
+}) ;
 
 AudioManager.LoadFile(cRenderer, @"Content\xm_boot.mp3");
 AudioManager.LoadFile(cRenderer, @"Content\xm_boot_ogg.ogg");
