@@ -86,20 +86,21 @@
             // loadJSONToolStripMenuItem
             // 
             this.loadJSONToolStripMenuItem.Name = "loadJSONToolStripMenuItem";
-            this.loadJSONToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.loadJSONToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadJSONToolStripMenuItem.Text = "Load to JSON";
             // 
             // exportJSONToolStripMenuItem
             // 
             this.exportJSONToolStripMenuItem.Name = "exportJSONToolStripMenuItem";
-            this.exportJSONToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.exportJSONToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exportJSONToolStripMenuItem.Text = "Save to JSON";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // animationToolStripMenuItem
             // 
@@ -115,7 +116,7 @@
             // setLengthToolStripMenuItem
             // 
             this.setLengthToolStripMenuItem.Name = "setLengthToolStripMenuItem";
-            this.setLengthToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.setLengthToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.setLengthToolStripMenuItem.Text = "Set Length";
             // 
             // addNewToolStripMenuItem
@@ -124,32 +125,32 @@
             this.propertyToolStripMenuItem,
             this.keyframeToolStripMenuItem});
             this.addNewToolStripMenuItem.Name = "addNewToolStripMenuItem";
-            this.addNewToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.addNewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addNewToolStripMenuItem.Text = "Create New";
             // 
             // propertyToolStripMenuItem
             // 
             this.propertyToolStripMenuItem.Name = "propertyToolStripMenuItem";
-            this.propertyToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.propertyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.propertyToolStripMenuItem.Text = "Property";
             // 
             // keyframeToolStripMenuItem
             // 
             this.keyframeToolStripMenuItem.Name = "keyframeToolStripMenuItem";
-            this.keyframeToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.keyframeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.keyframeToolStripMenuItem.Text = "Keyframe";
             // 
             // removeCurrentToolStripMenuItem
             // 
             this.removeCurrentToolStripMenuItem.Name = "removeCurrentToolStripMenuItem";
-            this.removeCurrentToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.removeCurrentToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.removeCurrentToolStripMenuItem.Text = "Remove Current";
             // 
             // removeAllToolStripMenuItem
             // 
             this.removeAllToolStripMenuItem.Name = "removeAllToolStripMenuItem";
-            this.removeAllToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-            this.removeAllToolStripMenuItem.Text = "Remove All";
+            this.removeAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeAllToolStripMenuItem.Text = "Reset";
             // 
             // helpToolStripMenuItem
             // 

@@ -10,8 +10,23 @@ namespace AnimTool
     /// 
     /// Animation state.
     /// </summary>
-    public class AnimTool
+    public static class AnimTool
     {
-        public Animation CurAnimation { get; set; } 
+        internal static Animation? CurAnimation { get; set; } 
+
+        static AnimTool()
+        {
+            CurAnimation = new Animation("Untitled Animation");
+        }
+
+        internal static void Load()
+        {
+
+        }
+
+        internal static void Save()
+        {
+
+        }
     }
 }

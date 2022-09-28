@@ -7,7 +7,7 @@
     /// 
     /// Definesa a single line of text in the Font Cache.
     /// </summary>
-    internal class FontCacheEntryLine
+    internal class TextCacheEntryLine
     {
         /// <summary>
         /// Handle to each line of the the SDL_Texture* of this font image.

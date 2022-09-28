@@ -155,7 +155,7 @@
                 }
                 else
                 {
-                    FontManager.DrawText(cRenderer, Items[SelectedIndex].Text, Font, Position, ForegroundColor);
+                    TextManager.DrawText(cRenderer, Items[SelectedIndex].Text, Font, Position, ForegroundColor);
                 }
             }
 

@@ -50,7 +50,7 @@
                 textPos.X = textPos.X - (Size.X / 2) - (textSize.X / 2);
                 textPos.Y = textPos.Y - (Size.Y / 2) - (textSize.Y / 2);
 
-                FontManager.DrawText(cRenderer, Text, Font, textPos, ForegroundColor, default(Color), Style);
+                TextManager.DrawText(cRenderer, Text, Font, textPos, ForegroundColor, default(Color), Style);
             }
         }
     }

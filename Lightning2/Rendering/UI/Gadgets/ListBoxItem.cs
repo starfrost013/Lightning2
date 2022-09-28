@@ -36,7 +36,7 @@
             }
             else
             {
-                FontManager.DrawText(cRenderer, Text, Font, Position, ForegroundColor);
+                TextManager.DrawText(cRenderer, Text, Font, Position, ForegroundColor);
             }
         }
     }

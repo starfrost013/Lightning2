@@ -24,6 +24,8 @@
 
         public static FontAssetManager FontManager { get; private set; }
 
+        public static TextAssetManager TextManager { get; private set; }
+
         public static LightAssetManager LightManager { get; private set; }
 
         public static SceneAssetManager SceneManager { get; private set; }
@@ -39,9 +41,11 @@
             ParticleManager = new ParticleAssetManager();
             UIManager = new UIAssetManager();
             FontManager = new FontAssetManager();
+            TextManager = new TextAssetManager();
             LightManager = new LightAssetManager();
             SceneManager = new SceneAssetManager();
             AnimationManager = new AnimationAssetManager();
+
         }
 
         public static void Init(string[] args)
@@ -170,6 +174,9 @@
 
             NCLogging.Log("Destroying renderer...");
             cRenderer.Shutdown();
+
+            NCLogging.Log("Shutting down the Text Manager...");
+            TextManager.Shutdown();
 
             NCLogging.Log("Shutting down the Font Manager...");
             FontManager.Shutdown();

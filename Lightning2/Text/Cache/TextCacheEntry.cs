@@ -7,7 +7,7 @@
     /// 
     /// Defines an entry into the font cache.
     /// </summary>
-    internal class FontCacheEntry
+    public class TextCacheEntry : Renderable
     {
         /// <summary>
         /// The font of this font cache entry.
@@ -35,7 +35,7 @@
         /// <summary>
         /// The set of lines in this font cache entry.
         /// </summary>
-        internal List<FontCacheEntryLine> Lines { get; private set; }
+        internal List<TextCacheEntryLine> Lines { get; private set; }
 
         /// <summary>
         /// The colour of this font.
@@ -69,16 +69,16 @@
         /// </summary>
         internal bool UsedThisFrame { get; set; }
 
-        internal FontCacheEntry()
+        internal TextCacheEntry()
         {
-            Lines = new List<FontCacheEntryLine>();
+            Lines = new List<TextCacheEntryLine>();
         }
 
-        internal static FontCacheEntry Render(Renderer cRenderer, string font, string text,
+        internal static TextCacheEntry Render(Renderer cRenderer, string font, string text,
             SDL_Color fgColor, TTF_FontStyle style, FontSmoothingType smoothingType = FontSmoothingType.Default,
             int outlineSize = -1, SDL_Color bgColor = default)
         {
-            FontCacheEntry entry = new FontCacheEntry();
+            TextCacheEntry entry = new TextCacheEntry();
 
             entry.Color = fgColor;
             entry.Font = font;
@@ -108,7 +108,7 @@
 
             foreach (string line in textLines)
             {
-                FontCacheEntryLine cachedLine = new FontCacheEntryLine
+                TextCacheEntryLine cachedLine = new TextCacheEntryLine
                 {
                     Text = line,
                 };
@@ -151,7 +151,7 @@
         {
             for (int lineId = 0; lineId < Lines.Count; lineId++)
             {
-                FontCacheEntryLine line = Lines[lineId];
+                TextCacheEntryLine line = Lines[lineId];
                 SDL_DestroyTexture(line.Handle);
                 Lines.Remove(line);
             }

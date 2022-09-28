@@ -147,7 +147,7 @@
         public void Render(Renderer cRenderer)
         {
             PrimitiveRenderer.DrawRectangle(cRenderer, Position, Size, CurBackgroundColor, true, Bordercolor, BorderSize, SnapToScreen);
-            FontManager.DrawText(cRenderer, Text, Font, Position, ForegroundColor);
+            TextManager.DrawText(cRenderer, Text, Font, Position, ForegroundColor);
 
             // slight hack
             if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;

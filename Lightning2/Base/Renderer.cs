@@ -351,6 +351,7 @@ namespace LightningGL
             foreach (Renderable renderable in UIManager.Assets) renderables.Add(renderable);
             foreach (Renderable renderable in TextureManager.Assets) renderables.Add(renderable);
             foreach (Renderable renderable in ParticleManager.Assets) renderables.Add(renderable);
+            foreach (Renderable renderable in TextManager.Assets) renderables.Add(renderable);
 
             // if we haven't specified otherwise...
             if (!GlobalSettings.RenderOffScreenRenderables)
