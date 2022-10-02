@@ -24,5 +24,11 @@ namespace AnimTool
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e) => Close();
+
+        private void propertyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddPropertyForm addPropertyForm = new AddPropertyForm();
+            addPropertyForm.ShowDialog();
+        }
     }
 }

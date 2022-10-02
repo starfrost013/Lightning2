@@ -45,8 +45,8 @@ for (int x = 0; x < texture.Size.X; x++)
 
 texture.Unlock();
 
-texture.Position = new Vector2(0, 0);
-texture.Repeat = new Vector2(3, 3);
+texture.Position = new(0, 0);
+texture.Repeat = new(3, 3);
 
 TextureAtlas textureAtlas1 = new(cRenderer, new(64, 64), new(4, 4));
 

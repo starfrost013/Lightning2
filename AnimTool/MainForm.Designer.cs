@@ -86,19 +86,19 @@
             // loadJSONToolStripMenuItem
             // 
             this.loadJSONToolStripMenuItem.Name = "loadJSONToolStripMenuItem";
-            this.loadJSONToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadJSONToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.loadJSONToolStripMenuItem.Text = "Load to JSON";
             // 
             // exportJSONToolStripMenuItem
             // 
             this.exportJSONToolStripMenuItem.Name = "exportJSONToolStripMenuItem";
-            this.exportJSONToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportJSONToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.exportJSONToolStripMenuItem.Text = "Save to JSON";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -133,6 +133,7 @@
             this.propertyToolStripMenuItem.Name = "propertyToolStripMenuItem";
             this.propertyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.propertyToolStripMenuItem.Text = "Property";
+            this.propertyToolStripMenuItem.Click += new System.EventHandler(this.propertyToolStripMenuItem_Click);
             // 
             // keyframeToolStripMenuItem
             // 
@@ -164,14 +165,14 @@
             // viewAPIReferenceToolStripMenuItem
             // 
             this.viewAPIReferenceToolStripMenuItem.Name = "viewAPIReferenceToolStripMenuItem";
-            this.viewAPIReferenceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewAPIReferenceToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.viewAPIReferenceToolStripMenuItem.Text = "View API Reference";
             this.viewAPIReferenceToolStripMenuItem.Click += new System.EventHandler(this.viewAPIReferenceToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 

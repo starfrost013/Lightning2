@@ -1,4 +1,5 @@
 ﻿using LightningGL;
+using Newtonsoft.Json;
 using System;
 
 namespace AnimTool
@@ -17,16 +18,25 @@ namespace AnimTool
         static AnimTool()
         {
             CurAnimation = new Animation("Untitled Animation");
+            //TODO: ADD RENDERABLE PROPERTIES
         }
 
         internal static void Load()
         {
-
+            if (CurAnimation != null)
+            {
+                CurAnimation = (Animation?)JsonConvert.DeserializeObject(CurAnimation.Path);
+            }
+            
         }
 
         internal static void Save()
         {
-
+            if (CurAnimation != null)
+            {
+                string json = JsonConvert.SerializeObject(CurAnimation);
+                File.WriteAllText(CurAnimation.Path, json);
+            }
         }
     }
 }
