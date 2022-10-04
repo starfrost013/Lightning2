@@ -1,13 +1,6 @@
 ﻿using LightningGL;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Reflection;
+
 
 namespace AnimTool
 {
@@ -16,7 +9,7 @@ namespace AnimTool
         public AddPropertyForm()
         {
             InitializeComponent();
-            
+
             if (AnimTool.CurAnimation != null)
             {
                 foreach (AnimationProperty property in AnimTool.CurAnimation.Properties)
@@ -26,6 +19,12 @@ namespace AnimTool
             }
 
             if (propertiesComboBox.Items.Count > 0) propertiesComboBox.SelectedIndex = 0;
+        }
+
+        private void addBtn_Click(object sender, EventArgs e)
+        {
+            if (AnimTool.CurAnimation != null) AnimTool.CurProperty = AnimTool.CurAnimation.Properties[propertiesComboBox.SelectedIndex];
+            Close();
         }
 
     }
