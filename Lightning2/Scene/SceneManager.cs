@@ -17,9 +17,9 @@ namespace LightningGL
         private Scene CurrentScene { get; set; }
 
         /// <summary>
-        /// The main window of the application.
+        /// The main renderer of the application.
         /// </summary>
-        public Renderer MainWindow { get; private set; }
+        public Renderer Renderer { get; private set; }
 
         /// <summary>
         /// Determines if the scene manager is running.
@@ -28,7 +28,8 @@ namespace LightningGL
 
         public override Scene AddAsset(Renderer cRenderer, Scene asset)
         {
-            throw new NotImplementedException("AddAsset not implemented for SceneManager");
+            _ = new NCException("AddAsset not implemented for SceneManager", 160, "SceneAssetManager::AddAsset called", NCExceptionSeverity.FatalError);
+            return null;
         }
 
         /// <summary>
@@ -39,9 +40,9 @@ namespace LightningGL
         internal void Init(RendererSettings windowSettings)
         {
             // Initialise Lightning2 window.
-            MainWindow = new Renderer();
+            Renderer = new Renderer();
 
-            MainWindow.Start(windowSettings);
+            Renderer.Start(windowSettings);
 
             // Initialise the scenes.
             Assembly assembly = Assembly.GetEntryAssembly();
@@ -76,13 +77,13 @@ namespace LightningGL
         /// </summary>
         internal void Main()
         {
-            while (MainWindow.Run())
+            while (Renderer.Run())
             {
                 // Only put events you want to GLOBALLY handle here.
                 // Every other event will be handled by scene.render
-                if (MainWindow.EventWaiting)
+                if (Renderer.EventWaiting)
                 {
-                    switch (MainWindow.LastEvent.type)
+                    switch (Renderer.LastEvent.type)
                     {
                         case SDL.SDL_EventType.SDL_QUIT:
                             NCLogging.Log("Shutting down scene...");
@@ -94,16 +95,16 @@ namespace LightningGL
                             }
 
                             // shut down the engine
-                            Shutdown(MainWindow);
+                            Shutdown(Renderer);
 
                             break;
                     }
                 }
 
                 // Render the current scene.
-                CurrentScene.Render(MainWindow);
+                CurrentScene.Render(Renderer);
 
-                MainWindow.Render();
+                Renderer.Render();
             }
         }
 
