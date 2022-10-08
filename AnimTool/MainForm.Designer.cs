@@ -105,6 +105,7 @@
             this.setLengthToolStripMenuItem.Name = "setLengthToolStripMenuItem";
             this.setLengthToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.setLengthToolStripMenuItem.Text = "Set Length";
+            this.setLengthToolStripMenuItem.Click += new System.EventHandler(this.setLengthToolStripMenuItem_Click);
             // 
             // addNewToolStripMenuItem
             // 
@@ -118,15 +119,16 @@
             // propertyToolStripMenuItem
             // 
             this.propertyToolStripMenuItem.Name = "propertyToolStripMenuItem";
-            this.propertyToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.propertyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.propertyToolStripMenuItem.Text = "Property";
             this.propertyToolStripMenuItem.Click += new System.EventHandler(this.propertyToolStripMenuItem_Click);
             // 
             // keyframeToolStripMenuItem
             // 
             this.keyframeToolStripMenuItem.Name = "keyframeToolStripMenuItem";
-            this.keyframeToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.keyframeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.keyframeToolStripMenuItem.Text = "Keyframe";
+            this.keyframeToolStripMenuItem.Click += new System.EventHandler(this.keyframeToolStripMenuItem_Click);
             // 
             // removeCurrentToolStripMenuItem
             // 
@@ -139,6 +141,7 @@
             this.removeAllToolStripMenuItem.Name = "removeAllToolStripMenuItem";
             this.removeAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.removeAllToolStripMenuItem.Text = "Reset";
+            this.removeAllToolStripMenuItem.Click += new System.EventHandler(this.removeAllToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 

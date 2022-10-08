@@ -28,46 +28,46 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.animationLengthLabel = new System.Windows.Forms.Label();
-            this.propertyTypeTextLabel = new System.Windows.Forms.Label();
-            this.propertyNameTextLabel = new System.Windows.Forms.Label();
+            this.animationLengthText = new System.Windows.Forms.Label();
+            this.propertyValueText = new System.Windows.Forms.Label();
+            this.propertyNameValueText = new System.Windows.Forms.Label();
             this.removeBtn = new System.Windows.Forms.Button();
             this.addBtn = new System.Windows.Forms.Button();
-            this.valueListBox = new System.Windows.Forms.TextBox();
-            this.valueLabel = new System.Windows.Forms.Label();
-            this.propertyTypeLabel = new System.Windows.Forms.Label();
-            this.propertyNameLabel = new System.Windows.Forms.Label();
+            this.valueValueText = new System.Windows.Forms.TextBox();
+            this.valueText = new System.Windows.Forms.Label();
+            this.propertyTypeText = new System.Windows.Forms.Label();
+            this.propertyNameText = new System.Windows.Forms.Label();
             this.keyframeLabel = new System.Windows.Forms.Label();
             this.keyframeListBox = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
-            // animationLengthLabel
+            // animationLengthText
             // 
-            this.animationLengthLabel.AutoSize = true;
-            this.animationLengthLabel.Location = new System.Drawing.Point(589, 358);
-            this.animationLengthLabel.Name = "animationLengthLabel";
-            this.animationLengthLabel.Size = new System.Drawing.Size(131, 15);
-            this.animationLengthLabel.TabIndex = 13;
-            this.animationLengthLabel.Text = "Animation Length: N/A";
-            this.animationLengthLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.animationLengthText.AutoSize = true;
+            this.animationLengthText.Location = new System.Drawing.Point(589, 358);
+            this.animationLengthText.Name = "animationLengthText";
+            this.animationLengthText.Size = new System.Drawing.Size(131, 15);
+            this.animationLengthText.TabIndex = 13;
+            this.animationLengthText.Text = "Animation Length: N/A";
+            this.animationLengthText.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // propertyTypeTextLabel
+            // propertyValueText
             // 
-            this.propertyTypeTextLabel.AutoSize = true;
-            this.propertyTypeTextLabel.Location = new System.Drawing.Point(384, 84);
-            this.propertyTypeTextLabel.Name = "propertyTypeTextLabel";
-            this.propertyTypeTextLabel.Size = new System.Drawing.Size(29, 15);
-            this.propertyTypeTextLabel.TabIndex = 21;
-            this.propertyTypeTextLabel.Text = "N/A";
+            this.propertyValueText.AutoSize = true;
+            this.propertyValueText.Location = new System.Drawing.Point(384, 84);
+            this.propertyValueText.Name = "propertyValueText";
+            this.propertyValueText.Size = new System.Drawing.Size(29, 15);
+            this.propertyValueText.TabIndex = 21;
+            this.propertyValueText.Text = "N/A";
             // 
-            // propertyNameTextLabel
+            // propertyNameValueText
             // 
-            this.propertyNameTextLabel.AutoSize = true;
-            this.propertyNameTextLabel.Location = new System.Drawing.Point(384, 54);
-            this.propertyNameTextLabel.Name = "propertyNameTextLabel";
-            this.propertyNameTextLabel.Size = new System.Drawing.Size(29, 15);
-            this.propertyNameTextLabel.TabIndex = 20;
-            this.propertyNameTextLabel.Text = "N/A";
+            this.propertyNameValueText.AutoSize = true;
+            this.propertyNameValueText.Location = new System.Drawing.Point(384, 54);
+            this.propertyNameValueText.Name = "propertyNameValueText";
+            this.propertyNameValueText.Size = new System.Drawing.Size(29, 15);
+            this.propertyNameValueText.TabIndex = 20;
+            this.propertyNameValueText.Text = "N/A";
             // 
             // removeBtn
             // 
@@ -77,6 +77,7 @@
             this.removeBtn.TabIndex = 19;
             this.removeBtn.Text = "Remove";
             this.removeBtn.UseVisualStyleBackColor = true;
+            this.removeBtn.Click += new System.EventHandler(this.removeBtn_Click);
             // 
             // addBtn
             // 
@@ -87,39 +88,39 @@
             this.addBtn.Text = "Add";
             this.addBtn.UseVisualStyleBackColor = true;
             // 
-            // valueListBox
+            // valueValueText
             // 
-            this.valueListBox.Location = new System.Drawing.Point(384, 113);
-            this.valueListBox.Name = "valueListBox";
-            this.valueListBox.Size = new System.Drawing.Size(336, 23);
-            this.valueListBox.TabIndex = 17;
+            this.valueValueText.Location = new System.Drawing.Point(384, 113);
+            this.valueValueText.Name = "valueValueText";
+            this.valueValueText.Size = new System.Drawing.Size(336, 23);
+            this.valueValueText.TabIndex = 17;
             // 
-            // valueLabel
+            // valueText
             // 
-            this.valueLabel.AutoSize = true;
-            this.valueLabel.Location = new System.Drawing.Point(289, 116);
-            this.valueLabel.Name = "valueLabel";
-            this.valueLabel.Size = new System.Drawing.Size(38, 15);
-            this.valueLabel.TabIndex = 16;
-            this.valueLabel.Text = "Value:";
+            this.valueText.AutoSize = true;
+            this.valueText.Location = new System.Drawing.Point(289, 116);
+            this.valueText.Name = "valueText";
+            this.valueText.Size = new System.Drawing.Size(38, 15);
+            this.valueText.TabIndex = 16;
+            this.valueText.Text = "Value:";
             // 
-            // propertyTypeLabel
+            // propertyTypeText
             // 
-            this.propertyTypeLabel.AutoSize = true;
-            this.propertyTypeLabel.Location = new System.Drawing.Point(289, 84);
-            this.propertyTypeLabel.Name = "propertyTypeLabel";
-            this.propertyTypeLabel.Size = new System.Drawing.Size(85, 15);
-            this.propertyTypeLabel.TabIndex = 15;
-            this.propertyTypeLabel.Text = "Property Type: ";
+            this.propertyTypeText.AutoSize = true;
+            this.propertyTypeText.Location = new System.Drawing.Point(289, 84);
+            this.propertyTypeText.Name = "propertyTypeText";
+            this.propertyTypeText.Size = new System.Drawing.Size(85, 15);
+            this.propertyTypeText.TabIndex = 15;
+            this.propertyTypeText.Text = "Property Type: ";
             // 
-            // propertyNameLabel
+            // propertyNameText
             // 
-            this.propertyNameLabel.AutoSize = true;
-            this.propertyNameLabel.Location = new System.Drawing.Point(289, 54);
-            this.propertyNameLabel.Name = "propertyNameLabel";
-            this.propertyNameLabel.Size = new System.Drawing.Size(90, 15);
-            this.propertyNameLabel.TabIndex = 14;
-            this.propertyNameLabel.Text = "Property Name:";
+            this.propertyNameText.AutoSize = true;
+            this.propertyNameText.Location = new System.Drawing.Point(289, 54);
+            this.propertyNameText.Name = "propertyNameText";
+            this.propertyNameText.Size = new System.Drawing.Size(90, 15);
+            this.propertyNameText.TabIndex = 14;
+            this.propertyNameText.Text = "Property Name:";
             // 
             // keyframeLabel
             // 
@@ -138,21 +139,22 @@
             this.keyframeListBox.Name = "keyframeListBox";
             this.keyframeListBox.Size = new System.Drawing.Size(178, 289);
             this.keyframeListBox.TabIndex = 11;
+            this.keyframeListBox.SelectedIndexChanged += new System.EventHandler(this.keyframeListBox_SelectedIndexChanged);
             // 
             // TabContent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.Controls.Add(this.animationLengthLabel);
-            this.Controls.Add(this.propertyTypeTextLabel);
-            this.Controls.Add(this.propertyNameTextLabel);
+            this.Controls.Add(this.animationLengthText);
+            this.Controls.Add(this.propertyValueText);
+            this.Controls.Add(this.propertyNameValueText);
             this.Controls.Add(this.removeBtn);
             this.Controls.Add(this.addBtn);
-            this.Controls.Add(this.valueListBox);
-            this.Controls.Add(this.valueLabel);
-            this.Controls.Add(this.propertyTypeLabel);
-            this.Controls.Add(this.propertyNameLabel);
+            this.Controls.Add(this.valueValueText);
+            this.Controls.Add(this.valueText);
+            this.Controls.Add(this.propertyTypeText);
+            this.Controls.Add(this.propertyNameText);
             this.Controls.Add(this.keyframeLabel);
             this.Controls.Add(this.keyframeListBox);
             this.Name = "TabContent";
@@ -164,15 +166,15 @@
 
         #endregion
 
-        private Label animationLengthLabel;
-        private Label propertyTypeTextLabel;
-        private Label propertyNameTextLabel;
+        private Label animationLengthText;
+        private Label propertyValueText;
+        private Label propertyNameValueText;
         private Button removeBtn;
         private Button addBtn;
-        private TextBox valueListBox;
-        private Label valueLabel;
-        private Label propertyTypeLabel;
-        private Label propertyNameLabel;
+        private TextBox valueValueText;
+        private Label valueText;
+        private Label propertyTypeText;
+        private Label propertyNameText;
         private Label keyframeLabel;
         private ListBox keyframeListBox;
     }

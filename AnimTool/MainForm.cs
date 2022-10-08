@@ -33,6 +33,13 @@ namespace AnimTool
             FullUpdateTabContent();
         }
 
+        private void setLengthToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetLengthForm setLengthForm = new SetLengthForm();
+            setLengthForm.ShowDialog();
+            UpdateTabContent();
+        }
+
         private void propertiesTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (AnimTool.CurAnimation != null
@@ -84,6 +91,26 @@ namespace AnimTool
                 TabContent control = (TabContent)tabPage.Controls[0];
 
                 control.UpdateTabContent();
+            }
+        }
+
+        private void removeAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (AnimTool.CurAnimation != null)
+            {
+                AnimTool.CurAnimation.Properties.Clear();
+                AnimTool.CurProperty = null;
+                FullUpdateTabContent();
+            }
+        }
+
+        private void keyframeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (AnimTool.CurAnimation != null)
+            {
+                AddKeyframeForm addKeyframeForm = new AddKeyframeForm();
+                addKeyframeForm.ShowDialog();
+                UpdateTabContent();
             }
         }
     }

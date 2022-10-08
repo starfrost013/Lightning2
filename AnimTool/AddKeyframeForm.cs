@@ -15,6 +15,7 @@ namespace AnimTool
         public AddKeyframeForm()
         {
             InitializeComponent();
+            if (AnimTool.CurAnimation != null) lengthText.Text = $"{AnimTool.CurAnimation.Length}ms";
         }
 
     }

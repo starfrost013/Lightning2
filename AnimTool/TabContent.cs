@@ -13,6 +13,15 @@ namespace AnimTool
 {
     public partial class TabContent : UserControl
     {
+        private AnimationKeyframe CurKeyframe
+        {
+            get
+            {
+                if (AnimTool.CurProperty != null) return AnimTool.CurProperty.Keyframes[keyframeListBox.SelectedIndex];
+                throw new InvalidOperationException("No CurProperty, this should never happen!"); // make an ncexception?
+            }
+        }
+
         public TabContent()
         {
             InitializeComponent();
@@ -23,12 +32,37 @@ namespace AnimTool
             if (AnimTool.CurAnimation != null
                 && AnimTool.CurProperty != null)
             {
-                animationLengthLabel.Text = $"Animation Length: {AnimTool.CurAnimation.Length}ms";
+                animationLengthText.Text = $"Animation Length: {AnimTool.CurAnimation.Length}ms";
 
                 foreach (AnimationKeyframe keyframe in AnimTool.CurProperty.Keyframes)
                 {
                     keyframeListBox.Items.Add($"{keyframe.Position}ms (ID {keyframe.Id})");
                 }
+            }
+        }
+
+        private void removeBtn_Click(object sender, EventArgs e)
+        {
+            if (keyframeListBox.SelectedIndex >= 0
+                && keyframeListBox.SelectedIndex < keyframeListBox.Items.Count)
+            {
+                keyframeListBox.Items.RemoveAt(keyframeListBox.SelectedIndex);
+                
+                if (AnimTool.CurProperty != null)
+                {
+                    AnimTool.CurProperty.Keyframes.RemoveAt(keyframeListBox.SelectedIndex);
+                }
+
+                keyframeListBox.SelectedIndex = keyframeListBox.Items.Count - 1; // will not select any if we delete last item as -1 = no item selected and 0 - 1 = -1
+            }
+        }
+
+        private void keyframeListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (keyframeListBox.SelectedIndex >= 0)
+            {
+                propertyTypeText.Text = $"{CurKeyframe.Position}ms";
+                propertyValueText.Text = CurKeyframe.Value.ToString();
             }
         }
     }

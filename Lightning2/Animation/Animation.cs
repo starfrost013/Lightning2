@@ -52,7 +52,7 @@ namespace LightningGL
         /// <summary>
         /// The length of this animation in milliseconds.
         /// </summary>
-        public int Length { get; internal set; }
+        public int Length { get; set; }
 
         [JsonProperty] // required for internal
         /// <summary>

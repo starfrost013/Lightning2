@@ -46,6 +46,11 @@ namespace LightningBase
             LocalSettingsFile.Sections.Add(new NCINIFileSection(sectionName));
         }
 
+        public static void DeleteSection(string sectionName)
+        {
+            LocalSettingsFile.Sections.Remove(LocalSettingsFile.GetSection(sectionName));
+        }
+
         /// <summary>
         /// Adds a value to the local settings file.
         /// </summary>
@@ -55,7 +60,22 @@ namespace LightningBase
         public static void AddValue(string sectionName, string key, string value)
         {
             NCINIFileSection section = LocalSettingsFile.GetSection(sectionName);
+
             section.Values.Add(key, value);
         }
+
+        public static void SetValue(string sectionName, string key, string value)
+        {
+            NCINIFileSection section = LocalSettingsFile.GetSection(sectionName);
+
+            section.Values[key] = value;
+        }
+
+        public static void DeleteKey(string sectionName, string key)
+        {
+            NCINIFileSection section = LocalSettingsFile.GetSection(sectionName);
+            section.Values.Remove(key);
+        }
+
     }
 }

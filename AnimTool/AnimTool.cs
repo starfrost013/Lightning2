@@ -20,7 +20,6 @@ namespace AnimTool
         /// The current property being edited.
         /// </summary>
         internal static AnimationProperty? CurProperty { get; set; }
-
         static AnimTool()
         {
             CurAnimation = new Animation("Untitled Animation");

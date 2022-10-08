@@ -164,6 +164,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Content\Logo\iDLogo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
     <None Update="Tools\AssemblyInfo.tt">
       <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
       <Generator>TextTemplatingFileGeneratorCore</Generator>
