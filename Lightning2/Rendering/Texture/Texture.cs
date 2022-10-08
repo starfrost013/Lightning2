@@ -96,6 +96,27 @@ namespace LightningGL
         /// </summary>
         public SDL_TextureAccess Access { get; internal set; }
 
+        public byte _opacity;
+        public byte Opacity
+        {
+            get
+            {
+                return _opacity;
+            }
+            internal set
+            {
+                if (!Loaded)
+                {
+                    _ = new NCException("Attempted to set the opacity of an unloaded Texture - please load it first!. \nThe Opacity will not be changed until you load the texture.", 161,
+                   "Texture::SetOpacity called when Texture::Loaded is FALSE", NCExceptionSeverity.Warning, null, false);
+                    return;
+                }
+
+                _opacity = value;
+                SDL_SetTextureAlphaMod(Handle, _opacity);
+            }
+        }
+
         /// <summary>
         /// Initialises a new texture with the size specified in the <paramref name="nSize"/> parameter.
         /// </summary>
@@ -353,18 +374,7 @@ namespace LightningGL
             }
         }
 
-        public void SetTransparency(byte transparency)
-        {
-            for (int y = 0; y < Size.Y; y++)
-            {
-                for (int x = 0; x < Size.X; x++)
-                {
-                    Color pixelColour = GetPixel(x, y);
-                    SetPixel(x, y, Color.FromArgb(transparency, pixelColour.R, pixelColour.G, pixelColour.B));
-                }
-            }
-        }
-
+        public void SetOpacity(byte opacity) => Opacity = opacity;
 
         /// <summary>
         /// Sets the blend mode of this texture. See the documentation for the <see cref="SDL_BlendMode"/> enum.
