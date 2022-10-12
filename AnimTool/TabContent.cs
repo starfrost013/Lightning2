@@ -17,7 +17,8 @@ namespace AnimTool
         {
             get
             {
-                if (AnimTool.CurProperty != null) return AnimTool.CurProperty.Keyframes[keyframeListBox.SelectedIndex];
+                if (AnimTool.CurProperty != null
+                    && keyframeListBox.SelectedIndex > -1) return AnimTool.CurProperty.Keyframes[keyframeListBox.SelectedIndex];
                 throw new InvalidOperationException("No CurProperty, this should never happen!"); // make an ncexception?
             }
         }
@@ -59,11 +60,20 @@ namespace AnimTool
 
         private void keyframeListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (keyframeListBox.SelectedIndex >= 0)
+            if (keyframeListBox.SelectedIndex >= 0
+                && AnimTool.CurProperty != null)
             {
-                propertyTypeText.Text = $"{CurKeyframe.Position}ms";
-                propertyValueText.Text = CurKeyframe.Value.ToString();
+                propertyPositionValueText.Text = $"{CurKeyframe.Position}ms";
+                propertyTypeValueText.Text = AnimTool.CurProperty.Type;
+                valueValueText.Text = CurKeyframe.Value.ToString();
             }
+        }
+
+        private void addBtn_Click(object sender, EventArgs e)
+        {
+            AddKeyframeForm addKeyframeForm = new AddKeyframeForm();
+            addKeyframeForm.ShowDialog();
+            UpdateTabContent();
         }
     }
 }

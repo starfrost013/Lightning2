@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.addKeyframeText = new System.Windows.Forms.Label();
-            this.propertyTextBox = new System.Windows.Forms.ComboBox();
             this.addButton = new System.Windows.Forms.Button();
-            this.propertyText = new System.Windows.Forms.Label();
             this.lengthTrackBar = new System.Windows.Forms.TrackBar();
             this.positionText = new System.Windows.Forms.Label();
             this.zeroMsText = new System.Windows.Forms.Label();
             this.lengthText = new System.Windows.Forms.Label();
+            this.initialValueLabel = new System.Windows.Forms.Label();
+            this.initialValueTextBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.lengthTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,43 +49,27 @@
             this.addKeyframeText.TabIndex = 0;
             this.addKeyframeText.Text = "Add Keyframe";
             // 
-            // propertyTextBox
-            // 
-            this.propertyTextBox.FormattingEnabled = true;
-            this.propertyTextBox.Location = new System.Drawing.Point(76, 97);
-            this.propertyTextBox.Name = "propertyTextBox";
-            this.propertyTextBox.Size = new System.Drawing.Size(270, 23);
-            this.propertyTextBox.TabIndex = 1;
-            // 
             // addButton
             // 
-            this.addButton.Location = new System.Drawing.Point(242, 193);
+            this.addButton.Location = new System.Drawing.Point(363, 162);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(75, 23);
             this.addButton.TabIndex = 3;
             this.addButton.Text = "Add";
             this.addButton.UseVisualStyleBackColor = true;
-            // 
-            // propertyText
-            // 
-            this.propertyText.AutoSize = true;
-            this.propertyText.Location = new System.Drawing.Point(12, 100);
-            this.propertyText.Name = "propertyText";
-            this.propertyText.Size = new System.Drawing.Size(58, 15);
-            this.propertyText.TabIndex = 4;
-            this.propertyText.Text = "Property: ";
+            this.addButton.Click += new System.EventHandler(this.addButton_Click);
             // 
             // lengthTrackBar
             // 
-            this.lengthTrackBar.Location = new System.Drawing.Point(91, 142);
+            this.lengthTrackBar.Location = new System.Drawing.Point(91, 98);
             this.lengthTrackBar.Name = "lengthTrackBar";
-            this.lengthTrackBar.Size = new System.Drawing.Size(226, 45);
+            this.lengthTrackBar.Size = new System.Drawing.Size(215, 45);
             this.lengthTrackBar.TabIndex = 5;
             // 
             // positionText
             // 
             this.positionText.AutoSize = true;
-            this.positionText.Location = new System.Drawing.Point(12, 142);
+            this.positionText.Location = new System.Drawing.Point(12, 98);
             this.positionText.Name = "positionText";
             this.positionText.Size = new System.Drawing.Size(53, 15);
             this.positionText.TabIndex = 6;
@@ -94,7 +78,7 @@
             // zeroMsText
             // 
             this.zeroMsText.AutoSize = true;
-            this.zeroMsText.Location = new System.Drawing.Point(71, 142);
+            this.zeroMsText.Location = new System.Drawing.Point(71, 98);
             this.zeroMsText.Name = "zeroMsText";
             this.zeroMsText.Size = new System.Drawing.Size(29, 15);
             this.zeroMsText.TabIndex = 7;
@@ -103,24 +87,40 @@
             // lengthText
             // 
             this.lengthText.AutoSize = true;
-            this.lengthText.Location = new System.Drawing.Point(312, 142);
+            this.lengthText.Location = new System.Drawing.Point(301, 98);
             this.lengthText.Name = "lengthText";
             this.lengthText.Size = new System.Drawing.Size(44, 15);
             this.lengthText.TabIndex = 8;
             this.lengthText.Text = "Length";
             // 
+            // initialValueLabel
+            // 
+            this.initialValueLabel.AutoSize = true;
+            this.initialValueLabel.Location = new System.Drawing.Point(12, 134);
+            this.initialValueLabel.Name = "initialValueLabel";
+            this.initialValueLabel.Size = new System.Drawing.Size(70, 15);
+            this.initialValueLabel.TabIndex = 9;
+            this.initialValueLabel.Text = "Initial Value:";
+            // 
+            // initialValueTextBox
+            // 
+            this.initialValueTextBox.Location = new System.Drawing.Point(91, 131);
+            this.initialValueTextBox.Name = "initialValueTextBox";
+            this.initialValueTextBox.Size = new System.Drawing.Size(254, 23);
+            this.initialValueTextBox.TabIndex = 10;
+            // 
             // AddKeyframeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(358, 245);
+            this.ClientSize = new System.Drawing.Size(450, 197);
+            this.Controls.Add(this.initialValueTextBox);
+            this.Controls.Add(this.initialValueLabel);
             this.Controls.Add(this.lengthText);
             this.Controls.Add(this.zeroMsText);
             this.Controls.Add(this.positionText);
             this.Controls.Add(this.lengthTrackBar);
-            this.Controls.Add(this.propertyText);
             this.Controls.Add(this.addButton);
-            this.Controls.Add(this.propertyTextBox);
             this.Controls.Add(this.addKeyframeText);
             this.Name = "AddKeyframeForm";
             this.Text = "Add Keyframe";
@@ -133,12 +133,12 @@
         #endregion
 
         private Label addKeyframeText;
-        private ComboBox propertyTextBox;
         private Button addButton;
-        private Label propertyText;
         private TrackBar lengthTrackBar;
         private Label positionText;
         private Label zeroMsText;
         private Label lengthText;
+        private Label initialValueLabel;
+        private TextBox initialValueTextBox;
     }
 }

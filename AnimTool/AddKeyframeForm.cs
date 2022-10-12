@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using LightningGL;
+using NuCore.Utilities;
 
 namespace AnimTool
 {
@@ -18,5 +11,25 @@ namespace AnimTool
             if (AnimTool.CurAnimation != null) lengthText.Text = $"{AnimTool.CurAnimation.Length}ms";
         }
 
+        private void addButton_Click(object sender, EventArgs e)
+        {
+            if (AnimTool.CurProperty != null
+                && AnimTool.CurAnimation != null)
+            {
+                string propertyType = AnimTool.CurProperty.Type;
+                string propertyValue = initialValueTextBox.Text;
+
+                if (!AnimTool.IsPropertyValid(propertyType, propertyValue))
+                {
+                    _ = new NCException($"Invalid value for AnimationKeyframe type {propertyType}", 162, 
+                         $"AddKeyframeForm::addButton_Click: Failure converting property to animation keyframe type {propertyType}", NCExceptionSeverity.Warning);
+                    return;
+                }
+
+                AnimTool.CurProperty.Keyframes.Add(new AnimationKeyframe(lengthTrackBar.Value, propertyValue));
+
+                Close();
+            }
+        }
     }
 }

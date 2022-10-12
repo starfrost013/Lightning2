@@ -1,6 +1,8 @@
 ﻿using LightningGL;
 using Newtonsoft.Json;
+using NuCore.Utilities;
 using System;
+using System.DirectoryServices.ActiveDirectory;
 using System.Reflection;
 
 namespace AnimTool
@@ -55,6 +57,36 @@ namespace AnimTool
                 string json = JsonConvert.SerializeObject(CurAnimation);
                 File.WriteAllText(CurAnimation.Path, json);
             }
+        }
+
+        internal static bool IsPropertyValid(string propertyType, string propertyValue)
+        {
+            bool isValid = false;
+
+            // temp until AnimPropertyTypes
+            switch (propertyType.ToLowerInvariant())
+            {
+                case "int32":
+                    isValid = int.TryParse(propertyValue, out _);
+                    break;
+                case "float":
+                case "single":
+                    isValid = float.TryParse(propertyValue, out _);
+                    break;
+                case "double":
+                    isValid = float.TryParse(propertyValue, out _);
+                    break;
+                case "boolean":
+                case "bool":
+                    isValid = bool.TryParse(propertyValue, out _);
+                    break;
+                case "vector2":
+                    Vector2Converter vector2Converter = new Vector2Converter();
+                    isValid = (vector2Converter.ConvertFromInvariantString(propertyValue) != null);
+                    break;
+            }
+
+            return isValid;
         }
     }
 }
