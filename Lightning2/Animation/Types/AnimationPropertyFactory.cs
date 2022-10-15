@@ -9,36 +9,14 @@
     /// </summary>
     internal static class AnimationPropertyFactory
     {
-        internal static int GetIntValue(object obj1, object obj2, long cur, long max)
-        {
-            int int1 = Convert.ToInt32(obj1);
-            int int2 = Convert.ToInt32(obj2);
+        internal static int GetIntValue(int int1, int int2, long cur, long max) => int1 + ((int2 - int1) * Convert.ToInt32((double)cur / max));
 
-            return int1 + ((int2 - int1) * Convert.ToInt32((double)cur / max));
-        }
+        internal static double GetDoubleValue(double double1, double double2, long cur, long max) => double1 + ((double2 - double1) * ((double)cur / max));
 
-        internal static double GetDoubleValue(object obj1, object obj2, long cur, long max)
-        {
-            double double1 = Convert.ToDouble(obj1);
-            double double2 = Convert.ToDouble(obj2);
+        internal static float GetFloatValue(float float1, float float2, long cur, long max) => float1 + ((float2 - float1) * ((float)cur / max));
 
-            return double1 + ((double2 - double1) * ((double)cur / max));
-        }
+        internal static Vector2 GetVector2Value(Vector2 vec1, Vector2 vec2, long cur, long max) => vec1 + ((vec2 - vec1) * ((float)cur / max));
 
-        internal static float GetFloatValue(object obj1, object obj2, long cur, long max)
-        {
-            float float1 = Convert.ToSingle(obj1);
-            float float2 = Convert.ToSingle(obj2);
-
-            return float1 + ((float2 - float1) * ((float)cur / max));
-        }
-
-        internal static Vector2 GetVector2Value(object obj1, object obj2, long cur, long max)
-        {
-            Vector2 vec1 = (Vector2)obj1;
-            Vector2 vec2 = (Vector2)obj2;
-
-            return vec1 + ((vec2 - vec1) * ((float)cur / max));
-        }
+        internal static bool GetBooleanValue(bool bool1, bool bool2, long cur, long max) => ((double)cur / max) > 0.5 ? bool2 : bool1; 
     }
 }

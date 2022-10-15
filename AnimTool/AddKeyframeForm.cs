@@ -8,7 +8,12 @@ namespace AnimTool
         public AddKeyframeForm()
         {
             InitializeComponent();
-            if (AnimTool.CurAnimation != null) lengthText.Text = $"{AnimTool.CurAnimation.Length}ms";
+            if (AnimTool.CurAnimation != null)
+            {
+                lengthText.Text = $"{AnimTool.CurAnimation.Length}ms";
+                lengthTrackBar.Maximum = AnimTool.CurAnimation.Length;
+            }
+            
         }
 
         private void addButton_Click(object sender, EventArgs e)

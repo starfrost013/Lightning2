@@ -33,6 +33,8 @@ namespace AnimTool
             if (AnimTool.CurAnimation != null
                 && AnimTool.CurProperty != null)
             {
+                keyframeListBox.Items.Clear();
+
                 animationLengthText.Text = $"Animation Length: {AnimTool.CurAnimation.Length}ms";
 
                 foreach (AnimationKeyframe keyframe in AnimTool.CurProperty.Keyframes)

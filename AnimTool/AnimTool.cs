@@ -63,24 +63,26 @@ namespace AnimTool
         {
             bool isValid = false;
 
+            propertyType = propertyType.ToLowerInvariant();
+
+            AnimationPropertyType animationPropertyType = (AnimationPropertyType)Enum.Parse(typeof(AnimationPropertyType), propertyType, true);
+
             // temp until AnimPropertyTypes
-            switch (propertyType.ToLowerInvariant())
+            switch (animationPropertyType)
             {
-                case "int32":
+                case AnimationPropertyType.Int32:
                     isValid = int.TryParse(propertyValue, out _);
                     break;
-                case "float":
-                case "single":
+                case AnimationPropertyType.Float:
                     isValid = float.TryParse(propertyValue, out _);
                     break;
-                case "double":
-                    isValid = float.TryParse(propertyValue, out _);
+                case AnimationPropertyType.Double:
+                    isValid = double.TryParse(propertyValue, out _);
                     break;
-                case "boolean":
-                case "bool":
+                case AnimationPropertyType.Boolean:
                     isValid = bool.TryParse(propertyValue, out _);
                     break;
-                case "vector2":
+                case AnimationPropertyType.Vector2:
                     Vector2Converter vector2Converter = new Vector2Converter();
                     isValid = (vector2Converter.ConvertFromInvariantString(propertyValue) != null);
                     break;
