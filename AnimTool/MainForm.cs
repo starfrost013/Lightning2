@@ -29,9 +29,22 @@ namespace AnimTool
 
         private void propertyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddPropertyForm addPropertyForm = new AddPropertyForm();
-            addPropertyForm.ShowDialog();
-            FullUpdateTabContent();
+            if (AnimTool.CurAnimation != null)
+            {
+                // dumb check to make sure we actually added a property
+                int curCount = AnimTool.CurAnimation.Properties.Count;
+
+                AddPropertyForm addPropertyForm = new AddPropertyForm();
+
+                // ui code is hell
+                // it will dispose itself if we close it
+                if (!addPropertyForm.IsDisposed)
+                {
+                    addPropertyForm.ShowDialog();
+                    if (AnimTool.CurAnimation.Properties.Count > curCount) FullUpdateTabContent();
+                }
+
+            }
         }
 
         private void setLengthToolStripMenuItem_Click(object sender, EventArgs e)
@@ -58,10 +71,7 @@ namespace AnimTool
             
             if (AnimTool.CurAnimation != null)
             {
-                if (!string.IsNullOrWhiteSpace(AnimTool.CurAnimation.Path))
-                {
-                    Text = $"Lightning Animation Editor - {AnimTool.CurAnimation.Path}";
-                }
+                if (!string.IsNullOrWhiteSpace(AnimTool.CurAnimation.Path)) Text = $"Lightning Animation Editor - {AnimTool.CurAnimation.Path}";
 
                 foreach (AnimationProperty property in AnimTool.CurAnimation.Properties)
                 {
@@ -90,10 +100,16 @@ namespace AnimTool
         {
             foreach (TabPage tabPage in propertiesTabControl.TabPages)
             {
-                // we only ever add one control here so we can use the index
-                TabContent control = (TabContent)tabPage.Controls[0];
+                // safeguard
+                if (tabPage.Controls.Count > 0
+                    && tabPage.Controls[0].GetType().IsAssignableFrom(typeof(TabContent))) // terrorism I HATE UI UI IS THE ENEMY
+                {
+                    // we only ever add one control here so we can use the index
+                    TabContent control = (TabContent)tabPage.Controls[0];
 
-                control.UpdateTabContent();
+                    control.UpdateTabContent();
+                }
+
             }
         }
 

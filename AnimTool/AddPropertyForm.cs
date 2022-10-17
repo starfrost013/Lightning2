@@ -37,7 +37,15 @@ namespace AnimTool
             }
 
             // only bother initialising if we have items to actually add
-            if (propertiesComboBox.Items.Count == 0) Close();
+            if (propertiesComboBox.Items.Count == 0)
+            {
+                Close();
+            }
+            else // rest of the constructor runs
+            {
+                // automatically select first item
+                propertiesComboBox.SelectedIndex = 0;
+            }
         }
 
         private void addBtn_Click(object sender, EventArgs e)
