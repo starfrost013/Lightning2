@@ -30,14 +30,29 @@ namespace LightningPackager
             }
         }
 
+        /// <summary>
+        /// The date and time the file represented by this <see cref="PackageFileCatalogEntry"/> was last modified.
+        /// </summary>
         public DateTime TimeStamp { get; set; }
 
+        /// <summary>
+        /// The CRC32 of this file.
+        /// </summary>
         public uint Crc32 { get; set; }
 
+        /// <summary>
+        /// The start point of this file within the package.
+        /// </summary>
         public long Start { get; set; }
 
+        /// <summary>
+        /// The size of this file.
+        /// </summary>
         internal long Size { get; set; }
 
+        /// <summary>
+        /// The length of this file catalog entry.
+        /// </summary>
         internal long Length
         {
             get
@@ -125,12 +140,10 @@ namespace LightningPackager
                 CRC32.NextBytes(fileData);
                 uint realCrc32 = CRC32.Result;
 
-                string validationString = $"CRC32 of original file = 0x{Crc32.ToString("X")}, CRC of extracted file = 0x{realCrc32.ToString("X")}";
+                string validationString = $"CRC32 of original file = 0x{Crc32.ToString("X")}, CRC32 of extracted file = 0x{realCrc32.ToString("X")}";
                 NCLogging.Log(validationString);
                 if (Crc32 != realCrc32) _ = new NCException($"File {RealPath} is corrupt: {validationString}!", 116, "Calculated CRC32 for PackageFileCatalogEntry is not the same as PackageFileCatalogEntry::Crc32");
             }
-
-
         }
 
         internal void Write(BinaryWriter writer)

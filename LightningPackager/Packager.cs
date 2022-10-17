@@ -65,7 +65,7 @@ namespace LightningPackager
                 // delete the content directory recursively
                 if (deleteAll)
                 {
-                    NCLogging.Log("Cleaning up content directory...");
+                    NCLogging.Log("Cleaning up game content directory...");
 
                     foreach (string fileName in Directory.EnumerateFiles(ContentDirectory, "*", SearchOption.AllDirectories))
                     {
@@ -78,7 +78,8 @@ namespace LightningPackager
             }
             catch (Exception ex)
             {
-                _ = new NCException($"An error occurred cleaning up the content directory.\n\n{ex}", 109, $"An exception occurred in Packager::Shutdown with deleteAll = {deleteAll}", NCExceptionSeverity.Warning);
+                _ = new NCException($"An error occurred cleaning up the game content directory.\n\n{ex}", 109, 
+                    $"An exception occurred in Packager::Shutdown with deleteAll = {deleteAll}", NCExceptionSeverity.Warning);
             }
         }
     }

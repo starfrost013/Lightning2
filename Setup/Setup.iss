@@ -5,6 +5,7 @@
 ; August 11, 2022
 ; Updated August 12, 2022 for relative paths
 ; Updated September 25, 2022 for Lightning 1.1
+; Updated October 17, 2022 for Lightning 1.1 (again)
 ; Intended to be run from the SDKBuild tool ONLY.
 
 #define MyAppName "Lightning Software Development Kit"                                                     
@@ -59,6 +60,10 @@ Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\LightningBase.dll"; DestDir: 
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\LightningGL.deps.json"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\LightningGL.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\LightningPackager.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\AnimTool.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\AnimTool.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\AnimTool.deps.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\AnimTool.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\MakePackage.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\MakePackage.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\MakePackage.deps.json"; DestDir: "{app}"; Flags: ignoreversion
