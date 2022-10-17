@@ -66,7 +66,7 @@
 
             if (!File.Exists(path)) _ = new NCException($"Error loading font: Attempted to load nonexistent font at {path}", 34, "Font.:Path does not exist", NCExceptionSeverity.Error);
 
-            if (!path.Contains(".ttf")) _ = new NCException($"Error loading font: Only TTF fonts are supported!", 36, "Font::Path is not a TrueType font", NCExceptionSeverity.Error);
+            if (!path.Contains(".ttf", StringComparison.InvariantCultureIgnoreCase)) _ = new NCException($"Error loading font: Only TTF fonts are supported!", 36, "Font::Path is not a TrueType font", NCExceptionSeverity.Error);
 
             // set the font after it's been processed
             font.Path = path;

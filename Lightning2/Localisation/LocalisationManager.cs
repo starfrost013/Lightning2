@@ -83,7 +83,7 @@
 
             foreach (string stringSplit in stringSplitWithHash)
             {
-                if (stringSplit.Contains(end)) // so that we don't try to "localise" unrelated parts of the string
+                if (stringSplit.Contains(end, StringComparison.InvariantCultureIgnoreCase)) // so that we don't try to "localise" unrelated parts of the string
                 {
                     // and the same for parts after it
                     string[] stringNoEnd = stringSplit.Split(end);

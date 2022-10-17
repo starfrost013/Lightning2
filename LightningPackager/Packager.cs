@@ -69,7 +69,7 @@ namespace LightningPackager
 
                     foreach (string fileName in Directory.EnumerateFiles(ContentDirectory, "*", SearchOption.AllDirectories))
                     {
-                        if (!fileName.ToLowerInvariant().Contains("engine.ini"))
+                        if (!fileName.Contains("engine.ini", StringComparison.InvariantCultureIgnoreCase))
                         {
                             File.Delete(fileName);
                         }

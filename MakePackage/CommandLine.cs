@@ -129,11 +129,11 @@ namespace MakePackage
                         return false;
                     }
 
-                    if (!OutFile.Contains(".wad")) NCLogging.Log("Warning: By convention, the package file for your game should have a .wad extension!", ConsoleColor.Yellow, false, false);
+                    if (!OutFile.Contains(".wad", StringComparison.InvariantCultureIgnoreCase)) NCLogging.Log("Warning: By convention, the package file for your game should have a .wad extension!", ConsoleColor.Yellow, false, false);
                 }
                 else
                 {
-                    if (!InFile.Contains(".wad")) NCLogging.Log("Warning: By convention, the package file for your game should have a .wad extension!", ConsoleColor.Yellow, false, false);
+                    if (!InFile.Contains(".wad", StringComparison.InvariantCultureIgnoreCase)) NCLogging.Log("Warning: By convention, the package file for your game should have a .wad extension!", ConsoleColor.Yellow, false, false);
 
                     if (OutFolder == null) OutFolder = ".";
 

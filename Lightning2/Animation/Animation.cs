@@ -107,7 +107,7 @@ namespace LightningGL
 
                 bool isRealType = false;
 
-                if (validTypeNames.Contains(property.Type)) isRealType = true;
+                if (validTypeNames.Contains(property.Type, StringComparison.InvariantCultureIgnoreCase)) isRealType = true;
 
                 if (!isRealType) _ = new NCException($"Tried to use an AnimationProperty {property.Name}, type {property.Type} which is not loaded in the current AppDomain",
                     141, "Tried to instantiate a type for an AnimationProperty from an unloaded assembly.", NCExceptionSeverity.FatalError);

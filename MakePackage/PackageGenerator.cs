@@ -34,15 +34,15 @@ namespace MakePackage
                 foreach (string fileName in Directory.GetFiles(CommandLine.InFolder))
                 {
                     if (CommandLine.AllowBinaries
-                        || (!fileName.Contains(".exe")
-                        && !fileName.Contains(".dll")
-                        && !fileName.Contains(".sys")
-                        && !fileName.Contains(".ocx")
-                        && !fileName.Contains(".scr")
-                        && !fileName.Contains(".cpl")
-                        && !fileName.Contains(".winmd")
-                        && !fileName.Contains(".rll")
-                        && !fileName.ToLowerInvariant().Contains("engine.ini")))
+                        || (!fileName.Contains(".exe", StringComparison.InvariantCultureIgnoreCase)
+                        && !fileName.Contains(".dll", StringComparison.InvariantCultureIgnoreCase)
+                        && !fileName.Contains(".sys", StringComparison.InvariantCultureIgnoreCase)
+                        && !fileName.Contains(".ocx", StringComparison.InvariantCultureIgnoreCase)
+                        && !fileName.Contains(".scr", StringComparison.InvariantCultureIgnoreCase)
+                        && !fileName.Contains(".cpl", StringComparison.InvariantCultureIgnoreCase)
+                        && !fileName.Contains(".winmd", StringComparison.InvariantCultureIgnoreCase)
+                        && !fileName.Contains(".rll", StringComparison.InvariantCultureIgnoreCase)
+                        && !fileName.Contains("engine.ini", StringComparison.InvariantCultureIgnoreCase)))
                     {
                         packageFile.AddEntry(new PackageFileCatalogEntry(fileName));
                     }

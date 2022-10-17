@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace NuCore.Utilities
@@ -35,7 +36,7 @@ namespace NuCore.Utilities
                 foreach (string excludedPattern in excludedPatterns)
                 {
                     // skip any excluded pattern
-                    if (fileName.Contains(excludedPattern)) performCopy = false;
+                    if (fileName.Contains(excludedPattern, StringComparison.InvariantCultureIgnoreCase)) performCopy = false;
                 }
 
                 string finalPath = $"{destinationDir}\\{relativeDestinationPath}";

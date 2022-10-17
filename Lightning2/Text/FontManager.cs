@@ -91,7 +91,7 @@
             if (string.IsNullOrWhiteSpace(text)) return default(Vector2);
 
             // call the multiline text function
-            if (text.Contains('\n')) return GetLargestTextSize(font, text);
+            if (text.Contains('\n', StringComparison.InvariantCultureIgnoreCase)) return GetLargestTextSize(font, text);
 
             if (font == null
                 || !Assets.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.FontSize}) before trying to use it!", 81, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);

@@ -15,7 +15,6 @@
             return asset;
         }
 
-
         /// <summary>
         /// Loads the audio file at path <see cref="Path"/>, if it exists.
         /// </summary>
@@ -25,6 +24,12 @@
         public void LoadFile(Renderer cRenderer, string path, string name = null)
         {
             if (!File.Exists(path)) _ = new NCException($"Error loading audio file: The path {path} does not exist!", 52, "AudioManager::Load path parameter does not exist!", NCExceptionSeverity.FatalError);
+
+            if (path.Contains(".mod", StringComparison.InvariantCultureIgnoreCase))
+            {
+                _ = new NCException(".mod file loading is completely broken in SDL_mixer 2.6.2 and causes memory leaks. Sorry, not my code.", 167, 
+                    "AudioAssetManager::LoadFile path parameter has a .mod extension", NCExceptionSeverity.Error);
+            }
 
             AudioFile tempAudio = new AudioFile();
 

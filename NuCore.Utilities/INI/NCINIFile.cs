@@ -78,7 +78,7 @@ namespace NuCore.Utilities
                         switch (iniLineChar0)
                         {
                             case '[': // Section
-                                if (iniLine.Contains(']'))
+                                if (iniLine.Contains(']', StringComparison.InvariantCultureIgnoreCase))
                                 {
                                     NCINIFileSection iniSection = new NCINIFileSection();
 
@@ -111,7 +111,7 @@ namespace NuCore.Utilities
                             case '\r': // Windows newline (just in case)
                                 continue;
                             default: // Value
-                                if (iniLine.Contains('='))
+                                if (iniLine.Contains('=', StringComparison.InvariantCultureIgnoreCase))
                                 {
                                     if (iniFile.CurSection == null)
                                     {
