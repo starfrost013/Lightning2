@@ -30,7 +30,7 @@ namespace LightningGL
             {
                 if (_name == null)
                 {
-                    string tempName = Path.Substring(0, Path.LastIndexOf('.'));
+                    string tempName = Path[Path.LastIndexOf('.')..]; // range operator
                     return tempName;
                 }
 
@@ -91,7 +91,7 @@ namespace LightningGL
                     142, "Animation::Length was less than or equal to 0 during Animation::Validate call", NCExceptionSeverity.FatalError);
             }
 
-            List<string> validTypeNames = new List<string>();
+            List<string> validTypeNames = new();
 
             // Check for a valid type
             // only iterate once to increase speed
@@ -105,9 +105,7 @@ namespace LightningGL
                 if (string.IsNullOrWhiteSpace(property.Name)) _ = new NCException($"All properties in an Animation JSON must have a name!", 
                     144, "AnimationProperty::Name failed a string.IsNullOrWhiteSpace check", NCExceptionSeverity.FatalError);
 
-                bool isRealType = false;
-
-                if (validTypeNames.Contains(property.Type, StringComparison.InvariantCultureIgnoreCase)) isRealType = true;
+                bool isRealType = validTypeNames.Contains(property.Type);
 
                 if (!isRealType) _ = new NCException($"Tried to use an AnimationProperty {property.Name}, type {property.Type} which is not loaded in the current AppDomain",
                     141, "Tried to instantiate a type for an AnimationProperty from an unloaded assembly.", NCExceptionSeverity.FatalError);
@@ -162,8 +160,8 @@ namespace LightningGL
                     AnimationKeyframe nextKeyframe = null;
                     if (property.Keyframes.Count - keyframeId > 1) nextKeyframe = property.Keyframes[keyframeId + 1];
 
-                    bool needToUpdate = nextKeyframe != null ? needToUpdate = (renderable.AnimationTimer.ElapsedMilliseconds >= thisKeyframe.Position
-                        && renderable.AnimationTimer.ElapsedMilliseconds <= nextKeyframe.Position) : false;
+                    bool needToUpdate = nextKeyframe != null && (renderable.AnimationTimer.ElapsedMilliseconds >= thisKeyframe.Position
+                        && renderable.AnimationTimer.ElapsedMilliseconds <= nextKeyframe.Position);
 
                     if (needToUpdate)
                     {
@@ -207,7 +205,7 @@ namespace LightningGL
                                     finalValue = AnimationPropertyFactory.GetDoubleValue(doubleValue1, doubleValue2, cur, max);
                                     break;
                                 case AnimationPropertyType.Vector2:
-                                    Vector2Converter vec2Converter = new Vector2Converter();
+                                    Vector2Converter vec2Converter = new();
                                     Vector2 vector2Value1 = (Vector2)vec2Converter.ConvertFromInvariantString(thisKeyframe.Value),
                                             vector2Value2 = (Vector2)vec2Converter.ConvertFromInvariantString(nextKeyframe.Value);
                                     finalValue = AnimationPropertyFactory.GetVector2Value(vector2Value1, vector2Value2, cur, max);
