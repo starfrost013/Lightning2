@@ -6,6 +6,8 @@ Lightning 1.2 feature set:
 - Controller Support
 - Animating fades (Renderable has colour)
 - Renderer Operations (everything funneled through the Renderer)
+- Camera Motion
+- FreeType2 Text State Machine
 
 - New Lighting Engine (possibly 1.3)
 

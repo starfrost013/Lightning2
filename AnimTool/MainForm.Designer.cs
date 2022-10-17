@@ -45,6 +45,8 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.propertiesTabPage = new System.Windows.Forms.TabPage();
             this.propertiesTabControl = new System.Windows.Forms.TabControl();
+            this.propertyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.keyframeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.propertiesTabControl.SuspendLayout();
             this.SuspendLayout();
@@ -73,19 +75,21 @@
             // loadJSONToolStripMenuItem
             // 
             this.loadJSONToolStripMenuItem.Name = "loadJSONToolStripMenuItem";
-            this.loadJSONToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.loadJSONToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadJSONToolStripMenuItem.Text = "Load to JSON";
+            this.loadJSONToolStripMenuItem.Click += new System.EventHandler(this.loadJSONToolStripMenuItem_Click);
             // 
             // exportJSONToolStripMenuItem
             // 
             this.exportJSONToolStripMenuItem.Name = "exportJSONToolStripMenuItem";
-            this.exportJSONToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.exportJSONToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exportJSONToolStripMenuItem.Text = "Save to JSON";
+            this.exportJSONToolStripMenuItem.Click += new System.EventHandler(this.exportJSONToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -132,6 +136,9 @@
             // 
             // removeCurrentToolStripMenuItem
             // 
+            this.removeCurrentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.propertyToolStripMenuItem1,
+            this.keyframeToolStripMenuItem1});
             this.removeCurrentToolStripMenuItem.Name = "removeCurrentToolStripMenuItem";
             this.removeCurrentToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.removeCurrentToolStripMenuItem.Text = "Remove Current";
@@ -186,6 +193,18 @@
             this.propertiesTabControl.TabIndex = 1;
             this.propertiesTabControl.SelectedIndexChanged += new System.EventHandler(this.propertiesTabControl_SelectedIndexChanged);
             // 
+            // propertyToolStripMenuItem1
+            // 
+            this.propertyToolStripMenuItem1.Name = "propertyToolStripMenuItem1";
+            this.propertyToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.propertyToolStripMenuItem1.Text = "Property";
+            // 
+            // keyframeToolStripMenuItem1
+            // 
+            this.keyframeToolStripMenuItem1.Name = "keyframeToolStripMenuItem1";
+            this.keyframeToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.keyframeToolStripMenuItem1.Text = "Keyframe";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -223,5 +242,7 @@
         private TabPage propertiesTabPage;
         private TabControl propertiesTabControl;
         private ToolStripMenuItem setLengthToolStripMenuItem;
+        private ToolStripMenuItem propertyToolStripMenuItem1;
+        private ToolStripMenuItem keyframeToolStripMenuItem1;
     }
 }

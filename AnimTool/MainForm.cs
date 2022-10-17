@@ -1,5 +1,6 @@
 using LightningGL;
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace AnimTool
 {
@@ -57,6 +58,11 @@ namespace AnimTool
             
             if (AnimTool.CurAnimation != null)
             {
+                if (!string.IsNullOrWhiteSpace(AnimTool.CurAnimation.Path))
+                {
+                    Text = $"Lightning Animation Editor - {AnimTool.CurAnimation.Path}";
+                }
+
                 foreach (AnimationProperty property in AnimTool.CurAnimation.Properties)
                 {
                     TabPage curTabPage = new()
@@ -77,9 +83,6 @@ namespace AnimTool
 
                     content.UpdateTabContent();
                 }
-
-                // temp?
-                
             }
         }
 
@@ -108,9 +111,49 @@ namespace AnimTool
         {
             if (AnimTool.CurAnimation != null)
             {
-                AddKeyframeForm addKeyframeForm = new AddKeyframeForm();
+                AddKeyframeForm addKeyframeForm = new();
                 addKeyframeForm.ShowDialog();
                 UpdateTabContent();
+            }
+        }
+
+        private void loadJSONToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (AnimTool.CurAnimation != null)
+            {
+                OpenFileDialog openFileDialog = new();
+
+                openFileDialog.Title = "Select Animation JSON files";
+                openFileDialog.Filter = "Lightning Animation JSON (.json,.ljson)|*.json,*.ljson";
+
+                openFileDialog.ShowDialog();
+
+                if (!string.IsNullOrWhiteSpace(openFileDialog.FileName))
+                {
+                    AnimTool.CurAnimation = new Animation(openFileDialog.FileName);
+                    AnimTool.Load();
+                    FullUpdateTabContent();
+                }
+            }
+        }
+
+        private void exportJSONToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (AnimTool.CurAnimation != null)
+            {
+                SaveFileDialog saveFileDialog = new();
+
+                saveFileDialog.Title = "Select Animation JSON files";
+                saveFileDialog.Filter = "Lightning Animation JSON (.json|.ljson)";
+
+                saveFileDialog.ShowDialog();
+
+                if (!string.IsNullOrWhiteSpace(saveFileDialog.FileName))
+                {
+                    AnimTool.CurAnimation = new(saveFileDialog.FileName);
+                    AnimTool.Save();
+                    FullUpdateTabContent();
+                }
             }
         }
     }
