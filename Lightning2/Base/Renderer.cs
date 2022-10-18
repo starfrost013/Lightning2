@@ -93,7 +93,8 @@ namespace LightningGL
             // Create the window,
             Settings.WindowHandle = SDL_CreateWindow(Settings.Title, (int)Settings.Position.X, (int)Settings.Position.Y, (int)Settings.Size.X, (int)Settings.Size.Y, Settings.WindowFlags);
 
-            if (Settings.WindowHandle == IntPtr.Zero) _ = new NCException($"Failed to create Window: {SDL_GetError()}", 8, "Window::AddWindow - SDL_CreateWindow failed to create window", NCExceptionSeverity.FatalError);
+            if (Settings.WindowHandle == IntPtr.Zero) _ = new NCException($"Failed to create Window: {SDL_GetError()}", 8, 
+                "Window::AddWindow - SDL_CreateWindow failed to create window", NCExceptionSeverity.FatalError);
 
             // set the window ID 
             Settings.ID = SDL_GetWindowID(Settings.WindowHandle);
@@ -104,15 +105,18 @@ namespace LightningGL
             // Get the renderer driver name using our unofficial SDL function
             string realRenderDriverName = SDLu_GetRenderDriverName();
 
-            if (realRenderDriverName != renderer) _ = new NCException($"Specified renderer {renderer} is not supported. Using {realRenderDriverName} instead!", 123, "Renderer not supported in current environment", NCExceptionSeverity.Warning, null, true);
+            if (realRenderDriverName != renderer) _ = new NCException($"Specified renderer {renderer} is not supported. Using {realRenderDriverName} instead!", 123, 
+                "Renderer not supported in current environment", NCExceptionSeverity.Warning, null, true);
 
+            // Create a default camera if the developer did not create one during init.
             if (Settings.Camera == null)
             {
-                Camera camera = new Camera(CameraType.Follow);
-                Settings.Camera = camera;
+                Camera defaultCamera = new Camera(CameraType.Follow);
+                SetCurrentCamera(defaultCamera);
             }
 
-            if (Settings.RendererHandle == IntPtr.Zero) _ = new NCException($"Failed to create Renderer: {SDL_GetError()}", 9, "Window::AddWindow - SDL_CreateRenderer failed to create renderer", NCExceptionSeverity.FatalError);
+            if (Settings.RendererHandle == IntPtr.Zero) _ = new NCException($"Failed to create Renderer: {SDL_GetError()}", 9, 
+                "Window::AddWindow - SDL_CreateRenderer failed to create renderer", NCExceptionSeverity.FatalError);
 
             // Initialise the Light Manager.
             LightManager.Init(this);
@@ -228,6 +232,9 @@ namespace LightningGL
             // check the showfps global setting first
             // do this BEFORE present. then measure frametime in Render_MeasureFps, this makes it accurate.
             if (GlobalSettings.ShowDebugInfo) DrawDebugInformation();
+
+            // Update camera
+            if (Settings.Camera != null) Settings.Camera.Update();
 
             // Correctly draw the background
             SDL_SetRenderDrawColor(Settings.RendererHandle, Settings.BackgroundColor.R, Settings.BackgroundColor.G, Settings.BackgroundColor.B, Settings.BackgroundColor.A);

@@ -9,8 +9,14 @@
     /// </summary>
     public class Camera : Renderable
     {
-        private Vector2 _position { get; set; }
+        /// <summary>
+        /// Backing field for <see cref="Position"/>.
+        /// </summary>
+        private Vector2 _position;
 
+        /// <summary>
+        /// The position of this <see cref="Camera"/>.
+        /// </summary>
         public override Vector2 Position
         {
             get
@@ -69,6 +75,44 @@
         }
 
         public Vector2 CameraShakeAmount { get; set; } 
+
+        public bool AllowCameraMoveOnShake { get; set; }
+
+        public Vector2 Velocity { get; set; }
+
+        public void Update()
+        {
+            // automatically takes care of position
+            Position += Velocity;
+
+            // check if camera shake not 0
+            if (CameraShakeAmount != default)
+            {
+                // randomly generate values between -(CameraShakeAmount) and CameraShakeAmount
+                float velChangeX = Random.Shared.NextSingle() * (CameraShakeAmount.X - -CameraShakeAmount.X) + -CameraShakeAmount.X,
+                      velChangeY = Random.Shared.NextSingle() * (CameraShakeAmount.Y - -CameraShakeAmount.Y) + -CameraShakeAmount.Y;
+
+                // make sure it doesn't actually move the camera around
+                Vector2 newPosition = Position + new Vector2(velChangeX, velChangeY);
+
+                float diffX = newPosition.X - Position.X,
+                      diffY = newPosition.Y - Position.Y;
+
+                if ((Math.Abs(diffX) > CameraShakeAmount.X
+                    || Math.Abs(diffY) > CameraShakeAmount.Y)
+                    && !AllowCameraMoveOnShake)
+                {
+                    float correctionX = diffX - CameraShakeAmount.X;
+                    float correctionY = diffY - CameraShakeAmount.Y;
+                    
+                    // correct so that the camera doesn't drift off
+                    newPosition.X += correctionX;
+                    newPosition.Y += correctionY;
+                }
+
+                Position = newPosition;
+            }
+        }
 
         public Camera(CameraType type)
         {

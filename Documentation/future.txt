@@ -1,13 +1,23 @@
 Lightning 1.2 feature set:
-
 - Video API
 - Texture Rotation
 - Multitexturing
 - Controller Support
 - Animating fades (Renderable has colour)
-- Renderer Operations (everything funneled through the Renderer)
-- Camera Motion
+- Renderer Operations (everything funneled through the Renderer), massive renderer refactoring
+- Don't render textures unless they move (adaptive tile refresh)
+- Camera Velocity
 - FreeType2 Text State Machine
 
-- New Lighting Engine (possibly 1.3)
+- New Lighting Engine using Raycasting (possibly 1.3)
+
+Lightning 1.3 feature set:
+- Ability to pair multiple textures and have them move with each other in an animation
+- Skybox, Day/night cycle with customisable skyboxes for all regions of the day
+- ParticleEffect system merged with Animation
+- Multiple Renderer support
+- Dynamic Cameras
+- Layered Rendering (optional? z-index with rendering?)
+
+
 

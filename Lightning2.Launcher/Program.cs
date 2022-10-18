@@ -66,7 +66,7 @@ animatedTexture1.Position = new(320, 256);
 
 TextureManager.AddAsset(cRenderer, animatedTexture1);
 
-LightManager.SetEnvironmentalLight(Color.FromArgb(255, 0, 0, 0));
+LightManager.SetEnvironmentalLight(Color.FromArgb(0, 0, 0, 0));
 
 // todo: particleeffectsettings?
 
@@ -176,6 +176,8 @@ xmTitle.Play();
 
 Camera camera = new Camera(CameraType.Chase);
 
+//camera.CameraShakeAmount = new(2, 2);
+//camera.Velocity = new(0.2f, 0.2f);
 cRenderer.SetCurrentCamera(camera);
 
 Button btn1 = new Button()
@@ -262,7 +264,7 @@ TextureManager.AddAsset(cRenderer, texture2);
 TextureManager.AddAsset(cRenderer, animatedTexture1);
 
 Animation anim1 = new Animation(@"Content\Animations\TestAnimation.json");
-anim1 = AnimationManager.AddAsset(cRenderer, anim1) ;
+anim1 = AnimationManager.AddAsset(cRenderer, anim1);
 
 texture.ZIndex = -9999999;
 texture.SetAnimation(anim1);

@@ -1,5 +1,6 @@
-﻿using LightningGL;
-using static NuCore.SDL2.SDL;
+﻿using static LightningBase.SDL; // not required for project template
+using LightningGL;
+using static LightningGL.Lightning; // not required for project template
 using System.Drawing;
 using System.Numerics;
 
@@ -27,14 +28,14 @@ namespace BasicScene
             
         }
 
-        public override void Render(Window cWindow)
+        public override void Render(Renderer renderer)
         {
-            PrimitiveRenderer.DrawText(cWindow, "Hello from Scene2", new Vector2(300, 300), Color.PaleTurquoise);
+            PrimitiveRenderer.DrawText(renderer, "Hello from Scene2", new Vector2(300, 300), Color.PaleTurquoise);
 
             // change the scene
-            if (cWindow.EventWaiting)
+            if (renderer.EventWaiting)
             {
-                if (cWindow.LastEvent.type == SDL_EventType.SDL_KEYDOWN) SceneManager.SetCurrentScene("MainScene");
+                if (renderer.LastEvent.type == SDL_EventType.SDL_KEYDOWN) SceneManager.SetCurrentScene("MainScene");
             }
         }
     }

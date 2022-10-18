@@ -33,7 +33,6 @@ while (renderer.Run())
         switch (renderer.LastEvent.type)
         {
             case SDL_EventType.SDL_MOUSEBUTTONDOWN:
-
                 MouseButton button = (MouseButton)renderer.LastEvent.button;
 
                 switch (button.Button)
