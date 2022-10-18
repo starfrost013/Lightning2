@@ -89,20 +89,20 @@ namespace NuCore.Utilities
                     case NCExceptionSeverity.Message:
                         msgBoxOk.Invoke(null, new object[] 
                         { "Information", errorString, SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION } );
-                        return;
+                        break;
                     case NCExceptionSeverity.Warning:
                         msgBoxOk.Invoke(null, new object[] 
                         { "Warning", errorString, SDL_MessageBoxFlags.SDL_MESSAGEBOX_WARNING } );
-                        return;
+                        break;
                     case NCExceptionSeverity.Error:
                         msgBoxOk.Invoke(null, new object[] 
                         { "Error", errorString, SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR });
-                        return;
+                        break;
                     case NCExceptionSeverity.FatalError:
                         msgBoxOk.Invoke(null, new object[]
                             { "Fatal Error", $"A fatal error has occurred:\n\n{errorString}\n\n" +
                             $"The program must exit. We are sorry for the inconvenience.", SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR });
-                        return;
+                        break;
 
                 }
             }
