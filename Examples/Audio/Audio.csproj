@@ -27,28 +27,28 @@
 
   <!-- Shared includes for all examples. These are copied individually because they are open source and devs use them as part of the SDK -->
   <ItemGroup>
-	  <None Remove="../shared/libFLAC-8.dll" />
-	  <None Remove="../shared/libmodplug-1.dll" />
-	  <None Remove="../shared/libmpg123-0.dll" />
-	  <None Remove="../shared/libogg-0.dll" />
-	  <None Remove="../shared/libopus-0.dll" />
-	  <None Remove="../shared/libopusfile-0.dll" />
-	  <None Remove="../shared/libpng16-16.dll" />
-	  <None Remove="../shared/libvorbis-0.dll" />
-	  <None Remove="../shared/libvorbisfile-3.dll" />
-	  <None Remove="../shared/zlib.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/libFLAC-8.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/libmodplug-1.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/libmpg123-0.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/libogg-0.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/libopus-0.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/libopusfile-0.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/libpng16-16.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/libvorbis-0.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/libvorbisfile-3.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/zlib.dll" />
 	  <None Remove="../shared/Content/Engine.ini" />
 	  <None Remove="../shared/Content/Localisation/en-GB-test.ini" />
 	  <None Remove="../shared/Content/Localisation/pseudo.ini" />
-	  <None Remove="../shared/Content/Libraries/libfreetype-6.dll" />
-	  <None Remove="../shared/Content/Libraries/libjpeg-9.dll" />
-	  <None Remove="../shared/Content/Libraries/libtiff-5.dll" />
-	  <None Remove="../shared/Content/Libraries/libwebp-7.dll" />
-	  <None Remove="../shared/Content/Libraries/SDL2.dll" />
-	  <None Remove="../shared/Content/Libraries/SDL2_gfx-v1.0.6-x64.dll" />
-	  <None Remove="../shared/Content/Libraries/SDL2_image-v2.0.5-x64.dll" />
-	  <None Remove="../shared/Content/Libraries/SDL2_ttf-v2.0.18-x64.dll" />
-	  <None Remove="../shared/Content/Libraries/SDL2_mixer-v2.0.4-x64.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/libfreetype-6.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/libjpeg-9.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/libtiff-5.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/libwebp-7.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_gfx-v1.0.6-x64.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_image-x64.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_ttf-v2.0.18-x64.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_mixer-x64.dll" />
 	  <None Remove="Content\deepbluecalm.flac" />
 	  <None Remove="Content\demarco.mp3" />
 	  <None Remove="Content\projectx.mod" />

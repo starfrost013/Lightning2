@@ -47,9 +47,9 @@
 	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/libwebp-7.dll" />
 	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2.dll" />
 	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_gfx-v1.0.6-x64.dll" />
-	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_image-v2.0.5-x64.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_image-x64.dll" />
 	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_ttf-v2.0.18-x64.dll" />
-	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_mixer-v2.0.4-x64.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_mixer-x64.dll" />
   </ItemGroup>
 
   <ItemGroup>
