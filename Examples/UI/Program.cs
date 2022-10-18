@@ -33,7 +33,7 @@ Button button1 = new Button() // 150 char capacirty
 button1.OnMousePressed += OnMousePressed;
 button1.OnMouseReleased += OnMouseReleased;
 
-UIManager.AddAsset(button1);
+UIManager.AddAsset(renderer, button1);
 
 string buttonHeldDownText = "Button not held down";
 

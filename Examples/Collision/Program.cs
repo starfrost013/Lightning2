@@ -1,4 +1,5 @@
 ﻿using LightningGL; // use lightninggl
+using static LightningGL.Lightning;
 using System.Drawing; // for color
 using System.Numerics;
 
@@ -6,30 +7,30 @@ using System.Numerics;
 //©2022 starfrost, August 13, 2022
 
 // Initialise Lightning
-Lightning.Init(args);
+Init(args);
 
-Renderer Renderer = new Renderer();
-Renderer.Start(new RendererSettings
+Renderer renderer = new Renderer();
+renderer.Start(new RendererSettings
 {
     Title = "Basic Lightning2 Demo"
 }); // use default Renderersettings except title
 
-Texture coll1 = new Texture(Renderer, 128, 128)
+Texture coll1 = new Texture(renderer, 128, 128)
 {
     Path = "Content/CollidingTexture1.png",
     Position = new Vector2(128, 300),
 };
 
-Texture coll2 = new Texture(Renderer, 128, 128)
+Texture coll2 = new Texture(renderer, 128, 128)
 {
     Path = "Content/CollidingTexture2.png",
-    Position = new Vector2(Renderer.Settings.Size.X - 128, 300),
+    Position = new Vector2(renderer.Settings.Size.X - 128, 300),
 };
 
-coll1.Load(Renderer);
-coll2.Load(Renderer);
+TextureManager.AddAsset(renderer, coll1);
+TextureManager.AddAsset(renderer, coll2);
 
-while (Renderer.Run())
+while (renderer.Run())
 {
     if (!AABB.Intersects(coll1, coll2))
     {
@@ -37,9 +38,6 @@ while (Renderer.Run())
         coll2.Position = new Vector2(coll2.Position.X - 0.1f, coll2.Position.Y);
     }
 
-    coll1.Draw(Renderer);
-    coll2.Draw(Renderer);
-
-    PrimitiveRenderer.DrawText(Renderer, "Collision/AABB example (NO correction is being done here)", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
-    Renderer.Render();
+    PrimitiveRenderer.DrawText(renderer, "Collision/AABB example (NO correction is being done here)", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
+    renderer.Render();
 }

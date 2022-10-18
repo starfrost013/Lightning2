@@ -1,4 +1,5 @@
 ﻿using LightningGL; // use lightninggl
+using static LightningGL.Lightning;
 using System.Drawing; // for color
 using System.Numerics;
 
@@ -6,10 +7,10 @@ using System.Numerics;
 //©2022 starfrost, August 12, 2022
 
 // Initialise Lightning
-Lightning.Init(args);
+Init(args);
 
-Renderer Renderer = new Renderer();
-Renderer.Start(new RendererSettings()); // use default Renderersettings
+Renderer renderer = new Renderer();
+renderer.Start(new RendererSettings()); // use default Renderersettings
 
 // if you do not provide a path it will load from the system font directory
 // TrueType fonts only, you don't need to load bold/italic/etc fonts - drawtext has parameters for this
@@ -19,15 +20,15 @@ FontManager.LoadFont("segoeui", 24, "SegoeUI.24pt"); //v segoeui.ttf is the file
 FontManager.LoadFont("consola", 18, "Consolas.18pt"); // same for consolas...
 FontManager.LoadFont("consola", 36, "Consolas.36pt");
 
-while (Renderer.Run())
+while (renderer.Run())
 {
     // backgrounds etc supported
-    PrimitiveRenderer.DrawText(Renderer, "Font test example (primitive debug font)", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
-    FontManager.DrawText(Renderer, "Arial 24pt", "Arial.24pt", new Vector2(100, 150), Color.White, Color.Red, NuCore.SDL2.SDL_ttf.TTF_FontStyle.Italic); // Arial.24pt, italic
-    FontManager.DrawText(Renderer, "Comic Sans 24pt", "ComicSans.24pt", new Vector2(100, 200), Color.Blue);
-    FontManager.DrawText(Renderer, "Segoe UI 24pt", "SegoeUI.24pt", new Vector2(100, 250), Color.White, Color.Yellow, NuCore.SDL2.SDL_ttf.TTF_FontStyle.Underline | NuCore.SDL2.SDL_ttf.TTF_FontStyle.Bold);
-    FontManager.DrawText(Renderer, "Consolas 18pt", "Consolas.18pt", new Vector2(100, 300), Color.White, Color.Red);
-    FontManager.DrawText(Renderer, "Consolas 36pt\nMultiline!", "Consolas.36pt", new Vector2(100, 350), Color.White, Color.Red);
+    PrimitiveRenderer.DrawText(renderer, "Font test example (primitive debug font)", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
+    TextManager.DrawText(renderer, "Arial 24pt", "Arial.24pt", new Vector2(100, 150), Color.White, Color.Red, LightningBase.SDL_ttf.TTF_FontStyle.Italic); // Arial.24pt, italic
+    TextManager.DrawText(renderer, "Comic Sans 24pt", "ComicSans.24pt", new Vector2(100, 200), Color.Blue);
+    TextManager.DrawText(renderer, "Segoe UI 24pt", "SegoeUI.24pt", new Vector2(100, 250), Color.White, Color.Yellow, LightningBase.SDL_ttf.TTF_FontStyle.Underline | LightningBase.SDL_ttf.TTF_FontStyle.Bold);
+    TextManager.DrawText(renderer, "Consolas 18pt", "Consolas.18pt", new Vector2(100, 300), Color.White, Color.Red);
+    TextManager.DrawText(renderer, "Consolas 36pt\nMultiline text!", "Consolas.36pt", new Vector2(100, 350), Color.White, Color.Red);
 
-    Renderer.Render();
+    renderer.Render();
 }

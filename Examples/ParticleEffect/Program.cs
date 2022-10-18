@@ -1,4 +1,5 @@
 ﻿using LightningGL; // use lightninggl
+using static LightningGL.Lightning;
 using System.Drawing; // for color
 using System.Numerics;
 
@@ -6,19 +7,19 @@ using System.Numerics;
 //©2022 starfrost, August 12, 2022
 
 // Initialise Lightning
-Lightning.Init(args);
+Init(args);
 
-Renderer Renderer = new Renderer();
-Renderer.Start(new RendererSettings()); // use default Renderersettings
+Renderer renderer = new Renderer();
+renderer.Start(new RendererSettings()); // use default Renderersettings
 
 // Load a texture from a file using Texture::Load
-Texture texture = new Texture(Renderer, 18, 11) // yes thats the image size blame my lazy cropping
+Texture texture = new Texture(renderer, 18, 11) // yes thats the image size blame my lazy cropping
 {
     Path = "Content/ParticleEffect.png",
 };
 
 
-texture.Load(Renderer);
+TextureManager.AddAsset(renderer, texture);
 
 // Create a particle effect.
 ParticleEffect particleEffect = new ParticleEffect(texture)
@@ -33,10 +34,10 @@ ParticleEffect particleEffect = new ParticleEffect(texture)
     Mode = ParticleMode.Explode,
 };
 
-ParticleManager.AddEffect(Renderer, particleEffect);
+ParticleManager.AddAsset(renderer, particleEffect);
 
-while (Renderer.Run())
+while (renderer.Run())
 {
-    PrimitiveRenderer.DrawText(Renderer, "Particle effect example", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
-    Renderer.Render();
+    PrimitiveRenderer.DrawText(renderer, "Particle effect example", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
+    renderer.Render();
 }

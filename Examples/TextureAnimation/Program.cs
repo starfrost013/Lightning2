@@ -1,4 +1,5 @@
 ﻿using LightningGL; // use lightninggl
+using static LightningGL.Lightning;
 using System.Drawing; // for color
 using System.Numerics; // for vector2
 
@@ -6,17 +7,15 @@ using System.Numerics; // for vector2
 //©2022 starfrost, August 12, 2022
 
 // Initialise Lightning
-Lightning.Init(args);
+Init(args);
 
-Renderer Renderer = new Renderer();
-Renderer.Start(new RendererSettings()); // use default Renderersettings
+Renderer renderer = new Renderer();
+renderer.Start(new RendererSettings()); // use default Renderersettings
 
-Random Random = new Random();
-
-AnimatedTexture texture = new AnimatedTexture(256, 256)
-{
-    Cycle = new AnimationCycle(0, 3, 60)
-};
+AnimatedTexture texture = new AnimatedTexture(renderer,
+    256,
+    256,
+    new AnimationCycle(0, 3, 60));
 
 // add frames to the texture
 texture.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF0.png");
@@ -24,12 +23,10 @@ texture.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF1.png");
 texture.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF2.png");
 texture.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF3.png");
 texture.Position = new(200, 200);
-texture.Load(Renderer);
+TextureManager.AddAsset(renderer, texture);
 
-while (Renderer.Run())
+while (renderer.Run())
 {
-    texture.Draw(Renderer);
-
-    PrimitiveRenderer.DrawText(Renderer, "Animated texture example", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
-    Renderer.Render();
+    PrimitiveRenderer.DrawText(renderer, "Animated texture example", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
+    renderer.Render();
 }
