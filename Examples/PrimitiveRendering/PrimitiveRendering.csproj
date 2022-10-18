@@ -8,20 +8,23 @@
 	  <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
-  <ItemGroup>
-	  <Reference Include="LightningGL">
-		  <HintPath>..\shared\LightningGL.dll</HintPath>
-	  </Reference>
-	  <Reference Include="LightningPackager">
-		  <HintPath>..\shared\LightningPackager.dll</HintPath>
-	  </Reference>
-	  <Reference Include="NuCore.SDL2">
-		  <HintPath>..\shared\NuCore.SDL2.dll</HintPath>
-	  </Reference>
-	  <Reference Include="NuCore.Utilities">
-		  <HintPath>..\shared\NuCore.Utilities.dll</HintPath>
-	  </Reference>
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="LightningBase">
+			<HintPath>$(ProgramFiles)/Lightning Software Development Kit/LightningBase.dll</HintPath>
+		</Reference>
+		<Reference Include="LightningGL">
+			<HintPath>$(ProgramFiles)/Lightning Software Development Kit/LightningGL.dll</HintPath>
+		</Reference>
+		<Reference Include="LightningPackager">
+			<HintPath>$(ProgramFiles)/Lightning Software Development Kit/LightningPackager.dll</HintPath>
+		</Reference>
+		<Reference Include="NuCore.Utilities">
+			<HintPath>$(ProgramFiles)/Lightning Software Development Kit/NuCore.Utilities.dll</HintPath>
+		</Reference>
+		<Reference Include="NuCore.Utilities.Lightning">
+			<HintPath>$(ProgramFiles)/Lightning Software Development Kit/NuCore.Utilities.Lightning.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
   <!-- Shared includes for all examples. These are copied individually because they are open source and devs use them as part of the SDK -->
   <ItemGroup>
