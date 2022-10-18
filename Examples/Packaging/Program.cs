@@ -27,7 +27,6 @@ Texture coll2 = new Texture(renderer, 128, 128)
     Position = new Vector2(renderer.Settings.Size.X - 128, 300),
 };
 
-
 TextureManager.AddAsset(renderer, coll1);
 TextureManager.AddAsset(renderer, coll2);
 
@@ -39,6 +38,6 @@ while (renderer.Run())
         coll2.Position = new Vector2(coll2.Position.X - 0.1f, coll2.Position.Y);
     }
 
-    PrimitiveRenderer.DrawText(renderer, "Collision/AABB example (NO correction is being done here)", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
+    PrimitiveRenderer.DrawText(renderer, "Collision example extracted from WAD file", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
     renderer.Render();
 }

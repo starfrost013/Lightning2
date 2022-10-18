@@ -78,6 +78,7 @@ namespace NuCore.Utilities
 
             Assembly assembly = NCAssembly.GetLoadedAssembly(NCAssembly.LIGHTNING_UTILITIES_NAME);
 
+            // display message box
             if (assembly != null
                 && !dontShowMessageBox)
             {
@@ -101,12 +102,12 @@ namespace NuCore.Utilities
                         msgBoxOk.Invoke(null, new object[]
                             { "Fatal Error", $"A fatal error has occurred:\n\n{errorString}\n\n" +
                             $"The program must exit. We are sorry for the inconvenience.", SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR });
-                        Environment.Exit(Id);
                         return;
 
                 }
             }
 
+            if (ExceptionSeverity == NCExceptionSeverity.FatalError) Environment.Exit(Id);
         }
     }
 }
