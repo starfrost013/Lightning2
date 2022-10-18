@@ -6,10 +6,10 @@ using System.Drawing; // for color
 //©2022 starfrost, August 13, 2022
 
 // Initialise Lightning
-Lightning.Init(args);
+Init(args);
 
-Renderer Renderer = new Renderer();
-Renderer.Start(new RendererSettings
+Renderer renderer = new Renderer();
+renderer.Start(new RendererSettings
 {
     Title = "Lightning UI demonstration"
 }); // use default Renderersettings except title
@@ -33,15 +33,15 @@ Button button1 = new Button() // 150 char capacirty
 button1.OnMousePressed += OnMousePressed;
 button1.OnMouseReleased += OnMouseReleased;
 
-UIManager.AddElement(button1);
+UIManager.AddAsset(button1);
 
 string buttonHeldDownText = "Button not held down";
 
-while (Renderer.Run())
+while (renderer.Run())
 {
-    PrimitiveRenderer.DrawText(Renderer, "UI example", new(100, 100), Color.White); // no fonts loaded so we use the debug font - new is vector2
-    PrimitiveRenderer.DrawText(Renderer, buttonHeldDownText, new(100, 120), Color.White);
-    Renderer.Render();
+    PrimitiveRenderer.DrawText(renderer, "UI example", new(100, 100), Color.White); // no fonts loaded so we use the debug font - new is vector2
+    PrimitiveRenderer.DrawText(renderer, buttonHeldDownText, new(100, 120), Color.White);
+    renderer.Render();
 }
 
 void OnMousePressed(MouseButton button)

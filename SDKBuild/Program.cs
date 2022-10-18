@@ -4,10 +4,9 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 // SDKBuild
-// August 11, 2022 (modified October 17, 2022)
+// August 11, 2022 (modified October 18, 2022)
 //
-// Builds the SDK...duh.
-// Very quick and dirty
+// Very quick and dirty tool to build a Lightning SDK setup file.
 
 #region Variables
 // The release configuration to use.
@@ -27,9 +26,16 @@ string innoInstallDir = $@"{Environment.GetFolderPath(Environment.SpecialFolder.
 
 NCLogging.Init();
 
-NCLogging.Log("Lightning SDK Builder version 1.6");
+NCLogging.Log("Lightning SDK Builder version 1.7");
 
-NCLogging.Log("Copying build files from LightningGL build directory...");
+// delete sdk dir if it exists
+if (Directory.Exists("SDK"))
+{
+    NCLogging.Log("Deleting pre-existing SDK...");
+    Directory.Delete("SDK", true);
+}
+
+NCLogging.Log("Copying build files from Lightning build directory...");
 
 for (int argId = 0; argId < args.Length; argId++)
 {
@@ -45,18 +51,15 @@ for (int argId = 0; argId < args.Length; argId++)
     }
 }
 
-if (!Directory.Exists(buildPath)) _ = new NCException($"Build directory not found ({buildPath}). Please build Lightning in the specified configuration (provide -release for Release)",
+if (!Directory.Exists(buildPath))
+{
+    _ = new NCException($"Build directory not found ({buildPath}). Please build Lightning in the specified configuration (provide -release for Release, otherwise Debug)",
     1402, "buildPath not found in Program::Main");
+    Environment.Exit(1);
+}
 
-FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo($@"{buildPath}\LightningBase.dll");
-NCLogging.Log($"Building SDK, release {versionInfo.ProductVersion} ({config})");
-
-Directory.CreateDirectory("SDK");
-
-/// top-level statements ???? wtf is it doing here this is the same namespace and class
-NCFile.RecursiveCopy(buildPath, "SDK");
-
-// COPY MakePackage
+// build makepackage and animtool first because they may compile against older versions
+// so we overwrite old versions if they happen to be there
 NCLogging.Log("Copying MakePackage build files...");
 
 NCFile.RecursiveCopy(makePackagePath, "SDK");
@@ -71,6 +74,14 @@ else
 {
     NCLogging.Log("Not running on windows, skipping AnimTool (remove when MAUI AnimTool is a thing)");
 }
+
+FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo($@"{buildPath}\LightningBase.dll");
+NCLogging.Log($"Building SDK, release {versionInfo.ProductVersion} ({config})");
+
+Directory.CreateDirectory("SDK");
+
+/// top-level statements ???? wtf is it doing here this is the same namespace and class
+NCFile.RecursiveCopy(buildPath, "SDK");
 
 // TODO: VSIX Installation
 NCLogging.Log("Building documentation...");
