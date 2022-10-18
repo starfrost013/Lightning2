@@ -90,8 +90,6 @@ namespace LightningPackager
             entry.Start = reader.ReadInt64();
             entry.Size = reader.ReadInt64();
 
-            //todo: calculate crc32
-
             return entry;
         }
 

@@ -72,7 +72,7 @@ namespace LightningBase
             (IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_WEBP | IMG_INIT_JXL | IMG_INIT_AVIF)
         }
 
-        public static void SDL_IMAGE_VERSION(out SDL.SDL_version X)
+        public static void SDL_IMAGE_VERSION(out SDL_version X)
         {
             X.major = SDL_IMAGE_EXPECTED_MAJOR_VERSION;
             X.minor = SDL_IMAGE_EXPECTED_MINOR_VERSION;

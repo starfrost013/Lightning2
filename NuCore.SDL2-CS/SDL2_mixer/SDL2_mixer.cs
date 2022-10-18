@@ -119,6 +119,7 @@ namespace LightningBase
         }
 
         #endregion
+
         #region Delegates
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void MixFuncDelegate(

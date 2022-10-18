@@ -43,7 +43,6 @@ namespace LightningBase
 {
     public static partial class SDL
     {
-
         #region SDL.h
 
         public enum SDL_InitFlags
@@ -67,7 +66,7 @@ namespace LightningBase
         public static int SDL_Init(SDL_InitFlags flags)
         {
             // print a sign-on message so that we know it's initialising
-            Console.WriteLine(SDL2CS_VERSION);
+            Console.WriteLine(LightningBase.BASE_VERSION);
 
             // Prevent silent exit if debugger is attached in some cases
             if (Debugger.IsAttached) SDL_SetHint(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");
@@ -115,6 +114,5 @@ namespace LightningBase
         );
 
         #endregion
-
     }
 }

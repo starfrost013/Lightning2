@@ -47,16 +47,6 @@ namespace LightningBase
         /// </summary>
         private const string nativeLibName = @"Libraries\SDL2";
 
-        /// <summary>
-        /// The version of the NuCore SDL2 Bindings
-        /// </summary>
-        private static string SDL2CS_VERSION = $"Using NuCore SDL2 Bindings version {SDL2CS_VERSION_MAJOR}.{SDL2CS_VERSION_MINOR}.{SDL2CS_VERSION_REVISION} " +
-            $"(Expected SDL version {SDL_EXPECTED_MAJOR_VERSION}.{SDL_EXPECTED_MINOR_VERSION}.{SDL_EXPECTED_PATCHLEVEL}) for Lightning 1.1"; // cannot be const
-
-        private const int SDL2CS_VERSION_MAJOR = 3;
-        private const int SDL2CS_VERSION_MINOR = 1;
-        private const int SDL2CS_VERSION_REVISION = 0;
-
         #endregion
     }
 }

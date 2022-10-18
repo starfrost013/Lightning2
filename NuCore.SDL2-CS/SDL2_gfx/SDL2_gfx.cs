@@ -75,11 +75,6 @@ namespace LightningBase
 
         #region SDL2_gfxPrimitives.h
 
-        //todo: 1.0.6 new GFX_GetVersion
-        public const uint SDL2_GFXPRIMITIVES_MAJOR = 1;
-        public const uint SDL2_GFXPRIMITIVES_MINOR = 0;
-        public const uint SDL2_GFXPRIMITIVES_MICRO = 6;
-
         [DllImport(NativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int pixelRGBA(IntPtr renderer, int x, int y, byte r, byte g, byte b, byte a);
 

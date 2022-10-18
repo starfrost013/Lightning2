@@ -51,7 +51,7 @@ namespace LightningBase
 		 */
         public const int SDL_EXPECTED_MAJOR_VERSION = 2;
         public const int SDL_EXPECTED_MINOR_VERSION = 24;
-        public const int SDL_EXPECTED_PATCHLEVEL = 0;
+        public const int SDL_EXPECTED_PATCHLEVEL = 1;
 
         public static readonly int SDL_EXPECTED_COMPILEDVERSION = SDL_VERSIONNUM(
             SDL_EXPECTED_MAJOR_VERSION,
@@ -74,7 +74,7 @@ namespace LightningBase
             x.patch = SDL_EXPECTED_PATCHLEVEL;
         }
 
-        public static int SDL_VERSIONNUM(int X, int Y, int Z) => (X * 1000) + (Y * 100) + Z;
+        public static int SDL_VERSIONNUM(int X, int Y, int Z) => (X * 10000) + (Y * 100) + Z; // changed to 10000 because of 2.24+ high version numbers
 
         public static bool SDL_VERSION_ATLEAST(int X, int Y, int Z) => SDL_EXPECTED_COMPILEDVERSION >= SDL_VERSIONNUM(X, Y, Z);
 
