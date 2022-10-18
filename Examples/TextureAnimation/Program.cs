@@ -15,7 +15,7 @@ renderer.Start(new RendererSettings()); // use default Renderersettings
 AnimatedTexture texture = new AnimatedTexture(renderer,
     256,
     256,
-    new AnimationCycle(0, 3, 60));
+    new AnimationCycle(0, 3, 1000));
 
 // add frames to the texture
 texture.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF0.png");

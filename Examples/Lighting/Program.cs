@@ -24,7 +24,34 @@ Light newLight = new()
     Position = new Vector2(150, 125)
 };
 
+Light newColouredLight = new()
+{
+    Brightness = 140,
+    Range = 5,
+    Position = new Vector2(150, 550),
+    LightColor = Color.Green
+};
+
+Light newColouredLight2 = new()
+{
+    Brightness = 190,
+    Range = 6,
+    Position = new Vector2(425, 550),
+    LightColor = Color.Green
+};
+
+Light newColouredLight3 = new()
+{
+    Brightness = 255,
+    Range = 7,
+    Position = new Vector2(750, 550),
+    LightColor = Color.Green
+};
+
 LightManager.AddAsset(renderer, newLight);
+LightManager.AddAsset(renderer, newColouredLight);
+LightManager.AddAsset(renderer, newColouredLight2);
+LightManager.AddAsset(renderer, newColouredLight3);
 
 while (renderer.Run())
 {

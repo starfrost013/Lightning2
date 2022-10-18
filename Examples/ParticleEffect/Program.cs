@@ -27,10 +27,10 @@ ParticleEffect particleEffect = new ParticleEffect(texture)
     MaxNumberCreatedEachFrame = 3,
     FrameSkipBetweenCreatingParticles = 2,
     Amount = 200,
-    Lifetime = 200,
-    Variance = 10,
+    Lifetime = 5000,
+    Variance = 25,
     Position = new(100, 300),
-    Velocity = new(4f, 4f), // it's a float so use f
+    Velocity = new(0.1f, 0.1f), // it's a float so use f
     Mode = ParticleMode.Explode,
 };
 
