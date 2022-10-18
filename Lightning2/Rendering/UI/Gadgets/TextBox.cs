@@ -146,7 +146,7 @@
         /// <param name="cRenderer">The window to render this <see cref="TextBox"/> to.</param>
         public void Render(Renderer cRenderer)
         {
-            PrimitiveRenderer.DrawRectangle(cRenderer, Position, Size, CurBackgroundColor, true, Bordercolor, BorderSize, SnapToScreen);
+            PrimitiveRenderer.DrawRectangle(cRenderer, Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen);
             TextManager.DrawText(cRenderer, Text, Font, Position, ForegroundColor);
 
             // slight hack

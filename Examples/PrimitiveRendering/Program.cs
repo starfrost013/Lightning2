@@ -8,21 +8,21 @@ using System.Numerics;
 // Initialise Lightning
 Lightning.Init(args);
 
-Window window = new Window();
-window.Start(new WindowSettings()); // use default windowsettings
+Renderer Renderer = new Renderer();
+Renderer.Start(new RendererSettings()); // use default Renderersettings
 
-while (window.Run())
+while (Renderer.Run())
 {
-    PrimitiveRenderer.DrawPixel(window, new Vector2(20, 100), Color.FromArgb(255, 100, 100, 255)); // draw a pixel @ 0,0, colour ARGB 255,100,100,255
-    PrimitiveRenderer.DrawLine(window, new Vector2(40, 100), new Vector2(40, 250), 5, Color.Blue); // draw a line from 10,0 to 50,0, thickness 5, colour blue
-    PrimitiveRenderer.DrawCircle(window, new Vector2(40, 100), new Vector2(25, 25), Color.Yellow, false, true); // draw an anti-aliased, yellow unfilled circle size (25,25) at (40,100)
-    PrimitiveRenderer.DrawCircle(window, new Vector2(93, 100), new Vector2(25, 25), Color.Yellow, true); // draw a yellow filled circle size (25,25) at (93,100)
-    PrimitiveRenderer.DrawRectangle(window, new Vector2(120, 100), new Vector2(25, 25), Color.Orange, false); // draw an orange unfilled rectangle size (25,25) at (120,100)
-    PrimitiveRenderer.DrawRectangle(window, new Vector2(150, 100), new Vector2(25, 25), Color.OrangeRed, true); // draw an orange-red filled rectangle size (25,25) at (150,100)
-    PrimitiveRenderer.DrawRoundedRectangle(window, new Vector2(180, 100), new Vector2(25, 25), Color.Red, 5, false); // draw a red unfilled rounded rectangle, corner radius 5px, size (25,25) at (180,100)
-    PrimitiveRenderer.DrawRoundedRectangle(window, new Vector2(210, 100), new Vector2(25, 25), Color.Red, 5, true); // draw a red filled rounded rectangle, corner radius 5px, size (25,25) at (210,100)
-    PrimitiveRenderer.DrawTriangle(window, new Vector2(255, 100), new Vector2(270, 125), new Vector2(240, 125), Color.Turquoise, false); // draw a turqoise unfilled triangle with points (255,100) (270,125) (240,125) 
-    PrimitiveRenderer.DrawTriangle(window, new Vector2(290, 100), new Vector2(305, 125), new Vector2(275, 125), Color.Turquoise, true); // draw a turqoise filled triangle with points (290,100) (305,125) (275,125)
+    PrimitiveRenderer.DrawPixel(Renderer, new Vector2(20, 100), Color.FromArgb(255, 100, 100, 255)); // draw a pixel @ 0,0, colour ARGB 255,100,100,255
+    PrimitiveRenderer.DrawLine(Renderer, new Vector2(40, 100), new Vector2(40, 250), 5, Color.Blue); // draw a line from 10,0 to 50,0, thickness 5, colour blue
+    PrimitiveRenderer.DrawCircle(Renderer, new Vector2(40, 100), new Vector2(25, 25), Color.Yellow, false, true); // draw an anti-aliased, yellow unfilled circle size (25,25) at (40,100)
+    PrimitiveRenderer.DrawCircle(Renderer, new Vector2(93, 100), new Vector2(25, 25), Color.Yellow, true); // draw a yellow filled circle size (25,25) at (93,100)
+    PrimitiveRenderer.DrawRectangle(Renderer, new Vector2(120, 100), new Vector2(25, 25), Color.Orange, false); // draw an orange unfilled rectangle size (25,25) at (120,100)
+    PrimitiveRenderer.DrawRectangle(Renderer, new Vector2(150, 100), new Vector2(25, 25), Color.OrangeRed, true); // draw an orange-red filled rectangle size (25,25) at (150,100)
+    PrimitiveRenderer.DrawRoundedRectangle(Renderer, new Vector2(180, 100), new Vector2(25, 25), Color.Red, 5, false); // draw a red unfilled rounded rectangle, corner radius 5px, size (25,25) at (180,100)
+    PrimitiveRenderer.DrawRoundedRectangle(Renderer, new Vector2(210, 100), new Vector2(25, 25), Color.Red, 5, true); // draw a red filled rounded rectangle, corner radius 5px, size (25,25) at (210,100)
+    PrimitiveRenderer.DrawTriangle(Renderer, new Vector2(255, 100), new Vector2(270, 125), new Vector2(240, 125), Color.Turquoise, false); // draw a turqoise unfilled triangle with points (255,100) (270,125) (240,125) 
+    PrimitiveRenderer.DrawTriangle(Renderer, new Vector2(290, 100), new Vector2(305, 125), new Vector2(275, 125), Color.Turquoise, true); // draw a turqoise filled triangle with points (290,100) (305,125) (275,125)
 
     // Basically a diamond
     List<Vector2> polyPoints1 = new List<Vector2>
@@ -42,9 +42,9 @@ while (window.Run())
       new Vector2(400, 200)
     };
 
-    PrimitiveRenderer.DrawPolygon(window, polyPoints1, Color.BlueViolet, false); // draw an unfilled blue-violet polygon with the points polyPoints1
-    PrimitiveRenderer.DrawPolygon(window, polyPoints2, Color.BlueViolet, true); // draw a filled blue-violet polygon with the points polyPoints2
+    PrimitiveRenderer.DrawPolygon(Renderer, polyPoints1, Color.BlueViolet, false); // draw an unfilled blue-violet polygon with the points polyPoints1
+    PrimitiveRenderer.DrawPolygon(Renderer, polyPoints2, Color.BlueViolet, true); // draw a filled blue-violet polygon with the points polyPoints2
 
-    PrimitiveRenderer.DrawText(window, "Primitive rendering example", new Vector2(300, 300), Color.White); // no fonts loaded so we use the debug font
-    window.Render();
+    PrimitiveRenderer.DrawText(Renderer, "Primitive rendering example", new Vector2(300, 300), Color.White); // no fonts loaded so we use the debug font
+    Renderer.Render();
 }

@@ -11,7 +11,7 @@ using System.Numerics;
 Lightning.Init(args);
 
 Renderer renderer = new Renderer();
-renderer.Start(new RendererSettings()); // use default windowsettings
+renderer.Start(new RendererSettings()); // use default Renderersettings
 
 // supported formats: flac, ogg, mod, mp3, midi
 // positional audio and volume controls are also supported

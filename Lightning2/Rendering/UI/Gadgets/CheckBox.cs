@@ -35,7 +35,7 @@
         /// <param name="cRenderer">The window to render this checkbox to.</param>
         public void Render(Renderer cRenderer)
         {
-            PrimitiveRenderer.DrawRectangle(cRenderer, Position, Size, CurBackgroundColor, Filled, Bordercolor, BorderSize, SnapToScreen);
+            PrimitiveRenderer.DrawRectangle(cRenderer, Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
 
             if (Checked)
             {

@@ -8,14 +8,14 @@ using System.Numerics;
 // Initialise Lightning
 Lightning.Init(args);
 
-Window window = new Window();
-window.Start(new WindowSettings()); // use default windowsettings
+Renderer Renderer = new Renderer();
+Renderer.Start(new RendererSettings()); // use default Renderersettings
 
-while (window.Run())
+while (Renderer.Run())
 {
     // #[name] is used for localisation strings
-    PrimitiveRenderer.DrawText(window, "#[LOC_STRING_01]", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
-    PrimitiveRenderer.DrawText(window, "#[LOC_STRING_02]", new Vector2(100, 150), Color.Red); // no fonts loaded so we use the debug font
-    PrimitiveRenderer.DrawText(window, "#[LOC_STRING_03]", new Vector2(100, 200), Color.RebeccaPurple); // no fonts loaded so we use the debug font
-    window.Render();
+    PrimitiveRenderer.DrawText(Renderer, "#[LOC_STRING_01]", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
+    PrimitiveRenderer.DrawText(Renderer, "#[LOC_STRING_02]", new Vector2(100, 150), Color.Red); // no fonts loaded so we use the debug font
+    PrimitiveRenderer.DrawText(Renderer, "#[LOC_STRING_03]", new Vector2(100, 200), Color.RebeccaPurple); // no fonts loaded so we use the debug font
+    Renderer.Render();
 }

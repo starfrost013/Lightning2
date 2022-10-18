@@ -8,17 +8,17 @@ using System.Numerics;
 // Initialise Lightning
 Lightning.Init(args);
 
-Window window = new Window();
-window.Start(new WindowSettings()); // use default windowsettings
+Renderer Renderer = new Renderer();
+Renderer.Start(new RendererSettings()); // use default Renderersettings
 
 // Load a texture from a file using Texture::Load
-Texture texture = new Texture(window, 18, 11) // yes thats the image size blame my lazy cropping
+Texture texture = new Texture(Renderer, 18, 11) // yes thats the image size blame my lazy cropping
 {
     Path = "Content/ParticleEffect.png",
 };
 
 
-texture.Load(window);
+texture.Load(Renderer);
 
 // Create a particle effect.
 ParticleEffect particleEffect = new ParticleEffect(texture)
@@ -33,10 +33,10 @@ ParticleEffect particleEffect = new ParticleEffect(texture)
     Mode = ParticleMode.Explode,
 };
 
-ParticleManager.AddEffect(window, particleEffect);
+ParticleManager.AddEffect(Renderer, particleEffect);
 
-while (window.Run())
+while (Renderer.Run())
 {
-    PrimitiveRenderer.DrawText(window, "Particle effect example", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
-    window.Render();
+    PrimitiveRenderer.DrawText(Renderer, "Particle effect example", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
+    Renderer.Render();
 }

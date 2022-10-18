@@ -34,7 +34,7 @@
             // This is a bit of a hack, but it works for now
             if (CurBackgroundColor == default(Color)) CurBackgroundColor = BackgroundColor;
 
-            PrimitiveRenderer.DrawRectangle(cRenderer, RenderPosition, Size, CurBackgroundColor, Filled, Bordercolor, BorderSize, SnapToScreen);
+            PrimitiveRenderer.DrawRectangle(cRenderer, RenderPosition, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
 
             Font curFont = FontManager.GetFont(Font);
 

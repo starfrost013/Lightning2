@@ -1,4 +1,5 @@
 ﻿using LightningGL; // use lightninggl
+using static LightningGL.Lightning;
 using System.Drawing; // for color
 
 //Basic Lightning UI Example 
@@ -7,21 +8,21 @@ using System.Drawing; // for color
 // Initialise Lightning
 Lightning.Init(args);
 
-Window window = new Window();
-window.Start(new WindowSettings
+Renderer Renderer = new Renderer();
+Renderer.Start(new RendererSettings
 {
     Title = "Lightning UI demonstration"
-}); // use default windowsettings except title
+}); // use default Renderersettings except title
 
 Button button1 = new Button() // 150 char capacirty
 {
     Size = new(100, 30),
-    BackgroundColour = Color.White,
-    PressedColour = Color.Gray,
-    HoverColour = Color.LightGray,
-    BorderColour = Color.Yellow,
+    BackgroundColor = Color.White,
+    PressedColor = Color.Gray,
+    HoverColor = Color.LightGray,
+    BorderColor = Color.Yellow,
     BorderSize = new(3, 3),
-    ForegroundColour = Color.Black,
+    ForegroundColor = Color.Black,
     Position = new(100, 300),
     Text = "Button 1",
     Filled = true
@@ -36,11 +37,11 @@ UIManager.AddElement(button1);
 
 string buttonHeldDownText = "Button not held down";
 
-while (window.Run())
+while (Renderer.Run())
 {
-    PrimitiveRenderer.DrawText(window, "UI example", new(100, 100), Color.White); // no fonts loaded so we use the debug font - new is vector2
-    PrimitiveRenderer.DrawText(window, buttonHeldDownText, new(100, 120), Color.White);
-    window.Render();
+    PrimitiveRenderer.DrawText(Renderer, "UI example", new(100, 100), Color.White); // no fonts loaded so we use the debug font - new is vector2
+    PrimitiveRenderer.DrawText(Renderer, buttonHeldDownText, new(100, 120), Color.White);
+    Renderer.Render();
 }
 
 void OnMousePressed(MouseButton button)

@@ -30,7 +30,7 @@
         /// <summary>
         /// The colour used for the border of this gadget.
         /// </summary>
-        public Color Bordercolor { get; set; }
+        public Color BorderColor { get; set; }
 
         /// <summary>
         /// Border size of this gadget.

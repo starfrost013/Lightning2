@@ -8,28 +8,28 @@ using System.Numerics;
 // Initialise Lightning
 Lightning.Init(args);
 
-Window window = new Window();
-window.Start(new WindowSettings
+Renderer Renderer = new Renderer();
+Renderer.Start(new RendererSettings
 {
     Title = "Basic Lightning2 Demo"
-}); // use default windowsettings except title
+}); // use default Renderersettings except title
 
-Texture coll1 = new Texture(window, 128, 128)
+Texture coll1 = new Texture(Renderer, 128, 128)
 {
     Path = "Content/CollidingTexture1.png",
     Position = new Vector2(128, 300),
 };
 
-Texture coll2 = new Texture(window, 128, 128)
+Texture coll2 = new Texture(Renderer, 128, 128)
 {
     Path = "Content/CollidingTexture2.png",
-    Position = new Vector2(window.Settings.Size.X - 128, 300),
+    Position = new Vector2(Renderer.Settings.Size.X - 128, 300),
 };
 
-coll1.Load(window);
-coll2.Load(window);
+coll1.Load(Renderer);
+coll2.Load(Renderer);
 
-while (window.Run())
+while (Renderer.Run())
 {
     if (!AABB.Intersects(coll1, coll2))
     {
@@ -37,9 +37,9 @@ while (window.Run())
         coll2.Position = new Vector2(coll2.Position.X - 0.1f, coll2.Position.Y);
     }
 
-    coll1.Draw(window);
-    coll2.Draw(window);
+    coll1.Draw(Renderer);
+    coll2.Draw(Renderer);
 
-    PrimitiveRenderer.DrawText(window, "Packaging example (files are extracted from package and deleted at shutdown)", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
-    window.Render();
+    PrimitiveRenderer.DrawText(Renderer, "Packaging example (files are extracted from package and deleted at shutdown)", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
+    Renderer.Render();
 }

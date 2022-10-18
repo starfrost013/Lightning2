@@ -8,11 +8,11 @@ using System.Numerics;
 // Initialise Lightning
 Lightning.Init(args);
 
-Window window = new Window();
-window.Start(new WindowSettings()); // use default windowsettings
+Renderer Renderer = new Renderer();
+Renderer.Start(new RendererSettings()); // use default Renderersettings
 
-// make the window white to emphasise the light
-window.Clear(Color.White);
+// make the Renderer white to emphasise the light
+Renderer.Clear(Color.White);
 // set the environmental light
 LightManager.SetEnvironmentalLight(Color.Black);
 
@@ -23,10 +23,10 @@ Light newLight = new Light
     Position = new Vector2(150, 125)
 };
 
-LightManager.AddLight(window, newLight);
+LightManager.AddLight(Renderer, newLight);
 
-while (window.Run())
+while (Renderer.Run())
 {
-    PrimitiveRenderer.DrawText(window, "Lighting example", new Vector2(100, 100), Color.Black); // no fonts loaded so we use the debug font
-    window.Render();
+    PrimitiveRenderer.DrawText(Renderer, "Lighting example", new Vector2(100, 100), Color.Black); // no fonts loaded so we use the debug font
+    Renderer.Render();
 }

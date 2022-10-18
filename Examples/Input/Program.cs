@@ -1,5 +1,5 @@
 ﻿using LightningGL; // use lightninggl
-using static NuCore.SDL2.SDL; // import for sdl
+using static LightningBase.SDL; // import for sdl
 using System.Drawing; // for color
 using System.Numerics;
 
@@ -9,36 +9,36 @@ using System.Numerics;
 // Initialise Lightning
 Lightning.Init(args);
 
-Window window = new Window();
-window.Start(new WindowSettings()); // use default windowsettings
+Renderer Renderer = new Renderer();
+Renderer.Start(new RendererSettings()); // use default Renderersettings
 
 string youPressedString = "Last keypress: ";
 string youClickedString = "Last mouse click: ";
 string lastMousePosString = "Last mouse motion: ";
-while (window.Run())
+while (Renderer.Run())
 {
-    if (window.EventWaiting)
+    if (Renderer.EventWaiting)
     {
-        if (window.LastEvent.type == SDL_EventType.SDL_KEYDOWN)
+        if (Renderer.LastEvent.type == SDL_EventType.SDL_KEYDOWN)
         {
-            Key key = (Key)window.LastEvent.key;
+            Key key = (Key)Renderer.LastEvent.key;
             youPressedString = $"Last keypress: {key}, modifiers: {key.Modifiers}, repeated: {key.Repeated}";
         }
-        else if (window.LastEvent.type == SDL_EventType.SDL_MOUSEBUTTONDOWN)
+        else if (Renderer.LastEvent.type == SDL_EventType.SDL_MOUSEBUTTONDOWN)
         {
-            MouseButton button = (MouseButton)window.LastEvent.button;
+            MouseButton button = (MouseButton)Renderer.LastEvent.button;
             youClickedString = $"Last mouse click: {button.Button}, position: {button.Position}";
         }
-        else if (window.LastEvent.type == SDL_EventType.SDL_MOUSEMOTION)
+        else if (Renderer.LastEvent.type == SDL_EventType.SDL_MOUSEMOTION)
         {
-            MouseButton button = (MouseButton)window.LastEvent.motion;
+            MouseButton button = (MouseButton)Renderer.LastEvent.motion;
             lastMousePosString = $"Last mouse motion: {button.Button}, position: {button.Position}, velocity: {button.Velocity}";
         }
     }
 
-    PrimitiveRenderer.DrawText(window, "Input example", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
-    PrimitiveRenderer.DrawText(window, youPressedString, new Vector2(100, 120), Color.White); // no fonts loaded so we use the debug font
-    PrimitiveRenderer.DrawText(window, youClickedString, new Vector2(100, 140), Color.White); // no fonts loaded so we use the debug font
-    PrimitiveRenderer.DrawText(window, lastMousePosString, new Vector2(100, 160), Color.White); // no fonts loaded so we use the debug font
-    window.Render();
+    PrimitiveRenderer.DrawText(Renderer, "Input example", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
+    PrimitiveRenderer.DrawText(Renderer, youPressedString, new Vector2(100, 120), Color.White); // no fonts loaded so we use the debug font
+    PrimitiveRenderer.DrawText(Renderer, youClickedString, new Vector2(100, 140), Color.White); // no fonts loaded so we use the debug font
+    PrimitiveRenderer.DrawText(Renderer, lastMousePosString, new Vector2(100, 160), Color.White); // no fonts loaded so we use the debug font
+    Renderer.Render();
 }

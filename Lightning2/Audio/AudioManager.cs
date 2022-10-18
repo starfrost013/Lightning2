@@ -135,7 +135,7 @@
         /// <summary>
         /// Internal: Updates all loaded and playing audio files.
         /// </summary>
-        /// <param name="cRenderer">The window to update audio on.</param>
+        /// <param name="cRenderer">The Renderer to update audio on.</param>
         internal override void Update(Renderer cRenderer)
         {
             foreach (AudioFile file in Assets)

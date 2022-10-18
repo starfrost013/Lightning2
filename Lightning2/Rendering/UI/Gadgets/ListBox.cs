@@ -96,7 +96,7 @@
             item.Position = new Vector2(Position.X, Position.Y + ((itemFontSize.Y * 1.25f) * (Items.Count + 1)));
             if (item.BackgroundColor == default(Color)) item.BackgroundColor = BackgroundColor;
             if (item.ForegroundColor == default(Color)) item.ForegroundColor = ForegroundColor;
-            if (item.Bordercolor == default(Color)) item.Bordercolor = Bordercolor;
+            if (item.BorderColor == default(Color)) item.BorderColor = BorderColor;
 
             // alternate the colors so they look a bit better
             if (Items.Count % 2 == 0
@@ -140,7 +140,7 @@
             // set the default background color if it's not set. a hack...
             if (CurBackgroundColor == default(Color)) CurBackgroundColor = BackgroundColor;
 
-            PrimitiveRenderer.DrawRectangle(cRenderer, Position, BoxSize, CurBackgroundColor, Filled, Bordercolor, BorderSize, SnapToScreen);
+            PrimitiveRenderer.DrawRectangle(cRenderer, Position, BoxSize, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
 
             Font curFont = FontManager.GetFont(Font);
 

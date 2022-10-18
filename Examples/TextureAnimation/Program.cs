@@ -8,8 +8,8 @@ using System.Numerics; // for vector2
 // Initialise Lightning
 Lightning.Init(args);
 
-Window window = new Window();
-window.Start(new WindowSettings()); // use default windowsettings
+Renderer Renderer = new Renderer();
+Renderer.Start(new RendererSettings()); // use default Renderersettings
 
 Random Random = new Random();
 
@@ -24,12 +24,12 @@ texture.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF1.png");
 texture.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF2.png");
 texture.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF3.png");
 texture.Position = new(200, 200);
-texture.Load(window);
+texture.Load(Renderer);
 
-while (window.Run())
+while (Renderer.Run())
 {
-    texture.Draw(window);
+    texture.Draw(Renderer);
 
-    PrimitiveRenderer.DrawText(window, "Animated texture example", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
-    window.Render();
+    PrimitiveRenderer.DrawText(Renderer, "Animated texture example", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
+    Renderer.Render();
 }

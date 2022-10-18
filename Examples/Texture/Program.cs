@@ -8,14 +8,14 @@ using System.Numerics;
 // Initialise Lightning
 Lightning.Init(args);
 
-Window window = new Window();
-window.Start(new WindowSettings()); // use default windowsettings
+Renderer Renderer = new Renderer();
+Renderer.Start(new RendererSettings()); // use default Renderersettings
 
 // create a texture
-Texture texture = new Texture(window, 512, 512);
+Texture texture = new Texture(Renderer, 512, 512);
 Random Random = new Random();
 
-while (window.Run())
+while (Renderer.Run())
 {
     int rX = Random.Next(0, 512); // exclusive upper bound
     int rY = Random.Next(0, 512);
@@ -24,8 +24,8 @@ while (window.Run())
     // this is solely done for the purpose of this demo ONLY
     texture.SetPixel(rX, rY, Color.White);
 
-    texture.Draw(window);
+    texture.Draw(Renderer);
 
-    PrimitiveRenderer.DrawText(window, "Texture API example", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
-    window.Render();
+    PrimitiveRenderer.DrawText(Renderer, "Texture API example", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
+    Renderer.Render();
 }

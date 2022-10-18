@@ -12,7 +12,7 @@ Renderer renderer = new Renderer();
 renderer.Start(new RendererSettings
 {
     Title = "Basic Lightning2 Demo"
-}); // use default windowsettings except title
+}); // use default Renderersettings except title
 
 while (renderer.Run())
 {
