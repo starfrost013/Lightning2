@@ -1,10 +1,13 @@
-﻿using LightningGL;
-using static NuCore.SDL2.SDL;
-using System.Drawing;
-using System.Numerics;
+﻿// see globalusings.cs for namespaces used here
 
-namespace $safeprojectname$
+namespace basic
 {
+    /// <summary>
+    /// MainScene
+    /// 
+    /// The main scene of your Lightning game. 
+    /// Add additional scenes by creating classes that inherit from Scene.
+    /// </summary>
     public class MainScene : Scene
     {
         public override void Start()
@@ -27,7 +30,7 @@ namespace $safeprojectname$
 
         }
 
-        public override void Render(Window cWindow)
+        public override void Render(Renderer cWindow)
         {
             PrimitiveRenderer.DrawText(cWindow, "Hello World!", new Vector2(300, 300), Color.Red);
         }

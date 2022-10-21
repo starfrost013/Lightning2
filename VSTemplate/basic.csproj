@@ -9,7 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="LightningGL">
+    <Reference Include="LightningBase">
+	  <HintPath>$(ProgramFiles)/Lightning Software Development Kit/LightningBase.dll</HintPath>
+	</Reference>
+	<Reference Include="LightningGL">
       <HintPath>$(ProgramFiles)/Lightning Software Development Kit/LightningGL.dll</HintPath>
     </Reference>
     <Reference Include="LightningPackager">
@@ -123,17 +126,17 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<Link>Libraries/SDL2_gfx-v1.0.6-x64.dll</Link>
 		</Content>
-		<Content Include="$(ProgramFiles)/Lightning Software Development Kit/Libraries/SDL2_image-v2.0.5-x64.dll">
+		<Content Include="$(ProgramFiles)/Lightning Software Development Kit/Libraries/SDL2_image-x64.dll">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<Link>Libraries/SDL2_image-v2.0.5-x64.dll</Link>
+			<Link>Libraries/SDL2_image-x64.dll</Link>
 		</Content>
 		<Content Include="$(ProgramFiles)/Lightning Software Development Kit/Libraries/SDL2_ttf-v2.0.18-x64.dll">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<Link>Libraries/SDL2_ttf-v2.0.18-x64.dll</Link>
 		</Content>
-		<Content Include="$(ProgramFiles)/Lightning Software Development Kit/Libraries/SDL2_mixer-v2.0.4-x64.dll">
+		<Content Include="$(ProgramFiles)/Lightning Software Development Kit/Libraries/SDL2_mixer-x64.dll">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<Link>Libraries/SDL2_mixer-v2.0.4-x64.dll</Link>
+			<Link>Libraries/SDL2_mixer-x64.dll</Link>
 		</Content>
 	</ItemGroup>
 </Project>

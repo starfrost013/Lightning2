@@ -1,8 +1,7 @@
-﻿using LightningGL; // use lightninggl
+﻿//Lightning 1.1 Visual Studio template
+//©2022 starfrost, October 21, 2022
+// Use this to get started with Lightnng
 
-//Lightning Visual Studio Template
-//©2022 starfrost, August 13, 2022
-
-// Use this to get started
 // Initialise Lightning, this will run MainScene
-Lightning.Init(args);
+// this is in the LightningGL::Lightning class (included via a static global using)
+Init(args);
