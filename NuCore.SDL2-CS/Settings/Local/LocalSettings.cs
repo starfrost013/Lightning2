@@ -36,7 +36,7 @@ namespace LightningBase
                 && Path.IsValidPath())
             {
                 NCLogging.Log($"LocalSettingsPath set but Local Settings INI file does not exist. Creating it...");
-                File.Create(Path);
+                File.Create(Path).Close(); // close it to prevent potential conflicts
             }
 
             LocalSettingsFile = NCINIFile.Parse(Path);
