@@ -22,6 +22,11 @@ namespace LightningBase
         public static NCINIFile LocalSettingsFile { get; private set; }
 
         /// <summary>
+        /// Determines if the local settings were changed.
+        /// </summary>
+        public static bool WasChanged { get; private set; }
+
+        /// <summary>
         /// Loads the Local Settings.
         /// </summary>
         public static void Load()
@@ -44,11 +49,13 @@ namespace LightningBase
         public static void AddSection(string sectionName)
         {
             LocalSettingsFile.Sections.Add(new NCINIFileSection(sectionName));
+            WasChanged = true;
         }
 
         public static void DeleteSection(string sectionName)
         {
             LocalSettingsFile.Sections.Remove(LocalSettingsFile.GetSection(sectionName));
+            WasChanged = true;
         }
 
         /// <summary>
@@ -62,6 +69,7 @@ namespace LightningBase
             NCINIFileSection section = LocalSettingsFile.GetSection(sectionName);
 
             section.Values.Add(key, value);
+            WasChanged = true;
         }
 
         public static void SetValue(string sectionName, string key, string value)
@@ -69,13 +77,14 @@ namespace LightningBase
             NCINIFileSection section = LocalSettingsFile.GetSection(sectionName);
 
             section.Values[key] = value;
+            WasChanged = true;
         }
 
         public static void DeleteKey(string sectionName, string key)
         {
             NCINIFileSection section = LocalSettingsFile.GetSection(sectionName);
             section.Values.Remove(key);
+            WasChanged = true;
         }
-
     }
 }

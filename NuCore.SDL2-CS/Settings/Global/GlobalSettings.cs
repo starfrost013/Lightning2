@@ -51,6 +51,11 @@ namespace LightningBase
         public static bool DeleteUnpackedFilesOnExit { get; internal set; }
 
         /// <summary>
+        /// Save the <see cref="LocalSettings"/> on engine shutdown if they have been changed.
+        /// </summary>
+        public static bool DontSaveLocalSettingsOnShutdown { get; internal set; }
+
+        /// <summary>
         /// Path to the LocalSettings.ini file.
         /// </summary>
         public static string LocalSettingsPath { get; internal set; }
@@ -205,7 +210,6 @@ namespace LightningBase
                 Language = @$"{localisationFolder}\{language}.ini";
             }
            
-
             if (!File.Exists(Language)) _ = new NCException("Engine.ini's Localisation section must have a valid Language value!", 30, 
                 "GlobalSettings::Load call to NCINIFileSection::GetValue failed for Language value", NCExceptionSeverity.FatalError);
 
@@ -219,6 +223,7 @@ namespace LightningBase
             PackageFile = generalSection.GetValue("PackageFile");
             ContentFolder = generalSection.GetValue("ContentFolder");
             string generalDontUseSceneManager = generalSection.GetValue("DontUseSceneManager");
+            string generalDontSaveLocalSettingsOnShutdown = generalSection.GetValue("DontSaveLocalSettingsOnShutdown");
 
             // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
 
@@ -230,6 +235,7 @@ namespace LightningBase
             if (!bool.TryParse(generalAboutScreenOnF9, out var generalAboutScreenOnF9Value)) generalAboutScreenOnF9Value = true; // force the default value, true for now
             _ = bool.TryParse(generalDeleteUnpackedFilesOnExit, out var generalDeleteUnpackedFilesOnExitValue);
             _ = bool.TryParse(generalDontUseSceneManager, out var generalDontUseSceneManagerValue);
+            _ = bool.TryParse(generalDontSaveLocalSettingsOnShutdown, out var generalDontSaveLocalSettingsOnShutdownValue);
 
             MaxFPS = generalMaxFpsValue;
             ShowDebugInfo = generalShowDebugInfoValue;
@@ -237,6 +243,7 @@ namespace LightningBase
             EngineAboutScreenOnShiftF9 = generalAboutScreenOnF9Value;
             DeleteUnpackedFilesOnExit = generalDeleteUnpackedFilesOnExitValue;
             DontUseSceneManager = generalDontUseSceneManagerValue;
+            DontSaveLocalSettingsOnShutdown = generalDontSaveLocalSettingsOnShutdownValue;
 
             // Load the Graphics section if it exists.
             if (graphicsSection != null)
@@ -252,9 +259,9 @@ namespace LightningBase
                 string tickSpeed = graphicsSection.GetValue("TickSpeed");
                 string renderOffScreenRenderables = graphicsSection.GetValue("RenderOffScreenRenderables");
 
-                SDL_WindowFlags windowFlagsValue = 0;
-                SDL_RendererFlags renderFlagsValue = 0;
-                RenderingBackend rendererValue = 0;
+                SDL_WindowFlags windowFlagsValue = default;
+                SDL_RendererFlags renderFlagsValue = default;
+                RenderingBackend rendererValue = default;
 
                 // inexplicably the overload i used isn't supported here
                 _ = int.TryParse(resolutionX, out var resolutionXValue);

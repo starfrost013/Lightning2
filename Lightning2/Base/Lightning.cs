@@ -1,4 +1,6 @@
-﻿namespace LightningGL
+﻿using LightningBase;
+
+namespace LightningGL
 {
     /// <summary>
     /// Lightning
@@ -200,6 +202,14 @@
             // Clear up any unpacked package data if Engine.ini specifies such
             NCLogging.Log("Cleaning up loaded package files, if any...");
             Packager.Shutdown(GlobalSettings.DeleteUnpackedFilesOnExit);
+
+            // Save settings if we have to
+            if (!GlobalSettings.DontSaveLocalSettingsOnShutdown
+                && LocalSettings.WasChanged)
+            {
+                NCLogging.Log("Saving local settings as they were changed...");
+                LocalSettings.Save();
+            }
 
             // Shut all SDL libraries down in reverse order.
             NCLogging.Log("Shutting down SDL_ttf...");
