@@ -31,9 +31,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Camera", "Camera\Camera.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Collision", "Collision\Collision.csproj", "{8BCAB220-6CE6-49F1-81D4-B111B559A57B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Packaging", "Packaging\Packaging.csproj", "{B8EEE196-9A04-456F-86BB-8DC67B4680BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Packaging", "Packaging\Packaging.csproj", "{B8EEE196-9A04-456F-86BB-8DC67B4680BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{D394C59E-32F0-46F2-A4E5-9D0ED5563A63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI", "UI\UI.csproj", "{D394C59E-32F0-46F2-A4E5-9D0ED5563A63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Settings", "Settings\Settings.csproj", "{1D031D3B-8484-4321-8BEF-5BA6DE8031C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,6 +107,10 @@ Global
 		{D394C59E-32F0-46F2-A4E5-9D0ED5563A63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D394C59E-32F0-46F2-A4E5-9D0ED5563A63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D394C59E-32F0-46F2-A4E5-9D0ED5563A63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D031D3B-8484-4321-8BEF-5BA6DE8031C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D031D3B-8484-4321-8BEF-5BA6DE8031C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D031D3B-8484-4321-8BEF-5BA6DE8031C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D031D3B-8484-4321-8BEF-5BA6DE8031C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -199,8 +199,7 @@ namespace LightningGL
             NCLogging.Log("Shutting down the Particle Manager...");
             ParticleManager.Shutdown();
 
-            // Clear up any unpacked package data if Engine.ini specifies such
-            NCLogging.Log("Cleaning up loaded package files, if any...");
+            // Clear up any unpacked package data if Engine.ini specifies to
             Packager.Shutdown(GlobalSettings.DeleteUnpackedFilesOnExit);
 
             // Save settings if we have to

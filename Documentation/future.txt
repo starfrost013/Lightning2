@@ -8,7 +8,7 @@ Lightning 1.2 feature set:
 - Animating fades (Renderable has colour)
 - Renderer Operations (everything funneled through the Renderer), massive renderer refactoring
 - Don't render textures unless they move (adaptive tile refresh)
-- FreeType2 Text State Machine
+- FreeType2 Text Manager State Machine
 - Save Global Settings automatically on exit
 - GlobalSettings refactoring (start all property names with the name of their sectioln)
 
@@ -16,7 +16,7 @@ Lightning 1.3 feature set:
 - Ability to pair multiple textures and have them move with each other in an animation
 - Skybox, Day/night cycle with customisable skyboxes for all regions of the day
 - ParticleEffect system merged with Animation
-- Multiple Renderer support
+- Multiple Renderer support, RenderingBackend replacement
 - Dynamic Cameras
 - Layered Rendering (z-index also)
 - Network Services (LightningNetwork.dll) (possibly 2.0)
@@ -24,8 +24,14 @@ Lightning 1.3 feature set:
 
 Lightning 2.0 feature set:
 - OpenGL 3.3 renderer
-- Bytecode Engine (LightningBytecode.dll) - not sure what language yet
 - Various other fancy rendering things
+- Scene Transitions
 
+At some point:
+- Bytecode Engine (LightningBytecode.dll) - not sure what language yet
+- Native parallax scrolling with N layers
+- Multithreading
+- Lightning Build Engine - build setup and everything every single build
+- Vulkan Renderer?
 
 

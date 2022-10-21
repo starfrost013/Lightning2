@@ -32,6 +32,10 @@ namespace LightningBase
         public static void Load()
         {
             LocalSettingsFile = NCINIFile.Parse(Path);
+
+            // Automatically create it if it does not exist. 
+            // It won't be saved unless a section or similar is added.
+            if (LocalSettingsFile == null) LocalSettingsFile = new NCINIFile();
         }
 
         /// <summary>
@@ -40,6 +44,7 @@ namespace LightningBase
         public static void Save()
         {
             LocalSettingsFile.Write(Path);
+            WasChanged = false; // don't save it automatically again
         }
 
         /// <summary>
