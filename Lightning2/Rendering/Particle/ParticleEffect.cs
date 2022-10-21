@@ -12,7 +12,7 @@
         /// <summary>
         /// The maximum number of particles this particle effect will support.
         /// </summary>
-        public uint Amount { get; set; }
+        public int Amount { get; set; }
 
         /// <summary>
         /// The lifetime of each particle in frames.
@@ -22,7 +22,7 @@
         /// <summary>
         /// The variance on each particle's position in frames
         /// </summary>
-        public double Variance { get; set; }
+        public float Variance { get; set; }
 
         /// <summary>
         /// The list of particles as a part of this particle effect
@@ -45,7 +45,7 @@
         /// Maximum number of particles created each frame.
         /// The default value is <see cref="Amount"/> divided by 150.
         /// </summary>
-        public uint MaxNumberCreatedEachFrame { get; set; }
+        public int MaxNumberCreatedEachFrame { get; set; }
 
         /// <summary>
         /// The mode of this particle effect.
@@ -58,11 +58,6 @@
         /// The number of frames to wait between creating particles.
         /// </summary>
         public int FrameSkipBetweenCreatingParticles { get; set; }
-
-        /// <summary>
-        /// Private field used for efficient generation of random numbers.
-        /// </summary>
-        private Random Random = new Random();
 
         /// <summary>
         /// Last particle ID created. Used only when <see cref="Mode"/> is set to <see cref="ParticleMode.Explode"/>
@@ -85,6 +80,11 @@
         private int FINAL_VELOCITY_DIVISOR = 100;
 
         /// <summary>
+        /// Private: Value the amount of maximum particles is divided by when <see cref="MaxNumberCreatedEachFrame"/> has not been specified by the user.
+        /// </summary>
+        private int DEFAULT_MAX_CREATED_EACH_FRAME_DIVISOR = 150;
+
+        /// <summary>
         /// Constructor for particle effect.
         /// </summary>
         /// <param name="nTexture">The texture to use for particle effects</param>
@@ -98,7 +98,6 @@
         /// <summary>
         /// Loads this particle effect.
         /// </summary>
-        /// <param name="nTexture"></param>
         /// <param name="cRenderer"></param>
         internal override void Load(Renderer cRenderer) 
         {
@@ -106,7 +105,7 @@
             Particles = new List<Particle>();
             Texture.Load(cRenderer);
             Texture.SnapToScreen = SnapToScreen;
-            if (MaxNumberCreatedEachFrame == 0) MaxNumberCreatedEachFrame = Amount / 150;
+            if (MaxNumberCreatedEachFrame <= 0) MaxNumberCreatedEachFrame = Amount / DEFAULT_MAX_CREATED_EACH_FRAME_DIVISOR;
         }
 
         internal override void Draw(Renderer cRenderer)
@@ -114,7 +113,7 @@
             if (Texture == null) _ = new NCException("Attempted to draw a particle effect without loading it!", 120, "ParticleEffect::Render called before ParticleEffect::Load!", NCExceptionSeverity.FatalError);
 
             // create a list of particles to remove
-            List<Particle> particlesToRemove = new List<Particle>();
+            List<Particle> particlesToRemove = new();
 
             // Check what particles have to be removed
             foreach (Particle particle in Particles)
@@ -168,7 +167,7 @@
                     double yMul = Math.Cos(angleRads);
 
                     // set up the velocity
-                    Vector2 finalVelocity = new Vector2(Convert.ToSingle((((Velocity.X * xMul) / 100) * particle.Lifetime) * cRenderer.DeltaTime),
+                    Vector2 finalVelocity = new(Convert.ToSingle((((Velocity.X * xMul) / 100) * particle.Lifetime) * cRenderer.DeltaTime),
                         Convert.ToSingle((((Velocity.Y * yMul) / 100) * particle.Lifetime) * (cRenderer.DeltaTime / 10)));
 
                     // Clamp velocity on "Normal" mode as opposed to explode
@@ -185,7 +184,7 @@
                 }
                 else
                 {
-                    Vector2 finalVelocity = new Vector2(Convert.ToSingle(Velocity.X * cRenderer.DeltaTime), Convert.ToSingle(Velocity.Y * cRenderer.DeltaTime));
+                    Vector2 finalVelocity = new(Convert.ToSingle(Velocity.X * cRenderer.DeltaTime), Convert.ToSingle(Velocity.Y * cRenderer.DeltaTime));
 
                     if (Mode == ParticleMode.AbsoluteVelocity)
                     {
@@ -206,11 +205,11 @@
         private void AddParticleSet()
         {
             // save the number of particles to render this frame
-            uint numToAddThisFrame = MaxNumberCreatedEachFrame;
+            int numToAddThisFrame = MaxNumberCreatedEachFrame;
 
-            if (Amount - Particles.Count < MaxNumberCreatedEachFrame) numToAddThisFrame = Convert.ToUInt32((Amount - Particles.Count));
+            if (Amount - Particles.Count < MaxNumberCreatedEachFrame) numToAddThisFrame = (Amount - Particles.Count);
 
-            for (int i = 0; i < numToAddThisFrame; i++) AddParticle();
+            for (int particleId = 0; particleId < numToAddThisFrame; particleId++) AddParticle();
         }
 
         internal void AddParticle()
@@ -219,17 +218,11 @@
             if (NeedsManualTrigger
                 && !Playing) return;
 
-            Particle particle = new Particle();
+            Particle particle = new();
 
-            // This is a bit hacky but it's less code than making
-            // Rnd.NextDouble generate a negative number
-            int nVariance = (int)(Variance * 10000000);
-
-            float varX = Random.Next(-nVariance, nVariance);
-            float varY = Random.Next(-nVariance, nVariance);
-
-            varX /= 10000000;
-            varY /= 10000000;
+            // easier to use doubles here so we don't use random.nextsingle
+            float varX = Random.Shared.NextSingle() * (Variance - -Variance) + -Variance,
+                  varY = Random.Shared.NextSingle() * (Variance - -Variance) + -Variance;
 
             particle.Position = Position + new Vector2(varX, varY);
 
@@ -240,7 +233,7 @@
             }
             else
             {
-                particle.Id = Random.Next(0, 360);
+                particle.Id = Random.Shared.Next(0, 360);
             }
 
             Particles.Add(particle);
@@ -275,6 +268,5 @@
             Particles.Clear();
             Texture.Unload();
         }
-
     }
 }
