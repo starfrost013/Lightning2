@@ -24,8 +24,8 @@ namespace NuCore.Utilities
         {
             if (destinationDir == null) destinationDir = ".";
             if (excludedPatterns == null) excludedPatterns = new List<string> { ".tmp", "~$", ".g.cs", ".cache",
-                ".editorconfig", ".props", ".targets", ".vsidx", ".lock", ".v1", ".v2", "dgspec", "AssemblyAttributes",
-                "basic.AssemblyInfo", "assets.json", ".suo", ".pdb", ".log", "test.wad" };
+                ".editorconfig", ".props", ".targets", ".vsidx", ".lock", ".v1", ".v2", ".v5.1", "dgspec", "AssemblyAttributes",
+                ".AssemblyInfo", "assets.json", ".suo", ".pdb", ".log", "test.wad" };
 
             foreach (string fileName in Directory.EnumerateFiles(sourceDir, "*", SearchOption.AllDirectories))
             {
@@ -45,6 +45,12 @@ namespace NuCore.Utilities
                 if (!Directory.Exists(finalDirectory)) Directory.CreateDirectory(finalDirectory);
                 if (performCopy) File.Copy(fileName, finalPath, true);
             }
+        }
+
+        public static bool IsValidPath(this string str)
+        {
+            return (str.IndexOfAny(Path.GetInvalidFileNameChars()) == -1)
+                && (str.IndexOfAny(Path.GetInvalidPathChars()) == -1);
         }
     }
 }

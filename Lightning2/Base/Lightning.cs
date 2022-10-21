@@ -56,7 +56,7 @@ namespace LightningGL
             {
                 // Set culture to invariant so things like different decimal symbols don't crash
                 CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
-                Init_InitLogging();
+                InitLogging();
 
                 // Log the sign-on message
                 NCLogging.Log($"Lightning Game Engine");
@@ -145,7 +145,6 @@ namespace LightningGL
                     NCLogging.Log("Warning: Initialising Lightning without the Scene Manager is deprecated and will be removed in Lightning 1.2.0.", ConsoleColor.Yellow);
                     Initialised = true;
                 }
-
             }
             catch (Exception err)
             {
@@ -153,7 +152,7 @@ namespace LightningGL
             }
         }
 
-        private static void Init_InitLogging()
+        private static void InitLogging()
         {
             NCLogging.Settings = new NCLoggingSettings
             {

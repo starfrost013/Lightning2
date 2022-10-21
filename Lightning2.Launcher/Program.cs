@@ -178,6 +178,8 @@ Camera camera = new Camera(CameraType.Chase);
 //camera.Velocity = new(0.2f, 0.2f);
 cRenderer.SetCurrentCamera(camera);
 
+LocalSettings.AddSection("Demonstration2");
+
 Button btn1 = new Button()
 {
     Position = new(150, 150),

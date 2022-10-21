@@ -1,4 +1,5 @@
 ﻿using NuCore.Utilities;
+using System.IO;
 
 namespace LightningBase
 {
@@ -26,18 +27,18 @@ namespace LightningBase
         /// </summary>
         public static bool WasChanged { get; private set; }
 
-        static LocalSettings()
-        {
-            // This has the effect of automatically creating the local settings if they do not exist. 
-            // It won't be saved unless a section or similar is added.
-            if (LocalSettingsFile == null) LocalSettingsFile = new NCINIFile();
-        }
-
         /// <summary>
         /// Loads the Local Settings.
         /// </summary>
         public static void Load()
         {
+            if (!File.Exists(Path)
+                && Path.IsValidPath())
+            {
+                NCLogging.Log($"LocalSettingsPath set but Local Settings INI file does not exist. Creating it...");
+                File.Create(Path);
+            }
+
             LocalSettingsFile = NCINIFile.Parse(Path);
         }
 
@@ -46,6 +47,14 @@ namespace LightningBase
         /// </summary>
         public static void Save()
         {
+            // we already create it if it does not exist
+            if (LocalSettingsFile == null)
+            {
+                _ = new NCException($"Tried to save LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 170, 
+                    "LocalSettings::Save called when LocalSettings::LocalSettingsFile == NULL!", NCExceptionSeverity.Warning);
+                return;
+            }
+
             LocalSettingsFile.Write(Path);
             WasChanged = false; // don't save it automatically again
         }
@@ -56,12 +65,28 @@ namespace LightningBase
         /// <param name="sectionName">The name of the section to add.</param>
         public static void AddSection(string sectionName)
         {
+            // we already create it if it does not exist
+            if (LocalSettingsFile == null)
+            {
+                _ = new NCException($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 171,
+                    "LocalSettings::AddSection called when LocalSettings::LocalSettingsFile == NULL!", NCExceptionSeverity.Warning);
+                return;
+            }
+
             LocalSettingsFile.Sections.Add(new NCINIFileSection(sectionName));
             WasChanged = true;
         }
 
         public static void DeleteSection(string sectionName)
         {
+            // we already create it if it does not exist
+            if (LocalSettingsFile == null)
+            {
+                _ = new NCException($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 172,
+                    "LocalSettings::DeleteSection called when LocalSettings::LocalSettingsFile == NULL!", NCExceptionSeverity.Warning);
+                return;
+            }
+
             LocalSettingsFile.Sections.Remove(LocalSettingsFile.GetSection(sectionName));
             WasChanged = true;
         }
@@ -74,6 +99,14 @@ namespace LightningBase
         /// <param name="value">The value of the value.</param>
         public static void AddValue(string sectionName, string key, string value)
         {
+            // we already create it if it does not exist
+            if (LocalSettingsFile == null)
+            {
+                _ = new NCException($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 173,
+                    "LocalSettings::AddValue called when LocalSettings::LocalSettingsFile == NULL!", NCExceptionSeverity.Warning);
+                return;
+            }
+
             NCINIFileSection section = LocalSettingsFile.GetSection(sectionName);
 
             section.Values.Add(key, value);
@@ -82,6 +115,14 @@ namespace LightningBase
 
         public static void SetValue(string sectionName, string key, string value)
         {
+            // we already create it if it does not exist
+            if (LocalSettingsFile == null)
+            {
+                _ = new NCException($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 174,
+                    "LocalSettings::SetValue called when LocalSettings::LocalSettingsFile == NULL!", NCExceptionSeverity.Warning);
+                return;
+            }
+
             NCINIFileSection section = LocalSettingsFile.GetSection(sectionName);
 
             section.Values[key] = value;
@@ -90,6 +131,14 @@ namespace LightningBase
 
         public static void DeleteKey(string sectionName, string key)
         {
+            // we already create it if it does not exist
+            if (LocalSettingsFile == null)
+            {
+                _ = new NCException($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 175,
+                    "LocalSettings::DeleteKey called when LocalSettings::LocalSettingsFile == NULL!", NCExceptionSeverity.Warning);
+                return;
+            }
+
             NCINIFileSection section = LocalSettingsFile.GetSection(sectionName);
             section.Values.Remove(key);
             WasChanged = true;

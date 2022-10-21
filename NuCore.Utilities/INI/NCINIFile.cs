@@ -73,8 +73,7 @@ namespace NuCore.Utilities
                             iniLine = iniLine.Trim(); // trim again
                         }
 
-
-                        // Check various 
+                        // Check potential starts of a line to determine what type of INI content we are referencing
                         switch (iniLineChar0)
                         {
                             case '[': // Section
