@@ -37,8 +37,8 @@ namespace Settings
                 switch (cWindow.LastEvent.type)
                 {
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN:
-                        string nValue = Random.Shared.Next(0, 1000000).ToString();
-                        LocalSettings.AddValue($"LocalSetting{nValue}", $"test{nValue}", $"test{nValue}");
+                        string value = Random.Shared.Next(0, 1000000).ToString();
+                        LocalSettings.AddValue($"LocalSetting{value}", $"test{value}", $"test{value}");
                         break;
                 }
             }

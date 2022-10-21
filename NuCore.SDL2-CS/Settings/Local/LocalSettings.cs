@@ -26,16 +26,19 @@ namespace LightningBase
         /// </summary>
         public static bool WasChanged { get; private set; }
 
+        static LocalSettings()
+        {
+            // This has the effect of automatically creating the local settings if they do not exist. 
+            // It won't be saved unless a section or similar is added.
+            if (LocalSettingsFile == null) LocalSettingsFile = new NCINIFile();
+        }
+
         /// <summary>
         /// Loads the Local Settings.
         /// </summary>
         public static void Load()
         {
             LocalSettingsFile = NCINIFile.Parse(Path);
-
-            // Automatically create it if it does not exist. 
-            // It won't be saved unless a section or similar is added.
-            if (LocalSettingsFile == null) LocalSettingsFile = new NCINIFile();
         }
 
         /// <summary>
