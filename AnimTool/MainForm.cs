@@ -159,14 +159,14 @@ namespace AnimTool
             {
                 SaveFileDialog saveFileDialog = new();
 
-                saveFileDialog.Title = "Select Animation JSON files";
-                saveFileDialog.Filter = "Lightning Animation JSON (.json|.ljson)";
+                saveFileDialog.Title = "Select JSON file location";
+                saveFileDialog.Filter = "Lightning Animation JSON (.json,.ljson)|*.json,*.ljson";
 
                 saveFileDialog.ShowDialog();
 
                 if (!string.IsNullOrWhiteSpace(saveFileDialog.FileName))
                 {
-                    AnimTool.CurAnimation = new(saveFileDialog.FileName);
+                    AnimTool.CurAnimation.Path = saveFileDialog.FileName;
                     AnimTool.Save();
                     FullUpdateTabContent();
                 }

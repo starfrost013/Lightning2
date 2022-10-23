@@ -57,7 +57,15 @@ namespace AnimTool
 
                 foreach (PropertyInfo property in renderableType.GetProperties())
                 {
-                    if (property.Name == propertiesComboBox.Text) AnimTool.CurAnimation.Properties.Add(new AnimationProperty(property.Name, property.PropertyType.Name)); // temp
+                    // fucking hack
+
+                    if (property.Name == propertiesComboBox.Text)
+                    {
+                        AnimationProperty newAnimationProperty = new AnimationProperty(property.Name, property.PropertyType.Name);
+                        AnimTool.CurAnimation.Properties.Add(newAnimationProperty); // temp
+                        AnimTool.CurProperty = newAnimationProperty;
+                    }
+
                 }
                 // TEMPORARY CODE -- WILL BE OPTIMISED
             }

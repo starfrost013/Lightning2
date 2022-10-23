@@ -47,7 +47,7 @@ namespace LightningGL
         /// <summary>
         /// Path to this animation's JSON file.
         /// </summary>
-        public string Path { get; internal set; }
+        public string Path { get; set; }
 
         [JsonProperty] // required for internal
         /// <summary>
