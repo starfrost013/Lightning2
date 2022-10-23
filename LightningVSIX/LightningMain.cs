@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -41,7 +42,7 @@ namespace LightningVSIX
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
 
             var menuCommandID = new CommandID(CommandSet, CommandId);
-            var menuItem = new MenuCommand(this.Execute, menuCommandID);
+            var menuItem = new MenuCommand(RunAnimTool, menuCommandID);
             commandService.AddCommand(menuItem);
         }
 
@@ -86,20 +87,26 @@ namespace LightningVSIX
         /// </summary>
         /// <param name="sender">Event sender.</param>
         /// <param name="e">Event args.</param>
-        private void Execute(object sender, EventArgs e)
+        private void RunAnimTool(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
-            string title = "Lightning VSIX Test";
 
-            // Show a message box to prove we were here
-            VsShellUtilities.ShowMessageBox(
-                this.package,
-                message,
-                title,
-                OLEMSGICON.OLEMSGICON_INFO,
-                OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+            try
+            {
+                Process animToolProcess = new Process
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = $"{Environment.SpecialFolder.ProgramFiles}\\Lightning Software Development Kit\\AnimTool.exe"
+                    }
+                };
+
+                animToolProcess.Start();
+            }
+            catch
+            {
+                throw new InvalidOperationException("Lightning SDK not installed!");
+            }
         }
     }
 }

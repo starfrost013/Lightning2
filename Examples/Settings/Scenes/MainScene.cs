@@ -1,5 +1,7 @@
 ﻿// see globalusings.cs for namespaces used here
 
+using NuCore.Utilities;
+
 namespace Settings
 {
     /// <summary>
@@ -38,7 +40,8 @@ namespace Settings
                 {
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN:
                         string value = Random.Shared.Next(0, 1000000).ToString();
-                        LocalSettings.AddValue($"LocalSetting{value}", $"test{value}", $"test{value}");
+                        LocalSettings.AddValue($"Demonstration", $"test{value}", $"test{value}");
+                        NCLogging.Log($"test{value}");
                         break;
                 }
             }
