@@ -11,56 +11,67 @@
     {
         #region Event handlers
 
+        [JsonIgnore]
         /// <summary>
         /// Event handler for <see cref="KeyPressedEvent"/> event.
         /// </summary>
         public KeyPressedEvent OnKeyPressed { get; set; }
 
+        [JsonIgnore]
         /// <summary>
         /// Event handler for the <see cref="KeyReleasedEvent"/> event.
         /// </summary>
         public KeyReleasedEvent OnKeyReleased { get; set; }
 
+        [JsonIgnore]
         /// <summary>
         /// Event handler for the <see cref="MousePressedEvent"/> event.
         /// </summary>
         public MouseEvent OnMousePressed { get; set; }
 
+        [JsonIgnore]
         /// <summary>
         /// Event handler for the <see cref="MouseReleasedEvent"/> event.
         /// </summary>
         public MouseEvent OnMouseReleased { get; set; }
 
+        [JsonIgnore]
         /// <summary>
         /// Event handler for the mouse enter event.
         /// </summary>
         public GenericEvent OnMouseEnter { get; set; }
 
+        [JsonIgnore]
         /// <summary>
         /// Event handler for the mouse leave event.
         /// </summary>
         public GenericEvent OnMouseLeave { get; set; }
 
+        [JsonIgnore]
         /// <summary>
         /// Event handler for the focus gained event.
         /// </summary>
         public GenericEvent OnFocusGained { get; set; }
 
+        [JsonIgnore]
         /// <summary>
         /// Event handler for the focus lost event.
         /// </summary>
         public GenericEvent OnFocusLost { get; set; }
 
+        [JsonIgnore]
         /// <summary>
         /// Event handler for the <see cref="MouseEvent"/> event.
         /// </summary>
         public MouseEvent OnMouseMove { get; set; }
 
+        [JsonIgnore]
         /// <summary>
         /// Event handler for <see cref="RenderEvent"/> event.
         /// </summary>
         public RenderEvent OnRender { get; set; }
 
+        [JsonIgnore]
         /// <summary>
         /// Event handler for <see cref="ShutdownEvent"/> event.
         /// </summary>
@@ -95,7 +106,7 @@
             {
                 // this MAY cause issues if the renderPosition is eve ractually (0,0)
                 // will be fixed in GL version
-                if (_renderPosition == default(Vector2)) return Position;
+                if (_renderPosition == default) return Position;
                 return _renderPosition;
 
             }
@@ -163,6 +174,7 @@
         public virtual void StopCurrentAnimation() => CurrentAnimation.StopAnimationFor(this);
 
         public virtual void UpdateCurrentAnimation() => CurrentAnimation.UpdateAnimationFor(this);
+
         /// <summary>
         /// The Z-Index (priority) of this renderable.
         /// </summary>

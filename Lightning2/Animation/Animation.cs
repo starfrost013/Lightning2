@@ -11,6 +11,7 @@ namespace LightningGL
     /// </summary>
     public class Animation : Renderable
     {
+        [JsonProperty]
         /// <summary>
         /// The list of properties animated by this animation.
         /// </summary>

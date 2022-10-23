@@ -11,6 +11,7 @@ Lightning 1.2 feature set:
 - FreeType2 Text Manager State Machine
 - Save Global Settings automatically on exit
 - GlobalSettings refactoring (start all property names with the name of their sectioln)
+- Linux Port
 
 Lightning 1.3 feature set:
 - Ability to pair multiple textures and have them move with each other in an animation
@@ -26,6 +27,7 @@ Lightning 2.0 feature set:
 - OpenGL 3.3 renderer
 - Various other fancy rendering things
 - Scene Transitions
+- macOS Port
 
 At some point:
 - Bytecode Engine (LightningBytecode.dll) - not sure what language yet
@@ -34,4 +36,6 @@ At some point:
 - Lightning Build Engine - build setup and everything every single build
 - Vulkan Renderer?
 
-
+Far future:
+- Lightning 3D
+- Console ports (will cost a lot of $$$$)
