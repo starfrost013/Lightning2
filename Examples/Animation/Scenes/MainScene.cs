@@ -12,7 +12,16 @@ namespace Animation
     {
         public override void Start()
         {
+            // probably shoud not have called the project animation but oh well
+            LightningGL.Animation newAnim = new LightningGL.Animation(@"Content\Anim.json");
+            AnimationManager.AddAsset(SceneManager.Renderer, newAnim);
+            Texture texture = new Texture(SceneManager.Renderer, 64, 64, SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING)
+            {
+                Path = @"Content\CollidingTexture1.png",
+            };
 
+            texture.SetAnimation(newAnim);
+            TextureManager.AddAsset(SceneManager.Renderer, texture); // automatically loads
         }
 
         public override void Shutdown()
@@ -32,7 +41,7 @@ namespace Animation
 
         public override void Render(Renderer cWindow)
         {
-            PrimitiveRenderer.DrawText(cWindow, "Hello World!", new Vector2(300, 300), Color.Red);
+            PrimitiveRenderer.DrawText(cWindow, "Lightning Animation Example", new Vector2(300, 300), Color.Red);
         }
     }
 }

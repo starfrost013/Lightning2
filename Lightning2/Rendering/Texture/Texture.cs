@@ -374,6 +374,10 @@ namespace LightningGL
             }
         }
 
+        /// <summary>
+        /// Sets the opacity of this texture. This will apply an alpha colour modulation of the texture where the alpha value is set to the value of the <see cref="Opacity"/> parameter.
+        /// </summary>
+        /// <param name="opacity">A <see cref="byte"/> determinig the opacity to set</param>
         public void SetOpacity(byte opacity) => Opacity = opacity;
 
         /// <summary>

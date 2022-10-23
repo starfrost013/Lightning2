@@ -31,7 +31,7 @@ namespace LightningGL
             {
                 if (_name == null)
                 {
-                    string tempName = Path[Path.LastIndexOf('.')..]; // range operator
+                    string tempName = Path[..Path.LastIndexOf('.')]; // range operator
                     return tempName;
                 }
 

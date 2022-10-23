@@ -159,7 +159,8 @@
         /// <param name="animation"></param>
         public virtual void SetAnimation(Animation animation)
         {
-            if (!animation.Loaded)
+            if (animation == null
+                || !animation.Loaded)
             {
                 _ = new NCException("You must load an animation before attaching it to a renderable! The animation will not be set.", 150,
                "animation parameter to Renderable::SetAnimation's loaded property is FALSE", NCExceptionSeverity.Error);
@@ -169,9 +170,31 @@
             CurrentAnimation = animation;
         }
 
-        public virtual void StartCurrentAnimation() => CurrentAnimation.StartAnimationFor(this);
+        public virtual void StartCurrentAnimation()
+        {
+            if (CurrentAnimation == null
+                || !CurrentAnimation.Loaded)
+            {
+                _ = new NCException("You must load an animation before playing it! The animation will not be set.", 171,
+                "Renderable::StartCurrentAnimation called when CurrentAnimation::Loaded property is FALSE or it was never set.", NCExceptionSeverity.Error);
+                return;
+            }
 
-        public virtual void StopCurrentAnimation() => CurrentAnimation.StopAnimationFor(this);
+            CurrentAnimation.StartAnimationFor(this);
+        }
+
+        public virtual void StopCurrentAnimation()
+        {
+            if (CurrentAnimation == null
+                || !CurrentAnimation.Loaded)
+            {
+                _ = new NCException("You must load an animation before playing it! The animation will not be set.", 172,
+                "Renderable::StopCurrentAnimation called when CurrentAnimation::Loaded property is FALSE or it was never set.", NCExceptionSeverity.Error);
+                return;
+            }
+
+            CurrentAnimation.StopAnimationFor(this);
+        } 
 
         public virtual void UpdateCurrentAnimation() => CurrentAnimation.UpdateAnimationFor(this);
 
