@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PlatformTarget>x64</PlatformTarget>
-    <RootNamespace>AnimationDemo</RootNamespace>
+    <RootNamespace>$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -51,6 +51,8 @@
 		<None Remove="$(ProgramFiles)/Lightning Software Development Kit/Libraries/SDL2_image-v2.0.5-x64.dll" />
 		<None Remove="$(ProgramFiles)/Lightning Software Development Kit/Libraries/SDL2_ttf-v2.0.18-x64.dll" />
 		<None Remove="$(ProgramFiles)/Lightning Software Development Kit/Libraries/SDL2_mixer-v2.0.4-x64.dll" />
+		<None Remove="Content\Anim.json" />
+		<None Remove="Content\CollidingTexture1.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -138,6 +140,12 @@
 		<Content Include="$(ProgramFiles)/Lightning Software Development Kit/Libraries/SDL2_mixer-x64.dll">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<Link>Libraries/SDL2_mixer-x64.dll</Link>
+		</Content>
+		<Content Include="Content\Anim.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Content\CollidingTexture1.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
 </Project>

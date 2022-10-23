@@ -14,7 +14,7 @@ namespace Animation
         {
             // probably shoud not have called the project animation but oh well
             LightningGL.Animation newAnim = new LightningGL.Animation(@"Content\Anim.json");
-            AnimationManager.AddAsset(SceneManager.Renderer, newAnim);
+            newAnim = AnimationManager.AddAsset(SceneManager.Renderer, newAnim);
             Texture texture = new Texture(SceneManager.Renderer, 64, 64, SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING)
             {
                 Path = @"Content\CollidingTexture1.png",

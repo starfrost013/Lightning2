@@ -35,7 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Packaging", "Packaging\Pack
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI", "UI\UI.csproj", "{D394C59E-32F0-46F2-A4E5-9D0ED5563A63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Settings", "Settings\Settings.csproj", "{1D031D3B-8484-4321-8BEF-5BA6DE8031C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Settings", "Settings\Settings.csproj", "{1D031D3B-8484-4321-8BEF-5BA6DE8031C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Animation", "Animation\Animation.csproj", "{A0E9C8B7-3C49-4421-AB38-E4947B57A653}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +113,10 @@ Global
 		{1D031D3B-8484-4321-8BEF-5BA6DE8031C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D031D3B-8484-4321-8BEF-5BA6DE8031C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D031D3B-8484-4321-8BEF-5BA6DE8031C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0E9C8B7-3C49-4421-AB38-E4947B57A653}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0E9C8B7-3C49-4421-AB38-E4947B57A653}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0E9C8B7-3C49-4421-AB38-E4947B57A653}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0E9C8B7-3C49-4421-AB38-E4947B57A653}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

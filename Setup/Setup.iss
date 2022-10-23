@@ -11,7 +11,7 @@
 ; Intended to be run from the SDKBuild tool ONLY.
 
 #define MyAppName "Lightning Software Development Kit"                                                     
-#define MyAppVersion "1.1.0-alpha"
+#define MyAppVersion "1.1.0-rc0"
 #define MyAppPublisher "starfrost"
 #define MyAppURL "https://lightning.starfrost.net"
 #define BuildConfig "Debug"
@@ -70,6 +70,7 @@ Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\MakePackage.exe"; DestDir: "{
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\MakePackage.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\MakePackage.deps.json"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\MakePackage.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\NuCore.Utilities.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\NuCore.Utilities.Lightning.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\net6.0\SDK\zlib1.dll"; DestDir: "{app}"; Flags: ignoreversion
