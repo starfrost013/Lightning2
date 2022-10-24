@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -35,6 +36,7 @@
             this.exportJSONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.animationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setLengthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.propertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,7 +49,6 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.propertiesTabPage = new System.Windows.Forms.TabPage();
             this.propertiesTabControl = new System.Windows.Forms.TabControl();
-            this.changeSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.propertiesTabControl.SuspendLayout();
             this.SuspendLayout();
@@ -114,6 +115,13 @@
             this.animationToolStripMenuItem.Size = new System.Drawing.Size(75, 20);
             this.animationToolStripMenuItem.Text = "Animation";
             // 
+            // changeSettingsToolStripMenuItem
+            // 
+            this.changeSettingsToolStripMenuItem.Name = "changeSettingsToolStripMenuItem";
+            this.changeSettingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.changeSettingsToolStripMenuItem.Text = "Change Settings";
+            this.changeSettingsToolStripMenuItem.Click += new System.EventHandler(this.changeSettingsToolStripMenuItem_Click);
+            // 
             // setLengthToolStripMenuItem
             // 
             this.setLengthToolStripMenuItem.Name = "setLengthToolStripMenuItem";
@@ -155,7 +163,7 @@
             // removeCurrentPropertyToolStripMenuItem
             // 
             this.removeCurrentPropertyToolStripMenuItem.Name = "removeCurrentPropertyToolStripMenuItem";
-            this.removeCurrentPropertyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeCurrentPropertyToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.removeCurrentPropertyToolStripMenuItem.Text = "Property";
             this.removeCurrentPropertyToolStripMenuItem.Click += new System.EventHandler(this.removeCurrentPropertyToolStripMenuItem_Click);
             // 
@@ -209,13 +217,6 @@
             this.propertiesTabControl.TabIndex = 1;
             this.propertiesTabControl.SelectedIndexChanged += new System.EventHandler(this.propertiesTabControl_SelectedIndexChanged);
             // 
-            // changeSettingsToolStripMenuItem
-            // 
-            this.changeSettingsToolStripMenuItem.Name = "changeSettingsToolStripMenuItem";
-            this.changeSettingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.changeSettingsToolStripMenuItem.Text = "Change Settings";
-            this.changeSettingsToolStripMenuItem.Click += new System.EventHandler(this.changeSettingsToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -223,6 +224,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.propertiesTabControl);
             this.Controls.Add(this.mainMenu);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mainMenu;
             this.Name = "MainForm";
             this.Text = "Lightning Animation Editor";

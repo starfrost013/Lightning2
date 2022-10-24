@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddKeyframeForm));
             this.addKeyframeText = new System.Windows.Forms.Label();
             this.addButton = new System.Windows.Forms.Button();
             this.lengthTrackBar = new System.Windows.Forms.TrackBar();
@@ -122,6 +123,7 @@
             this.Controls.Add(this.lengthTrackBar);
             this.Controls.Add(this.addButton);
             this.Controls.Add(this.addKeyframeText);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddKeyframeForm";
             this.Text = "Add Keyframe";
             ((System.ComponentModel.ISupportInitialize)(this.lengthTrackBar)).EndInit();

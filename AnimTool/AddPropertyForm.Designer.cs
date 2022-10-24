@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddPropertyForm));
             this.addPropertyText = new System.Windows.Forms.Label();
             this.propertiesText = new System.Windows.Forms.Label();
             this.propertiesComboBox = new System.Windows.Forms.ComboBox();
@@ -80,6 +81,7 @@
             this.Controls.Add(this.propertiesComboBox);
             this.Controls.Add(this.propertiesText);
             this.Controls.Add(this.addPropertyText);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddPropertyForm";
             this.Text = "Add Property";
             this.ResumeLayout(false);

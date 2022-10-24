@@ -70,7 +70,7 @@ namespace LightningGL
         /// <summary>
         /// Determines if the animation will play in reverse or not.
         /// </summary>
-        public bool Reverse { get; internal set; }
+        public bool Reverse { get; set; }
 
         /// <summary>
         /// Constructor for the Animation class

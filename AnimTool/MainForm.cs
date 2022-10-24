@@ -229,7 +229,11 @@ namespace AnimTool
 
         private void changeSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (AnimTool.CurAnimation != null)
+            {
+                ChangeSettingsForm changeSettingsForm = new ChangeSettingsForm();
+                changeSettingsForm.ShowDialog();
+            }
         }
     }
 }
