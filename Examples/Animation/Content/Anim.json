@@ -1,1 +1,83 @@
-{"Properties":[{"Name":"Position","Type":"Vector2","Keyframes":[{"Position":0,"Value":"0,0"},{"Position":431,"Value":"200,200"},{"Position":1149,"Value":"500,500"},{"Position":1819,"Value":"500,2000"},{"Position":1979,"Value":"500,1000"},{"Position":2282,"Value":"500,1500"},{"Position":2537,"Value":"500,200"},{"Position":3000,"Value":"0,0"}]},{"Name":"Size","Type":"Vector2","Keyframes":[{"Position":0,"Value":"64,64"},{"Position":447,"Value":"128,128"},{"Position":1532,"Value":"256,256"},{"Position":2202,"Value":"128,128"},{"Position":3000,"Value":"64,64"}]}],"Name":".json","Length":3000,"Repeat":0,"Reverse":false,"Focused":false,"Position":{"X":0.0,"Y":0.0},"Size":{"X":0.0,"Y":0.0},"SnapToScreen":false,"CurrentAnimation":null,"ZIndex":0}
+{
+  "Properties": [
+    {
+      "Name": "Position",
+      "Type": "Vector2",
+      "Keyframes": [
+        {
+          "Position": 0,
+          "Value": "0,0"
+        },
+        {
+          "Position": 431,
+          "Value": "200,200"
+        },
+        {
+          "Position": 1149,
+          "Value": "500,500"
+        },
+        {
+          "Position": 1819,
+          "Value": "500,2000"
+        },
+        {
+          "Position": 1979,
+          "Value": "500,1000"
+        },
+        {
+          "Position": 2282,
+          "Value": "500,1500"
+        },
+        {
+          "Position": 2537,
+          "Value": "500,200"
+        },
+        {
+          "Position": 3000,
+          "Value": "0,0"
+        }
+      ]
+    },
+    {
+      "Name": "Size",
+      "Type": "Vector2",
+      "Keyframes": [
+        {
+          "Position": 0,
+          "Value": "64,64"
+        },
+        {
+          "Position": 447,
+          "Value": "128,128"
+        },
+        {
+          "Position": 1532,
+          "Value": "256,256"
+        },
+        {
+          "Position": 2202,
+          "Value": "128,128"
+        },
+        {
+          "Position": 3000,
+          "Value": "64,64"
+        }
+      ]
+    }
+  ],
+  "Name": "Animation",
+  "Length": 3000,
+  "Repeat": 0,
+  "Reverse": false,
+  "Focused": false,
+  "Position": {
+    "X": 0,
+    "Y": 0
+  },
+  "Size": {
+    "X": 0,
+    "Y": 0
+  },
+  "SnapToScreen": false,
+  "ZIndex": 0
+}

@@ -8,7 +8,7 @@ Lightning 1.2 feature set:
 - Renderer Operations (everything funneled through the Renderer), massive renderer refactoring
 - FreeType2 Text Manager State Machine
 - Save Global Settings automatically on exit
-- GlobalSettings refactoring (start all property names with the name of their sectioln)
+- GlobalSettings refactoring (start all property names with the name of their section as a start)
 - Network Services (LightningNetwork.dll)
 - Proper Obsoleting Practice?
 - Linux for Dedicated Server

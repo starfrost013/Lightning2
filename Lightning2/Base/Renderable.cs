@@ -132,6 +132,7 @@
         /// </summary>
         internal bool Loaded { get; set; }
 
+        [JsonIgnore]
         /// <summary>
         /// The current animation of this Renderable
         /// </summary>
