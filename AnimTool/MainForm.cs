@@ -186,7 +186,7 @@ namespace AnimTool
             }
             catch
             {
-                _ = new NCException("An error occurred while saving", 174, "An exception occurred in AnimTool::Save", NCExceptionSeverity.Error);
+                _ = new NCException("An error occurred while saving the JSON file", 174, "An exception occurred in AnimTool::Save", NCExceptionSeverity.Error);
                 return;
             }
         }
