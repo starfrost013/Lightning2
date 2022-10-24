@@ -30,6 +30,8 @@
         {
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadJSONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportJSONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,14 +41,13 @@
             this.propertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.keyframeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeCurrentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeCurrentPropertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewAPIReferenceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.propertiesTabPage = new System.Windows.Forms.TabPage();
             this.propertiesTabControl = new System.Windows.Forms.TabControl();
-            this.propertyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.keyframeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.propertiesTabControl.SuspendLayout();
             this.SuspendLayout();
@@ -65,6 +66,8 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem,
+            this.aToolStripMenuItem,
             this.loadJSONToolStripMenuItem,
             this.exportJSONToolStripMenuItem,
             this.exitToolStripMenuItem});
@@ -72,11 +75,24 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Text = "New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            // 
+            // aToolStripMenuItem
+            // 
+            this.aToolStripMenuItem.Name = "aToolStripMenuItem";
+            this.aToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aToolStripMenuItem.Text = "-";
+            // 
             // loadJSONToolStripMenuItem
             // 
             this.loadJSONToolStripMenuItem.Name = "loadJSONToolStripMenuItem";
             this.loadJSONToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.loadJSONToolStripMenuItem.Text = "Load to JSON";
+            this.loadJSONToolStripMenuItem.Text = "Load from JSON";
             this.loadJSONToolStripMenuItem.Click += new System.EventHandler(this.loadJSONToolStripMenuItem_Click);
             // 
             // exportJSONToolStripMenuItem
@@ -123,31 +139,37 @@
             // propertyToolStripMenuItem
             // 
             this.propertyToolStripMenuItem.Name = "propertyToolStripMenuItem";
-            this.propertyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.propertyToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.propertyToolStripMenuItem.Text = "Property";
             this.propertyToolStripMenuItem.Click += new System.EventHandler(this.propertyToolStripMenuItem_Click);
             // 
             // keyframeToolStripMenuItem
             // 
             this.keyframeToolStripMenuItem.Name = "keyframeToolStripMenuItem";
-            this.keyframeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.keyframeToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.keyframeToolStripMenuItem.Text = "Keyframe";
             this.keyframeToolStripMenuItem.Click += new System.EventHandler(this.keyframeToolStripMenuItem_Click);
             // 
             // removeCurrentToolStripMenuItem
             // 
             this.removeCurrentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.propertyToolStripMenuItem1,
-            this.keyframeToolStripMenuItem1});
+            this.removeCurrentPropertyToolStripMenuItem});
             this.removeCurrentToolStripMenuItem.Name = "removeCurrentToolStripMenuItem";
             this.removeCurrentToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.removeCurrentToolStripMenuItem.Text = "Remove Current";
+            // 
+            // removeCurrentPropertyToolStripMenuItem
+            // 
+            this.removeCurrentPropertyToolStripMenuItem.Name = "removeCurrentPropertyToolStripMenuItem";
+            this.removeCurrentPropertyToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.removeCurrentPropertyToolStripMenuItem.Text = "Property";
+            this.removeCurrentPropertyToolStripMenuItem.Click += new System.EventHandler(this.removeCurrentPropertyToolStripMenuItem_Click);
             // 
             // removeAllToolStripMenuItem
             // 
             this.removeAllToolStripMenuItem.Name = "removeAllToolStripMenuItem";
             this.removeAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.removeAllToolStripMenuItem.Text = "Reset";
+            this.removeAllToolStripMenuItem.Text = "Reset Animation";
             this.removeAllToolStripMenuItem.Click += new System.EventHandler(this.removeAllToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
@@ -193,18 +215,6 @@
             this.propertiesTabControl.TabIndex = 1;
             this.propertiesTabControl.SelectedIndexChanged += new System.EventHandler(this.propertiesTabControl_SelectedIndexChanged);
             // 
-            // propertyToolStripMenuItem1
-            // 
-            this.propertyToolStripMenuItem1.Name = "propertyToolStripMenuItem1";
-            this.propertyToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.propertyToolStripMenuItem1.Text = "Property";
-            // 
-            // keyframeToolStripMenuItem1
-            // 
-            this.keyframeToolStripMenuItem1.Name = "keyframeToolStripMenuItem1";
-            this.keyframeToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.keyframeToolStripMenuItem1.Text = "Keyframe";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -242,7 +252,8 @@
         private TabPage propertiesTabPage;
         private TabControl propertiesTabControl;
         private ToolStripMenuItem setLengthToolStripMenuItem;
-        private ToolStripMenuItem propertyToolStripMenuItem1;
-        private ToolStripMenuItem keyframeToolStripMenuItem1;
+        private ToolStripMenuItem removeCurrentPropertyToolStripMenuItem;
+        private ToolStripMenuItem newToolStripMenuItem;
+        private ToolStripMenuItem aToolStripMenuItem;
     }
 }

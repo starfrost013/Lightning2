@@ -44,7 +44,7 @@
             // animationLengthText
             // 
             this.animationLengthText.AutoSize = true;
-            this.animationLengthText.Location = new System.Drawing.Point(589, 358);
+            this.animationLengthText.Location = new System.Drawing.Point(577, 360);
             this.animationLengthText.Name = "animationLengthText";
             this.animationLengthText.Size = new System.Drawing.Size(131, 15);
             this.animationLengthText.TabIndex = 13;

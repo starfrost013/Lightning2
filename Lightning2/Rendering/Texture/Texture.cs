@@ -1,6 +1,4 @@
-﻿using static LightningBase.SDL_image;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// Texture

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using static LightningBase.SDL;
 
 namespace NuCore.Utilities

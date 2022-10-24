@@ -61,7 +61,7 @@ namespace NuCore.Utilities
             ExceptionSeverity = nExceptionSeverity;
             BaseException = nBaseException;
 
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new();
 
             if (Cause != null) stringBuilder.Append($"{Cause}: ");
             if (Description != null) stringBuilder.Append(Description);
@@ -73,16 +73,11 @@ namespace NuCore.Utilities
 
             NCLogging.Log($"{ExceptionSeverity}:\n{errorString}", nExceptionSeverity);
 
-            // determine if the Lightning utilities are loaded.
-            // this is all kludge until we get a better msgbox api
-
-            Assembly assembly = NCAssembly.GetLoadedAssembly(NCAssembly.LIGHTNING_UTILITIES_NAME);
-
             // display message box
-            if (assembly != null
+            if (NCAssembly.NCLightningExists
                 && !dontShowMessageBox)
             {
-                MethodBase msgBoxOk = assembly.GetType(NCAssembly.LIGHTNING_UTILITIES_PRESET_NAME).GetMethod("MessageBoxOK");
+                MethodBase msgBoxOk = NCAssembly.NCLightningAssembly.GetType(NCAssembly.LIGHTNING_UTILITIES_PRESET_NAME, false, true).GetMethod("MessageBoxOK");
 
                 switch (ExceptionSeverity)
                 {

@@ -41,9 +41,11 @@ namespace NuCore.Utilities
 
         public static void Init()
         {
+            NCAssembly.Init();
+
             if (Settings == null) _ = new NCException("You must set up NCLoggingSettings before initialising NCLogging!", 5, "NCLogging::Init called with NULL settings property", NCExceptionSeverity.FatalError);
 
-            if (Settings.LogFileName == null) Settings.LogFileName = $"NuCore_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.log";
+            if (Settings.LogFileName == null) Settings.LogFileName = $"NuCore_{DateTime.Now:yyyyMMdd_HHmmss}.log";
 
             if (Settings.WriteToLog)
             {
@@ -88,14 +90,14 @@ namespace NuCore.Utilities
 
             string now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-            StringBuilder sb = new StringBuilder();
+            StringBuilder stringBuilder = new();
 
             // If the method specifies it print the date and time, as well as the currently current method
             if (printMetadata)
             {
-                sb.Append($"[{now} - ");
+                stringBuilder.Append($"[{now} - ");
 
-                StackTrace st = new StackTrace();
+                StackTrace st = new();
 
                 // get the last called method
                 // stack frame 2 is the previously executing method (before log was called)
@@ -104,14 +106,14 @@ namespace NuCore.Utilities
 
                 string methodName = method.Name;
                 string className = method.ReflectedType.Name;
-                sb.Append($"{className}::{methodName}");
+                stringBuilder.Append($"{className}::{methodName}");
 
-                sb.Append("]: ");
+                stringBuilder.Append("]: ");
             }
 
-            sb.Append($"{Information}\n");
+            stringBuilder.Append($"{Information}\n");
 
-            string final_log = sb.ToString();
+            string final_log = stringBuilder.ToString();
 
             if (Settings.WriteToLog && logToFile) LogStream.Write(final_log);
 

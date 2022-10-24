@@ -1,4 +1,5 @@
 using LightningGL;
+using NuCore.Utilities;
 using System.Diagnostics;
 using System.Windows.Forms;
 
@@ -31,27 +32,20 @@ namespace AnimTool
         {
             if (AnimTool.CurAnimation != null)
             {
-                // dumb check to make sure we actually added a property
-                int curCount = AnimTool.CurAnimation.Properties.Count;
-
                 AddPropertyForm addPropertyForm = new AddPropertyForm();
-
-                // ui code is hell
-                // it will dispose itself if we close it
-                if (!addPropertyForm.IsDisposed)
-                {
-                    addPropertyForm.ShowDialog();
-                    if (AnimTool.CurAnimation.Properties.Count > curCount) FullUpdateTabContent();
-                }
-
+                addPropertyForm.ShowDialog();
+                FullUpdateTabContent();
             }
         }
 
         private void setLengthToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetLengthForm setLengthForm = new SetLengthForm();
-            setLengthForm.ShowDialog();
-            UpdateTabContent();
+            if (AnimTool.CurAnimation != null)
+            {
+                SetLengthForm setLengthForm = new SetLengthForm();
+                setLengthForm.ShowDialog();
+                UpdateTabContent();
+            }
         }
 
         private void propertiesTabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -109,13 +103,16 @@ namespace AnimTool
 
                     control.UpdateTabContent();
                 }
-
             }
         }
 
-        private void removeAllToolStripMenuItem_Click(object sender, EventArgs e)
+        private void removeAllToolStripMenuItem_Click(object sender, EventArgs e) => RemoveAll();
+
+
+        private void RemoveAll()
         {
-            if (AnimTool.CurAnimation != null)
+            if (AnimTool.CurAnimation != null 
+                && AnimTool.CurProperty != null)
             {
                 AnimTool.CurAnimation.Properties.Clear();
                 AnimTool.CurProperty = null;
@@ -125,7 +122,8 @@ namespace AnimTool
 
         private void keyframeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (AnimTool.CurAnimation != null)
+            if (AnimTool.CurAnimation != null 
+                && AnimTool.CurProperty != null)
             {
                 AddKeyframeForm addKeyframeForm = new();
                 addKeyframeForm.ShowDialog();
@@ -135,41 +133,93 @@ namespace AnimTool
 
         private void loadJSONToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (AnimTool.CurAnimation != null)
+            try
             {
-                OpenFileDialog openFileDialog = new();
-
-                openFileDialog.Title = "Select Animation JSON files";
-                openFileDialog.Filter = "Lightning Animation JSON (.json,.ljson)|*.json,*.ljson";
-
-                openFileDialog.ShowDialog();
-
-                if (!string.IsNullOrWhiteSpace(openFileDialog.FileName))
+                if (AnimTool.CurAnimation != null)
                 {
-                    AnimTool.CurAnimation = new Animation(openFileDialog.FileName);
-                    AnimTool.Load();
-                    FullUpdateTabContent();
+                    OpenFileDialog openFileDialog = new();
+
+                    openFileDialog.Title = "Select Animation JSON files";
+                    openFileDialog.Filter = "Lightning Animation JSON (.json)|*.json";
+
+                    openFileDialog.ShowDialog();
+
+                    if (!string.IsNullOrWhiteSpace(openFileDialog.FileName))
+                    {
+                        AnimTool.CurAnimation = new Animation(openFileDialog.FileName);
+                        AnimTool.Load();
+                        FullUpdateTabContent();
+                    }
                 }
+            }
+            catch
+            {
+                _ = new NCException("An error occurred while importing the JSON file.", 174, "An exception occurred in AnimTool::Load", NCExceptionSeverity.Error);
+                AnimTool.CurAnimation = null;
+                AnimTool.CurProperty = null;
+                FullUpdateTabContent();
+                return;
             }
         }
 
         private void exportJSONToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (AnimTool.CurAnimation != null)
+            try
             {
-                SaveFileDialog saveFileDialog = new();
-
-                saveFileDialog.Title = "Select JSON file location";
-                saveFileDialog.Filter = "Lightning Animation JSON (.json,.ljson)|*.json,*.ljson";
-
-                saveFileDialog.ShowDialog();
-
-                if (!string.IsNullOrWhiteSpace(saveFileDialog.FileName))
+                if (AnimTool.CurAnimation != null
+                    && AnimTool.CurProperty != null)
                 {
-                    AnimTool.CurAnimation.Path = saveFileDialog.FileName;
-                    AnimTool.Save();
-                    FullUpdateTabContent();
+                    SaveFileDialog saveFileDialog = new();
+
+                    saveFileDialog.Title = "Select JSON file location";
+                    saveFileDialog.Filter = "Lightning Animation JSON (.json)|*.json";
+
+                    saveFileDialog.ShowDialog();
+
+                    if (!string.IsNullOrWhiteSpace(saveFileDialog.FileName))
+                    {
+                        AnimTool.CurAnimation.Path = saveFileDialog.FileName;
+                        AnimTool.Save();
+                        FullUpdateTabContent();
+                    }
                 }
+            }
+            catch
+            {
+                _ = new NCException("An error occurred while saving", 174, "An exception occurred in AnimTool::Save", NCExceptionSeverity.Error);
+                return;
+            }
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e) => RemoveAll();
+
+        private void removeCurrentPropertyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // iterate through so we can move to the one previos
+            if (AnimTool.CurAnimation != null
+                && AnimTool.CurProperty != null)
+            {
+                for (int propertyId = 0; propertyId < AnimTool.CurAnimation.Properties.Count; propertyId++)
+                {
+                    AnimationProperty animProperty = AnimTool.CurAnimation.Properties[propertyId];
+
+                    if (animProperty == AnimTool.CurProperty)
+                    {
+                        AnimTool.CurAnimation.Properties.Remove(animProperty);
+
+                        // select the last one OR null 9god i ahte UI programming)
+                        if (AnimTool.CurAnimation.Properties.Count == 0)
+                        {
+                            AnimTool.CurProperty = null;
+                        }
+                        else
+                        {
+                            AnimTool.CurProperty = AnimTool.CurAnimation.Properties[AnimTool.CurAnimation.Properties.Count - 1];
+                        }
+                    }
+                }
+
+                FullUpdateTabContent();
             }
         }
     }

@@ -5,17 +5,16 @@ namespace NuCore.Utilities
     /// <summary>
     /// NCMessageBoxPresets
     /// 
-    /// Defines preset messageboxes for the NC Messagebox API 
+    /// Defines preset messageboxes for the NC Messagebox API. Public becasue it;s loaded using reflection if SDL2 is there
     /// </summary>
-    internal static class NCMessageBoxPresets
+    public static class NCMessageBoxPresets
     {
         /// <summary>
         /// Creates a generic message box with a single "OK" button.
         /// </summary>
-        /// <param name="Title">The title of the message box.</param>
-        /// <param name="Message">The content of the message box.</param>
-        /// <param name="Icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
-        /// <param name="ColourScheme">The colour scheme of the message box (optional) - see <see cref="NCMessageBoxColourScheme"/>.</param>
+        /// <param name="title">The title of the message box.</param>
+        /// <param name="message">The content of the message box.</param>
+        /// <param name="icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
         /// <returns>A <see cref="NCMessageBoxButton"/> containing the selected button.</returns>
         public static NCMessageBoxButton? MessageBoxOK(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
         {
@@ -28,10 +27,9 @@ namespace NuCore.Utilities
         /// Creates a generic message box with "OK" and "Cancel" buttons.
         /// The OK button is the default used for the return key and the Cancel button the default for the escape key.
         /// </summary>
-        /// <param name="Title">The title of the message box.</param>
-        /// <param name="Message">The content of the message box.</param>
-        /// <param name="Icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
-        /// <param name="ColourScheme">The colour scheme of the message box (optional) - see <see cref="NCMessageBoxColourScheme"/>.</param>
+        /// <param name="title">The title of the message box.</param>
+        /// <param name="message">The content of the message box.</param>
+        /// <param name="icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
         /// <returns>A <see cref="NCMessageBoxButton"/> containing the selected button.</returns>
         public static NCMessageBoxButton? MessageBoxOKCancel(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
         {
@@ -45,10 +43,9 @@ namespace NuCore.Utilities
         /// Creates a generic message box with "Retry" and "Cancel" buttons.
         /// The Retry button is the default used for the return key and the Cancel button the default for the escape key.
         /// </summary>
-        /// <param name="Title">The title of the message box.</param>
-        /// <param name="Message">The content of the message box.</param>
-        /// <param name="Icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
-        /// <param name="ColourScheme">The colour scheme of the message box (optional) - see <see cref="NCMessageBoxColourScheme"/>.</param>
+        /// <param name="title">The title of the message box.</param>
+        /// <param name="message">The content of the message box.</param>
+        /// <param name="icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
         /// <returns>A <see cref="NCMessageBoxButton"/> containing the selected button.</returns>
         public static NCMessageBoxButton? MessageBoxRetryCancel(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
         {
@@ -62,10 +59,9 @@ namespace NuCore.Utilities
         /// Creates a generic message box with "Yes" and "No" buttons.
         /// The Yes button is the default used for the return key and the No button the default for the escape key.
         /// </summary>
-        /// <param name="Title">The title of the message box.</param>
-        /// <param name="Message">The content of the message box.</param>
-        /// <param name="Icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
-        /// <param name="ColourScheme">The colour scheme of the message box (optional) - see <see cref="NCMessageBoxColourScheme"/>.</param>
+        /// <param name="title">The title of the message box.</param>
+        /// <param name="message">The content of the message box.</param>
+        /// <param name="icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
         /// <returns>A <see cref="NCMessageBoxButton"/> containing the selected button.</returns>
         public static NCMessageBoxButton? MessageBoxYesNo(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
         {
@@ -79,10 +75,9 @@ namespace NuCore.Utilities
         /// Creates a generic message box with "Yes", "No", and "Cancel" buttons.
         /// The Yes button is the default used for the return key and the Cancel button the default for the escape key.
         /// </summary>
-        /// <param name="Title">The title of the message box.</param>
-        /// <param name="Message">The content of the message box.</param>
-        /// <param name="Icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
-        /// <param name="ColourScheme">The colour scheme of the message box (optional) - see <see cref="NCMessageBoxColourScheme"/>.</param>
+        /// <param name="title">The title of the message box.</param>
+        /// <param name="message">The content of the message box.</param>
+        /// <param name="icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
         /// <returns>A <see cref="NCMessageBoxButton"/> containing the selected button.</returns>
         public static NCMessageBoxButton? MessageBoxYesNoCancel(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
         {
@@ -98,10 +93,9 @@ namespace NuCore.Utilities
         /// Creates a generic message box with "Abort", "Retry", and "Ignore" buttons.
         /// The Retry button is the default used for the return key and the Abort button the default for the escape key.
         /// </summary>
-        /// <param name="Title">The title of the message box.</param>
-        /// <param name="Message">The content of the message box.</param>
-        /// <param name="Icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
-        /// <param name="ColourScheme">The colour scheme of the message box (optional) - see <see cref="NCMessageBoxColourScheme"/>.</param>
+        /// <param name="title">The title of the message box.</param>
+        /// <param name="message">The content of the message box.</param>
+        /// <param name="icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
         /// <returns>A <see cref="NCMessageBoxButton"/> containing the selected button.</returns>
         public static NCMessageBoxButton? MessageBoxAbortRetryIgnore(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
         {
@@ -116,10 +110,9 @@ namespace NuCore.Utilities
         /// Creates a generic message box with "Cancel", "Try", and "Continue" buttons.
         /// The Continue button is the default used for the return key and the Cancel button the default for the escape key.
         /// </summary>
-        /// <param name="Title">The title of the message box.</param>
-        /// <param name="Message">The content of the message box.</param>
-        /// <param name="Icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
-        /// <param name="ColourScheme">The colour scheme of the message box (optional) - see <see cref="NCMessageBoxColourScheme"/>.</param>
+        /// <param name="title">The title of the message box.</param>
+        /// <param name="message">The content of the message box.</param>
+        /// <param name="icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
         /// <returns>A <see cref="NCMessageBoxButton"/> containing the selected button.</returns>
         public static NCMessageBoxButton? MessageBoxCancelTryContinue(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
         {
@@ -133,10 +126,9 @@ namespace NuCore.Utilities
         /// <summary>
         /// Internal method for creating preset messageboxes.
         /// </summary>
-        /// <param name="Title">The title of the message box.</param>
-        /// <param name="Message">The content of the message box.</param>
-        /// <param name="Icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
-        /// <param name="ColourScheme">The colour scheme of the message box (optional) - see <see cref="NCMessageBoxColourScheme"/>.</param>
+        /// <param name="title">The title of the message box.</param>
+        /// <param name="message">The content of the message box.</param>
+        /// <param name="icon">The icon of the message box (optional) - see <see cref="SDL.SDL_MessageBoxFlags"></see></param>
         /// <returns></returns>
         private static NCMessageBox CreateBaseMessageBox(string title, string message, SDL.SDL_MessageBoxFlags icon = SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION)
         {

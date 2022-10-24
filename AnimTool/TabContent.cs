@@ -46,15 +46,19 @@ namespace AnimTool
 
         private void removeBtn_Click(object sender, EventArgs e)
         {
+            if (AnimTool.CurProperty == null) return;
+
             if (keyframeListBox.SelectedIndex >= 0
                 && keyframeListBox.SelectedIndex < keyframeListBox.Items.Count)
             {
-                keyframeListBox.Items.RemoveAt(keyframeListBox.SelectedIndex);
+                // if there is one item left, the selectedindex value will change to -1...
+                // please kill ui programming
+
+                int initialIndex = keyframeListBox.SelectedIndex;
+
+                keyframeListBox.Items.RemoveAt(initialIndex);
                 
-                if (AnimTool.CurProperty != null)
-                {
-                    AnimTool.CurProperty.Keyframes.RemoveAt(keyframeListBox.SelectedIndex);
-                }
+                AnimTool.CurProperty.Keyframes.RemoveAt(initialIndex);
 
                 keyframeListBox.SelectedIndex = keyframeListBox.Items.Count - 1; // will not select any if we delete last item as -1 = no item selected and 0 - 1 = -1
             }

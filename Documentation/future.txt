@@ -1,26 +1,30 @@
 All of this is very early.
 
 Lightning 1.2 feature set:
-- Video API
 - Texture Rotation
 - Multitexturing
 - Controller Support
 - Animating fades (Renderable has colour)
 - Renderer Operations (everything funneled through the Renderer), massive renderer refactoring
-- Don't render textures unless they move (adaptive tile refresh)
 - FreeType2 Text Manager State Machine
 - Save Global Settings automatically on exit
 - GlobalSettings refactoring (start all property names with the name of their sectioln)
-- Linux Port
+- Network Services (LightningNetwork.dll)
+- Proper Obsoleting Practice?
+- Linux for Dedicated Server
 
 Lightning 1.3 feature set:
 - Ability to pair multiple textures and have them move with each other in an animation
 - Skybox, Day/night cycle with customisable skyboxes for all regions of the day
 - ParticleEffect system merged with Animation
 - Multiple Renderer support, RenderingBackend replacement
+- Don't render textures unless they move (adaptive tile refresh)
 - Dynamic Cameras
+- "Keyframe Everything"; integrate Animation System with everything (Animatable) (possibly 1.2)
+- Attach ParticleEffects to Renderables
 - Layered Rendering (z-index also)
-- Network Services (LightningNetwork.dll) (possibly 2.0)
+- Video API
+- Linux ????
 - New Lighting Engine using Raycasting (possibly 1.3)
 
 Lightning 2.0 feature set:
