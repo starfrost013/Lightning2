@@ -9,8 +9,12 @@ using System.Runtime.InteropServices;
 // Very quick and dirty tool to build a Lightning SDK setup file.
 
 #region Variables
+
 // The release configuration to use.
 string config = "Debug";
+
+// If we will run setup or not.
+bool runSetup = false; 
 
 // Paths for various parts of Lightning.
 string buildPath = $@"..\..\..\..\Lightning2\bin\{config}\net6.0\";
@@ -22,21 +26,8 @@ string vsTemplatePath = $@"..\..\..\..\VSTemplate";
 string innoInstallDir = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)}\Inno Setup 6";
 
 #endregion
-#region Actual code
 
-NCLogging.Init();
-
-NCLogging.Log("Lightning SDK Builder version 1.7");
-
-// delete sdk dir if it exists
-if (Directory.Exists("SDK"))
-{
-    NCLogging.Log("Deleting pre-existing SDK...");
-    Directory.Delete("SDK", true);
-}
-
-NCLogging.Log("Copying build files from Lightning build directory...");
-
+#region Command line parsing
 for (int argId = 0; argId < args.Length; argId++)
 {
     string arg = args[argId];
@@ -47,9 +38,30 @@ for (int argId = 0; argId < args.Length; argId++)
         case "-release":
             config = "Release";
             break;
-    
+        case "-norunsetup":
+            runSetup = false;
+            break;
+
     }
 }
+
+#endregion
+#region Actual code
+
+NCLogging.Init();
+
+NCLogging.Log("Lightning SDK Builder version 1.8");
+
+// delete sdk dir if it exists
+if (Directory.Exists("SDK"))
+{
+    NCLogging.Log("Deleting pre-existing SDK...");
+    Directory.Delete("SDK", true);
+}
+
+NCLogging.Log("Copying build files from Lightning build directory...");
+
+
 
 if (!Directory.Exists(buildPath))
 {
@@ -123,6 +135,15 @@ else
     if (innoSetup.ExitCode > 0)
     {
         NCLogging.Log("Error: Inno Setup failed to generate the SDK installer", ConsoleColor.Red);
+    }
+    else
+    {
+        if (runSetup)
+        {
+            NCLogging.Log("Running generated SDKSetup.exe...");
+            _ = Process.Start(@"SDK\Setup\SDKSetup.exe");
+        }
+
     }
 }
 

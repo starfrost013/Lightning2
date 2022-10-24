@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SetLengthForm));
             this.setAnimationLengthText = new System.Windows.Forms.Label();
             this.lengthTextBox = new System.Windows.Forms.TextBox();
             this.lengthMsText = new System.Windows.Forms.Label();
@@ -79,6 +80,7 @@
             this.Controls.Add(this.lengthMsText);
             this.Controls.Add(this.lengthTextBox);
             this.Controls.Add(this.setAnimationLengthText);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SetLengthForm";
             this.Text = "Set Length";
             this.ResumeLayout(false);

@@ -38,7 +38,9 @@ namespace AnimTool
             }
         }
 
-        private void setLengthToolStripMenuItem_Click(object sender, EventArgs e)
+        private void setLengthToolStripMenuItem_Click(object sender, EventArgs e) => StartSetLengthWindow();
+
+        private void StartSetLengthWindow()
         {
             if (AnimTool.CurAnimation != null)
             {
@@ -222,5 +224,7 @@ namespace AnimTool
                 FullUpdateTabContent();
             }
         }
+
+        private void MainForm_Load(object sender, EventArgs e) => StartSetLengthWindow();
     }
 }

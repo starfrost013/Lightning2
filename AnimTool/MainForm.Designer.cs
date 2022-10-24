@@ -217,6 +217,7 @@
             this.MainMenuStrip = this.mainMenu;
             this.Name = "MainForm";
             this.Text = "Lightning Animation Editor";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
             this.propertiesTabControl.ResumeLayout(false);
