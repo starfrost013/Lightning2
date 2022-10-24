@@ -74,10 +74,21 @@
             }
         }
 
+        /// <summary>
+        /// <para>If this value is above (0,0), camera shake will be implemented.
+        /// The value of this property is the maximum displacement the camera will shake to.</para>
+        /// Correction is applied to prevent the camera from drifting (this behaviour can be disabled with the <see cref="AllowCameraMoveOnShake"/> property).
+        /// </summary>
         public Vector2 ShakeAmount { get; set; } 
 
+        /// <summary>
+        /// Turns off movement correction on camera shake. Has no effect if the <see cref="ShakeAmount"/> property is set to <code>0,0</code>.
+        /// </summary>
         public bool AllowCameraMoveOnShake { get; set; }
 
+        /// <summary>
+        /// The velocity of this camera.
+        /// </summary>
         public Vector2 Velocity { get; set; }
 
         public void Update()
