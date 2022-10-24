@@ -33,9 +33,9 @@ namespace AnimTool
         {
             if (CurAnimation != null)
             {
-                CurAnimation = (Animation?)JsonConvert.DeserializeObject(CurAnimation.Path);
+                // you have to read all of the text here
+                CurAnimation = JsonConvert.DeserializeObject<Animation>(File.ReadAllText(CurAnimation.Path));
             }
-            
         }
 
         internal static void Save()
