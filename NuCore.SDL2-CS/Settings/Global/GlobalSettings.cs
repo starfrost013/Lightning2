@@ -205,8 +205,8 @@ namespace LightningBase
             }
             else
             {
-                if (!Directory.Exists(localisationFolder)) _ = new NCException("Engine.ini must have a General section", 157,
-                    "GlobalSettings::Load - the LocalisationFolder value does not correspond to an extant folder!", NCExceptionSeverity.FatalError);
+                if (!Directory.Exists(localisationFolder)) _ = new NCException("LocalisationFolder does not exist", 157,
+                    "The LocalisationFolder GlobalSetting does not correspond to an extant folder. (GlobalSettings::Load)", NCExceptionSeverity.FatalError);
                 Language = @$"{localisationFolder}\{language}.ini";
             }
            

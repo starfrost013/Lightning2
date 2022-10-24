@@ -370,20 +370,18 @@ namespace LightningGL
 
                     if (Settings.Camera != null)
                     {
-                        bool isOnScreen = (renderable.RenderPosition.X >= Settings.Camera.Position.X - renderable.Size.X
+                        renderable.IsOnScreen = (renderable.RenderPosition.X >= Settings.Camera.Position.X - renderable.Size.X
                             && renderable.RenderPosition.Y >= Settings.Camera.Position.Y - renderable.Size.Y
                             && renderable.RenderPosition.X <= Settings.Camera.Position.X + GlobalSettings.ResolutionX
                             && renderable.RenderPosition.Y <= Settings.Camera.Position.Y + GlobalSettings.ResolutionY);
-
-                        if (!isOnScreen)
-                        {
-                            renderables.Remove(renderable);
-                            renderableId--;
-                        }
                     }
                 }
             }
-
+            else
+            {
+                // just assume they are on screen
+                foreach (Renderable renderable in renderables) renderable.IsOnScreen = true;
+            }
 
             return renderables;
         }
@@ -399,12 +397,14 @@ namespace LightningGL
         {
             foreach (Renderable renderable in Renderables)
             {
-                //if (renderable.Size == default) _ = new NCException($"Attempted to draw a gadget with no size, you will not see it!", 122, "Gadget::Size = (0,0)!", NCExceptionSeverity.Warning, null, true);
-                if (renderable.OnRender != null)
+                // --- THESE TASKS need to be performed ONLY when the renderable is on screen ---
+                if (renderable.IsOnScreen)
                 {
-                    renderable.OnRender(this);
-                    if (renderable.CurrentAnimation != null) renderable.CurrentAnimation.UpdateAnimationFor(renderable);
+                    if (renderable.OnRender != null) renderable.OnRender(this);
                 }
+
+                // --- THESE tasks need to be performed when the renderable is on AND off screen ---
+                if (renderable.CurrentAnimation != null) renderable.CurrentAnimation.UpdateAnimationFor(renderable);
             }
         }
 

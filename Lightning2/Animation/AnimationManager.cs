@@ -11,8 +11,8 @@
     {
         public override Animation AddAsset(Renderer cRenderer, Animation asset)
         {
-            if (!File.Exists(asset.Path)) _ = new NCException("Attempted to load a nonexistent animation", 138,
-                "Animation::Load called with Path property that does not point to a valid path!", NCExceptionSeverity.FatalError);
+            if (!File.Exists(asset.Path)) _ = new NCException("Attempted to load a nonexistent animation file.", 138,
+                "Animation::Load called with Path property that does not point to a valid Animation JSON file!", NCExceptionSeverity.FatalError);
 
             NCLogging.Log($"Deserialising animation JSON from {asset.Path}...");
 

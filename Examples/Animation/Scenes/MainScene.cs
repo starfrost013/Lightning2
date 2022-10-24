@@ -21,6 +21,9 @@ namespace Animation
             };
 
             texture.SetAnimation(newAnim);
+
+            newAnim.StartAnimationFor(texture);
+
             TextureManager.AddAsset(SceneManager.Renderer, texture); // automatically loads
         }
 

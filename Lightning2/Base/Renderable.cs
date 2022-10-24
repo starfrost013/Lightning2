@@ -148,6 +148,11 @@
         /// </summary>
         internal bool AnimationRunning => AnimationTimer.IsRunning;
 
+        /// <summary>
+        /// Determines if this renderable is currently off-screen and therefore will not be rendered.
+        /// </summary>
+        internal bool IsOnScreen { get; set; }
+
         public Renderable()
         {
             AnimationTimer = new Stopwatch();
@@ -163,7 +168,7 @@
             if (animation == null
                 || !animation.Loaded)
             {
-                _ = new NCException("You must load an animation before attaching it to a renderable! The animation will not be set.", 150,
+                _ = new NCException("You must load an animation before attaching it to a renderable! The animation will not be set.", 149,
                "animation parameter to Renderable::SetAnimation's loaded property is FALSE", NCExceptionSeverity.Error);
                 return;
             }
@@ -176,7 +181,7 @@
             if (CurrentAnimation == null
                 || !CurrentAnimation.Loaded)
             {
-                _ = new NCException("You must load an animation before playing it! The animation will not be set.", 171,
+                _ = new NCException("You must load an animation before playing it! The animation will not be set.", 151,
                 "Renderable::StartCurrentAnimation called when CurrentAnimation::Loaded property is FALSE or it was never set.", NCExceptionSeverity.Error);
                 return;
             }
@@ -189,15 +194,13 @@
             if (CurrentAnimation == null
                 || !CurrentAnimation.Loaded)
             {
-                _ = new NCException("You must load an animation before playing it! The animation will not be set.", 172,
+                _ = new NCException("You must load an animation before playing it! The animation will not be set.", 152,
                 "Renderable::StopCurrentAnimation called when CurrentAnimation::Loaded property is FALSE or it was never set.", NCExceptionSeverity.Error);
                 return;
             }
 
             CurrentAnimation.StopAnimationFor(this);
         } 
-
-        public virtual void UpdateCurrentAnimation() => CurrentAnimation.UpdateAnimationFor(this);
 
         /// <summary>
         /// The Z-Index (priority) of this renderable.

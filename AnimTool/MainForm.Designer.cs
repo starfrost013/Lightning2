@@ -47,6 +47,7 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.propertiesTabPage = new System.Windows.Forms.TabPage();
             this.propertiesTabControl = new System.Windows.Forms.TabControl();
+            this.changeSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.propertiesTabControl.SuspendLayout();
             this.SuspendLayout();
@@ -76,34 +77,35 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // loadJSONToolStripMenuItem
             // 
             this.loadJSONToolStripMenuItem.Name = "loadJSONToolStripMenuItem";
-            this.loadJSONToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadJSONToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.loadJSONToolStripMenuItem.Text = "Load from JSON";
             this.loadJSONToolStripMenuItem.Click += new System.EventHandler(this.loadJSONToolStripMenuItem_Click);
             // 
             // exportJSONToolStripMenuItem
             // 
             this.exportJSONToolStripMenuItem.Name = "exportJSONToolStripMenuItem";
-            this.exportJSONToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportJSONToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.exportJSONToolStripMenuItem.Text = "Save to JSON";
             this.exportJSONToolStripMenuItem.Click += new System.EventHandler(this.exportJSONToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // animationToolStripMenuItem
             // 
             this.animationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.changeSettingsToolStripMenuItem,
             this.setLengthToolStripMenuItem,
             this.addNewToolStripMenuItem,
             this.removeCurrentToolStripMenuItem,
@@ -115,7 +117,7 @@
             // setLengthToolStripMenuItem
             // 
             this.setLengthToolStripMenuItem.Name = "setLengthToolStripMenuItem";
-            this.setLengthToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.setLengthToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.setLengthToolStripMenuItem.Text = "Set Length";
             this.setLengthToolStripMenuItem.Click += new System.EventHandler(this.setLengthToolStripMenuItem_Click);
             // 
@@ -125,7 +127,7 @@
             this.propertyToolStripMenuItem,
             this.keyframeToolStripMenuItem});
             this.addNewToolStripMenuItem.Name = "addNewToolStripMenuItem";
-            this.addNewToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.addNewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addNewToolStripMenuItem.Text = "Create New";
             // 
             // propertyToolStripMenuItem
@@ -147,20 +149,20 @@
             this.removeCurrentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.removeCurrentPropertyToolStripMenuItem});
             this.removeCurrentToolStripMenuItem.Name = "removeCurrentToolStripMenuItem";
-            this.removeCurrentToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.removeCurrentToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.removeCurrentToolStripMenuItem.Text = "Remove Current";
             // 
             // removeCurrentPropertyToolStripMenuItem
             // 
             this.removeCurrentPropertyToolStripMenuItem.Name = "removeCurrentPropertyToolStripMenuItem";
-            this.removeCurrentPropertyToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.removeCurrentPropertyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.removeCurrentPropertyToolStripMenuItem.Text = "Property";
             this.removeCurrentPropertyToolStripMenuItem.Click += new System.EventHandler(this.removeCurrentPropertyToolStripMenuItem_Click);
             // 
             // removeAllToolStripMenuItem
             // 
             this.removeAllToolStripMenuItem.Name = "removeAllToolStripMenuItem";
-            this.removeAllToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.removeAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.removeAllToolStripMenuItem.Text = "Reset Animation";
             this.removeAllToolStripMenuItem.Click += new System.EventHandler(this.removeAllToolStripMenuItem_Click);
             // 
@@ -207,6 +209,13 @@
             this.propertiesTabControl.TabIndex = 1;
             this.propertiesTabControl.SelectedIndexChanged += new System.EventHandler(this.propertiesTabControl_SelectedIndexChanged);
             // 
+            // changeSettingsToolStripMenuItem
+            // 
+            this.changeSettingsToolStripMenuItem.Name = "changeSettingsToolStripMenuItem";
+            this.changeSettingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.changeSettingsToolStripMenuItem.Text = "Change Settings";
+            this.changeSettingsToolStripMenuItem.Click += new System.EventHandler(this.changeSettingsToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -247,5 +256,6 @@
         private ToolStripMenuItem setLengthToolStripMenuItem;
         private ToolStripMenuItem removeCurrentPropertyToolStripMenuItem;
         private ToolStripMenuItem newToolStripMenuItem;
+        private ToolStripMenuItem changeSettingsToolStripMenuItem;
     }
 }

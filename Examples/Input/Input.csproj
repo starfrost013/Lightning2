@@ -21,9 +21,6 @@
 		<Reference Include="NuCore.Utilities">
 			<HintPath>$(ProgramFiles)/Lightning Software Development Kit/NuCore.Utilities.dll</HintPath>
 		</Reference>
-		<Reference Include="NuCore.Utilities.Lightning">
-			<HintPath>$(ProgramFiles)/Lightning Software Development Kit/NuCore.Utilities.Lightning.dll</HintPath>
-		</Reference>
 	</ItemGroup>
 
   <!-- Shared includes for all examples. These are copied individually because they are open source and devs use them as part of the SDK -->

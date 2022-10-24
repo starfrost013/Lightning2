@@ -109,7 +109,7 @@ namespace LightningGL
                 bool isRealType = validTypeNames.Contains(property.Type);
 
                 if (!isRealType) _ = new NCException($"Tried to use an AnimationProperty {property.Name}, type {property.Type} which is not loaded in the current AppDomain",
-                    141, "Tried to instantiate a type for an AnimationProperty from an unloaded assembly.", NCExceptionSeverity.FatalError);
+                    141, "Tried to instantiate a type for an AnimationProperty from an unloaded assembly. Try referencing the assembly the type is located within.", NCExceptionSeverity.FatalError);
 
                 if (property.Keyframes.Count == 0) _ = new NCException($"The property {property.Name} has no keyframes!", 
                     145, "AnimationProperty::Keyframes::Count was 0 during call to Animation::Validate", NCExceptionSeverity.FatalError);
@@ -121,7 +121,7 @@ namespace LightningGL
 
                     if (keyframe.Position < 0
                         || keyframe.Position > Length) _ = new NCException($"Keyframe {keyframe.Id} for property {property.Name} is not within the animation. The value is {keyframe.Position}, range is (0,{Length})!",
-                    143, "AnimationKeyframe::Position", NCExceptionSeverity.FatalError);
+                    143, "AnimationKeyframe::Position was less than 0 or more than Animation::Length", NCExceptionSeverity.FatalError);
                 }
             }
         }
@@ -174,7 +174,7 @@ namespace LightningGL
                             if (thisKeyframe.GetType() 
                                 != nextKeyframe.GetType())
                             {
-                                _ = new NCException($"All Keyframes of an animation property must be of the same type!", 148, "The value of thisKeyframe::GetType is not the same as nextKeyframe::GetType in a call to Animation::UpdateAnimationFor", 
+                                _ = new NCException($"All Keyframes of an animation property must be of the same type!", 146, "The value of thisKeyframe::GetType is not the same as nextKeyframe::GetType in a call to Animation::UpdateAnimationFor", 
                                     NCExceptionSeverity.FatalError);
                             }
 
@@ -232,7 +232,7 @@ namespace LightningGL
                             PropertyInfo propertyInfo = renderableType.GetProperty(property.Name);
 
                             if (propertyInfo == null) _ = new NCException($"Attempted to set value of invalid animation property {property.Name}", 152,
-                                    $"Tried to get an invalid properrty of the type {renderableType.Name} in call to Animation::UpdateAnimationFor", NCExceptionSeverity.FatalError);
+                                    $"Tried to get an invalid property of the type {renderableType.Name} in call to Animation::UpdateAnimationFor", NCExceptionSeverity.FatalError);
 
                             propertyInfo.SetValue(renderable, finalValue, null);  
 

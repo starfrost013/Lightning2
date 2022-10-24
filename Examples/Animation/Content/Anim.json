@@ -47,12 +47,28 @@
           "Value": "64,64"
         },
         {
-          "Position": 447,
+          "Position": 250,
           "Value": "128,128"
         },
         {
-          "Position": 1532,
-          "Value": "256,256"
+          "Position": 500,
+          "Value": "256, 256"
+        },
+        {
+          "Position": 750,
+          "Value": "512, 512"
+        },
+        {
+          "Position": 1000,
+          "Value": "256, 256"
+        },
+        {
+          "Position": 1250,
+          "Value": "128, 128"
+        },
+        {
+          "Position": 1500,
+          "Value": "64, 64"
         },
         {
           "Position": 2202,
@@ -67,7 +83,7 @@
   ],
   "Name": "Animation",
   "Length": 3000,
-  "Repeat": 0,
+  "Repeat": -1,
   "Reverse": false,
   "Focused": false,
   "Position": {

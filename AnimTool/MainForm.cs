@@ -156,7 +156,7 @@ namespace AnimTool
             }
             catch
             {
-                _ = new NCException("An error occurred while importing the JSON file.", 174, "An exception occurred in AnimTool::Load", NCExceptionSeverity.Error);
+                _ = new NCException("An error occurred while loading the JSON file.", 176, "An exception occurred in AnimTool::Load", NCExceptionSeverity.Error);
                 AnimTool.CurAnimation = null;
                 AnimTool.CurProperty = null;
                 FullUpdateTabContent();
@@ -188,7 +188,7 @@ namespace AnimTool
             }
             catch
             {
-                _ = new NCException("An error occurred while saving the JSON file", 174, "An exception occurred in AnimTool::Save", NCExceptionSeverity.Error);
+                _ = new NCException("An error occurred while saving the JSON file.", 177, "An exception occurred in AnimTool::Save", NCExceptionSeverity.Error);
                 return;
             }
         }
@@ -226,5 +226,10 @@ namespace AnimTool
         }
 
         private void MainForm_Load(object sender, EventArgs e) => StartSetLengthWindow();
+
+        private void changeSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
