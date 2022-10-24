@@ -74,7 +74,7 @@
             }
         }
 
-        public Vector2 CameraShakeAmount { get; set; } 
+        public Vector2 ShakeAmount { get; set; } 
 
         public bool AllowCameraMoveOnShake { get; set; }
 
@@ -86,11 +86,11 @@
             Position += Velocity;
 
             // check if camera shake not 0
-            if (CameraShakeAmount != default)
+            if (ShakeAmount != default)
             {
                 // randomly generate values between -(CameraShakeAmount) and CameraShakeAmount
-                float velChangeX = Random.Shared.NextSingle() * (CameraShakeAmount.X - -CameraShakeAmount.X) + -CameraShakeAmount.X,
-                      velChangeY = Random.Shared.NextSingle() * (CameraShakeAmount.Y - -CameraShakeAmount.Y) + -CameraShakeAmount.Y;
+                float velChangeX = Random.Shared.NextSingle() * (ShakeAmount.X - -ShakeAmount.X) + -ShakeAmount.X,
+                      velChangeY = Random.Shared.NextSingle() * (ShakeAmount.Y - -ShakeAmount.Y) + -ShakeAmount.Y;
 
                 // make sure it doesn't actually move the camera around
                 Vector2 newPosition = Position + new Vector2(velChangeX, velChangeY);
@@ -98,12 +98,12 @@
                 float diffX = newPosition.X - Position.X,
                       diffY = newPosition.Y - Position.Y;
 
-                if ((Math.Abs(diffX) > CameraShakeAmount.X
-                    || Math.Abs(diffY) > CameraShakeAmount.Y)
+                if ((Math.Abs(diffX) > ShakeAmount.X
+                    || Math.Abs(diffY) > ShakeAmount.Y)
                     && !AllowCameraMoveOnShake)
                 {
-                    float correctionX = diffX - CameraShakeAmount.X;
-                    float correctionY = diffY - CameraShakeAmount.Y;
+                    float correctionX = diffX - ShakeAmount.X;
+                    float correctionY = diffY - ShakeAmount.Y;
                     
                     // correct so that the camera doesn't drift off
                     newPosition.X += correctionX;
