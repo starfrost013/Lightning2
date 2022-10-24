@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using NuCore.Utilities;
 using System.Diagnostics;
+using System.Globalization;
 using System.Runtime.InteropServices;
 
 // SDKBuild
@@ -14,7 +15,8 @@ using System.Runtime.InteropServices;
 string config = "Debug";
 
 // If we will run setup or not.
-bool runSetup = false; 
+bool runSetup = true;
+bool noQuiet = false;
 
 // Paths for various parts of Lightning.
 string buildPath = $@"..\..\..\..\Lightning2\bin\{config}\net6.0\";
@@ -24,7 +26,10 @@ string docPath = $@"..\..\..\..\Documentation";
 string examplePath = $@"..\..\..\..\Examples";
 string vsTemplatePath = $@"..\..\..\..\VSTemplate";
 string innoInstallDir = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)}\Inno Setup 6";
-
+string finalSdkSetupPath = @"SDK\Setup\SDKSetup.exe";
+string finalSdkSetupArgsAllUsers = @"/VERYSILENT /FORCECLOSEAPPLICATIONS /RESTARTAPPLICATIONS /SP-";
+string finalSdkSetupArgsCurrentUser = @"/VERYSILENT /FORCECLOSEAPPLICATIONS /RESTARTAPPLICATIONS /SP- /CURRENTUSER";
+string finalSdkSetupArgs = finalSdkSetupArgsAllUsers;
 #endregion
 
 #region Command line parsing
@@ -32,16 +37,26 @@ for (int argId = 0; argId < args.Length; argId++)
 {
     string arg = args[argId];
     arg = arg.ToLowerInvariant();
+    arg = arg.Replace("/", "-");
 
     switch (arg)
     {
         case "-release":
+            NCLogging.Log("Specified Release config (instead of debug)", ConsoleColor.Blue);
             config = "Release";
             break;
         case "-norunsetup":
+            NCLogging.Log("Specified that setup will not be run", ConsoleColor.Blue);
             runSetup = false;
             break;
-
+        case "-noquiet":
+            NCLogging.Log("Specified that setup will be run loudly", ConsoleColor.Blue);
+            noQuiet = true;
+            break;
+        case "-currentuser":
+            NCLogging.Log("Specified install as quiet user", ConsoleColor.Blue);
+            finalSdkSetupArgs = finalSdkSetupArgsCurrentUser;
+            break;
     }
 }
 
@@ -50,7 +65,7 @@ for (int argId = 0; argId < args.Length; argId++)
 
 NCLogging.Init();
 
-NCLogging.Log("Lightning SDK Builder version 1.8");
+NCLogging.Log("Lightning SDK Builder version 2.0");
 
 // delete sdk dir if it exists
 if (Directory.Exists("SDK"))
@@ -134,14 +149,32 @@ else
 
     if (innoSetup.ExitCode > 0)
     {
-        NCLogging.Log("Error: Inno Setup failed to generate the SDK installer", ConsoleColor.Red);
+        NCLogging.Log($"Error: Inno Setup failed to generate the SDK installer (exit code {innoSetup.ExitCode})", ConsoleColor.Red);
     }
     else
     {
         if (runSetup)
         {
-            NCLogging.Log("Running generated SDKSetup.exe...");
-            _ = Process.Start(@"SDK\Setup\SDKSetup.exe");
+            NCLogging.Log("Running generated SDKSetup.exe (You will receive an admin prompt and any applications may be force-closed and restarted)...");
+
+            Process sdkSetup = default;
+
+            // will always change from default here
+            if (noQuiet)
+            {
+                sdkSetup = Process.Start(finalSdkSetupPath);
+            }
+            else
+            {
+                sdkSetup = Process.Start(finalSdkSetupPath, finalSdkSetupArgs);
+            }
+
+            while (!sdkSetup.HasExited) { }; 
+
+            if (sdkSetup.ExitCode > 0)
+            {
+                NCLogging.Log($"Error: Failed to install SDK (exit code {sdkSetup.ExitCode})", ConsoleColor.Red);
+            }
         }
 
     }
