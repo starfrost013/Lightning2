@@ -82,7 +82,7 @@
             this.Controls.Add(this.setAnimationLengthText);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SetLengthForm";
-            this.Text = "Set Length";
+            this.Text = "Set Animation Length";
             this.ResumeLayout(false);
             this.PerformLayout();
 

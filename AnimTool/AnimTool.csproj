@@ -11,9 +11,14 @@
 	  <TransformOnBuild>true</TransformOnBuild>
 	  <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
 	  <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
+	  <ApplicationIcon>AnimTool.ico</ApplicationIcon>
   </PropertyGroup>
 
 	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
+
+	<ItemGroup>
+	  <Content Include="AnimTool.ico" />
+	</ItemGroup>
 	
   <ItemGroup>
     <Folder Include="Core\" />
