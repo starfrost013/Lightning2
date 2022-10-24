@@ -24,9 +24,17 @@ namespace NuCore.Utilities
 
         internal static void Init()
         {
-            // try and load NuCore.Utilities.Lightning.
-            // this is all kludge until we get a better msgbox api
-            NCLightningAssembly = Assembly.Load(LIGHTNING_UTILITIES_NAME);
+            try
+            {
+                // try and load NuCore.Utilities.Lightning.
+                // this is all kludge until we get a better msgbox api
+                NCLightningAssembly = Assembly.Load(LIGHTNING_UTILITIES_NAME);
+            }
+            catch
+            {
+                // dont load
+                NCLightningAssembly = null;
+            }
         }
 
         #endregion
