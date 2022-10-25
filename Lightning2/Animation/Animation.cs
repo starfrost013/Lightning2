@@ -84,7 +84,7 @@ namespace LightningGL
         /// <summary>
         /// Validate this animation
         /// </summary>
-        public void Validate()
+        internal void Validate()
         {
             if (Length <= 0)
             {
@@ -135,7 +135,7 @@ namespace LightningGL
             renderable.AnimationTimer.Stop();
         }
 
-        public void UpdateAnimationFor(Renderable renderable)
+        internal void UpdateAnimationFor(Renderable renderable)
         {
             if (!renderable.AnimationTimer.IsRunning) return;
 

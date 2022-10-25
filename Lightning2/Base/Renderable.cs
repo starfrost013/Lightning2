@@ -153,6 +153,11 @@
         /// </summary>
         internal bool IsOnScreen { get; set; }
 
+        /// <summary>
+        /// The Z-Index (priority) of this renderable.
+        /// </summary>
+        public int ZIndex { get; set; }
+
         public Renderable()
         {
             AnimationTimer = new Stopwatch();
@@ -202,10 +207,6 @@
             CurrentAnimation.StopAnimationFor(this);
         } 
 
-        /// <summary>
-        /// The Z-Index (priority) of this renderable.
-        /// </summary>
-        public int ZIndex { get; set; }
 
         internal virtual void Load(Renderer cRenderer)
         {
