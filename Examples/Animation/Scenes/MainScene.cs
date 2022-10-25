@@ -22,7 +22,7 @@ namespace Animation
 
             texture.SetAnimation(newAnim);
 
-            newAnim.StartAnimationFor(texture);
+            texture.StartCurrentAnimation();
 
             TextureManager.AddAsset(SceneManager.Renderer, texture); // automatically loads
         }
