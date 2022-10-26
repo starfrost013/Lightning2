@@ -269,7 +269,7 @@ anim1 = AnimationManager.AddAsset(cRenderer, anim1);
 texture.ZIndex = -9999999;
 texture.SetAnimation(anim1);
 
-anim1.StartAnimationFor(texture);
+texture.StartCurrentAnimation();
 while (cRenderer.Run())
 {
     SDL.SDL_Event curEvent = cRenderer.LastEvent;
