@@ -34,7 +34,8 @@ namespace AnimTool
             {
                 AddPropertyForm addPropertyForm = new AddPropertyForm();
                 addPropertyForm.ShowDialog();
-                FullUpdateTabContent();
+                // check that we actually added a property
+                if (AnimTool.CurAnimation.Properties.Count > 0) FullUpdateTabContent();
             }
         }
 
