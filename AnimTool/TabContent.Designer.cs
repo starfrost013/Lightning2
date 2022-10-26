@@ -33,12 +33,12 @@
             this.propertyPositionValueText = new System.Windows.Forms.Label();
             this.removeBtn = new System.Windows.Forms.Button();
             this.addBtn = new System.Windows.Forms.Button();
-            this.valueValueText = new System.Windows.Forms.TextBox();
             this.valueText = new System.Windows.Forms.Label();
             this.propertyTypeText = new System.Windows.Forms.Label();
             this.propertyNameText = new System.Windows.Forms.Label();
             this.keyframeLabel = new System.Windows.Forms.Label();
             this.keyframeListBox = new System.Windows.Forms.ListBox();
+            this.valueValueText = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // animationLengthText
@@ -49,25 +49,25 @@
             this.animationLengthText.Size = new System.Drawing.Size(131, 15);
             this.animationLengthText.TabIndex = 13;
             this.animationLengthText.Text = "Animation Length: N/A";
-            this.animationLengthText.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.animationLengthText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // propertyTypeValueText
             // 
             this.propertyTypeValueText.AutoSize = true;
             this.propertyTypeValueText.Location = new System.Drawing.Point(384, 84);
             this.propertyTypeValueText.Name = "propertyTypeValueText";
-            this.propertyTypeValueText.Size = new System.Drawing.Size(29, 15);
+            this.propertyTypeValueText.Size = new System.Drawing.Size(46, 15);
             this.propertyTypeValueText.TabIndex = 21;
-            this.propertyTypeValueText.Text = "N/A";
+            this.propertyTypeValueText.Text = "Not Set";
             // 
             // propertyPositionValueText
             // 
             this.propertyPositionValueText.AutoSize = true;
             this.propertyPositionValueText.Location = new System.Drawing.Point(384, 54);
             this.propertyPositionValueText.Name = "propertyPositionValueText";
-            this.propertyPositionValueText.Size = new System.Drawing.Size(29, 15);
+            this.propertyPositionValueText.Size = new System.Drawing.Size(46, 15);
             this.propertyPositionValueText.TabIndex = 20;
-            this.propertyPositionValueText.Text = "N/A";
+            this.propertyPositionValueText.Text = "Not Set";
             // 
             // removeBtn
             // 
@@ -89,17 +89,10 @@
             this.addBtn.UseVisualStyleBackColor = true;
             this.addBtn.Click += new System.EventHandler(this.addBtn_Click);
             // 
-            // valueValueText
-            // 
-            this.valueValueText.Location = new System.Drawing.Point(384, 113);
-            this.valueValueText.Name = "valueValueText";
-            this.valueValueText.Size = new System.Drawing.Size(336, 23);
-            this.valueValueText.TabIndex = 17;
-            // 
             // valueText
             // 
             this.valueText.AutoSize = true;
-            this.valueText.Location = new System.Drawing.Point(289, 116);
+            this.valueText.Location = new System.Drawing.Point(289, 115);
             this.valueText.Name = "valueText";
             this.valueText.Size = new System.Drawing.Size(38, 15);
             this.valueText.TabIndex = 16;
@@ -142,17 +135,26 @@
             this.keyframeListBox.TabIndex = 11;
             this.keyframeListBox.SelectedIndexChanged += new System.EventHandler(this.keyframeListBox_SelectedIndexChanged);
             // 
+            // valueValueText
+            // 
+            this.valueValueText.AutoSize = true;
+            this.valueValueText.Location = new System.Drawing.Point(384, 115);
+            this.valueValueText.Name = "valueValueText";
+            this.valueValueText.Size = new System.Drawing.Size(46, 15);
+            this.valueValueText.TabIndex = 22;
+            this.valueValueText.Text = "Not Set";
+            // 
             // TabContent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
+            this.Controls.Add(this.valueValueText);
             this.Controls.Add(this.animationLengthText);
             this.Controls.Add(this.propertyTypeValueText);
             this.Controls.Add(this.propertyPositionValueText);
             this.Controls.Add(this.removeBtn);
             this.Controls.Add(this.addBtn);
-            this.Controls.Add(this.valueValueText);
             this.Controls.Add(this.valueText);
             this.Controls.Add(this.propertyTypeText);
             this.Controls.Add(this.propertyNameText);
@@ -172,11 +174,11 @@
         private Label propertyPositionValueText;
         private Button removeBtn;
         private Button addBtn;
-        private TextBox valueValueText;
         private Label valueText;
         private Label propertyTypeText;
         private Label propertyNameText;
         private Label keyframeLabel;
         private ListBox keyframeListBox;
+        private Label valueValueText;
     }
 }

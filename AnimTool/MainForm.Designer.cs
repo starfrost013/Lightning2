@@ -118,14 +118,14 @@
             // changeSettingsToolStripMenuItem
             // 
             this.changeSettingsToolStripMenuItem.Name = "changeSettingsToolStripMenuItem";
-            this.changeSettingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.changeSettingsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.changeSettingsToolStripMenuItem.Text = "Change Settings";
             this.changeSettingsToolStripMenuItem.Click += new System.EventHandler(this.changeSettingsToolStripMenuItem_Click);
             // 
             // setLengthToolStripMenuItem
             // 
             this.setLengthToolStripMenuItem.Name = "setLengthToolStripMenuItem";
-            this.setLengthToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.setLengthToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.setLengthToolStripMenuItem.Text = "Set Length";
             this.setLengthToolStripMenuItem.Click += new System.EventHandler(this.setLengthToolStripMenuItem_Click);
             // 
@@ -135,7 +135,7 @@
             this.propertyToolStripMenuItem,
             this.keyframeToolStripMenuItem});
             this.addNewToolStripMenuItem.Name = "addNewToolStripMenuItem";
-            this.addNewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addNewToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.addNewToolStripMenuItem.Text = "Create New";
             // 
             // propertyToolStripMenuItem
@@ -157,7 +157,7 @@
             this.removeCurrentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.removeCurrentPropertyToolStripMenuItem});
             this.removeCurrentToolStripMenuItem.Name = "removeCurrentToolStripMenuItem";
-            this.removeCurrentToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeCurrentToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.removeCurrentToolStripMenuItem.Text = "Remove Current";
             // 
             // removeCurrentPropertyToolStripMenuItem
@@ -170,7 +170,7 @@
             // removeAllToolStripMenuItem
             // 
             this.removeAllToolStripMenuItem.Name = "removeAllToolStripMenuItem";
-            this.removeAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeAllToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.removeAllToolStripMenuItem.Text = "Reset Animation";
             this.removeAllToolStripMenuItem.Click += new System.EventHandler(this.removeAllToolStripMenuItem_Click);
             // 
@@ -219,8 +219,8 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.propertiesTabControl);
             this.Controls.Add(this.mainMenu);

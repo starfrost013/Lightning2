@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChangeSettingsForm));
-            this.label1 = new System.Windows.Forms.Label();
+            this.changeAnimationSettingsText = new System.Windows.Forms.Label();
             this.repeatCount = new System.Windows.Forms.NumericUpDown();
             this.repeatCountText = new System.Windows.Forms.Label();
             this.repeatInfinitely = new System.Windows.Forms.CheckBox();
@@ -38,15 +38,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.repeatCount)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
+            // changeAnimationSettingsText
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(7, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(603, 65);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Change Animation Settings";
+            this.changeAnimationSettingsText.AutoSize = true;
+            this.changeAnimationSettingsText.Font = new System.Drawing.Font("Segoe UI", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.changeAnimationSettingsText.Location = new System.Drawing.Point(7, 9);
+            this.changeAnimationSettingsText.Name = "changeAnimationSettingsText";
+            this.changeAnimationSettingsText.Size = new System.Drawing.Size(603, 65);
+            this.changeAnimationSettingsText.TabIndex = 0;
+            this.changeAnimationSettingsText.Text = "Change Animation Settings";
             // 
             // repeatCount
             // 
@@ -117,12 +117,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(622, 191);
+            this.ControlBox = false;
             this.Controls.Add(this.okBtn);
             this.Controls.Add(this.reverseAnimation);
             this.Controls.Add(this.repeatInfinitely);
             this.Controls.Add(this.repeatCountText);
             this.Controls.Add(this.repeatCount);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.changeAnimationSettingsText);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ChangeSettingsForm";
             this.Text = "Change Settings";
@@ -135,7 +136,7 @@
 
         #endregion
 
-        private Label label1;
+        private Label changeAnimationSettingsText;
         private NumericUpDown repeatCount;
         private Label repeatCountText;
         private CheckBox repeatInfinitely;

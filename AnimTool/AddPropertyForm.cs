@@ -31,7 +31,7 @@ namespace AnimTool
                             if (!addCurrentName) break;
                         }
 
-                        if (addCurrentName) propertiesComboBox.Items.Add(property.Name);
+                        if (addCurrentName) propertiesComboBox.Items.Add($"{property.Name} ({property.PropertyType.Name})");
                     }
                 }
             }
@@ -50,7 +50,7 @@ namespace AnimTool
                 {
                     // fucking hack
 
-                    if (property.Name == propertiesComboBox.Text)
+                    if (propertiesComboBox.Text.Contains(property.Name, StringComparison.InvariantCultureIgnoreCase))
                     {
                         AnimationProperty newAnimationProperty = new AnimationProperty(property.Name, property.PropertyType.Name);
                         AnimTool.CurAnimation.Properties.Add(newAnimationProperty); // temp
