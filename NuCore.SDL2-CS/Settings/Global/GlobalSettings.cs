@@ -312,8 +312,8 @@ namespace LightningBase
 
                 _ = int.TryParse(minRam, out var minRamValue);
                 _ = int.TryParse(minLogicalProcessors, out var minLogicalProcessorsValue);
-                _ = Enum.TryParse(minimumCpuCapabilities, out minimumCpuCapabilitiesValue);
-                _ = Enum.TryParse(minimumOperatingSystem, out minimumOperatingSystemValue);
+                _ = Enum.TryParse(minimumCpuCapabilities, true, out minimumCpuCapabilitiesValue);
+                _ = Enum.TryParse(minimumOperatingSystem, true, out minimumOperatingSystemValue);
 
                 MinimumSystemRam = minRamValue;
                 MinimumLogicalProcessors = minLogicalProcessorsValue;
