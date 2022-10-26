@@ -11,6 +11,9 @@
     /// </summary>
     public abstract class Scene : Renderable
     {
+        /// <summary>
+        /// The name of this scene.
+        /// </summary>
         internal string Name { get; set; }
 
         /// <summary>
