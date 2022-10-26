@@ -83,17 +83,18 @@ namespace LightningGL
 
                 NCLogging.Log("Initialising SDL_mixer...");
                 if (Mix_Init(MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2_mixer: {SDL_GetError()}", 3, "Failed to initialise SDL2_mixer during Lightning::Init", NCExceptionSeverity.FatalError);
-
-                NCLogging.Log("Initialising audio device (44Khz, stereo)...");
-                if (Mix_OpenAudio(44100, Mix_AudioFormat.MIX_DEFAULT_FORMAT, 2, 2048) < 0) _ = new NCException($"Error initialising audio device: {SDL_GetError()}", 56, "Failed to initialise audio device during Lightning::Init", NCExceptionSeverity.FatalError);
-
+               
                 // this should always be the earliest step
                 NCLogging.Log("Obtaining system information...");
                 SystemInfo.Load();
 
                 // this should always be the second earliest step
-                NCLogging.Log("Loading Engine.ini...");
+                NCLogging.Log("Loading global settings from Engine.ini...");
                 GlobalSettings.Load();
+
+                NCLogging.Log("Initialising audio device (44Khz, stereo)...");
+                if (Mix_OpenAudio(44100, Mix_AudioFormat.MIX_DEFAULT_FORMAT, 2, 2048) < 0) _ = new NCException($"Error initialising audio device: {SDL_GetError()}", 56, "Failed to initialise audio device during Lightning::Init", NCExceptionSeverity.FatalError);
+
 
                 NCLogging.Log("Validating system requirements...");
                 GlobalSettings.Validate();

@@ -1,0 +1,21 @@
+Lightning 1.2 
+Changes
+
+Everything that matters to the api has to go here
+
+2022.10.26:
+* Began working on LightningNetwork
+* Made MinimumCpuCapabilities and MinimumOperatingSystem case-insensitive [1.1 Backport]
+* Added new GlobalSettings (network settings to be moved to new LightningServer.ini):
+	- AudioDeviceHz
+	- AudioChannels
+	- AudioFormat
+	- AudioChunkSize
+	- NetworkMasterServer	
+	- NetworkDefaultPort
+	- NetworkKeepAliveMs
+
+* todo:
+	- add freetype bindings
+	- refactor globsettings
+	- global usings everywhere

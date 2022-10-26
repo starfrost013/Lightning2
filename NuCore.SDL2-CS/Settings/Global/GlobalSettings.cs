@@ -1,4 +1,5 @@
 ﻿using static LightningBase.SDL;
+using static LightningBase.SDL_mixer;
 using NuCore.Utilities;
 using System;
 using System.IO;
@@ -173,6 +174,66 @@ namespace LightningBase
         public static string StartupScene { get; set; }
         #endregion
 
+        #region Audio settings
+
+        /// <summary>
+        /// <para>Default frequency of the audio device created for Lightning audio.</para>
+        /// <para>The default value is 44100.</para>
+        /// </summary>
+        public static int AudioDeviceHz { get; set; }
+
+        /// <summary>
+        /// <para>The number of audio channels.</para>
+        /// <para>The default value is 2.</para>
+        /// </summary>
+        public static int AudioChannels { get; set; }
+
+        /// <summary>
+        /// <para>The <see cref="Mix_AudioFormat"/> used by Lightning's audio device.</para>
+        /// <para>The default value is <see cref="Mix_AudioFormat.MIX_DEFAULT_FORMAT"/></para>
+        /// </summary>
+        public static Mix_AudioFormat AudioFormat { get; set; }
+
+        /// <summary>
+        /// <para>The default audio chunk size.</para>
+        /// <para>The default value is 2048.</para>
+        /// </summary>
+        public static int AudioChunkSize { get; set; }
+        #endregion
+
+        #region Network settings (to be moved to LightningServer.ini later)
+
+        /// <summary>
+        /// <para>The network master server IP address.</para>
+        /// <para>The default value is https://lightningpowered.net:7801 - port 7800 is used for game servers and 7801 for the master server</para>
+        /// </summary>
+        public static string NetworkMasterServer { get; set; }
+
+        /// <summary>
+        /// <para>The network default port.</para>
+        /// <para>The default value is 7800.</para>
+        /// </summary>
+        public static ushort NetworkDefaultPort { get; set; }
+
+        /// <summary>
+        /// <para>The number of milliseconds required before a client will timeout.</para>
+        /// </summary>
+        public static ushort NetworkKeepAliveMs { get; set; }
+
+        #endregion
+
+        #region Default values
+
+        public const int DEFAULT_AUDIO_DEVICE_HZ = 44100;
+
+        public const int DEFAULT_AUDIO_CHANNELS = 2;
+
+        public const Mix_AudioFormat DEFAULT_AUDIO_FORMAT = Mix_AudioFormat.MIX_DEFAULT_FORMAT;
+
+        public const int DEFAULT_AUDIO_CHUNK_SIZE = 2048;
+
+        #endregion
+        #region GlobalSettings methods
         /// <summary>
         /// Loads the Global Settings.
         /// </summary>
@@ -189,6 +250,8 @@ namespace LightningBase
             NCINIFileSection locSection = iniFile.GetSection("Localisation");
             NCINIFileSection requirementsSection = iniFile.GetSection("Requirements");
             NCINIFileSection sceneSection = iniFile.GetSection("Scene");
+            NCINIFileSection audioSection = iniFile.GetSection("Audio");
+            NCINIFileSection networkSection = iniFile.GetSection("Network");
 
             if (generalSection == null) _ = new NCException("Engine.ini must have a General section!", 41, 
                 "GlobalSettings::Load call to NCINIFile::GetSection failed for General section", NCExceptionSeverity.FatalError);
@@ -312,8 +375,8 @@ namespace LightningBase
 
                 _ = int.TryParse(minRam, out var minRamValue);
                 _ = int.TryParse(minLogicalProcessors, out var minLogicalProcessorsValue);
-                _ = Enum.TryParse(minimumCpuCapabilities, out minimumCpuCapabilitiesValue);
-                _ = Enum.TryParse(minimumOperatingSystem, out minimumOperatingSystemValue);
+                _ = Enum.TryParse(minimumCpuCapabilities, true, out minimumCpuCapabilitiesValue);
+                _ = Enum.TryParse(minimumOperatingSystem, true, out minimumOperatingSystemValue);
 
                 MinimumSystemRam = minRamValue;
                 MinimumLogicalProcessors = minLogicalProcessorsValue;
@@ -327,6 +390,46 @@ namespace LightningBase
                 if (sceneSection == null) _ = new NCException("DontUseSceneManager not specified, but no [Scene] section is present in Engine.ini!", 121, $"GlobalSettings::DontUseSceneManager not specified, but no [Scene] section in Engine.ini!", NCExceptionSeverity.FatalError);
 
                 StartupScene = sceneSection.GetValue("StartupScene");
+            }
+
+            if (audioSection != null)
+            {
+                string audioDeviceHz = audioSection.GetValue("DeviceHz");
+                string audioChannels = audioSection.GetValue("Channels");
+                string audioFormat = audioSection.GetValue("Format");
+                string audioChunkSize = audioSection.GetValue("ChunkSize");
+
+                Mix_AudioFormat audioFormatValue = DEFAULT_AUDIO_FORMAT;
+
+                _ = int.TryParse(audioDeviceHz, out var audioDeviceHzValue);
+                _ = int.TryParse(audioChannels, out var audioChannelsValue);
+                if (Enum.TryParse(audioFormat, true, out audioFormatValue))
+                {
+                    AudioFormat = audioFormatValue;
+                }
+                else
+                {
+                    AudioFormat = DEFAULT_AUDIO_FORMAT;
+                }
+                _ = int.TryParse(audioChunkSize, out var audioChunkSizeValue);  
+
+                AudioDeviceHz = audioDeviceHzValue;
+                AudioChannels = audioChannelsValue;
+                AudioFormat = audioFormatValue;
+                AudioChunkSize = audioChunkSizeValue;
+
+                if (AudioDeviceHz <= 0) AudioDeviceHz = DEFAULT_AUDIO_DEVICE_HZ;
+                if (AudioChannels <= 0) AudioChannels = DEFAULT_AUDIO_CHANNELS;
+                if (AudioChunkSize <= 0) AudioChunkSize = DEFAULT_AUDIO_CHUNK_SIZE;
+
+            }
+            else
+            {
+                // todo: set all these things at the start in the static constructor of GlobalSettings
+                AudioDeviceHz = DEFAULT_AUDIO_DEVICE_HZ;
+                AudioChannels = DEFAULT_AUDIO_CHANNELS;
+                AudioFormat = DEFAULT_AUDIO_FORMAT;
+                AudioChunkSize = DEFAULT_AUDIO_CHUNK_SIZE;
             }
         }
 
@@ -364,5 +467,6 @@ namespace LightningBase
         }
 
         public static void Write() => IniFile.Write(GLOBALSETTINGS_PATH);
+        #endregion
     }
 }
