@@ -164,7 +164,8 @@ namespace LightningGL
 
         public static void Shutdown(Renderer cRenderer)
         {
-            if (!Initialised) _ = new NCException("Attempted to shutdown without starting! Please call LightningGL::Init!", 95, "LightningGL::Initialised false when calling Lightning2::Shutdown", NCExceptionSeverity.FatalError);
+            if (!Initialised) _ = new NCException("Attempted to shutdown without starting! Please call Lightning::Init!", 95, "Lightning::Initialised false when calling Lightning::Shutdown", NCExceptionSeverity.FatalError);
+            
             NCLogging.Log("Shutdown requested.");
 
             if (GlobalSettings.ProfilePerformance)
