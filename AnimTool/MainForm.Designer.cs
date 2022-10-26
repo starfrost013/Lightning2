@@ -78,28 +78,28 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // loadJSONToolStripMenuItem
             // 
             this.loadJSONToolStripMenuItem.Name = "loadJSONToolStripMenuItem";
-            this.loadJSONToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-            this.loadJSONToolStripMenuItem.Text = "Load from JSON";
+            this.loadJSONToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadJSONToolStripMenuItem.Text = "Load from JSON...";
             this.loadJSONToolStripMenuItem.Click += new System.EventHandler(this.loadJSONToolStripMenuItem_Click);
             // 
             // exportJSONToolStripMenuItem
             // 
             this.exportJSONToolStripMenuItem.Name = "exportJSONToolStripMenuItem";
-            this.exportJSONToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-            this.exportJSONToolStripMenuItem.Text = "Save to JSON";
+            this.exportJSONToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportJSONToolStripMenuItem.Text = "Save as JSON...";
             this.exportJSONToolStripMenuItem.Click += new System.EventHandler(this.exportJSONToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
