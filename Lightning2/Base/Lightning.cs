@@ -92,9 +92,8 @@ namespace LightningGL
                 NCLogging.Log("Loading global settings from Engine.ini...");
                 GlobalSettings.Load();
 
-                NCLogging.Log("Initialising audio device (44Khz, stereo)...");
-                if (Mix_OpenAudio(44100, Mix_AudioFormat.MIX_DEFAULT_FORMAT, 2, 2048) < 0) _ = new NCException($"Error initialising audio device: {SDL_GetError()}", 56, "Failed to initialise audio device during Lightning::Init", NCExceptionSeverity.FatalError);
-
+                NCLogging.Log($"Initialising audio device ({GlobalSettings.AudioDeviceHz}Hz, {GlobalSettings.AudioChannels} channels, format {GlobalSettings.AudioFormat}, chunk size {GlobalSettings.AudioChunkSize})...");
+                if (Mix_OpenAudio(GlobalSettings.AudioDeviceHz, GlobalSettings.AudioFormat, GlobalSettings.AudioChannels, GlobalSettings.AudioChunkSize) < 0) _ = new NCException($"Error initialising audio device: {SDL_GetError()}", 56, "Failed to initialise audio device during Lightning::Init", NCExceptionSeverity.FatalError);
 
                 NCLogging.Log("Validating system requirements...");
                 GlobalSettings.Validate();
@@ -165,8 +164,7 @@ namespace LightningGL
 
         public static void Shutdown(Renderer cRenderer)
         {
-            if (!Initialised) _ = new NCException("Attempted to shutdown without starting! Please call LightningGL::Init!", 95, "LightningGL::Initialised false when calling Lightning2::Shutdown", NCExceptionSeverity.FatalError);
-            NCLogging.Log("Shutdown requested.");
+            if (!Initialised) _ = new NCException("Attempted to shutdown without starting! Please call Lightning::Init!", 95, "Lightning::Initialised false when calling Lightning::Shutdown", NCExceptionSeverity.FatalError);
 
             if (GlobalSettings.ProfilePerformance)
             {
