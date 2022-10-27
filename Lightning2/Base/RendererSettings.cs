@@ -60,8 +60,8 @@
                     int intPosX = Convert.ToInt32(_position.X),
                         intPosY = Convert.ToInt32(_position.Y);
 
-                    GlobalSettings.ResolutionX = Convert.ToInt32(intPosX);
-                    GlobalSettings.ResolutionY = Convert.ToInt32(intPosY);
+                    GlobalSettings.GraphicsResolutionX = Convert.ToInt32(intPosX);
+                    GlobalSettings.GraphicsResolutionY = Convert.ToInt32(intPosY);
 
                     SDL_SetWindowPosition(WindowHandle, Convert.ToInt32(intPosX), Convert.ToInt32(intPosY));
                 }
@@ -97,8 +97,8 @@
                     int intSizeX = Convert.ToInt32(_size.X),
                         intSizeY = Convert.ToInt32(_size.Y);
 
-                    GlobalSettings.ResolutionX = Convert.ToInt32(intSizeX);
-                    GlobalSettings.ResolutionY = Convert.ToInt32(intSizeY);
+                    GlobalSettings.GraphicsResolutionX = Convert.ToInt32(intSizeX);
+                    GlobalSettings.GraphicsResolutionY = Convert.ToInt32(intSizeY);
 
                     SDL_SetWindowSize(WindowHandle, Convert.ToInt32(intSizeX), Convert.ToInt32(intSizeY));
                 }
@@ -143,14 +143,14 @@
         public RendererSettings()
         {
             // Show the window and set its color to RGBA 0,0,0,255 (solid black) by default
-            WindowFlags = GlobalSettings.WindowFlags;
-            Size = new Vector2(GlobalSettings.ResolutionX, GlobalSettings.ResolutionY);
+            WindowFlags = GlobalSettings.GraphicsWindowFlags;
+            Size = new Vector2(GlobalSettings.GraphicsResolutionX, GlobalSettings.GraphicsResolutionY);
 
             // Set a few default values.
             if (WindowFlags == 0) WindowFlags = SDL_WindowFlags.SDL_WINDOW_SHOWN;
             if (Size == default(Vector2)) Size = new Vector2(960, 640);
-            if (Position == default(Vector2)) Position = new Vector2(GlobalSettings.PositionX, GlobalSettings.PositionY);
-            if (Title == null) Title = GlobalSettings.WindowTitle;
+            if (Position == default(Vector2)) Position = new Vector2(GlobalSettings.GraphicsPositionX, GlobalSettings.GraphicsPositionY);
+            if (Title == null) Title = GlobalSettings.GraphicsWindowTitle;
             BackgroundColor = Color.FromArgb(255, 0, 0, 0);
         }
     }

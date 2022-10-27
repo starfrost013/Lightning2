@@ -57,10 +57,10 @@
                         default:
                             break;
                         case CameraType.Chase:
-                            FocusDelta = new Vector2(-(GlobalSettings.ResolutionX / 2), 0);
+                            FocusDelta = new Vector2(-(GlobalSettings.GraphicsResolutionX / 2), 0);
                             break;
                         case CameraType.Floor:
-                            FocusDelta = new Vector2(0, -(GlobalSettings.ResolutionY / 2));
+                            FocusDelta = new Vector2(0, -(GlobalSettings.GraphicsResolutionY / 2));
                             break;
                     }
                     

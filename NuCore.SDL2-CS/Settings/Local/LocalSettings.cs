@@ -15,7 +15,7 @@ namespace LightningBase
         /// <summary>
         /// Path to the game settings file.
         /// </summary>
-        public static string Path => GlobalSettings.LocalSettingsPath;
+        public static string Path => GlobalSettings.GeneralLocalSettingsPath;
 
         /// <summary>
         /// The local settings file - see <see cref="NCINIFile"/>.

@@ -29,52 +29,52 @@ namespace LightningBase
         /// <summary>
         /// The file to use when loading localisation strings.
         /// </summary>
-        public static string Language { get; internal set; }
+        public static string GeneralLanguage { get; internal set; }
 
         /// <summary>
         /// The localisation folder to use 
         /// </summary>
-        public static string LocalisationFolder { get; internal set; } 
+        public static string GeneralLocalisationFolder { get; internal set; } 
 
         /// <summary>
         /// Determines whether the performance profiler will be loaded or not.
         /// </summary>
-        public static bool ProfilePerformance { get; internal set; }
+        public static bool GeneralProfilePerformance { get; internal set; }
 
         /// <summary>
         /// Bring up the "About Lightning" messagebox when the Shift-F9 combination is pressed.
         /// </summary>
-        public static bool EngineAboutScreenOnShiftF9 { get; internal set; }
+        public static bool GeneralEngineAboutScreenOnShiftF9 { get; internal set; }
 
         /// <summary>
         /// Delete files that have been uncompressed from the WAD on exit.
         /// </summary>
-        public static bool DeleteUnpackedFilesOnExit { get; internal set; }
+        public static bool GeneralDeleteUnpackedFilesOnExit { get; internal set; }
 
         /// <summary>
         /// Save the <see cref="LocalSettings"/> on engine shutdown if they have been changed.
         /// </summary>
-        public static bool DontSaveLocalSettingsOnShutdown { get; internal set; }
+        public static bool GeneralDontSaveLocalSettingsOnShutdown { get; internal set; }
 
         /// <summary>
         /// Path to the LocalSettings.ini file.
         /// </summary>
-        public static string LocalSettingsPath { get; internal set; }
+        public static string GeneralLocalSettingsPath { get; internal set; }
 
         /// <summary>
         /// Path to the package file that is to be loaded.
         /// </summary>
-        public static string PackageFile { get; internal set; }
+        public static string GeneralPackageFile { get; internal set; }
 
         /// <summary>
         /// The content folder to use for the game.
         /// </summary>
-        public static string ContentFolder { get; set; }
+        public static string GeneralContentFolder { get; set; }
 
         /// <summary>
         /// Determines if the Scene Manager will be turned off.
         /// </summary>
-        public static bool DontUseSceneManager { get; internal set; }
+        public static bool GeneralDontUseSceneManager { get; internal set; }
 
         #endregion
 
@@ -82,63 +82,63 @@ namespace LightningBase
         /// <summary>
         /// The target FPS.
         /// </summary>
-        public static int MaxFPS { get; internal set; }
+        public static int GraphicsMaxFPS { get; internal set; }
 
         /// <summary>
         /// Determines if the FPS rate will be shown.
         /// </summary>
-        public static bool ShowDebugInfo { get; internal set; }
+        public static bool GeneralShowDebugInfo { get; internal set; }
 
         /// <summary>
         /// See <see cref="RendererSettings.WindowFlags"/>
         /// </summary>
-        public static SDL_WindowFlags WindowFlags { get; internal set; }
+        public static SDL_WindowFlags GraphicsWindowFlags { get; internal set; }
 
         /// <summary>
         /// See <see cref="RendererSettings.RenderFlags"/>
         /// </summary>
-        public static SDL_RendererFlags RenderFlags { get; internal set; }
+        public static SDL_RendererFlags GraphicsRenderFlags { get; internal set; }
 
         /// <summary>
         /// The X component of the window resolution.
         /// </summary>
-        public static int ResolutionX { get; set; }
+        public static int GraphicsResolutionX { get; set; }
 
         /// <summary>
         /// The Y component of the window resolution.
         /// </summary>
-        public static int ResolutionY { get; set; }
+        public static int GraphicsResolutionY { get; set; }
 
         /// <summary>
         /// Default window position X. Default is (screen resolution / 2) - size.
         /// </summary>
-        public static int PositionX { get; set; }
+        public static int GraphicsPositionX { get; set; }
 
         /// <summary>
         /// Default window position Y. Default is (screen resolution / 2) - size.
         /// </summary>
-        public static int PositionY { get; set; }
+        public static int GraphicsPositionY { get; set; }
 
         /// <summary>
         /// The title of the Window
         /// </summary>
-        public static string WindowTitle { get; internal set; }
+        public static string GraphicsWindowTitle { get; internal set; }
 
         /// <summary>
         /// The rendering backend to use. Default is <see cref="Renderer.OpenGL"/>
         /// </summary>
-        public static RenderingBackend RendererType { get; internal set; }
+        public static RenderingBackend GraphicsRendererType { get; internal set; }
 
         /// <summary>
         /// Delta-time / tick speed multiplier
         /// Default is 1.0
         /// </summary>
-        public static int TickSpeed { get; internal set; }
+        public static int GraphicsTickSpeed { get; internal set; }
 
         /// <summary>
         /// Determines if offscreen <see cref="Renderables"/> will be culled from the rendering or not.
         /// </summary>
-        public static bool RenderOffScreenRenderables { get; internal set; }
+        public static bool GraphicsRenderOffScreenRenderables { get; internal set; }
 
         #endregion
 
@@ -147,23 +147,23 @@ namespace LightningBase
         /// <summary>
         /// Minimum ram in MiB (mebibytes)
         /// </summary>
-        public static int MinimumSystemRam { get; internal set; }
+        public static int RequirementsMinimumSystemRam { get; internal set; }
 
         /// <summary>
         /// The minimum number of logical processors. This is *not* CPU cores.
         /// If hyperthreading is enabled there will be two of these per core!
         /// </summary>
-        public static int MinimumLogicalProcessors { get; internal set; }
+        public static int RequirementsMinimumLogicalProcessors { get; internal set; }
 
         /// <summary>
         /// Required CPU features - <see cref="SystemInfoCPUCapabilities"/>
         /// </summary>
-        public static SystemInfoCPUCapabilities MinimumCpuCapabilities { get; internal set; }
+        public static SystemInfoCPUCapabilities RequirementsMinimumCpuCapabilities { get; internal set; }
 
         /// <summary>
         /// Minimum operating system to run game.
         /// </summary>
-        public static SystemInfoOperatingSystem MinimumOperatingSystem { get; internal set; }
+        public static SystemInfoOperatingSystem RequirementsMinimumOperatingSystem { get; internal set; }
         #endregion
 
         #region Scene settings
@@ -171,7 +171,7 @@ namespace LightningBase
         /// <summary>
         /// The startup scene name.
         /// </summary>
-        public static string StartupScene { get; set; }
+        public static string SceneStartupScene { get; set; }
         #endregion
 
         #region Audio settings
@@ -218,11 +218,17 @@ namespace LightningBase
         /// <summary>
         /// <para>The number of milliseconds required before a client will timeout.</para>
         /// </summary>
-        public static ushort NetworkKeepAliveMs { get; set; }
+        public static int NetworkKeepAliveMs { get; set; }
 
         #endregion
 
         #region Default values
+
+        public static int DEFAULT_GRAPHICS_POSITION_X = SystemInfo.ScreenResolutionX / 2 - (GraphicsResolutionX / 2);
+
+        public static int DEFAULT_GRAPHICS_POSITION_Y = SystemInfo.ScreenResolutionY / 2 - (GraphicsResolutionY / 2);
+
+        public const int DEFAULT_GRAPHICS_TICK_SPEED = 1;
 
         public const int DEFAULT_AUDIO_DEVICE_HZ = 44100;
 
@@ -232,7 +238,14 @@ namespace LightningBase
 
         public const int DEFAULT_AUDIO_CHUNK_SIZE = 2048;
 
+        public const string DEFAULT_NETWORK_MASTER_SERVER = "https://lightningpowered.net:7801";
+
+        public const int DEFAULT_NETWORK_PORT = 7800;
+
+        public const int DEFAULT_NETWORK_KEEP_ALIVE_MS = 500;
+
         #endregion
+
         #region GlobalSettings methods
         /// <summary>
         /// Loads the Global Settings.
@@ -264,33 +277,29 @@ namespace LightningBase
 
             if (localisationFolder == null)
             {
-                Language = @$"Content\Localisation\{language}.ini";
+                GeneralLanguage = @$"Content\Localisation\{language}.ini";
             }
             else
             {
                 if (!Directory.Exists(localisationFolder)) _ = new NCException("LocalisationFolder does not exist", 157,
                     "The LocalisationFolder GlobalSetting does not correspond to an extant folder. (GlobalSettings::Load)", NCExceptionSeverity.FatalError);
-                Language = @$"{localisationFolder}\{language}.ini";
+                GeneralLanguage = @$"{localisationFolder}\{language}.ini";
             }
            
-            if (!File.Exists(Language)) _ = new NCException("Engine.ini's Localisation section must have a valid Language value!", 30, 
+            if (!File.Exists(GeneralLanguage)) _ = new NCException("Engine.ini's Localisation section must have a valid Language value!", 30, 
                 "GlobalSettings::Load call to NCINIFileSection::GetValue failed for Language value", NCExceptionSeverity.FatalError);
 
             // Load the General section.
-            string generalMaxFps = generalSection.GetValue("MaxFPS");
             string generalShowDebugInfo = generalSection.GetValue("ShowDebugInfo");
             string generalProfilePerf = generalSection.GetValue("ProfilePerformance");
             string generalAboutScreenOnF9 = generalSection.GetValue("EngineAboutScreenOnShiftF9");
             string generalDeleteUnpackedFilesOnExit = generalSection.GetValue("DeleteUnpackedFilesOnExit");
-            LocalSettingsPath = generalSection.GetValue("LocalSettingsPath");
-            PackageFile = generalSection.GetValue("PackageFile");
-            ContentFolder = generalSection.GetValue("ContentFolder");
+            GeneralLocalSettingsPath = generalSection.GetValue("LocalSettingsPath");
+            GeneralPackageFile = generalSection.GetValue("PackageFile");
+            GeneralContentFolder = generalSection.GetValue("ContentFolder");
             string generalDontUseSceneManager = generalSection.GetValue("DontUseSceneManager");
             string generalDontSaveLocalSettingsOnShutdown = generalSection.GetValue("DontSaveLocalSettingsOnShutdown");
 
-            // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
-
-            _ = int.TryParse(generalMaxFps, out var generalMaxFpsValue);
 
             // we don't care about the values here
             _ = bool.TryParse(generalShowDebugInfo, out var generalShowDebugInfoValue);
@@ -300,24 +309,24 @@ namespace LightningBase
             _ = bool.TryParse(generalDontUseSceneManager, out var generalDontUseSceneManagerValue);
             _ = bool.TryParse(generalDontSaveLocalSettingsOnShutdown, out var generalDontSaveLocalSettingsOnShutdownValue);
 
-            MaxFPS = generalMaxFpsValue;
-            ShowDebugInfo = generalShowDebugInfoValue;
-            ProfilePerformance = generalProfilePerfValue;
-            EngineAboutScreenOnShiftF9 = generalAboutScreenOnF9Value;
-            DeleteUnpackedFilesOnExit = generalDeleteUnpackedFilesOnExitValue;
-            DontUseSceneManager = generalDontUseSceneManagerValue;
-            DontSaveLocalSettingsOnShutdown = generalDontSaveLocalSettingsOnShutdownValue;
+            GeneralShowDebugInfo = generalShowDebugInfoValue;
+            GeneralProfilePerformance = generalProfilePerfValue;
+            GeneralEngineAboutScreenOnShiftF9 = generalAboutScreenOnF9Value;
+            GeneralDeleteUnpackedFilesOnExit = generalDeleteUnpackedFilesOnExitValue;
+            GeneralDontUseSceneManager = generalDontUseSceneManagerValue;
+            GeneralDontSaveLocalSettingsOnShutdown = generalDontSaveLocalSettingsOnShutdownValue;
 
             // Load the Graphics section if it exists.
             if (graphicsSection != null)
             {
+                string maxFps = graphicsSection.GetValue("MaxFPS");
                 string resolutionX = graphicsSection.GetValue("ResolutionX");
                 string resolutionY = graphicsSection.GetValue("ResolutionY");
                 string positionX = graphicsSection.GetValue("PositionX");
                 string positionY = graphicsSection.GetValue("PositionY");
                 string windowFlags = graphicsSection.GetValue("WindowFlags");
                 string renderFlags = graphicsSection.GetValue("RenderFlags");
-                WindowTitle = graphicsSection.GetValue("WindowTitle");
+                GraphicsWindowTitle = graphicsSection.GetValue("WindowTitle");
                 string renderer = graphicsSection.GetValue("Renderer");
                 string tickSpeed = graphicsSection.GetValue("TickSpeed");
                 string renderOffScreenRenderables = graphicsSection.GetValue("RenderOffScreenRenderables");
@@ -326,7 +335,12 @@ namespace LightningBase
                 SDL_RendererFlags renderFlagsValue = default;
                 RenderingBackend rendererValue = default;
 
-                // inexplicably the overload i used isn't supported here
+                // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
+                _ = int.TryParse(maxFps, out var graphicsMaxFpsValue);
+
+                GraphicsMaxFPS = graphicsMaxFpsValue;
+
+                // inexplicably the overload i used isn't supported for enum.tryparse
                 _ = int.TryParse(resolutionX, out var resolutionXValue);
                 _ = int.TryParse(resolutionY, out var resolutionYValue);
                 _ = Enum.TryParse(windowFlags, true, out windowFlagsValue);
@@ -336,30 +350,31 @@ namespace LightningBase
                 _ = bool.TryParse(renderOffScreenRenderables, out var renderOffscreenRenderablesValue);
 
                 // Set those values.
-                ResolutionX = resolutionXValue;
-                ResolutionY = resolutionYValue;
-                WindowFlags = windowFlagsValue;
-                RenderFlags = renderFlagsValue;
-                RendererType = rendererValue;
-                RenderOffScreenRenderables = renderOffscreenRenderablesValue;
+                GraphicsResolutionX = resolutionXValue;
+                GraphicsResolutionY = resolutionYValue;
+                GraphicsWindowFlags = windowFlagsValue;
+                GraphicsRenderFlags = renderFlagsValue;
+                GraphicsRendererType = rendererValue;
+                GraphicsRenderOffScreenRenderables = renderOffscreenRenderablesValue;
 
                 // parse positionX/positionY
                 _ = int.TryParse(positionX, out var positionXValue);
                 _ = int.TryParse(positionY, out var positionYValue);
 
                 // failed to load, set default values (middle of screen)
-                if (positionXValue == 0 && positionYValue == 0)
+                if (positionXValue == 0 
+                    && positionYValue == 0)
                 {
-                    positionXValue = SystemInfo.ScreenResolutionX / 2 - (ResolutionX / 2);
-                    positionYValue = SystemInfo.ScreenResolutionY / 2 - (ResolutionY / 2);
+                    positionXValue = DEFAULT_GRAPHICS_POSITION_X;
+                    positionYValue = DEFAULT_GRAPHICS_POSITION_Y;
                 }
 
                 // set the default delta multiplier value
-                if (tickSpeedValue == 0) tickSpeedValue = 1;
+                if (tickSpeedValue == 0) tickSpeedValue = DEFAULT_GRAPHICS_TICK_SPEED;
 
-                TickSpeed = tickSpeedValue;
-                PositionX = positionXValue;
-                PositionY = positionYValue;
+                GraphicsTickSpeed = tickSpeedValue;
+                GraphicsPositionX = positionXValue;
+                GraphicsPositionY = positionYValue;
             }
 
             // Load the Requirements section if it exists.
@@ -378,20 +393,26 @@ namespace LightningBase
                 _ = Enum.TryParse(minimumCpuCapabilities, true, out minimumCpuCapabilitiesValue);
                 _ = Enum.TryParse(minimumOperatingSystem, true, out minimumOperatingSystemValue);
 
-                MinimumSystemRam = minRamValue;
-                MinimumLogicalProcessors = minLogicalProcessorsValue;
-                MinimumCpuCapabilities = minimumCpuCapabilitiesValue;
-                MinimumOperatingSystem = minimumOperatingSystemValue;
+                RequirementsMinimumSystemRam = minRamValue;
+                RequirementsMinimumLogicalProcessors = minLogicalProcessorsValue;
+                RequirementsMinimumCpuCapabilities = minimumCpuCapabilitiesValue;
+                RequirementsMinimumOperatingSystem = minimumOperatingSystemValue;
             }
 
             // load the scene section 
-            if (!DontUseSceneManager)
+            if (!GeneralDontUseSceneManager)
             {
                 if (sceneSection == null) _ = new NCException("DontUseSceneManager not specified, but no [Scene] section is present in Engine.ini!", 121, $"GlobalSettings::DontUseSceneManager not specified, but no [Scene] section in Engine.ini!", NCExceptionSeverity.FatalError);
 
-                StartupScene = sceneSection.GetValue("StartupScene");
+                SceneStartupScene = sceneSection.GetValue("StartupScene");
             }
 
+            AudioDeviceHz = DEFAULT_AUDIO_DEVICE_HZ;
+            AudioChannels = DEFAULT_AUDIO_CHANNELS;
+            AudioFormat = DEFAULT_AUDIO_FORMAT;
+            AudioChunkSize = DEFAULT_AUDIO_CHUNK_SIZE;
+
+            // Load the audio settings
             if (audioSection != null)
             {
                 string audioDeviceHz = audioSection.GetValue("DeviceHz");
@@ -403,14 +424,7 @@ namespace LightningBase
 
                 _ = int.TryParse(audioDeviceHz, out var audioDeviceHzValue);
                 _ = int.TryParse(audioChannels, out var audioChannelsValue);
-                if (Enum.TryParse(audioFormat, true, out audioFormatValue))
-                {
-                    AudioFormat = audioFormatValue;
-                }
-                else
-                {
-                    AudioFormat = DEFAULT_AUDIO_FORMAT;
-                }
+                if (Enum.TryParse(audioFormat, true, out audioFormatValue)) AudioFormat = audioFormatValue;
                 _ = int.TryParse(audioChunkSize, out var audioChunkSizeValue);  
 
                 AudioDeviceHz = audioDeviceHzValue;
@@ -423,13 +437,27 @@ namespace LightningBase
                 if (AudioChunkSize <= 0) AudioChunkSize = DEFAULT_AUDIO_CHUNK_SIZE;
 
             }
-            else
+
+            // Load the network settings
+            if (networkSection != null)
             {
-                // todo: set all these things at the start in the static constructor of GlobalSettings
-                AudioDeviceHz = DEFAULT_AUDIO_DEVICE_HZ;
-                AudioChannels = DEFAULT_AUDIO_CHANNELS;
-                AudioFormat = DEFAULT_AUDIO_FORMAT;
-                AudioChunkSize = DEFAULT_AUDIO_CHUNK_SIZE;
+                NetworkMasterServer = DEFAULT_NETWORK_MASTER_SERVER;
+                NetworkDefaultPort = DEFAULT_NETWORK_PORT;
+                NetworkKeepAliveMs = DEFAULT_NETWORK_KEEP_ALIVE_MS;
+
+                string networkMasterServer = networkSection.GetValue("MasterServer");
+                string networkDefaultPort = networkSection.GetValue("Port");
+                string networkKeepAliveMs = networkSection.GetValue("KeepAliveMs");
+
+                if (!string.IsNullOrWhiteSpace(networkMasterServer)) NetworkMasterServer = networkMasterServer;
+
+                // don't block http or dns
+                if (ushort.TryParse(networkDefaultPort, out var networkDefaultPortValue)
+                    && networkDefaultPortValue != 53
+                    && networkDefaultPortValue != 80
+                    && networkDefaultPortValue != 443) NetworkDefaultPort = networkDefaultPortValue;
+                if (int.TryParse(networkKeepAliveMs, out var networkKeepAliveMsValue)
+                    && networkKeepAliveMsValue > 0) NetworkKeepAliveMs = networkKeepAliveMsValue;
             }
         }
 
@@ -439,31 +467,31 @@ namespace LightningBase
         public static void Validate()
         {
             // test system ram
-            if (MinimumSystemRam > SystemInfo.SystemRam) _ = new NCException($"Insufficient RAM to run game. {MinimumSystemRam}MB required, you have {SystemInfo.SystemRam}MB!", 111, $"System RAM less than GlobalSettings::MinimumSystemRam!", NCExceptionSeverity.FatalError);
+            if (RequirementsMinimumSystemRam > SystemInfo.SystemRam) _ = new NCException($"Insufficient RAM to run game. {RequirementsMinimumSystemRam}MB required, you have {SystemInfo.SystemRam}MB!", 111, $"System RAM less than GlobalSettings::MinimumSystemRam!", NCExceptionSeverity.FatalError);
 
             // test threads
-            if (MinimumLogicalProcessors > SystemInfo.Cpu.Threads) _ = new NCException($"Insufficient logical processors to run game. {MinimumLogicalProcessors} threads required, you have {SystemInfo.Cpu.Threads}!", 112, $"System logical processor count less than GlobalSettings::MinimumLogicalProcessors!", NCExceptionSeverity.FatalError);
+            if (RequirementsMinimumLogicalProcessors > SystemInfo.Cpu.Threads) _ = new NCException($"Insufficient logical processors to run game. {RequirementsMinimumLogicalProcessors} threads required, you have {SystemInfo.Cpu.Threads}!", 112, $"System logical processor count less than GlobalSettings::MinimumLogicalProcessors!", NCExceptionSeverity.FatalError);
 
             // test cpu functionality
-            if (MinimumCpuCapabilities > SystemInfo.Cpu.Capabilities) _ = new NCException($"Insufficient CPU capabilities to run game. {MinimumCpuCapabilities} capabilities required, you have {SystemInfo.Cpu.Capabilities}!", 113, $"CPU capabilities less than GlobalSettings::MinimumCpuCapabilities!", NCExceptionSeverity.FatalError);
+            if (RequirementsMinimumCpuCapabilities > SystemInfo.Cpu.Capabilities) _ = new NCException($"Insufficient CPU capabilities to run game. {RequirementsMinimumCpuCapabilities} capabilities required, you have {SystemInfo.Cpu.Capabilities}!", 113, $"CPU capabilities less than GlobalSettings::MinimumCpuCapabilities!", NCExceptionSeverity.FatalError);
 
             bool failedOsCheck = false;
 
             // test windows compat
             if (SystemInfo.CurOperatingSystem < SystemInfoOperatingSystem.MacOS1013
-                && MinimumOperatingSystem < SystemInfoOperatingSystem.MacOS1013)
+                && RequirementsMinimumOperatingSystem < SystemInfoOperatingSystem.MacOS1013)
             {
-                if (MinimumOperatingSystem > SystemInfo.CurOperatingSystem) failedOsCheck = true;
+                if (RequirementsMinimumOperatingSystem > SystemInfo.CurOperatingSystem) failedOsCheck = true;
             }
             // test macos compat
             else if (SystemInfo.CurOperatingSystem < SystemInfoOperatingSystem.Linux
-                && MinimumOperatingSystem < SystemInfoOperatingSystem.Linux)
+                && RequirementsMinimumOperatingSystem < SystemInfoOperatingSystem.Linux)
             {
-                if (MinimumOperatingSystem > SystemInfo.CurOperatingSystem) failedOsCheck = true;
+                if (RequirementsMinimumOperatingSystem > SystemInfo.CurOperatingSystem) failedOsCheck = true;
             }
 
             // test OS version
-            if (failedOsCheck) _ = new NCException($"Insufficient OS version to run game. {MinimumOperatingSystem} must be used, you have {SystemInfo.CurOperatingSystem}!", 114, $"OS version less than GlobalSettings::MinimumOperatingSystem!", NCExceptionSeverity.FatalError);
+            if (failedOsCheck) _ = new NCException($"Insufficient OS version to run game. {RequirementsMinimumOperatingSystem} must be used, you have {SystemInfo.CurOperatingSystem}!", 114, $"OS version less than GlobalSettings::MinimumOperatingSystem!", NCExceptionSeverity.FatalError);
         }
 
         public static void Write() => IniFile.Write(GLOBALSETTINGS_PATH);

@@ -101,7 +101,7 @@ namespace LightningGL
                 NCLogging.Log("Initialising LocalisationManager...");
                 LocalisationManager.Load();
 
-                if (GlobalSettings.ProfilePerformance)
+                if (GlobalSettings.GeneralProfilePerformance)
                 {
                     NCLogging.Log("Performance Profiler enabled, initialising profiler...");
                     PerformanceProfiler.Start();
@@ -109,34 +109,34 @@ namespace LightningGL
 
                 // load global settings package file if init settings one was not specified
                 if (InitSettings.PackageFile == null
-                    && GlobalSettings.PackageFile != null)
+                    && GlobalSettings.GeneralPackageFile != null)
                 {
-                    NCLogging.Log($"User specified package file {GlobalSettings.PackageFile} to load, loading it...");
+                    NCLogging.Log($"User specified package file {GlobalSettings.GeneralPackageFile} to load, loading it...");
 
                     // set default content folder
-                    if (GlobalSettings.ContentFolder == null) GlobalSettings.ContentFolder = "Content";
-                    if (!Packager.LoadPackage(GlobalSettings.PackageFile, GlobalSettings.ContentFolder)) _ = new NCException($"An error occurred loading {GlobalSettings.PackageFile}. The game cannot be loaded.", 12, "Packager::LoadPackager returned false", NCExceptionSeverity.FatalError);
+                    if (GlobalSettings.GeneralContentFolder == null) GlobalSettings.GeneralContentFolder = "Content";
+                    if (!Packager.LoadPackage(GlobalSettings.GeneralPackageFile, GlobalSettings.GeneralContentFolder)) _ = new NCException($"An error occurred loading {GlobalSettings.GeneralPackageFile}. The game cannot be loaded.", 12, "Packager::LoadPackager returned false", NCExceptionSeverity.FatalError);
                 }
 
                 // Load LocalSettings
-                if (GlobalSettings.LocalSettingsPath != null)
+                if (GlobalSettings.GeneralLocalSettingsPath != null)
                 {
-                    NCLogging.Log($"Loading local settings from {GlobalSettings.LocalSettingsPath}...");
+                    NCLogging.Log($"Loading local settings from {GlobalSettings.GeneralLocalSettingsPath}...");
                     LocalSettings.Load();
                 }
 
                 // Load the Scene Manager
                 // This should ALWAYS be the last thing initialised
-                if (!GlobalSettings.DontUseSceneManager)
+                if (!GlobalSettings.GeneralDontUseSceneManager)
                 {
                     Initialised = true;
                     SceneManager.Init(new RendererSettings
                     {
-                        Position = new Vector2(GlobalSettings.PositionX, GlobalSettings.PositionY),
-                        Size = new Vector2(GlobalSettings.ResolutionX, GlobalSettings.ResolutionY),
-                        WindowFlags = GlobalSettings.WindowFlags,
-                        RenderFlags = GlobalSettings.RenderFlags,
-                        Title = GlobalSettings.WindowTitle
+                        Position = new Vector2(GlobalSettings.GraphicsPositionX, GlobalSettings.GraphicsPositionY),
+                        Size = new Vector2(GlobalSettings.GraphicsResolutionX, GlobalSettings.GraphicsResolutionY),
+                        WindowFlags = GlobalSettings.GraphicsWindowFlags,
+                        RenderFlags = GlobalSettings.GraphicsRenderFlags,
+                        Title = GlobalSettings.GraphicsWindowTitle
                     });
                     SceneManager.Main();
                 }
@@ -166,7 +166,7 @@ namespace LightningGL
         {
             if (!Initialised) _ = new NCException("Attempted to shutdown without starting! Please call Lightning::Init!", 95, "Lightning::Initialised false when calling Lightning::Shutdown", NCExceptionSeverity.FatalError);
 
-            if (GlobalSettings.ProfilePerformance)
+            if (GlobalSettings.GeneralProfilePerformance)
             {
                 NCLogging.Log("Stopping performance profiling...");
                 PerformanceProfiler.Shutdown();
@@ -198,10 +198,10 @@ namespace LightningGL
             ParticleManager.Shutdown();
 
             // Clear up any unpacked package data if Engine.ini specifies to
-            Packager.Shutdown(GlobalSettings.DeleteUnpackedFilesOnExit);
+            Packager.Shutdown(GlobalSettings.GeneralDeleteUnpackedFilesOnExit);
 
             // Save settings if we have to
-            if (!GlobalSettings.DontSaveLocalSettingsOnShutdown
+            if (!GlobalSettings.GeneralDontSaveLocalSettingsOnShutdown
                 && LocalSettings.WasChanged)
             {
                 NCLogging.Log("Saving local settings as they were changed...");

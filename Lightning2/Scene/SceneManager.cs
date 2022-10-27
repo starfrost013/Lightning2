@@ -61,7 +61,7 @@ namespace LightningGL
 
                     scene.Start();
 
-                    if (GlobalSettings.StartupScene == t.Name) CurrentScene = scene;
+                    if (GlobalSettings.SceneStartupScene == t.Name) CurrentScene = scene;
                 }
             }
 

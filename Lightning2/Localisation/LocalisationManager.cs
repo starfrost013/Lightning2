@@ -28,16 +28,16 @@
         internal static void Load()
         {
             // globalsettings loader checks for valid file
-            NCINIFile localisationIni = NCINIFile.Parse(GlobalSettings.Language);
+            NCINIFile localisationIni = NCINIFile.Parse(GlobalSettings.GeneralLanguage);
 
-            if (localisationIni == null) _ = new NCException($"Error in localisation INI {GlobalSettings.Language}!", 31, "LocalisationManager::Load call to NCINIFile::Parse failed", NCExceptionSeverity.FatalError);
+            if (localisationIni == null) _ = new NCException($"Error in localisation INI {GlobalSettings.GeneralLanguage}!", 31, "LocalisationManager::Load call to NCINIFile::Parse failed", NCExceptionSeverity.FatalError);
 
             NCINIFileSection metadataSection = localisationIni.GetSection("Metadata");
 
             NCINIFileSection stringsSection = localisationIni.GetSection("Strings");
 
-            if (metadataSection == null) _ = new NCException($"Error in localisation INI {GlobalSettings.Language}: No metadata section!", 32, "LocalisationManager::Load failed to obtain the Metadata section of a localisation file.", NCExceptionSeverity.FatalError);
-            if (stringsSection == null) _ = new NCException($"Error in localisation INI {GlobalSettings.Language}: No strings section!", 33, "LocalisationManager.Load failed to obtain the Strings section of a localisation file.", NCExceptionSeverity.FatalError);
+            if (metadataSection == null) _ = new NCException($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No metadata section!", 32, "LocalisationManager::Load failed to obtain the Metadata section of a localisation file.", NCExceptionSeverity.FatalError);
+            if (stringsSection == null) _ = new NCException($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No strings section!", 33, "LocalisationManager.Load failed to obtain the Strings section of a localisation file.", NCExceptionSeverity.FatalError);
 
             Metadata.Name = metadataSection.GetValue("Name");
             Metadata.Description = metadataSection.GetValue("Description");

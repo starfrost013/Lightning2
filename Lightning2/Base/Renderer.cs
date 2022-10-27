@@ -69,7 +69,7 @@ namespace LightningGL
             // Check that the engine has been started.
             if (!Initialised) _ = new NCException("You cannot start a window without initialising the engine - call Lightning::Init first!", 134, "Window::Start called before Lightning::Init!", NCExceptionSeverity.FatalError);
 
-            if (!GlobalSettings.DontUseSceneManager
+            if (!GlobalSettings.GeneralDontUseSceneManager
                 && SceneManager.Initialised) _ = new NCException("GlobalSettings::DontUseSceneManager needs to be set to initialise Windows without using the Scene Manager!", 127, "Window::Init called when GlobalSettings::DontUseSceneManager is FALSE and SceneManager::Initialised is TRUE", NCExceptionSeverity.FatalError);
             if (windowSettings == null) _ = new NCException("Passed null WindowSettings to Window::Start method!", 7, "Window::Start windowSettings parameter null", NCExceptionSeverity.FatalError);
 
@@ -81,10 +81,10 @@ namespace LightningGL
             // set the renderer if the user specified one
             string renderer = SDLu_GetRenderDriverName();
 
-            if (GlobalSettings.RendererType != default(RenderingBackend))
+            if (GlobalSettings.GraphicsRendererType != default(RenderingBackend))
             {
                 // set the renderer
-                renderer = GlobalSettings.RendererType.ToString().ToLowerInvariant(); // needs to be lowercase
+                renderer = GlobalSettings.GraphicsRendererType.ToString().ToLowerInvariant(); // needs to be lowercase
                 SDL_SetHintWithPriority("SDL_HINT_RENDER_DRIVER", renderer, SDL_HintPriority.SDL_HINT_OVERRIDE);
             }
 
@@ -159,7 +159,7 @@ namespace LightningGL
                         if (curKeyString == "F9"
                             && (curKey.Modifiers.HasFlag(SDL_Keymod.KMOD_LSHIFT)
                             || curKey.Modifiers.HasFlag(SDL_Keymod.KMOD_RSHIFT))
-                            && GlobalSettings.EngineAboutScreenOnShiftF9) ShowEngineAboutScreen();
+                            && GlobalSettings.GeneralEngineAboutScreenOnShiftF9) ShowEngineAboutScreen();
 
                         KeyPressed(curKey);
                         break;
@@ -231,7 +231,7 @@ namespace LightningGL
             // draw fps on top always (by drawing it last. we don't have zindex, but we will later). Also snap it to the screen like a hud element. 
             // check the showfps global setting first
             // do this BEFORE present. then measure frametime in Render_MeasureFps, this makes it accurate.
-            if (GlobalSettings.ShowDebugInfo) DrawDebugInformation();
+            if (GlobalSettings.GeneralShowDebugInfo) DrawDebugInformation();
 
             // Update camera
             if (Settings.Camera != null) Settings.Camera.Update();
@@ -241,7 +241,7 @@ namespace LightningGL
 
             SDL_RenderPresent(Settings.RendererHandle);
 
-            int maxFps = GlobalSettings.MaxFPS;
+            int maxFps = GlobalSettings.GraphicsMaxFPS;
 
             // Delay for frame limiter
             if (maxFps > 0)
@@ -259,7 +259,7 @@ namespace LightningGL
         }
 
         /// <summary>
-        /// Draws debug information to the screen if the <see cref="GlobalSettings.ShowDebugInfo"/> setting is enabled.
+        /// Draws debug information to the screen if the <see cref="GlobalSettings.GeneralShowDebugInfo"/> setting is enabled.
         /// </summary>
         private void DrawDebugInformation()
         {
@@ -268,11 +268,11 @@ namespace LightningGL
 
             PrimitiveRenderer.DrawText(this, $"FPS: {CurFPS.ToString("F1")} ({DeltaTime.ToString("F2")}ms)", new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 255, 255), true);
 
-            if (CurFPS < GlobalSettings.MaxFPS)
+            if (CurFPS < GlobalSettings.GraphicsMaxFPS)
             {
                 currentY += debugLineDistance;
 
-                int maxFps = GlobalSettings.MaxFPS;
+                int maxFps = GlobalSettings.GraphicsMaxFPS;
 
                 if (maxFps == 0) maxFps = 60;
 
@@ -292,9 +292,9 @@ namespace LightningGL
 
             DeltaTime = ((double)ThisTime / 10000);
             
-            DeltaTime *= GlobalSettings.TickSpeed;
+            DeltaTime *= GlobalSettings.GraphicsTickSpeed;
 
-            if (GlobalSettings.ProfilePerformance) PerformanceProfiler.Update(this);
+            if (GlobalSettings.GeneralProfilePerformance) PerformanceProfiler.Update(this);
             FrameNumber++;
         }
 
@@ -361,7 +361,7 @@ namespace LightningGL
             foreach (Renderable renderable in TextManager.Assets) renderables.Add(renderable);
 
             // if we haven't specified otherwise...
-            if (!GlobalSettings.RenderOffScreenRenderables)
+            if (!GlobalSettings.GraphicsRenderOffScreenRenderables)
             {
                 // Cull stuff offscreen and move it with the camera
                 for (int renderableId = 0; renderableId < renderables.Count; renderableId++)
@@ -372,8 +372,8 @@ namespace LightningGL
                     {
                         renderable.IsOnScreen = (renderable.RenderPosition.X >= Settings.Camera.Position.X - renderable.Size.X
                             && renderable.RenderPosition.Y >= Settings.Camera.Position.Y - renderable.Size.Y
-                            && renderable.RenderPosition.X <= Settings.Camera.Position.X + GlobalSettings.ResolutionX
-                            && renderable.RenderPosition.Y <= Settings.Camera.Position.Y + GlobalSettings.ResolutionY);
+                            && renderable.RenderPosition.X <= Settings.Camera.Position.X + GlobalSettings.GraphicsResolutionX
+                            && renderable.RenderPosition.Y <= Settings.Camera.Position.Y + GlobalSettings.GraphicsResolutionY);
                     }
                 }
             }
