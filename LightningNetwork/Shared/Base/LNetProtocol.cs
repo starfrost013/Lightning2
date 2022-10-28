@@ -10,6 +10,6 @@
         /// <summary>
         /// The LNet protocol version.
         /// </summary>
-        public const short LNET_PROTOCOL_VERSION = 0;
+        public const short LNET_PROTOCOL_VERSION = 1;
     }
 }

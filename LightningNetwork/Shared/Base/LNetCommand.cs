@@ -8,15 +8,48 @@ namespace LightningNetwork
     /// </summary>
     public abstract class LNetCommand
     {
+        public LNetCommandHeader Header { get; set; }
+
         public abstract string Name { get; }
 
         /// <summary>
-        /// ID of this command. Should always be equal to this command's value in <see cref="LNetCommandTypes"/>.
+        /// Type of this command. Should always be equal to this command's value in <see cref="LNetCommandTypes"/>.
         /// </summary>
-        public abstract byte Id { get; }
+        public abstract byte Type { get; }
 
-        public abstract void OnSend();
-        public abstract void OnReceive();
-        public virtual byte[] ToByteArray() => new byte[1] { Id };  
+        private int Length => Header.ToByteArray().Length + sizeof(byte);
+
+        public virtual bool ReadCommandData(byte[] cmdData)
+        {
+            // no command data so ignore all data after packet info
+            return true;
+        }
+
+        public virtual byte[] CommandDataToByteArray()
+        {
+            return new byte[0];
+        }
+
+        public abstract void OnReceiveAsServer(LNetServer server);
+
+        public abstract void OnReceiveAsClient(LNetClient client);
+
+        public virtual byte[] ToByteArray()
+        {
+            byte[] array1 = Header.ToByteArray();
+            byte[] array2 = new byte[1] { Type };
+            byte[] finalArray = new byte[Length];
+
+            Buffer.BlockCopy(array1, 0, finalArray, 0, array1.Length);
+            Buffer.BlockCopy(array2, 0, finalArray, array1.Length, array2.Length);
+
+            return finalArray;
+        }
+
+        public LNetCommand()
+        {
+            Header = new LNetCommandHeader(); 
+        }
+
     }
 }

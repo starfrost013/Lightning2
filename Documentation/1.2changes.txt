@@ -20,3 +20,7 @@ Everything that matters to the api has to go here
 	- add freetype bindings
 	- refactor globsettings
 	- global usings everywhere
+
+2022.10.27:
+* Added LNetClient, LNetServer
+* 

@@ -6,7 +6,7 @@ namespace LightningNetwork
     /// 
     /// Defines a packet header for LNet.
     /// </summary>
-    public class LNetPacketHeader
+    public class LNetCommandHeader
     {
         /// <summary>
         /// this is here so the contents of the header are clearly defined in the code
@@ -24,7 +24,7 @@ namespace LightningNetwork
         public byte Command { get; set; }
 
         /// <summary>
-        /// Converts this <see cref="LNetPacketHeader"/> to a byte array.
+        /// Converts this <see cref="LNetCommandHeader"/> to a byte array.
         /// </summary>
         /// <returns></returns>
         public byte[] ToByteArray()
