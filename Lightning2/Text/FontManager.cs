@@ -141,8 +141,9 @@
             foreach (string line in lines)
             {
                 Vector2 curLineSize = GetTextSize(font, line);
-                if (curLineSize.X > largestLineSize.X
-                    && curLineSize.Y > largestLineSize.Y) largestLineSize = curLineSize;
+                if (curLineSize.X > largestLineSize.X) largestLineSize.X = curLineSize.X;
+
+                largestLineSize.Y += curLineSize.Y;
 
             }
 

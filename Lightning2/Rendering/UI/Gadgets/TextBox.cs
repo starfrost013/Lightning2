@@ -49,11 +49,6 @@
         public int CursorBlinkLength { get; set; }
 
         /// <summary>
-        /// Determines if multiple lines are allowed in this text box.
-        /// </summary>
-        public bool AllowMultiline { get; set; }
-
-        /// <summary>
         /// The number of frames until the next cursor blink.
         /// </summary>
         private int NumberOfFramesUntilNextBlink { get; set; }
@@ -123,11 +118,6 @@
                 case SDL_Scancode.SDL_SCANCODE_LCTRL:
                 case SDL_Scancode.SDL_SCANCODE_RCTRL:
                     return;
-                case SDL_Scancode.SDL_SCANCODE_RETURN:
-                case SDL_Scancode.SDL_SCANCODE_RETURN2:
-                case SDL_Scancode.SDL_SCANCODE_KP_ENTER:
-                    if (AllowMultiline) Text = $"{Text}\n";
-                    return;
                 default:
                     string keyStr = key.KeySym.ToString();
 
@@ -154,8 +144,10 @@
 
             if (!HideCursor)
             {
-                Vector2 fontSize = FontManager.GetLargestTextSize(Font, Text);
-                Vector2 cursorPosition = new Vector2(Position.X + fontSize.X, Position.Y);
+                Vector2 fontSize = FontManager.GetTextSize(Font, Text);
+                Vector2 cursorPosition = default;
+
+                cursorPosition = new Vector2(Position.X + fontSize.X, Position.Y);
 
                 // actually blink it
                 if (NumberOfFramesUntilNextBlink == 0)

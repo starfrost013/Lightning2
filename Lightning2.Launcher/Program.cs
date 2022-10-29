@@ -215,7 +215,6 @@ TextBox textBox1 = new TextBox(300)
     ForegroundColor = Color.White,
     Font = "Arial.11pt",
     Filled = true,
-    AllowMultiline = true,
 };
 
 CheckBox checkBox1 = new CheckBox

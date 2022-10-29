@@ -94,7 +94,14 @@
         /// </summary>
         public SDL_TextureAccess Access { get; internal set; }
 
+        /// <summary>
+        /// Backing field for <see cref="Opacity"/>.
+        /// </summary>
         public byte _opacity;
+
+        /// <summary>
+        /// The opacity of this texture.
+        /// </summary>
         public byte Opacity
         {
             get
