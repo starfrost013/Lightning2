@@ -11,7 +11,7 @@
 ; Intended to be run from the SDKBuild tool ONLY.
 
 #define MyAppName "Lightning Software Development Kit"                                                     
-#define MyAppVersion "1.1.0-rc0"
+#define MyAppVersion "1.1.0"
 #define MyAppPublisher "starfrost"
 #define MyAppURL "https://lightning.starfrost.net"
 #define BuildConfig "Debug"
