@@ -5,19 +5,23 @@ namespace LightningNetwork
     public class ClientHelloCommand : LNetCommand
     {
         public override string Name => "ClientHello";
-        public override byte Type => (byte)LNetCommandTypes.LNET_COMMAND_CLIENT_HELLO;
+        public override byte Type => (byte)LNetCommandTypes.ClientHello;
 
-        public string ClientName { get; private set; }
+        public string? ClientName { get; private set; }
 
-        public string ClientIp { get; private set; 
-        }
+        public string? ClientIp { get; private set; }
+
         public override bool ReadCommandData(byte[] cmdData)
         {
             return base.ReadCommandData(cmdData);
         }
+
         public override byte[] CommandDataToByteArray()
         {
-            return base.CommandDataToByteArray();
+            byte[] nameArray = ClientName.ToByteArrayWithLength();
+            byte[] ipArray = ClientIp.ToByteArrayWithLength();
+
+            return NCArray.Combine(nameArray, ipArray);
         }
 
         public override void OnReceiveAsClient(LNetClient client)
@@ -26,9 +30,10 @@ namespace LightningNetwork
             throw new NotImplementedException();
         }
 
-        public override void OnReceiveAsServer(LNetServer server)
+        public override void OnReceiveAsServer(LNetServer server, LNetClient sendingClient)
         {
-            // get client information here
+            // get client information here WAOW
+            
         }
     }
 }

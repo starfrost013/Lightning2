@@ -30,20 +30,24 @@ namespace LightningNetwork
             return new byte[0];
         }
 
-        public abstract void OnReceiveAsServer(LNetServer server);
+        public abstract void OnReceiveAsServer(LNetServer server, LNetClient sendingClient);
 
         public abstract void OnReceiveAsClient(LNetClient client);
 
-        public virtual byte[] ToByteArray()
+        private byte[] HeaderToByteArray()
         {
             byte[] array1 = Header.ToByteArray();
             byte[] array2 = new byte[1] { Type };
-            byte[] finalArray = new byte[Length];
 
-            Buffer.BlockCopy(array1, 0, finalArray, 0, array1.Length);
-            Buffer.BlockCopy(array2, 0, finalArray, array1.Length, array2.Length);
+            return NCArray.Combine(array1, array2);
+        }
 
-            return finalArray;
+        public virtual byte[] PacketToByteArray(LNetCommand packet)
+        {
+            byte[] array1 = HeaderToByteArray();
+            byte[] array2 = packet.CommandDataToByteArray();
+
+            return NCArray.Combine(array1, array2);
         }
 
         public LNetCommand()

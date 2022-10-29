@@ -59,7 +59,7 @@ namespace NuCore.Utilities
             Initialised = true;
         }
 
-        public static void Log(string information, NCExceptionSeverity severity, bool printMetadata = true, bool logToFile = true)
+        internal static void Log(string information, NCExceptionSeverity severity, bool printMetadata = true, bool logToFile = true)
         {
             if (!Initialised) return;
 
@@ -80,7 +80,7 @@ namespace NuCore.Utilities
             }
         }
 
-        public static void Log(string Information, ConsoleColor color = ConsoleColor.White, bool printMetadata = true, bool logToFile = true)
+        public static void Log(string information, ConsoleColor color = ConsoleColor.White, bool printMetadata = true, bool logToFile = true)
         {
             if (!Initialised)
             {
@@ -111,7 +111,7 @@ namespace NuCore.Utilities
                 stringBuilder.Append("]: ");
             }
 
-            stringBuilder.Append($"{Information}\n");
+            stringBuilder.Append($"{information}\n");
 
             string final_log = stringBuilder.ToString();
 
@@ -123,6 +123,12 @@ namespace NuCore.Utilities
 
             NCConsole.ForegroundColor = ConsoleColor.White;
         }
+
+        public static void Log(string information, string prefix, ConsoleColor color = ConsoleColor.White, bool printMetadata = true, bool logToFile = true)
+        {
+            Log($"[{prefix}] {information}", color, printMetadata, logToFile);
+        }
+
 
         public static void Exit(object Sender, EventArgs e)
         {

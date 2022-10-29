@@ -12,51 +12,56 @@
         /// <summary>
         /// Test command - ping pong!
         /// </summary>
-        LNET_COMMAND_TEST_PING_PONG = 0x00,
+        PingPong = 0x00,
 
         /// <summary>
         /// Client keepalive to the server.
         /// </summary>
-        LNET_COMMAND_KEEP_ALIVE = 0x01,
+        KeepAlive = 0x01,
 
         /// <summary>
         /// Client says hello to the server
         /// </summary>
-        LNET_COMMAND_CLIENT_HELLO = 0x02,
+        ClientHello = 0x02,
 
         /// <summary>
         /// Client disconnecting
         /// </summary>
-        LNET_COMMAND_CLIENT_DISCONNECTING = 0x03,
+        ClientDisconnecting = 0x03,
         
         /// <summary>
         /// Client has disconnected.
         /// </summary>
-        LNET_COMMAND_CLIENT_DISCONNECTED = 0x04,
+        ClientDisconnected = 0x04,
 
         /// <summary>
         /// Client wants to change room.
         /// </summary>
-        LNET_COMMAND_CLIENT_CHANGE_ROOM_REQUEST = 0x05,
+        ClientChangeRoomRequest = 0x05,
 
         /// <summary>
         /// Client was kicked from the game.
         /// </summary>
-        LNET_COMMAND_LEAVE_NOW_OR_DIE = 0x06,
+        LeaveNowOrDie = 0x06,
 
         /// <summary>
         /// Server acknowledges client's existence.
         /// </summary>
-        LNET_COMMAND_SERVER_HELLO = 0x07,
+        ServerHello = 0x07,
 
         /// <summary>
         /// Notify a server shutdown.
         /// </summary>
-        LNET_COMMAND_SERVER_NOTIFY_SHUTDOWN = 0x08,
+        ServerNotifyShutdown = 0x08,
+
+        /// <summary>
+        /// Client wants to add a renderable to the scene.
+        /// </summary>
+        RequestRenderable = 0x09,
 
         /// <summary>
         /// Maximum valid command for logging.
         /// </summary>
-        LNET_MAXIMUM_VALID_COMMAND = LNET_COMMAND_SERVER_NOTIFY_SHUTDOWN,
+        MaximumValidCommand = RequestRenderable,
     }
 }

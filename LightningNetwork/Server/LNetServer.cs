@@ -1,7 +1,4 @@
-﻿
-using System.Runtime.CompilerServices;
-
-namespace LightningNetwork
+﻿namespace LightningNetwork
 {
     /// <summary>
     /// LNetServer
@@ -25,9 +22,33 @@ namespace LightningNetwork
 
         public void Init()
         {
-            SessionManager.LogAsServer($"Server starting on port: {GlobalSettings.NetworkDefaultPort}");
+            NCLogging.Log($"Server starting on port: {GlobalSettings.NetworkDefaultPort}", "Server");
+            Main();
         }
 
+        private void Main()
+        {
+            SessionManager.UdpClient.BeginReceive
+            (
+                new AsyncCallback(OnReceivePacket),
+                null
+            );
+        }
 
+        private void OnReceivePacket(IAsyncResult result)
+        {
+            UdpState udpState = (UdpState)result.AsyncState;
+
+            if (anyEndPoint == null) return;
+
+            byte[] receivedData = SessionManager.UdpClient.EndReceive(result, ref anyEndPoint);
+
+            // TEST - DEBUG - VERSION
+            NCLogging.Log(receivedData.ToString());
+
+            //todo: packet handling
+            // Loop
+            Main(); 
+        }
     }
 }

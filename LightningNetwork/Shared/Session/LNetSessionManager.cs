@@ -9,7 +9,7 @@ namespace LightningNetwork
     /// </summary>
     public class LNetSessionManager
     {
-        public UdpClient UdpState { get; set; }
+        public UdpClient UdpClient { get; set; }
 
         /// <summary>
         /// The last packet ID used for ordering and stuff.
@@ -19,21 +19,7 @@ namespace LightningNetwork
 
         public LNetSessionManager()
         {
-            UdpState = new UdpClient();
-        }
-
-        public byte[] PacketToByteArray(LNetCommand packet)
-        {
-            packet.Header.Id = LastPacketId;
-            LastPacketId++;
-            byte[] array1 = packet.ToByteArray();
-            byte[] array2 = packet.CommandDataToByteArray();
-            byte[] finalArray = new byte[array1.Length + array2.Length];
-
-            Buffer.BlockCopy(array1, array1.Length, finalArray, 0, array1.Length);
-            Buffer.BlockCopy(array2, array2.Length, finalArray, array1.Length, array2.Length);
-
-            return finalArray;
+            UdpClient = new UdpClient();
         }
         
         public LNetCommand? ReadPacket(byte[] data)
@@ -61,7 +47,7 @@ namespace LightningNetwork
 
             if (netCommand == null)
             {
-                _ = new NCException($"Received invalid packet type {packetType}, maximum is {LNetCommandTypes.LNET_MAXIMUM_VALID_COMMAND}", 182,
+                _ = new NCException($"Received invalid packet type {packetType}, maximum is {LNetCommandTypes.MaximumValidCommand}", 182,
                     "LNetSessionManager::ReadPacket - received an invalid packet type.", NCExceptionSeverity.Warning, null, false);
                 return null;
             }
@@ -101,23 +87,6 @@ namespace LightningNetwork
                     return null;
             }
             
-        }
-
-
-        /// <summary>
-        /// Logs to NCLogging (in blue so you know it's the server)
-        /// </summary>
-        internal void LogAsServer(string logMessage)
-        {
-            NCLogging.Log($"[Server] {logMessage}", ConsoleColor.Blue);
-        }
-
-        /// <summary>
-        /// Logs to NCLogging (in blue so you know it's the server)
-        /// </summary>
-        internal void LogAsClient(string logMessage)
-        {
-            NCLogging.Log($"[Client] {logMessage}", ConsoleColor.Blue);
         }
     }
 }

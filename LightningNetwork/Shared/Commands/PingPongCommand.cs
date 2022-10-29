@@ -5,9 +5,9 @@ namespace LightningNetwork
     {
         public override string Name => "PingPongTest";
 
-        public override byte Type => (byte)LNetCommandTypes.LNET_COMMAND_TEST_PING_PONG;
+        public override byte Type => (byte)LNetCommandTypes.PingPong;
 
-        public override void OnReceiveAsServer(LNetServer server)
+        public override void OnReceiveAsServer(LNetServer server, LNetClient sendingClient)
         {
             NCLogging.Log("Server Pong!");
         }

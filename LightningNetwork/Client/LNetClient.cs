@@ -16,13 +16,20 @@
 
         /// <summary>
         /// The IP Address of this client so the server knows where to send client messages.
+        /// This is actually currently only stored by the server.
         /// </summary>
-        public string IP { get; set; }
+        public string? IP { get; internal set; }
 
-        public LNetClient()
+        /// <summary>
+        /// Name of this client.
+        /// </summary>
+        public string Name { get; internal set; }
+
+        public LNetClient(string name)
         {
             SessionManager = new LNetSessionManager();
             ServerPort = GlobalSettings.NetworkDefaultPort;
+            Name = name;
         }
         
         public void Connect()
@@ -38,15 +45,32 @@
             }
 
             // Connect
-            SessionManager.UdpState.Connect(serverIp, Convert.ToInt32(ServerPort));
+            SessionManager.UdpClient.Connect(serverIp, Convert.ToInt32(ServerPort));
 
             // send a Client Hello
 
         }
 
-        private void Main()
+        public virtual void SendPacketToServer(LNetCommand lnc)
         {
 
+        }
+
+        private void Main()
+        {
+            SessionManager.UdpClient.BeginReceive
+            (
+                new AsyncCallback(OnReceivePacket),
+                null
+            );
+        }
+
+        /// <summary>
+        /// Event handler for receiving packets.
+        /// </summary>
+        private void OnReceivePacket(IAsyncResult result)
+        {
+            
         }
     }
 }
