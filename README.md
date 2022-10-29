@@ -1,0 +1,1 @@
+# As of October 29, 2022 Lightning 1.0.x is OBSOLETE and no support will be provided. This source code is provided as an archive.
