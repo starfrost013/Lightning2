@@ -263,11 +263,23 @@ namespace LightningGL
         /// </summary>
         private void DrawDebugInformation()
         {
-            int currentY = (int)Settings.Camera.Position.Y;
+            float currentY = 0;
             int debugLineDistance = 12;
 
-            PrimitiveRenderer.DrawText(this, $"FPS: {CurFPS.ToString("F1")} ({DeltaTime.ToString("F2")}ms)", new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 255, 255), true);
+            string[] debugText =
+            {
+                $"FPS: {CurFPS.ToString("F1")} ({DeltaTime.ToString("F2")}ms)",
+                FrameNumber.ToString(),
+                $"Number of renderables on-screen: {Renderables.Count}"
+            };
 
+            foreach (string line in debugText)
+            {
+                PrimitiveRenderer.DrawText(this, line, new Vector2(0, currentY), Color.FromArgb(255, 255, 255, 255), true, true);
+                currentY += debugLineDistance;
+            }
+
+            // draw indicator that we are under 60fps always under it
             if (CurFPS < GlobalSettings.MaxFPS)
             {
                 currentY += debugLineDistance;
@@ -276,11 +288,9 @@ namespace LightningGL
 
                 if (maxFps == 0) maxFps = 60;
 
-                PrimitiveRenderer.DrawText(this, $"Running under target FPS ({maxFps})!", new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 0, 0), true);
+                PrimitiveRenderer.DrawText(this, $"Running under target FPS ({maxFps})!", 
+                    new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 0, 0), true);
             }
-
-            currentY += debugLineDistance;
-            PrimitiveRenderer.DrawText(this, FrameNumber.ToString(), new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 255, 255), true);
         }
 
         private void UpdateFps()
