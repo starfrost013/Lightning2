@@ -270,7 +270,8 @@ namespace LightningGL
             {
                 $"FPS: {CurFPS.ToString("F1")} ({DeltaTime.ToString("F2")}ms)",
                 FrameNumber.ToString(),
-                $"Number of renderables on-screen: {Renderables.Count}"
+                $"Number of renderables: {Renderables.Count}",
+                $"Number of renderables being rendered right now: {GetCurrentRenderedCount()}"
             };
 
             foreach (string line in debugText)
@@ -406,6 +407,17 @@ namespace LightningGL
             return renderables;
         }
 
+        internal int GetCurrentRenderedCount()
+        {
+            int count = 0;
+
+            foreach (Renderable renderable in Renderables)
+            {
+                if (renderable.IsOnScreen) count++;
+            }
+
+            return count;
+        }
 
         #region Event handlers
 
