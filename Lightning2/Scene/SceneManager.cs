@@ -67,8 +67,8 @@ namespace LightningGL
 
 
             if (Assets.Count == 0) throw new NCException($"There are no scenes defined!", 131, "SceneManager::Scenes Count = 0!", NCExceptionSeverity.FatalError);
-            if (CurrentScene == null) throw new NCException($"Attempted to specify invalid startup scene {CurrentScene}!", 132, 
-                $"The value of GlobalSettings::StartupScene did not correspond to a class that inherits from Scene in the game assembly", NCExceptionSeverity.FatalError);
+            if (CurrentScene == null) throw new NCException($"Attempted to load invalid startup scene {CurrentScene}!", 132, 
+                $"The value of GlobalSettings::StartupScene did not correspond to a class that inherits from Scene in your game assembly.", NCExceptionSeverity.FatalError);
 
             Initialised = true;
         }
