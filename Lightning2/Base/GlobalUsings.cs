@@ -17,7 +17,6 @@ global using System.Linq;
 global using System.Numerics;
 global using System.Reflection;
 global using System.Runtime.InteropServices;
-global using static LightningBase.FreeType2; // FreeType2 bindings
 global using static LightningBase.SDL;
 global using static LightningBase.SDL_image;
 global using static LightningBase.SDL_gfx;

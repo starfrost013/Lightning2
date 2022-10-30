@@ -271,7 +271,7 @@ namespace LightningGL
                 $"FPS: {CurFPS.ToString("F1")} ({DeltaTime.ToString("F2")}ms)",
                 FrameNumber.ToString(),
                 $"Number of renderables: {Renderables.Count}",
-                $"Number of renderables being rendered right now: {GetCurrentRenderedCount()}"
+                $"Number of renderables on-screen: {GetCurrentRenderedCount()}"
             };
 
             foreach (string line in debugText)
