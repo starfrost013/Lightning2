@@ -26,13 +26,13 @@
             // set the default background color
             if (CurBackgroundColor == default(Color)) CurBackgroundColor = BackgroundColor;
 
-            PrimitiveRenderer.DrawRectangle(cRenderer, Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+            PrimitiveManager.DrawRectangle(cRenderer, Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
 
             Font curFont = FontManager.GetFont(Font);
 
             if (curFont == null)
             {
-                PrimitiveRenderer.DrawText(cRenderer, Text, Position, ForegroundColor, true);
+                PrimitiveManager.DrawText(cRenderer, Text, Position, ForegroundColor, true);
             }
             else
             {

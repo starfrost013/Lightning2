@@ -3,12 +3,8 @@ using System.Drawing;
 
 namespace LightningGL
 {
-    internal class Polygon : Renderable
+    internal class Polygon : Primitive
     {
-        internal bool Filled { get; set; }
-
-        internal bool Antialiased { get; set; }
-
         internal List<Vector2> Points { get; set; }
 
         public Polygon()

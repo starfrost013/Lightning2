@@ -2,10 +2,8 @@
 
 namespace LightningGL
 {
-    public class Triangle : Renderable
+    public class Triangle : Primitive
     {
-        public bool Filled { get; set; }
-
         public Vector2 Point1 { get; set; }
 
         public Vector2 Point2 { get; set; }

@@ -1,9 +1,7 @@
 ﻿namespace LightningGL
 {
-    internal class RoundedRectangle : Renderable
+    internal class RoundedRectangle : Primitive
     {
-        internal bool Filled { get; set; }
-
         internal int CornerRadius { get; set; }
 
         internal override void Draw(Renderer cRenderer)
@@ -19,6 +17,10 @@
                         Position.X - currentCamera.Position.X,
                         Position.Y - currentCamera.Position.Y
                     );
+            }
+            else
+            {
+                RenderPosition = Position;
             }
 
             if (Filled)

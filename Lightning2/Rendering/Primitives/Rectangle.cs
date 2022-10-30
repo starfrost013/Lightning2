@@ -1,12 +1,10 @@
 ﻿namespace LightningGL
 { 
-    internal class Rectangle : Renderable
+    internal class Rectangle : Primitive
     {
         public Color BorderColor { get; set; }
 
         public Vector2 BorderSize { get; set; }  
-
-        public bool Filled { get; set; }
 
         internal override void Draw(Renderer cRenderer)
         {
@@ -19,6 +17,10 @@
             {
                 RenderPosition = new(Position.X - currentCamera.Position.X,
                     Position.Y - currentCamera.Position.Y);
+            }
+            else
+            {
+                RenderPosition = Position;
             }
 
             if (BorderColor != default(Color))

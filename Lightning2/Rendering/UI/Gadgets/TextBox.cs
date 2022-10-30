@@ -146,7 +146,7 @@
         /// <param name="cRenderer">The window to render this <see cref="TextBox"/> to.</param>
         public void Render(Renderer cRenderer)
         {
-            PrimitiveRenderer.DrawRectangle(cRenderer, Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen);
+            PrimitiveManager.DrawRectangle(cRenderer, Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen);
             TextManager.DrawText(cRenderer, Text, Font, Position, ForegroundColor);
 
             // slight hack
@@ -167,7 +167,7 @@
                 // if it's active, draw the line
                 if (IsActive)
                 {
-                    PrimitiveRenderer.DrawLine(cRenderer, cursorPosition,
+                    PrimitiveManager.DrawLine(cRenderer, cursorPosition,
                     new(cursorPosition.X, cursorPosition.Y + Size.Y), CursorThickness, CursorColor);
                 }
 

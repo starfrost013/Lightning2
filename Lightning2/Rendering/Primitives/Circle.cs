@@ -1,11 +1,7 @@
 ﻿namespace LightningGL
 {
-    internal class Circle : Renderable
+    internal class Circle : Primitive
     {
-        internal bool Filled { get; set; }
-
-        internal bool Antialiased { get; set; }
-
         internal override void Draw(Renderer cRenderer)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
@@ -16,6 +12,10 @@
             {
                 RenderPosition = new(Position.X - currentCamera.Position.X,
                     Position.Y - currentCamera.Position.Y);
+            }
+            else
+            {
+                RenderPosition = Position;
             }
 
             if (Filled)

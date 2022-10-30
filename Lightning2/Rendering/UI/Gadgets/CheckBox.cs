@@ -35,7 +35,7 @@
         /// <param name="cRenderer">The window to render this checkbox to.</param>
         public void Render(Renderer cRenderer)
         {
-            PrimitiveRenderer.DrawRectangle(cRenderer, Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+            PrimitiveManager.DrawRectangle(cRenderer, Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
 
             if (Checked)
             {
@@ -44,8 +44,8 @@
                 Vector2 line2Start = line1End;
                 Vector2 line2End = new Vector2(Position.X + Size.X, Position.Y);
 
-                PrimitiveRenderer.DrawLine(cRenderer, line1Start, line1End, Thickness, ForegroundColor, true, SnapToScreen);
-                PrimitiveRenderer.DrawLine(cRenderer, line2Start, line2End, Thickness, ForegroundColor, true, SnapToScreen);
+                PrimitiveManager.DrawLine(cRenderer, line1Start, line1End, Thickness, ForegroundColor, true, SnapToScreen);
+                PrimitiveManager.DrawLine(cRenderer, line2Start, line2End, Thickness, ForegroundColor, true, SnapToScreen);
             }
         }
 

@@ -33,6 +33,8 @@ namespace LightningGL
         public static SceneAssetManager SceneManager { get; private set; }
 
         public static AnimationAssetManager AnimationManager { get; private set; }
+
+        public static PrimitiveAssetManager PrimitiveManager { get; private set; } 
         #endregion
 
         static Lightning()
@@ -47,7 +49,7 @@ namespace LightningGL
             LightManager = new LightAssetManager();
             SceneManager = new SceneAssetManager();
             AnimationManager = new AnimationAssetManager();
-
+            PrimitiveManager = new PrimitiveAssetManager();
         }
 
         public static void Init(string[] args)

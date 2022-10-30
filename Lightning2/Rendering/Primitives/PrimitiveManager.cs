@@ -5,8 +5,20 @@
     /// 
     /// As of October 29, 2022, this class is simply a forwarder
     /// </summary>
-    public static class PrimitiveRenderer
+    public class PrimitiveAssetManager : AssetManager<Primitive>
     {
+        public override Primitive AddAsset(Renderer cRenderer, Primitive asset)
+        {
+            Assets.Add(asset);
+            return asset;
+        }
+
+        internal override void Update(Renderer cRenderer)
+        {
+            // This is done for 1.2 ONLY for API compatibility with 1.0/1.1
+            Assets.Clear();
+        }
+
         /// <summary>
         /// Draws a pixel on the screen.
         /// </summary>
@@ -14,9 +26,9 @@
         /// <param name="position">The position of the pixel to draw.</param>
         /// <param name="color">The <see cref="Color"/> of the pixel to draw.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public static void DrawPixel(Renderer cRenderer, Vector2 position, Color color, bool snapToScreen = false)
+        public void DrawPixel(Renderer cRenderer, Vector2 position, Color color, bool snapToScreen = false)
         {
-            cRenderer.AddRenderable(new Pixel
+            Assets.Add(new Pixel
             {
                 Position = position,
                 Color = color,
@@ -34,9 +46,9 @@
         /// <param name="color">The color of this line.</param>
         /// <param name="antiAliased">Determines if this line will be anti-aliased or not.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public static void DrawLine(Renderer cRenderer, Vector2 start, Vector2 end, short thickness, Color color, bool antiAliased = true, bool snapToScreen = false)
+        public void DrawLine(Renderer cRenderer, Vector2 start, Vector2 end, short thickness, Color color, bool antiAliased = true, bool snapToScreen = false)
         {
-            cRenderer.AddRenderable(new Line
+            Assets.Add(new Line
             {
                 Color = color,
                 Start = start,
@@ -58,10 +70,10 @@
         /// <param name="borderColor">The color of this rectangle's border.</param>
         /// <param name="borderSize">The size of this rectangle's border.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space (false) or screen-relative space (true).</param>
-        public static void DrawRectangle(Renderer cRenderer, Vector2 position, Vector2 size, Color color, bool filled = false, Color borderColor = default(Color),
+        public void DrawRectangle(Renderer cRenderer, Vector2 position, Vector2 size, Color color, bool filled = false, Color borderColor = default(Color),
             Vector2 borderSize = default(Vector2), bool snapToScreen = false)
         {
-            cRenderer.AddRenderable(new Rectangle
+            Assets.Add(new Rectangle
             {
                 Position = position,
                 Size = size,
@@ -83,9 +95,9 @@
         /// <param name="cornerRadius">The radius, in pixels, of this rectangle's corners.</param>
         /// <param name="filled">Determines if this rectangle will be filled or not.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public static void DrawRoundedRectangle(Renderer cRenderer, Vector2 position, Vector2 size, Color color, int cornerRadius, bool filled = false, bool snapToScreen = false)
+        public void DrawRoundedRectangle(Renderer cRenderer, Vector2 position, Vector2 size, Color color, int cornerRadius, bool filled = false, bool snapToScreen = false)
         {
-            cRenderer.AddRenderable(new RoundedRectangle
+            Assets.Add(new RoundedRectangle
             {
                 Position = position,
                 Size = size,
@@ -107,9 +119,9 @@
         /// <param name="color">The color of the triangle - see <see cref="Color"/></param>
         /// <param name="filled">Determines if the triangle will be filled.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public static void DrawTriangle(Renderer cRenderer, Vector2 point1, Vector2 point2, Vector2 point3, Color color, bool filled = false, bool snapToScreen = false)
+        public void DrawTriangle(Renderer cRenderer, Vector2 point1, Vector2 point2, Vector2 point3, Color color, bool filled = false, bool snapToScreen = false)
         {
-            cRenderer.AddRenderable(new Triangle
+            Assets.Add(new Triangle
             {
                 Point1 = point1,
                 Point2 = point2,
@@ -129,9 +141,9 @@
         /// <param name="filled">Determines if the polygon will be filled or not.</param>
         /// <param name="antiAliased">Determines if the polygon will be anti-aliased - UNFILLED POLYGONS ONLY</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public static void DrawPolygon(Renderer cRenderer, List<Vector2> points, Color color, bool filled = false, bool antiAliased = false, bool snapToScreen = false)
+        public void DrawPolygon(Renderer cRenderer, List<Vector2> points, Color color, bool filled = false, bool antiAliased = false, bool snapToScreen = false)
         {
-            cRenderer.AddRenderable(new Polygon
+            Assets.Add(new Polygon
             {
                 Points = points,
                 Color = color,
@@ -151,9 +163,9 @@
         /// <param name="filled">Determines if this circle is filled.</param>
         /// <param name="antiAliased">Determines if this circle is anti-aliased. Only has an effect on unfilled circles for now</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public static void DrawCircle(Renderer cRenderer, Vector2 position, Vector2 size, Color color, bool filled = false, bool antiAliased = false, bool snapToScreen = false)
+        public void DrawCircle(Renderer cRenderer, Vector2 position, Vector2 size, Color color, bool filled = false, bool antiAliased = false, bool snapToScreen = false)
         {
-            cRenderer.AddRenderable(new Circle
+            Assets.Add(new Circle
             {
                 Position = position,
                 Size = size,
@@ -173,9 +185,9 @@
         /// <param name="color">The color to draw the text as.</param>
         /// <param name="localise">If true, the text will be localised with <see cref="LocalisationManager"/> before being drawn.</param>
         ///  <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public static void DrawText(Renderer cRenderer, string text, Vector2 position, Color color, bool localise = true, bool snapToScreen = false)
+        public void DrawText(Renderer cRenderer, string text, Vector2 position, Color color, bool localise = true, bool snapToScreen = false)
         {
-            cRenderer.AddRenderable(new BasicText
+            Assets.Add(new BasicText
             {
                 Position = position,
                 Text = text,

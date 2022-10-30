@@ -140,7 +140,7 @@
             // set the default background color if it's not set. a hack...
             if (CurBackgroundColor == default(Color)) CurBackgroundColor = BackgroundColor;
 
-            PrimitiveRenderer.DrawRectangle(cRenderer, Position, BoxSize, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+            PrimitiveManager.DrawRectangle(cRenderer, Position, BoxSize, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
 
             Font curFont = FontManager.GetFont(Font);
 
@@ -151,7 +151,7 @@
             {
                 if (curFont == null)
                 {
-                    PrimitiveRenderer.DrawText(cRenderer, Items[SelectedIndex].Text, Position, ForegroundColor, true);
+                    PrimitiveManager.DrawText(cRenderer, Items[SelectedIndex].Text, Position, ForegroundColor, true);
                 }
                 else
                 {

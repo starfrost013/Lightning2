@@ -306,27 +306,27 @@ while (cRenderer.Run())
         }
     }
     
-    PrimitiveRenderer.DrawLine(cRenderer, new Vector2(500, 300), new Vector2(600, 300), 1, Color.FromArgb(255, 255, 255, 255), false);
-    PrimitiveRenderer.DrawLine(cRenderer, new Vector2(500, 270), new Vector2(600, 270), 3, Color.FromArgb(255, 255, 255, 255), true);
-    PrimitiveRenderer.DrawLine(cRenderer, new Vector2(500, 240), new Vector2(600, 240), 7, Color.FromArgb(255, 255, 255, 255), false);
-    PrimitiveRenderer.DrawLine(cRenderer, new Vector2(500, 210), new Vector2(600, 210), 15, Color.FromArgb(255, 255, 255, 255), true);
+    PrimitiveManager.DrawLine(cRenderer, new Vector2(500, 300), new Vector2(600, 300), 1, Color.FromArgb(255, 255, 255, 255), false);
+    PrimitiveManager.DrawLine(cRenderer, new Vector2(500, 270), new Vector2(600, 270), 3, Color.FromArgb(255, 255, 255, 255), true);
+    PrimitiveManager.DrawLine(cRenderer, new Vector2(500, 240), new Vector2(600, 240), 7, Color.FromArgb(255, 255, 255, 255), false);
+    PrimitiveManager.DrawLine(cRenderer, new Vector2(500, 210), new Vector2(600, 210), 15, Color.FromArgb(255, 255, 255, 255), true);
 
-    PrimitiveRenderer.DrawCircle(cRenderer, new Vector2(500, 10), new Vector2(50, 50), Color.FromArgb(255, 255, 255, 255), true);
-    PrimitiveRenderer.DrawCircle(cRenderer, new Vector2(500, 309), new Vector2(50, 50), Color.FromArgb(127, 255, 255, 255), false);
+    PrimitiveManager.DrawCircle(cRenderer, new Vector2(500, 10), new Vector2(50, 50), Color.FromArgb(255, 255, 255, 255), true);
+    PrimitiveManager.DrawCircle(cRenderer, new Vector2(500, 309), new Vector2(50, 50), Color.FromArgb(127, 255, 255, 255), false);
 
-    PrimitiveRenderer.DrawRectangle(cRenderer, new Vector2(552, 10), new Vector2(30, 30), Color.FromArgb(255, 255, 255, 255), false);
-    PrimitiveRenderer.DrawRectangle(cRenderer, new Vector2(584, 10), new Vector2(30, 30), Color.FromArgb(33, 0, 0, 255), true);
+    PrimitiveManager.DrawRectangle(cRenderer, new Vector2(552, 10), new Vector2(30, 30), Color.FromArgb(255, 255, 255, 255), false);
+    PrimitiveManager.DrawRectangle(cRenderer, new Vector2(584, 10), new Vector2(30, 30), Color.FromArgb(33, 0, 0, 255), true);
 
-    PrimitiveRenderer.DrawRoundedRectangle(cRenderer, new Vector2(616, 10), new Vector2(30, 30), Color.FromArgb(127, 255, 255, 255), 3, false);
-    PrimitiveRenderer.DrawRoundedRectangle(cRenderer, new Vector2(648, 10), new Vector2(30, 30), Color.FromArgb(127, 255, 255, 255), 3, true);
-    PrimitiveRenderer.DrawRoundedRectangle(cRenderer, new Vector2(680, 10), new Vector2(30, 30), Color.FromArgb(127, 255, 255, 255), 12, true);
+    PrimitiveManager.DrawRoundedRectangle(cRenderer, new Vector2(616, 10), new Vector2(30, 30), Color.FromArgb(127, 255, 255, 255), 3, false);
+    PrimitiveManager.DrawRoundedRectangle(cRenderer, new Vector2(648, 10), new Vector2(30, 30), Color.FromArgb(127, 255, 255, 255), 3, true);
+    PrimitiveManager.DrawRoundedRectangle(cRenderer, new Vector2(680, 10), new Vector2(30, 30), Color.FromArgb(127, 255, 255, 255), 12, true);
 
-    PrimitiveRenderer.DrawTriangle(cRenderer, new Vector2(722, 10), new Vector2(747, 40), new Vector2(707, 40), Color.FromArgb(127, 255, 255, 255), false);
-    PrimitiveRenderer.DrawTriangle(cRenderer, new Vector2(779, 10), new Vector2(794, 40), new Vector2(764, 40), Color.FromArgb(127, 255, 255, 255), true);
+    PrimitiveManager.DrawTriangle(cRenderer, new Vector2(722, 10), new Vector2(747, 40), new Vector2(707, 40), Color.FromArgb(127, 255, 255, 255), false);
+    PrimitiveManager.DrawTriangle(cRenderer, new Vector2(779, 10), new Vector2(794, 40), new Vector2(764, 40), Color.FromArgb(127, 255, 255, 255), true);
 
-    PrimitiveRenderer.DrawText(cRenderer, "#[STRING_TEST]", new Vector2(500, 90), Color.FromArgb(255, 0, 0, 255));
-    PrimitiveRenderer.DrawText(cRenderer, "Loc string test: #[STRING_TEST]", new Vector2(500, 120), Color.FromArgb(255, 0, 0, 255));
-    PrimitiveRenderer.DrawText(cRenderer, "Loc string test: #[STRING_TEST] aaaaaa #[STRING_TEST] #[STRING_TEST] bbbbbb", new Vector2(500, 150), Color.FromArgb(255, 0, 0, 255));
+    PrimitiveManager.DrawText(cRenderer, "#[STRING_TEST]", new Vector2(500, 90), Color.FromArgb(255, 0, 0, 255));
+    PrimitiveManager.DrawText(cRenderer, "Loc string test: #[STRING_TEST]", new Vector2(500, 120), Color.FromArgb(255, 0, 0, 255));
+    PrimitiveManager.DrawText(cRenderer, "Loc string test: #[STRING_TEST] aaaaaa #[STRING_TEST] #[STRING_TEST] bbbbbb", new Vector2(500, 150), Color.FromArgb(255, 0, 0, 255));
 
     TextManager.DrawText(cRenderer, "Test1", "Arial.11pt", new Vector2(700, 10), Color.FromArgb(255, 255, 255, 255));
     TextManager.DrawText(cRenderer, "Test2", "Arial.11pt", new Vector2(700, 30), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold);

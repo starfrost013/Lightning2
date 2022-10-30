@@ -58,6 +58,7 @@ namespace LightningGL
             // Start the delta timer.
             FrameTimer.Start();
             ThisTime = 0;
+            Renderables = new List<Renderable>();
         }
 
         /// <summary>
@@ -204,19 +205,19 @@ namespace LightningGL
         /// </summary>
         public void Render()
         {
-            // Build a list of renderables to render from all asset managers.
-            List<Renderable> renderables = BuildRenderableList();
+            int renderableCount = Renderables.Count;
 
-            // temporary compromise - we loaded new renderables
-            if (Renderables == null
-                || renderables.Count != Renderables.Count)
+            // Build a list of renderables to render from all asset managers.
+            // Other stuff can be added "outside" so we simply remove and add to the list (todo: this isn't great)
+            BuildRenderableList();
+
+            if (renderableCount != Renderables.Count)
             {
-                // we have to resort by z-index.
-                Renderables = renderables;
                 NCLogging.Log("Resorting renderable list by Z-index...");
                 Renderables.OrderBy(x => x.ZIndex);
             }
-            
+
+            // Draw every object.
             RenderAll();
 
             // Render the lightmap.
@@ -227,6 +228,9 @@ namespace LightningGL
 
             // Update the font manager
             FontManager.Update(this);
+
+            // Update the primitive manager
+            PrimitiveManager.Update(this);
 
             // draw fps on top always (by drawing it last. we don't have zindex, but we will later). Also snap it to the screen like a hud element. 
             // check the showfps global setting first
@@ -263,11 +267,23 @@ namespace LightningGL
         /// </summary>
         private void DrawDebugInformation()
         {
-            int currentY = (int)Settings.Camera.Position.Y;
+            float currentY = 0;
             int debugLineDistance = 12;
 
-            PrimitiveRenderer.DrawText(this, $"FPS: {CurFPS.ToString("F1")} ({DeltaTime.ToString("F2")}ms)", new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 255, 255), true);
+            string[] debugText =
+            {
+                $"FPS: {CurFPS.ToString("F1")} ({DeltaTime.ToString("F2")}ms)",
+                FrameNumber.ToString(),
+                $"Number of renderables on-screen: {Renderables.Count}"
+            };
 
+            foreach (string line in debugText)
+            {
+                PrimitiveManager.DrawText(this, line, new Vector2(0, currentY), Color.FromArgb(255, 255, 255, 255), true, true);
+                currentY += debugLineDistance;
+            }
+
+            // draw indicator that we are under 60fps always under it
             if (CurFPS < GlobalSettings.GraphicsMaxFPS)
             {
                 currentY += debugLineDistance;
@@ -276,11 +292,8 @@ namespace LightningGL
 
                 if (maxFps == 0) maxFps = 60;
 
-                PrimitiveRenderer.DrawText(this, $"Running under target FPS ({maxFps})!", new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 0, 0), true);
+                PrimitiveManager.DrawText(this, $"Running under target FPS ({maxFps})!", new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 0, 0), true);
             }
-
-            currentY += debugLineDistance;
-            PrimitiveRenderer.DrawText(this, FrameNumber.ToString(), new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 255, 255), true);
         }
 
         private void UpdateFps()
@@ -350,43 +363,49 @@ namespace LightningGL
         /// <param name="fullscreen">A boolean determining if the window is fullscreen (TRUE) or windowed (FALSE)</param>
         public void SetFullscreen(bool fullscreen) => SDL_SetWindowFullscreen(Settings.WindowHandle, fullscreen ? (uint)SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
 
-        private List<Renderable> BuildRenderableList()
+        private void BuildRenderableList()
         {
-            // lightmanager doesn't draw each frame and audiomanager needs to be updated on its own
-            List<Renderable> renderables = new List<Renderable>();
+            Renderables.Clear();
 
-            foreach (Renderable renderable in UIManager.Assets) AddRenderable(renderable);
-            foreach (Renderable renderable in TextureManager.Assets) AddRenderable(renderable);
-            foreach (Renderable renderable in ParticleManager.Assets) AddRenderable(renderable);
-            foreach (Renderable renderable in TextManager.Assets) AddRenderable(renderable);
+            foreach (Renderable renderable in UIManager.Assets) Renderables.Add(renderable);
+            foreach (Renderable renderable in TextureManager.Assets) Renderables.Add(renderable);
+            foreach (Renderable renderable in ParticleManager.Assets) Renderables.Add(renderable);
+            foreach (Renderable renderable in TextManager.Assets) Renderables.Add(renderable);
+            foreach (Renderable renderable in PrimitiveManager.Assets) Renderables.Add(renderable);
 
             // if we haven't specified otherwise...
             if (!GlobalSettings.GraphicsRenderOffScreenRenderables)
             {
                 // Cull stuff offscreen and move it with the camera
-                for (int renderableId = 0; renderableId < renderables.Count; renderableId++)
+                for (int renderableId = 0; renderableId < Renderables.Count; renderableId++)
                 {
-                    Renderable renderable = renderables[renderableId];
+                    Renderable renderable = Renderables[renderableId];
 
                     if (Settings.Camera != null)
                     {
-                        renderable.IsOnScreen = (renderable.RenderPosition.X >= Settings.Camera.Position.X - renderable.Size.X
-                            && renderable.RenderPosition.Y >= Settings.Camera.Position.Y - renderable.Size.Y
-                            && renderable.RenderPosition.X <= Settings.Camera.Position.X + GlobalSettings.GraphicsResolutionX
-                            && renderable.RenderPosition.Y <= Settings.Camera.Position.Y + GlobalSettings.GraphicsResolutionY);
+                        if (!renderable.SnapToScreen)
+                        {
+                            renderable.IsOnScreen = (renderable.RenderPosition.X >= Settings.Camera.Position.X - renderable.Size.X
+                                && renderable.RenderPosition.Y >= Settings.Camera.Position.Y - renderable.Size.Y
+                                && renderable.RenderPosition.X <= Settings.Camera.Position.X + GlobalSettings.GraphicsResolutionX
+                                && renderable.RenderPosition.Y <= Settings.Camera.Position.Y + GlobalSettings.GraphicsResolutionY);
+                        }
+                        else
+                        {
+                            renderable.IsOnScreen = (renderable.RenderPosition.X >= 0
+                                && renderable.RenderPosition.X <= SystemInfo.ScreenResolutionX
+                                && renderable.RenderPosition.Y >= 0
+                                && renderable.RenderPosition.Y <= SystemInfo.ScreenResolutionY);
+                        }
                     }
                 }
             }
             else
             {
                 // just assume they are on screen
-                foreach (Renderable renderable in renderables) renderable.IsOnScreen = true;
+                foreach (Renderable renderable in Renderables) renderable.IsOnScreen = true;
             }
-
-            return renderables;
         }
-
-        internal void AddRenderable(Renderable renderable) => Renderables.Add(renderable);
 
         #region Event handlers
 
@@ -396,8 +415,10 @@ namespace LightningGL
         /// <param name="cRenderer">The UI element to render.</param>
         internal void RenderAll()
         {
-            foreach (Renderable renderable in Renderables)
+            for (int renderableId = 0; renderableId < Renderables.Count; renderableId++)
             {
+                Renderable renderable = Renderables[renderableId]; // prevent collection modified exception
+
                 // --- THESE TASKS need to be performed ONLY when the renderable is on screen ---
                 if (renderable.IsOnScreen)
                 {

@@ -1,10 +1,6 @@
-﻿
-using static System.Net.Mime.MediaTypeNames;
-using System.Drawing;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
-    internal class BasicText : Renderable
+    internal class BasicText : Primitive
     {
         internal bool Localise { get; set; }
 
@@ -20,6 +16,10 @@ namespace LightningGL
             {
                 RenderPosition = new(Position.X - currentCamera.Position.X,
                     Position.Y - currentCamera.Position.Y);
+            }
+            else
+            {
+                RenderPosition = Position;
             }
 
             if (Localise) Text = LocalisationManager.ProcessString(Text);

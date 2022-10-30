@@ -1,6 +1,6 @@
 ﻿namespace LightningGL
 {
-    internal class Pixel : Renderable
+    internal class Pixel : Primitive
     {
         internal override void Draw(Renderer cRenderer)
         {
@@ -11,6 +11,10 @@
                 && !SnapToScreen)
             {
                 RenderPosition = new(Position.X - currentCamera.Position.X, Position.Y - currentCamera.Position.Y);
+            }
+            else
+            {
+                RenderPosition = Position;
             }
 
             pixelRGBA(cRenderer.Settings.RendererHandle, (int)RenderPosition.X, (int)RenderPosition.Y, Color.R, Color.G, Color.B, Color.A);

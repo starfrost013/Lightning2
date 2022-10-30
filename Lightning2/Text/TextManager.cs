@@ -102,7 +102,7 @@ namespace LightningGL
                 if (numberOfLines > 1) totalSizeX = (int)FontManager.GetLargestTextSize(curFont, text).X;
 
                 // camera-aware is false for this as we have already "pushed" the position, so we don't need to do it again.
-                PrimitiveRenderer.DrawRectangle(cRenderer, position, new(totalSizeX, totalSizeY), Color.FromArgb(bgColor.a, bgColor.r, bgColor.g, bgColor.b), true, default, default, true);
+                PrimitiveManager.DrawRectangle(cRenderer, position, new(totalSizeX, totalSizeY), Color.FromArgb(bgColor.a, bgColor.r, bgColor.g, bgColor.b), true, default, default, true);
             }
 
             // use the cached entry if it exists
