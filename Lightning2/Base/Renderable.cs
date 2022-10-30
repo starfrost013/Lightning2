@@ -158,6 +158,11 @@
         /// </summary>
         public int ZIndex { get; set; }
 
+        /// <summary>
+        /// The color of this renderable
+        /// </summary>
+        public Color Color { get; set; }
+
         public Renderable()
         {
             AnimationTimer = new Stopwatch();

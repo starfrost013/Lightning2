@@ -355,10 +355,10 @@ namespace LightningGL
             // lightmanager doesn't draw each frame and audiomanager needs to be updated on its own
             List<Renderable> renderables = new List<Renderable>();
 
-            foreach (Renderable renderable in UIManager.Assets) renderables.Add(renderable);
-            foreach (Renderable renderable in TextureManager.Assets) renderables.Add(renderable);
-            foreach (Renderable renderable in ParticleManager.Assets) renderables.Add(renderable);
-            foreach (Renderable renderable in TextManager.Assets) renderables.Add(renderable);
+            foreach (Renderable renderable in UIManager.Assets) AddRenderable(renderable);
+            foreach (Renderable renderable in TextureManager.Assets) AddRenderable(renderable);
+            foreach (Renderable renderable in ParticleManager.Assets) AddRenderable(renderable);
+            foreach (Renderable renderable in TextManager.Assets) AddRenderable(renderable);
 
             // if we haven't specified otherwise...
             if (!GlobalSettings.GraphicsRenderOffScreenRenderables)
@@ -386,6 +386,7 @@ namespace LightningGL
             return renderables;
         }
 
+        internal void AddRenderable(Renderable renderable) => Renderables.Add(renderable);
 
         #region Event handlers
 

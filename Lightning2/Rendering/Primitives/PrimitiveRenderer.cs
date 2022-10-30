@@ -3,9 +3,7 @@
     /// <summary>
     /// PrimitiveRenderer
     /// 
-    /// February 7, 2022
-    /// 
-    /// Defines a static primitive renderer class that takes a Window and renders a primitive to it. 
+    /// As of October 29, 2022, this class is simply a forwarder
     /// </summary>
     public static class PrimitiveRenderer
     {
@@ -18,17 +16,12 @@
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
         public static void DrawPixel(Renderer cRenderer, Vector2 position, Color color, bool snapToScreen = false)
         {
-            // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = cRenderer.Settings.Camera;
-
-            if (currentCamera != null
-                && !snapToScreen)
+            cRenderer.AddRenderable(new Pixel
             {
-                position.X -= currentCamera.Position.X;
-                position.Y -= currentCamera.Position.Y;
-            }
-
-            pixelRGBA(cRenderer.Settings.RendererHandle, (int)position.X, (int)position.Y, color.R, color.G, color.B, color.A);
+                Position = position,
+                Color = color,
+                SnapToScreen = snapToScreen,
+            });
         }
 
         /// <summary>
@@ -43,45 +36,15 @@
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
         public static void DrawLine(Renderer cRenderer, Vector2 start, Vector2 end, short thickness, Color color, bool antiAliased = true, bool snapToScreen = false)
         {
-            // lineRGBA(); just calls SDL.SDL_RenderDrawLine
-            // thickLine does other stuff. 
-            // therefore call lineRGBA if thickness = 1
-
-            // 2022-02-25: Changed SDL2_gfx in C++
-            // to support 16-bit thickness instead of 8-bit
-
-            // nobody will ever need a line more than 32,767 pixels wide
-            // (he says, regretting this in the future). If we do we can just change to sint32 in c++.
-
-            if (thickness < 1) _ = new NCException($"Cannot draw a line with a thickness property below 1 pixel! (thickness = {thickness})", 18, "PrimitiveRenderer::DrawLine called with thickness property < 1", NCExceptionSeverity.FatalError);
-
-            // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = cRenderer.Settings.Camera;
-
-            if (currentCamera != null
-                && !snapToScreen)
+            cRenderer.AddRenderable(new Line
             {
-                start.X -= currentCamera.Position.X;
-                start.Y -= currentCamera.Position.Y;
-                end.X -= currentCamera.Position.X;
-                end.Y -= currentCamera.Position.Y;
-            }
-
-            if (thickness == 1)
-            {
-                if (antiAliased)
-                {
-                    aalineRGBA(cRenderer.Settings.RendererHandle, (int)start.X, (int)start.Y, (int)end.X, (int)end.Y, color.R, color.G, color.B, color.A);
-                }
-                else
-                {
-                    lineRGBA(cRenderer.Settings.RendererHandle, (int)start.X, (int)start.Y, (int)end.X, (int)end.Y, color.R, color.G, color.B, color.A);
-                }
-            }
-            else
-            {
-                thickLineRGBA(cRenderer.Settings.RendererHandle, (int)start.X, (int)start.Y, (int)end.X, (int)end.Y, thickness, color.R, color.G, color.B, color.A);
-            }
+                Color = color,
+                Start = start,
+                End = end,
+                Thickness = thickness,
+                Antialiased = antiAliased,
+                SnapToScreen = snapToScreen,
+            });
         }
 
         /// <summary>
@@ -92,39 +55,22 @@
         /// <param name="size">The size of the rectangle to draw.</param>
         /// <param name="color">The color of the rectangle to draw.</param>
         /// <param name="filled">Determines if this rectangle will be filled or not.</param>
-        /// <param name="bordercolor">The color of this rectangle's border.</param>
+        /// <param name="borderColor">The color of this rectangle's border.</param>
         /// <param name="borderSize">The size of this rectangle's border.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space (false) or screen-relative space (true).</param>
-        public static void DrawRectangle(Renderer cRenderer, Vector2 position, Vector2 size, Color color, bool filled = false, Color bordercolor = default(Color),
+        public static void DrawRectangle(Renderer cRenderer, Vector2 position, Vector2 size, Color color, bool filled = false, Color borderColor = default(Color),
             Vector2 borderSize = default(Vector2), bool snapToScreen = false)
         {
-
-            // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = cRenderer.Settings.Camera;
-
-            if (currentCamera != null
-                && !snapToScreen)
+            cRenderer.AddRenderable(new Rectangle
             {
-                position.X -= currentCamera.Position.X;
-                position.Y -= currentCamera.Position.Y;
-            }
-
-            if (bordercolor != default(Color))
-            {
-                rectangleRGBA(cRenderer.Settings.RendererHandle, (int)position.X - (int)borderSize.X, (int)position.Y - (int)borderSize.Y,
-                    (int)position.X + (int)size.X + ((int)borderSize.X * 2), (int)position.Y + (int)size.Y + ((int)borderSize.Y * 2), color.R, color.G, color.B, color.A);
-            }
-
-            if (filled)
-            {
-                boxRGBA(cRenderer.Settings.RendererHandle, (int)position.X, (int)position.Y,
-                    (int)position.X + (int)size.X, (int)position.Y + (int)size.Y, color.R, color.G, color.B, color.A);
-            }
-            else
-            {
-                rectangleRGBA(cRenderer.Settings.RendererHandle, (int)position.X, (int)position.Y,
-                    (int)position.X + (int)size.X, (int)position.Y + (int)size.Y, color.R, color.G, color.B, color.A);
-            }
+                Position = position,
+                Size = size,
+                Color = color,
+                Filled = filled,
+                BorderColor = borderColor,
+                BorderSize = borderSize,
+                SnapToScreen = snapToScreen
+            });
         }
 
         /// <summary>
@@ -139,26 +85,15 @@
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
         public static void DrawRoundedRectangle(Renderer cRenderer, Vector2 position, Vector2 size, Color color, int cornerRadius, bool filled = false, bool snapToScreen = false)
         {
-            // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = cRenderer.Settings.Camera;
-
-            if (currentCamera != null
-                && !snapToScreen)
+            cRenderer.AddRenderable(new RoundedRectangle
             {
-                position.X -= currentCamera.Position.X;
-                position.Y -= currentCamera.Position.Y;
-            }
-
-            if (filled)
-            {
-                roundedBoxRGBA(cRenderer.Settings.RendererHandle, (int)position.X, (int)position.Y, (int)position.X + (int)size.X,
-                    (int)position.Y + (int)size.Y, cornerRadius, color.R, color.G, color.B, color.A);
-            }
-            else
-            {
-                roundedRectangleRGBA(cRenderer.Settings.RendererHandle, (int)position.X, (int)position.Y,
-                    (int)position.X + (int)size.X, (int)position.Y + (int)size.Y, cornerRadius, color.R, color.G, color.B, color.A);
-            }
+                Position = position,
+                Size = size,
+                Color = color,
+                Filled = filled,
+                CornerRadius = cornerRadius,
+                SnapToScreen = snapToScreen
+            });
 
         }
 
@@ -174,31 +109,15 @@
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
         public static void DrawTriangle(Renderer cRenderer, Vector2 point1, Vector2 point2, Vector2 point3, Color color, bool filled = false, bool snapToScreen = false)
         {
-            // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = cRenderer.Settings.Camera;
-
-            if (currentCamera != null
-                && !snapToScreen)
+            cRenderer.AddRenderable(new Triangle
             {
-                point1.X -= currentCamera.Position.X;
-                point2.X -= currentCamera.Position.X;
-                point3.X -= currentCamera.Position.X;
-
-                point1.Y -= currentCamera.Position.Y;
-                point2.Y -= currentCamera.Position.Y;
-                point3.Y -= currentCamera.Position.Y;
-            }
-
-            if (filled)
-            {
-                filledTrigonRGBA(cRenderer.Settings.RendererHandle, (int)point1.X, (int)point1.Y, (int)point2.X, (int)point2.Y, (int)point3.X,
-                    (int)point3.Y, color.R, color.G, color.B, color.A);
-            }
-            else
-            {
-                trigonRGBA(cRenderer.Settings.RendererHandle, (int)point1.X, (int)point1.Y, (int)point2.X, (int)point2.Y, (int)point3.X,
-                    (int)point3.Y, color.R, color.G, color.B, color.A);
-            }
+                Point1 = point1,
+                Point2 = point2,
+                Point3 = point3,
+                Color = color,
+                Filled = filled,
+                SnapToScreen = snapToScreen
+            });
         }
 
         /// <summary>
@@ -212,51 +131,14 @@
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
         public static void DrawPolygon(Renderer cRenderer, List<Vector2> points, Color color, bool filled = false, bool antiAliased = false, bool snapToScreen = false)
         {
-            // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = cRenderer.Settings.Camera;
-
-            if (currentCamera != null
-                && !snapToScreen)
+            cRenderer.AddRenderable(new Polygon
             {
-                for (int curPoint = 0; curPoint < points.Count; curPoint++)
-                {
-                    Vector2 point = points[curPoint];
-
-                    point.X -= currentCamera.Position.X;
-                    point.Y -= currentCamera.Position.Y;
-
-                    // Vector2s cannot be returned by reference so we have to do this terribleness
-                    points[curPoint] = point;
-                }
-            }
-
-            // build a list of points
-            // convert to make sdl2-gfx happy
-            List<short> finalPointsX = new List<short>();
-            List<short> finalPointsY = new List<short>();
-
-            foreach (Vector2 point in points)
-            {
-                finalPointsX.Add(Convert.ToInt16(point.X));
-                finalPointsY.Add(Convert.ToInt16(point.Y));
-            }
-
-            // count will always be the same
-            if (filled)
-            {
-                filledPolygonRGBA(cRenderer.Settings.RendererHandle, finalPointsX.ToArray(), finalPointsY.ToArray(), finalPointsX.Count, color.R, color.G, color.B, color.A);
-            }
-            else
-            {
-                if (antiAliased)
-                {
-                    aapolygonRGBA(cRenderer.Settings.RendererHandle, finalPointsX.ToArray(), finalPointsY.ToArray(), finalPointsX.Count, color.R, color.G, color.B, color.A);
-                }
-                else
-                {
-                    polygonRGBA(cRenderer.Settings.RendererHandle, finalPointsX.ToArray(), finalPointsY.ToArray(), finalPointsX.Count, color.R, color.G, color.B, color.A);
-                }
-            }
+                Points = points,
+                Color = color,
+                Filled = filled,
+                Antialiased = antiAliased,
+                SnapToScreen = snapToScreen
+            });
         }
 
         /// <summary>
@@ -271,56 +153,15 @@
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
         public static void DrawCircle(Renderer cRenderer, Vector2 position, Vector2 size, Color color, bool filled = false, bool antiAliased = false, bool snapToScreen = false)
         {
-            // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = cRenderer.Settings.Camera;
-
-            if (currentCamera != null
-                && !snapToScreen)
+            cRenderer.AddRenderable(new Circle
             {
-                position.X -= currentCamera.Position.X;
-                position.Y -= currentCamera.Position.Y;
-            }
-
-            if (filled)
-            {
-                DrawCircle_DrawFilledCircle(cRenderer, position, size, color);
-            }
-            else
-            {
-                DrawCircle_DrawUnfilledCircle(cRenderer, position, size, color, antiAliased);
-            }
-        }
-
-        /// <summary>
-        /// Private: Draws an unfilled circle to the screen.
-        /// </summary>
-        /// <param name="cRenderer">The window to draw this circle to.</param>
-        /// <param name="position">The position of the circle to draw</param>
-        /// <param name="size">The size of the circle to draw.</param>
-        /// <param name="color">The color of the circle to draw.</param>
-        /// <param name="antiAliased">Determines if this circle is anti-aliased.</param>
-        private static void DrawCircle_DrawUnfilledCircle(Renderer cRenderer, Vector2 position, Vector2 size, Color color, bool antiAliased = false)
-        {
-            if (!antiAliased)
-            {
-                ellipseRGBA(cRenderer.Settings.RendererHandle, (int)position.X, (int)position.Y, (int)size.X, (int)size.Y, color.R, color.G, color.B, color.A);
-            }
-            else
-            {
-                aaellipseRGBA(cRenderer.Settings.RendererHandle, (int)position.X, (int)position.Y, (int)size.X, (int)size.Y, color.R, color.G, color.B, color.A);
-            }
-        }
-
-        /// <summary>
-        /// Private: Draws a filled circle to the screen.
-        /// </summary>
-        /// <param name="cRenderer">The window to draw this circle to.</param>
-        /// <param name="position">The position of the circle to draw</param>
-        /// <param name="size">The size of the circle to draw.</param>
-        /// <param name="color">The color of the circle to draw.</param>
-        private static void DrawCircle_DrawFilledCircle(Renderer cRenderer, Vector2 position, Vector2 size, Color color)
-        {
-            filledEllipseRGBA(cRenderer.Settings.RendererHandle, (int)position.X, (int)position.Y, (int)size.X, (int)size.Y, color.R, color.G, color.B, color.A);
+                Position = position,
+                Size = size,
+                Color = color,
+                Filled = filled,
+                Antialiased = antiAliased,
+                SnapToScreen = snapToScreen
+            });
         }
 
         /// <summary>
@@ -334,20 +175,14 @@
         ///  <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
         public static void DrawText(Renderer cRenderer, string text, Vector2 position, Color color, bool localise = true, bool snapToScreen = false)
         {
-            // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = cRenderer.Settings.Camera;
-
-            if (currentCamera != null
-                && !snapToScreen)
+            cRenderer.AddRenderable(new BasicText
             {
-                position.X -= currentCamera.Position.X;
-                position.Y -= currentCamera.Position.Y;
-            }
-
-            if (localise) text = LocalisationManager.ProcessString(text);
-
-            // todo: in c++: recompile sdl2_gfx to use sint32, not sint16, and modify pinvoke accordingly
-            stringRGBA(cRenderer.Settings.RendererHandle, (short)position.X, (short)position.Y, text, color.R, color.G, color.B, color.A);
+                Position = position,
+                Text = text,
+                Localise = localise,
+                Color = color,
+                SnapToScreen = snapToScreen
+            });
         }
     }
 }

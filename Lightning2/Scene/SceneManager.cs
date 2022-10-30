@@ -65,9 +65,11 @@ namespace LightningGL
                 }
             }
 
+            if (Assets.Count == 0) throw new NCException($"There are no scenes defined!", 131, 
+                "SceneManager::Scenes Count = 0!", NCExceptionSeverity.FatalError);
 
-            if (Assets.Count == 0) throw new NCException($"There are no scenes defined!", 131, "SceneManager::Scenes Count = 0!", NCExceptionSeverity.FatalError);
-            if (CurrentScene == null) throw new NCException($"There must be a startup scene set!", 132, "No current scene specified!", NCExceptionSeverity.FatalError);
+            if (CurrentScene == null) throw new NCException($"Invalid startup scene {GlobalSettings.SceneStartupScene}", 132, 
+                "GlobalSettings::StartupScene did not correspond to a valid scene", NCExceptionSeverity.FatalError);
 
             Initialised = true;
         }

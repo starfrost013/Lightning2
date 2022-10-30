@@ -402,9 +402,13 @@ namespace LightningBase
             // load the scene section 
             if (!GeneralDontUseSceneManager)
             {
-                if (sceneSection == null) _ = new NCException("DontUseSceneManager not specified, but no [Scene] section is present in Engine.ini!", 121, $"GlobalSettings::DontUseSceneManager not specified, but no [Scene] section in Engine.ini!", NCExceptionSeverity.FatalError);
+                if (sceneSection == null) _ = new NCException("DontUseSceneManager not specified, but no [Scene] section is present in Engine.ini!", 121, 
+                    $"GlobalSettings::DontUseSceneManager not specified, but no [Scene] section in Engine.ini!", NCExceptionSeverity.FatalError);
 
                 SceneStartupScene = sceneSection.GetValue("StartupScene");
+
+                if (SceneStartupScene == null) _ = new NCException("DontUseSceneManager not specified, but StartupScene not present in the [Scene] section of Engine.ini!", 164, 
+                    $"GlobalSettings::DontUseSceneManager not specified, but no [Scene] section in Engine.ini!", NCExceptionSeverity.FatalError);
             }
 
             AudioDeviceHz = DEFAULT_AUDIO_DEVICE_HZ;

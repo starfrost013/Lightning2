@@ -65,9 +65,6 @@ namespace LightningBase
 
         public static int SDL_Init(SDL_InitFlags flags)
         {
-            // print a sign-on message so that we know it's initialising
-            Console.WriteLine(LightningBase.BASE_VERSION);
-
             // Prevent silent exit if debugger is attached in some cases
             if (Debugger.IsAttached) SDL_SetHint(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");
 

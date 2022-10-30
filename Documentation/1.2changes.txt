@@ -18,9 +18,17 @@ Everything that matters to the api has to go here
 
 * todo:
 	- add freetype bindings
-	- refactor globsettings
 	- global usings everywhere
+	- primitive root class (internal)
 
 2022.10.27:
 * Added LNetClient, LNetServer
-* 
+* Refactored GlobalSettings using constants for default values and renaming properties to start with their category names.
+
+2022.10.28:
+* Client now functional.
+
+2022.10.29:
+* Implemented Renderable::Color
+* Made all Primitive classes that inherit from Renderable. The PrimitiveRenderer class now just adds these classes to the Renderer so they are all subject to z-index, etc.
+
