@@ -67,7 +67,8 @@ namespace LightningGL
 
 
             if (Assets.Count == 0) throw new NCException($"There are no scenes defined!", 131, "SceneManager::Scenes Count = 0!", NCExceptionSeverity.FatalError);
-            if (CurrentScene == null) throw new NCException($"There must be a startup scene set!", 132, "No current scene specified!", NCExceptionSeverity.FatalError);
+            if (CurrentScene == null) throw new NCException($"Attempted to specify invalid startup scene {CurrentScene}!", 132, 
+                $"The value of GlobalSettings::StartupScene did not correspond to a class that inherits from Scene in the game assembly", NCExceptionSeverity.FatalError);
 
             Initialised = true;
         }
@@ -85,7 +86,7 @@ namespace LightningGL
                 {
                     switch (Renderer.LastEvent.type)
                     {
-                        case SDL.SDL_EventType.SDL_QUIT:
+                        case SDL_EventType.SDL_QUIT:
                             NCLogging.Log("Shutting down scene...");
                             foreach (Scene scene in Assets)
                             {

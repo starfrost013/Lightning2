@@ -285,7 +285,8 @@ namespace LightningBase
                 _ = int.TryParse(positionY, out var positionYValue);
 
                 // failed to load, set default values (middle of screen)
-                if (positionXValue == 0 && positionYValue == 0)
+                if (positionXValue == 0 
+                    && positionYValue == 0)
                 {
                     positionXValue = SystemInfo.ScreenResolutionX / 2 - (ResolutionX / 2);
                     positionYValue = SystemInfo.ScreenResolutionY / 2 - (ResolutionY / 2);
@@ -307,8 +308,8 @@ namespace LightningBase
                 string minimumCpuCapabilities = requirementsSection.GetValue("MinimumCpuCapabilities");
                 string minimumOperatingSystem = requirementsSection.GetValue("MinimumOperatingSystem");
 
-                SystemInfoCPUCapabilities minimumCpuCapabilitiesValue = 0;
-                SystemInfoOperatingSystem minimumOperatingSystemValue = 0;
+                SystemInfoCPUCapabilities minimumCpuCapabilitiesValue = default;
+                SystemInfoOperatingSystem minimumOperatingSystemValue = default;
 
                 _ = int.TryParse(minRam, out var minRamValue);
                 _ = int.TryParse(minLogicalProcessors, out var minLogicalProcessorsValue);
@@ -324,9 +325,13 @@ namespace LightningBase
             // load the scene section 
             if (!DontUseSceneManager)
             {
-                if (sceneSection == null) _ = new NCException("DontUseSceneManager not specified, but no [Scene] section is present in Engine.ini!", 121, $"GlobalSettings::DontUseSceneManager not specified, but no [Scene] section in Engine.ini!", NCExceptionSeverity.FatalError);
+                if (sceneSection == null) _ = new NCException("DontUseSceneManager not specified, but no [Scene] section is present in Engine.ini!", 121, 
+                    $"GlobalSettings::DontUseSceneManager not specified, but no [Scene] section in Engine.ini!", NCExceptionSeverity.FatalError);
 
                 StartupScene = sceneSection.GetValue("StartupScene");
+
+                if (StartupScene == null) _ = new NCException("A [Scene] section was present in Engine.ini, but no StartupScene setting was provided.", 165, 
+                    "Call to NCINIFileSection::GetValue for GlobalSettings::StartupScene failed", NCExceptionSeverity.FatalError);
             }
         }
 
