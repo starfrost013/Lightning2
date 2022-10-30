@@ -52,6 +52,11 @@ namespace LightningGL
         /// </summary>
         private List<Renderable> Renderables { get; set; }
 
+        /// <summary>
+        /// Number of renderables actually rendered this frame.
+        /// </summary>
+        private int RenderedThisFrame { get; set; }
+
         public Renderer()
         {
             FrameTimer = new Stopwatch();
@@ -205,6 +210,9 @@ namespace LightningGL
         /// </summary>
         public void Render()
         {
+            // Reset rendered this frame count
+            RenderedThisFrame = 0;
+
             int renderableCount = Renderables.Count;
 
             // Build a list of renderables to render from all asset managers.
@@ -265,6 +273,9 @@ namespace LightningGL
         /// <summary>
         /// Draws debug information to the screen if the <see cref="GlobalSettings.GeneralShowDebugInfo"/> setting is enabled.
         /// </summary>
+        /// <summary>
+        /// Draws debug information to the screen if the <see cref="GlobalSettings.ShowDebugInfo"/> setting is enabled.
+        /// </summary>
         private void DrawDebugInformation()
         {
             float currentY = 0;
@@ -274,7 +285,8 @@ namespace LightningGL
             {
                 $"FPS: {CurFPS.ToString("F1")} ({DeltaTime.ToString("F2")}ms)",
                 FrameNumber.ToString(),
-                $"Number of renderables on-screen: {Renderables.Count}"
+                $"Number of renderables: {Renderables.Count}",
+                $"Number of renderables on screen: {RenderedThisFrame}"
             };
 
             foreach (string line in debugText)
@@ -292,7 +304,8 @@ namespace LightningGL
 
                 if (maxFps == 0) maxFps = 60;
 
-                PrimitiveManager.DrawText(this, $"Running under target FPS ({maxFps})!", new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 0, 0), true);
+                PrimitiveManager.DrawText(this, $"Running under target FPS ({maxFps})!",
+                    new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 0, 0), true);
             }
         }
 
@@ -420,9 +433,11 @@ namespace LightningGL
                 Renderable renderable = Renderables[renderableId]; // prevent collection modified exception
 
                 // --- THESE TASKS need to be performed ONLY when the renderable is on screen ---
-                if (renderable.IsOnScreen)
+                if (renderable.IsOnScreen
+                    && renderable.OnRender != null)
                 {
-                    if (renderable.OnRender != null) renderable.OnRender(this);
+                    renderable.OnRender(this);
+                    RenderedThisFrame++;
                 }
 
                 // --- THESE tasks need to be performed when the renderable is on AND off screen ---
