@@ -370,10 +370,20 @@ namespace LightningGL
 
                     if (Settings.Camera != null)
                     {
-                        renderable.IsOnScreen = (renderable.RenderPosition.X >= Settings.Camera.Position.X - renderable.Size.X
-                            && renderable.RenderPosition.Y >= Settings.Camera.Position.Y - renderable.Size.Y
-                            && renderable.RenderPosition.X <= Settings.Camera.Position.X + GlobalSettings.ResolutionX
-                            && renderable.RenderPosition.Y <= Settings.Camera.Position.Y + GlobalSettings.ResolutionY);
+                        if (!renderable.SnapToScreen)
+                        {
+                            renderable.IsOnScreen = (renderable.RenderPosition.X >= Settings.Camera.Position.X - renderable.Size.X
+                                && renderable.RenderPosition.Y >= Settings.Camera.Position.Y - renderable.Size.Y
+                                && renderable.RenderPosition.X <= Settings.Camera.Position.X + GlobalSettings.ResolutionX
+                                && renderable.RenderPosition.Y <= Settings.Camera.Position.Y + GlobalSettings.ResolutionY);
+                        }
+                        else
+                        {
+                            renderable.IsOnScreen = (renderable.RenderPosition.X >= 0
+                                && renderable.RenderPosition.X <= GlobalSettings.ResolutionX
+                                && renderable.RenderPosition.Y >= 0
+                                && renderable.RenderPosition.Y <= GlobalSettings.ResolutionY);
+                        }
                     }
                 }
             }
