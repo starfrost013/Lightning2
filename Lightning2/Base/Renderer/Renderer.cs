@@ -393,9 +393,9 @@ namespace LightningGL
                         else
                         {
                             renderable.IsOnScreen = (renderable.RenderPosition.X >= 0
-                                && renderable.RenderPosition.X <= SystemInfo.ScreenResolutionX
+                                && renderable.RenderPosition.X <= GlobalSettings.GraphicsResolutionX
                                 && renderable.RenderPosition.Y >= 0
-                                && renderable.RenderPosition.Y <= SystemInfo.ScreenResolutionY);
+                                && renderable.RenderPosition.Y <= GlobalSettings.GraphicsResolutionY);
                         }
                     }
                 }
