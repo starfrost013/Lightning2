@@ -72,11 +72,6 @@ namespace LightningBase
         public static string GeneralContentFolder { get; set; }
 
         /// <summary>
-        /// Determines if the Scene Manager will be turned off.
-        /// </summary>
-        public static bool GeneralDontUseSceneManager { get; internal set; }
-
-        /// <summary>
         /// Determines if the FPS rate will be shown.
         /// </summary>
         public static bool GeneralShowDebugInfo { get; internal set; }
@@ -132,7 +127,7 @@ namespace LightningBase
         /// <summary>
         /// The rendering backend to use. Default is <see cref="Renderer.OpenGL"/>
         /// </summary>
-        public static RenderingBackend GraphicsRendererType { get; internal set; }
+        public static RenderingBackend GraphicsRenderingBackend { get; internal set; }
 
         /// <summary>
         /// Delta-time / tick speed multiplier
@@ -275,6 +270,8 @@ namespace LightningBase
                 "GlobalSettings::Load call to NCINIFile::GetSection failed for General section", NCExceptionSeverity.FatalError);
             if (locSection == null) _ = new NCException("Engine.ini must have a Localisation section!", 29, 
                 "GlobalSettings::Load call to NCINIFile::GetSection failed for Localisation section", NCExceptionSeverity.FatalError);
+            if (sceneSection == null) _ = new NCException("Engine.ini must have a Scene section!", 121,
+                "GlobalSettings::Load call to NCINIFile::GetSection failed for Scene section", NCExceptionSeverity.FatalError);
 
             // Load the Localisation section.
             string language = locSection.GetValue("Language");
@@ -302,7 +299,6 @@ namespace LightningBase
             GeneralLocalSettingsPath = generalSection.GetValue("LocalSettingsPath");
             GeneralPackageFile = generalSection.GetValue("PackageFile");
             GeneralContentFolder = generalSection.GetValue("ContentFolder");
-            string generalDontUseSceneManager = generalSection.GetValue("DontUseSceneManager");
             string generalDontSaveLocalSettingsOnShutdown = generalSection.GetValue("DontSaveLocalSettingsOnShutdown");
 
 
@@ -311,14 +307,12 @@ namespace LightningBase
             _ = bool.TryParse(generalProfilePerf, out var generalProfilePerfValue);
             if (!bool.TryParse(generalAboutScreenOnF9, out var generalAboutScreenOnF9Value)) generalAboutScreenOnF9Value = true; // force the default value, true for now
             _ = bool.TryParse(generalDeleteUnpackedFilesOnExit, out var generalDeleteUnpackedFilesOnExitValue);
-            _ = bool.TryParse(generalDontUseSceneManager, out var generalDontUseSceneManagerValue);
             _ = bool.TryParse(generalDontSaveLocalSettingsOnShutdown, out var generalDontSaveLocalSettingsOnShutdownValue);
 
             GeneralShowDebugInfo = generalShowDebugInfoValue;
             GeneralProfilePerformance = generalProfilePerfValue;
             GeneralEngineAboutScreenOnShiftF9 = generalAboutScreenOnF9Value;
             GeneralDeleteUnpackedFilesOnExit = generalDeleteUnpackedFilesOnExitValue;
-            GeneralDontUseSceneManager = generalDontUseSceneManagerValue;
             GeneralDontSaveLocalSettingsOnShutdown = generalDontSaveLocalSettingsOnShutdownValue;
 
             // Load the Graphics section if it exists.
@@ -359,7 +353,7 @@ namespace LightningBase
                 GraphicsResolutionY = resolutionYValue;
                 GraphicsWindowFlags = windowFlagsValue;
                 GraphicsRenderFlags = renderFlagsValue;
-                GraphicsRendererType = rendererValue;
+                GraphicsRenderingBackend = rendererValue;
                 GraphicsRenderOffScreenRenderables = renderOffscreenRenderablesValue;
 
                 // parse positionX/positionY
@@ -404,17 +398,12 @@ namespace LightningBase
                 RequirementsMinimumOperatingSystem = minimumOperatingSystemValue;
             }
 
-            // load the scene section 
-            if (!GeneralDontUseSceneManager)
-            {
-                if (sceneSection == null) _ = new NCException("DontUseSceneManager not specified, but no [Scene] section is present in Engine.ini!", 121, 
-                    $"GlobalSettings::DontUseSceneManager not specified, but no [Scene] section in Engine.ini!", NCExceptionSeverity.FatalError);
+            // load the scene section (we checked for its presence earlier)
 
-                SceneStartupScene = sceneSection.GetValue("StartupScene");
+            SceneStartupScene = sceneSection.GetValue("StartupScene");
 
-                if (SceneStartupScene == null) _ = new NCException("DontUseSceneManager not specified, but StartupScene not present in the [Scene] section of Engine.ini!", 164, 
-                    $"GlobalSettings::DontUseSceneManager not specified, but no [Scene] section in Engine.ini!", NCExceptionSeverity.FatalError);
-            }
+            if (SceneStartupScene == null) _ = new NCException("DontUseSceneManager not specified, but StartupScene not present in the [Scene] section of Engine.ini!", 164,
+                $"GlobalSettings::DontUseSceneManager not specified, but no [Scene] section in Engine.ini!", NCExceptionSeverity.FatalError);
 
             AudioDeviceHz = DEFAULT_AUDIO_DEVICE_HZ;
             AudioChannels = DEFAULT_AUDIO_CHANNELS;

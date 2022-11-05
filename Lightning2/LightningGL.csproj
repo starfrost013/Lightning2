@@ -146,6 +146,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Developer\Console\Commands\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 

@@ -42,8 +42,11 @@ Everything that matters to the api has to go here
 
 2022.11.06:
 * Added border support to all primitives (except basictext).
+* Removed ability to initialise lightning without the Scene Manager.
+* Fixed Scene::Shutdown.
 
 * todo:
 	- add freetype bindings
 	- global usings everywhere
 	- unit testing
+	- VS Item Template for Scenes

@@ -127,25 +127,21 @@ namespace LightningGL
                     LocalSettings.Load();
                 }
 
-                // Load the Scene Manager
-                // This should ALWAYS be the last thing initialised
-                if (!GlobalSettings.GeneralDontUseSceneManager)
+                // Load the scene manager.
+                SceneManager.Init(new RendererSettings
+                {
+                    Position = new Vector2(GlobalSettings.GraphicsPositionX, GlobalSettings.GraphicsPositionY),
+                    Size = new Vector2(GlobalSettings.GraphicsResolutionX, GlobalSettings.GraphicsResolutionY),
+                    WindowFlags = GlobalSettings.GraphicsWindowFlags,
+                    RenderFlags = GlobalSettings.GraphicsRenderFlags,
+                    Title = GlobalSettings.GraphicsWindowTitle
+                });
+
+                // if scenemanager started successfully, run its main loop
+                if (SceneManager.Initialised)
                 {
                     Initialised = true;
-                    SceneManager.Init(new RendererSettings
-                    {
-                        Position = new Vector2(GlobalSettings.GraphicsPositionX, GlobalSettings.GraphicsPositionY),
-                        Size = new Vector2(GlobalSettings.GraphicsResolutionX, GlobalSettings.GraphicsResolutionY),
-                        WindowFlags = GlobalSettings.GraphicsWindowFlags,
-                        RenderFlags = GlobalSettings.GraphicsRenderFlags,
-                        Title = GlobalSettings.GraphicsWindowTitle
-                    });
                     SceneManager.Main();
-                }
-                else
-                {
-                    NCLogging.Log("Warning: Initialising Lightning without the Scene Manager is deprecated and will be removed in Lightning 1.2.0.", ConsoleColor.Yellow);
-                    Initialised = true;
                 }
             }
             catch (Exception err)
@@ -173,6 +169,9 @@ namespace LightningGL
                 NCLogging.Log("Stopping performance profiling...");
                 PerformanceProfiler.Shutdown();
             }
+
+            NCLogging.Log("Shutting down the Scene Manager...");
+            SceneManager.ShutdownAll();
 
             NCLogging.Log("Destroying renderer...");
             cRenderer.Shutdown();

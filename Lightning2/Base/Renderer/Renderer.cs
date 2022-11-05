@@ -75,8 +75,6 @@ namespace LightningGL
             // Check that the engine has been started.
             if (!Initialised) _ = new NCException("You cannot start a window without initialising the engine - call Lightning::Init first!", 134, "Window::Start called before Lightning::Init!", NCExceptionSeverity.FatalError);
 
-            if (!GlobalSettings.GeneralDontUseSceneManager
-                && SceneManager.Initialised) _ = new NCException("GlobalSettings::DontUseSceneManager needs to be set to initialise Windows without using the Scene Manager!", 127, "Window::Init called when GlobalSettings::DontUseSceneManager is FALSE and SceneManager::Initialised is TRUE", NCExceptionSeverity.FatalError);
             if (windowSettings == null) _ = new NCException("Passed null WindowSettings to Window::Start method!", 7, "Window::Start windowSettings parameter null", NCExceptionSeverity.FatalError);
 
             Settings = windowSettings;
@@ -87,10 +85,10 @@ namespace LightningGL
             // set the renderer if the user specified one
             string renderer = SDLu_GetRenderDriverName();
 
-            if (GlobalSettings.GraphicsRendererType != default(RenderingBackend))
+            if (GlobalSettings.GraphicsRenderingBackend != default(RenderingBackend))
             {
                 // set the renderer
-                renderer = GlobalSettings.GraphicsRendererType.ToString().ToLowerInvariant(); // needs to be lowercase
+                renderer = GlobalSettings.GraphicsRenderingBackend.ToString().ToLowerInvariant(); // needs to be lowercase
                 SDL_SetHintWithPriority("SDL_HINT_RENDER_DRIVER", renderer, SDL_HintPriority.SDL_HINT_OVERRIDE);
             }
 
@@ -239,7 +237,6 @@ namespace LightningGL
 
             // Update the font manager
             FontManager.Update(this);
-
 
             // draw fps on top always (by drawing it last. we don't have zindex, but we will later). Also snap it to the screen like a hud element. 
             // check the showfps global setting first

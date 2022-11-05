@@ -24,11 +24,11 @@ namespace LightningGL
         /// <summary>
         /// Determines if the scene manager is running.
         /// </summary>
-        public bool Initialised { get; private set; }
+        internal bool Initialised { get; private set; }
 
         public override Scene AddAsset(Renderer cRenderer, Scene asset)
         {
-            _ = new NCException("AddAsset not implemented for SceneManager", 160, "SceneAssetManager::AddAsset called", NCExceptionSeverity.FatalError);
+            _ = new NCException("AddAsset not implemented for SceneManager", 160, "Unimplemented method SceneAssetManager::AddAsset called", NCExceptionSeverity.FatalError);
             return null;
         }
 
@@ -65,10 +65,11 @@ namespace LightningGL
                 }
             }
 
-            if (Assets.Count == 0) throw new NCException($"There are no scenes defined!", 131, 
+            if (Assets.Count == 0) _ = new NCException($"There are no scenes defined.\n\nIf you tried to initialise Lightning without the Scene Manager," +
+                $" this is no longer supported as of Lightning 1.2.0!", 131, 
                 "SceneManager::Scenes Count = 0!", NCExceptionSeverity.FatalError);
 
-            if (CurrentScene == null) throw new NCException($"Invalid startup scene {GlobalSettings.SceneStartupScene}", 132, 
+            if (CurrentScene == null) _ = new NCException($"Invalid startup scene {GlobalSettings.SceneStartupScene}", 132, 
                 "GlobalSettings::StartupScene did not correspond to a valid scene", NCExceptionSeverity.FatalError);
 
             Initialised = true;
@@ -81,24 +82,14 @@ namespace LightningGL
         {
             while (Renderer.Run())
             {
-                // Only put events you want to GLOBALLY handle here.
-                // Every other event will be handled by scene.render
+                // Only put events you need to GLOBALLY handle here.
+                // Every other event will be handled by the renderer or dev
                 if (Renderer.EventWaiting)
                 {
                     switch (Renderer.LastEvent.type)
                     {
-                        case SDL.SDL_EventType.SDL_QUIT:
-                            NCLogging.Log("Shutting down scene...");
-                            foreach (Scene scene in Assets)
-                            {
-                                // shutdown every scene
-                                NCLogging.Log($"Shutting down scene {scene.GetName()}...");
-                                scene.Shutdown();
-                            }
-
-                            // shut down the engine
-                            Shutdown(Renderer);
-
+                        case SDL_EventType.SDL_QUIT:
+                            ShutdownAll();
                             break;
                     }
                 }
@@ -107,6 +98,17 @@ namespace LightningGL
                 CurrentScene.Render(Renderer);
 
                 Renderer.Render();
+            }
+        }
+
+        internal void ShutdownAll()
+        {
+            NCLogging.Log("Shutting down all scenes...");
+            foreach (Scene scene in Assets)
+            {
+                // shutdown every scene
+                NCLogging.Log($"Shutting down scene {scene.GetName()}...");
+                scene.Shutdown();
             }
         }
 
