@@ -2,10 +2,6 @@
 { 
     internal class Rectangle : Primitive
     {
-        public Color BorderColor { get; set; }
-
-        public Vector2 BorderSize { get; set; }  
-
         internal override void Draw(Renderer cRenderer)
         {
 

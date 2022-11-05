@@ -21,7 +21,7 @@
         /// <param name="path">The path of the file to load.</param>
         /// <param name="name">A name to assign to the audio file. Optional, will be automatically generated from the file path (extension and directory removed) if not supplied.</param>
         /// <exception cref="NCException">An error occurred loading the file.</exception>
-        public void LoadFile(Renderer cRenderer, string path, string name = null)
+        internal void LoadFile(Renderer cRenderer, string path, string name = null)
         {
             if (!File.Exists(path)) _ = new NCException($"Error loading audio file: The path {path} does not exist!", 52, "AudioManager::Load path parameter does not exist!", NCExceptionSeverity.FatalError);
 

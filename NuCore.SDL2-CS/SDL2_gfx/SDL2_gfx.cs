@@ -55,7 +55,7 @@ namespace LightningBase
         // todo: check on load
         public const int SDL_GFX_VERSION_MAJOR = 1;
         public const int SDL_GFX_VERSION_MINOR = 0;
-        public const int SDL_GFX_VERSION_REVISION = 6;
+        public const int SDL_GFX_VERSION_REVISION = 8;
 
         /// <summary>
         /// Returns the current version of SDL2_gfx. It is best to check this in your program.
@@ -104,8 +104,10 @@ namespace LightningBase
 
         // 2022-2-26: Changed from uint8 to uint16 for really thick lines in C++
         // So changing this here. Don't fix this for mainline gfx
+
+        // 2022-11-05: Added antiAliased boolean (currently only an effect if thickness = 1
         [DllImport(NativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int thickLineRGBA(IntPtr renderer, int x1, int y1, int x2, int y2, short width, byte r, byte g, byte b, byte a);
+        public static extern int thickLineRGBA(IntPtr renderer, int x1, int y1, int x2, int y2, short width, byte r, byte g, byte b, byte a, bool antiAliased);
 
         [DllImport(NativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int circleRGBA(IntPtr renderer, int x, int y, int rad, byte r, byte g, byte b, byte a);

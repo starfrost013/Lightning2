@@ -76,6 +76,16 @@ namespace LightningBase
         /// </summary>
         public static bool GeneralDontUseSceneManager { get; internal set; }
 
+        /// <summary>
+        /// Determines if the FPS rate will be shown.
+        /// </summary>
+        public static bool GeneralShowDebugInfo { get; internal set; }
+
+        /// <summary>
+        /// Enable the console. 
+        /// </summary>
+        public static bool GeneralEnableConsole { get; internal set; }
+
         #endregion
 
         #region Graphics settings
@@ -83,11 +93,6 @@ namespace LightningBase
         /// The target FPS.
         /// </summary>
         public static int GraphicsMaxFPS { get; internal set; }
-
-        /// <summary>
-        /// Determines if the FPS rate will be shown.
-        /// </summary>
-        public static bool GeneralShowDebugInfo { get; internal set; }
 
         /// <summary>
         /// See <see cref="RendererSettings.WindowFlags"/>

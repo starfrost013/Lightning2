@@ -45,7 +45,7 @@
 		<None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/libtiff-5.dll" />
 		<None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/libwebp-7.dll" />
 		<None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2.dll" />
-		<None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_gfx-v1.0.6-x64.dll" />
+		<None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_gfx-x64.dll" />
 		<None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_image-x64.dll" />
 		<None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_ttf-v2.0.18-x64.dll" />
 		<None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_mixer-x64.dll" />
@@ -122,9 +122,9 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<Link>Libraries/SDL2.dll</Link>
 		</Content>
-		<Content Include="$(ProgramFiles)/Lightning Software Development Kit/Libraries/SDL2_gfx-v1.0.6-x64.dll">
+		<Content Include="$(ProgramFiles)/Lightning Software Development Kit/Libraries/SDL2_gfx-x64.dll">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<Link>Libraries/SDL2_gfx-v1.0.6-x64.dll</Link>
+			<Link>Libraries/SDL2_gfx-x64.dll</Link>
 		</Content>
 		<Content Include="$(ProgramFiles)/Lightning Software Development Kit/Libraries/SDL2_image-x64.dll">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

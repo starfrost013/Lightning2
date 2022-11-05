@@ -53,6 +53,16 @@
         /// </summary>
         private double RealVolume { get; set; }
 
+        public AudioFile()
+        {
+
+        }
+
+        public AudioFile(string path)
+        {
+            Path = path;
+        }
+
         /// <summary>
         /// Loads this audio file.
         /// </summary>

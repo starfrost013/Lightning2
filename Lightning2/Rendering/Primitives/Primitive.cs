@@ -8,6 +8,10 @@ namespace LightningGL
     {
         public Color Color { get; set; }
 
+        public Color BorderColor { get; set; }
+
+        public int BorderSize { get; set; }
+
         public bool Filled { get; set; }
 
         public bool Antialiased { get; set; }

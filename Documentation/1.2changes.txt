@@ -32,3 +32,6 @@ Everything that matters to the api has to go here
 * Implemented Renderable::Color
 * Made all Primitive classes that inherit from Renderable. The PrimitiveRenderer class now just adds these classes to the Renderer so they are all subject to z-index, etc.
 
+2022.10.30:
+* Refactored the Renderer.
+* PrimitiveRenderer -> PrimitiveManager and is now an asset manager.

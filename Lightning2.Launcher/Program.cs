@@ -156,9 +156,9 @@ LightManager.AddAsset(cRenderer, new Light
     Brightness = 200,
 }) ;
 
-AudioManager.LoadFile(cRenderer, @"Content\xm_boot.mp3");
-AudioManager.LoadFile(cRenderer, @"Content\xm_boot_ogg.ogg");
-AudioManager.LoadFile(cRenderer, @"Content\xm_title.mp3");
+AudioManager.AddAsset(cRenderer, new AudioFile(@"Content\xm_boot.mp3"));
+AudioManager.AddAsset(cRenderer, new AudioFile(@"Content\xm_boot_ogg.ogg"));
+AudioManager.AddAsset(cRenderer, new AudioFile(@"Content\xm_title.mp3"));
 
 AudioFile xmBoot = AudioManager.GetFileWithName("xm_boot");
 AudioFile xmBootOgg = AudioManager.GetFileWithName("xm_boot_ogg");

@@ -228,6 +228,9 @@ namespace LightningGL
             // Draw every object.
             RenderAll();
 
+            // Update the primitive manager.
+            PrimitiveManager.Update(this);
+
             // Render the lightmap.
             LightManager.Update(this);
 
@@ -237,8 +240,6 @@ namespace LightningGL
             // Update the font manager
             FontManager.Update(this);
 
-            // Update the primitive manager
-            PrimitiveManager.Update(this);
 
             // draw fps on top always (by drawing it last. we don't have zindex, but we will later). Also snap it to the screen like a hud element. 
             // check the showfps global setting first
