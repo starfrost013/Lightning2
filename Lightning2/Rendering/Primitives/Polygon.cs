@@ -63,13 +63,25 @@
                 // find size of polygon 
                 foreach (short finalBorderPointX in finalBorderPointsX)
                 {
-                    if (finalBorderPointX > maxX) maxX = finalBorderPointX;
+                    if (finalBorderPointX > maxX)
+                    {
+                        maxX = finalBorderPointX;
+                        // start at the highest and then work dwon
+                        if (minX == default) minX = maxX;
+                    }
+
                     if (finalBorderPointX < minX) minX = finalBorderPointX;
                 }
 
                 foreach (short finalBorderPointY in finalBorderPointsY)
                 {
-                    if (finalBorderPointY > maxY) maxY = finalBorderPointY;
+                    if (finalBorderPointY > maxY)
+                    {
+                        maxY = finalBorderPointY;
+                        // start at the highest and then work dwon
+                        if (minY == default) minY = maxY;
+                    }
+
                     if (finalBorderPointY < minY) minY = finalBorderPointY;
                 }
 
@@ -87,7 +99,8 @@
                     {
                         borderPointX += Convert.ToInt16(BorderSize.X);
                     }
-                    else
+                    // we don't want to do anything if it is exactly (sizeY / 2)
+                    else if (borderPointX - minX < (sizeX / 2))
                     {
                         borderPointX -= Convert.ToInt16(BorderSize.X);
                     }
@@ -103,7 +116,8 @@
                     {
                         borderPointY += Convert.ToInt16(BorderSize.Y);
                     }
-                    else
+                    // we don't want to do anything if it is exactly (sizeY / 2)
+                    else if (borderPointY - minY < (sizeY / 2))
                     {
                         borderPointY -= Convert.ToInt16(BorderSize.Y);
                     }

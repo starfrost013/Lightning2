@@ -95,7 +95,8 @@
         /// <param name="cornerRadius">The radius, in pixels, of this rectangle's corners.</param>
         /// <param name="filled">Determines if this rectangle will be filled or not.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public void DrawRoundedRectangle(Renderer cRenderer, Vector2 position, Vector2 size, Color color, int cornerRadius, bool filled = false, bool snapToScreen = false)
+        public void DrawRoundedRectangle(Renderer cRenderer, Vector2 position, Vector2 size, Color color, int cornerRadius, bool filled = false, bool snapToScreen = false,
+            Vector2 borderSize = default, Color borderColor = default)
         {
             Assets.Add(new RoundedRectangle
             {
@@ -104,6 +105,8 @@
                 Color = color,
                 Filled = filled,
                 CornerRadius = cornerRadius,
+                BorderSize = borderSize,
+                BorderColor = borderColor,
                 SnapToScreen = snapToScreen
             });
 
@@ -119,7 +122,8 @@
         /// <param name="color">The color of the triangle - see <see cref="Color"/></param>
         /// <param name="filled">Determines if the triangle will be filled.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public void DrawTriangle(Renderer cRenderer, Vector2 point1, Vector2 point2, Vector2 point3, Color color, bool filled = false, bool snapToScreen = false)
+        public void DrawTriangle(Renderer cRenderer, Vector2 point1, Vector2 point2, Vector2 point3, Color color, bool filled = false, bool snapToScreen = false,
+            Vector2 borderSize = default, Color borderColor = default)
         {
             Assets.Add(new Triangle
             {
@@ -128,6 +132,8 @@
                 Point3 = point3,
                 Color = color,
                 Filled = filled,
+                BorderSize = borderSize,
+                BorderColor = borderColor,
                 SnapToScreen = snapToScreen
             });
         }
@@ -141,7 +147,8 @@
         /// <param name="filled">Determines if the polygon will be filled or not.</param>
         /// <param name="antiAliased">Determines if the polygon will be anti-aliased - UNFILLED POLYGONS ONLY</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public void DrawPolygon(Renderer cRenderer, List<Vector2> points, Color color, bool filled = false, bool antiAliased = false, bool snapToScreen = false)
+        public void DrawPolygon(Renderer cRenderer, List<Vector2> points, Color color, bool filled = false, bool antiAliased = false, bool snapToScreen = false,
+            Vector2 borderSize = default, Color borderColor = default)
         {
             Assets.Add(new Polygon
             {
@@ -149,6 +156,8 @@
                 Color = color,
                 Filled = filled,
                 Antialiased = antiAliased,
+                BorderColor = borderColor,
+                BorderSize = borderSize,
                 SnapToScreen = snapToScreen
             });
         }
@@ -163,7 +172,8 @@
         /// <param name="filled">Determines if this circle is filled.</param>
         /// <param name="antiAliased">Determines if this circle is anti-aliased. Only has an effect on unfilled circles for now</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public void DrawCircle(Renderer cRenderer, Vector2 position, Vector2 size, Color color, bool filled = false, bool antiAliased = false, bool snapToScreen = false)
+        public void DrawCircle(Renderer cRenderer, Vector2 position, Vector2 size, Color color, bool filled = false, bool antiAliased = false, bool snapToScreen = false,
+            Vector2 borderSize = default, Color borderColor = default)
         {
             Assets.Add(new Circle
             {
@@ -172,6 +182,8 @@
                 Color = color,
                 Filled = filled,
                 Antialiased = antiAliased,
+                BorderSize = borderSize,
+                BorderColor = borderColor,
                 SnapToScreen = snapToScreen
             });
         }

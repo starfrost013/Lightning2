@@ -322,7 +322,7 @@ while (cRenderer.Run())
     PrimitiveManager.DrawRoundedRectangle(cRenderer, new Vector2(680, 10), new Vector2(30, 30), Color.FromArgb(127, 255, 255, 255), 12, true);
 
     PrimitiveManager.DrawTriangle(cRenderer, new Vector2(722, 10), new Vector2(747, 40), new Vector2(707, 40), Color.FromArgb(127, 255, 255, 255), false);
-    PrimitiveManager.DrawTriangle(cRenderer, new Vector2(779, 10), new Vector2(794, 40), new Vector2(764, 40), Color.FromArgb(127, 255, 255, 255), true);
+    PrimitiveManager.DrawTriangle(cRenderer, new Vector2(779, 10), new Vector2(794, 40), new Vector2(764, 40), Color.FromArgb(127, 255, 255, 255), true, false, new Vector2(10, 10), Color.Yellow);
 
     PrimitiveManager.DrawText(cRenderer, "#[STRING_TEST]", new Vector2(500, 90), Color.FromArgb(255, 0, 0, 255));
     PrimitiveManager.DrawText(cRenderer, "Loc string test: #[STRING_TEST]", new Vector2(500, 120), Color.FromArgb(255, 0, 0, 255));
