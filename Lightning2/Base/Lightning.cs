@@ -174,8 +174,11 @@ namespace LightningGL
                 PerformanceProfiler.Shutdown();
             }
 
-            NCLogging.Log("Shutting down the Scene Manager...");
-            SceneManager.ShutdownAll();
+            if (!GlobalSettings.DontUseSceneManager)
+            {
+                NCLogging.Log("Shutting down the Scene Manager...");
+                SceneManager.ShutdownAll();
+            }
 
             NCLogging.Log("Destroying renderer...");
             cRenderer.Shutdown();
