@@ -32,21 +32,17 @@
                 End = new(End.X - currentCamera.Position.X, End.Y - currentCamera.Position.Y);
             }
 
-            if (Thickness == 1)
+            // before we manually called lineRGBA. this is now done in c++, so we don't need to.
+
+            if (BorderSize.X > 0
+                && BorderSize.Y > 0)
             {
-                if (Antialiased)
-                {
-                    aalineRGBA(cRenderer.Settings.RendererHandle, (int)Start.X, (int)Start.Y, (int)End.X, (int)End.Y, Color.R, Color.G, Color.B, Color.A);
-                }
-                else
-                {
-                    lineRGBA(cRenderer.Settings.RendererHandle, (int)Start.X, (int)Start.Y, (int)End.X, (int)End.Y, Color.R, Color.G, Color.B, Color.A);
-                }
+                thickLineRGBA(cRenderer.Settings.RendererHandle, (int)Start.X - (int)BorderSize.X, (int)Start.Y - (int)BorderSize.Y, 
+                    (int)End.X + (int)BorderSize.X, (int)End.Y + (int)BorderSize.Y, Thickness, BorderColor.R, BorderColor.G, BorderColor.B, BorderColor.A, Antialiased);
             }
-            else
-            {
-                thickLineRGBA(cRenderer.Settings.RendererHandle, (int)Start.X, (int)Start.Y, (int)End.X, (int)End.Y, Thickness, Color.R, Color.G, Color.B,Color.A);
-            }
+
+            thickLineRGBA(cRenderer.Settings.RendererHandle, (int)Start.X, (int)Start.Y, (int)End.X, (int)End.Y, Thickness, 
+                Color.R, Color.G, Color.B, Color.A, Antialiased);
         }
     }
 }

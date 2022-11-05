@@ -43,7 +43,7 @@ namespace LightningBase
         #region SDL2# Defines
 
 #if X64 // x86-64
-        public const string NativeLibName = @"Libraries\SDL2_gfx-v1.0.6-x64.dll";
+        public const string NativeLibName = @"Libraries\SDL2_gfx-x64.dll";
 #elif ARM64 // ARMv8/9
         public const string NativeLibName = @"Libraries\SDL2_gfx-v1.0.6-ARM64.dll";
 #endif
@@ -51,7 +51,7 @@ namespace LightningBase
 
         #region SDL2_gfxVersion.h 
 
-        // requires 1.0.6 (LightningGL version) 
+        // requires 1.0.8 (LightningGL version) 
         // todo: check on load
         public const int SDL_GFX_VERSION_MAJOR = 1;
         public const int SDL_GFX_VERSION_MINOR = 0;

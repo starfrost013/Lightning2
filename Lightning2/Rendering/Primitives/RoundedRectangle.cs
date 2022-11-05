@@ -23,15 +23,24 @@
                 RenderPosition = Position;
             }
 
+            // draw the border
+            if (BorderSize.X > 0
+                && BorderSize.Y > 0)
+            {
+                roundedRectangleRGBA(cRenderer.Settings.RendererHandle, (int)RenderPosition.X - (int)BorderSize.X, (int)RenderPosition.Y - (int)BorderSize.Y, 
+                    (int)RenderPosition.X + (int)Size.X + (int)BorderSize.X, (int)RenderPosition.Y + (int)Size.Y + (int)BorderSize.Y, CornerRadius, 
+                    BorderColor.R, BorderColor.G, BorderColor.B, BorderColor.A);
+            }
+
             if (Filled)
             {
                 roundedBoxRGBA(cRenderer.Settings.RendererHandle, (int)RenderPosition.X, (int)RenderPosition.Y, (int)RenderPosition.X + (int)Size.X,
-                (int)Position.Y + (int)Size.Y, CornerRadius, Color.R, Color.G, Color.B, Color.A);
+                (int)RenderPosition.Y + (int)Size.Y, CornerRadius, Color.R, Color.G, Color.B, Color.A);
             }
             else
             {
                 roundedRectangleRGBA(cRenderer.Settings.RendererHandle, (int)RenderPosition.X, (int)RenderPosition.Y,
-                (int)Position.X + (int)Size.X, (int)Position.Y + (int)Size.Y, CornerRadius, Color.R, Color.G, Color.B, Color.A);
+                (int)RenderPosition.X + (int)Size.X, (int)RenderPosition.Y + (int)Size.Y, CornerRadius, Color.R, Color.G, Color.B, Color.A);
             }
         }
     }

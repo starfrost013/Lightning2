@@ -35,3 +35,13 @@ Everything that matters to the api has to go here
 2022.10.30:
 * Refactored the Renderer.
 * PrimitiveRenderer -> PrimitiveManager and is now an asset manager.
+
+2022.11.02:
+* Bugfixes in primitives.
+
+2022.11.05:
+* Updated SDL2_gfx for some minor optimisation in C=+ (it will now automatically draw AA Lines when thickness is 1)
+* Started working on allowing all primitives to have borders. 
+
+2022.11.06:
+* Added border support to all primitives.

@@ -18,6 +18,13 @@
                 RenderPosition = Position;
             }
 
+            if (BorderSize.X > 0
+                && BorderSize.Y > 0)
+            {
+                filledEllipseRGBA(cRenderer.Settings.RendererHandle, (int)RenderPosition.X - (int)BorderSize.X, (int)RenderPosition.Y - (int)BorderSize.X,
+                    (int)Size.X + (int)BorderSize.X, (int)Size.Y + (int)BorderSize.Y, BorderColor.R, BorderColor.G, BorderColor.B, BorderColor.A);
+            }
+
             if (Filled)
             {
                 filledEllipseRGBA(cRenderer.Settings.RendererHandle, (int)RenderPosition.X, (int)RenderPosition.Y, (int)Size.X, (int)Size.Y, Color.R, Color.G, Color.B, Color.A);

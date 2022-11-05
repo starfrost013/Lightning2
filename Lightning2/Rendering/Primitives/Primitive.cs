@@ -10,7 +10,7 @@ namespace LightningGL
 
         public Color BorderColor { get; set; }
 
-        public int BorderSize { get; set; }
+        public Vector2 BorderSize { get; set; }
 
         public bool Filled { get; set; }
 

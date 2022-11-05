@@ -38,7 +38,7 @@
     <None Remove="..\Libraries\libvorbisfile-3.dll" />
     <None Remove="..\Libraries\libwebp-7.dll" />
     <None Remove="..\Libraries\SDL2-v2.0.20-x64.dll" />
-    <None Remove="..\Libraries\SDL2_gfx-v1.0.6-x64.dll" />
+    <None Remove="..\Libraries\SDL2_gfx-x64.dll" />
     <None Remove="..\Libraries\SDL2_image-v2.0.5-x64.dll" />
     <None Remove="..\Libraries\SDL2_image-x64.dll" />
     <None Remove="..\Libraries\SDL2_mixer-x64.dll" />
@@ -56,9 +56,9 @@
     <Content Include="Content\Localisation\pseudo.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Libraries\SDL2_gfx-v1.0.6-x64.dll">
+    <Content Include="..\Libraries\SDL2_gfx-x64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  <Link>Libraries\SDL2_gfx-v1.0.6-x64.dll</Link>
+	  <Link>Libraries\SDL2_gfx-x64.dll</Link>
     </Content>
     <Content Include="..\Libraries\libFLAC-8.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -24,6 +24,7 @@
                 rectangleRGBA(cRenderer.Settings.RendererHandle, (int)RenderPosition.X - (int)BorderSize.X, (int)RenderPosition.Y - (int)BorderSize.Y,
                 (int)RenderPosition.X + (int)Size.X + ((int)BorderSize.X * 2), (int)RenderPosition.Y + (int)Size.Y + ((int)BorderSize.Y * 2), Color.R, Color.G, Color.B, Color.A);
             }
+
             if (Filled)
             {
                 boxRGBA(cRenderer.Settings.RendererHandle, (int)RenderPosition.X, (int)RenderPosition.Y,
