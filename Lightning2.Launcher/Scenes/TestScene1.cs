@@ -11,14 +11,19 @@ namespace LightningGL
         /// <summary>
         /// Lazy and stupid. yes, but this is test code
         /// </summary>
-        public TextureAtlas TextureAtlas1 { get; set; }
+        public TextureAtlas? TextureAtlas1 { get; set; }
 
-        public Texture Texture1 { get; set; }
+        public Texture? Texture1 { get; set; }
 
         public override void Start()
         {
+            FontManager.LoadFont("Arial", 11, "Arial.11pt");
+            FontManager.LoadFont("Arial", 18, "Arial.18pt");
+            FontManager.LoadFont("Arial", 24, "Arial.24pt");
+            FontManager.LoadFont("Arial", 36, "Arial.36pt");
+
             SceneManager.Renderer.Clear(Color.FromArgb(255, 127, 127, 127));
-            Texture texture = new(SceneManager.Renderer, 64, 64);
+            Texture1 = new(SceneManager.Renderer, 64, 64);
 
             // Texture API test
             byte r = (byte)Random.Shared.Next(0, 256);
@@ -26,28 +31,28 @@ namespace LightningGL
             byte b = (byte)Random.Shared.Next(0, 256);
             byte a = (byte)Random.Shared.Next(0, 256);
 
-            for (int x = 0; x < texture.Size.X; x++)
+            for (int x = 0; x < Texture1.Size.X; x++)
             {
                 r += (byte)Random.Shared.Next(-5, 5);
                 g += (byte)Random.Shared.Next(-5, 5);
                 b += (byte)Random.Shared.Next(-5, 5);
                 a += (byte)Random.Shared.Next(-5, 5);
 
-                for (int y = 0; y < texture.Size.Y; y++) texture.SetPixel(x, y, Color.FromArgb(a, r, g, b));
+                for (int y = 0; y < Texture1.Size.Y; y++) Texture1.SetPixel(x, y, Color.FromArgb(a, r, g, b));
             }
 
-            texture.Unlock();
+            Texture1.Unlock();
 
-            texture.Position = new(0, 0);
-            texture.Repeat = new(3, 3);
+            Texture1.Position = new(0, 0);
+            Texture1.Repeat = new(3, 3);
 
-            TextureAtlas textureAtlas1 = new(SceneManager.Renderer, new(64, 64), new(4, 4));
+            TextureAtlas1 = new(SceneManager.Renderer, new(64, 64), new(4, 4));
 
-            textureAtlas1.Path = @"Content\TextureAtlasTest.png";
+            TextureAtlas1.Path = @"Content\TextureAtlasTest.png";
 
-            textureAtlas1.Position = new(256, 256);
+            TextureAtlas1.Position = new(256, 256);
 
-            TextureManager.AddAsset(SceneManager.Renderer, textureAtlas1);
+            TextureManager.AddAsset(SceneManager.Renderer, TextureAtlas1);
 
             AnimatedTexture animatedTexture1 = new AnimatedTexture(SceneManager.Renderer, 256, 256, new(0, 3, 1000));
             animatedTexture1.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF0.png");
@@ -236,11 +241,11 @@ namespace LightningGL
             UIManager.AddAsset(SceneManager.Renderer, textBox1);
             UIManager.AddAsset(SceneManager.Renderer, checkBox1);
 
-            TextureManager.AddAsset(SceneManager.Renderer, texture);
+            TextureManager.AddAsset(SceneManager.Renderer, Texture1);
 
             // bug:
             // as it is the same handle, setpixel changes pixel for every single texture 
-            Texture texture2 = TextureManager.GetInstanceOfTexture(SceneManager.Renderer, texture);
+            Texture texture2 = TextureManager.GetInstanceOfTexture(SceneManager.Renderer, Texture1);
 
             for (int x = 0; x < texture2.Size.X; x++)
             {
@@ -261,25 +266,25 @@ namespace LightningGL
             Animation anim1 = new Animation(@"Content\Animations\TestAnimation.json");
             anim1 = AnimationManager.AddAsset(SceneManager.Renderer, anim1);
 
-            texture.ZIndex = -9999999;
-            texture.SetAnimation(anim1);
+            Texture1.ZIndex = -9999999;
+            Texture1.SetAnimation(anim1);
 
-            texture.StartCurrentAnimation();
+            Texture1.StartCurrentAnimation();
         }
 
         public override void Shutdown()
         {
-            throw new NotImplementedException();
+
         }
 
         public override void SwitchAway(Scene newScene)
         {
-            throw new NotImplementedException();
+
         }
 
         public override void SwitchTo(Scene oldScene)
         {
-            throw new NotImplementedException();
+
         }
 
         public override void Render(Renderer cRenderer)
@@ -355,6 +360,8 @@ namespace LightningGL
             TextManager.DrawText(cRenderer, "Test11", "Arial.11pt", new Vector2(700, 210), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline);
             TextManager.DrawText(cRenderer, "#[STRING_TEST]\nTest2\nTest3", "Arial.11pt", new Vector2(700, 230), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline | SDL_ttf.TTF_FontStyle.Strikeout);
 
+            if (TextureAtlas1 == null) throw new NullReferenceException();
+
             TextureAtlas1.Index = 5;
             TextureAtlas1.Position = new Vector2(264, 0);
             TextureAtlas1.Draw(cRenderer);
@@ -368,6 +375,8 @@ namespace LightningGL
             byte b = (byte)Random.Shared.Next(0, 256);
             byte a = (byte)Random.Shared.Next(0, 256);
 
+            if (Texture1 == null) throw new NullReferenceException();
+
             for (int x = 0; x < Texture1.Size.X; x++)
             {
                 // textureAPI test
@@ -379,7 +388,5 @@ namespace LightningGL
                 for (int y = 0; y < Texture1.Size.Y; y++) Texture1.SetPixel(x, y, Color.FromArgb(a, r, g, b));
             }
         }
-
-
     }
 }

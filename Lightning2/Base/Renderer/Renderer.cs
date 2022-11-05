@@ -70,10 +70,10 @@ namespace LightningGL
         /// Starts this window.
         /// </summary>
         /// <param name="windowSettings">The window settings to use when starting this window - see <see cref="RendererSettings"/></param>
-        public void Start(RendererSettings windowSettings)
+        internal void Start(RendererSettings windowSettings)
         {
             // Check that the engine has been started.
-            if (!Initialised) _ = new NCException("You cannot start a window without initialising the engine - call Lightning::Init first!", 134, "Window::Start called before Lightning::Init!", NCExceptionSeverity.FatalError);
+            //if (!Initialised) _ = new NCException("You cannot start a window without initialising the engine - call Lightning::Init first!", 134, "Window::Start called before Lightning::Init!", NCExceptionSeverity.FatalError);
 
             if (windowSettings == null) _ = new NCException("Passed null WindowSettings to Window::Start method!", 7, "Window::Start windowSettings parameter null", NCExceptionSeverity.FatalError);
 
@@ -139,7 +139,7 @@ namespace LightningGL
         /// Runs the main loop.
         /// </summary>
         /// <returns>A boolean determining if the window is to keep running or close.</returns>
-        public bool Run()
+        internal bool Run()
         {
             Update();
 
@@ -206,7 +206,7 @@ namespace LightningGL
         /// <summary>
         /// Manages the render loop.
         /// </summary>
-        public void Render()
+        internal void Render()
         {
             // Reset rendered this frame count
             RenderedThisFrame = 0;
