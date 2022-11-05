@@ -62,9 +62,11 @@ namespace LightningGL
                         borderPoint3 = default;
 
                 // oh dear
+                // in all of these, the else if and not else is so that we do nothing if it is exactly (sizeX / 2)
+                // oh dear
                 if (Point1.X - minX > (sizeX / 2))
                 {
-                    borderPoint1.X = Point1.X + (BorderSize.X / 2);
+                    borderPoint1.X = Point1.X + BorderSize.X;
                 }
                 else if (Point1.X - minX == (sizeX / 2))
                 {
@@ -79,7 +81,7 @@ namespace LightningGL
                 {
                     borderPoint1.Y = Point1.Y + BorderSize.Y;
                 }
-                else if (Point1.Y - minX == (sizeX / 2))
+                else if (Point1.Y - minY == (sizeY / 2))
                 {
                     borderPoint1.Y = Point1.Y;
                 }
@@ -105,7 +107,7 @@ namespace LightningGL
                 {
                     borderPoint2.Y = Point2.Y + BorderSize.Y;
                 }
-                else if (Point2.Y - minX == (sizeX / 2))
+                else if (Point2.Y - minY == (sizeY / 2))
                 {
                     borderPoint2.Y = Point2.Y;
                 }
@@ -131,7 +133,7 @@ namespace LightningGL
                 {
                     borderPoint3.Y = Point3.Y + BorderSize.Y;
                 }
-                else if (Point3.Y - minX == (sizeX / 2))
+                else if (Point3.Y - minY == (sizeY / 2))
                 {
                     borderPoint3.Y = Point3.Y;
                 }
