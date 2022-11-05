@@ -80,32 +80,20 @@ namespace LightningGL
         {
             while (Renderer.Run())
             {
-                // Only put events you want to GLOBALLY handle here.
-                // Every other event will be handled by scene.render
-                if (Renderer.EventWaiting)
-                {
-                    switch (Renderer.LastEvent.type)
-                    {
-                        case SDL_EventType.SDL_QUIT:
-                            NCLogging.Log("Shutting down scene...");
-                            foreach (Scene scene in Assets)
-                            {
-                                // shutdown every scene
-                                NCLogging.Log($"Shutting down scene {scene.GetName()}...");
-                                scene.Shutdown();
-                            }
-
-                            // shut down the engine
-                            Shutdown(Renderer);
-
-                            break;
-                    }
-                }
-
                 // Render the current scene.
                 CurrentScene.Render(Renderer);
 
                 Renderer.Render();
+            }
+        }
+
+        internal void ShutdownAll()
+        {
+            foreach (Scene scene in Assets)
+            {
+                // shutdown every scene
+                NCLogging.Log($"Shutting down scene {scene.GetName()}...");
+                scene.Shutdown();
             }
         }
 

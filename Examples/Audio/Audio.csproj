@@ -51,7 +51,6 @@
 	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_mixer-x64.dll" />
 	  <None Remove="Content\deepbluecalm.flac" />
 	  <None Remove="Content\demarco.mp3" />
-	  <None Remove="Content\projectx.mod" />
 	  <None Remove="Content\royksopp.mp3" />
   </ItemGroup>
 
@@ -145,9 +144,6 @@
 		  <Link>Libraries/SDL2_mixer-x64.dll</Link>
 	  </Content>
 	  <Content Include="Content\deepbluecalm.flac">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="Content\projectx.mod">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
 	  <Content Include="Content\royksopp.mp3">

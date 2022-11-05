@@ -19,9 +19,6 @@
     <Reference Include="LightningPackager">
       <HintPath>$(ProgramFiles)/Lightning Software Development Kit/LightningPackager.dll</HintPath>
     </Reference>
-    <Reference Include="NuCore.SDL2">
-      <HintPath>$(ProgramFiles)/Lightning Software Development Kit/NuCore.SDL2.dll</HintPath>
-    </Reference>
     <Reference Include="NuCore.Utilities">
       <HintPath>$(ProgramFiles)/Lightning Software Development Kit/NuCore.Utilities.dll</HintPath>
     </Reference>

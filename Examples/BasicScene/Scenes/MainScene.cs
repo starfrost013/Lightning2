@@ -1,6 +1,7 @@
 ﻿using static LightningBase.SDL; // not required for project template
 using LightningGL;
 using static LightningGL.Lightning; // not required for project template
+using NuCore.Utilities;
 using System.Drawing;
 using System.Numerics;
 
@@ -15,7 +16,7 @@ namespace BasicScene
 
         public override void Shutdown()
         {
-            
+
         }
 
         public override void SwitchTo(Scene oldScene)

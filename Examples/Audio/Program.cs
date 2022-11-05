@@ -60,7 +60,7 @@ while (renderer.Run())
 
     PrimitiveRenderer.DrawText(renderer, "Audio example", new Vector2(100, 100), Color.White); // no fonts loaded so we use the debug font
     PrimitiveRenderer.DrawText(renderer, "Left mouse to play audio 1", new Vector2(100, 120), Color.White); // no fonts loaded so we use the debug font
-    PrimitiveRenderer.DrawText(renderer, "Right mouse to play audio 2", new Vector2(100, 140), Color.White); // no fonts loaded so we use the debug font
+    //PrimitiveRenderer.DrawText(renderer, "Right mouse to play audio 2", new Vector2(100, 140), Color.White); // no fonts loaded so we use the debug font
     PrimitiveRenderer.DrawText(renderer, "Middle mouse to play audio 3", new Vector2(100, 160), Color.White); // no fonts loaded so we use the debug font
     PrimitiveRenderer.DrawText(renderer, "Sorry laptop users", new Vector2(100, 180), Color.White); // no fonts loaded so we use the debug font
     renderer.Render();
