@@ -15,55 +15,55 @@
         /// <summary>
         /// Event handler for <see cref="KeyPressedEvent"/> event.
         /// </summary>
-        public KeyPressedEvent OnKeyPressed { get; set; }
+        public KeyPressedEvent? OnKeyPressed { get; set; }
 
         [JsonIgnore]
         /// <summary>
         /// Event handler for the <see cref="KeyReleasedEvent"/> event.
         /// </summary>
-        public KeyReleasedEvent OnKeyReleased { get; set; }
+        public KeyReleasedEvent? OnKeyReleased { get; set; }
 
         [JsonIgnore]
         /// <summary>
         /// Event handler for the <see cref="MousePressedEvent"/> event.
         /// </summary>
-        public MouseEvent OnMousePressed { get; set; }
+        public MouseEvent? OnMousePressed { get; set; }
 
         [JsonIgnore]
         /// <summary>
         /// Event handler for the <see cref="MouseReleasedEvent"/> event.
         /// </summary>
-        public MouseEvent OnMouseReleased { get; set; }
+        public MouseEvent? OnMouseReleased { get; set; }
 
         [JsonIgnore]
         /// <summary>
         /// Event handler for the mouse enter event.
         /// </summary>
-        public GenericEvent OnMouseEnter { get; set; }
+        public GenericEvent? OnMouseEnter { get; set; }
 
         [JsonIgnore]
         /// <summary>
         /// Event handler for the mouse leave event.
         /// </summary>
-        public GenericEvent OnMouseLeave { get; set; }
+        public GenericEvent? OnMouseLeave { get; set; }
 
         [JsonIgnore]
         /// <summary>
         /// Event handler for the focus gained event.
         /// </summary>
-        public GenericEvent OnFocusGained { get; set; }
+        public GenericEvent? OnFocusGained { get; set; }
 
         [JsonIgnore]
         /// <summary>
         /// Event handler for the focus lost event.
         /// </summary>
-        public GenericEvent OnFocusLost { get; set; }
+        public GenericEvent? OnFocusLost { get; set; }
 
         [JsonIgnore]
         /// <summary>
         /// Event handler for the <see cref="MouseEvent"/> event.
         /// </summary>
-        public MouseEvent OnMouseMove { get; set; }
+        public MouseEvent? OnMouseMove { get; set; }
 
         [JsonIgnore]
         /// <summary>
@@ -75,7 +75,7 @@
         /// <summary>
         /// Event handler for <see cref="ShutdownEvent"/> event.
         /// </summary>
-        public ShutdownEvent OnShutdown { get; set; }
+        public ShutdownEvent? OnShutdown { get; set; }
 
         /// <summary>
         /// Determines if the mouse is currently focused on this gadget or not.
@@ -136,7 +136,7 @@
         /// <summary>
         /// The current animation of this Renderable
         /// </summary>
-        public Animation CurrentAnimation { get; private set; }
+        public Animation? CurrentAnimation { get; private set; }
 
         /// <summary>
         /// Animation timer.

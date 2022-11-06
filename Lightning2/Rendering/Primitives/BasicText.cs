@@ -4,7 +4,7 @@
     {
         internal bool Localise { get; set; }
 
-        internal string Text { get; set; }
+        internal string? Text { get; set; }
 
         internal override void Draw(Renderer cRenderer)
         {
@@ -21,6 +21,8 @@
             {
                 RenderPosition = Position;
             }
+
+            if (Text == null) Text = $"Localisation failure or null string";
 
             if (Localise) Text = LocalisationManager.ProcessString(Text);
 

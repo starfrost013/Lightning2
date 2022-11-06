@@ -21,9 +21,13 @@
         /// <param name="path">The path of the file to load.</param>
         /// <param name="name">A name to assign to the audio file. Optional, will be automatically generated from the file path (extension and directory removed) if not supplied.</param>
         /// <exception cref="NCException">An error occurred loading the file.</exception>
-        internal void LoadFile(Renderer cRenderer, string path, string name = null)
+        internal void LoadFile(Renderer cRenderer, string path, string? name = null)
         {
-            if (!File.Exists(path)) _ = new NCException($"Error loading audio file: The path {path} does not exist!", 52, "AudioManager::Load path parameter does not exist!", NCExceptionSeverity.FatalError);
+            if (!File.Exists(path))
+            {
+                _ = new NCException($"Error loading audio file: The path {path} does not exist!", 52, "AudioManager::Load path parameter does not exist!", NCExceptionSeverity.FatalError);
+                return;
+            }
 
             if (path.Contains(".mod", StringComparison.InvariantCultureIgnoreCase))
             {
@@ -31,9 +35,7 @@
                     "AudioAssetManager::LoadFile path parameter has a .mod extension", NCExceptionSeverity.Error);
             }
 
-            AudioFile tempAudio = new AudioFile();
-
-            tempAudio.Path = path;
+            AudioFile tempAudio = new AudioFile(path);
 
             // remove the extension and path from the name 
 
@@ -41,10 +43,9 @@
 
             if (name == null)
             {
-                if (pathExtensionSplit.Length != 0)
-                {
-                    tempAudio.Name = pathExtensionSplit[0];
-                }
+                Debug.Assert(pathExtensionSplit.Length > 0);
+
+                tempAudio.Name = pathExtensionSplit[0];
 
                 string[] pathDirectorySplit = tempAudio.Name.Split(Path.DirectorySeparatorChar);
 
@@ -101,7 +102,7 @@
         /// </summary>
         /// <param name="name">The name of the audio file to obtain.</param>
         /// <returns>The first instance of <see cref="AudioFile"/> in <see cref="AudioFiles"/> with the name <see cref="Name"/>, or <c>null</c> if there is no audio file with that name.</returns>
-        public AudioFile GetFileWithName(string name)
+        public AudioFile? GetFileWithName(string name)
         {
             foreach (AudioFile file in Assets)
             {
@@ -119,7 +120,7 @@
         /// </summary>
         /// <param name="name">The path of the audio file to obtain.</param>
         /// <returns>The first instance of <see cref="AudioFile"/> in <see cref="AudioFiles"/> with the path <paramref name="name"/>, or <c>null</c> if there is no audio file with that path.</returns>
-        public AudioFile GetFileWithPath(string name)
+        public AudioFile? GetFileWithPath(string name)
         {
             foreach (AudioFile file in Assets)
             {

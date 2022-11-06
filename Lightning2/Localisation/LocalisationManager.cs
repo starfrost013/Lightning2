@@ -30,14 +30,27 @@
             // globalsettings loader checks for valid file
             NCINIFile localisationIni = NCINIFile.Parse(GlobalSettings.GeneralLanguage);
 
-            if (localisationIni == null) _ = new NCException($"Error in localisation INI {GlobalSettings.GeneralLanguage}!", 31, "LocalisationManager::Load call to NCINIFile::Parse failed", NCExceptionSeverity.FatalError);
+            if (localisationIni == null)
+            {
+                _ = new NCException($"Error in localisation INI {GlobalSettings.GeneralLanguage}!", 31, "LocalisationManager::Load call to NCINIFile::Parse failed", NCExceptionSeverity.FatalError);
+                return;
+            }
 
             NCINIFileSection metadataSection = localisationIni.GetSection("Metadata");
 
             NCINIFileSection stringsSection = localisationIni.GetSection("Strings");
 
-            if (metadataSection == null) _ = new NCException($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No metadata section!", 32, "LocalisationManager::Load failed to obtain the Metadata section of a localisation file.", NCExceptionSeverity.FatalError);
-            if (stringsSection == null) _ = new NCException($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No strings section!", 33, "LocalisationManager.Load failed to obtain the Strings section of a localisation file.", NCExceptionSeverity.FatalError);
+            if (metadataSection == null)
+            {
+                _ = new NCException($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No metadata section!", 32, "LocalisationManager::Load failed to obtain the Metadata section of a localisation file.", NCExceptionSeverity.FatalError);
+                return;
+            }
+
+            if (stringsSection == null)
+            {
+                _ = new NCException($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No strings section!", 33, "LocalisationManager.Load failed to obtain the Strings section of a localisation file.", NCExceptionSeverity.FatalError);
+                return;
+            }
 
             Metadata.Name = metadataSection.GetValue("Name");
             Metadata.Description = metadataSection.GetValue("Description");
@@ -52,7 +65,7 @@
             NCLogging.Log($"Loaded language: {Metadata.Description} (version {Metadata.Version})");
         }
 
-        public static string GetString(string Key)
+        public static string? GetString(string Key)
         {
             foreach (var Value in Strings)
             {
@@ -92,7 +105,7 @@
 
                     if (localisationTextId.Length != 0)
                     {
-                        string localisationString = GetString(localisationTextId);
+                        string? localisationString = GetString(localisationTextId);
 
                         if (localisationString == null) _ = new NCException($"Invalid localisation string - cannot find localised string {localisationTextId}!", 35, "LocalisationManager.ProcessString", NCExceptionSeverity.FatalError);
 

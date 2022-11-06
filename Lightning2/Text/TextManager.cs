@@ -12,9 +12,13 @@ namespace LightningGL
         public override TextCacheEntry AddAsset(Renderer cRenderer, TextCacheEntry asset)
         {
             // temp code
-            DrawText(cRenderer, asset.Text, asset.Font, asset.Position, Color.FromArgb(asset.Color.a, asset.Color.r, asset.Color.g, asset.Color.b),
-                Color.FromArgb(asset.BackgroundColor.a, asset.BackgroundColor.r, asset.BackgroundColor.g, asset.BackgroundColor.b), asset.Style, asset.OutlineSize, -1,
-                asset.SmoothingType, false);
+            if (asset.Font != null)
+            {
+                DrawText(cRenderer, asset.Text, asset.Font, asset.Position, Color.FromArgb(asset.Color.a, asset.Color.r, asset.Color.g, asset.Color.b),
+                    Color.FromArgb(asset.BackgroundColor.a, asset.BackgroundColor.r, asset.BackgroundColor.g, asset.BackgroundColor.b), asset.Style, asset.OutlineSize, -1,
+                    asset.SmoothingType, false);
+            }
+
             return asset;
         }
 
@@ -51,9 +55,13 @@ namespace LightningGL
             text = LocalisationManager.ProcessString(text);
 
             // Get the font and throw an error if it's invalid
-            Font curFont = FontManager.GetFont(font);
+            Font? curFont = FontManager.GetFont(font);
 
-            if (curFont == null) _ = new NCException($"Attempted to acquire invalid font with name {font}", 39, "TextManager::DrawText font parameter is not a loaded font!", NCExceptionSeverity.FatalError);
+            if (curFont == null)
+            {
+                _ = new NCException($"Attempted to acquire invalid font with name {font}", 39, "TextManager::DrawText font parameter is not a loaded font!", NCExceptionSeverity.FatalError);
+                return;
+            }
 
             // Set the foreground color
             SDL_Color fgColor = new(foreground.R, foreground.G, foreground.B, foreground.A);
@@ -102,14 +110,17 @@ namespace LightningGL
                 if (numberOfLines > 1) totalSizeX = (int)FontManager.GetLargestTextSize(curFont, text).X;
 
                 // camera-aware is false for this as we have already "pushed" the position, so we don't need to do it again.
-                PrimitiveManager.DrawRectangle(cRenderer, position, new(totalSizeX, totalSizeY), Color.FromArgb(bgColor.a, bgColor.r, bgColor.g, bgColor.b), true, default, default, true);
+                PrimitiveManager.AddRectangle(cRenderer, position, new(totalSizeX, totalSizeY), Color.FromArgb(bgColor.a, bgColor.r, bgColor.g, bgColor.b), true, default, default, true);
             }
 
             // use the cached entry if it exists
-            TextCacheEntry cacheEntry = GetEntry(font, text, fgColor, style, smoothingType, outlineSize, bgColor);
+            TextCacheEntry? cacheEntry = GetEntry(font, text, fgColor, style, smoothingType, outlineSize, bgColor);
 
             // if it doesn't exist add it
             if (cacheEntry == null) cacheEntry = AddEntry(cRenderer, font, text, fgColor, style, smoothingType, outlineSize, bgColor);
+
+            // if it's still null bail out
+            if (cacheEntry == null) return;
 
             cacheEntry.UsedThisFrame = true;
 
@@ -142,12 +153,15 @@ namespace LightningGL
         }
 
 
-        internal TextCacheEntry AddEntry(Renderer cRenderer, string font, string text,
+        internal TextCacheEntry? AddEntry(Renderer cRenderer, string font, string text,
             SDL_Color color, TTF_FontStyle style, FontSmoothingType type = FontSmoothingType.Default, int outlineSize = -1, SDL_Color bgColor = default)
         {
-            TextCacheEntry entry = TextCacheEntry.Render(cRenderer, font, text, color, style, type, outlineSize, bgColor);
-            Assets.Add(entry);
+            TextCacheEntry? entry = TextCacheEntry.Render(cRenderer, font, text, color, style, type, outlineSize, bgColor);
+            
+            if (entry != null) Assets.Add(entry);
+
             return entry;
+
         }
 
         internal void PurgeUnusedEntries()
@@ -167,7 +181,7 @@ namespace LightningGL
 
         #region Cache code
 
-        internal TextCacheEntry GetEntry(string font, string text,
+        internal TextCacheEntry? GetEntry(string font, string text,
             SDL_Color color, TTF_FontStyle style, FontSmoothingType type = FontSmoothingType.Default, int outlineSize = -1, SDL_Color bgColor = default)
         {
             foreach (TextCacheEntry entry in Assets)
@@ -190,17 +204,22 @@ namespace LightningGL
         internal void DeleteEntry(string font, string text,
             SDL_Color color, TTF_FontStyle style, FontSmoothingType type = FontSmoothingType.Default, int outlineSize = -1, SDL_Color bgColor = default)
         {
-            TextCacheEntry fontEntry = GetEntry(font, text, color, style, type, outlineSize, bgColor);
+            TextCacheEntry? fontEntry = GetEntry(font, text, color, style, type, outlineSize, bgColor);
 
             DeleteEntry(fontEntry);
         }
 
-        internal void DeleteEntry(TextCacheEntry fontEntry)
+        internal void DeleteEntry(TextCacheEntry? fontEntry)
         {
             if (fontEntry != null)
             {
                 fontEntry.Unload();
                 Assets.Remove(fontEntry);
+            }
+            else
+            {
+                _ = new NCException($"Attempted to delete null TextCacheEntry! I twill not be deleted.", 191,
+                    "TextManager::DeleteEntry called with fontEntry parameter set to NULL", NCExceptionSeverity.Warning, null, true);
             }
         }
 

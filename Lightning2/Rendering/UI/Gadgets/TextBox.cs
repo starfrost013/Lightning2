@@ -2,21 +2,7 @@
 {
     public class TextBox : Gadget
     {
-        public string Text { get; set; }
-
-        private int _curcursorposition { get; set; }
-
-        private int CurCursorPosition
-        {
-            get
-            {
-                return _curcursorposition;
-            }
-            set
-            {
-                if (_curcursorposition > Text.Length) _ = new NCException("Error: Attempted to move a textbox cursor beyond the text length!", 106, "TextBox::CurCursorPosition > TextBox::Text::Length!", NCExceptionSeverity.FatalError);
-            }
-        }
+        public string? Text { get; set; }
 
         /// <summary>
         /// A boolean determining if the cursor is hidden or not.
@@ -63,7 +49,7 @@
         /// </summary>
         private bool IsActive { get; set; }
 
-        public TextBox(int capacity) : base()
+        public TextBox(int capacity, string font) : base(font)
         {
             Capacity = capacity;
             OnKeyPressed += KeyPressed;
@@ -83,9 +69,9 @@
         /// <param name="key">The key that has been pressed.</param>
         public void KeyPressed(Key key)
         {
-            // reject if text longer than capacity
-            if (Text != null
-                && Text.Length > Capacity) return;
+            // reject if text is not set or text is longer than capacity
+            if (Text == null) return;
+            if (Text.Length > Capacity) return;
 
             SDL_Scancode keySym = key.KeySym.scancode;
             SDL_Keymod keyMod = key.KeySym.mod;
@@ -146,7 +132,16 @@
         /// <param name="cRenderer">The window to render this <see cref="TextBox"/> to.</param>
         public void Render(Renderer cRenderer)
         {
-            PrimitiveManager.DrawRectangle(cRenderer, Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen);
+            if (Text == null) Text = "";
+
+            if (Font == null)
+            {
+                NCLogging.Log($"Cannot draw a TextBox when the value of its Font property is null!", ConsoleColor.Yellow);
+                return;
+            }
+
+            PrimitiveManager.AddRectangle(cRenderer, Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen);
+
             TextManager.DrawText(cRenderer, Text, Font, Position, ForegroundColor);
 
             // slight hack
@@ -167,7 +162,7 @@
                 // if it's active, draw the line
                 if (IsActive)
                 {
-                    PrimitiveManager.DrawLine(cRenderer, cursorPosition,
+                    PrimitiveManager.AddLine(cRenderer, cursorPosition,
                     new(cursorPosition.X, cursorPosition.Y + Size.Y), CursorThickness, CursorColor);
                 }
 

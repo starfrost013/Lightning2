@@ -36,14 +36,17 @@ Everything that matters to the api has to go here
 2022.11.02:
 * Bugfixes in primitives.
 
-2022.11.05:
+2022.11.04:
 * Updated SDL2_gfx for some minor optimisation in C=+ (it will now automatically draw AA Lines when thickness is 1)
 * Started working on allowing all primitives to have borders. 
 
-2022.11.06:
+2022.11.05:
 * Added border support to all primitives (except basictext).
 * Removed ability to initialise lightning without the Scene Manager.
 * Fixed Scene::Shutdown.
+
+2022.11.06@:
+* PrimitiveManager::Draw**** -> PrimitiveManager::Add****
 
 * todo:
 	- add freetype bindings

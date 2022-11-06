@@ -28,7 +28,7 @@
             Assets.Remove(asset);
         }
 
-        public Texture GetInstanceOfTexture(Renderer cRenderer, string path)
+        public Texture? GetInstanceOfTexture(Renderer cRenderer, string path)
         {
             foreach (Texture texture in Assets)
             {
@@ -45,7 +45,7 @@
             return null;
         }
 
-        public Texture GetInstanceOfTexture(Renderer cRenderer, Texture texture, bool clone = false)
+        public Texture? GetInstanceOfTexture(Renderer cRenderer, Texture texture, bool clone = false)
         {
             if (Assets.Contains(texture))
             {

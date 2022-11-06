@@ -17,7 +17,7 @@
         /// <summary>
         /// A name used to describe this audio file.
         /// </summary>
-        public string Name { get; internal set; }
+        public string? Name { get; internal set; }
 
         /// <summary>
         /// Determines if the current audio file is playing
@@ -52,11 +52,6 @@
         /// Used for positional sound calculations.
         /// </summary>
         private double RealVolume { get; set; }
-
-        public AudioFile()
-        {
-
-        }
 
         public AudioFile(string path)
         {

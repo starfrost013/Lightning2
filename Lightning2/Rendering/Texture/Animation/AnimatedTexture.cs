@@ -53,7 +53,7 @@
         /// <summary>
         /// Private: stores the current texture.
         /// </summary>
-        private Texture CurrentTexture { get; set; }
+        private Texture? CurrentTexture { get; set; }
 
         public AnimatedTexture(Renderer cRenderer, float sizeX, float sizeY, AnimationCycle cycle) : base(cRenderer, sizeX, sizeY)
         {
@@ -71,8 +71,17 @@
         /// <param name="cRenderer">The window to load this animated texture to.</param>
         internal override void Load(Renderer cRenderer)
         {
-            if (Size == default(Vector2)) _ = new NCException("Cannot load an animated texture with no texture size", 44, "AnimatedTexture::Size property = (0,0)", NCExceptionSeverity.FatalError);
-            if (Cycle == null) _ = new NCException("AnimatedTextures must have a valid Cycle property", 54, "AnimatedTexture::Cycle property = null", NCExceptionSeverity.FatalError);
+            if (Size == default(Vector2))
+            {
+                _ = new NCException("Cannot load an animated texture with no texture size", 44, "AnimatedTexture::Size property = (0,0)", NCExceptionSeverity.FatalError);
+                return;
+            }
+            
+            if (Cycle == null)
+            {
+                _ = new NCException("AnimatedTextures must have a valid Cycle property", 54, "AnimatedTexture::Cycle property = null", NCExceptionSeverity.FatalError);
+                return;
+            }
 
             foreach (string texturePath in FramePaths)
             {
@@ -160,7 +169,17 @@
         /// <param name="y"><inheritdoc/></param>
         /// <param name="unlockNow"><inheritdoc/></param>
         /// <returns><inheritdoc/></returns>
-        public override Color GetPixel(int x, int y, bool unlockNow = false) => CurrentTexture.GetPixel(x, y, unlockNow);
+        public override Color GetPixel(int x, int y, bool unlockNow = false)
+        {
+            if (CurrentTexture == null)
+            {
+                _ = new NCException("Attempted to call GetPixel on a NULL texture!", 184, "AnimatedTexture::GetPixel called when AnimatedTexture::CurrentTexture is NULL!",
+                    NCExceptionSeverity.Warning, null, true);
+                return default;
+            }
+
+            return CurrentTexture.GetPixel(x, y, unlockNow);
+        }
 
         /// <summary>
         /// <inheritdoc/>
@@ -169,7 +188,17 @@
         /// <param name="y"><inheritdoc/></param>
         /// <param name="unlockNow"><inheritdoc/></param>
         /// <returns><inheritdoc/></returns>
-        public override void SetPixel(int x, int y, Color color, bool unlockNow = false) => CurrentTexture.SetPixel(x, y, color, unlockNow);
+        public override void SetPixel(int x, int y, Color color, bool unlockNow = false)
+        {
+            if (CurrentTexture == null)
+            {
+                _ = new NCException("Attempted to call GetPixel on a NULL texture!", 185, "AnimatedTexture::SetPixel called when AnimatedTexture::CurrentTexture is NULL!",
+                    NCExceptionSeverity.Warning, null, true);
+                return;
+            }
+
+            CurrentTexture.SetPixel(x, y, color, unlockNow);
+        }
 
         /// <summary>
         /// Gets a pixel for every frame of this animated texture.

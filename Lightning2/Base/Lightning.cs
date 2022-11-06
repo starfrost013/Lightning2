@@ -64,16 +64,6 @@ namespace LightningGL
                 NCLogging.Log($"Lightning Game Engine");
                 NCLogging.Log($"Version {LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING}");
 
-                NCLogging.Log("Parsing command-line arguments...");
-                if (!InitSettings.Parse(args)) _ = new NCException($"An error occurred while parsing command-line arguments.", 103, "InitSettings::Parse returned false", NCExceptionSeverity.FatalError);
-
-                if (InitSettings.PackageFile != null)
-                {
-                    NCLogging.Log($"User specified package file {InitSettings.PackageFile} to load, loading it...");
-
-                    if (!Packager.LoadPackage(InitSettings.PackageFile, InitSettings.ContentFolder)) _ = new NCException($"An error occurred loading {InitSettings.PackageFile}. The game cannot be loaded.", 104, "Packager::LoadPackager returned false", NCExceptionSeverity.FatalError);
-                }
-
                 NCLogging.Log("Initialising SDL...");
                 if (SDL_Init(SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2: {SDL_GetError()}", 0, "Failed to initialise SDL2 during Lightning::Init", NCExceptionSeverity.FatalError);
 
@@ -110,8 +100,7 @@ namespace LightningGL
                 }
 
                 // load global settings package file if init settings one was not specified
-                if (InitSettings.PackageFile == null
-                    && GlobalSettings.GeneralPackageFile != null)
+                if (GlobalSettings.GeneralPackageFile != null)
                 {
                     NCLogging.Log($"User specified package file {GlobalSettings.GeneralPackageFile} to load, loading it...");
 

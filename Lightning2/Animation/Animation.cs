@@ -20,7 +20,7 @@ namespace LightningGL
         /// <summary>
         /// Backing field for <see cref="Name"/>
         /// </summary>
-        private string _name;
+        private string? _name;
 
         /// <summary>
         /// Name of this animation
@@ -158,91 +158,113 @@ namespace LightningGL
                 for (int keyframeId = 0; keyframeId < property.Keyframes.Count; keyframeId++)
                 {
                     AnimationKeyframe thisKeyframe = property.Keyframes[keyframeId];
-                    AnimationKeyframe nextKeyframe = null;
+                    AnimationKeyframe? nextKeyframe = null;
+
                     if (property.Keyframes.Count - keyframeId > 1) nextKeyframe = property.Keyframes[keyframeId + 1];
 
-                    bool needToUpdate = nextKeyframe != null && (renderable.AnimationTimer.ElapsedMilliseconds >= thisKeyframe.Position
-                        && renderable.AnimationTimer.ElapsedMilliseconds <= nextKeyframe.Position);
-
-                    if (needToUpdate)
+                    if (nextKeyframe != null)
                     {
-                        try
+                        bool needToUpdate = (renderable.AnimationTimer.ElapsedMilliseconds >= thisKeyframe.Position
+                            && renderable.AnimationTimer.ElapsedMilliseconds <= nextKeyframe.Position);
+
+                        if (needToUpdate)
                         {
-                            // todo: propertycache
-                            // this is very inefficient
-
-                            if (thisKeyframe.GetType() 
-                                != nextKeyframe.GetType())
+                            try
                             {
-                                _ = new NCException($"All Keyframes of an animation property must be of the same type!", 146, "The value of thisKeyframe::GetType is not the same as nextKeyframe::GetType in a call to Animation::UpdateAnimationFor", 
-                                    NCExceptionSeverity.FatalError);
+                                // todo: propertycache
+                                // this is very inefficient
+
+                                if (thisKeyframe.GetType()
+                                    != nextKeyframe.GetType())
+                                {
+                                    _ = new NCException($"All Keyframes of an animation property must be of the same type!", 146, "The value of thisKeyframe::GetType is not the same as nextKeyframe::GetType in a call to Animation::UpdateAnimationFor",
+                                        NCExceptionSeverity.FatalError);
+                                }
+
+                                long max = nextKeyframe.Position - thisKeyframe.Position;
+                                long cur = renderable.AnimationTimer.ElapsedMilliseconds - thisKeyframe.Position;
+                                object? finalValue = null;
+
+                                string propertyType = property.Type.ToLowerInvariant();
+
+                                AnimationPropertyType animationPropertyType = (AnimationPropertyType)Enum.Parse(typeof(AnimationPropertyType), propertyType, true);
+
+                                // various different renderable types
+                                // we do this instead of using typeconverter so that we do not have to use the qualified type name and also to reduce code complexity
+                                switch (animationPropertyType)
+                                {
+                                    case AnimationPropertyType.Int32:
+                                        int intValue1 = Convert.ToInt32(thisKeyframe.Value),
+                                            intValue2 = Convert.ToInt32(nextKeyframe.Value);
+                                        finalValue = AnimationPropertyFactory.GetIntValue(intValue1, intValue2, cur, max);
+                                        break;
+                                    case AnimationPropertyType.Float: // single is same value
+                                        float floatValue1 = Convert.ToSingle(thisKeyframe.Value),
+                                              floatValue2 = Convert.ToSingle(nextKeyframe.Value);
+                                        finalValue = AnimationPropertyFactory.GetFloatValue(floatValue1, floatValue2, cur, max);
+                                        break;
+                                    case AnimationPropertyType.Double:
+                                        double doubleValue1 = Convert.ToDouble(thisKeyframe.Value),
+                                               doubleValue2 = Convert.ToDouble(nextKeyframe.Value);
+                                        finalValue = AnimationPropertyFactory.GetDoubleValue(doubleValue1, doubleValue2, cur, max);
+                                        break;
+                                    case AnimationPropertyType.Vector2:
+                                        Vector2Converter vec2Converter = new();
+                                        Vector2? vector2Value1 = (Vector2?)vec2Converter.ConvertFromInvariantString(thisKeyframe.Value),
+                                                vector2Value2 = (Vector2?)vec2Converter.ConvertFromInvariantString(nextKeyframe.Value);
+
+                                        if (vector2Value1 == null
+                                            || vector2Value2 == null)
+                                        {
+                                            _ = new NCException("Attempted to convert invalid Vector2 animation...", 182, 
+                                                "Animation::UpdateAnimationFor - call to Vector2Converter::ConvertFromInvariantString returned null!", NCExceptionSeverity.FatalError);
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            finalValue = AnimationPropertyFactory.GetVector2Value((Vector2)vector2Value1, (Vector2)vector2Value2, cur, max);
+                                        }
+                                        break;
+                                    case AnimationPropertyType.Boolean:
+                                        bool boolValue1 = Convert.ToBoolean(thisKeyframe.Value),
+                                             boolValue2 = Convert.ToBoolean(nextKeyframe.Value);
+
+                                        // we do not, technically, get a boolean value technically here
+                                        // instead we check if we are more than 50% to next keyframe and deem it the second value if true
+                                        // remember, boolean, only two possible values
+                                        finalValue = AnimationPropertyFactory.GetBooleanValue(boolValue1, boolValue2, cur, max);
+
+                                        break;
+                                    default:
+                                        _ = new NCException($"Invalid animation property type. Only int, float, double, boolean, and Vector2 are supported!", 148,
+                                        "Animation::UpdateAnimationFor attempted to set a value of an unsupported animation property type!", NCExceptionSeverity.FatalError);
+                                        break;
+                                }
+
+                                Type renderableType = renderable.GetType();
+
+                                PropertyInfo? propertyInfo = renderableType.GetProperty(property.Name);
+
+                                if (propertyInfo == null)
+                                {
+                                    _ = new NCException($"Attempted to set value of invalid animation property {property.Name}", 152,
+                                       $"Tried to get an invalid property of the type {renderableType.Name} in call to Animation::UpdateAnimationFor", NCExceptionSeverity.FatalError);
+                                    return;
+                                }
+
+                                propertyInfo.SetValue(renderable, finalValue, null);
+
                             }
-
-                            long max = nextKeyframe.Position - thisKeyframe.Position;
-                            long cur = renderable.AnimationTimer.ElapsedMilliseconds - thisKeyframe.Position;
-                            object finalValue = null;
-
-                            string propertyType = property.Type.ToLowerInvariant();
-
-                            AnimationPropertyType animationPropertyType = (AnimationPropertyType)Enum.Parse(typeof(AnimationPropertyType), propertyType, true);
-
-                            // various different renderable types
-                            // we do this instead of using typeconverter so that we do not have to use the qualified type name and also to reduce code complexity
-                            switch (animationPropertyType)
+                            catch (Exception ex)
                             {
-                                case AnimationPropertyType.Int32:
-                                    int intValue1 = Convert.ToInt32(thisKeyframe.Value),
-                                        intValue2 = Convert.ToInt32(nextKeyframe.Value);
-                                    finalValue = AnimationPropertyFactory.GetIntValue(intValue1, intValue2, cur, max);
-                                    break;
-                                case AnimationPropertyType.Float: // single is same value
-                                    float floatValue1 = Convert.ToSingle(thisKeyframe.Value),
-                                          floatValue2 = Convert.ToSingle(nextKeyframe.Value);
-                                    finalValue = AnimationPropertyFactory.GetFloatValue(floatValue1, floatValue2, cur, max);
-                                    break;
-                                case AnimationPropertyType.Double:
-                                    double doubleValue1 = Convert.ToDouble(thisKeyframe.Value),
-                                           doubleValue2 = Convert.ToDouble(nextKeyframe.Value);
-                                    finalValue = AnimationPropertyFactory.GetDoubleValue(doubleValue1, doubleValue2, cur, max);
-                                    break;
-                                case AnimationPropertyType.Vector2:
-                                    Vector2Converter vec2Converter = new();
-                                    Vector2 vector2Value1 = (Vector2)vec2Converter.ConvertFromInvariantString(thisKeyframe.Value),
-                                            vector2Value2 = (Vector2)vec2Converter.ConvertFromInvariantString(nextKeyframe.Value);
-                                    finalValue = AnimationPropertyFactory.GetVector2Value(vector2Value1, vector2Value2, cur, max);
-                                    break;
-                                case AnimationPropertyType.Boolean:
-                                    bool boolValue1 = Convert.ToBoolean(thisKeyframe.Value),
-                                         boolValue2 = Convert.ToBoolean(nextKeyframe.Value);
-
-                                    // we do not, technically, get a boolean value technically here
-                                    // instead we check if we are more than 50% to next keyframe and deem it the second value if true
-                                    // remember, boolean, only two possible values
-                                    finalValue = AnimationPropertyFactory.GetBooleanValue(boolValue1, boolValue2, cur, max);
-                                    
-                                    break;
-                                default:
-                                    _ = new NCException($"Invalid animation property type. Only int, float, double, boolean, and Vector2 are supported!", 148,
-                                    "Animation::UpdateAnimationFor attempted to set a value of an unsupported animation property type!", NCExceptionSeverity.FatalError);
-                                    break;
+                                _ = new NCException($"Error: An error occurred converting an animation property of {property.Type}, value {thisKeyframe.Value}: \n\n{ex}", 147,
+                                    "An exception occurred in Animation::UpdateAnimationFor");
                             }
-
-                            Type renderableType = renderable.GetType();
-
-                            PropertyInfo propertyInfo = renderableType.GetProperty(property.Name);
-
-                            if (propertyInfo == null) _ = new NCException($"Attempted to set value of invalid animation property {property.Name}", 152,
-                                    $"Tried to get an invalid property of the type {renderableType.Name} in call to Animation::UpdateAnimationFor", NCExceptionSeverity.FatalError);
-
-                            propertyInfo.SetValue(renderable, finalValue, null);  
-
-                        }
-                        catch (Exception ex)
-                        {
-                            _ = new NCException($"Error: An error occurred converting an animation property of {property.Type}, value {thisKeyframe.Value}: \n\n{ex}", 147, 
-                                "An exception occurred in Animation::UpdateAnimationFor");
                         }
                     }
+
+
+
                 }
             }
         }

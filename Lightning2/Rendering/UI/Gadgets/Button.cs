@@ -12,18 +12,19 @@
         /// <summary>
         /// The text that this button will hold.
         /// </summary>
-        public string Text { get; set; }
+        public string? Text { get; set; }
 
         /// <summary>
         /// The text style that this button will use.
         /// </summary>
         public TTF_FontStyle Style { get; set; }
 
-        public Button() : base()
+        public Button(string font) : base(font)
         {
             // Hook up event handlers
             OnRender += Render;
         }
+
 
         /// <summary>
         /// Renders this button.
@@ -31,17 +32,19 @@
         /// <param name="cRenderer">The window to render this button to.</param>
         public void Render(Renderer cRenderer)
         {
+            if (Text == null) return;
+
             // This is a bit of a hack, but it works for now
             if (CurBackgroundColor == default(Color)) CurBackgroundColor = BackgroundColor;
 
-            PrimitiveManager.DrawRectangle(cRenderer, RenderPosition, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+            PrimitiveManager.AddRectangle(cRenderer, RenderPosition, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
 
-            Font curFont = FontManager.GetFont(Font);
+            Font? curFont = FontManager.GetFont(Font);
 
-            if (FontManager.GetFont(Font) == null)
+            if (curFont == null)
             {
                 // Use the default font.
-                PrimitiveManager.DrawText(cRenderer, Text, RenderPosition, ForegroundColor, true);
+                PrimitiveManager.AddText(cRenderer, Text, RenderPosition, ForegroundColor, true);
             }
             else
             {

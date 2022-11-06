@@ -12,7 +12,7 @@
         /// <summary>
         /// The font of this font cache entry.
         /// </summary>
-        internal string Font { get; private set; }
+        internal string? Font { get; private set; }
 
         internal string Text
         {
@@ -22,10 +22,14 @@
 
                 for (int curLineId = 0; curLineId < Lines.Count; curLineId++)
                 {
-                    string curLine = Lines[curLineId].Text;
-                    final = $"{final}{curLine}";
+                    string? curLine = Lines[curLineId].Text;
 
-                    if (Lines.Count - curLineId > 1) final = $"{final}\n";
+                    if (curLine != null)
+                    {
+                        final = $"{final}{curLine}";
+
+                        if (Lines.Count - curLineId > 1) final = $"{final}\n";
+                    }
                 }
 
                 return final;
@@ -74,7 +78,7 @@
             Lines = new List<TextCacheEntryLine>();
         }
 
-        internal static TextCacheEntry Render(Renderer cRenderer, string font, string text,
+        internal static TextCacheEntry? Render(Renderer cRenderer, string font, string text,
             SDL_Color fgColor, TTF_FontStyle style, FontSmoothingType smoothingType = FontSmoothingType.Default,
             int outlineSize = -1, SDL_Color bgColor = default)
         {
@@ -88,13 +92,14 @@
             entry.OutlineSize = outlineSize;
 
             // render the font
-            Font fontForRender = FontManager.GetFont(font);
+            Font? fontForRender = FontManager.GetFont(font);
 
             if (fontForRender == null
                 || text == null)
             {
                 _ = new NCException("Cannot render a non-existent font or text into the font cache!", 136,
                     "FontCache::Render - font parameter is not a font, or text parameter is purely null!", NCExceptionSeverity.FatalError);
+                return null;
             }
 
             NCLogging.Log($"Precaching font bitmap (font={font}, text={text}, color={fgColor}, smoothing type={smoothingType}, bgcolor={bgColor}, outline size={outlineSize})");

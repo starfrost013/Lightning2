@@ -17,7 +17,7 @@
         /// <summary>
         /// The lines of the font of this font cache entry.
         /// </summary>
-        internal string Text { get; set; }
+        internal string? Text { get; set; }
 
         /// <summary>
         /// The size of this text.

@@ -19,10 +19,12 @@
         /// </summary>
         public short Thickness { get; set; }
 
+        private bool UiAdded { get; set; }
+
         /// <summary>
         /// Constructor for the CheckBox class.
         /// </summary>
-        public CheckBox() : base()
+        public CheckBox(string font) : base(font)
         {
             OnRender += Render;
             OnMousePressed += CheckBoxMousePressed;
@@ -35,7 +37,7 @@
         /// <param name="cRenderer">The window to render this checkbox to.</param>
         public void Render(Renderer cRenderer)
         {
-            PrimitiveManager.DrawRectangle(cRenderer, Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+            PrimitiveManager.AddRectangle(cRenderer, Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
 
             if (Checked)
             {
@@ -44,16 +46,15 @@
                 Vector2 line2Start = line1End;
                 Vector2 line2End = new Vector2(Position.X + Size.X, Position.Y);
 
-                PrimitiveManager.DrawLine(cRenderer, line1Start, line1End, Thickness, ForegroundColor, true, SnapToScreen);
-                PrimitiveManager.DrawLine(cRenderer, line2Start, line2End, Thickness, ForegroundColor, true, SnapToScreen);
+                PrimitiveManager.AddLine(cRenderer, line1Start, line1End, Thickness, ForegroundColor, true, SnapToScreen);
+                PrimitiveManager.AddLine(cRenderer, line2Start, line2End, Thickness, ForegroundColor, true, SnapToScreen);
             }
         }
 
         /// <summary>
         /// The default mouse pressed event handler for CheckBoxes.
         /// </summary>
-        /// <param name="button"></param>
-        /// <param name="position"></param>
+        /// <param name="button">The <see cref="MouseButton"/> that has been pressed.</param>
         public void CheckBoxMousePressed(MouseButton button)
         {
             base.MousePressed(button);

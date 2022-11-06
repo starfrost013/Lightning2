@@ -93,6 +93,7 @@
             Texture = nTexture;
             Mode = ParticleMode.SinCos;
             OnRender += Draw;
+            Particles = new List<Particle>();
         }
 
         /// <summary>
@@ -110,7 +111,11 @@
 
         internal override void Draw(Renderer cRenderer)
         {
-            if (Texture == null) _ = new NCException("Attempted to draw a particle effect without loading it!", 120, "ParticleEffect::Render called before ParticleEffect::Load!", NCExceptionSeverity.FatalError);
+            if (Texture == null)
+            {
+                _ = new NCException("Attempted to draw a particle effect without loading it!", 120, "ParticleEffect::Render called before ParticleEffect::Load!", NCExceptionSeverity.FatalError);
+                return;
+            }
 
             // create a list of particles to remove
             List<Particle> particlesToRemove = new();

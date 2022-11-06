@@ -12,7 +12,7 @@
             Assets = new List<T>();
         }
 
-        public abstract T AddAsset(Renderer cRenderer, T asset);
+        public abstract T? AddAsset(Renderer cRenderer, T asset);
 
         public virtual void RemoveAsset(Renderer cRenderer, T asset)
         {

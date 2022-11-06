@@ -7,9 +7,6 @@
     /// </summary>
     public class RendererSettings
     {
-        private int MINIMUM_WINDOW_SIZE_X = 192;
-        private int MINIMUM_WINDOW_SIZE_Y = 48;
-
         /// <summary>
         /// Backing field for <see cref="Title"/>.
         /// </summary>
@@ -50,8 +47,8 @@
             {
                 _position = value;
 
-                if (_position.X < MINIMUM_WINDOW_SIZE_X
-                    || _position.Y < MINIMUM_WINDOW_SIZE_Y
+                if (_position.X < 0
+                    || _position.Y < 0
                     || _position.X > SystemInfo.ScreenResolutionX
                     || _position.Y > SystemInfo.ScreenResolutionY) _ = new NCException($"Attempted to change window to illegal position ({_position.X},{_position.Y}!). Range is 0,0 to {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY}", 118, "Set accessor of WindowSettings::Size detected an attempt to resize to an invalid window size", NCExceptionSeverity.FatalError);
 
@@ -85,13 +82,7 @@
             set
             {
                 _size = value;
-                // UWP but should work
-                // https://stackoverflow.com/questions/42932983/minimum-size-of-a-window
-                if (_size.X < 192
-                    || _size.Y < 48
-                    || _size.X > SystemInfo.ScreenResolutionX
-                    || _size.Y > SystemInfo.ScreenResolutionY) _ = new NCException($"Attempted to change window to illegal resolution ({_size.X},{_size.Y}!). Range is 192,48 to {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY}", 117, "Set accessor of WindowSettings::Size detected an attempt to resize to an invalid window size", NCExceptionSeverity.FatalError);
-
+                
                 if (WindowHandle != default)
                 {
                     int intSizeX = Convert.ToInt32(_size.X),
@@ -140,6 +131,9 @@
         /// </summary>
         public Color BackgroundColor { get; internal set; }
 
+// _title is always not null because it's set in the constructor of Title and is a backing field,
+// but VS doesn't like it so we just turn it off
+#pragma warning disable CS8618
         public RendererSettings()
         {
             // Show the window and set its color to RGBA 0,0,0,255 (solid black) by default
@@ -152,6 +146,11 @@
             if (Position == default(Vector2)) Position = new Vector2(GlobalSettings.GraphicsPositionX, GlobalSettings.GraphicsPositionY);
             if (Title == null) Title = GlobalSettings.GraphicsWindowTitle;
             BackgroundColor = Color.FromArgb(255, 0, 0, 0);
+
+            // Create a default camera.
+            Camera = new Camera(CameraType.Follow); 
         }
+#pragma warning restore CS8618
+
     }
 }

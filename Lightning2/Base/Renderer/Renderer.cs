@@ -64,6 +64,7 @@ namespace LightningGL
             FrameTimer.Start();
             ThisTime = 0;
             Renderables = new List<Renderable>();
+            Settings = new RendererSettings();
         }
 
         /// <summary>
@@ -73,9 +74,12 @@ namespace LightningGL
         internal void Start(RendererSettings windowSettings)
         {
             // Check that the engine has been started.
-            //if (!Initialised) _ = new NCException("You cannot start a window without initialising the engine - call Lightning::Init first!", 134, "Window::Start called before Lightning::Init!", NCExceptionSeverity.FatalError);
 
-            if (windowSettings == null) _ = new NCException("Passed null WindowSettings to Window::Start method!", 7, "Window::Start windowSettings parameter null", NCExceptionSeverity.FatalError);
+            if (windowSettings == null)
+            {
+                _ = new NCException("Passed null WindowSettings to Window::Start method!", 7, "Window::Start windowSettings parameter null", NCExceptionSeverity.FatalError);
+                return;
+            }
 
             Settings = windowSettings;
 
@@ -111,13 +115,6 @@ namespace LightningGL
 
             if (realRenderDriverName != renderer) _ = new NCException($"Specified renderer {renderer} is not supported. Using {realRenderDriverName} instead!", 123, 
                 "Renderer not supported in current environment", NCExceptionSeverity.Warning, null, true);
-
-            // Create a default camera if the developer did not create one during init.
-            if (Settings.Camera == null)
-            {
-                Camera defaultCamera = new Camera(CameraType.Follow);
-                SetCurrentCamera(defaultCamera);
-            }
 
             if (Settings.RendererHandle == IntPtr.Zero) _ = new NCException($"Failed to create Renderer: {SDL_GetError()}", 9, 
                 "Window::AddWindow - SDL_CreateRenderer failed to create renderer", NCExceptionSeverity.FatalError);
@@ -289,7 +286,7 @@ namespace LightningGL
 
             foreach (string line in debugText)
             {
-                PrimitiveManager.DrawText(this, line, new Vector2(0, currentY), Color.FromArgb(255, 255, 255, 255), true, true);
+                PrimitiveManager.AddText(this, line, new Vector2(0, currentY), Color.FromArgb(255, 255, 255, 255), true, true);
                 currentY += debugLineDistance;
             }
 
@@ -302,7 +299,7 @@ namespace LightningGL
 
                 if (maxFps == 0) maxFps = 60;
 
-                PrimitiveManager.DrawText(this, $"Running under target FPS ({maxFps})!",
+                PrimitiveManager.AddText(this, $"Running under target FPS ({maxFps})!",
                     new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 0, 0), true);
             }
         }

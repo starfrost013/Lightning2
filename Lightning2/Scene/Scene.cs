@@ -12,9 +12,29 @@
     public abstract class Scene : Renderable
     {
         /// <summary>
+        /// Backing field for <see cref="Name"/>
+        /// </summary>
+        private string? _name; 
+
+        /// <summary>
         /// The name of this scene.
         /// </summary>
-        internal string Name { get; set; }
+        internal string? Name
+        {
+            get
+            {
+                if (_name != null) return _name;
+
+                // if the user didn't specify a name then use the type name
+                Type t = GetType();
+                string typeName = t.Name;
+                return typeName;
+            }
+            set
+            {
+                _name = value;
+            }
+        }
 
         /// <summary>
         /// Run immediately after the scene is initialised, during the initialisation of the Scene Manager after SDL and Lightning2 have been started.
@@ -43,20 +63,7 @@
         /// </summary>
         public abstract void Shutdown();
 
-        /// <summary>
-        /// Gets the name of this scene.
-        /// </summary>
-        public virtual string GetName()
-        {
-            if (Name != null) return Name;
-
-            // if the user didn't specify a name then use the type name
-            Type t = GetType();
-            string typeName = t.Name;
-            return typeName;
-        }
-
-        public Scene(string name = null)
+        public Scene(string? name = null)
         {
             Name = name;
         }

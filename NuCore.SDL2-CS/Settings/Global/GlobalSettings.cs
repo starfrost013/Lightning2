@@ -224,9 +224,9 @@ namespace LightningBase
 
         #region Default values
 
-        public static int DEFAULT_GRAPHICS_POSITION_X = SystemInfo.ScreenResolutionX / 2 - (GraphicsResolutionX / 2);
+        public static int DEFAULT_GRAPHICS_POSITION_X => SystemInfo.ScreenResolutionX / 2 - (GraphicsResolutionX / 2);
 
-        public static int DEFAULT_GRAPHICS_POSITION_Y = SystemInfo.ScreenResolutionY / 2 - (GraphicsResolutionY / 2);
+        public static int DEFAULT_GRAPHICS_POSITION_Y => SystemInfo.ScreenResolutionY / 2 - (GraphicsResolutionY / 2);
 
         public const int DEFAULT_GRAPHICS_TICK_SPEED = 1;
 
@@ -361,12 +361,8 @@ namespace LightningBase
                 _ = int.TryParse(positionY, out var positionYValue);
 
                 // failed to load, set default values (middle of screen)
-                if (positionXValue == 0 
-                    && positionYValue == 0)
-                {
-                    positionXValue = DEFAULT_GRAPHICS_POSITION_X;
-                    positionYValue = DEFAULT_GRAPHICS_POSITION_Y;
-                }
+                if (positionXValue == 0) positionXValue = DEFAULT_GRAPHICS_POSITION_X;
+                if (positionYValue == 0) positionYValue = DEFAULT_GRAPHICS_POSITION_Y;
 
                 // set the default delta multiplier value
                 if (tickSpeedValue == 0) tickSpeedValue = DEFAULT_GRAPHICS_TICK_SPEED;

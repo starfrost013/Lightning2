@@ -14,7 +14,7 @@
         /// <summary>
         /// Backing field for <see cref="Path"/>
         /// </summary>
-        private string _path;
+        private string? _path;
 
         /// <summary>
         /// Path to the texture 
@@ -125,12 +125,14 @@
             Size = new Vector2(sizeX, sizeY);
             Access = access;
 
-            if (Size == default) _ = new NCException($"Error creating texture: Must have a size!", 20, "Texture constructor called with invalid size", NCExceptionSeverity.FatalError);
+            if (Size == default) _ = new NCException($"Error creating texture: Must have a size!", 20, 
+                "Texture constructor called with invalid size", NCExceptionSeverity.FatalError);
 
             Handle = SDL_CreateTexture(cRenderer.Settings.RendererHandle, SDL_PIXELFORMAT_ARGB8888, Access, (int)Size.X, (int)Size.Y);
 
             // check if texture failed to load
-            if (Handle == IntPtr.Zero) _ = new NCException($"Error creating texture: {SDL_GetError()}", 119, "An SDL error occurred in the Texture constructor", NCExceptionSeverity.FatalError);
+            if (Handle == IntPtr.Zero) _ = new NCException($"Error creating texture: {SDL_GetError()}", 119, 
+                "An SDL error occurred in the Texture constructor", NCExceptionSeverity.FatalError);
 
             OnRender += Draw;
 

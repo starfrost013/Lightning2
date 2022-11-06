@@ -12,16 +12,16 @@
         /// <summary>
         /// The name of this language.
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// A brief description of the language.
         /// </summary>
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// The version of the language's localisation files.
         /// </summary>
-        public string Version { get; set; }
+        public string? Version { get; set; }
     }
 }

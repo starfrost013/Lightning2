@@ -53,7 +53,7 @@
         /// Determines how much the alternate item colors will be modified by.
         /// A negative value brightens the colors. Default value is 30.
         /// </summary>
-        public int AlternateItemcolorsAmount { get; set; }
+        public int AlternateItemColorsAmount { get; set; }
 
         /// <summary>
         /// Private: Size used to determine the size of the box that is actually drawn when the item is not open
@@ -63,7 +63,7 @@
         /// <summary>
         /// Static listbox constructor.
         /// </summary>
-        public ListBox() : base()
+        public ListBox(string font) : base(font)
         {
             Items = new List<ListBoxItem>();
             OnRender += Render;
@@ -74,7 +74,7 @@
             OnMouseReleased += ListBoxMouseReleased;
             OnMouseMove += ListBoxMouseMove;
 
-            AlternateItemcolorsAmount = 30;
+            AlternateItemColorsAmount = 30;
         }
 
         /// <summary>
@@ -83,8 +83,23 @@
         /// <param name="item">The <see cref="ListBoxItem"/> to add to this ListBox.</param>
         public void AddItem(ListBoxItem item)
         {
+            if (Font == null)
+            {
+                _ = new NCException($"Tried to add an item to a ListBox with an invalid font", 185,
+                    "ListBox::Font property did not correspond to an actual font during call to ListBox::AddItem", NCExceptionSeverity.FatalError);
+                return;
+            }
+
+            Font? itemFont = FontManager.GetFont(Font);
+
+            if (itemFont == null)
+            {
+                _ = new NCException($"Tried to add an item to a ListBox with an invalid font", 187,
+                    "ListBox::Font property did not correspond to an actual font during call to ListBox::AddItem", NCExceptionSeverity.FatalError);
+                return;
+            }
+
             item.Font = Font;
-            Font itemFont = FontManager.GetFont(Font);
 
             Vector2 itemFontSize = FontManager.GetTextSize(itemFont, item.Text);
 
@@ -102,9 +117,9 @@
             if (Items.Count % 2 == 0
                 && !DontAlternateItemcolors)
             {
-                int altR = item.BackgroundColor.R - AlternateItemcolorsAmount,
-                    altG = item.BackgroundColor.G - AlternateItemcolorsAmount,
-                    altB = item.BackgroundColor.B - AlternateItemcolorsAmount;
+                int altR = item.BackgroundColor.R - AlternateItemColorsAmount,
+                    altG = item.BackgroundColor.G - AlternateItemColorsAmount,
+                    altB = item.BackgroundColor.B - AlternateItemColorsAmount;
 
                 // make sure we are in valid color ranges (not required for alpha)
                 if (altR < 0) altR = 0;
@@ -140,9 +155,23 @@
             // set the default background color if it's not set. a hack...
             if (CurBackgroundColor == default(Color)) CurBackgroundColor = BackgroundColor;
 
-            PrimitiveManager.DrawRectangle(cRenderer, Position, BoxSize, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+            PrimitiveManager.AddRectangle(cRenderer, Position, BoxSize, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
 
-            Font curFont = FontManager.GetFont(Font);
+            if (Font == null)
+            {
+                _ = new NCException($"Tried to add an item to a ListBox with an invalid font", 188,
+                    "ListBox::Font property did not correspond to an actual font during call to ListBox::Render", NCExceptionSeverity.FatalError);
+                return;
+            }
+
+            Font? curFont = FontManager.GetFont(Font);
+
+            if (curFont == null)
+            {
+                _ = new NCException($"Tried to add an item to a ListBox with an invalid font", 186,
+                    "ListBox::Font property did not correspond to an actual font during call to ListBox::Render", NCExceptionSeverity.FatalError);
+                return;
+            }
 
             // draw the currently selected item:
             // if the font is invalid use the default font
@@ -151,7 +180,7 @@
             {
                 if (curFont == null)
                 {
-                    PrimitiveManager.DrawText(cRenderer, Items[SelectedIndex].Text, Position, ForegroundColor, true);
+                    PrimitiveManager.AddText(cRenderer, Items[SelectedIndex].Text, Position, ForegroundColor, true);
                 }
                 else
                 {
@@ -187,14 +216,18 @@
                 {
                     ListBoxItem item = Items[curItem];
 
-                    if (AABB.Intersects(item, button.Position))
+                    if (item != null)
                     {
-                        // select the messagebox 
-                        SelectedIndex = curItem;
+                        if (AABB.Intersects(item, button.Position))
+                        {
+                            // select the messagebox 
+                            SelectedIndex = curItem;
 
-                        // allow the user to override positions
-                        item.OnMousePressed(button);
+                            // allow the user to override positions
+                            if (item.OnMousePressed != null) item.OnMousePressed(button);
+                        }
                     }
+
 
                 }
 
@@ -243,7 +276,7 @@
                     if (AABB.Intersects(item, button.Position))
                     {
                         // allow the user to override positions
-                        item.OnMouseReleased(button);
+                        if (item.OnMouseReleased != null) item.OnMouseReleased(button);
                     }
                 }
             }
@@ -290,7 +323,7 @@
             foreach (ListBoxItem item in Items)
             {
                 // don't check for intersection as that's done here.
-                item.OnMouseMove(button);
+                if (item.OnMouseMove != null) item.OnMouseMove(button);
             }
         }
     }

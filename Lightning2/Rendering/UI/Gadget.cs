@@ -61,11 +61,12 @@
         /// <summary>
         /// Gadget constructor.
         /// </summary>
-        public Gadget()
+        public Gadget(string font)
         {
             OnMousePressed += MousePressed;
             OnMouseReleased += MouseReleased;
             OnMouseMove += MouseMove;
+            Font = font; 
         }
 
         #region Default event handlers

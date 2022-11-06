@@ -11,7 +11,7 @@
     {
         public string Text { get; set; }
 
-        public ListBoxItem(string text) : base()
+        public ListBoxItem(string text, string font) : base(font)
         {
             Text = text;
             OnRender += Render;
@@ -26,13 +26,13 @@
             // set the default background color
             if (CurBackgroundColor == default(Color)) CurBackgroundColor = BackgroundColor;
 
-            PrimitiveManager.DrawRectangle(cRenderer, Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+            PrimitiveManager.AddRectangle(cRenderer, Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
 
-            Font curFont = FontManager.GetFont(Font);
+            Font? curFont = FontManager.GetFont(Font);
 
             if (curFont == null)
             {
-                PrimitiveManager.DrawText(cRenderer, Text, Position, ForegroundColor, true);
+                PrimitiveManager.AddText(cRenderer, Text, Position, ForegroundColor, true);
             }
             else
             {

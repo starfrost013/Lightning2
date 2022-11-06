@@ -9,10 +9,13 @@
     /// </summary>
     public class LightAssetManager : AssetManager<Light>
     {
+        // set in constructor (see constructor), no method called by the construct
+#pragma warning disable CS8618
         /// <summary>
         /// Internal: Texture used for rendering lights
         /// </summary>
         internal Texture ScreenSpaceMap { get; private set; }
+#pragma warning restore CS8618
 
         /// <summary>
         /// The default color of the environment.
@@ -24,6 +27,7 @@
         /// </summary>
         internal bool Initialised { get; private set; }
 
+
         /// <summary>
         /// Initialises the Light Manager.
         /// </summary>
@@ -31,13 +35,18 @@
         internal void Init(Renderer cRenderer)
         {
             if (Initialised) return; // don't initialise twice
+
             // move this if it is slower
-            ScreenSpaceMap = new Texture(cRenderer, cRenderer.Settings.Size.X, cRenderer.Settings.Size.Y);
-            ScreenSpaceMap.SnapToScreen = true;
+            ScreenSpaceMap = new(cRenderer, cRenderer.Settings.Size.X, cRenderer.Settings.Size.Y)
+            {
+                SnapToScreen = true
+            };
+
             SetEnvironmentalLightBlendMode(SDL_BlendMode.SDL_BLENDMODE_BLEND);
             // This is used so we don't build lightmaps when LightManager.Init hasn't been called
             Initialised = true;
         }
+
 
         /// <summary>
         /// Adds a light.

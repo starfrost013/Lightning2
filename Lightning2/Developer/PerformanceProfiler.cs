@@ -13,12 +13,12 @@
         /// <summary>
         /// The filename to use for outputting performance information.
         /// </summary>
-        private static string FileName { get; set; }
+        private static string? FileName { get; set; }
 
         /// <summary>
         /// The stream used for outputting performance information.
         /// </summary>
-        private static StreamWriter FileStream { get; set; }
+        private static StreamWriter? FileStream { get; set; }
 
         /// <summary>
         /// List of FPS values for the performance profiler.
@@ -68,7 +68,8 @@
         /// <param name="window">The window to measure the frametime and FPS of.</param>
         public static void Update(Renderer window)
         {
-            if (!Initialised) return;
+            if (!Initialised
+                || FileStream == null) return;
             FileStream.WriteLine($"{window.FrameNumber},{window.DeltaTime},{window.CurFPS}");
             FPSList.Add(window.CurFPS);
         }
@@ -78,7 +79,8 @@
         /// </summary>
         public static void Shutdown()
         {
-            if (!Initialised) return;
+            if (!Initialised
+                || FileStream == null) return;
 
             FPSList.Sort();
 

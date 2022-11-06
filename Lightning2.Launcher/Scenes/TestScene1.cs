@@ -3,6 +3,7 @@ using LightningBase;
 using System.Drawing;
 using System.Numerics;
 using static LightningGL.Lightning;
+using System.Diagnostics;
 
 namespace LightningGL
 {
@@ -160,9 +161,13 @@ namespace LightningGL
             AudioManager.AddAsset(SceneManager.Renderer, new AudioFile(@"Content\xm_boot_ogg.ogg"));
             AudioManager.AddAsset(SceneManager.Renderer, new AudioFile(@"Content\xm_title.mp3"));
 
-            AudioFile xmBoot = AudioManager.GetFileWithName("xm_boot");
-            AudioFile xmBootOgg = AudioManager.GetFileWithName("xm_boot_ogg");
-            AudioFile xmTitle = AudioManager.GetFileWithName("xm_title");
+            AudioFile? xmBoot = AudioManager.GetFileWithName("xm_boot");
+            AudioFile? xmBootOgg = AudioManager.GetFileWithName("xm_boot_ogg");
+            AudioFile? xmTitle = AudioManager.GetFileWithName("xm_title");
+
+            Debug.Assert(xmBoot != null);
+            Debug.Assert(xmBootOgg != null);
+            Debug.Assert(xmTitle != null);
 
             xmBoot.Play();
             xmBootOgg.Play();
@@ -180,7 +185,7 @@ namespace LightningGL
 
             LocalSettings.AddSection("Demonstration2");
 
-            Button btn1 = new Button()
+            Button btn1 = new Button("Arial.11pt")
             {
                 Position = new(150, 150),
                 Size = new(44, 44),
@@ -190,10 +195,9 @@ namespace LightningGL
                 PressedColor = Color.DarkGoldenrod,
                 ForegroundColor = Color.Black,
                 Filled = true,
-                Font = "Arial.11pt"
             };
 
-            ListBox listBox1 = new ListBox
+            ListBox listBox1 = new ListBox("Arial.11pt")
             {
                 Position = new(70, 150),
                 Size = new(90, 44),
@@ -202,10 +206,9 @@ namespace LightningGL
                 PressedColor = Color.DarkGoldenrod,
                 ForegroundColor = Color.Black,
                 Filled = true,
-                Font = "Arial.11pt"
             };
 
-            TextBox textBox1 = new TextBox(300)
+            TextBox textBox1 = new TextBox(300, "Arial.11pt")
             {
                 Size = new(90, 44),
                 Position = new(350, 150),
@@ -213,12 +216,11 @@ namespace LightningGL
                 HoverColor = Color.DarkRed,
                 PressedColor = Color.Maroon,
                 ForegroundColor = Color.White,
-                Font = "Arial.11pt",
                 Filled = true,
                 AllowMultiline = true,
             };
 
-            CheckBox checkBox1 = new CheckBox
+            CheckBox checkBox1 = new CheckBox("Arial.11pt")
             {
                 Position = new(500, 150),
                 Size = new(40, 40),
@@ -226,15 +228,14 @@ namespace LightningGL
                 HoverColor = Color.Blue,
                 PressedColor = Color.LightBlue,
                 ForegroundColor = Color.White,
-                Font = "Arial.11pt",
                 Filled = true
             };
 
-            listBox1.AddItem(new("test 1"));
-            listBox1.AddItem(new("test 2"));
-            listBox1.AddItem(new("dfsdfsdfsdfsdfsdf"));
-            listBox1.AddItem(new("zxczxzxzx"));
-            listBox1.AddItem(new("qasqsdfwqer"));
+            listBox1.AddItem(new("test 1", "Arial.11pt"));
+            listBox1.AddItem(new("test 2", "Arial.11pt"));
+            listBox1.AddItem(new("dfsdfsdfsdfsdfsdf", "Arial.11pt"));
+            listBox1.AddItem(new("zxczxzxzx", "Arial.11pt"));
+            listBox1.AddItem(new("qasqsdfwqer", "Arial.11pt"));
 
             UIManager.AddAsset(SceneManager.Renderer, btn1);
             UIManager.AddAsset(SceneManager.Renderer, listBox1);
@@ -245,7 +246,9 @@ namespace LightningGL
 
             // bug:
             // as it is the same handle, setpixel changes pixel for every single texture 
-            Texture texture2 = TextureManager.GetInstanceOfTexture(SceneManager.Renderer, Texture1);
+            Texture? texture2 = TextureManager.GetInstanceOfTexture(SceneManager.Renderer, Texture1);
+
+            Debug.Assert(texture2 != null);
 
             for (int x = 0; x < texture2.Size.X; x++)
             {
@@ -263,13 +266,51 @@ namespace LightningGL
 
             TextureManager.AddAsset(SceneManager.Renderer, animatedTexture1);
 
-            Animation anim1 = new Animation(@"Content\Animations\TestAnimation.json");
+            Animation? anim1 = new Animation(@"Content\Animations\TestAnimation.json");
             anim1 = AnimationManager.AddAsset(SceneManager.Renderer, anim1);
+
+            Debug.Assert(anim1 != null);
 
             Texture1.ZIndex = -9999999;
             Texture1.SetAnimation(anim1);
 
             Texture1.StartCurrentAnimation();
+
+            PrimitiveManager.AddLine(SceneManager.Renderer, new Vector2(500, 300), new Vector2(600, 300), 1, Color.FromArgb(255, 255, 255, 255), false);
+            PrimitiveManager.AddLine(SceneManager.Renderer, new Vector2(500, 270), new Vector2(600, 270), 3, Color.FromArgb(255, 255, 255, 255), true);
+            PrimitiveManager.AddLine(SceneManager.Renderer, new Vector2(500, 240), new Vector2(600, 240), 7, Color.FromArgb(255, 255, 255, 255), false);
+            PrimitiveManager.AddLine(SceneManager.Renderer, new Vector2(500, 210), new Vector2(600, 210), 15, Color.FromArgb(255, 255, 255, 255), true);
+
+            PrimitiveManager.AddCircle(SceneManager.Renderer, new Vector2(500, 10), new Vector2(50, 50), Color.FromArgb(255, 255, 255, 255), true);
+            PrimitiveManager.AddCircle(SceneManager.Renderer, new Vector2(500, 309), new Vector2(50, 50), Color.FromArgb(127, 255, 255, 255), false);
+
+            PrimitiveManager.AddRectangle(SceneManager.Renderer, new Vector2(552, 10), new Vector2(30, 30), Color.FromArgb(255, 255, 255, 255), false);
+            PrimitiveManager.AddRectangle(SceneManager.Renderer, new Vector2(584, 10), new Vector2(30, 30), Color.FromArgb(33, 0, 0, 255), true);
+
+            PrimitiveManager.AddRoundedRectangle(SceneManager.Renderer, new Vector2(616, 10), new Vector2(30, 30), Color.FromArgb(127, 255, 255, 255), 3, false);
+            PrimitiveManager.AddRoundedRectangle(SceneManager.Renderer, new Vector2(648, 10), new Vector2(30, 30), Color.FromArgb(127, 255, 255, 255), 3, true);
+            PrimitiveManager.AddRoundedRectangle(SceneManager.Renderer, new Vector2(680, 10), new Vector2(30, 30), Color.FromArgb(127, 255, 255, 255), 12, true);
+
+            PrimitiveManager.AddTriangle(SceneManager.Renderer, new Vector2(722, 10), new Vector2(747, 40), new Vector2(707, 40), Color.FromArgb(127, 255, 255, 255), false);
+            PrimitiveManager.AddTriangle(SceneManager.Renderer, new Vector2(779, 10), new Vector2(794, 40), new Vector2(764, 40), Color.FromArgb(127, 255, 255, 255), true, false, new Vector2(10, 10), Color.Yellow);
+
+            PrimitiveManager.AddText(SceneManager.Renderer, "#[STRING_TEST]", new Vector2(500, 90), Color.FromArgb(255, 0, 0, 255));
+            PrimitiveManager.AddText(SceneManager.Renderer, "Loc string test: #[STRING_TEST]", new Vector2(500, 120), Color.FromArgb(255, 0, 0, 255));
+            PrimitiveManager.AddText(SceneManager.Renderer, "Loc string test: #[STRING_TEST] aaaaaa #[STRING_TEST] #[STRING_TEST] bbbbbb", new Vector2(500, 150), Color.FromArgb(255, 0, 0, 255));
+
+            TextManager.DrawText(SceneManager.Renderer, "Test1", "Arial.11pt", new Vector2(700, 10), Color.FromArgb(255, 255, 255, 255));
+            TextManager.DrawText(SceneManager.Renderer, "Test2", "Arial.11pt", new Vector2(700, 30), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold);
+            TextManager.DrawText(SceneManager.Renderer, "Test3", "Arial.11pt", new Vector2(700, 50), Color.FromArgb(255, 255, 255, 0), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Italic);
+            TextManager.DrawText(SceneManager.Renderer, "Test4", "Arial.11pt", new Vector2(700, 70), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Underline);
+            TextManager.DrawText(SceneManager.Renderer, "Test5", "Arial.11pt", new Vector2(700, 90), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Strikeout, 1);
+            TextManager.DrawText(SceneManager.Renderer, "Test6", "Arial.11pt", new Vector2(700, 110), Color.FromArgb(255, 255, 255, 0), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, 3);
+            TextManager.DrawText(SceneManager.Renderer, "Test7", "Arial.11pt", new Vector2(700, 130), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, 15, -1);
+            TextManager.DrawText(SceneManager.Renderer, "Test8", "Arial.11pt", new Vector2(700, 150), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, -1);
+            TextManager.DrawText(SceneManager.Renderer, "Test9", "Arial.11pt", new Vector2(700, 170), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, -1, FontSmoothingType.Shaded);
+            TextManager.DrawText(SceneManager.Renderer, "Test10", "Arial.11pt", new Vector2(700, 190), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, -1, FontSmoothingType.Solid);
+            TextManager.DrawText(SceneManager.Renderer, "Test11", "Arial.11pt", new Vector2(700, 210), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline);
+            TextManager.DrawText(SceneManager.Renderer, "#[STRING_TEST]\nTest2\nTest3", "Arial.11pt", new Vector2(700, 230), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline | SDL_ttf.TTF_FontStyle.Strikeout);
+
         }
 
         public override void Shutdown()
@@ -325,41 +366,7 @@ namespace LightningGL
                 }
             }
 
-            PrimitiveManager.DrawLine(cRenderer, new Vector2(500, 300), new Vector2(600, 300), 1, Color.FromArgb(255, 255, 255, 255), false);
-            PrimitiveManager.DrawLine(cRenderer, new Vector2(500, 270), new Vector2(600, 270), 3, Color.FromArgb(255, 255, 255, 255), true);
-            PrimitiveManager.DrawLine(cRenderer, new Vector2(500, 240), new Vector2(600, 240), 7, Color.FromArgb(255, 255, 255, 255), false);
-            PrimitiveManager.DrawLine(cRenderer, new Vector2(500, 210), new Vector2(600, 210), 15, Color.FromArgb(255, 255, 255, 255), true);
-
-            PrimitiveManager.DrawCircle(cRenderer, new Vector2(500, 10), new Vector2(50, 50), Color.FromArgb(255, 255, 255, 255), true);
-            PrimitiveManager.DrawCircle(cRenderer, new Vector2(500, 309), new Vector2(50, 50), Color.FromArgb(127, 255, 255, 255), false);
-
-            PrimitiveManager.DrawRectangle(cRenderer, new Vector2(552, 10), new Vector2(30, 30), Color.FromArgb(255, 255, 255, 255), false);
-            PrimitiveManager.DrawRectangle(cRenderer, new Vector2(584, 10), new Vector2(30, 30), Color.FromArgb(33, 0, 0, 255), true);
-
-            PrimitiveManager.DrawRoundedRectangle(cRenderer, new Vector2(616, 10), new Vector2(30, 30), Color.FromArgb(127, 255, 255, 255), 3, false);
-            PrimitiveManager.DrawRoundedRectangle(cRenderer, new Vector2(648, 10), new Vector2(30, 30), Color.FromArgb(127, 255, 255, 255), 3, true);
-            PrimitiveManager.DrawRoundedRectangle(cRenderer, new Vector2(680, 10), new Vector2(30, 30), Color.FromArgb(127, 255, 255, 255), 12, true);
-
-            PrimitiveManager.DrawTriangle(cRenderer, new Vector2(722, 10), new Vector2(747, 40), new Vector2(707, 40), Color.FromArgb(127, 255, 255, 255), false);
-            PrimitiveManager.DrawTriangle(cRenderer, new Vector2(779, 10), new Vector2(794, 40), new Vector2(764, 40), Color.FromArgb(127, 255, 255, 255), true, false, new Vector2(10, 10), Color.Yellow);
-
-            PrimitiveManager.DrawText(cRenderer, "#[STRING_TEST]", new Vector2(500, 90), Color.FromArgb(255, 0, 0, 255));
-            PrimitiveManager.DrawText(cRenderer, "Loc string test: #[STRING_TEST]", new Vector2(500, 120), Color.FromArgb(255, 0, 0, 255));
-            PrimitiveManager.DrawText(cRenderer, "Loc string test: #[STRING_TEST] aaaaaa #[STRING_TEST] #[STRING_TEST] bbbbbb", new Vector2(500, 150), Color.FromArgb(255, 0, 0, 255));
-
-            TextManager.DrawText(cRenderer, "Test1", "Arial.11pt", new Vector2(700, 10), Color.FromArgb(255, 255, 255, 255));
-            TextManager.DrawText(cRenderer, "Test2", "Arial.11pt", new Vector2(700, 30), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold);
-            TextManager.DrawText(cRenderer, "Test3", "Arial.11pt", new Vector2(700, 50), Color.FromArgb(255, 255, 255, 0), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Italic);
-            TextManager.DrawText(cRenderer, "Test4", "Arial.11pt", new Vector2(700, 70), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Underline);
-            TextManager.DrawText(cRenderer, "Test5", "Arial.11pt", new Vector2(700, 90), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Strikeout, 1);
-            TextManager.DrawText(cRenderer, "Test6", "Arial.11pt", new Vector2(700, 110), Color.FromArgb(255, 255, 255, 0), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, 3);
-            TextManager.DrawText(cRenderer, "Test7", "Arial.11pt", new Vector2(700, 130), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, 15, -1);
-            TextManager.DrawText(cRenderer, "Test8", "Arial.11pt", new Vector2(700, 150), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, -1);
-            TextManager.DrawText(cRenderer, "Test9", "Arial.11pt", new Vector2(700, 170), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, -1, FontSmoothingType.Shaded);
-            TextManager.DrawText(cRenderer, "Test10", "Arial.11pt", new Vector2(700, 190), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, -1, FontSmoothingType.Solid);
-            TextManager.DrawText(cRenderer, "Test11", "Arial.11pt", new Vector2(700, 210), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline);
-            TextManager.DrawText(cRenderer, "#[STRING_TEST]\nTest2\nTest3", "Arial.11pt", new Vector2(700, 230), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline | SDL_ttf.TTF_FontStyle.Strikeout);
-
+           
             if (TextureAtlas1 == null) throw new NullReferenceException();
 
             TextureAtlas1.Index = 5;

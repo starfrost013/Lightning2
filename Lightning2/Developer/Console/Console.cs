@@ -14,6 +14,11 @@
         /// </summary>
         internal List<string> ExposedGlobalSettings { get; set; }
 
+        public Console()
+        {
+            ExposedGlobalSettings = new List<string>();
+        }
+
         internal void AddGlobalSettingToConsole(string globalSetting) => ExposedGlobalSettings.Add(globalSetting);
     }
 }
