@@ -83,7 +83,7 @@
                 return;
             }
 
-            for (int frameId = 0; frameId < Frames.Count; frameId++)
+            for (int frameId = 0; frameId < FramePaths.Count; frameId++)
             {
                 string texturePath = FramePaths[frameId];
 
