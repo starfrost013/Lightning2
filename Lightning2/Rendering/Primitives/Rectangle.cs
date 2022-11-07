@@ -1,6 +1,6 @@
 ﻿namespace LightningGL
 { 
-    internal class Rectangle : Primitive
+    public class Rectangle : Primitive
     {
         internal override void Draw(Renderer cRenderer)
         {

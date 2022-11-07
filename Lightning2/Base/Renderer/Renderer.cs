@@ -414,6 +414,11 @@ namespace LightningGL
                 foreach (Renderable renderable in Renderables) renderable.IsOnScreen = true;
             }
         }
+        
+        public void AddRenderable()
+        {
+
+        }
 
         #region Event handlers
 

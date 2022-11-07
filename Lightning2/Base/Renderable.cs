@@ -217,9 +217,18 @@
         }
 
         /// <summary>
+        /// Called when the renderable is created.
+        /// </summary>
+        /// <param name="cRenderer">The renderer to draw the renderable to.</param>
+        internal virtual void Create(Renderer cRenderer)
+        {
+
+        }
+
+        /// <summary>
         /// Draws this Renderable.
         /// </summary>
-        /// <param name="cRenderer">The window to draw the renderable to.</param>
+        /// <param name="cRenderer">The renderer to draw the renderable to.</param>
         internal virtual void Draw(Renderer cRenderer)
         {
             // temp?

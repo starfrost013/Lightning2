@@ -1,8 +1,8 @@
 ﻿namespace LightningGL
 {
-    internal class Polygon : Primitive
+    public class Polygon : Primitive
     {
-        internal List<Vector2> Points { get; set; }
+        public List<Vector2> Points { get; set; }
 
         public Polygon()
         {

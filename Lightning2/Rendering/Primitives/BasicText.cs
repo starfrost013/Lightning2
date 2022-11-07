@@ -1,10 +1,10 @@
 ﻿namespace LightningGL
 {
-    internal class BasicText : Primitive
+    public class BasicText : Primitive
     {
-        internal bool Localise { get; set; }
+        public bool Localise { get; set; }
 
-        internal string? Text { get; set; }
+        public string? Text { get; set; }
 
         internal override void Draw(Renderer cRenderer)
         {

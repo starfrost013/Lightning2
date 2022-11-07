@@ -142,9 +142,9 @@
 
             // Set a few default values.
             if (WindowFlags == 0) WindowFlags = SDL_WindowFlags.SDL_WINDOW_SHOWN;
-            if (Size == default(Vector2)) Size = new Vector2(960, 640);
-            if (Position == default(Vector2)) Position = new Vector2(GlobalSettings.GraphicsPositionX, GlobalSettings.GraphicsPositionY);
-            if (Title == null) Title = GlobalSettings.GraphicsWindowTitle;
+            if (Size == default) Size = new Vector2(960, 640);
+            if (Position == default) Position = new Vector2(GlobalSettings.GraphicsPositionX, GlobalSettings.GraphicsPositionY);
+            Title ??= GlobalSettings.GraphicsWindowTitle; // assign if null
             BackgroundColor = Color.FromArgb(255, 0, 0, 0);
 
             // Create a default camera.

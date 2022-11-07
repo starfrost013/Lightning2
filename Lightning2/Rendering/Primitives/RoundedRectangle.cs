@@ -1,8 +1,8 @@
 ﻿namespace LightningGL
 {
-    internal class RoundedRectangle : Primitive
+    public class RoundedRectangle : Primitive
     {
-        internal int CornerRadius { get; set; }
+        public int CornerRadius { get; set; }
 
         internal override void Draw(Renderer cRenderer)
         {

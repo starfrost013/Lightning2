@@ -1,6 +1,6 @@
 ﻿namespace LightningGL
 {
-    internal class Circle : Primitive
+    public class Circle : Primitive
     {
         internal override void Draw(Renderer cRenderer)
         {

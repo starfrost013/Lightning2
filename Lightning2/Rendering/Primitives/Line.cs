@@ -1,12 +1,12 @@
 ﻿namespace LightningGL
 {
-    internal class Line : Primitive
+    public class Line : Primitive
     {
-        internal Vector2 Start { get; set; }
+        public Vector2 Start { get; set; }
 
-        internal Vector2 End { get; set; }
+        public Vector2 End { get; set; }
 
-        internal short Thickness { get; set; }
+        public short Thickness { get; set; }
 
         internal override void Draw(Renderer cRenderer)
         {

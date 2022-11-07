@@ -1,6 +1,6 @@
 ﻿namespace LightningGL
 {
-    internal class Pixel : Primitive
+    public class Pixel : Primitive
     {
         internal override void Draw(Renderer cRenderer)
         {

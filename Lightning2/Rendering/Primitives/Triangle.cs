@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     public class Triangle : Primitive
     {
