@@ -47,7 +47,7 @@
         /// <summary>
         /// Determines if item colors will not be alternated on every other item.
         /// </summary>
-        public bool DontAlternateItemcolors { get; set; }
+        public bool DontAlternateItemColors { get; set; }
 
         /// <summary>
         /// Determines how much the alternate item colors will be modified by.
@@ -59,6 +59,11 @@
         /// Private: Size used to determine the size of the box that is actually drawn when the item is not open
         /// </summary>
         private Vector2 BoxSize { get; set; }
+
+        /// <summary>
+        /// UI rectangle used for drawing this textbox.
+        /// </summary>
+        private Rectangle? Rectangle { get; set; }
 
         /// <summary>
         /// Static listbox constructor.
@@ -75,6 +80,11 @@
             OnMouseMove += ListBoxMouseMove;
 
             AlternateItemColorsAmount = 30;
+        }
+
+        internal override void Create()
+        {
+            Rectangle = PrimitiveManager.AddRectangle(Position, BoxSize, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
         }
 
         /// <summary>
@@ -104,18 +114,18 @@
             Vector2 itemFontSize = FontManager.GetTextSize(itemFont, item.Text);
 
             // size it to the size of the text in the Y dimension
-            BoxSize = new Vector2(Size.X, (itemFontSize.Y * 1.25f));
+            BoxSize = new(Size.X, (itemFontSize.Y * 1.25f));
             item.Size = BoxSize;
 
             // move the item so that it gets drawn in the right place
-            item.Position = new Vector2(Position.X, Position.Y + ((itemFontSize.Y * 1.25f) * (Items.Count + 1)));
-            if (item.BackgroundColor == default(Color)) item.BackgroundColor = BackgroundColor;
-            if (item.ForegroundColor == default(Color)) item.ForegroundColor = ForegroundColor;
-            if (item.BorderColor == default(Color)) item.BorderColor = BorderColor;
+            item.Position = new(Position.X, Position.Y + ((itemFontSize.Y * 1.25f) * (Items.Count + 1)));
+            if (item.BackgroundColor == default) item.BackgroundColor = BackgroundColor;
+            if (item.ForegroundColor == default) item.ForegroundColor = ForegroundColor;
+            if (item.BorderColor == default) item.BorderColor = BorderColor;
 
             // alternate the colors so they look a bit better
             if (Items.Count % 2 == 0
-                && !DontAlternateItemcolors)
+                && !DontAlternateItemColors)
             {
                 int altR = item.BackgroundColor.R - AlternateItemColorsAmount,
                     altG = item.BackgroundColor.G - AlternateItemColorsAmount,
@@ -149,13 +159,14 @@
         /// <summary>
         /// Renders this ListBox.
         /// </summary>
-        /// <param name="Lightning.Renderer">The window to render this listbox to.</param>
         public void Render()
         {
             // set the default background color if it's not set. a hack...
-            if (CurBackgroundColor == default(Color)) CurBackgroundColor = BackgroundColor;
+            if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
 
-            PrimitiveManager.AddRectangle(Position, BoxSize, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+#pragma warning disable CS8602 // not applicable because this cannot be null (as a method that cannot return null is called) and it asserts if it is
+            Rectangle.Color = CurBackgroundColor;
+#pragma warning restore CS8602 
 
             if (Font == null)
             {
@@ -221,7 +232,7 @@
                             SelectedIndex = curItem;
 
                             // allow the user to override positions
-                            if (item.OnMousePressed != null) item.OnMousePressed(button);
+                            item.OnMousePressed?.Invoke(button);
                         }
                     }
 
@@ -273,7 +284,7 @@
                     if (AABB.Intersects(item, button.Position))
                     {
                         // allow the user to override positions
-                        if (item.OnMouseReleased != null) item.OnMouseReleased(button);
+                        item.OnMouseReleased?.Invoke(button);
                     }
                 }
             }
@@ -320,7 +331,7 @@
             foreach (ListBoxItem item in Items)
             {
                 // don't check for intersection as that's done here.
-                if (item.OnMouseMove != null) item.OnMouseMove(button);
+                item.OnMouseMove?.Invoke(button);
             }
         }
     }

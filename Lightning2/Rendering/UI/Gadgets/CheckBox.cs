@@ -19,7 +19,20 @@
         /// </summary>
         public short Thickness { get; set; }
 
-        private bool UiAdded { get; set; }
+        /// <summary>
+        /// UI rectangle used for drawing this textbox.
+        /// </summary>
+        private Rectangle? Rectangle { get; set; }
+
+        /// <summary>
+        /// UI line #1 used for drawing this textbox.
+        /// </summary>
+        private Line? CheckBoxLine1 { get; set; }
+
+        /// <summary>
+        /// UI line #2 used for drawing this textbox.
+        /// </summary>
+        private Line? CheckBoxLine2 { get; set; }
 
         /// <summary>
         /// Constructor for the CheckBox class.
@@ -31,23 +44,43 @@
             if (Thickness == 0) Thickness = 2;
         }
 
+        internal override void Create()
+        {
+            // issue: won't update if you modify it again later
+            // this is why we might need referents for renderble
+            Rectangle = PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+            CheckBoxLine1 = PrimitiveManager.AddLine(default, default, Thickness, ForegroundColor, true, SnapToScreen);
+            CheckBoxLine2 = PrimitiveManager.AddLine(default, default, Thickness, ForegroundColor, true, SnapToScreen);
+
+            Debug.Assert(Rectangle != null);
+            Debug.Assert(CheckBoxLine1 != null);
+            Debug.Assert(CheckBoxLine2 != null);
+        }
+
         /// <summary>
         /// Renders this CheckBox.
         /// </summary>
         /// <param name="Lightning.Renderer">The window to render this checkbox to.</param>
         public void Render()
         {
-            PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+#pragma warning disable CS8602 // not applicable because this cannot be null (as a method that cannot return null is called) and it asserts if it is
+            Rectangle.Color = CurBackgroundColor;
+#pragma warning restore CS8602 
 
             if (Checked)
             {
-                Vector2 line1Start = new Vector2(Position.X, Position.Y + (Size.Y / 2));
-                Vector2 line1End = new Vector2(Position.X + (Size.X / 3), Position.Y + Size.Y);
+                Vector2 line1Start = new(Position.X, Position.Y + (Size.Y / 2));
+                Vector2 line1End = new(Position.X + (Size.X / 3), Position.Y + Size.Y);
                 Vector2 line2Start = line1End;
-                Vector2 line2End = new Vector2(Position.X + Size.X, Position.Y);
+                Vector2 line2End = new(Position.X + Size.X, Position.Y);
 
-                PrimitiveManager.AddLine(line1Start, line1End, Thickness, ForegroundColor, true, SnapToScreen);
-                PrimitiveManager.AddLine(line2Start, line2End, Thickness, ForegroundColor, true, SnapToScreen);
+#pragma warning disable CS8602 // we assert if they are, and they can never be null anyway
+                CheckBoxLine1.Start = line1Start;
+                CheckBoxLine1.End = line1End;
+                CheckBoxLine2.Start = line2Start;
+                CheckBoxLine2.End = line2End;
+#pragma warning restore CS8602
+
             }
         }
 

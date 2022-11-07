@@ -11,10 +11,20 @@
     {
         public string Text { get; set; }
 
+        /// <summary>
+        /// UI rectangle used for drawing this textbox.
+        /// </summary>
+        private Rectangle? Rectangle { get; set; }
+
         public ListBoxItem(string name, string text, string font) : base(name, font)
         {
             Text = text;
             OnRender += Render;
+        }
+
+        internal override void Create()
+        {
+            Rectangle = PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
         }
 
         /// <summary>
@@ -24,9 +34,11 @@
         public void Render()
         {
             // set the default background color
-            if (CurBackgroundColor == default(Color)) CurBackgroundColor = BackgroundColor;
+            if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
 
-            PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+#pragma warning disable CS8602
+            Rectangle.Color = CurBackgroundColor;
+#pragma warning restore CS8602
 
             Font? curFont = FontManager.GetFont(Font);
 

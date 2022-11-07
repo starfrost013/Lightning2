@@ -18,6 +18,8 @@
         /// The text style that this button will use.
         /// </summary>
         public TTF_FontStyle Style { get; set; }
+        
+        public Rectangle? Rectangle { get; set; }
 
         public Button(string name, string font) : base(name, font)
         {
@@ -25,6 +27,12 @@
             OnRender += Render;
         }
 
+        internal override void Create()
+        {
+            Rectangle = PrimitiveManager.AddRectangle(RenderPosition, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+
+            Debug.Assert(Rectangle == null);
+        }
 
         /// <summary>
         /// Renders this button.
@@ -35,9 +43,12 @@
             if (Text == null) return;
 
             // This is a bit of a hack, but it works for now
-            if (CurBackgroundColor == default(Color)) CurBackgroundColor = BackgroundColor;
+            if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
 
-            PrimitiveManager.AddRectangle(RenderPosition, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+#pragma warning disable CS8602 // create is always called before this method and this can never be null
+            Rectangle.Color = CurBackgroundColor;
+            Rectangle.BorderColor = BorderColor;
+#pragma warning restore CS8602
 
             Font? curFont = FontManager.GetFont(Font);
 
@@ -53,7 +64,7 @@
                 textPos.X = textPos.X - (Size.X / 2) - (textSize.X / 2);
                 textPos.Y = textPos.Y - (Size.Y / 2) - (textSize.Y / 2);
 
-                TextManager.DrawText(Text, Font, textPos, ForegroundColor, default(Color), Style);
+                TextManager.DrawText(Text, Font, textPos, ForegroundColor, default, Style);
             }
         }
     }

@@ -292,7 +292,7 @@ namespace LightningGL
             PrimitiveManager.AddRoundedRectangle(new(680, 10), new(30, 30), Color.FromArgb(127, 255, 255, 255), 12, true);
 
             PrimitiveManager.AddTriangle(new(722, 10), new(747, 40), new(707, 40), Color.FromArgb(127, 255, 255, 255), false);
-            PrimitiveManager.AddTriangle(new(794, 40), new(764, 40), new(730, 50), Color.FromArgb(127, 255, 255, 255), true, false, new(10, 10), Color.Yellow);
+            PrimitiveManager.AddTriangle(new(794, 40), new(764, 40), new(779, 50), Color.FromArgb(127, 255, 255, 255), true, false, new(10, 10), Color.Yellow);
 
             PrimitiveManager.AddText("#[STRING_TEST]", new(500, 90), Color.FromArgb(255, 0, 0, 255));
             PrimitiveManager.AddText("Loc string test: #[STRING_TEST]", new(500, 120), Color.FromArgb(255, 0, 0, 255));

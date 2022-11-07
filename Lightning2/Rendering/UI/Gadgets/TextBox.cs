@@ -49,6 +49,11 @@
         /// </summary>
         private bool IsActive { get; set; }
 
+        /// <summary>
+        /// UI rectangle used for drawing this textbox.
+        /// </summary>
+        private Rectangle? Rectangle { get; set; }
+
         public TextBox(string name, int capacity, string font) : base(name, font)
         {
             Capacity = capacity;
@@ -61,6 +66,11 @@
 
             // reasonable default
             NumberOfFramesUntilNextBlink = CursorBlinkFrequency;
+        }
+
+        internal override void Create()
+        {
+            Rectangle = PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen);
         }
 
         /// <summary>
@@ -132,7 +142,7 @@
         /// <param name="Lightning.Renderer">The window to render this <see cref="TextBox"/> to.</param>
         public void Render()
         {
-            if (Text == null) Text = "";
+            Text ??= "";
 
             if (Font == null)
             {
@@ -140,7 +150,9 @@
                 return;
             }
 
-            PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen);
+#pragma warning disable CS8602
+            Rectangle.Color = CurBackgroundColor;
+#pragma warning restore CS8602
 
             TextManager.DrawText(Text, Font, Position, ForegroundColor);
 
@@ -150,7 +162,7 @@
             if (!HideCursor)
             {
                 Vector2 fontSize = FontManager.GetLargestTextSize(Font, Text);
-                Vector2 cursorPosition = new Vector2(Position.X + fontSize.X, Position.Y);
+                Vector2 cursorPosition = new(Position.X + fontSize.X, Position.Y);
 
                 // actually blink it
                 if (NumberOfFramesUntilNextBlink == 0)
