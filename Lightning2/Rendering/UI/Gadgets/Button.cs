@@ -31,7 +31,7 @@
         {
             Rectangle = PrimitiveManager.AddRectangle(RenderPosition, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
 
-            Debug.Assert(Rectangle == null);
+            Debug.Assert(Rectangle != null);
         }
 
         /// <summary>
