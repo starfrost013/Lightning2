@@ -63,7 +63,7 @@
         /// <summary>
         /// Static listbox constructor.
         /// </summary>
-        public ListBox(string font) : base(font)
+        public ListBox(string name, string font) : base(name, font)
         {
             Items = new List<ListBoxItem>();
             OnRender += Render;
@@ -149,13 +149,13 @@
         /// <summary>
         /// Renders this ListBox.
         /// </summary>
-        /// <param name="cRenderer">The window to render this listbox to.</param>
-        public void Render(Renderer cRenderer)
+        /// <param name="Lightning.Renderer">The window to render this listbox to.</param>
+        public void Render()
         {
             // set the default background color if it's not set. a hack...
             if (CurBackgroundColor == default(Color)) CurBackgroundColor = BackgroundColor;
 
-            PrimitiveManager.AddRectangle(cRenderer, Position, BoxSize, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+            PrimitiveManager.AddRectangle(Position, BoxSize, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
 
             if (Font == null)
             {
@@ -180,21 +180,18 @@
             {
                 if (curFont == null)
                 {
-                    PrimitiveManager.AddText(cRenderer, Items[SelectedIndex].Text, Position, ForegroundColor, true);
+                    PrimitiveManager.AddText(Items[SelectedIndex].Text, Position, ForegroundColor, true);
                 }
                 else
                 {
-                    TextManager.DrawText(cRenderer, Items[SelectedIndex].Text, Font, Position, ForegroundColor);
+                    TextManager.DrawText(Items[SelectedIndex].Text, Font, Position, ForegroundColor);
                 }
             }
 
             // draw the items if they are open
             if (Open)
             {
-                foreach (ListBoxItem item in Items)
-                {
-                    item.OnRender(cRenderer); // this is never null (set in constructor) so we do not need to check if it is.
-                }
+                foreach (ListBoxItem item in Items) item.OnRender(); // this is never null (set in constructor) so we do not need to check if it is.
             }
 
         }

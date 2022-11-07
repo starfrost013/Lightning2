@@ -69,7 +69,17 @@
         /// <summary>
         /// Event handler for <see cref="RenderEvent"/> event.
         /// </summary>
-        public RenderEvent OnRender { get; set; }
+        public GenericEvent OnRender { get; set; }
+
+        /// <summary>
+        /// Event handler for the on-create event.
+        /// </summary>
+        public GenericEvent OnCreate { get; set; }
+
+        /// <summary>
+        /// Event handler for the on-destroy event.
+        /// </summary>
+        public GenericEvent OnDestroy { get; set; }
 
         [JsonIgnore]
         /// <summary>
@@ -158,12 +168,43 @@
         /// </summary>
         public int ZIndex { get; set; }
 
-        public Renderable()
+        /// <summary>
+        /// Backing field for <see cref="Name"/>.
+        /// </summary>
+        private string _name;
+
+        /// <summary>
+        /// The Name of this Renderable.
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    _ = new NCException("A Renderable must have a name!", 189, "Renderable::Name::set - no name!", NCExceptionSeverity.FatalError);
+                }
+                else
+                {
+                    _name = value;
+                }
+            }
+        }
+
+        public Renderable(string name)
         {
             AnimationTimer = new Stopwatch();
 
             // Automatically render
             OnRender += Draw;
+            OnCreate += Create;
+            OnDestroy += Destroy;
+            Name = name;
+            _name = Name; // fix compile warnings
         }
 
         /// <summary>
@@ -211,16 +252,25 @@
         } 
 
 
-        internal virtual void Load(Renderer cRenderer)
+        internal virtual void Load()
         {
 
         }
 
         /// <summary>
-        /// Called when the renderable is created.
+        /// Called when a the renderable is created.
         /// </summary>
-        /// <param name="cRenderer">The renderer to draw the renderable to.</param>
-        internal virtual void Create(Renderer cRenderer)
+        /// <param name="Lightning.Renderer">The renderer to draw the renderable to.</param>
+        internal virtual void Create()
+        {
+
+        }
+
+        /// <summary>
+        /// Called when a renderable is destroyed.
+        /// </summary>
+        /// <param name="Lightning.Renderer">The renderer to draw the renderable to.</param>
+        internal virtual void Destroy()
         {
 
         }
@@ -228,8 +278,8 @@
         /// <summary>
         /// Draws this Renderable.
         /// </summary>
-        /// <param name="cRenderer">The renderer to draw the renderable to.</param>
-        internal virtual void Draw(Renderer cRenderer)
+        /// <param name="Lightning.Renderer">The renderer to draw the renderable to.</param>
+        internal virtual void Draw()
         {
             // temp?
         }

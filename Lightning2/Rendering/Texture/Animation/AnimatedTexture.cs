@@ -55,7 +55,7 @@
         /// </summary>
         private Texture? CurrentTexture { get; set; }
 
-        public AnimatedTexture(Renderer cRenderer, float sizeX, float sizeY, AnimationCycle cycle) : base(cRenderer, sizeX, sizeY)
+        public AnimatedTexture(string name, float sizeX, float sizeY, AnimationCycle cycle) : base(name, sizeX, sizeY)
         {
             Frames = new List<Texture>();
             FramePaths = new List<string>();
@@ -68,8 +68,8 @@
         /// <summary>
         /// Loads this animated texture.
         /// </summary>
-        /// <param name="cRenderer">The window to load this animated texture to.</param>
-        internal override void Load(Renderer cRenderer)
+        /// <param name="Lightning.Renderer">The window to load this animated texture to.</param>
+        internal override void Load()
         {
             if (Size == default(Vector2))
             {
@@ -83,14 +83,16 @@
                 return;
             }
 
-            foreach (string texturePath in FramePaths)
+            for (int frameId = 0; frameId < Frames.Count; frameId++)
             {
-                Texture newTexture = new Texture(cRenderer, Size.X, Size.Y);
+                string texturePath = FramePaths[frameId];
+
+                Texture newTexture = new Texture($"{Name}Frame{frameId}", Size.X, Size.Y);
                 newTexture.Path = texturePath;
                 newTexture.Position = Position;
                 newTexture.Repeat = Repeat;  // do this in the getter/setter?
                 // Texture will only load current or throw fatal error. Maybe add Loaded attribute that checks if TextureHandle isn't a nullptr?
-                newTexture.Load(cRenderer);
+                newTexture.Load();
 
                 if (newTexture.Handle != IntPtr.Zero) Frames.Add(newTexture);
             }
@@ -101,8 +103,8 @@
         /// <summary>
         /// Draws this animated texture.
         /// </summary>
-        /// <param name="cRenderer">The window to draw this animated texture to.</param>
-        internal override void Draw(Renderer cRenderer)
+        /// <param name="Lightning.Renderer">The window to draw this animated texture to.</param>
+        internal override void Draw()
         {
             bool reverseAnimation = (Cycle.StartFrame > Cycle.EndFrame);
             if (AnimationFinished) return;
@@ -113,7 +115,7 @@
             CurrentTexture.Repeat = Repeat;
             CurrentTexture.Size = Size;
 
-            CurrentTexture.Draw(cRenderer);
+            CurrentTexture.Draw();
 
             // decrement the frames remaining until the next frame
             FramesUntilNextFrame--;
@@ -122,7 +124,7 @@
             {
                 // set a new number of frames until the next frame
                 // check to prevent division by zero because of lightning having just started
-                if (cRenderer.DeltaTime > 0) FramesUntilNextFrame = Convert.ToInt32(Cycle.FrameLength / cRenderer.DeltaTime);
+                if (Lightning.Renderer.DeltaTime > 0) FramesUntilNextFrame = Convert.ToInt32(Cycle.FrameLength / Lightning.Renderer.DeltaTime);
 
                 // will be set to true if the cycle is to end.
                 bool endCycle = false;

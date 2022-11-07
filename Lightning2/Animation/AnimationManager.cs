@@ -9,7 +9,7 @@
     /// </summary>
     public class AnimationAssetManager : AssetManager<Animation>
     {
-        public override Animation? AddAsset(Renderer cRenderer, Animation? asset)
+        public override Animation? AddAsset(Animation? asset)
         {
             if (asset == null) return null;
 
@@ -39,7 +39,7 @@
 
                 // load the asset
                 asset.Loaded = true;
-                Assets.Add(asset);
+                Lightning.Renderer.AddRenderable(asset);
                 return asset;
             }
             catch (Exception err)
@@ -50,33 +50,9 @@
             }
         }
 
-        public Animation? GetAnimationWithPath(string path)
-        {
-            foreach (Animation animation in Assets)
-            {
-                if (animation.Path == path) return animation;
-            }
-
-            return null;
-        }
-
-        public Animation? GetAnimationWithName(string name)
-        {
-            foreach (Animation animation in Assets)
-            {
-                if (animation.Name == name) return animation;
-            }
-
-            return null;
-        }
-
         public void Shutdown()
         {
-            foreach (Animation animation in Assets)
-            {
-                NCLogging.Log($"Unloading animation {animation.Name} (path {animation.Path})...");
-                animation.Unload();
-            }
+
         }
     }
 }

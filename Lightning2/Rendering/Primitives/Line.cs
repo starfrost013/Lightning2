@@ -8,7 +8,12 @@
 
         public short Thickness { get; set; }
 
-        internal override void Draw(Renderer cRenderer)
+        public Line(string name) : base(name)
+        {
+
+        }
+
+        internal override void Draw()
         {
             // lineRGBA(); just calls SDL.SDL_RenderDrawLine
             // thickLine does other stuff. 
@@ -23,7 +28,7 @@
             if (Thickness < 1) _ = new NCException($"Cannot draw a line with a thickness property below 1 pixel! (thickness = {Thickness})", 18, "PrimitiveRenderer::DrawLine called with thickness property < 1", NCExceptionSeverity.FatalError);
 
             // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = cRenderer.Settings.Camera;
+            Camera currentCamera = Lightning.Renderer.Settings.Camera;
 
             if (currentCamera != null
                 && !SnapToScreen)
@@ -37,11 +42,11 @@
             if (BorderSize.X > 0
                 && BorderSize.Y > 0)
             {
-                thickLineRGBA(cRenderer.Settings.RendererHandle, (int)Start.X - (int)BorderSize.X, (int)Start.Y - (int)BorderSize.Y, 
+                thickLineRGBA(Lightning.Renderer.Settings.RendererHandle, (int)Start.X - (int)BorderSize.X, (int)Start.Y - (int)BorderSize.Y, 
                     (int)End.X + (int)BorderSize.X, (int)End.Y + (int)BorderSize.Y, Thickness, BorderColor.R, BorderColor.G, BorderColor.B, BorderColor.A, Antialiased);
             }
 
-            thickLineRGBA(cRenderer.Settings.RendererHandle, (int)Start.X, (int)Start.Y, (int)End.X, (int)End.Y, Thickness, 
+            thickLineRGBA(Lightning.Renderer.Settings.RendererHandle, (int)Start.X, (int)Start.Y, (int)End.X, (int)End.Y, Thickness, 
                 Color.R, Color.G, Color.B, Color.A, Antialiased);
         }
     }

@@ -2,6 +2,6 @@
 {
     public delegate void ShutdownEvent
     (
-        Renderer cRenderer
+        
     );
 }

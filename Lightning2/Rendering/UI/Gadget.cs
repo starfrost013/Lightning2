@@ -61,7 +61,7 @@
         /// <summary>
         /// Gadget constructor.
         /// </summary>
-        public Gadget(string font)
+        public Gadget(string name, string font) : base(name)
         {
             OnMousePressed += MousePressed;
             OnMouseReleased += MouseReleased;

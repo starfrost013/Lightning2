@@ -20,7 +20,7 @@ namespace LightningGL
         /// <summary>
         /// Delta-time used for ensuring objects move at the same speed regardless of framerate.
         /// </summary>
-        public double DeltaTime { get; set; }
+        public double DeltaTime { get; private set; }
 
         /// <summary>
         /// Private: Frame-timer used for measuring frametime.
@@ -45,12 +45,12 @@ namespace LightningGL
         /// <summary>
         /// Determines if an event is waiting. 
         /// </summary>
-        public bool EventWaiting { get; set; }
+        public bool EventWaiting { get; private set; }
 
         /// <summary>
         /// Composed renderable list
         /// </summary>
-        private List<Renderable> Renderables { get; set; }
+        internal List<Renderable> Renderables { get; private set; }
 
         /// <summary>
         /// Number of renderables actually rendered this frame.
@@ -120,7 +120,7 @@ namespace LightningGL
                 "Window::AddWindow - SDL_CreateRenderer failed to create renderer", NCExceptionSeverity.FatalError);
 
             // Initialise the Light Manager.
-            LightManager.Init(this);
+            LightManager.Init();
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace LightningGL
 
                         break;
                     case SDL_EventType.SDL_QUIT: // User requested a quit, so shut down
-                        Lightning.Shutdown(this);
+                        Lightning.Shutdown();
                         return false;
                 }
             }
@@ -224,16 +224,16 @@ namespace LightningGL
             RenderAll();
 
             // Update the primitive manager.
-            PrimitiveManager.Update(this);
+            PrimitiveManager.Update();
 
             // Render the lightmap.
-            LightManager.Update(this);
+            LightManager.Update();
 
             // Update audio.
-            AudioManager.Update(this);
+            AudioManager.Update();
 
             // Update the font manager
-            FontManager.Update(this);
+            FontManager.Update();
 
             // draw fps on top always (by drawing it last. we don't have zindex, but we will later). Also snap it to the screen like a hud element. 
             // check the showfps global setting first
@@ -286,7 +286,7 @@ namespace LightningGL
 
             foreach (string line in debugText)
             {
-                PrimitiveManager.AddText(this, line, new Vector2(0, currentY), Color.FromArgb(255, 255, 255, 255), true, true);
+                PrimitiveManager.AddText(line, new Vector2(0, currentY), Color.FromArgb(255, 255, 255, 255), true, true);
                 currentY += debugLineDistance;
             }
 
@@ -299,7 +299,7 @@ namespace LightningGL
 
                 if (maxFps == 0) maxFps = 60;
 
-                PrimitiveManager.AddText(this, $"Running under target FPS ({maxFps})!",
+                PrimitiveManager.AddText($"Running under target FPS ({maxFps})!",
                     new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 0, 0), true);
             }
         }
@@ -343,6 +343,13 @@ namespace LightningGL
         {
             NCLogging.Log("Renderer destruction requested. Calling shutdown events...");
             NotifyShutdown();
+
+            NCLogging.Log("Destroying all renderables...");
+            foreach (Renderable renderable in Renderables)
+            {
+                renderable.Destroy();
+            }
+
             SDL_DestroyRenderer(Settings.RendererHandle);
             SDL_DestroyWindow(Settings.WindowHandle);
         }
@@ -373,13 +380,11 @@ namespace LightningGL
 
         private void BuildRenderableList()
         {
-            Renderables.Clear();
-
-            foreach (Renderable renderable in UIManager.Assets) Renderables.Add(renderable);
-            foreach (Renderable renderable in TextureManager.Assets) Renderables.Add(renderable);
-            foreach (Renderable renderable in ParticleManager.Assets) Renderables.Add(renderable);
-            foreach (Renderable renderable in TextManager.Assets) Renderables.Add(renderable);
-            foreach (Renderable renderable in PrimitiveManager.Assets) Renderables.Add(renderable);
+            //foreach (Renderable renderable in UIManager.Assets) Renderables.Add(renderable);
+            //foreach (Renderable renderable in TextureManager.Assets) Renderables.Add(renderable);
+            //foreach (Renderable renderable in ParticleManager.Assets) Renderables.Add(renderable);
+            //foreach (Renderable renderable in TextManager.Assets) Renderables.Add(renderable);
+            //foreach (Renderable renderable in PrimitiveManager.Assets) Renderables.Add(renderable);
 
             // if we haven't specified otherwise...
             if (!GlobalSettings.GraphicsRenderOffScreenRenderables)
@@ -415,17 +420,62 @@ namespace LightningGL
             }
         }
         
-        public void AddRenderable()
+        /// <summary>
+        /// Adds a renderable..
+        /// </summary>
+        public void AddRenderable(Renderable renderable)
         {
+            Renderables.Add(renderable);
+
+            // guaranteed never null
+            renderable.OnCreate();
+        }
+
+        /// <summary>
+        /// Removes a renderable.
+        /// </summary>
+        public void RemoveRenderable(Renderable renderable)
+        {
+            renderable.OnDestroy();
+            Renderables.Remove(renderable);
+        }
+
+        public Renderable? GetRenderableByName(string name)
+        {
+            foreach (Renderable renderable in Renderables)
+            {
+                if (renderable.Name == name)
+                {
+                    return renderable;
+                }
+            }
+
+            return null;
+        }
+
+        public void RemoveRenderableByName(string name)
+        {
+            Renderable? renderable = GetRenderableByName(name);
+
+            if (renderable == null)
+            {
+                _ = new NCException($"Tried to remove nonexistent renderable name {name}", 190, 
+                    "Renderer::RemoveRenderableByName's name property did not correspond to a valid Renderable", NCExceptionSeverity.FatalError);
+                return;
+            }
+
+            RemoveRenderable(renderable);
 
         }
+
+        public bool ContainsRenderable(string name) => GetRenderableByName(name) != null;
 
         #region Event handlers
 
         /// <summary>
         /// Renders all UI elements.
         /// </summary>
-        /// <param name="cRenderer">The UI element to render.</param>
+        /// <param name="Lightning.Renderer">The UI element to render.</param>
         internal void RenderAll()
         {
             for (int renderableId = 0; renderableId < Renderables.Count; renderableId++)
@@ -436,7 +486,7 @@ namespace LightningGL
                 if (renderable.IsOnScreen
                     && renderable.OnRender != null)
                 {
-                    renderable.OnRender(this);
+                    renderable.OnRender();
                     RenderedThisFrame++;
                 }
 
@@ -453,7 +503,7 @@ namespace LightningGL
                 {
                     // stop animating this renderable - prevents "collection modified" issues
                     uiElement.StopCurrentAnimation();
-                    uiElement.OnShutdown(this);
+                    uiElement.OnShutdown();
                 }
             }
         }

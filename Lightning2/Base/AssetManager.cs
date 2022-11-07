@@ -5,27 +5,16 @@
     /// </summary>
     public abstract class AssetManager<T> where T : Renderable
     {
-        internal List<T> Assets { get; set; }
+        public abstract T? AddAsset(T asset);
 
-        public AssetManager()
+        public virtual void RemoveAsset(T asset)
         {
-            Assets = new List<T>();
+            
         }
 
-        public abstract T? AddAsset(Renderer cRenderer, T asset);
-
-        public virtual void RemoveAsset(Renderer cRenderer, T asset)
+        internal virtual void Update()
         {
-            Assets.Remove(asset);
-        }
 
-        internal virtual void Update(Renderer cRenderer)
-        {
-            // Tasks that apply to all renderables.
-            foreach (T renderable in Assets)
-            {
-                renderable.Draw(cRenderer);
-            }
         }
     }
 }

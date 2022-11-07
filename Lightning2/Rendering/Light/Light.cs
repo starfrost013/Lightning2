@@ -38,7 +38,7 @@
         /// <summary>
         /// Constructor of the Light class. Sets the default range to 10 and the default brightness to 255.
         /// </summary>
-        public Light()
+        public Light(string name) : base(name)
         {
             Brightness = 255;
             Range = 10;
@@ -47,8 +47,8 @@
         /// <summary>
         /// Renders this Light to a texture
         /// </summary>
-        /// <param name="cRenderer">The window to render this Light to.</param>
-        internal void RenderToTexture(Renderer cRenderer)
+        /// <param name="Lightning.Renderer">The window to render this Light to.</param>
+        internal void RenderToTexture()
         {
             // Code nicked and modified from
             // https://stackoverflow.com/questions/10878209/midpoint-circle-algorithm-for-filled-circles
@@ -56,8 +56,8 @@
             int x = (int)Position.X;
             int y = (int)Position.Y;
 
-            float maxSizeX = cRenderer.Settings.Size.X;
-            float maxSizeY = cRenderer.Settings.Size.Y;
+            float maxSizeX = Lightning.Renderer.Settings.Size.X;
+            float maxSizeY = Lightning.Renderer.Settings.Size.Y;
 
             Color transparentBaseColor;
 
@@ -153,8 +153,8 @@
         /// <summary>
         /// Removes this Light from the texture.
         /// </summary>
-        /// <param name="cRenderer">The window to remove this light from.</param>
-        internal void RemoveFromTexture(Renderer cRenderer)
+        /// <param name="Lightning.Renderer">The window to remove this light from.</param>
+        internal void RemoveFromTexture()
         {
             // Code nicked and modified from
             // https://stackoverflow.com/questions/10878209/midpoint-circle-algorithm-for-filled-circles
@@ -162,8 +162,8 @@
             int x = (int)Position.X;
             int y = (int)Position.Y;
 
-            float maxSizeX = cRenderer.Settings.Size.X;
-            float maxSizeY = cRenderer.Settings.Size.Y;
+            float maxSizeX = Lightning.Renderer.Settings.Size.X;
+            float maxSizeY = Lightning.Renderer.Settings.Size.Y;
 
             // calculate magnitude of vector so that the alpha can be calculated
 

@@ -20,12 +20,12 @@ namespace LightningGL
         /// <summary>
         /// Backing field for <see cref="Name"/>
         /// </summary>
-        private string? _name;
+        private string _name;
 
         /// <summary>
         /// Name of this animation
         /// </summary>
-        public string Name
+        public new string Name
         {
             get
             {
@@ -75,10 +75,12 @@ namespace LightningGL
         /// <summary>
         /// Constructor for the Animation class
         /// </summary>
-        public Animation(string path)
+        public Animation(string name, string path) : base(name)
         {
             Properties = new List<AnimationProperty>();
             Path = path;
+            Name = name;
+            _name = Name; // fix compile warnings
         }
         
         /// <summary>
@@ -269,6 +271,10 @@ namespace LightningGL
             }
         }
 
-        internal void Unload() => Properties.Clear();
+        internal override void Destroy()
+        {
+            Properties.Clear();
+        }
+
     }
 }

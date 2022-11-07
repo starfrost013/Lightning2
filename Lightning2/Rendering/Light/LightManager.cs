@@ -31,13 +31,13 @@
         /// <summary>
         /// Initialises the Light Manager.
         /// </summary>
-        /// <param name="cRenderer"></param>
-        internal void Init(Renderer cRenderer)
+        /// <param name="Lightning.Renderer"></param>
+        internal void Init()
         {
             if (Initialised) return; // don't initialise twice
 
             // move this if it is slower
-            ScreenSpaceMap = new(cRenderer, cRenderer.Settings.Size.X, cRenderer.Settings.Size.Y)
+            ScreenSpaceMap = new("ScreenSpaceMap", Lightning.Renderer.Settings.Size.X, Lightning.Renderer.Settings.Size.Y)
             {
                 SnapToScreen = true
             };
@@ -53,24 +53,23 @@
         /// </summary>
         /// <param name="window">The window to add the light to.</param>
         /// <param name="asset">The <see cref="Light"/> object to add to the light manager.</param>
-        public override Light AddAsset(Renderer window, Light asset)
+        public override Light AddAsset(Light asset)
         {
             if (ScreenSpaceMap.Handle == IntPtr.Zero) _ = new NCException("The Light Manager must be initialised before using it!", 61, "LightManager::AddLight called before LightManager::Init!", NCExceptionSeverity.FatalError);
-            asset.RenderToTexture(window);
-            Assets.Add(asset);
+            asset.RenderToTexture();
+            Lightning.Renderer.AddRenderable(asset);
             return asset;
         }
 
         /// <summary>
         /// Removes a light.
         /// </summary>
-        /// <param name="cRenderer"></param>
+        /// <param name="Lightning.Renderer"></param>
         /// <param name="asset"></param>
-        public override void RemoveAsset(Renderer cRenderer,
-            Light asset)
+        public override void RemoveAsset(Light asset)
         {
-            asset.RemoveFromTexture(cRenderer);
-            Assets.Remove(asset);
+            asset.RemoveFromTexture();
+            Lightning.Renderer.RemoveRenderable(asset);
         }
 
         /// <summary>
@@ -102,12 +101,12 @@
         /// <summary>
         /// Internal: Renders the current screen-space lightmap.
         /// </summary>
-        /// <param name="cRenderer">The window to render the current screen-space light map to.</param>
-        internal override void Update(Renderer cRenderer)
+        /// <param name="Lightning.Renderer">The window to render the current screen-space light map to.</param>
+        internal override void Update()
         {
             if (ScreenSpaceMap.Handle == IntPtr.Zero) _ = new NCException("The Light Manager must be initialised before using it!",
                 62, "LightManager::RenderLightmap called before LightManager::Init!", NCExceptionSeverity.FatalError);
-            ScreenSpaceMap.Draw(cRenderer);
+            ScreenSpaceMap.Draw();
         }
 
         /// <summary>

@@ -19,5 +19,10 @@
         /// We use this for angle calculations. Using the current ID in the effect renderer doesn't work
         /// </summary>
         public int Id { get; set; }
+
+        public Particle(string name) : base(name)
+        {
+
+        }
     }
 }

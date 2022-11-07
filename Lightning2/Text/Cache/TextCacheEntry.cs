@@ -73,16 +73,16 @@
         /// </summary>
         internal bool UsedThisFrame { get; set; }
 
-        internal TextCacheEntry()
+        internal TextCacheEntry(string name) : base(name)
         {
             Lines = new List<TextCacheEntryLine>();
         }
 
-        internal static TextCacheEntry? Render(Renderer cRenderer, string font, string text,
+        internal static TextCacheEntry? Render(string font, string text,
             SDL_Color fgColor, TTF_FontStyle style, FontSmoothingType smoothingType = FontSmoothingType.Default,
             int outlineSize = -1, SDL_Color bgColor = default)
         {
-            TextCacheEntry entry = new TextCacheEntry();
+            TextCacheEntry entry = new TextCacheEntry("TextCacheEntry");
 
             entry.Color = fgColor;
             entry.Font = font;
@@ -128,19 +128,19 @@
                 {
                     case FontSmoothingType.Default: // Antialiased
                         IntPtr surfaceBlended = TTF_RenderUTF8_Blended(fontForRender.Handle, cachedLine.Text, fgColor);
-                        cachedLine.Handle = SDL_CreateTextureFromSurface(cRenderer.Settings.RendererHandle, surfaceBlended);
+                        cachedLine.Handle = SDL_CreateTextureFromSurface(Lightning.Renderer.Settings.RendererHandle, surfaceBlended);
 
                         SDL_FreeSurface(surfaceBlended);
                         break;
                     case FontSmoothingType.Shaded: // Only shaded
                         IntPtr surfaceShaded = TTF_RenderUTF8_Shaded(fontForRender.Handle, cachedLine.Text, fgColor, bgColor);
-                        cachedLine.Handle = SDL_CreateTextureFromSurface(cRenderer.Settings.RendererHandle, surfaceShaded);
+                        cachedLine.Handle = SDL_CreateTextureFromSurface(Lightning.Renderer.Settings.RendererHandle, surfaceShaded);
 
                         SDL_FreeSurface(surfaceShaded);
                         break;
                     case FontSmoothingType.Solid: // No processing done
                         IntPtr surfaceSolid = TTF_RenderUTF8_Solid(fontForRender.Handle, cachedLine.Text, fgColor);
-                        cachedLine.Handle = SDL_CreateTextureFromSurface(cRenderer.Settings.RendererHandle, surfaceSolid);
+                        cachedLine.Handle = SDL_CreateTextureFromSurface(Lightning.Renderer.Settings.RendererHandle, surfaceSolid);
 
                         SDL_FreeSurface(surfaceSolid);
                         break;

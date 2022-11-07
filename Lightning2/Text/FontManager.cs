@@ -7,11 +7,11 @@
     /// </summary>
     public class FontAssetManager : AssetManager<Font>
     {
-        public override Font? AddAsset(Renderer cRenderer, Font asset)
+        public override Font? AddAsset(Font asset)
         {
             if (asset != null)
             {
-                LoadFont(asset.Name, asset.FontSize, asset.FriendlyName, asset.Path, asset.Index);
+                LoadFont(asset.FontName, asset.FontSize, asset.Name, asset.Path, asset.Index);
             }
             else
             {
@@ -21,24 +21,23 @@
             return asset;
         }
 
-        public override void RemoveAsset(Renderer cRenderer, Font asset) => asset.Unload();
+        public override void RemoveAsset(Font asset) => asset.Unload();
 
         /// <summary>
         /// Acquires a Font if it is loaded, given its <see cref="Font.FriendlyName"/>.
         /// </summary>
         /// <param name="friendlyName">The <see cref="Font.FriendlyName"/></param>
         /// <returns></returns>
-        public Font? GetFont(string friendlyName)
+        internal Font? GetFont(string friendlyName)
         {
-            foreach (Font font in Assets)
+            try
             {
-                if (font.FriendlyName == friendlyName)
-                {
-                    return font;
-                }
+                return (Font?)Lightning.Renderer.GetRenderableByName(friendlyName);
             }
-
-            return null;
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -55,7 +54,12 @@
             {
                 Font font = new Font(name, size, friendlyName, path, index);
                 font.Load(); 
-                Assets.Add(font);
+
+                // we already triggered an error message
+                if (font.Loaded)
+                {
+                    Lightning.Renderer.AddRenderable(font);
+                }
             }
             catch (Exception) // NC Exception
             {
@@ -72,7 +76,7 @@
             try
             {
                 font.Unload();
-                Assets.Remove(font);
+                Lightning.Renderer.RemoveRenderable(font);
             }
             catch (Exception) { };
         }
@@ -113,7 +117,7 @@
             // call the multiline text function
             if (text.Contains('\n', StringComparison.InvariantCultureIgnoreCase)) return GetLargestTextSize(font, text);
 
-            if (!Assets.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.FontSize}) before trying to use it!", 81, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
+            if (!Lightning.Renderer.ContainsRenderable(font.Name)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.FontSize}) before trying to use it!", 81, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
 
             int fontSizeX,
                 fontSizeY;
@@ -154,7 +158,7 @@
         internal Vector2 GetLargestTextSize(Font font, string text)
         {
             // check the string is not empty
-            if (string.IsNullOrWhiteSpace(text)) return default(Vector2);
+            if (string.IsNullOrWhiteSpace(text)) return default;
 
             // check it's a real font
             if (font == null)
@@ -164,12 +168,12 @@
                 return default; 
             }
 
-            if (!Assets.Contains(font)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.FontSize}) before trying to use it!", 82, 
+            if (!Lightning.Renderer.ContainsRenderable(font.Name)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.FontSize}) before trying to use it!", 82, 
                 "TextManager::GetTextSize - Font not in FontManager::Assets!", NCExceptionSeverity.FatalError);
 
             string[] lines = text.Split('\n');
 
-            Vector2 largestLineSize = default(Vector2); // 0,0
+            Vector2 largestLineSize = default; // 0,0
 
             foreach (string line in lines)
             {
@@ -202,16 +206,6 @@
                 _ = new NCException($"GetLargestTextSize was provided an invalid font, so (0,0) will be returned", 189,
                     "The Font parameter to FontManager::GetLargestTextSize did not correspond to a loaded font", NCExceptionSeverity.Warning, null, true);
                 return default;
-            }
-        }
-
-        internal void Shutdown()
-        {
-            for (int curFontId = 0; curFontId < Assets.Count; curFontId++)
-            {
-                Font curFont = FontManager.Assets[curFontId];
-                NCLogging.Log($"Unloading font {curFont.FriendlyName}...");
-                FontManager.UnloadFont(curFont);
             }
         }
     }

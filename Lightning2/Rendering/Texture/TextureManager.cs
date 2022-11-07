@@ -1,4 +1,6 @@
-﻿namespace LightningGL
+﻿using System.Xml.Linq;
+
+namespace LightningGL
 {
     /// <summary>
     /// TextureManager
@@ -15,63 +17,67 @@
         public static bool SnapToScreen { get; set; }
 
         // this is here for reasons (so that it can be used from using static LightningGL.Lightning)
-        public override Texture AddAsset(Renderer cRenderer, Texture asset)
+        public override Texture AddAsset(Texture asset)
         {
-            asset.Load(cRenderer);
-            Assets.Add(asset);
+            asset.Load();
+            Lightning.Renderer.AddRenderable(asset);
             return asset;
         }
 
-        public override void RemoveAsset(Renderer cRenderer, Texture asset)
+        public override void RemoveAsset(Texture asset)
         {
             asset.Unload();
-            Assets.Remove(asset);
+            Lightning.Renderer.RemoveRenderable(asset);
         }
 
-        public Texture? GetInstanceOfTexture(Renderer cRenderer, string path)
+        public Texture? GetInstanceOfTexture(string name)
         {
-            foreach (Texture texture in Assets)
+            try
             {
-                if (texture.Path == path)
-                {
-                    return new Texture(cRenderer, texture.Size.X, texture.Size.Y)
-                    {
-                        Handle = texture.Handle,
-                        FormatHandle = texture.FormatHandle
-                    };
-                }
-            }
+                Texture? texture = (Texture?)Lightning.Renderer.GetRenderableByName(name);
 
-            return null;
-        }
+                if (texture == null) return null;
 
-        public Texture? GetInstanceOfTexture(Renderer cRenderer, Texture texture, bool clone = false)
-        {
-            if (Assets.Contains(texture))
-            {
-                Texture newTexture = new(cRenderer, texture.Size.X, texture.Size.Y)
+                // texture ID?
+                int rTexture = Random.Shared.Next(10000000, 99999999);
+
+                return new Texture($"{texture.Name}_{rTexture}", texture.Size.X, texture.Size.Y)
                 {
+                    Handle = texture.Handle,
                     FormatHandle = texture.FormatHandle
                 };
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
-                // not sure if this is the best solution
-                if (clone)
-                {
-                    newTexture.Handle = texture.Handle;
-                }
-                else
-                {
-                    // especially this
-                    // don't allocate a new texture format here (we already did it)
-                    newTexture.Path = texture.Path;
-                    newTexture.Load(cRenderer);
-                }
+        public Texture? GetInstanceOfTexture(Texture texture, bool clone = false)
+        {
+            // texture ID?
+            int rTexture = Random.Shared.Next(10000000, 99999999);
 
-                Assets.Add(newTexture);
-                return newTexture;
+            Texture newTexture = new($"{texture.Name}_{rTexture}", texture.Size.X, texture.Size.Y)
+            {
+                FormatHandle = texture.FormatHandle
+            };
+
+            // not sure if this is the best solution
+            if (clone)
+            {
+                newTexture.Handle = texture.Handle;
+            }
+            else
+            {
+                // especially this
+                // don't allocate a new texture format here (we already did it)
+                newTexture.Path = texture.Path;
+                newTexture.Load();
             }
 
-            return null;
+            Lightning.Renderer.AddRenderable(newTexture);
+            return newTexture;
         }
     }
 }

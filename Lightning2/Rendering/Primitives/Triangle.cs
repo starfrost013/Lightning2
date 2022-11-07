@@ -2,16 +2,21 @@
 {
     public class Triangle : Primitive
     {
+        public Triangle(string name) : base(name)
+        {
+
+        }
+
         public Vector2 Point1 { get; set; }
 
         public Vector2 Point2 { get; set; }
 
         public Vector2 Point3 { get; set; }
 
-        internal override void Draw(Renderer cRenderer)
+        internal override void Draw()
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = cRenderer.Settings.Camera;
+            Camera currentCamera = Lightning.Renderer.Settings.Camera;
 
             if (currentCamera != null
                 && !SnapToScreen)
@@ -140,18 +145,18 @@
                     borderPoint3.Y = Point3.Y - BorderSize.Y;
                 }
 
-                filledTrigonRGBA(cRenderer.Settings.RendererHandle, (int)borderPoint1.X, (int)borderPoint1.Y, (int)borderPoint2.X, (int)borderPoint2.Y,
+                filledTrigonRGBA(Lightning.Renderer.Settings.RendererHandle, (int)borderPoint1.X, (int)borderPoint1.Y, (int)borderPoint2.X, (int)borderPoint2.Y,
                     (int)borderPoint3.X, (int)borderPoint3.Y, BorderColor.R, BorderColor.G, BorderColor.B, BorderColor.A);
             }
             
             if (Filled)
             {
-                filledTrigonRGBA(cRenderer.Settings.RendererHandle, (int)Point1.X, (int)Point1.Y, (int)Point2.X, (int)Point2.Y, (int)Point3.X, (int)Point3.Y, 
+                filledTrigonRGBA(Lightning.Renderer.Settings.RendererHandle, (int)Point1.X, (int)Point1.Y, (int)Point2.X, (int)Point2.Y, (int)Point3.X, (int)Point3.Y, 
                     Color.R, Color.G, Color.B, Color.A);
             }
             else
             {
-                trigonRGBA(cRenderer.Settings.RendererHandle, (int)Point1.X, (int)Point1.Y, (int)Point2.X, (int)Point2.Y, (int)Point3.X,
+                trigonRGBA(Lightning.Renderer.Settings.RendererHandle, (int)Point1.X, (int)Point1.Y, (int)Point2.X, (int)Point2.Y, (int)Point3.X,
                     (int)Point3.Y, Color.R, Color.G, Color.B, Color.A);
             }
         }

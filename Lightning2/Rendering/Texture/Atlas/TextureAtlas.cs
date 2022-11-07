@@ -25,13 +25,13 @@
         /// </summary>
         public Vector2 TextureCount { get; init; }
 
-        public TextureAtlas(Renderer cRenderer, Vector2 frameSize, Vector2 textureCount) : base(cRenderer, (frameSize.X * textureCount.X) + 1, frameSize.Y * textureCount.Y + 1) // + 1 so that we do not set an out of bounds viewport
+        public TextureAtlas(string name, Vector2 frameSize, Vector2 textureCount) : base(name, (frameSize.X * textureCount.X) + 1, frameSize.Y * textureCount.Y + 1) // + 1 so that we do not set an out of bounds viewport
         {
             FrameSize = frameSize;
             TextureCount = textureCount;
         }
 
-        internal override void Load(Renderer cRenderer)
+        internal override void Load()
         {
             if (FrameSize == default(Vector2)) _ = new NCException("Cannot load a texture with no texture frame size!", 45, "TextureAtlas::FrameSize property = (0,0)!", NCExceptionSeverity.FatalError);
 
@@ -39,13 +39,13 @@
 
             NCLogging.Log($"Loading atlas texture at path {Path}...");
 
-            base.Load(cRenderer);
+            base.Load();
         }
 
-        public new void Draw(Renderer cRenderer)
+        public new void Draw()
         {
             // save the maximum index
-            int maxIndex = Convert.ToInt32((TextureCount.X * TextureCount.Y)) - 1;
+            int maxIndex = Convert.ToInt32(TextureCount.X * TextureCount.Y) - 1;
 
             if (Index < 0
                 || Index > maxIndex) _ = new NCException($"Cannot draw invalid TextureAtlas ({Path}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)", 47, "TextureAtlas::LoadIndexed", NCExceptionSeverity.FatalError);
@@ -61,7 +61,7 @@
             ViewportStart = new Vector2(startX, startY);
             ViewportEnd = new Vector2(endX, endY);
 
-            base.Draw(cRenderer);
+            base.Draw();
         }
 
         public override Color GetPixel(int x, int y, bool relative = false)

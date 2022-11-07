@@ -15,11 +15,6 @@
         public IntPtr AudioHandle { get; private set; }
 
         /// <summary>
-        /// A name used to describe this audio file.
-        /// </summary>
-        public string? Name { get; internal set; }
-
-        /// <summary>
         /// Determines if the current audio file is playing
         /// </summary>
         public bool Playing { get; internal set; }
@@ -53,7 +48,7 @@
         /// </summary>
         private double RealVolume { get; set; }
 
-        public AudioFile(string path)
+        public AudioFile(string name, string path) : base(name)
         {
             Path = path;
         }
@@ -61,7 +56,7 @@
         /// <summary>
         /// Loads this audio file.
         /// </summary>
-        internal override void Load(Renderer cRenderer)
+        internal override void Load()
         {
             AudioHandle = Mix_LoadWAV(Path);
 
@@ -87,12 +82,12 @@
         /// <summary>
         /// Internal: Update positional sound volume based on current main camera position.
         /// </summary>
-        /// <param name="cRenderer"></param>
-        internal void Update(Renderer cRenderer)
+        /// <param name="SceneManager.Renderer"></param>
+        internal override void Draw()
         {
             if (!PositionalSound) return;
 
-            Vector2 cameraPosition = cRenderer.Settings.Camera.Position;
+            Vector2 cameraPosition = Lightning.Renderer.Settings.Camera.Position;
             Vector2 audioPosition = RenderPosition;
 
             // faster than math.pow

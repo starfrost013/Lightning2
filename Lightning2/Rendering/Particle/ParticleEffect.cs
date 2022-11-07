@@ -88,7 +88,7 @@
         /// Constructor for particle effect.
         /// </summary>
         /// <param name="nTexture">The texture to use for particle effects</param>
-        public ParticleEffect(Texture nTexture)
+        public ParticleEffect(string name, Texture nTexture) : base(name)
         {
             Texture = nTexture;
             Mode = ParticleMode.SinCos;
@@ -99,17 +99,17 @@
         /// <summary>
         /// Loads this particle effect.
         /// </summary>
-        /// <param name="cRenderer"></param>
-        internal override void Load(Renderer cRenderer) 
+        /// <param name="Lightning.Renderer"></param>
+        internal override void Load() 
         {
             NCLogging.Log($"Loading particle effect at path {Texture.Path}...");
             Particles = new List<Particle>();
-            Texture.Load(cRenderer);
+            Texture.Load();
             Texture.SnapToScreen = SnapToScreen;
             if (MaxNumberCreatedEachFrame <= 0) MaxNumberCreatedEachFrame = Amount / DEFAULT_MAX_CREATED_EACH_FRAME_DIVISOR;
         }
 
-        internal override void Draw(Renderer cRenderer)
+        internal override void Draw()
         {
             if (Texture == null)
             {
@@ -135,7 +135,7 @@
 
             if (FrameSkipBetweenCreatingParticles > 0)
             {
-                if (cRenderer.FrameNumber % (FrameSkipBetweenCreatingParticles + 1) != 0) createNewParticleSet = false;
+                if (Lightning.Renderer.FrameNumber % (FrameSkipBetweenCreatingParticles + 1) != 0) createNewParticleSet = false;
             }
 
             if (createNewParticleSet) AddParticleSet();
@@ -172,8 +172,8 @@
                     double yMul = Math.Cos(angleRads);
 
                     // set up the velocity
-                    Vector2 finalVelocity = new(Convert.ToSingle((((Velocity.X * xMul) / 100) * particle.Lifetime) * cRenderer.DeltaTime),
-                        Convert.ToSingle((((Velocity.Y * yMul) / 100) * particle.Lifetime) * (cRenderer.DeltaTime / 10)));
+                    Vector2 finalVelocity = new(Convert.ToSingle((((Velocity.X * xMul) / 100) * particle.Lifetime) * Lightning.Renderer.DeltaTime),
+                        Convert.ToSingle((((Velocity.Y * yMul) / 100) * particle.Lifetime) * (Lightning.Renderer.DeltaTime / 10)));
 
                     // Clamp velocity on "Normal" mode as opposed to explode
                     if (Mode != ParticleMode.Explode)
@@ -189,7 +189,7 @@
                 }
                 else
                 {
-                    Vector2 finalVelocity = new(Convert.ToSingle(Velocity.X * cRenderer.DeltaTime), Convert.ToSingle(Velocity.Y * cRenderer.DeltaTime));
+                    Vector2 finalVelocity = new(Convert.ToSingle(Velocity.X * Lightning.Renderer.DeltaTime), Convert.ToSingle(Velocity.Y * Lightning.Renderer.DeltaTime));
 
                     if (Mode == ParticleMode.AbsoluteVelocity)
                     {
@@ -203,7 +203,7 @@
 
                 Texture.Position = particle.Position;
 
-                Texture.Draw(cRenderer);
+                Texture.Draw();
             }
         }
 
@@ -223,7 +223,7 @@
             if (NeedsManualTrigger
                 && !Playing) return;
 
-            Particle particle = new();
+            Particle particle = new($"Particle{LastId}");
 
             // easier to use doubles here so we don't use random.nextsingle
             float varX = Random.Shared.NextSingle() * (Variance - -Variance) + -Variance,

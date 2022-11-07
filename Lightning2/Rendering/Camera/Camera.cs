@@ -125,7 +125,7 @@
             }
         }
 
-        public Camera(CameraType type)
+        public Camera(string name, CameraType type) : base(name)
         {
             Type = type;
         }

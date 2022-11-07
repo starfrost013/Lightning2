@@ -4,15 +4,15 @@
     {
         public List<Vector2> Points { get; set; }
 
-        public Polygon()
+        public Polygon(string name) : base(name)
         {
             Points = new List<Vector2>();
         }
 
-        internal override void Draw(Renderer cRenderer)
+        internal override void Draw()
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = cRenderer.Settings.Camera;
+            Camera currentCamera = Lightning.Renderer.Settings.Camera;
 
             if (currentCamera != null
                 && !SnapToScreen)
@@ -123,24 +123,24 @@
                     }
                 }
 
-                filledPolygonRGBA(cRenderer.Settings.RendererHandle, finalBorderPointsX, finalBorderPointsY, finalBorderPointsX.Length, 
+                filledPolygonRGBA(Lightning.Renderer.Settings.RendererHandle, finalBorderPointsX, finalBorderPointsY, finalBorderPointsX.Length, 
                     BorderColor.R, BorderColor.G, BorderColor.B, BorderColor.A);
             }
 
             // count will always be the same so use x count
             if (Filled)
             {
-                filledPolygonRGBA(cRenderer.Settings.RendererHandle, finalPointsX, finalPointsY, finalPointsX.Length, Color.R, Color.G, Color.B, Color.A);
+                filledPolygonRGBA(Lightning.Renderer.Settings.RendererHandle, finalPointsX, finalPointsY, finalPointsX.Length, Color.R, Color.G, Color.B, Color.A);
             }
             else
             {
                 if (Antialiased)
                 {
-                    aapolygonRGBA(cRenderer.Settings.RendererHandle, finalPointsX, finalPointsY, finalPointsX.Length, Color.R, Color.G, Color.B, Color.A);
+                    aapolygonRGBA(Lightning.Renderer.Settings.RendererHandle, finalPointsX, finalPointsY, finalPointsX.Length, Color.R, Color.G, Color.B, Color.A);
                 }
                 else
                 {
-                    polygonRGBA(cRenderer.Settings.RendererHandle, finalPointsX, finalPointsY, finalPointsX.Length, Color.R, Color.G, Color.B, Color.A);
+                    polygonRGBA(Lightning.Renderer.Settings.RendererHandle, finalPointsX, finalPointsY, finalPointsX.Length, Color.R, Color.G, Color.B, Color.A);
                 }
             }
         }

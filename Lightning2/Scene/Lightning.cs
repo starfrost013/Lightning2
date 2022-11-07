@@ -1,19 +1,51 @@
-﻿using LightningBase;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
-    /// Lightning
-    /// A lightweight, easy-to-use, and elegantly designed C# game framework
+    /// SceneManager
     /// 
-    /// © 2022 starfrost
+    /// March 14, 2022
+    /// 
+    /// Defines the Scene Manager, which manages scenes in Lightning (optional)
     /// </summary>
-    public class Lightning
+    public static class Lightning
     {
         /// <summary>
-        /// Determines if the engine has been initialised correctly.
+        /// The current scene that is being run.
         /// </summary>
-        public static bool Initialised { get; private set; }
+        private static Scene? CurrentScene { get; set; }
+
+        /// <summary>
+        /// The main renderer of the application.
+        /// </summary>
+        public static Renderer Renderer { get; private set; }
+
+        /// <summary>
+        /// Determines if the scene manager is running.
+        /// </summary>
+        internal static bool Initialised { get; private set; }
+
+        /// <summary>
+        /// The list of scenes.
+        /// </summary>
+        public static List<Scene> Scenes { get; private set; }
+
+        static Lightning()
+        {
+            // Initialise Lightning2 window.
+            Renderer = new Renderer();
+            Scenes = new List<Scene>();
+
+            // Initialise all asset managers
+            TextureManager = new TextureAssetManager();
+            AudioManager = new AudioAssetManager();
+            ParticleManager = new ParticleAssetManager();
+            UIManager = new UIAssetManager();
+            FontManager = new FontAssetManager();
+            TextManager = new TextAssetManager();
+            LightManager = new LightAssetManager();
+            AnimationManager = new AnimationAssetManager();
+            PrimitiveManager = new PrimitiveAssetManager();
+        }
 
         #region Asset managers
         public static TextureAssetManager TextureManager { get; private set; } // init not valid on static members
@@ -30,27 +62,10 @@ namespace LightningGL
 
         public static LightAssetManager LightManager { get; private set; }
 
-        public static SceneAssetManager SceneManager { get; private set; }
-
         public static AnimationAssetManager AnimationManager { get; private set; }
 
-        public static PrimitiveAssetManager PrimitiveManager { get; private set; } 
+        public static PrimitiveAssetManager PrimitiveManager { get; private set; }
         #endregion
-
-        static Lightning()
-        {
-            // Initialise all asset managers
-            TextureManager = new TextureAssetManager();
-            AudioManager = new AudioAssetManager();
-            ParticleManager = new ParticleAssetManager();
-            UIManager = new UIAssetManager();
-            FontManager = new FontAssetManager();
-            TextManager = new TextAssetManager();
-            LightManager = new LightAssetManager();
-            SceneManager = new SceneAssetManager();
-            AnimationManager = new AnimationAssetManager();
-            PrimitiveManager = new PrimitiveAssetManager();
-        }
 
         public static void Init(string[] args)
         {
@@ -75,7 +90,7 @@ namespace LightningGL
 
                 NCLogging.Log("Initialising SDL_mixer...");
                 if (Mix_Init(MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2_mixer: {SDL_GetError()}", 3, "Failed to initialise SDL2_mixer during Lightning::Init", NCExceptionSeverity.FatalError);
-               
+
                 // this should always be the earliest step
                 NCLogging.Log("Obtaining system information...");
                 SystemInfo.Load();
@@ -117,7 +132,7 @@ namespace LightningGL
                 }
 
                 // Load the scene manager.
-                SceneManager.Init(new RendererSettings
+                InitSceneManager(new RendererSettings
                 {
                     Position = new Vector2(GlobalSettings.GraphicsPositionX, GlobalSettings.GraphicsPositionY),
                     Size = new Vector2(GlobalSettings.GraphicsResolutionX, GlobalSettings.GraphicsResolutionY),
@@ -127,15 +142,15 @@ namespace LightningGL
                 });
 
                 // if scenemanager started successfully, run its main loop
-                if (SceneManager.Initialised)
+                if (Initialised)
                 {
                     Initialised = true;
-                    SceneManager.Main();
+                    Main();
                 }
             }
             catch (Exception err)
             {
-                _ = new NCException($"An unknown fatal error occurred during engine initialisation. The installation may be corrupted", 0x0000DEAD, "A fatal error occurred in LightningGL::Init!", NCExceptionSeverity.FatalError, err);
+                _ = new NCException($"An unknown fatal error occurred. The installation may be corrupted", 0x0000DEAD, "A fatal error occurred in LightningGL::Init!", NCExceptionSeverity.FatalError, err);
             }
         }
 
@@ -145,11 +160,11 @@ namespace LightningGL
             {
                 WriteToLog = true,
             };
-            
+
             NCLogging.Init();
         }
 
-        public static void Shutdown(Renderer cRenderer)
+        public static void Shutdown()
         {
             if (!Initialised) _ = new NCException("Attempted to shutdown without starting! Please call Lightning::Init!", 95, "Lightning::Initialised false when calling Lightning::Shutdown", NCExceptionSeverity.FatalError);
 
@@ -160,32 +175,28 @@ namespace LightningGL
             }
 
             NCLogging.Log("Shutting down the Scene Manager...");
-            SceneManager.ShutdownAll();
+            ShutdownAll();
 
             NCLogging.Log("Destroying renderer...");
-            cRenderer.Shutdown();
+            Renderer.Shutdown();
 
             NCLogging.Log("Shutting down the Text Manager...");
             TextManager.Shutdown();
 
-            NCLogging.Log("Shutting down the Font Manager...");
-            FontManager.Shutdown();
-
             // create a list of fonts and audiofiles to unload
             // just foreaching through each font and audiofile doesn't work as collection is being modified 
+            /*
             List<AudioFile> audioFilesToUnload = new();
             foreach (AudioFile audioFileToUnload in AudioManager.Assets) audioFilesToUnload.Add(audioFileToUnload);
 
             NCLogging.Log("Unloading all audio files...");
             foreach (AudioFile audioFileToUnload in audioFilesToUnload) AudioManager.UnloadFile(audioFileToUnload);
+            */
 
             // Shut down the light manager if it has been started.
             NCLogging.Log("Shutting down the Light Manager...");
             if (LightManager.Initialised) LightManager.Shutdown();
 
-            // Shut down the particle manager.
-            NCLogging.Log("Shutting down the Particle Manager...");
-            ParticleManager.Shutdown();
 
             // Clear up any unpacked package data if Engine.ini specifies to
             Packager.Shutdown(GlobalSettings.GeneralDeleteUnpackedFilesOnExit);
@@ -210,6 +221,144 @@ namespace LightningGL
 
             NCLogging.Log("Shutting down SDL...");
             SDL_Quit();
+        }
+
+        /// <summary>
+        /// Initialises the Scene Manager.
+        /// </summary>
+        /// <param name="windowSettings">The window settings to use for the Scene Manager.</param>
+        /// <exception cref="NCException">An error occurred initialising the Scene Manager.</exception>
+        internal static void InitSceneManager(RendererSettings windowSettings)
+        {
+            Renderer.Start(windowSettings);
+
+            // Initialise the scenes.
+            Assembly? assembly = Assembly.GetEntryAssembly();
+
+            Debug.Assert(assembly != null); // this should not happen
+
+            foreach (Type t in assembly.GetTypes())
+            {
+                if (t.IsSubclassOf(typeof(Scene)))
+                {
+                    Scene? scene = (Scene?)Activator.CreateInstance(t);
+
+                    if (scene != null)
+                    {
+                        Scenes.Add(scene);
+
+                        NCLogging.Log($"Initialising scene {scene.Name}...");
+
+                        scene.Start();
+
+                        if (GlobalSettings.SceneStartupScene == t.Name) CurrentScene = scene;
+                    }
+                    else
+                    {
+                        _ = new NCException($"Error initialising SceneManager: Failed to create scene instance!", 130,
+                        "Scene initialisation failed in SceneManager::Init", NCExceptionSeverity.FatalError);
+                    }
+
+                }
+            }
+
+            if (Scenes.Count == 0) _ = new NCException($"There are no scenes defined.\n\nIf you tried to initialise Lightning without the Scene Manager," +
+                $" this is no longer supported as of Lightning 1.2.0!", 131, 
+                "SceneManager::Scenes Count = 0!", NCExceptionSeverity.FatalError);
+
+            if (CurrentScene == null) _ = new NCException($"Invalid startup scene {GlobalSettings.SceneStartupScene}", 132, 
+                "GlobalSettings::StartupScene did not correspond to a valid scene", NCExceptionSeverity.FatalError);
+
+            Initialised = true;
+        }
+
+        /// <summary>
+        /// Internal: Main loop for the Scene Manager.
+        /// </summary>
+        internal static void Main()
+        {
+            Debug.Assert(Renderer != null);
+            Debug.Assert(CurrentScene != null);
+
+            while (Renderer.Run())
+            {
+                // Only put events you need to GLOBALLY handle here.
+                // Every other event will be handled by the renderer or dev
+                if (Renderer.EventWaiting)
+                {
+                    switch (Renderer.LastEvent.type)
+                    {
+                        case SDL_EventType.SDL_QUIT:
+                            ShutdownAll();
+                            break;
+                    }
+                }
+
+                // Render the current scene.
+                CurrentScene.Render();
+
+                Renderer.Render();
+            }
+        }
+
+        internal static void ShutdownAll()
+        {
+            NCLogging.Log("Shutting down all scenes...");
+            foreach (Scene scene in Scenes)
+            {
+                // shutdown every scene
+                NCLogging.Log($"Shutting down scene {scene.Name}...");
+                scene.Shutdown();
+            }
+        }
+
+        /// <summary>
+        /// Sets the current scene to the scene <see cref="Scene"/>.
+        /// </summary>
+        /// <param name="newScene">The new <see cref="Scene"/> to set to be the current scene.</param>
+        public static void SetCurrentScene(Scene newScene)
+        {
+            Debug.Assert(CurrentScene != null); // you should never get here
+
+            NCLogging.Log($"Setting scene to {newScene.Name}...");
+            CurrentScene.SwitchAway(newScene);
+            newScene.SwitchTo(CurrentScene);
+            CurrentScene = newScene;
+        }
+
+        /// <summary>
+        /// Sets the current scene to the scene <see cref="Scene"/>.
+        /// </summary>
+        /// <param name="newScene">The new <see cref="Scene"/> to set to be the current scene.</param>
+        public static void SetCurrentScene(string name)
+        {
+            Scene? scene = GetScene(name);
+
+            if (scene == null)
+            {
+                _ = new NCException($"Tried to set invalid scene {name}!", 133, "Called SceneManager::GetCurrentScene with an invalid scene name");
+                return;
+            }
+
+            SetCurrentScene(scene);
+        }
+
+        /// <summary>
+        /// Gets the current scene.
+        /// </summary>
+        /// <param name="name">The <see cref="Scene.Name"/> of the scene</param>
+        /// <returns>A <see cref="Scene"/> object containing the first scene with the name <paramref name="name"/>, or <c>null</c> if there is no scene by that name.</returns>
+        public static Scene? GetScene(string name)
+        {
+            foreach (Scene scene in Scenes)
+            {
+                if (scene.Name == name)
+                {
+                    return scene;
+                }
+            }
+
+            return null;
         }
     }
 }

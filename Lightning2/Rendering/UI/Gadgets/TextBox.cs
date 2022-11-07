@@ -49,7 +49,7 @@
         /// </summary>
         private bool IsActive { get; set; }
 
-        public TextBox(int capacity, string font) : base(font)
+        public TextBox(string name, int capacity, string font) : base(name, font)
         {
             Capacity = capacity;
             OnKeyPressed += KeyPressed;
@@ -129,8 +129,8 @@
         /// <summary>
         /// Renders this TextBox.
         /// </summary>
-        /// <param name="cRenderer">The window to render this <see cref="TextBox"/> to.</param>
-        public void Render(Renderer cRenderer)
+        /// <param name="Lightning.Renderer">The window to render this <see cref="TextBox"/> to.</param>
+        public void Render()
         {
             if (Text == null) Text = "";
 
@@ -140,9 +140,9 @@
                 return;
             }
 
-            PrimitiveManager.AddRectangle(cRenderer, Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen);
+            PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen);
 
-            TextManager.DrawText(cRenderer, Text, Font, Position, ForegroundColor);
+            TextManager.DrawText(Text, Font, Position, ForegroundColor);
 
             // slight hack
             if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
@@ -156,13 +156,13 @@
                 if (NumberOfFramesUntilNextBlink == 0)
                 {
                     IsActive = !IsActive;
-                    if (cRenderer.DeltaTime > 0) NumberOfFramesUntilNextBlink = Convert.ToInt32((CursorBlinkLength - 1) + (CursorBlinkFrequency / cRenderer.DeltaTime));
+                    if (Lightning.Renderer.DeltaTime > 0) NumberOfFramesUntilNextBlink = Convert.ToInt32((CursorBlinkLength - 1) + (CursorBlinkFrequency / Lightning.Renderer.DeltaTime));
                 }
 
                 // if it's active, draw the line
                 if (IsActive)
                 {
-                    PrimitiveManager.AddLine(cRenderer, cursorPosition,
+                    PrimitiveManager.AddLine(cursorPosition,
                     new(cursorPosition.X, cursorPosition.Y + Size.Y), CursorThickness, CursorColor);
                 }
 

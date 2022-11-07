@@ -40,16 +40,31 @@ Everything that matters to the api has to go here
 * Updated SDL2_gfx for some minor optimisation in C=+ (it will now automatically draw AA Lines when thickness is 1)
 * Started working on allowing all primitives to have borders. 
 
-2022.11.05:
+2022.11.04:
 * Added border support to all primitives (except basictext).
 * Removed ability to initialise lightning without the Scene Manager.
 * Fixed Scene::Shutdown.
 
-2022.11.06@:
+2022.11.05:
 * PrimitiveManager::Draw**** -> PrimitiveManager::Add****
+
+2022.11.06:
+* Nullable-enabled LightningGL.
+* Make PrimitiveManager return the primitive type, add border parameters to all.
+* Remove InitSettings.
+* Fix bug with default window locations.
+* Console Core
 
 * todo:
 	- add freetype bindings
 	- global usings everywhere
 	- unit testing
 	- VS Item Template for Scenes
+
+2022.11.07
+* Immutable and Singleton Renderer
+* Renderer removed as a parameter to all methods
+* Merged SceneManager and Lightning
+* Renderer now stores all Renderables and has global methods (AddRenderable, RemoveRenderable, GetRenderableWithName, ContainsRenderable) for searching them
+* Added Renderable::Create, Renderable::Destroy (and OnCreate / OnDestroy events)
+* 1.2 -> 2.0 due to total incompatibility

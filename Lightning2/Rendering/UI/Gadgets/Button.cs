@@ -19,7 +19,7 @@
         /// </summary>
         public TTF_FontStyle Style { get; set; }
 
-        public Button(string font) : base(font)
+        public Button(string name, string font) : base(name, font)
         {
             // Hook up event handlers
             OnRender += Render;
@@ -29,22 +29,22 @@
         /// <summary>
         /// Renders this button.
         /// </summary>
-        /// <param name="cRenderer">The window to render this button to.</param>
-        public void Render(Renderer cRenderer)
+        /// <param name="Lightning.Renderer">The window to render this button to.</param>
+        public void Render()
         {
             if (Text == null) return;
 
             // This is a bit of a hack, but it works for now
             if (CurBackgroundColor == default(Color)) CurBackgroundColor = BackgroundColor;
 
-            PrimitiveManager.AddRectangle(cRenderer, RenderPosition, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+            PrimitiveManager.AddRectangle(RenderPosition, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
 
             Font? curFont = FontManager.GetFont(Font);
 
             if (curFont == null)
             {
                 // Use the default font.
-                PrimitiveManager.AddText(cRenderer, Text, RenderPosition, ForegroundColor, true);
+                PrimitiveManager.AddText(Text, RenderPosition, ForegroundColor, true);
             }
             else
             {
@@ -53,7 +53,7 @@
                 textPos.X = textPos.X - (Size.X / 2) - (textSize.X / 2);
                 textPos.Y = textPos.Y - (Size.Y / 2) - (textSize.Y / 2);
 
-                TextManager.DrawText(cRenderer, Text, Font, textPos, ForegroundColor, default(Color), Style);
+                TextManager.DrawText(Text, Font, textPos, ForegroundColor, default(Color), Style);
             }
         }
     }

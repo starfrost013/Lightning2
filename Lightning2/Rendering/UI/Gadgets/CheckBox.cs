@@ -24,7 +24,7 @@
         /// <summary>
         /// Constructor for the CheckBox class.
         /// </summary>
-        public CheckBox(string font) : base(font)
+        public CheckBox(string name, string font) : base(name, font)
         {
             OnRender += Render;
             OnMousePressed += CheckBoxMousePressed;
@@ -34,10 +34,10 @@
         /// <summary>
         /// Renders this CheckBox.
         /// </summary>
-        /// <param name="cRenderer">The window to render this checkbox to.</param>
-        public void Render(Renderer cRenderer)
+        /// <param name="Lightning.Renderer">The window to render this checkbox to.</param>
+        public void Render()
         {
-            PrimitiveManager.AddRectangle(cRenderer, Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+            PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
 
             if (Checked)
             {
@@ -46,8 +46,8 @@
                 Vector2 line2Start = line1End;
                 Vector2 line2End = new Vector2(Position.X + Size.X, Position.Y);
 
-                PrimitiveManager.AddLine(cRenderer, line1Start, line1End, Thickness, ForegroundColor, true, SnapToScreen);
-                PrimitiveManager.AddLine(cRenderer, line2Start, line2End, Thickness, ForegroundColor, true, SnapToScreen);
+                PrimitiveManager.AddLine(line1Start, line1End, Thickness, ForegroundColor, true, SnapToScreen);
+                PrimitiveManager.AddLine(line2Start, line2End, Thickness, ForegroundColor, true, SnapToScreen);
             }
         }
 

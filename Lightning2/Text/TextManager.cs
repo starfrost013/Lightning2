@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     public class TextAssetManager : AssetManager<TextCacheEntry>
     {
-        public override TextCacheEntry AddAsset(Renderer cRenderer, TextCacheEntry asset)
+        public override TextCacheEntry AddAsset(TextCacheEntry asset)
         {
             // temp code
             if (asset.Font != null)
             {
-                DrawText(cRenderer, asset.Text, asset.Font, asset.Position, Color.FromArgb(asset.Color.a, asset.Color.r, asset.Color.g, asset.Color.b),
+                DrawText(asset.Text, asset.Font, asset.Position, Color.FromArgb(asset.Color.a, asset.Color.r, asset.Color.g, asset.Color.b),
                     Color.FromArgb(asset.BackgroundColor.a, asset.BackgroundColor.r, asset.BackgroundColor.g, asset.BackgroundColor.b), asset.Style, asset.OutlineSize, -1,
                     asset.SmoothingType, false);
             }
@@ -26,7 +19,7 @@ namespace LightningGL
         /// <summary>
         /// Draws text to the screen.
         /// </summary>
-        /// <param name="cRenderer">The Window to draw this text to.</param>
+        /// <param name="Lightning.Renderer">The Window to draw this text to.</param>
         /// <param name="text">The text to draw.</param>
         /// <param name="font">The <see cref="Font.FriendlyName"/> of the <see cref="Font"/> to draw this text in.</param>
         /// <param name="position">The position to draw the text.</param>
@@ -37,12 +30,12 @@ namespace LightningGL
         /// <param name="lineLength">Optional: Maximum line length in pixels. Ignores newlines.</param>
         /// <param name="smoothingType">Optional: The <see cref="FontSmoothingType"/> of the text.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public void DrawText(Renderer cRenderer, string text, string font, Vector2 position, Color foreground, Color background = default(Color),
+        public void DrawText(string text, string font, Vector2 position, Color foreground, Color background = default(Color),
             TTF_FontStyle style = TTF_FontStyle.Normal, int outlineSize = -1, int lineLength = -1, FontSmoothingType smoothingType = FontSmoothingType.Default,
             bool snapToScreen = false)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = cRenderer.Settings.Camera;
+            Camera currentCamera = Lightning.Renderer.Settings.Camera;
 
             if (currentCamera != null
                 && !snapToScreen)
@@ -110,14 +103,14 @@ namespace LightningGL
                 if (numberOfLines > 1) totalSizeX = (int)FontManager.GetLargestTextSize(curFont, text).X;
 
                 // camera-aware is false for this as we have already "pushed" the position, so we don't need to do it again.
-                PrimitiveManager.AddRectangle(cRenderer, position, new(totalSizeX, totalSizeY), Color.FromArgb(bgColor.a, bgColor.r, bgColor.g, bgColor.b), true, default, default, true);
+                PrimitiveManager.AddRectangle(position, new(totalSizeX, totalSizeY), Color.FromArgb(bgColor.a, bgColor.r, bgColor.g, bgColor.b), true, default, default, true);
             }
 
             // use the cached entry if it exists
             TextCacheEntry? cacheEntry = GetEntry(font, text, fgColor, style, smoothingType, outlineSize, bgColor);
 
             // if it doesn't exist add it
-            if (cacheEntry == null) cacheEntry = AddEntry(cRenderer, font, text, fgColor, style, smoothingType, outlineSize, bgColor);
+            if (cacheEntry == null) cacheEntry = AddEntry(font, text, fgColor, style, smoothingType, outlineSize, bgColor);
 
             // if it's still null bail out
             if (cacheEntry == null) return;
@@ -135,7 +128,7 @@ namespace LightningGL
                 fontDstRect.w = fontSrcRect.w;
                 fontDstRect.h = fontSrcRect.h;
 
-                SDL_RenderCopyF(cRenderer.Settings.RendererHandle, line.Handle, ref fontSrcRect, ref fontDstRect);
+                SDL_RenderCopyF(Lightning.Renderer.Settings.RendererHandle, line.Handle, ref fontSrcRect, ref fontDstRect);
 
                 // increment by the line length
                 if (lineLength < 0)
@@ -153,12 +146,12 @@ namespace LightningGL
         }
 
 
-        internal TextCacheEntry? AddEntry(Renderer cRenderer, string font, string text,
+        internal TextCacheEntry? AddEntry(string font, string text,
             SDL_Color color, TTF_FontStyle style, FontSmoothingType type = FontSmoothingType.Default, int outlineSize = -1, SDL_Color bgColor = default)
         {
-            TextCacheEntry? entry = TextCacheEntry.Render(cRenderer, font, text, color, style, type, outlineSize, bgColor);
+            TextCacheEntry? entry = TextCacheEntry.Render(font, text, color, style, type, outlineSize, bgColor);
             
-            if (entry != null) Assets.Add(entry);
+            if (entry != null) Lightning.Renderer.AddRenderable(entry);
 
             return entry;
 
@@ -167,9 +160,12 @@ namespace LightningGL
         internal void PurgeUnusedEntries()
         {
             // memory leaks are bad
-            for (int entryId = 0; entryId < Assets.Count; entryId++)
+            // TODO: when we extend to multithreading in the future this is a very good and easy TOCTOU / race condition issue
+            List<TextCacheEntry> textCacheEntries = GetAllTextCacheEntries();
+
+            for (int entryId = 0; entryId < textCacheEntries.Count; entryId++)
             {
-                TextCacheEntry entry = Assets[entryId];
+                TextCacheEntry entry = textCacheEntries[entryId];
                 if (!entry.UsedThisFrame)
                 {
                     NCLogging.Log($"Removing unused cached text (font={entry.Font}, text={entry.Text}, style={entry.Style}, " +
@@ -184,7 +180,7 @@ namespace LightningGL
         internal TextCacheEntry? GetEntry(string font, string text,
             SDL_Color color, TTF_FontStyle style, FontSmoothingType type = FontSmoothingType.Default, int outlineSize = -1, SDL_Color bgColor = default)
         {
-            foreach (TextCacheEntry entry in Assets)
+            foreach (TextCacheEntry entry in GetAllTextCacheEntries())
             {
                 if (entry.Font == font
                     && entry.Text == text
@@ -214,7 +210,7 @@ namespace LightningGL
             if (fontEntry != null)
             {
                 fontEntry.Unload();
-                Assets.Remove(fontEntry);
+                Lightning.Renderer.RemoveRenderable(fontEntry);
             }
             else
             {
@@ -225,16 +221,16 @@ namespace LightningGL
 
         internal void UnloadAll()
         {
-            foreach (TextCacheEntry entry in Assets)
+            foreach (TextCacheEntry entry in GetAllTextCacheEntries())
             {
                 entry.Unload();
             }
         }
 
-        internal override void Update(Renderer cRenderer)
+        internal override void Update()
         {
             PurgeUnusedEntries();
-            foreach (TextCacheEntry entry in Assets) entry.UsedThisFrame = false;
+            foreach (TextCacheEntry entry in GetAllTextCacheEntries()) entry.UsedThisFrame = false;
         }
 
         /// <summary>
@@ -245,6 +241,24 @@ namespace LightningGL
             NCLogging.Log("Uncaching all cached text - shutdown requested");
             UnloadAll();
         }
+
+        // bit of a hack for the new 2.0 model so that textcacheentries can still be Renderables
+        private List<TextCacheEntry> GetAllTextCacheEntries()
+        {
+            List<TextCacheEntry> textCacheEntries = new List<TextCacheEntry>();
+
+            foreach (Renderable renderable in Lightning.Renderer.Renderables)
+            {
+                if (renderable is TextCacheEntry)
+                {
+                    textCacheEntries.Add((TextCacheEntry)renderable);
+                }
+            }
+
+            return textCacheEntries;
+
+        }
+        
         #endregion
     }
 }

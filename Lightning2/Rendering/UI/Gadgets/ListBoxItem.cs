@@ -11,7 +11,7 @@
     {
         public string Text { get; set; }
 
-        public ListBoxItem(string text, string font) : base(font)
+        public ListBoxItem(string name, string text, string font) : base(name, font)
         {
             Text = text;
             OnRender += Render;
@@ -20,23 +20,23 @@
         /// <summary>
         /// Renders the ListBoxItem
         /// </summary>
-        /// <param name="cRenderer">The <see cref="Renderer"/> to render the ListBoxItem to.</param>
-        public void Render(Renderer cRenderer)
+        /// <param name="Lightning.Renderer">The <see cref="Renderer"/> to render the ListBoxItem to.</param>
+        public void Render()
         {
             // set the default background color
             if (CurBackgroundColor == default(Color)) CurBackgroundColor = BackgroundColor;
 
-            PrimitiveManager.AddRectangle(cRenderer, Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+            PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
 
             Font? curFont = FontManager.GetFont(Font);
 
             if (curFont == null)
             {
-                PrimitiveManager.AddText(cRenderer, Text, Position, ForegroundColor, true);
+                PrimitiveManager.AddText(Text, Position, ForegroundColor, true);
             }
             else
             {
-                TextManager.DrawText(cRenderer, Text, Font, Position, ForegroundColor);
+                TextManager.DrawText(Text, Font, Position, ForegroundColor);
             }
         }
     }

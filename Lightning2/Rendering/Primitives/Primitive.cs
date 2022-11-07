@@ -15,5 +15,10 @@ namespace LightningGL
         public bool Filled { get; set; }
 
         public bool Antialiased { get; set; }
+
+        public Primitive(string name) : base(name)
+        {
+            
+        }
     }
 }

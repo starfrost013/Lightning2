@@ -4,10 +4,15 @@
     {
         public int CornerRadius { get; set; }
 
-        internal override void Draw(Renderer cRenderer)
+        public RoundedRectangle(string name) : base(name)
+        {
+            
+        }
+
+        internal override void Draw()
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = cRenderer.Settings.Camera;
+            Camera currentCamera = Lightning.Renderer.Settings.Camera;
 
             if (currentCamera != null
                 && !SnapToScreen)
@@ -27,19 +32,19 @@
             if (BorderSize.X > 0
                 && BorderSize.Y > 0)
             {
-                roundedRectangleRGBA(cRenderer.Settings.RendererHandle, (int)RenderPosition.X - (int)BorderSize.X, (int)RenderPosition.Y - (int)BorderSize.Y, 
+                roundedRectangleRGBA(Lightning.Renderer.Settings.RendererHandle, (int)RenderPosition.X - (int)BorderSize.X, (int)RenderPosition.Y - (int)BorderSize.Y, 
                     (int)RenderPosition.X + (int)Size.X + (int)BorderSize.X, (int)RenderPosition.Y + (int)Size.Y + (int)BorderSize.Y, CornerRadius, 
                     BorderColor.R, BorderColor.G, BorderColor.B, BorderColor.A);
             }
 
             if (Filled)
             {
-                roundedBoxRGBA(cRenderer.Settings.RendererHandle, (int)RenderPosition.X, (int)RenderPosition.Y, (int)RenderPosition.X + (int)Size.X,
+                roundedBoxRGBA(Lightning.Renderer.Settings.RendererHandle, (int)RenderPosition.X, (int)RenderPosition.Y, (int)RenderPosition.X + (int)Size.X,
                 (int)RenderPosition.Y + (int)Size.Y, CornerRadius, Color.R, Color.G, Color.B, Color.A);
             }
             else
             {
-                roundedRectangleRGBA(cRenderer.Settings.RendererHandle, (int)RenderPosition.X, (int)RenderPosition.Y,
+                roundedRectangleRGBA(Lightning.Renderer.Settings.RendererHandle, (int)RenderPosition.X, (int)RenderPosition.Y,
                 (int)RenderPosition.X + (int)Size.X, (int)RenderPosition.Y + (int)Size.Y, CornerRadius, Color.R, Color.G, Color.B, Color.A);
             }
         }
