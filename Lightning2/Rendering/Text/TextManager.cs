@@ -32,7 +32,7 @@
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
         public void DrawText(string text, string font, Vector2 position, Color foreground, Color background = default(Color),
             TTF_FontStyle style = TTF_FontStyle.Normal, int outlineSize = -1, int lineLength = -1, FontSmoothingType smoothingType = FontSmoothingType.Default,
-            bool snapToScreen = false)
+            bool snapToScreen = false, bool localise = true)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = Lightning.Renderer.Settings.Camera;
@@ -45,7 +45,7 @@
             }
 
             // Localise the string using Localisation Manager.
-            text = LocalisationManager.ProcessString(text);
+            if (localise) text = LocalisationManager.ProcessString(text);
 
             // Get the font and throw an error if it's invalid
             Font? curFont = FontManager.GetFont(font);

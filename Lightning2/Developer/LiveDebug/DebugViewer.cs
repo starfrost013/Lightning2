@@ -91,7 +91,19 @@
                 TextManager.DrawText(line, "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, TTF_FontStyle.Normal, -1, -1, FontSmoothingType.Default, true);
                 CurrentY += GlobalSettings.DebugLineDistance;
             }
+            
+            if (CurrentScene == null)
+            {
+                TextManager.DrawText("Somehow Lightning::CurrentScene is null, this is VERY bad!", "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, 
+                    TTF_FontStyle.Bold, -1, -1, FontSmoothingType.Default, true);
+            }
+            else
+            {
+                TextManager.DrawText($"Current scene: {CurrentScene.Name}", "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, TTF_FontStyle.Normal,
+                    -1, -1, FontSmoothingType.Default, true);
+            }
 
+            CurrentY += GlobalSettings.DebugLineDistance;
             // draw indicator that we are under 60fps always under it
             if (Lightning.Renderer.CurFPS < GlobalSettings.GraphicsMaxFPS)
             {
@@ -161,7 +173,15 @@
 
         private void DrawGlobalSettingsView()
         {
+            // this file must exist
+            string[] lines = File.ReadAllLines(@"Content\Engine.ini");
 
+            foreach (string line in lines)
+            {
+                TextManager.DrawText(line, "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, TTF_FontStyle.Normal, 
+                    -1, -1, FontSmoothingType.Default, true, false);
+                CurrentY += GlobalSettings.DebugLineDistance;
+            }
         }
 
         private void KeyPressed(Key key)

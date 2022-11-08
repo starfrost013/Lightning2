@@ -12,7 +12,7 @@
         /// <summary>
         /// The current scene that is being run.
         /// </summary>
-        private static Scene? CurrentScene { get; set; }
+        internal static Scene? CurrentScene { get; private set; }
 
         /// <summary>
         /// The main renderer of the application.
@@ -182,16 +182,6 @@
 
             NCLogging.Log("Shutting down the Text Manager...");
             TextManager.Shutdown();
-
-            // create a list of fonts and audiofiles to unload
-            // just foreaching through each font and audiofile doesn't work as collection is being modified 
-            /*
-            List<AudioFile> audioFilesToUnload = new();
-            foreach (AudioFile audioFileToUnload in AudioManager.Assets) audioFilesToUnload.Add(audioFileToUnload);
-
-            NCLogging.Log("Unloading all audio files...");
-            foreach (AudioFile audioFileToUnload in audioFilesToUnload) AudioManager.UnloadFile(audioFileToUnload);
-            */
 
             // Shut down the light manager if it has been started.
             NCLogging.Log("Shutting down the Light Manager...");
