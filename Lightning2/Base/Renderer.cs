@@ -20,7 +20,7 @@ namespace LightningGL
         /// <summary>
         /// Delta-time used for ensuring objects move at the same speed regardless of framerate.
         /// </summary>
-        public double DeltaTime { get; set; }
+        public double DeltaTime { get; private set; }
 
         /// <summary>
         /// Private: Frame-timer used for measuring frametime.
@@ -226,7 +226,7 @@ namespace LightningGL
             AudioManager.Update(this);
 
             // Update the font manager
-            FontManager.Update(this);
+            TextManager.Update(this);
 
             // draw fps on top always (by drawing it last. we don't have zindex, but we will later). Also snap it to the screen like a hud element. 
             // check the showfps global setting first
