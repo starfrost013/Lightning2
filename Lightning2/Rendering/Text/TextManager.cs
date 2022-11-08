@@ -59,16 +59,11 @@
             // Set the foreground color
             SDL_Color fgColor = new(foreground.R, foreground.G, foreground.B, foreground.A);
 
-            // split the text into lines
-            // add the length of each line to the text length
-            string[] textLines = text.Split("\n");
-
             // default to entirely transparent background (if the user has specified shasded for some reason, we still need a BG color...)
             SDL_Color bgColor = default;
 
             int fontSizeX = -1;
             int fontSizeY = -1;
-
 
             // use the cached entry if it exists
             TextCacheEntry? cacheEntry = GetEntry(font, text, fgColor, style, smoothingType, outlineSize, bgColor);

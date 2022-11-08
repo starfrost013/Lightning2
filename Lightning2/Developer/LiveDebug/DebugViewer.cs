@@ -113,7 +113,7 @@
             // bail too many renderables
             if (Lightning.Renderer.Renderables.Count > 5000)
             {
-                TextManager.DrawText($"Something went wrong, renderable vomiting in progress (>5000 renderables!!!!)", "DebugFont", new(0, CurrentY),
+                TextManager.DrawText($"Something went wrong, renderable vomiting in progress (>5000 renderables in scene!!!!)", "DebugFont", new(0, CurrentY),
                     DebugForeground, DebugBackground, TTF_FontStyle.Bold, -1, -1, FontSmoothingType.Default, true);
                 CurrentY += GlobalSettings.DebugLineDistance;
             }
@@ -123,7 +123,7 @@
                 {
                     Renderable renderable = Lightning.Renderer.Renderables[renderableId];
                     TextManager.DrawText($"{renderable.Name} ({renderable.GetType().Name}): position {renderable.Position}, " +
-                        $"size: {renderable.Size}, render position: {renderable.RenderPosition}, on screen: {renderable.IsOnScreen}, is animating now: {renderable.AnimationRunning}", "DebugFont", new Vector2(0, CurrentY),
+                        $"size: {renderable.Size}, render position: {renderable.RenderPosition}, on screen: {renderable.IsOnScreen}, z-index: {renderable.ZIndex}, is animating now: {renderable.AnimationRunning}", "DebugFont", new Vector2(0, CurrentY),
                         DebugForeground, DebugBackground, TTF_FontStyle.Normal, -1, -1, FontSmoothingType.Default, true);
                     CurrentY += GlobalSettings.DebugLineDistance;
                 }
