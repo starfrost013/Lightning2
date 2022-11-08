@@ -159,6 +159,11 @@
 
         }
 
+        private void DrawGlobalSettingsView()
+        {
+
+        }
+
         private void KeyPressed(Key key)
         {
             switch (key.ToString())
@@ -178,9 +183,6 @@
             if (CurrentDebugView > DebugViews.MaxPage) CurrentDebugView = 0; 
         }
 
-        private void DrawGlobalSettingsView()
-        {
 
-        }
     }
 }
