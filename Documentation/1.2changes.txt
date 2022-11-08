@@ -76,5 +76,6 @@ Everything that matters to the api has to go here
 	- VS Item Template for Scenes
 	- fix weird renderposition issues (text at y>0 ????)
 	- fix drawing issues
+	- fix WHACKED culling esp. with debugviewer
             // issue: won't update if you modify it again later
             // this is why we might need referents for renderables

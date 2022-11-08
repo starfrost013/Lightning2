@@ -144,7 +144,7 @@
                 $"{SystemInfo.Cpu.ProcessArchitecture} Lightning on {SystemInfo.Cpu.SystemArchitecture} {SystemInfo.CurOperatingSystem}",
                 $"CPU Capabilities: {SystemInfo.Cpu.Capabilities}",
                 $"Hardware Threads (NOT cores!): {SystemInfo.Cpu.Threads}",
-                $"Total System RAM - {SystemInfo.SystemRam}MiB",
+                $"Total System RAM: {SystemInfo.SystemRam}MiB",
             };
 
             foreach (string line in debugText)
