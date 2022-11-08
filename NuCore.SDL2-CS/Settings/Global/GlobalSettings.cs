@@ -3,6 +3,7 @@ using static LightningBase.SDL_mixer;
 using NuCore.Utilities;
 using System;
 using System.IO;
+using System.Diagnostics;
 
 namespace LightningBase
 {
@@ -81,6 +82,25 @@ namespace LightningBase
         /// </summary>
         public static bool GeneralEnableConsole { get; internal set; }
 
+        #endregion
+
+        #region Debug settings
+
+        /// <summary>
+        /// Determines if the DebugViewer can be enabled by pressing a key.
+        /// It is recommended to turn this OFF in release builds of your game!!
+        /// </summary>
+        public static bool DebugDisabled { get; internal set; }
+
+        /// <summary>
+        /// The key to press to enable debug mode. The default value is F9.
+        /// </summary>
+        public static string DebugKey { get; internal set; }
+
+        /// <summary>
+        /// The distance between debug lines. The default value is 12.
+        /// </summary>
+        public static int DebugLineDistance { get; internal set; }
         #endregion
 
         #region Graphics settings
@@ -244,6 +264,12 @@ namespace LightningBase
 
         public const int DEFAULT_NETWORK_KEEP_ALIVE_MS = 500;
 
+        public const string DEFAULT_DEBUG_KEY = "F9";
+
+        public const bool DEFAULT_SHOW_ABOUT_SCREEN_ON_SHIFT_F9 = true;
+
+        public const int DEFAULT_DEBUG_LINE_DISTANCE = 12; 
+
         #endregion
 
         #region GlobalSettings methods
@@ -265,6 +291,7 @@ namespace LightningBase
             NCINIFileSection sceneSection = iniFile.GetSection("Scene");
             NCINIFileSection audioSection = iniFile.GetSection("Audio");
             NCINIFileSection networkSection = iniFile.GetSection("Network");
+            NCINIFileSection debugSection = iniFile.GetSection("Debug");
 
             if (generalSection == null) _ = new NCException("Engine.ini must have a General section!", 41, 
                 "GlobalSettings::Load call to NCINIFile::GetSection failed for General section", NCExceptionSeverity.FatalError);
@@ -292,22 +319,17 @@ namespace LightningBase
                 "GlobalSettings::Load call to NCINIFileSection::GetValue failed for Language value", NCExceptionSeverity.FatalError);
 
             // Load the General section.
-            string generalShowDebugInfo = generalSection.GetValue("ShowDebugInfo");
-            string generalProfilePerf = generalSection.GetValue("ProfilePerformance");
-            string generalAboutScreenOnF9 = generalSection.GetValue("EngineAboutScreenOnShiftF9");
-            string generalDeleteUnpackedFilesOnExit = generalSection.GetValue("DeleteUnpackedFilesOnExit");
+
             GeneralLocalSettingsPath = generalSection.GetValue("LocalSettingsPath");
             GeneralPackageFile = generalSection.GetValue("PackageFile");
             GeneralContentFolder = generalSection.GetValue("ContentFolder");
-            string generalDontSaveLocalSettingsOnShutdown = generalSection.GetValue("DontSaveLocalSettingsOnShutdown");
 
-
-            // we don't care about the values here
-            _ = bool.TryParse(generalShowDebugInfo, out var generalShowDebugInfoValue);
-            _ = bool.TryParse(generalProfilePerf, out var generalProfilePerfValue);
-            if (!bool.TryParse(generalAboutScreenOnF9, out var generalAboutScreenOnF9Value)) generalAboutScreenOnF9Value = true; // force the default value, true for now
-            _ = bool.TryParse(generalDeleteUnpackedFilesOnExit, out var generalDeleteUnpackedFilesOnExitValue);
-            _ = bool.TryParse(generalDontSaveLocalSettingsOnShutdown, out var generalDontSaveLocalSettingsOnShutdownValue);
+            // we don't care about boolean values unless we want to force true
+            _ = bool.TryParse(generalSection.GetValue("ShowDebugInfo"), out var generalShowDebugInfoValue);
+            _ = bool.TryParse(generalSection.GetValue("ProfilePerformance"), out var generalProfilePerfValue);
+            if (!bool.TryParse(generalSection.GetValue("EngineAboutScreenOnShiftF9"), out var generalAboutScreenOnF9Value)) generalAboutScreenOnF9Value = DEFAULT_SHOW_ABOUT_SCREEN_ON_SHIFT_F9; // force the default value, true for now
+            _ = bool.TryParse(generalSection.GetValue("DeleteUnpackedFilesOnExit"), out var generalDeleteUnpackedFilesOnExitValue);
+            _ = bool.TryParse(generalSection.GetValue("DontSaveLocalSettingsOnShutdown"), out var generalDontSaveLocalSettingsOnShutdownValue);
 
             GeneralShowDebugInfo = generalShowDebugInfoValue;
             GeneralProfilePerformance = generalProfilePerfValue;
@@ -315,50 +337,34 @@ namespace LightningBase
             GeneralDeleteUnpackedFilesOnExit = generalDeleteUnpackedFilesOnExitValue;
             GeneralDontSaveLocalSettingsOnShutdown = generalDontSaveLocalSettingsOnShutdownValue;
 
-            // Load the Graphics section if it exists.
+            // Load the Graphics section, if it is present.
             if (graphicsSection != null)
             {
-                string maxFps = graphicsSection.GetValue("MaxFPS");
-                string resolutionX = graphicsSection.GetValue("ResolutionX");
-                string resolutionY = graphicsSection.GetValue("ResolutionY");
-                string positionX = graphicsSection.GetValue("PositionX");
-                string positionY = graphicsSection.GetValue("PositionY");
-                string windowFlags = graphicsSection.GetValue("WindowFlags");
-                string renderFlags = graphicsSection.GetValue("RenderFlags");
-                GraphicsWindowTitle = graphicsSection.GetValue("WindowTitle");
-                string renderer = graphicsSection.GetValue("Renderer");
-                string tickSpeed = graphicsSection.GetValue("TickSpeed");
-                string renderOffScreenRenderables = graphicsSection.GetValue("RenderOffScreenRenderables");
-
                 SDL_WindowFlags windowFlagsValue = default;
                 SDL_RendererFlags renderFlagsValue = default;
                 RenderingBackend rendererValue = default;
 
                 // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
-                _ = int.TryParse(maxFps, out var graphicsMaxFpsValue);
-
-                GraphicsMaxFPS = graphicsMaxFpsValue;
-
-                // inexplicably the overload i used isn't supported for enum.tryparse
-                _ = int.TryParse(resolutionX, out var resolutionXValue);
-                _ = int.TryParse(resolutionY, out var resolutionYValue);
-                _ = Enum.TryParse(windowFlags, true, out windowFlagsValue);
-                _ = Enum.TryParse(renderFlags, true, out renderFlagsValue);
-                _ = Enum.TryParse(renderer, true, out rendererValue);
-                _ = int.TryParse(tickSpeed, out var tickSpeedValue);
-                _ = bool.TryParse(renderOffScreenRenderables, out var renderOffscreenRenderablesValue);
+                // ... but inexplicably the overload i used isn't supported for enum.tryparse
+                _ = int.TryParse(graphicsSection.GetValue("MaxFPS"), out var graphicsMaxFpsValue);
+                _ = int.TryParse(graphicsSection.GetValue("ResolutionX"), out var resolutionXValue);
+                _ = int.TryParse(graphicsSection.GetValue("ResolutionY"), out var resolutionYValue);
+                _ = Enum.TryParse(graphicsSection.GetValue("WindowFlags"), true, out windowFlagsValue);
+                _ = Enum.TryParse(graphicsSection.GetValue("RenderFlags"), true, out renderFlagsValue);
+                _ = Enum.TryParse(graphicsSection.GetValue("RenderingBackend"), true, out rendererValue);
+                _ = int.TryParse(graphicsSection.GetValue("TickSpeed"), out var tickSpeedValue);
+                _ = bool.TryParse(graphicsSection.GetValue("RenderOffScreenRenderables"), out var renderOffscreenRenderablesValue);
+                _ = int.TryParse(graphicsSection.GetValue("PositionX"), out var positionXValue);
+                _ = int.TryParse(graphicsSection.GetValue("PositionY"), out var positionYValue);
 
                 // Set those values.
+                GraphicsMaxFPS = graphicsMaxFpsValue;
                 GraphicsResolutionX = resolutionXValue;
                 GraphicsResolutionY = resolutionYValue;
                 GraphicsWindowFlags = windowFlagsValue;
                 GraphicsRenderFlags = renderFlagsValue;
                 GraphicsRenderingBackend = rendererValue;
                 GraphicsRenderOffScreenRenderables = renderOffscreenRenderablesValue;
-
-                // parse positionX/positionY
-                _ = int.TryParse(positionX, out var positionXValue);
-                _ = int.TryParse(positionY, out var positionYValue);
 
                 // failed to load, set default values (middle of screen)
                 if (positionXValue == 0) positionXValue = DEFAULT_GRAPHICS_POSITION_X;
@@ -372,21 +378,16 @@ namespace LightningBase
                 GraphicsPositionY = positionYValue;
             }
 
-            // Load the Requirements section if it exists.
+            // Load the Requirements section, if it is present.
             if (requirementsSection != null)
             {
-                string minRam = requirementsSection.GetValue("MinimumSystemRam");
-                string minLogicalProcessors = requirementsSection.GetValue("MinimumLogicalProcessors");
-                string minimumCpuCapabilities = requirementsSection.GetValue("MinimumCpuCapabilities");
-                string minimumOperatingSystem = requirementsSection.GetValue("MinimumOperatingSystem");
-
                 SystemInfoCPUCapabilities minimumCpuCapabilitiesValue = 0;
                 SystemInfoOperatingSystem minimumOperatingSystemValue = 0;
 
-                _ = int.TryParse(minRam, out var minRamValue);
-                _ = int.TryParse(minLogicalProcessors, out var minLogicalProcessorsValue);
-                _ = Enum.TryParse(minimumCpuCapabilities, true, out minimumCpuCapabilitiesValue);
-                _ = Enum.TryParse(minimumOperatingSystem, true, out minimumOperatingSystemValue);
+                _ = int.TryParse(requirementsSection.GetValue("MinimumSystemRam"), out var minRamValue);
+                _ = int.TryParse(requirementsSection.GetValue("MinimumLogicalProcessors"), out var minLogicalProcessorsValue);
+                _ = Enum.TryParse(requirementsSection.GetValue("MinimumCpuCapabilities"), true, out minimumCpuCapabilitiesValue);
+                _ = Enum.TryParse(requirementsSection.GetValue("MinimumOperatingSystem"), true, out minimumOperatingSystemValue);
 
                 RequirementsMinimumSystemRam = minRamValue;
                 RequirementsMinimumLogicalProcessors = minLogicalProcessorsValue;
@@ -406,20 +407,15 @@ namespace LightningBase
             AudioFormat = DEFAULT_AUDIO_FORMAT;
             AudioChunkSize = DEFAULT_AUDIO_CHUNK_SIZE;
 
-            // Load the audio settings
+            // Load the audio settings, if it is present
             if (audioSection != null)
             {
-                string audioDeviceHz = audioSection.GetValue("DeviceHz");
-                string audioChannels = audioSection.GetValue("Channels");
-                string audioFormat = audioSection.GetValue("Format");
-                string audioChunkSize = audioSection.GetValue("ChunkSize");
-
                 Mix_AudioFormat audioFormatValue = DEFAULT_AUDIO_FORMAT;
 
-                _ = int.TryParse(audioDeviceHz, out var audioDeviceHzValue);
-                _ = int.TryParse(audioChannels, out var audioChannelsValue);
-                if (Enum.TryParse(audioFormat, true, out audioFormatValue)) AudioFormat = audioFormatValue;
-                _ = int.TryParse(audioChunkSize, out var audioChunkSizeValue);  
+                _ = int.TryParse(audioSection.GetValue("DeviceHz"), out var audioDeviceHzValue);
+                _ = int.TryParse(audioSection.GetValue("Channels"), out var audioChannelsValue);
+                if (Enum.TryParse(audioSection.GetValue("Format"), true, out audioFormatValue)) AudioFormat = audioFormatValue;
+                _ = int.TryParse(audioSection.GetValue("ChunkSize"), out var audioChunkSizeValue);  
 
                 AudioDeviceHz = audioDeviceHzValue;
                 AudioChannels = audioChannelsValue;
@@ -432,7 +428,7 @@ namespace LightningBase
 
             }
 
-            // Load the network settings
+            // Load the network settings, if they are present
             if (networkSection != null)
             {
                 NetworkMasterServer = DEFAULT_NETWORK_MASTER_SERVER;
@@ -452,6 +448,23 @@ namespace LightningBase
                     && networkDefaultPortValue != 443) NetworkDefaultPort = networkDefaultPortValue;
                 if (int.TryParse(networkKeepAliveMs, out var networkKeepAliveMsValue)
                     && networkKeepAliveMsValue > 0) NetworkKeepAliveMs = networkKeepAliveMsValue;
+            }
+
+            DebugKey = DEFAULT_DEBUG_KEY;
+            DebugLineDistance = DEFAULT_DEBUG_LINE_DISTANCE;
+
+            // Load the debug settings, if they are present
+            if (debugSection != null)
+            {
+                DebugKey = sceneSection.GetValue("DebugKey");
+
+                _ = bool.TryParse(sceneSection.GetValue("DebugDisabled"), out var debugDisabledValue);
+                _ = int.TryParse(sceneSection.GetValue("DebugLineDistance"), out var debugLineDistanceValue);
+
+                if (debugLineDistanceValue <= 0) debugLineDistanceValue = DEFAULT_DEBUG_LINE_DISTANCE;
+
+                DebugLineDistance = debugLineDistanceValue;
+                DebugDisabled = debugDisabledValue;
             }
         }
 

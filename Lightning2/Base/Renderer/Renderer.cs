@@ -55,7 +55,7 @@ namespace LightningGL
         /// <summary>
         /// Number of renderables actually rendered this frame.
         /// </summary>
-        private int RenderedThisFrame { get; set; }
+        internal int RenderedLastFrame { get; private set; }
 
         public Renderer()
         {
@@ -121,6 +121,12 @@ namespace LightningGL
 
             // Initialise the Light Manager.
             LightManager.Init();
+
+            // maybe move this somewhere else
+            if (!GlobalSettings.DebugDisabled)
+            {
+                AddRenderable(new DebugViewer("DebugViewer"));
+            }
         }
 
         /// <summary>
@@ -138,6 +144,9 @@ namespace LightningGL
         /// <returns>A boolean determining if the window is to keep running or close.</returns>
         internal bool Run()
         {
+            // Reset rendered this frame count
+            RenderedLastFrame = 0;
+
             Update();
 
             EventWaiting = (SDL_PollEvent(out var currentEvent) > 0);
@@ -205,9 +214,6 @@ namespace LightningGL
         /// </summary>
         internal void Render()
         {
-            // Reset rendered this frame count
-            RenderedThisFrame = 0;
-
             int renderableCount = Renderables.Count;
 
             // Build a list of renderables to render from all asset managers.
@@ -232,13 +238,8 @@ namespace LightningGL
             // Update audio.
             AudioManager.Update();
 
-            // Update the font manager
-            FontManager.Update();
-
-            // draw fps on top always (by drawing it last. we don't have zindex, but we will later). Also snap it to the screen like a hud element. 
-            // check the showfps global setting first
-            // do this BEFORE present. then measure frametime in Render_MeasureFps, this makes it accurate.
-            if (GlobalSettings.GeneralShowDebugInfo) DrawDebugInformation();
+            // Update the text manager
+            TextManager.Update();
 
             // Update camera
             if (Settings.Camera != null) Settings.Camera.Update();
@@ -263,46 +264,9 @@ namespace LightningGL
 
             // Update the internal FPS values.
             UpdateFps();
+
         }
 
-        /// <summary>
-        /// Draws debug information to the screen if the <see cref="GlobalSettings.GeneralShowDebugInfo"/> setting is enabled.
-        /// </summary>
-        /// <summary>
-        /// Draws debug information to the screen if the <see cref="GlobalSettings.ShowDebugInfo"/> setting is enabled.
-        /// </summary>
-        private void DrawDebugInformation()
-        {
-            float currentY = 0;
-            int debugLineDistance = 12;
-
-            string[] debugText =
-            {
-                $"FPS: {CurFPS.ToString("F1")} ({DeltaTime.ToString("F2")}ms)",
-                FrameNumber.ToString(),
-                $"Number of renderables: {Renderables.Count}",
-                $"Number of renderables on screen: {RenderedThisFrame}"
-            };
-
-            foreach (string line in debugText)
-            {
-                PrimitiveManager.AddText(line, new Vector2(0, currentY), Color.FromArgb(255, 255, 255, 255), true, true);
-                currentY += debugLineDistance;
-            }
-
-            // draw indicator that we are under 60fps always under it
-            if (CurFPS < GlobalSettings.GraphicsMaxFPS)
-            {
-                currentY += debugLineDistance;
-
-                int maxFps = GlobalSettings.GraphicsMaxFPS;
-
-                if (maxFps == 0) maxFps = 60;
-
-                PrimitiveManager.AddText($"Running under target FPS ({maxFps})!",
-                    new Vector2(Settings.Camera.Position.X, currentY), Color.FromArgb(255, 255, 0, 0), true);
-            }
-        }
 
         private void UpdateFps()
         {
@@ -380,12 +344,6 @@ namespace LightningGL
 
         private void BuildRenderableList()
         {
-            //foreach (Renderable renderable in UIManager.Assets) Renderables.Add(renderable);
-            //foreach (Renderable renderable in TextureManager.Assets) Renderables.Add(renderable);
-            //foreach (Renderable renderable in ParticleManager.Assets) Renderables.Add(renderable);
-            //foreach (Renderable renderable in TextManager.Assets) Renderables.Add(renderable);
-            //foreach (Renderable renderable in PrimitiveManager.Assets) Renderables.Add(renderable);
-
             // if we haven't specified otherwise...
             if (!GlobalSettings.GraphicsRenderOffScreenRenderables)
             {
@@ -487,7 +445,7 @@ namespace LightningGL
                     && renderable.OnRender != null)
                 {
                     renderable.OnRender();
-                    RenderedThisFrame++;
+                    RenderedLastFrame++;
                 }
 
                 // --- THESE tasks need to be performed when the renderable is on AND off screen ---
@@ -530,7 +488,8 @@ namespace LightningGL
                 // check if it is focused...
                 uiElement.Focused = intersects;
 
-                if (intersects
+                if ((intersects
+                    || uiElement.CanReceiveEventsWhileUnfocused)
                     && uiElement.OnMousePressed != null)
                 {
                     uiElement.OnMousePressed(button);
@@ -560,8 +519,9 @@ namespace LightningGL
                 // check if it is focused...
                 uiElement.Focused = intersects;
 
-                if (intersects
-                    && uiElement.OnMouseReleased != null)
+                if ((intersects 
+                    || uiElement.CanReceiveEventsWhileUnfocused)
+                    && (uiElement.OnMouseReleased != null))
                 {
                     uiElement.OnMouseReleased(button);
                 }
@@ -641,7 +601,8 @@ namespace LightningGL
             foreach (Renderable renderable in Renderables)
             {
                 // check if the UI element is focused.
-                if (renderable.Focused
+                if ((renderable.Focused 
+                    || renderable.CanReceiveEventsWhileUnfocused) 
                     && renderable.OnKeyPressed != null)
                 {
                     renderable.OnKeyPressed(key);
@@ -654,7 +615,8 @@ namespace LightningGL
             foreach (Renderable renderable in Renderables)
             {
                 // check if the UI element is focused.
-                if (renderable.Focused
+                if ((renderable.Focused
+                    || renderable.CanReceiveEventsWhileUnfocused)
                     && renderable.OnKeyReleased != null)
                 {
                     renderable.OnKeyReleased(key);

@@ -148,7 +148,6 @@
 
   <ItemGroup>
     <Folder Include="Developer\Console\Commands\" />
-    <Folder Include="Developer\Debug\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 

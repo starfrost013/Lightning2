@@ -20,11 +20,6 @@
         public short CursorThickness { get; set; }
 
         /// <summary>
-        /// The color of the cursor.
-        /// </summary>
-        public Color CursorColor { get; set; }
-
-        /// <summary>
         /// The number of milliseconds between cursor blinks.
         /// </summary>
         public int CursorBlinkFrequency { get; set; }
@@ -54,6 +49,11 @@
         /// </summary>
         private Rectangle? Rectangle { get; set; }
 
+        /// <summary>
+        /// UI line used for drawing the cursor.
+        /// </summary>
+        private Line? Cursor { get; set; }
+
         public TextBox(string name, int capacity, string font) : base(name, font)
         {
             Capacity = capacity;
@@ -61,7 +61,7 @@
             OnRender += Render;
             if (CursorThickness == 0) CursorThickness = 2;
             if (CursorBlinkFrequency == 0) CursorBlinkFrequency = 300;
-            if (CursorColor == default) CursorColor = Color.White;
+            if (ForegroundColor == default) ForegroundColor = Color.White;
             if (CursorBlinkLength == 0) CursorBlinkLength = 50;
 
             // reasonable default
@@ -71,6 +71,7 @@
         internal override void Create()
         {
             Rectangle = PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen);
+            Cursor = PrimitiveManager.AddLine(default, default, CursorThickness, ForegroundColor);
         }
 
         /// <summary>
@@ -152,7 +153,6 @@
 
 #pragma warning disable CS8602
             Rectangle.Color = CurBackgroundColor;
-#pragma warning restore CS8602
 
             TextManager.DrawText(Text, Font, Position, ForegroundColor);
 
@@ -171,11 +171,18 @@
                     if (Lightning.Renderer.DeltaTime > 0) NumberOfFramesUntilNextBlink = Convert.ToInt32((CursorBlinkLength - 1) + (CursorBlinkFrequency / Lightning.Renderer.DeltaTime));
                 }
 
+                Cursor.Start = cursorPosition;
+                Cursor.End = new(cursorPosition.X, cursorPosition.Y + Size.Y);
+#pragma warning restore CS8602
+
                 // if it's active, draw the line
                 if (IsActive)
                 {
-                    PrimitiveManager.AddLine(cursorPosition,
-                    new(cursorPosition.X, cursorPosition.Y + Size.Y), CursorThickness, CursorColor);
+                    Cursor.Color = Color.FromArgb(0, ForegroundColor);
+                }
+                else
+                {
+                    Cursor.Color = ForegroundColor;
                 }
 
                 NumberOfFramesUntilNextBlink--;

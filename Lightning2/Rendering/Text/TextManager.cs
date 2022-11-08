@@ -69,42 +69,6 @@
             int fontSizeX = -1;
             int fontSizeY = -1;
 
-            // Draw the background
-            if (background != default(Color)
-                && smoothingType != FontSmoothingType.Shaded) // draw the background (which requires sizing the entire text)
-            {
-                // Set the background color
-                bgColor = new SDL_Color(background.R, background.G, background.B, background.A);
-
-                Vector2 fontSize = FontManager.GetTextSize(curFont, text);
-
-                // get the number of lines
-                int numberOfLines = textLines.Length;
-
-                fontSizeX = (int)fontSize.X;
-                fontSizeY = (int)fontSize.Y;
-
-                int totalSizeX = fontSizeX;
-                int totalSizeY = fontSizeY;
-
-                for (int lineId = 0; lineId < numberOfLines - 1; lineId++) // -1 to prevent double-counting the first line
-                {
-                    if (lineLength < 0)
-                    {
-                        totalSizeY += fontSizeY;
-                    }
-                    else
-                    {
-                        totalSizeY += lineLength;
-                    }
-                }
-
-                // get the size of the largest line
-                if (numberOfLines > 1) totalSizeX = (int)FontManager.GetLargestTextSize(curFont, text).X;
-
-                // camera-aware is false for this as we have already "pushed" the position, so we don't need to do it again.
-                PrimitiveManager.AddRectangle(position, new(totalSizeX, totalSizeY), Color.FromArgb(bgColor.a, bgColor.r, bgColor.g, bgColor.b), true, default, default, true);
-            }
 
             // use the cached entry if it exists
             TextCacheEntry? cacheEntry = GetEntry(font, text, fgColor, style, smoothingType, outlineSize, bgColor);
@@ -116,6 +80,9 @@
             if (cacheEntry == null) return;
 
             cacheEntry.UsedThisFrame = true;
+
+            // it's null if there is no background so draw it
+            if (cacheEntry.Rectangle != null) cacheEntry.Rectangle.Position = position;
 
             SDL_Rect fontSrcRect = new SDL_Rect(0, 0, fontSizeX, fontSizeY);
             SDL_FRect fontDstRect = new SDL_FRect(position.X, position.Y, fontSizeX, fontSizeY);
@@ -145,7 +112,6 @@
             if (outlineSize > -1) TTF_SetFontOutline(curFont.Handle, -1);
         }
 
-
         internal TextCacheEntry? AddEntry(string font, string text,
             SDL_Color color, TTF_FontStyle style, FontSmoothingType type = FontSmoothingType.Default, int outlineSize = -1, SDL_Color bgColor = default)
         {
@@ -166,6 +132,7 @@
             for (int entryId = 0; entryId < textCacheEntries.Count; entryId++)
             {
                 TextCacheEntry entry = textCacheEntries[entryId];
+
                 if (!entry.UsedThisFrame)
                 {
                     NCLogging.Log($"Removing unused cached text (font={entry.Font}, text={entry.Text}, style={entry.Style}, " +

@@ -92,6 +92,12 @@
         /// </summary>
         public bool Focused { get; internal set; }
 
+        /// <summary>
+        /// Determines if this renderable is allowed to receive events while unfocused.
+        /// This only modifies the behaviour of events that require focus.
+        /// </summary>
+        public virtual bool CanReceiveEventsWhileUnfocused { get; set; }
+
         #endregion
 
         /// <summary>

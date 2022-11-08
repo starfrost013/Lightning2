@@ -73,6 +73,8 @@
         /// </summary>
         internal bool UsedThisFrame { get; set; }
 
+        internal Rectangle? Rectangle { get; set; }
+
         internal TextCacheEntry(string name) : base(name)
         {
             Lines = new List<TextCacheEntryLine>();
@@ -110,6 +112,37 @@
 
             TTF_SetFontStyle(fontForRender.Handle, style);
             if (outlineSize > 0) TTF_SetFontOutline(fontForRender.Handle, outlineSize);
+
+            // Draw the background
+            // TODO: 
+            if (bgColor.a != 0 
+                && bgColor.r != 0
+                && bgColor.g != 0
+                && bgColor.b != 0
+                && smoothingType != FontSmoothingType.Shaded) // draw the background (which requires sizing the entire text)
+            {
+                Vector2 fontSize = FontManager.GetTextSize(font, text);
+
+                // get the number of lines
+                int numberOfLines = textLines.Length;
+
+                int totalSizeX = (int)fontSize.X;
+                int totalSizeY = (int)fontSize.Y;
+
+                for (int lineId = 0; lineId < numberOfLines - 1; lineId++) // -1 to prevent double-counting the first line
+                {
+                    totalSizeY += totalSizeY;
+                }
+
+                // get the size of the largest line
+                if (numberOfLines > 1) totalSizeX = (int)FontManager.GetLargestTextSize(entry.Font, text).X;
+
+                // camera-aware is false for this as we have already "pushed" the position, so we don't need to do it again.
+                entry.Rectangle = PrimitiveManager.AddRectangle(default, new(Convert.ToSingle(totalSizeX), Convert.ToSingle(totalSizeY)), 
+                    System.Drawing.Color.FromArgb(bgColor.a, bgColor.r, bgColor.g, bgColor.b));
+
+                Debug.Assert(entry.Rectangle != null);
+            }
 
             foreach (string line in textLines)
             {
@@ -154,6 +187,11 @@
 
         internal void Unload()
         {
+            if (Rectangle != null)
+            {
+                Lightning.Renderer.RemoveRenderable(Rectangle);
+            }
+
             for (int lineId = 0; lineId < Lines.Count; lineId++)
             {
                 TextCacheEntryLine line = Lines[lineId];

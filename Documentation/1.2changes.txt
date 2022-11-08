@@ -16,8 +16,6 @@ Everything that matters to the api has to go here
 	- NetworkKeepAliveMs
 * Moved MaxFPS to Graphics Section
 
-
-
 2022.10.27:
 * Added LNetClient, LNetServer
 * Refactored GlobalSettings using constants for default values and renaming properties to start with their category names.
@@ -55,16 +53,28 @@ Everything that matters to the api has to go here
 * Fix bug with default window locations.
 * Console Core
 
-* todo:
-	- add freetype bindings
-	- global usings everywhere
-	- unit testing
-	- VS Item Template for Scenes
-
 2022.11.07
-* Immutable and Singleton Renderer
+* Renderer is now an immutable singleton
 * Renderer removed as a parameter to all methods
 * Merged SceneManager and Lightning
 * Renderer now stores all Renderables and has global methods (AddRenderable, RemoveRenderable, GetRenderableWithName, ContainsRenderable) for searching them
-* Added Renderable::Create, Renderable::Destroy (and OnCreate / OnDestroy events)
 * 1.2 -> 2.0 due to total incompatibility
+* Added new GlobalSettings
+	- DebugKey
+	- DebugDisabled
+	- DebugLineDistance
+* Added new Events
+	- OnCreate (default implementation - Renderable::Create)
+	- OnDestroy (default implementation - Renderable::Destroy)
+* GlobalSettings::Renderer -> GlobalSettings::RenderingBaclend
+* Implement Renderable::CanReceiveEventsWhileUnfocused for focus-only events
+* ForegroundColor now used for cursors, CursorColor is dead
+
+* todo:
+	- global usings everywhere
+	- unit testing
+	- VS Item Template for Scenes
+	- fix weird renderposition issues (text at y>0 ????)
+	- fix drawing issues
+            // issue: won't update if you modify it again later
+            // this is why we might need referents for renderables
