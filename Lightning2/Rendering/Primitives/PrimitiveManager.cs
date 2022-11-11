@@ -13,15 +13,9 @@
             return asset;
         }
 
-        internal override void Update()
-        {
-            // This is done for 1.2 ONLY for API compatibility with 1.0/1.1
-        }
-
         /// <summary>
         /// Draws a pixel on the screen.
         /// </summary>
-        /// <param name="Lightning.Renderer">The window to draw the pixel to.</param>
         /// <param name="position">The position of the pixel to draw.</param>
         /// <param name="color">The <see cref="Color"/> of the pixel to draw.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
@@ -42,7 +36,6 @@
         /// <summary>
         /// Draws a line to the screen.
         /// </summary>
-        /// <param name="Lightning.Renderer">The window to draw this line to.</param>
         /// <param name="start">The start point of this line.</param>
         /// <param name="end">The endpoint of this line.</param>
         /// <param name="thickness">The thickness of this line.</param>
@@ -56,6 +49,8 @@
                 Color = color,
                 Start = start,
                 End = end,
+                Position = start, // set the position to the start of the line
+                Size = end - start, // size to the start
                 Thickness = thickness,
                 Antialiased = antiAliased,
                 SnapToScreen = snapToScreen,
@@ -68,7 +63,6 @@
         /// <summary>
         /// Draws a rectangle to the screen.
         /// </summary>
-        /// <param name="Lightning.Renderer">The window to draw this line to.</param>
         /// <param name="position">The position of the rectangle to draw</param>
         /// <param name="size">The size of the rectangle to draw.</param>
         /// <param name="color">The color of the rectangle to draw.</param>
@@ -97,7 +91,6 @@
         /// <summary>
         /// Draws a rounded rectangle to the screen.
         /// </summary>
-        /// <param name="Lightning.Renderer">The window to draw this rectangle to.</param>
         /// <param name="position">The position of the rectangle to draw</param>
         /// <param name="size">The size of the rectangle to draw.</param>
         /// <param name="color">The color of the rectangle to draw.</param>
@@ -126,7 +119,6 @@
         /// <summary>
         /// Draws a triangle to the screen
         /// </summary>
-        /// <param name="Lightning.Renderer">The Window to draw the triangle to.</param>
         /// <param name="point1">The first point of the triangle.</param>
         /// <param name="point2">The second point of the triangle.</param>
         /// <param name="point3">The third point of the triangle.</param>
@@ -141,6 +133,7 @@
                 Point1 = point1,
                 Point2 = point2,
                 Point3 = point3,
+                Position = point1, // for now
                 Color = color,
                 Filled = filled,
                 BorderSize = borderSize,
@@ -167,6 +160,7 @@
             Polygon polygon = new("Polygon")
             {
                 Points = points,
+                Position = points[0], // for now
                 Color = color,
                 Filled = filled,
                 Antialiased = antiAliased,
@@ -182,7 +176,6 @@
         /// <summary>
         /// Draws a circle to the screen.
         /// </summary>
-        /// <param name="Lightning.Renderer">The window to draw this circle to.</param>
         /// <param name="position">The position of the circle to draw</param>
         /// <param name="size">The size of the circle to draw.</param>
         /// <param name="color">The color of the circle to draw.</param>

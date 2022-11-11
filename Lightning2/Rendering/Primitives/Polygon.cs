@@ -85,8 +85,11 @@
                     if (finalBorderPointY < minY) minY = finalBorderPointY;
                 }
 
-                sizeX = Convert.ToInt16(maxX - sizeX);
-                sizeY = Convert.ToInt16(maxY - sizeY);
+                sizeX = Convert.ToInt16(maxX - minY);
+                sizeY = Convert.ToInt16(maxY - minY);
+                
+                // size for the renderer
+                Size = new(sizeX, sizeY);
 
                 // change the points so that the polygon is always larger
                 for (int borderPointId = 0; borderPointId < finalBorderPointsX.Length; borderPointId++)
