@@ -70,16 +70,27 @@ Everything that matters to the api has to go here
 * Implement Renderable::CanReceiveEventsWhileUnfocused for focus-only events
 * ForegroundColor now used for cursors, CursorColor is dead
 
-* todo:
-	- global usings everywhere
-	- unit testing
-	- VS Item Template for Scenes
-	- fix weird renderposition issues (text at y>0 ????)
-	- fix drawing issues
-	- fix WHACKED culling esp. with debugviewer
-            // issue: won't update if you modify it again later
-            // this is why we might need referents for renderables
 
 2022.11.11:
 * Fix primitive rendering issues
 * Fix culling issues
+
+2022.11.12:
+* Renderer now applies camera transformations
+* Fixed culling issues - take into account camera position and simply check for within screen bounds, only offset position of SnapOSreen is false
+* Renderable::NotCullable
+* Renderable::Update (run each frame regardless of the renderable actually being on screen)
+* Simplified rendering code
+* Began working on multiple renderer capabilities
+
+* todo:
+	- global usings everywhere
+	- unit testing
+	- selectable renderers
+	- VS Item Template for Scenes
+	- still minor drawing issues:
+		- redo particleeffects
+	- can we get rid of renderposition?
+	- merge load/create?
+      - // issue: won't update if you modify it again later
+            // this is why we might need referents for renderables

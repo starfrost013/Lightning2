@@ -15,7 +15,6 @@
         /// <param name="gadget">The <see cref=""/></param>
         public override Gadget AddAsset(Gadget gadget)
         {
-            NCLogging.Log($"Creating new Gadget::{gadget.GetType().Name}");
             Lightning.Renderer.AddRenderable(gadget);
             return gadget;
         }
@@ -28,16 +27,8 @@
                 return;
             }
 
-            NCLogging.Log($"Removing a Gadget::{gadget.GetType().Name} from UIManager");
+            NCLogging.Log($"Removing a Gadget::{gadget.GetType().Name} from UIManager ({gadget.Name}");
             Lightning.Renderer.RemoveRenderable(gadget);
-        }
-
-        /// <summary>
-        /// Renders all UI elements.
-        /// </summary>
-        /// <param name="Lightning.Renderer">The UI element to render.</param>
-        internal override void Update()
-        {
         }
     }
 }

@@ -70,6 +70,7 @@
         /// </summary>
         public void AddRenderable(Renderable renderable)
         {
+            NCLogging.Log($"Adding renderable of type {renderable.GetType().Name} ({renderable.Name})");
             Renderables.Add(renderable);
 
             // guaranteed never null
@@ -81,6 +82,7 @@
         /// </summary>
         public void RemoveRenderable(Renderable renderable)
         {
+            NCLogging.Log($"Removing renderable of type {renderable.GetType().Name} ({renderable.Name})");
             renderable.OnDestroy();
             Renderables.Remove(renderable);
         }

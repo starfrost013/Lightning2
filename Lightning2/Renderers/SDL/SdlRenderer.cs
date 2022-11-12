@@ -328,12 +328,13 @@ namespace LightningGL
                 if (renderable.IsOnScreen
                     && renderable.OnRender != null)
                 {
-                    renderable.OnRender();
+                    renderable.OnRender?.Invoke();
                     RenderedLastFrame++;
                 }
 
                 // --- THESE tasks need to be performed when the renderable is on AND off screen ---
                 if (renderable.CurrentAnimation != null) renderable.CurrentAnimation.UpdateAnimationFor(renderable);
+                renderable.OnUpdate?.Invoke();
             }
         }
 

@@ -71,15 +71,23 @@
         /// </summary>
         public GenericEvent OnRender { get; set; }
 
+        [JsonIgnore]
         /// <summary>
         /// Event handler for the on-create event.
         /// </summary>
         public GenericEvent OnCreate { get; set; }
 
+        [JsonIgnore]
         /// <summary>
         /// Event handler for the on-destroy event.
         /// </summary>
         public GenericEvent OnDestroy { get; set; }
+
+        [JsonIgnore]
+        /// <summary>
+        /// Event handler for the on-update event.
+        /// </summary>
+        public GenericEvent OnUpdate { get; set; }
 
         [JsonIgnore]
         /// <summary>
@@ -211,9 +219,11 @@
             AnimationTimer = new Stopwatch();
 
             // Automatically render
-            OnRender += Draw;
             OnCreate += Create;
+            OnRender += Draw;
+            OnUpdate += Update;
             OnDestroy += Destroy;
+
             Name = name;
             _name = Name; // fix compile warnings
         }
@@ -269,7 +279,7 @@
         }
 
         /// <summary>
-        /// Called when a the renderable is created.
+        /// Called when the renderable is created.
         /// </summary>
         internal virtual void Create()
         {
@@ -277,19 +287,28 @@
         }
 
         /// <summary>
-        /// Called when a renderable is destroyed.
+        /// Draws this Renderable.
+        /// NOT RUN if the renderable is not rendered.
         /// </summary>
-        internal virtual void Destroy()
+        internal virtual void Draw()
+        {
+            // temp?
+        }
+
+        /// <summary>
+        /// Run each frame REGARDLESS of if the renderable is rendered or not.
+        /// </summary>
+        internal virtual void Update()
         {
 
         }
 
         /// <summary>
-        /// Draws this Renderable.
+        /// Called when the renderable is destroyed.
         /// </summary>
-        internal virtual void Draw()
+        internal virtual void Destroy()
         {
-            // temp?
+
         }
     }
 }

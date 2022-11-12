@@ -83,7 +83,7 @@
         /// Internal: Update positional sound volume based on current main camera position.
         /// </summary>
         /// <param name="SceneManager.Renderer"></param>
-        internal override void Draw()
+        internal override void Update()
         {
             if (!PositionalSound) return;
 
