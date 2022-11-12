@@ -117,17 +117,7 @@ namespace LightningGL
                 switch (currentEvent.type)
                 {
                     case SDL_EventType.SDL_KEYDOWN:
-                        Key curKey = (Key)currentEvent.key;
-
-                        // Show a basic about screen on Shift-F9 (KMOD_SHIFT only triggers when both shift keys are held)
-                        string curKeyString = curKey.KeySym.ToString();
-
-                        if (curKeyString == "F9"
-                            && (curKey.Modifiers.HasFlag(SDL_Keymod.KMOD_LSHIFT)
-                            || curKey.Modifiers.HasFlag(SDL_Keymod.KMOD_RSHIFT))
-                            && GlobalSettings.GeneralEngineAboutScreenOnShiftF9) ShowEngineAboutScreen();
-
-                        KeyPressed(curKey);
+                        KeyPressed((Key)currentEvent.key);
                         break;
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN: // Mouse down event
                         MousePressed((MouseButton)currentEvent.button);
@@ -322,55 +312,6 @@ namespace LightningGL
         /// <param name="fullscreen">A boolean determining if the window is fullscreen (TRUE) or windowed (FALSE)</param>
         public void SetFullscreen(bool fullscreen) => SDL_SetWindowFullscreen(Settings.WindowHandle, fullscreen ? (uint)SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
 
-        /// <summary>
-        /// Adds a renderable..
-        /// </summary>
-        public void AddRenderable(Renderable renderable)
-        {
-            Renderables.Add(renderable);
-
-            // guaranteed never null
-            renderable.OnCreate();
-        }
-
-        /// <summary>
-        /// Removes a renderable.
-        /// </summary>
-        public void RemoveRenderable(Renderable renderable)
-        {
-            renderable.OnDestroy();
-            Renderables.Remove(renderable);
-        }
-
-        public Renderable? GetRenderableByName(string name)
-        {
-            foreach (Renderable renderable in Renderables)
-            {
-                if (renderable.Name == name)
-                {
-                    return renderable;
-                }
-            }
-
-            return null;
-        }
-
-        public void RemoveRenderableByName(string name)
-        {
-            Renderable? renderable = GetRenderableByName(name);
-
-            if (renderable == null)
-            {
-                _ = new NCException($"Tried to remove nonexistent renderable name {name}", 190, 
-                    "Renderer::RemoveRenderableByName's name property did not correspond to a valid Renderable", NCExceptionSeverity.FatalError);
-                return;
-            }
-
-            RemoveRenderable(renderable);
-
-        }
-
-        public bool ContainsRenderable(string name) => GetRenderableByName(name) != null;
 
         #region Event handlers
 
