@@ -343,25 +343,10 @@ namespace LightningGL
                         }
 
                         renderable.IsOnScreen = (renderable.NotCullable
-                            || (renderable.RenderPosition.X >= 0
+                            || (renderable.RenderPosition.X >= -renderable.Size.X
                             && renderable.RenderPosition.X <= GlobalSettings.GraphicsResolutionX + renderable.Size.X
-                            && renderable.RenderPosition.Y >= 0
+                            && renderable.RenderPosition.Y >= -renderable.Size.Y
                             && renderable.RenderPosition.Y <= GlobalSettings.GraphicsResolutionY + renderable.Size.Y));
-
-                        /*
-                        if (!renderable.SnapToScreen)
-                        {
-                            renderable.IsOnScreen = (renderable.NotCullable 
-                                || (renderable.RenderPosition.X >= Settings.Camera.Position.X - renderable.Size.X
-                                && renderable.RenderPosition.Y >= Settings.Camera.Position.Y - renderable.Size.Y
-                                && renderable.RenderPosition.X <= Settings.Camera.Position.X + GlobalSettings.GraphicsResolutionX + renderable.Size.X
-                                && renderable.RenderPosition.Y <= Settings.Camera.Position.Y + GlobalSettings.GraphicsResolutionY + renderable.Size.Y));
-                        }
-                        else
-                        {
-
-                        }
-                        */
                     }
                 }
             }

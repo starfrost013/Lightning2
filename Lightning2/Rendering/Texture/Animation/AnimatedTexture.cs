@@ -111,7 +111,7 @@
 
             CurrentTexture = Frames[CurrentFrame];
 
-            CurrentTexture.RenderPosition = Position;
+            CurrentTexture.RenderPosition = RenderPosition;
             CurrentTexture.Repeat = Repeat;
             CurrentTexture.Size = Size;
 

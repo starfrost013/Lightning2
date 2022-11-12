@@ -33,9 +33,10 @@
 
         internal override void Load()
         {
-            if (FrameSize == default(Vector2)) _ = new NCException("Cannot load a texture with no texture frame size!", 45, "TextureAtlas::FrameSize property = (0,0)!", NCExceptionSeverity.FatalError);
+            if (FrameSize == default) _ = new NCException("Cannot load a texture with no texture frame size!", 45, "TextureAtlas::FrameSize property = (0,0)!", NCExceptionSeverity.FatalError);
 
-            if (TextureCount.X < 1 || TextureCount.Y < 1) _ = new NCException($"A texture atlas must have at least one frame, set to {TextureCount.X},{TextureCount.Y}!", 46, "TextureAtlas::TextureCount::X or Y < 1!", NCExceptionSeverity.FatalError);
+            if (TextureCount.X < 1 
+                || TextureCount.Y < 1) _ = new NCException($"A texture atlas must have at least one frame, set to {TextureCount.X},{TextureCount.Y}!", 46, "TextureAtlas::TextureCount::X or Y < 1!", NCExceptionSeverity.FatalError);
 
             NCLogging.Log($"Loading atlas texture at path {Path}...");
 

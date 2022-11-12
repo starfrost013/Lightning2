@@ -7,6 +7,11 @@
     /// </summary>
     public class PrimitiveAssetManager : AssetManager<Primitive>
     {
+        /// <summary>
+        /// The size of the SDL2_gfx monospace font.
+        /// </summary>
+        private readonly static int MONOSPACE_FONT_SIZE = 7;
+
         public override Primitive AddAsset(Primitive asset)
         {
             Lightning.Renderer.AddRenderable(asset);
@@ -218,6 +223,8 @@
                 Text = text,
                 Localise = localise,
                 Color = color,
+                // the font is monospace so all characters are the same size
+                Size = new(MONOSPACE_FONT_SIZE * text.Length, MONOSPACE_FONT_SIZE),
                 SnapToScreen = snapToScreen
             };
 

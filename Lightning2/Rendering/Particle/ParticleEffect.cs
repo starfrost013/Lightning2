@@ -172,8 +172,8 @@
                     double yMul = Math.Cos(angleRads);
 
                     // set up the velocity
-                    Vector2 finalVelocity = new(Convert.ToSingle((((Velocity.X * xMul) / 100) * particle.Lifetime) * Lightning.Renderer.DeltaTime),
-                        Convert.ToSingle((((Velocity.Y * yMul) / 100) * particle.Lifetime) * (Lightning.Renderer.DeltaTime / 10)));
+                    Vector2 finalVelocity = new(Convert.ToSingle((((Velocity.X * xMul) / FINAL_VELOCITY_DIVISOR) * particle.Lifetime) * Lightning.Renderer.DeltaTime),
+                        Convert.ToSingle((((Velocity.Y * yMul) / FINAL_VELOCITY_DIVISOR) * particle.Lifetime) * (Lightning.Renderer.DeltaTime / 10)));
 
                     // Clamp velocity on "Normal" mode as opposed to explode
                     if (Mode != ParticleMode.Explode)
@@ -193,7 +193,8 @@
 
                     if (Mode == ParticleMode.AbsoluteVelocity)
                     {
-                        particle.Position += new Vector2((finalVelocity.X / FINAL_VELOCITY_DIVISOR) * particle.Lifetime, (finalVelocity.Y / FINAL_VELOCITY_DIVISOR) * particle.Lifetime);
+                        particle.Position += new Vector2((finalVelocity.X / FINAL_VELOCITY_DIVISOR) * particle.Lifetime, 
+                            (finalVelocity.Y / FINAL_VELOCITY_DIVISOR) * particle.Lifetime);
                     }
                     else
                     {
@@ -201,7 +202,8 @@
                     }
                 }
 
-                Texture.Position = particle.Position;
+                // IT might be better to put these as normal renderables
+                Texture.RenderPosition = particle.Position;
 
                 Texture.Draw();
             }
