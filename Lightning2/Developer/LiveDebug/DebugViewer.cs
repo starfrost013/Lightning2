@@ -18,15 +18,19 @@
         /// </summary>
         public override bool CanReceiveEventsWhileUnfocused => true;
 
+        public override bool SnapToScreen => true;
+
+        public override bool NotCullable => true;
+
         /// <summary>
         /// Current Y for drawing
         /// </summary>
         private float CurrentY { get; set; }
 
         // maybe make configurable?
-        private Color DebugForeground = Color.Blue;
+        private readonly Color DebugForeground = Color.Blue;
 
-        private Color DebugBackground = Color.FromArgb(0, Color.White);
+        private readonly Color DebugBackground = Color.FromArgb(0, Color.White);
 
         public DebugViewer(string name) : base(name)
         {
@@ -42,11 +46,12 @@
 
         internal override void Draw()
         {
-            // reset drawing
-            CurrentY = 0;
             if (!Enabled) return;
-            
-            // todo: configurable colours
+
+            // reset drawing
+            // TODO: configurable colours
+
+            CurrentY = 0;
 
             int currentPage = (int)CurrentDebugView + 1;
             int maxPage = (int)DebugViews.MaxPage + 1;
@@ -77,6 +82,8 @@
 
         private void DrawBigPictureView()
         {
+            Debug.Assert(CurrentScene != null);
+
             string[] debugText =
             {
                 $"FPS: {Lightning.Renderer.CurFPS.ToString("F1")} ({Lightning.Renderer.DeltaTime.ToString("F2")}ms)",
@@ -84,6 +91,7 @@
                 $"Number of renderables: {Lightning.Renderer.Renderables.Count}",
                 $"Number of renderables on screen: {Lightning.Renderer.RenderedLastFrame}",
                 $"Delta time: {Lightning.Renderer.DeltaTime}",
+                $"Camera position: {Lightning.Renderer.Settings.Camera.Position}",
             };
 
             foreach (string line in debugText)
@@ -91,19 +99,11 @@
                 TextManager.DrawText(line, "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, TTF_FontStyle.Normal, -1, -1, FontSmoothingType.Default, true);
                 CurrentY += GlobalSettings.DebugLineDistance;
             }
-            
-            if (CurrentScene == null)
-            {
-                TextManager.DrawText("Somehow Lightning::CurrentScene is null, this is VERY bad!", "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, 
-                    TTF_FontStyle.Bold, -1, -1, FontSmoothingType.Default, true);
-            }
-            else
-            {
-                TextManager.DrawText($"Current scene: {CurrentScene.Name}", "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, TTF_FontStyle.Normal,
-                    -1, -1, FontSmoothingType.Default, true);
-            }
 
+            TextManager.DrawText($"Current scene: {CurrentScene.Name}", "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, TTF_FontStyle.Normal,
+                -1, -1, FontSmoothingType.Default, true);
             CurrentY += GlobalSettings.DebugLineDistance;
+
             // draw indicator that we are under 60fps always under it
             if (Lightning.Renderer.CurFPS < GlobalSettings.GraphicsMaxFPS)
             {
@@ -131,6 +131,10 @@
             }
             else
             {
+                TextManager.DrawText($"Camera Position: {Lightning.Renderer.Settings.Camera.Position}", "DebugFont", new Vector2(0, CurrentY),
+                    DebugForeground, DebugBackground, TTF_FontStyle.Normal, -1, -1, FontSmoothingType.Default, true);
+                CurrentY += GlobalSettings.DebugLineDistance;
+
                 for (int renderableId = 0; renderableId < Lightning.Renderer.Renderables.Count; renderableId++)
                 {
                     Renderable renderable = Lightning.Renderer.Renderables[renderableId];

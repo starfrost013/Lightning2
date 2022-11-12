@@ -30,19 +30,10 @@
         /// <param name="lineLength">Optional: Maximum line length in pixels. Ignores newlines.</param>
         /// <param name="smoothingType">Optional: The <see cref="FontSmoothingType"/> of the text.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public void DrawText(string text, string font, Vector2 position, Color foreground, Color background = default(Color),
+        public void DrawText(string text, string font, Vector2 position, Color foreground, Color background = default,
             TTF_FontStyle style = TTF_FontStyle.Normal, int outlineSize = -1, int lineLength = -1, FontSmoothingType smoothingType = FontSmoothingType.Default,
             bool snapToScreen = false, bool localise = true)
         {
-            // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = Lightning.Renderer.Settings.Camera;
-
-            if (currentCamera != null
-                && !snapToScreen)
-            {
-                position.X -= currentCamera.Position.X;
-                position.Y -= currentCamera.Position.Y;
-            }
 
             // Localise the string using Localisation Manager.
             if (localise) text = LocalisationManager.ProcessString(text);
@@ -74,13 +65,15 @@
             // if it's still null bail out
             if (cacheEntry == null) return;
 
+
+            cacheEntry.SnapToScreen = snapToScreen;
             cacheEntry.UsedThisFrame = true;
 
             // it's null if there is no background so draw it
             if (cacheEntry.Rectangle != null) cacheEntry.Rectangle.Position = position;
 
-            SDL_Rect fontSrcRect = new SDL_Rect(0, 0, fontSizeX, fontSizeY);
-            SDL_FRect fontDstRect = new SDL_FRect(position.X, position.Y, fontSizeX, fontSizeY);
+            SDL_Rect fontSrcRect = new(0, 0, fontSizeX, fontSizeY);
+            SDL_FRect fontDstRect = new(position.X, position.Y, fontSizeX, fontSizeY);
 
             foreach (TextCacheEntryLine line in cacheEntry.Lines)
             {
@@ -207,13 +200,13 @@
         // bit of a hack for the new 2.0 model so that textcacheentries can still be Renderables
         private List<TextCacheEntry> GetAllTextCacheEntries()
         {
-            List<TextCacheEntry> textCacheEntries = new List<TextCacheEntry>();
+            List<TextCacheEntry> textCacheEntries = new();
 
             foreach (Renderable renderable in Lightning.Renderer.Renderables)
             {
-                if (renderable is TextCacheEntry)
+                if (renderable is TextCacheEntry entry)
                 {
-                    textCacheEntries.Add((TextCacheEntry)renderable);
+                    textCacheEntries.Add(entry);
                 }
             }
 

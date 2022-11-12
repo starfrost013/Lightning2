@@ -25,9 +25,15 @@
             // nobody will ever need a line more than 32,767 pixels wide
             // (he says, regretting this in the future). If we do we can just change to sint32 in c++.
 
-            if (Thickness < 1) _ = new NCException($"Cannot draw a line with a thickness property below 1 pixel! (thickness = {Thickness})", 18, "PrimitiveRenderer::DrawLine called with thickness property < 1", NCExceptionSeverity.FatalError);
+            if (Thickness < 1)
+            {
+                _ = new NCException($"Cannot draw a line with a thickness property below 1 pixel! (thickness = {Thickness})", 18,
+                "PrimitiveRenderer::DrawLine called with thickness property < 1", NCExceptionSeverity.Warning, null, false);
+                return;
+            }
 
             // Check for a set camera and move relative to the position of that camera if it is set.
+            // we have to do this here for now as we don't use renderposition (todo: fix this...)
             Camera currentCamera = Lightning.Renderer.Settings.Camera;
 
             Vector2 renderStart = Start;

@@ -53,6 +53,7 @@
             // Code nicked and modified from
             // https://stackoverflow.com/questions/10878209/midpoint-circle-algorithm-for-filled-circles
 
+            // lights always act as if snaptoscreen is false
             int x = (int)Position.X;
             int y = (int)Position.Y;
 

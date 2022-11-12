@@ -9,21 +9,6 @@
 
         internal override void Draw()
         {
-
-            // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = Lightning.Renderer.Settings.Camera;
-
-            if (currentCamera != null
-                && !SnapToScreen)
-            {
-                RenderPosition = new(Position.X - currentCamera.Position.X,
-                    Position.Y - currentCamera.Position.Y);
-            }
-            else
-            {
-                RenderPosition = Position;
-            }
-
             if (BorderColor != default(Color))
             {
                 rectangleRGBA(Lightning.Renderer.Settings.RendererHandle, (int)RenderPosition.X - (int)BorderSize.X, (int)RenderPosition.Y - (int)BorderSize.Y,

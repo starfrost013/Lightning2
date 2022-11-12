@@ -214,6 +214,8 @@ namespace LightningGL
         /// </summary>
         internal void Render()
         {
+            Debug.Assert(CurrentScene != null);
+
             int renderableCount = Renderables.Count;
 
             // Build a list of renderables to render from all asset managers.
@@ -266,7 +268,6 @@ namespace LightningGL
             UpdateFps();
 
         }
-
 
         private void UpdateFps()
         {
@@ -331,20 +332,36 @@ namespace LightningGL
 
                     if (Settings.Camera != null)
                     {
+                        // transform the position if there is a camera.
+                        Camera curCamera = Lightning.Renderer.Settings.Camera;
+
+                        if (curCamera != null
+                            && !renderable.SnapToScreen)
+                        {
+                            renderable.RenderPosition = new(renderable.Position.X - curCamera.Position.X,
+                                renderable.Position.Y - curCamera.Position.Y);
+                        }
+
+                        renderable.IsOnScreen = (renderable.NotCullable
+                            || (renderable.RenderPosition.X >= 0
+                            && renderable.RenderPosition.X <= GlobalSettings.GraphicsResolutionX + renderable.Size.X
+                            && renderable.RenderPosition.Y >= 0
+                            && renderable.RenderPosition.Y <= GlobalSettings.GraphicsResolutionY + renderable.Size.Y));
+
+                        /*
                         if (!renderable.SnapToScreen)
                         {
-                            renderable.IsOnScreen = (renderable.RenderPosition.X >= Settings.Camera.Position.X - renderable.Size.X
-                                && renderable.RenderPosition.Y >= Settings.Camera.Position.Y + renderable.Size.Y
-                                && renderable.RenderPosition.X <= Settings.Camera.Position.X + GlobalSettings.GraphicsResolutionX
-                                && renderable.RenderPosition.Y <= Settings.Camera.Position.Y + GlobalSettings.GraphicsResolutionY);
+                            renderable.IsOnScreen = (renderable.NotCullable 
+                                || (renderable.RenderPosition.X >= Settings.Camera.Position.X - renderable.Size.X
+                                && renderable.RenderPosition.Y >= Settings.Camera.Position.Y - renderable.Size.Y
+                                && renderable.RenderPosition.X <= Settings.Camera.Position.X + GlobalSettings.GraphicsResolutionX + renderable.Size.X
+                                && renderable.RenderPosition.Y <= Settings.Camera.Position.Y + GlobalSettings.GraphicsResolutionY + renderable.Size.Y));
                         }
                         else
                         {
-                            renderable.IsOnScreen = (renderable.RenderPosition.X >= 0
-                                && renderable.RenderPosition.X <= GlobalSettings.GraphicsResolutionX - renderable.Size.X
-                                && renderable.RenderPosition.Y >= 0
-                                && renderable.RenderPosition.Y <= GlobalSettings.GraphicsResolutionY + renderable.Size.Y);;
+
                         }
+                        */
                     }
                 }
             }
@@ -359,8 +376,8 @@ namespace LightningGL
         /// <summary>
         /// Clears the renderer and optionally sets the color to the Color <paramref name="color"/>
         /// </summary>
-        /// <param name="color"></param>
-        public void Clear(Color color = default(Color))
+        /// <param name="color">The color to set the background to after clearing.</param>
+        public void Clear(Color color = default)
         {
             // default(Color) is 0,0,0,0, no special case code needed
             SDL_SetRenderDrawColor(Settings.RendererHandle, color.R, color.G, color.B, color.A);
@@ -433,9 +450,8 @@ namespace LightningGL
         #region Event handlers
 
         /// <summary>
-        /// Renders all UI elements.
+        /// Renders the contents of the current scene.
         /// </summary>
-        /// <param name="Lightning.Renderer">The UI element to render.</param>
         internal void RenderAll()
         {
             for (int renderableId = 0; renderableId < Renderables.Count; renderableId++)

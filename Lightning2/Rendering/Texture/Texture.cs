@@ -142,7 +142,6 @@
         /// <summary>
         /// Loads the texture for the window <see cref="Lightning.Renderer"/>
         /// </summary>
-        /// <param name="Lightning.Renderer">The window to load the texture on.</param>
         /// <exception cref="NCException">An error occurred loading the texture.</exception>
         internal override void Load()
         {
@@ -170,7 +169,6 @@
         /// <summary>
         /// Private method that allocates a texture format based on the window pixel format for this texture during loading. 
         /// </summary>
-        /// <param name="Lightning.Renderer">The window to allocate the texture format for this texture.</param>
         /// <exception cref="NCException">An error occurred while allocating a texture format.</exception>
         private void AllocFormat()
         {
@@ -317,15 +315,6 @@
                 destinationRect.y = RenderPosition.Y;
                 destinationRect.w = ViewportEnd.X - ViewportStart.X;
                 destinationRect.h = ViewportEnd.Y - ViewportStart.Y;
-            }
-
-            Camera curCamera = Lightning.Renderer.Settings.Camera;
-
-            if (curCamera != null
-                && !SnapToScreen)
-            {
-                destinationRect.x -= curCamera.Position.X;
-                destinationRect.y -= curCamera.Position.Y;
             }
 
             if (Repeat == default)

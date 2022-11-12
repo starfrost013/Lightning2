@@ -53,7 +53,7 @@ Everything that matters to the api has to go here
 * Fix bug with default window locations.
 * Console Core
 
-2022.11.07
+2022.11.07:
 * Renderer is now an immutable singleton
 * Renderer removed as a parameter to all methods
 * Merged SceneManager and Lightning
@@ -79,3 +79,7 @@ Everything that matters to the api has to go here
 	- fix WHACKED culling esp. with debugviewer
             // issue: won't update if you modify it again later
             // this is why we might need referents for renderables
+
+2022.11.11:
+* Fix primitive rendering issues
+* Fix culling issues

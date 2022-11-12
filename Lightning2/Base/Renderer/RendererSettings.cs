@@ -148,7 +148,7 @@
             BackgroundColor = Color.FromArgb(255, 0, 0, 0);
 
             // Create a default camera.
-            Camera = new Camera("DefaultCamera", CameraType.Follow); 
+            Camera = new Camera(CameraType.Follow); 
         }
 #pragma warning restore CS8618
 

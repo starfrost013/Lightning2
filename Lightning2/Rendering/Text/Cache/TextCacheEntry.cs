@@ -114,7 +114,7 @@
             if (outlineSize > 0) TTF_SetFontOutline(fontForRender.Handle, outlineSize);
 
             // Draw the background
-            // TODO: 
+            // TODO: make this use system.drawing.color
             if (bgColor.a != 0 
                 && bgColor.r != 0
                 && bgColor.g != 0

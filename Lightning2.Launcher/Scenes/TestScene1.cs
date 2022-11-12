@@ -177,7 +177,7 @@ namespace LightningGL
             xmTitle.PositionalSound = true;
             xmTitle.Play();
 
-            Camera camera = new Camera("Camera 1", CameraType.Chase);
+            Camera camera = new Camera(CameraType.Chase);
 
             //camera.ShakeAmount = new(2, 2);
             //camera.Velocity = new(0.2f, 0.2f);

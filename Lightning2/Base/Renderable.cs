@@ -87,6 +87,8 @@
         /// </summary>
         public ShutdownEvent? OnShutdown { get; set; }
 
+        #endregion
+
         /// <summary>
         /// Determines if the mouse is currently focused on this gadget or not.
         /// </summary>
@@ -98,13 +100,21 @@
         /// </summary>
         public virtual bool CanReceiveEventsWhileUnfocused { get; set; }
 
-        #endregion
+        /// <summary>
+        /// Determines if this Renderable will be drawn in world-relative space or camera-relative space.
+        /// </summary>
+        public virtual bool SnapToScreen { get; set; }
 
         /// <summary>
         /// The position of this texture.
         /// Must be valid to draw.
         /// </summary>
         public virtual Vector2 Position { get; set; }
+
+        /// <summary>
+        /// Determines if this renderable is cullable or not.
+        /// </summary>
+        public virtual bool NotCullable { get; set; }
 
         /// <summary>
         /// Backing field for <see cref="RenderPosition"/>
@@ -137,11 +147,6 @@
         /// Does not have to be equal to image size.
         /// </summary>
         public virtual Vector2 Size { get; set; }
-
-        /// <summary>
-        /// Determines if this Renderable will be drawn in world-relative space or camera-relative space.
-        /// </summary>
-        public bool SnapToScreen { get; set; }
 
         /// <summary>
         /// Determines if this Renderable has actually been loaded or not.
@@ -266,7 +271,6 @@
         /// <summary>
         /// Called when a the renderable is created.
         /// </summary>
-        /// <param name="Lightning.Renderer">The renderer to draw the renderable to.</param>
         internal virtual void Create()
         {
 
@@ -275,7 +279,6 @@
         /// <summary>
         /// Called when a renderable is destroyed.
         /// </summary>
-        /// <param name="Lightning.Renderer">The renderer to draw the renderable to.</param>
         internal virtual void Destroy()
         {
 
@@ -284,7 +287,6 @@
         /// <summary>
         /// Draws this Renderable.
         /// </summary>
-        /// <param name="Lightning.Renderer">The renderer to draw the renderable to.</param>
         internal virtual void Draw()
         {
             // temp?

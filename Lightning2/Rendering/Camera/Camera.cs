@@ -7,7 +7,7 @@
     /// 
     /// Defines a camera
     /// </summary>
-    public class Camera : Renderable
+    public class Camera
     {
         /// <summary>
         /// Backing field for <see cref="Position"/>.
@@ -17,7 +17,7 @@
         /// <summary>
         /// The position of this <see cref="Camera"/>.
         /// </summary>
-        public override Vector2 Position
+        public Vector2 Position
         {
             get
             {
@@ -125,7 +125,7 @@
             }
         }
 
-        public Camera(string name, CameraType type) : base(name)
+        public Camera(CameraType type)
         {
             Type = type;
         }
