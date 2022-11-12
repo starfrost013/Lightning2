@@ -218,7 +218,7 @@ namespace LightningGL
 
             // Build a list of renderables to render from all asset managers.
             // Other stuff can be added "outside" so we simply remove and add to the list (todo: this isn't great)
-            BuildRenderableList();
+            Cull();
 
             if (renderableCount != Renderables.Count)
             {
@@ -318,6 +318,44 @@ namespace LightningGL
             SDL_DestroyWindow(Settings.WindowHandle);
         }
 
+
+        private void Cull()
+        {
+            // if we haven't specified otherwise...
+            if (!GlobalSettings.GraphicsRenderOffScreenRenderables)
+            {
+                // Cull stuff offscreen and move it with the camera
+                for (int renderableId = 0; renderableId < Renderables.Count; renderableId++)
+                {
+                    Renderable renderable = Renderables[renderableId];
+
+                    if (Settings.Camera != null)
+                    {
+                        if (!renderable.SnapToScreen)
+                        {
+                            renderable.IsOnScreen = (renderable.RenderPosition.X >= Settings.Camera.Position.X - renderable.Size.X
+                                && renderable.RenderPosition.Y >= Settings.Camera.Position.Y + renderable.Size.Y
+                                && renderable.RenderPosition.X <= Settings.Camera.Position.X + GlobalSettings.GraphicsResolutionX
+                                && renderable.RenderPosition.Y <= Settings.Camera.Position.Y + GlobalSettings.GraphicsResolutionY);
+                        }
+                        else
+                        {
+                            renderable.IsOnScreen = (renderable.RenderPosition.X >= 0
+                                && renderable.RenderPosition.X <= GlobalSettings.GraphicsResolutionX - renderable.Size.X
+                                && renderable.RenderPosition.Y >= 0
+                                && renderable.RenderPosition.Y <= GlobalSettings.GraphicsResolutionY + renderable.Size.Y);;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // just assume they are on screen
+                foreach (Renderable renderable in Renderables) renderable.IsOnScreen = true;
+            }
+        }
+
+
         /// <summary>
         /// Clears the renderer and optionally sets the color to the Color <paramref name="color"/>
         /// </summary>
@@ -342,42 +380,6 @@ namespace LightningGL
         /// <param name="fullscreen">A boolean determining if the window is fullscreen (TRUE) or windowed (FALSE)</param>
         public void SetFullscreen(bool fullscreen) => SDL_SetWindowFullscreen(Settings.WindowHandle, fullscreen ? (uint)SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
 
-        private void BuildRenderableList()
-        {
-            // if we haven't specified otherwise...
-            if (!GlobalSettings.GraphicsRenderOffScreenRenderables)
-            {
-                // Cull stuff offscreen and move it with the camera
-                for (int renderableId = 0; renderableId < Renderables.Count; renderableId++)
-                {
-                    Renderable renderable = Renderables[renderableId];
-
-                    if (Settings.Camera != null)
-                    {
-                        if (!renderable.SnapToScreen)
-                        {
-                            renderable.IsOnScreen = (renderable.RenderPosition.X >= Settings.Camera.Position.X - renderable.Size.X
-                                && renderable.RenderPosition.Y >= Settings.Camera.Position.Y - renderable.Size.Y
-                                && renderable.RenderPosition.X <= Settings.Camera.Position.X + GlobalSettings.GraphicsResolutionX
-                                && renderable.RenderPosition.Y <= Settings.Camera.Position.Y + GlobalSettings.GraphicsResolutionY);
-                        }
-                        else
-                        {
-                            renderable.IsOnScreen = (renderable.RenderPosition.X >= 0
-                                && renderable.RenderPosition.X <= GlobalSettings.GraphicsResolutionX
-                                && renderable.RenderPosition.Y >= 0
-                                && renderable.RenderPosition.Y <= GlobalSettings.GraphicsResolutionY);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                // just assume they are on screen
-                foreach (Renderable renderable in Renderables) renderable.IsOnScreen = true;
-            }
-        }
-        
         /// <summary>
         /// Adds a renderable..
         /// </summary>
