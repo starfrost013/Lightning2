@@ -5,38 +5,8 @@ namespace LightningGL
     /// <summary>
     /// Defines a LightningGL Window. 
     /// </summary>
-    public class Renderer
+    public class SdlRenderer : Renderer
     {
-        /// <summary>
-        /// The settings of this window - see <see cref="RendererSettings"/>.
-        /// </summary>
-        public RendererSettings Settings { get; internal set; }
-
-        /// <summary>
-        /// Private: The time the current frame took. Used to measure FPS.
-        /// </summary>
-        private long ThisTime { get; set; }
-
-        /// <summary>
-        /// Delta-time used for ensuring objects move at the same speed regardless of framerate.
-        /// </summary>
-        public double DeltaTime { get; private set; }
-
-        /// <summary>
-        /// Private: Frame-timer used for measuring frametime.
-        /// </summary>
-        private Stopwatch FrameTimer { get; set; }
-
-        /// <summary>
-        /// Internal: The current rate of frames rendered per second.
-        /// </summary>
-        public double CurFPS { get; private set; }
-
-        /// <summary>
-        /// Internal: The number of frames since the engine started rendering. 
-        /// </summary>
-        internal int FrameNumber { get; private set; }
-
         /// <summary>
         /// The last processed SDL event. Only valid if .Update() is called.
         /// </summary>
@@ -48,16 +18,11 @@ namespace LightningGL
         public bool EventWaiting { get; private set; }
 
         /// <summary>
-        /// Composed renderable list
-        /// </summary>
-        internal List<Renderable> Renderables { get; private set; }
-
-        /// <summary>
         /// Number of renderables actually rendered this frame.
         /// </summary>
         internal int RenderedLastFrame { get; private set; }
 
-        public Renderer()
+        public SdlRenderer()
         {
             FrameTimer = new Stopwatch();
             // Start the delta timer.
@@ -71,7 +36,7 @@ namespace LightningGL
         /// Starts this window.
         /// </summary>
         /// <param name="windowSettings">The window settings to use when starting this window - see <see cref="RendererSettings"/></param>
-        internal void Start(RendererSettings windowSettings)
+        internal override void Start(RendererSettings windowSettings)
         {
             // Check that the engine has been started.
 
@@ -89,10 +54,10 @@ namespace LightningGL
             // set the renderer if the user specified one
             string renderer = SDLu_GetRenderDriverName();
 
-            if (GlobalSettings.GraphicsRenderingBackend != default(RenderingBackend))
+            if (GlobalSettings.GraphicsSdlRenderingBackend != default)
             {
                 // set the renderer
-                renderer = GlobalSettings.GraphicsRenderingBackend.ToString().ToLowerInvariant(); // needs to be lowercase
+                renderer = GlobalSettings.GraphicsSdlRenderingBackend.ToString().ToLowerInvariant(); // needs to be lowercase
                 SDL_SetHintWithPriority("SDL_HINT_RENDER_DRIVER", renderer, SDL_HintPriority.SDL_HINT_OVERRIDE);
             }
 
@@ -123,31 +88,22 @@ namespace LightningGL
             LightManager.Init();
 
             // maybe move this somewhere else
-            if (!GlobalSettings.DebugDisabled)
-            {
-                AddRenderable(new DebugViewer("DebugViewer"));
-            }
+            if (!GlobalSettings.DebugDisabled) AddRenderable(new DebugViewer("DebugViewer"));
         }
 
-        /// <summary>
-        /// Run at the end of each frame.
-        /// </summary>
-        private void Update()
-        {
-            FrameTimer.Restart();
-            SDL_RenderClear(Settings.RendererHandle);
-        }
 
         /// <summary>
-        /// Runs the main loop.
+        /// Runs the main loop at the start of each frame.
         /// </summary>
         /// <returns>A boolean determining if the window is to keep running or close.</returns>
-        internal bool Run()
+        internal override bool Run()
         {
+            // clear the renderet
+            FrameTimer.Restart();
+            SDL_RenderClear(Settings.RendererHandle);
+
             // Reset rendered this frame count
             RenderedLastFrame = 0;
-
-            Update();
 
             EventWaiting = (SDL_PollEvent(out var currentEvent) > 0);
 
@@ -212,10 +168,11 @@ namespace LightningGL
         /// <summary>
         /// Manages the render loop.
         /// </summary>
-        internal void Render()
+        internal override void Render()
         {
             Debug.Assert(CurrentScene != null);
 
+            //TODO: Fix this (it doesn't work lmao)
             int renderableCount = Renderables.Count;
 
             // Build a list of renderables to render from all asset managers.
@@ -225,7 +182,7 @@ namespace LightningGL
             if (renderableCount != Renderables.Count)
             {
                 NCLogging.Log("Resorting renderable list by Z-index...");
-                Renderables.OrderBy(x => x.ZIndex);
+                Renderables = (List<Renderable>)Renderables.OrderBy(x => x.ZIndex);
             }
 
             // Draw every object.
@@ -243,8 +200,8 @@ namespace LightningGL
             // Update the text manager
             TextManager.Update();
 
-            // Update camera
-            if (Settings.Camera != null) Settings.Camera.Update();
+            // Update camera (if it's not null)
+            Settings.Camera?.Update();
 
             // Correctly draw the background
             SDL_SetRenderDrawColor(Settings.RendererHandle, Settings.BackgroundColor.R, Settings.BackgroundColor.G, Settings.BackgroundColor.B, Settings.BackgroundColor.A);
@@ -282,23 +239,6 @@ namespace LightningGL
 
             if (GlobalSettings.GeneralProfilePerformance) PerformanceProfiler.Update(this);
             FrameNumber++;
-        }
-
-        /// <summary>
-        /// Sets up a simple message box displaying engine version information.
-        /// </summary>
-        private void ShowEngineAboutScreen()
-        {
-            NCMessageBox messageBox = new()
-            {
-                Text = $"Powered by the Lightning Game Engine\n" +
-                $"Version {LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING}",
-                Title = "About",
-                Icon = SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION
-            };
-
-            messageBox.AddButton("OK", SDL_MessageBoxButtonFlags.SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT | SDL_MessageBoxButtonFlags.SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT);
-            messageBox.Show();
         }
 
         /// <summary>
@@ -535,10 +475,7 @@ namespace LightningGL
         {
             foreach (Renderable renderable in Renderables)
             {
-                if (renderable.OnMouseEnter != null)
-                {
-                    renderable.OnMouseEnter();
-                }
+                renderable.OnMouseEnter?.Invoke();
             }
         }
 
@@ -546,10 +483,7 @@ namespace LightningGL
         {
             foreach (Renderable renderable in Renderables)
             {
-                if (renderable.OnMouseLeave != null)
-                {
-                    renderable.OnMouseLeave();
-                }
+                renderable.OnMouseLeave?.Invoke();
             }
         }
 
@@ -557,10 +491,7 @@ namespace LightningGL
         {
             foreach (Renderable renderable in Renderables)
             {
-                if (renderable.OnFocusGained != null)
-                {
-                    renderable.OnFocusGained();
-                }
+                renderable.OnFocusGained?.Invoke();
             }
         }
 
@@ -568,10 +499,7 @@ namespace LightningGL
         {
             foreach (Renderable renderable in Renderables)
             {
-                if (renderable.OnFocusLost != null)
-                {
-                    renderable.OnFocusLost();
-                }
+                renderable.OnFocusLost?.Invoke();
             }
         }
 
@@ -592,10 +520,7 @@ namespace LightningGL
 
             foreach (Renderable renderable in Renderables)
             {
-                if (renderable.OnMouseMove != null) // this one is passed regardless of intersection for things like button highlighting
-                {
-                    renderable.OnMouseMove(button);
-                }
+                renderable.OnMouseMove?.Invoke(button);
             }
         }
 

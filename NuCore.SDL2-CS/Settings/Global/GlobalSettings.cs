@@ -147,7 +147,7 @@ namespace LightningBase
         /// <summary>
         /// The rendering backend to use. Default is <see cref="Renderer.OpenGL"/>
         /// </summary>
-        public static RenderingBackend GraphicsRenderingBackend { get; internal set; }
+        public static SdlRenderingBackend GraphicsSdlRenderingBackend { get; internal set; }
 
         /// <summary>
         /// Delta-time / tick speed multiplier
@@ -342,7 +342,7 @@ namespace LightningBase
             {
                 SDL_WindowFlags windowFlagsValue = default;
                 SDL_RendererFlags renderFlagsValue = default;
-                RenderingBackend rendererValue = default;
+                SdlRenderingBackend rendererValue = default;
 
                 // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
                 // ... but inexplicably the overload i used isn't supported for enum.tryparse
@@ -363,7 +363,7 @@ namespace LightningBase
                 GraphicsResolutionY = resolutionYValue;
                 GraphicsWindowFlags = windowFlagsValue;
                 GraphicsRenderFlags = renderFlagsValue;
-                GraphicsRenderingBackend = rendererValue;
+                GraphicsSdlRenderingBackend = rendererValue;
                 GraphicsRenderOffScreenRenderables = renderOffscreenRenderablesValue;
 
                 // failed to load, set default values (middle of screen)

@@ -1,7 +1,7 @@
 ﻿namespace LightningGL
 {
     /// <summary>
-    /// SceneManager
+    /// Lightning
     /// 
     /// March 14, 2022
     /// 
@@ -17,7 +17,7 @@
         /// <summary>
         /// The main renderer of the application.
         /// </summary>
-        public static Renderer Renderer { get; private set; }
+        public static SdlRenderer Renderer { get; private set; }
 
         /// <summary>
         /// Determines if the scene manager is running.
@@ -32,7 +32,7 @@
         static Lightning()
         {
             // Initialise Lightning2 window.
-            Renderer = new Renderer();
+            Renderer = new SdlRenderer();
             Scenes = new List<Scene>();
 
             // Initialise all asset managers

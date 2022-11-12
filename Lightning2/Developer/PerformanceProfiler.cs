@@ -66,7 +66,7 @@
         /// Writes a new FPS and frametime to the performance profiler CSV.
         /// </summary>
         /// <param name="window">The window to measure the frametime and FPS of.</param>
-        public static void Update(Renderer window)
+        public static void Update(SdlRenderer window)
         {
             if (!Initialised
                 || FileStream == null) return;

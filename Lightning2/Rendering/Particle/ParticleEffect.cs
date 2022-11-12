@@ -77,12 +77,12 @@
         /// <summary>
         /// Private: Divisor for the final velocity after it has been multiplied by the delta-time.
         /// </summary>
-        private int FINAL_VELOCITY_DIVISOR = 100;
+        private readonly int FINAL_VELOCITY_DIVISOR = 100;
 
         /// <summary>
         /// Private: Value the amount of maximum particles is divided by when <see cref="MaxNumberCreatedEachFrame"/> has not been specified by the user.
         /// </summary>
-        private int DEFAULT_MAX_CREATED_EACH_FRAME_DIVISOR = 150;
+        private readonly int DEFAULT_MAX_CREATED_EACH_FRAME_DIVISOR = 150;
 
         /// <summary>
         /// Constructor for particle effect.
@@ -133,10 +133,8 @@
             // determine if a new particle set is to be created. check if under max AND if frame skip
             bool createNewParticleSet = (Particles.Count < Amount);
 
-            if (FrameSkipBetweenCreatingParticles > 0)
-            {
-                if (Lightning.Renderer.FrameNumber % (FrameSkipBetweenCreatingParticles + 1) != 0) createNewParticleSet = false;
-            }
+            if (FrameSkipBetweenCreatingParticles > 0
+                && Lightning.Renderer.FrameNumber % (FrameSkipBetweenCreatingParticles + 1) != 0) createNewParticleSet = false;
 
             if (createNewParticleSet) AddParticleSet();
 

@@ -3,7 +3,7 @@
     /// <summary>
     /// PrimitiveRenderer
     /// 
-    /// As of October 29, 2022, this class is simply a forwarder
+    /// As of October 29, 2022, this class is simply a forwarder to the various primitive classes.
     /// </summary>
     public class PrimitiveAssetManager : AssetManager<Primitive>
     {
@@ -153,7 +153,6 @@
         /// <summary>
         /// Draws a polygon to the screen.
         /// </summary>
-        /// <param name="Lightning.Renderer">The window to draw the polygon to.</param>
         /// <param name="points">The points of the polygon.</param>
         /// <param name="color">The color of the polygon.</param>
         /// <param name="filled">Determines if the polygon will be filled or not.</param>

@@ -3,7 +3,7 @@
     /// <summary>
     /// RendererSettings
     /// 
-    /// Defines settings for a <see cref="Renderer"/>.
+    /// Defines settings for a <see cref="SdlRenderer"/>.
     /// </summary>
     public class RendererSettings
     {

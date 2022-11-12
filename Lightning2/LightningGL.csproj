@@ -150,7 +150,6 @@
     <Folder Include="Content\Fonts\" />
     <Folder Include="Developer\Console\Commands\" />
     <Folder Include="Properties\" />
-    <Folder Include="Renderers\SDL\" />
   </ItemGroup>
 
   <ItemGroup>

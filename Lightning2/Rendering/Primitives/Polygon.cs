@@ -1,14 +1,29 @@
 ﻿namespace LightningGL
 {
+    /// <summary>
+    /// Polygon
+    /// 
+    /// Primitive class for a polygon.
+    /// </summary>
     public class Polygon : Primitive
     {
+        /// <summary>
+        /// The points of this polygon.
+        /// </summary>
         public List<Vector2> Points { get; set; }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="name"></param>
         public Polygon(string name) : base(name)
         {
             Points = new List<Vector2>();
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         internal override void Draw()
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
@@ -31,8 +46,8 @@
 
             // build a list of points
             // convert to make sdl2-gfx happy
-            List<short> pointsListX = new List<short>();
-            List<short> pointsListY = new List<short>();
+            List<short> pointsListX = new();
+            List<short> pointsListY = new();
 
             foreach (Vector2 point in Points)
             {
