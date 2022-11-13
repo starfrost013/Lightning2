@@ -1,4 +1,6 @@
-﻿namespace LightningGL
+﻿using LightningBase;
+
+namespace LightningGL
 {
     /// <summary>
     /// DebugView
@@ -87,6 +89,7 @@
             string[] debugText =
             {
                 $"FPS: {Lightning.Renderer.CurFPS.ToString("F1")} ({Lightning.Renderer.DeltaTime.ToString("F2")}ms)",
+                $"Renderer: {Lightning.Renderer.GetType().Name}",
                 Lightning.Renderer.FrameNumber.ToString(),
                 $"Number of renderables: {Lightning.Renderer.Renderables.Count}",
                 $"Number of renderables on screen: {Lightning.Renderer.RenderedLastFrame}",
@@ -178,7 +181,7 @@
         private void DrawGlobalSettingsView()
         {
             // this file must exist
-            string[] lines = File.ReadAllLines(@"Content\Engine.ini");
+            string[] lines = File.ReadAllLines(GlobalSettings.GLOBALSETTINGS_PATH);
 
             foreach (string line in lines)
             {

@@ -330,7 +330,10 @@ namespace LightningGL
 
         public override void Render()
         {
-            SDL.SDL_Event curEvent = Lightning.Renderer.LastEvent;
+            // TODO: hack until the old event system is completely deprecated
+            SdlRenderer sdlRenderer = (SdlRenderer)Lightning.Renderer;
+
+            SDL.SDL_Event curEvent = sdlRenderer.LastEvent;
 
             Camera camera = Lightning.Renderer.Settings.Camera;
 

@@ -17,7 +17,7 @@
         /// <summary>
         /// The main renderer of the application.
         /// </summary>
-        public static SdlRenderer Renderer { get; private set; }
+        public static Renderer Renderer { get; private set; }
 
         /// <summary>
         /// Determines if the scene manager is running.
@@ -31,7 +31,7 @@
 
         static Lightning()
         {
-            // Initialise Lightning2 window.
+            // Initialise SDL renderer as a default.
             Renderer = new SdlRenderer();
             Scenes = new List<Scene>();
 
@@ -67,7 +67,7 @@
         public static PrimitiveAssetManager PrimitiveManager { get; private set; }
         #endregion
 
-        public static void Init(string[] args)
+        public static void Init()
         {
             try
             {
@@ -99,6 +99,11 @@
                 NCLogging.Log("Loading global settings from Engine.ini...");
                 GlobalSettings.Load();
 
+                NCLogging.Log("Initialising renderer...");
+                Renderer = RendererFactory.GetRenderer(GlobalSettings.GraphicsRenderer);
+                Debug.Assert(Renderer != null);
+                NCLogging.Log($"Using renderer {Renderer.GetType().Name}!");
+
                 NCLogging.Log($"Initialising audio device ({GlobalSettings.AudioDeviceHz}Hz, {GlobalSettings.AudioChannels} channels, format {GlobalSettings.AudioFormat}, chunk size {GlobalSettings.AudioChunkSize})...");
                 if (Mix_OpenAudio(GlobalSettings.AudioDeviceHz, GlobalSettings.AudioFormat, GlobalSettings.AudioChannels, GlobalSettings.AudioChunkSize) < 0) _ = new NCException($"Error initialising audio device: {SDL_GetError()}", 56, "Failed to initialise audio device during Lightning::Init", NCExceptionSeverity.FatalError);
 
@@ -120,7 +125,7 @@
                     NCLogging.Log($"User specified package file {GlobalSettings.GeneralPackageFile} to load, loading it...");
 
                     // set default content folder
-                    if (GlobalSettings.GeneralContentFolder == null) GlobalSettings.GeneralContentFolder = "Content";
+                    GlobalSettings.GeneralContentFolder ??= "Content";
                     if (!Packager.LoadPackage(GlobalSettings.GeneralPackageFile, GlobalSettings.GeneralContentFolder)) _ = new NCException($"An error occurred loading {GlobalSettings.GeneralPackageFile}. The game cannot be loaded.", 12, "Packager::LoadPackager returned false", NCExceptionSeverity.FatalError);
                 }
 
@@ -186,7 +191,6 @@
             // Shut down the light manager if it has been started.
             NCLogging.Log("Shutting down the Light Manager...");
             if (LightManager.Initialised) LightManager.Shutdown();
-
 
             // Clear up any unpacked package data if Engine.ini specifies to
             Packager.Shutdown(GlobalSettings.GeneralDeleteUnpackedFilesOnExit);
@@ -272,18 +276,6 @@
 
             while (Renderer.Run())
             {
-                // Only put events you need to GLOBALLY handle here.
-                // Every other event will be handled by the renderer or dev
-                if (Renderer.EventWaiting)
-                {
-                    switch (Renderer.LastEvent.type)
-                    {
-                        case SDL_EventType.SDL_QUIT:
-                            ShutdownAll();
-                            break;
-                    }
-                }
-
                 // Render the current scene.
                 CurrentScene.Render();
 

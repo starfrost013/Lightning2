@@ -19,7 +19,7 @@ namespace LightningBase
         /// <summary>
         /// Contains the path to the global settings INI file.
         /// </summary>
-        internal static string GLOBALSETTINGS_PATH = @"Content\Engine.ini";
+        public static readonly string GLOBALSETTINGS_PATH = @"Content\Engine.ini";
 
         /// <summary>
         /// The INI file object containing the Global Settings.
@@ -82,6 +82,7 @@ namespace LightningBase
         /// </summary>
         public static bool GeneralEnableConsole { get; internal set; }
 
+        public static Renderers GraphicsRenderer { get; internal set; }
         #endregion
 
         #region Debug settings
@@ -300,24 +301,6 @@ namespace LightningBase
             if (sceneSection == null) _ = new NCException("Engine.ini must have a Scene section!", 121,
                 "GlobalSettings::Load call to NCINIFile::GetSection failed for Scene section", NCExceptionSeverity.FatalError);
 
-            // Load the Localisation section.
-            string language = locSection.GetValue("Language");
-            string localisationFolder = locSection.GetValue("LocalisationFolder");
-
-            if (localisationFolder == null)
-            {
-                GeneralLanguage = @$"Content\Localisation\{language}.ini";
-            }
-            else
-            {
-                if (!Directory.Exists(localisationFolder)) _ = new NCException("LocalisationFolder does not exist", 157,
-                    "The LocalisationFolder GlobalSetting does not correspond to an extant folder. (GlobalSettings::Load)", NCExceptionSeverity.FatalError);
-                GeneralLanguage = @$"{localisationFolder}\{language}.ini";
-            }
-           
-            if (!File.Exists(GeneralLanguage)) _ = new NCException("Engine.ini's Localisation section must have a valid Language value!", 30, 
-                "GlobalSettings::Load call to NCINIFileSection::GetValue failed for Language value", NCExceptionSeverity.FatalError);
-
             // Load the General section.
 
             GeneralLocalSettingsPath = generalSection.GetValue("LocalSettingsPath");
@@ -337,34 +320,49 @@ namespace LightningBase
             GeneralDeleteUnpackedFilesOnExit = generalDeleteUnpackedFilesOnExitValue;
             GeneralDontSaveLocalSettingsOnShutdown = generalDontSaveLocalSettingsOnShutdownValue;
 
+            // Load the Localisation section.
+            string language = locSection.GetValue("Language");
+            string localisationFolder = locSection.GetValue("LocalisationFolder");
+
+            if (localisationFolder == null)
+            {
+                GeneralLanguage = @$"Content\Localisation\{language}.ini";
+            }
+            else
+            {
+                if (!Directory.Exists(localisationFolder)) _ = new NCException("LocalisationFolder does not exist", 157,
+                    "The LocalisationFolder GlobalSetting does not correspond to an extant folder. (GlobalSettings::Load)", NCExceptionSeverity.FatalError);
+                GeneralLanguage = @$"{localisationFolder}\{language}.ini";
+            }
+           
+            if (!File.Exists(GeneralLanguage)) _ = new NCException("Engine.ini's Localisation section must have a valid Language value!", 30, 
+                "GlobalSettings::Load call to NCINIFileSection::GetValue failed for Language value", NCExceptionSeverity.FatalError);
+
             // Load the Graphics section, if it is present.
             if (graphicsSection != null)
             {
-                SDL_WindowFlags windowFlagsValue = default;
-                SDL_RendererFlags renderFlagsValue = default;
-                SdlRenderingBackend rendererValue = default;
-
                 // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
-                // ... but inexplicably the overload i used isn't supported for enum.tryparse
                 _ = int.TryParse(graphicsSection.GetValue("MaxFPS"), out var graphicsMaxFpsValue);
                 _ = int.TryParse(graphicsSection.GetValue("ResolutionX"), out var resolutionXValue);
                 _ = int.TryParse(graphicsSection.GetValue("ResolutionY"), out var resolutionYValue);
-                _ = Enum.TryParse(graphicsSection.GetValue("WindowFlags"), true, out windowFlagsValue);
-                _ = Enum.TryParse(graphicsSection.GetValue("RenderFlags"), true, out renderFlagsValue);
-                _ = Enum.TryParse(graphicsSection.GetValue("RenderingBackend"), true, out rendererValue);
+                _ = Enum.TryParse(typeof(SDL_WindowFlags), graphicsSection.GetValue("WindowFlags"), true, out var windowFlagsValue);
+                _ = Enum.TryParse(typeof(SDL_RendererFlags), graphicsSection.GetValue("RenderFlags"), true, out var renderFlagsValue);
+                _ = Enum.TryParse(typeof(SdlRenderingBackend), graphicsSection.GetValue("SdlRenderingBackend"), true, out var sdlRenderingBackendValue) ;
                 _ = int.TryParse(graphicsSection.GetValue("TickSpeed"), out var tickSpeedValue);
                 _ = bool.TryParse(graphicsSection.GetValue("RenderOffScreenRenderables"), out var renderOffscreenRenderablesValue);
                 _ = int.TryParse(graphicsSection.GetValue("PositionX"), out var positionXValue);
                 _ = int.TryParse(graphicsSection.GetValue("PositionY"), out var positionYValue);
+                _ = Enum.TryParse(typeof(Renderers), graphicsSection.GetValue("Renderer"), true, out var graphicsRendererValue);
 
                 // Set those values.
                 GraphicsMaxFPS = graphicsMaxFpsValue;
                 GraphicsResolutionX = resolutionXValue;
                 GraphicsResolutionY = resolutionYValue;
-                GraphicsWindowFlags = windowFlagsValue;
-                GraphicsRenderFlags = renderFlagsValue;
-                GraphicsSdlRenderingBackend = rendererValue;
+                if (windowFlagsValue != null) GraphicsWindowFlags = (SDL_WindowFlags)windowFlagsValue;
+                if (renderFlagsValue != null) GraphicsRenderFlags = (SDL_RendererFlags)renderFlagsValue;
+                if (sdlRenderingBackendValue != null) GraphicsSdlRenderingBackend = (SdlRenderingBackend)sdlRenderingBackendValue;
                 GraphicsRenderOffScreenRenderables = renderOffscreenRenderablesValue;
+                if (graphicsRendererValue != null) GraphicsRenderer = (Renderers)graphicsRendererValue;
 
                 // failed to load, set default values (middle of screen)
                 if (positionXValue == 0) positionXValue = DEFAULT_GRAPHICS_POSITION_X;
@@ -381,18 +379,15 @@ namespace LightningBase
             // Load the Requirements section, if it is present.
             if (requirementsSection != null)
             {
-                SystemInfoCPUCapabilities minimumCpuCapabilitiesValue = 0;
-                SystemInfoOperatingSystem minimumOperatingSystemValue = 0;
-
                 _ = int.TryParse(requirementsSection.GetValue("MinimumSystemRam"), out var minRamValue);
                 _ = int.TryParse(requirementsSection.GetValue("MinimumLogicalProcessors"), out var minLogicalProcessorsValue);
-                _ = Enum.TryParse(requirementsSection.GetValue("MinimumCpuCapabilities"), true, out minimumCpuCapabilitiesValue);
-                _ = Enum.TryParse(requirementsSection.GetValue("MinimumOperatingSystem"), true, out minimumOperatingSystemValue);
+                _ = Enum.TryParse(typeof(SystemInfoCPUCapabilities), requirementsSection.GetValue("MinimumCpuCapabilities"), true, out var minimumCpuCapabilitiesValue);
+                _ = Enum.TryParse(typeof(SystemInfoOperatingSystem), requirementsSection.GetValue("MinimumOperatingSystem"), true, out var minimumOperatingSystemValue);
 
                 RequirementsMinimumSystemRam = minRamValue;
                 RequirementsMinimumLogicalProcessors = minLogicalProcessorsValue;
-                RequirementsMinimumCpuCapabilities = minimumCpuCapabilitiesValue;
-                RequirementsMinimumOperatingSystem = minimumOperatingSystemValue;
+                if (minimumCpuCapabilitiesValue != null) RequirementsMinimumCpuCapabilities = (SystemInfoCPUCapabilities)minimumCpuCapabilitiesValue;
+                if (minimumOperatingSystemValue != null) RequirementsMinimumOperatingSystem = (SystemInfoOperatingSystem)minimumOperatingSystemValue;
             }
 
             // load the scene section (we checked for its presence earlier)
@@ -410,16 +405,15 @@ namespace LightningBase
             // Load the audio settings, if it is present
             if (audioSection != null)
             {
-                Mix_AudioFormat audioFormatValue = DEFAULT_AUDIO_FORMAT;
 
                 _ = int.TryParse(audioSection.GetValue("DeviceHz"), out var audioDeviceHzValue);
                 _ = int.TryParse(audioSection.GetValue("Channels"), out var audioChannelsValue);
-                if (Enum.TryParse(audioSection.GetValue("Format"), true, out audioFormatValue)) AudioFormat = audioFormatValue;
+                _ = Enum.TryParse(typeof(Mix_AudioFormat), audioSection.GetValue("Format"), true, out var audioFormatValue);
                 _ = int.TryParse(audioSection.GetValue("ChunkSize"), out var audioChunkSizeValue);  
 
                 AudioDeviceHz = audioDeviceHzValue;
                 AudioChannels = audioChannelsValue;
-                AudioFormat = audioFormatValue;
+                if (audioFormatValue != null) AudioFormat = (Mix_AudioFormat)audioFormatValue;
                 AudioChunkSize = audioChunkSizeValue;
 
                 if (AudioDeviceHz <= 0) AudioDeviceHz = DEFAULT_AUDIO_DEVICE_HZ;

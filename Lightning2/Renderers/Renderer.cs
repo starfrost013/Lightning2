@@ -13,6 +13,11 @@
         internal List<Renderable> Renderables = new();
 
         /// <summary>
+        /// The settings of this window - see <see cref="RendererSettings"/>.
+        /// </summary>
+        public virtual RendererSettings Settings { get; protected set; }
+
+        /// <summary>
         /// Private: The time the current frame took. Used to measure FPS.
         /// </summary>
         protected long ThisTime { get; set; }
@@ -38,9 +43,14 @@
         internal int FrameNumber { get; set; }
 
         /// <summary>
-        /// The settings of this window - see <see cref="RendererSettings"/>.
+        /// Determines if an event is waiting. 
         /// </summary>
-        public virtual RendererSettings Settings { get; protected set; }
+        public bool EventWaiting { get; protected set; }
+
+        /// <summary>
+        /// Number of renderables actually rendered this frame.
+        /// </summary>
+        internal int RenderedLastFrame { get; set; }
 
         public Renderer()
         {
@@ -64,11 +74,57 @@
 
         }
 
+        /// <summary>
+        /// Sets the window's current <see cref="Camera"/> to <paramref name="nCamera"/>.
+        /// </summary>
+        /// <param name="nCamera">The <see cref="Camera"/> instance to set the window's current camerat o</param>
+        public void SetCurrentCamera(Camera nCamera) => Settings.Camera = nCamera;
+
+        public virtual void SetFullscreen(bool fullscreen)
+        {
+
+        }
+
+        public virtual void Clear(Color clearColor)
+        {
+
+        }
+
+        /// <summary>
+        /// Internal - used as a part of LightningGL.Shutdown
+        /// </summary>
+        internal virtual void Shutdown()
+        {
+            NCLogging.Log("Renderer destruction requested. Calling shutdown events...");
+            NotifyShutdown();
+
+            NCLogging.Log("Destroying all renderables...");
+            foreach (Renderable renderable in Renderables)
+            {
+                renderable.Destroy();
+            }
+
+            SDL_DestroyRenderer(Settings.RendererHandle);
+            SDL_DestroyWindow(Settings.WindowHandle);
+        }
+
+        private void NotifyShutdown()
+        {
+            foreach (Renderable uiElement in Renderables)
+            {
+                if (uiElement.OnShutdown != null)
+                {
+                    // stop animating this renderable - prevents "collection modified" issues
+                    uiElement.StopCurrentAnimation();
+                    uiElement.OnShutdown();
+                }
+            }
+        }
 
         /// <summary>
         /// Adds a renderable..
         /// </summary>
-        public void AddRenderable(Renderable renderable)
+        public virtual void AddRenderable(Renderable renderable)
         {
             NCLogging.Log($"Adding renderable of type {renderable.GetType().Name} ({renderable.Name})");
             Renderables.Add(renderable);
@@ -80,14 +136,14 @@
         /// <summary>
         /// Removes a renderable.
         /// </summary>
-        public void RemoveRenderable(Renderable renderable)
+        public virtual void RemoveRenderable(Renderable renderable)
         {
             NCLogging.Log($"Removing renderable of type {renderable.GetType().Name} ({renderable.Name})");
             renderable.OnDestroy();
             Renderables.Remove(renderable);
         }
 
-        public Renderable? GetRenderableByName(string name)
+        public virtual Renderable? GetRenderableByName(string name)
         {
             foreach (Renderable renderable in Renderables)
             {
@@ -100,7 +156,7 @@
             return null;
         }
 
-        public void RemoveRenderableByName(string name)
+        public virtual void RemoveRenderableByName(string name)
         {
             Renderable? renderable = GetRenderableByName(name);
 
@@ -115,6 +171,7 @@
 
         }
 
-        public bool ContainsRenderable(string name) => GetRenderableByName(name) != null;
+
+        public virtual bool ContainsRenderable(string name) => GetRenderableByName(name) != null;
     }
 }

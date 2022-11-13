@@ -82,11 +82,13 @@ Everything that matters to the api has to go here
 * Renderable::Update (run each frame regardless of the renderable actually being on screen)
 * Simplified rendering code
 * Began working on multiple renderer capabilities
+* Fix positional sound
 
 * todo:
 	- global usings everywhere
 	- unit testing
-	- selectable renderers
+	- globalsetting to switch renderer!!!!!!
+	- .NET 7.0 / NativeAOT
 	- VS Item Template for Scenes
 	- still minor drawing issues:
 		- redo particleeffects
@@ -94,3 +96,7 @@ Everything that matters to the api has to go here
 	- merge load/create?
       - // issue: won't update if you modify it again later
             // this is why we might need referents for renderables
+
+2022.11.13:
+* Adapted to multiple renderers
+* GlobalSettings optimisation.

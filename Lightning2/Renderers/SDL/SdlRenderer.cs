@@ -12,16 +12,6 @@ namespace LightningGL
         /// </summary>
         public SDL_Event LastEvent { get; set; }
 
-        /// <summary>
-        /// Determines if an event is waiting. 
-        /// </summary>
-        public bool EventWaiting { get; private set; }
-
-        /// <summary>
-        /// Number of renderables actually rendered this frame.
-        /// </summary>
-        internal int RenderedLastFrame { get; private set; }
-
         public SdlRenderer()
         {
             FrameTimer = new Stopwatch();
@@ -231,24 +221,6 @@ namespace LightningGL
             FrameNumber++;
         }
 
-        /// <summary>
-        /// Internal - used as a part of LightningGL.Shutdown
-        /// </summary>
-        internal void Shutdown()
-        {
-            NCLogging.Log("Renderer destruction requested. Calling shutdown events...");
-            NotifyShutdown();
-
-            NCLogging.Log("Destroying all renderables...");
-            foreach (Renderable renderable in Renderables)
-            {
-                renderable.Destroy();
-            }
-
-            SDL_DestroyRenderer(Settings.RendererHandle);
-            SDL_DestroyWindow(Settings.WindowHandle);
-        }
-
 
         private void Cull()
         {
@@ -289,29 +261,23 @@ namespace LightningGL
 
 
         /// <summary>
-        /// Clears the renderer and optionally sets the color to the Color <paramref name="color"/>
+        /// Clears the renderer and optionally sets the color to the Color <paramref name="clearColor"/>
         /// </summary>
-        /// <param name="color">The color to set the background to after clearing.</param>
-        public void Clear(Color color = default)
+        /// <param name="clearColor">The color to set the background to after clearing.</param>
+        public override void Clear(Color clearColor = default)
         {
             // default(Color) is 0,0,0,0, no special case code needed
-            SDL_SetRenderDrawColor(Settings.RendererHandle, color.R, color.G, color.B, color.A);
+            SDL_SetRenderDrawColor(Settings.RendererHandle, clearColor.R, clearColor.G, clearColor.B, clearColor.A);
             SDL_RenderClear(Settings.RendererHandle);
-            Settings.BackgroundColor = color;
+            Settings.BackgroundColor = clearColor;
         }
 
-        /// <summary>
-        /// Sets the window's current <see cref="Camera"/> to <paramref name="nCamera"/>.
-        /// </summary>
-        /// <param name="nCamera">The <see cref="Camera"/> instance to set the window's current camerat o</param>
-        public void SetCurrentCamera(Camera nCamera) => Settings.Camera = nCamera;
 
         /// <summary>
         /// Sets the window to be fullscreen or windowed.
         /// </summary>
         /// <param name="fullscreen">A boolean determining if the window is fullscreen (TRUE) or windowed (FALSE)</param>
-        public void SetFullscreen(bool fullscreen) => SDL_SetWindowFullscreen(Settings.WindowHandle, fullscreen ? (uint)SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
-
+        public override void SetFullscreen(bool fullscreen) => SDL_SetWindowFullscreen(Settings.WindowHandle, fullscreen ? (uint)SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
 
         #region Event handlers
 
@@ -338,18 +304,7 @@ namespace LightningGL
             }
         }
 
-        private void NotifyShutdown()
-        {
-            foreach (Renderable uiElement in Renderables)
-            {
-                if (uiElement.OnShutdown != null)
-                {
-                    // stop animating this renderable - prevents "collection modified" issues
-                    uiElement.StopCurrentAnimation();
-                    uiElement.OnShutdown();
-                }
-            }
-        }
+ 
 
         internal void MousePressed(MouseButton button)
         {
