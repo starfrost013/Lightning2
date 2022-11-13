@@ -13,8 +13,6 @@
 
         public static Server Server { get; private set; }
 
-        private static bool Initialised { get; set; }
-
         #region Asset managers (these are here for compatibility)
 
         public static Renderer Renderer
@@ -195,7 +193,6 @@
             try
             {
                 Client.Init();
-                Initialised = true;
             }
             catch (Exception err)
             {
@@ -209,7 +206,6 @@
             try
             {
                 Server.Init();
-                Initialised = true;
             }
             catch (Exception err)
             {
