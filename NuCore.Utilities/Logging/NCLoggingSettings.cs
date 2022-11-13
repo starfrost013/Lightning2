@@ -24,5 +24,10 @@ namespace NuCore.Utilities
         /// Determines if the log is to be written to.
         /// </summary>
         public bool WriteToLog { get; set; }
+
+        /// <summary>
+        /// Determines if old logs will be kept or not.
+        /// </summary>
+        public bool KeepOldLogs { get; set; }
     }
 }

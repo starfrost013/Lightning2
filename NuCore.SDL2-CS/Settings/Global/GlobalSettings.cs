@@ -82,7 +82,6 @@ namespace LightningBase
         /// </summary>
         public static bool GeneralEnableConsole { get; internal set; }
 
-        public static Renderers GraphicsRenderer { get; internal set; }
         #endregion
 
         #region Debug settings
@@ -157,10 +156,14 @@ namespace LightningBase
         public static int GraphicsTickSpeed { get; internal set; }
 
         /// <summary>
-        /// Determines if offscreen <see cref="Renderables"/> will be culled from the rendering or not.
+        /// Determines if offscreen <see cref="Renderable"/>s will be culled from the rendering or not.
         /// </summary>
         public static bool GraphicsRenderOffScreenRenderables { get; internal set; }
 
+        /// <summary>
+        /// The renderer that will be used
+        /// </summary>
+        public static Renderers GraphicsRenderer { get; internal set; }
         #endregion
 
         #region System requirements

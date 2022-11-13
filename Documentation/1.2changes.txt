@@ -84,19 +84,21 @@ Everything that matters to the api has to go here
 * Began working on multiple renderer capabilities
 * Fix positional sound
 
+2022.11.13:
+* Adapted to multiple renderers
+* GlobalSettings optimisation.
+* GlobalSettings::RenderingBackend -> GlobalSettings::SdlRenderingBackend
+
 * todo:
 	- global usings everywhere
 	- unit testing
-	- globalsetting to switch renderer!!!!!!
+	- get rid of TERRIBLE HACK in LightningGL.Test!!!!
 	- .NET 7.0 / NativeAOT
 	- VS Item Template for Scenes
 	- still minor drawing issues:
 		- redo particleeffects
 	- can we get rid of renderposition?
+	- console
 	- merge load/create?
       - // issue: won't update if you modify it again later
             // this is why we might need referents for renderables
-
-2022.11.13:
-* Adapted to multiple renderers
-* GlobalSettings optimisation.

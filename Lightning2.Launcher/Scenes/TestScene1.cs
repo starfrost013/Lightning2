@@ -47,11 +47,11 @@ namespace LightningGL
             Texture1.Position = new(0, 0);
             Texture1.Repeat = new(3, 3);
 
-            TextureAtlas1 = new("TextureAtlas1", new(64, 64), new(4, 4));
-
-            TextureAtlas1.Path = @"Content\TextureAtlasTest.png";
-
-            TextureAtlas1.Position = new(256, 256);
+            TextureAtlas1 = new("TextureAtlas1", new(64, 64), new(4, 4))
+            {
+                Path = @"Content\TextureAtlasTest.png",
+                Position = new(256, 256)
+            };
 
             TextureManager.AddAsset(TextureAtlas1);
 
@@ -374,10 +374,10 @@ namespace LightningGL
 
             TextureAtlas1.Index = 5;
             TextureAtlas1.Position = new(264, 0);
-            TextureAtlas1.Draw();
+            TextureAtlas1.DrawFrame();
             TextureAtlas1.Index = 1;
             TextureAtlas1.Position = new(200, 0);
-            TextureAtlas1.Draw();
+            TextureAtlas1.DrawFrame();
 
             // Texture API test
             byte r = (byte)Random.Shared.Next(0, 256);

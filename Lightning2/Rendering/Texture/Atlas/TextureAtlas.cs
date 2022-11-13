@@ -36,20 +36,26 @@
             if (FrameSize == default) _ = new NCException("Cannot load a texture with no texture frame size!", 45, "TextureAtlas::FrameSize property = (0,0)!", NCExceptionSeverity.FatalError);
 
             if (TextureCount.X < 1 
-                || TextureCount.Y < 1) _ = new NCException($"A texture atlas must have at least one frame, set to {TextureCount.X},{TextureCount.Y}!", 46, "TextureAtlas::TextureCount::X or Y < 1!", NCExceptionSeverity.FatalError);
+                || TextureCount.Y < 1) _ = new NCException($"A texture atlas must have at least one frame, set to {TextureCount.X},{TextureCount.Y}!", 
+                    46, "TextureAtlas::TextureCount::X or Y < 1!", NCExceptionSeverity.FatalError);
 
             NCLogging.Log($"Loading atlas texture at path {Path}...");
 
             base.Load();
         }
 
-        public new void Draw()
+        public void DrawFrame()
         {
             // save the maximum index
             int maxIndex = Convert.ToInt32(TextureCount.X * TextureCount.Y) - 1;
 
             if (Index < 0
-                || Index > maxIndex) _ = new NCException($"Cannot draw invalid TextureAtlas ({Path}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)", 47, "TextureAtlas::LoadIndexed", NCExceptionSeverity.FatalError);
+                || Index > maxIndex)
+            {
+                _ = new NCException($"Cannot draw invalid TextureAtlas ({Name}, {Path}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)",
+                    47, "TextureAtlas::Index property does not correspond to an actual index of the TextureAtlas", NCExceptionSeverity.Error, null, false);
+                return;
+            }
 
             int row = (int)(Index / TextureCount.Y);
 
@@ -63,6 +69,11 @@
             ViewportEnd = new Vector2(endX, endY);
 
             base.Draw();
+        }
+
+        internal override void Draw()
+        {
+            // figure out a better way of "not drawing it once each frame"
         }
 
         public override Color GetPixel(int x, int y, bool relative = false)

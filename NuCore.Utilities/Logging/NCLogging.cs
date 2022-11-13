@@ -31,11 +31,22 @@ namespace NuCore.Utilities
         public static bool Initialised { get; set; }
 
         /// <summary>
+        /// The date string to use when creating log files.
+        /// </summary>
+        public static string DateString { get; set; }
+
+        /// <summary>
+        /// A constant default value for <see cref="DateString"/>
+        /// </summary>
+        private const string DEFAULT_DATE_STRING = "yyyyMMdd_HHmmss";
+
+        /// <summary>
         /// Private static constructor for initialising the NuCore logging system
         /// </summary>
         static NCLogging()
         {
             Settings = new NCLoggingSettings();
+            DateString = DEFAULT_DATE_STRING;
             AppDomain.CurrentDomain.ProcessExit += Exit;
         }
 
@@ -43,13 +54,25 @@ namespace NuCore.Utilities
         {
             NCAssembly.Init();
 
-            if (Settings == null) _ = new NCException("You must set up NCLoggingSettings before initialising NCLogging!", 5, "NCLogging::Init called with NULL settings property", NCExceptionSeverity.FatalError);
+            if (Settings.LogFileName == null) Settings.LogFileName = $"NuCore_{DateTime.Now.ToString(DateString)}.log";
 
-            if (Settings.LogFileName == null) Settings.LogFileName = $"NuCore_{DateTime.Now:yyyyMMdd_HHmmss}.log";
+            // delete all old log files
+            if (!Settings.KeepOldLogs)
+            {
+                // delete all .log files
+                foreach (string fileName in Directory.GetFiles(Directory.GetCurrentDirectory()))
+                {
+                    if (fileName.Contains(".log"))
+                    {
+                        File.Delete(fileName);  
+                    }
+                }
+            }
 
             if (Settings.WriteToLog)
             {
-                if (Settings.LogFileName == null) _ = new NCException("Passed null file name to NCLogging::Init!", 6, "NCLogging::Init passed with Settings.LogFileName = NULL", NCExceptionSeverity.FatalError);
+                if (Settings.LogFileName == null) _ = new NCException("Passed null file name to NCLogging::Init!", 6, 
+                    "NCLogging::Init passed with Settings.LogFileName = NULL", NCExceptionSeverity.FatalError);
 
                 if (File.Exists(Settings.LogFileName)) File.Delete(Settings.LogFileName);
 
@@ -84,7 +107,7 @@ namespace NuCore.Utilities
         {
             if (!Initialised)
             {
-                Console.WriteLine("NCLogging not initialised, not logging anything.");
+                Console.WriteLine("NCLogging not initialised, not logging anything!");
                 return;
             }
 
@@ -97,12 +120,12 @@ namespace NuCore.Utilities
             {
                 stringBuilder.Append($"[{now} - ");
 
-                StackTrace st = new();
+                StackTrace stackTrace = new();
 
                 // get the last called method
-                // stack frame 2 is the previously executing method (before log was called)
+                // stack frame 1 is the previously executing method (before Log was called)
 
-                MethodBase method = st.GetFrame(1).GetMethod();
+                MethodBase method = stackTrace.GetFrame(1).GetMethod();
 
                 string methodName = method.Name;
                 string className = method.ReflectedType.Name;
@@ -113,13 +136,14 @@ namespace NuCore.Utilities
 
             stringBuilder.Append($"{information}\n");
 
-            string final_log = stringBuilder.ToString();
+            string finalLogText = stringBuilder.ToString();
 
-            if (Settings.WriteToLog && logToFile) LogStream.Write(final_log);
+            if (Settings.WriteToLog 
+                && logToFile) LogStream.Write(finalLogText);
 
             NCConsole.ForegroundColor = color;
 
-            NCConsole.Write(final_log);
+            NCConsole.Write(finalLogText);
 
             NCConsole.ForegroundColor = ConsoleColor.White;
         }
@@ -132,7 +156,8 @@ namespace NuCore.Utilities
 
         public static void Exit(object Sender, EventArgs e)
         {
-            if (Settings.WriteToLog && Initialised) LogStream.Close();
+            if (Settings.WriteToLog 
+                && Initialised) LogStream.Close();
         }
     }
 }
