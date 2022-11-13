@@ -185,7 +185,7 @@
         /// <summary>
         /// The Z-Index (priority) of this renderable.
         /// </summary>
-        public int ZIndex { get; set; }
+        public virtual int ZIndex { get; set; }
 
         /// <summary>
         /// Backing field for <see cref="Name"/>.

@@ -152,18 +152,12 @@ namespace LightningGL
         {
             Debug.Assert(CurrentScene != null);
 
-            //TODO: Fix this (it doesn't work lmao)
-            int renderableCount = Renderables.Count;
+            // this is actually fine for performance as it turns out (probably not a very big LINQ CALL)
+            Renderables = Renderables.OrderBy(x => x.ZIndex).ToList();
 
             // Build a list of renderables to render from all asset managers.
             // Other stuff can be added "outside" so we simply remove and add to the list (todo: this isn't great)
             Cull();
-
-            if (renderableCount != Renderables.Count)
-            {
-                NCLogging.Log("Resorting renderable list by Z-index...");
-                Renderables = (List<Renderable>)Renderables.OrderBy(x => x.ZIndex);
-            }
 
             // Draw every object.
             RenderAll();

@@ -20,9 +20,21 @@ namespace LightningGL
         /// </summary>
         public override bool CanReceiveEventsWhileUnfocused => true;
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// 
+        /// <para>Always true for DebugViewer</para>
+        /// </summary>
         public override bool SnapToScreen => true;
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// 
+        /// <para>Always true for DebugViewer</para>
+        /// </summary>
         public override bool NotCullable => true;
+
+        public override int ZIndex => 2147483647;
 
         /// <summary>
         /// Current Y for drawing

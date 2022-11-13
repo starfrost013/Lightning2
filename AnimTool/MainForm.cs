@@ -149,7 +149,7 @@ namespace AnimTool
 
                     if (!string.IsNullOrWhiteSpace(openFileDialog.FileName))
                     {
-                        AnimTool.CurAnimation = new Animation(openFileDialog.FileName);
+                        AnimTool.CurAnimation = new Animation("renderedAnimation", openFileDialog.FileName);
                         AnimTool.Load();
                         FullUpdateTabContent();
                     }
