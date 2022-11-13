@@ -99,8 +99,8 @@
             if (fontForRender == null
                 || text == null)
             {
-                _ = new NCException("Cannot render a non-existent font or text into the font cache!", 136,
-                    "FontCache::Render - font parameter is not a font, or text parameter is purely null!", NCExceptionSeverity.FatalError);
+                NCError.Throw("Cannot render a non-existent font or text into the font cache!", 136,
+                    "FontCache::Render - font parameter is not a font, or text parameter is purely null!", NCErrorSeverity.FatalError);
                 return null;
             }
 

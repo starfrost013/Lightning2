@@ -27,8 +27,8 @@ namespace AnimTool
 
                 if (!AnimTool.IsPropertyValid(propertyType, propertyValue))
                 {
-                    _ = new NCException($"Invalid value for AnimationKeyframe type {propertyType}", 162, 
-                         $"AddKeyframeForm::addButton_Click: Failure converting property to animation keyframe type {propertyType}", NCExceptionSeverity.Warning);
+                    NCError.Throw($"Invalid value for AnimationKeyframe type {propertyType}", 162, 
+                         $"AddKeyframeForm::addButton_Click: Failure converting property to animation keyframe type {propertyType}", NCErrorSeverity.Warning);
                     return;
                 }
 

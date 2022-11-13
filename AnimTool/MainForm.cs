@@ -157,7 +157,7 @@ namespace AnimTool
             }
             catch
             {
-                _ = new NCException("An error occurred while loading the JSON file.", 176, "An exception occurred in AnimTool::Load", NCExceptionSeverity.Error);
+                NCError.Throw("An error occurred while loading the JSON file.", 176, "An exception occurred in AnimTool::Load", NCErrorSeverity.Error);
                 AnimTool.CurAnimation = null;
                 AnimTool.CurProperty = null;
                 FullUpdateTabContent();
@@ -189,7 +189,7 @@ namespace AnimTool
             }
             catch
             {
-                _ = new NCException("An error occurred while saving the JSON file.", 177, "An exception occurred in AnimTool::Save", NCExceptionSeverity.Error);
+                NCError.Throw("An error occurred while saving the JSON file.", 177, "An exception occurred in AnimTool::Save", NCErrorSeverity.Error);
                 return;
             }
         }

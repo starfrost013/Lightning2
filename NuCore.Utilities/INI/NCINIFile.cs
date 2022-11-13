@@ -37,10 +37,10 @@ namespace NuCore.Utilities
         /// </summary>
         /// <param name="path">The path of the INI file that is to be parsed.</param>
         /// <returns></returns>
-        /// <exception cref="NCException">An error occurred during the INI parsing. Extended error information is present in the <see cref="NCException.Description"/> property.</exception>
+        /// <exception cref="NCError">An error occurred during the INI parsing. Extended error information is present in the <see cref="NCError.Description"/> property.</exception>
         public static NCINIFile Parse(string path)
         {
-            if (!File.Exists(path)) _ = new NCException($"INI parsing error: Cannot parse INI file at {path}: File not found!", 21, "NCINIFile::Parse could not find file", NCExceptionSeverity.Error);
+            if (!File.Exists(path)) NCError.Throw($"INI parsing error: Cannot parse INI file at {path}: File not found!", 21, "NCINIFile::Parse could not find file", NCErrorSeverity.Error);
 
             NCINIFile iniFile = new NCINIFile();
 
@@ -88,7 +88,7 @@ namespace NuCore.Utilities
 
                                     if (beginning > end)
                                     {
-                                        _ = new NCException("INI parsing error: Invalid section entry - ] before [!", 25, "NCINIFile::Parse", NCExceptionSeverity.Error);
+                                        NCError.Throw("INI parsing error: Invalid section entry - ] before [!", 25, "NCINIFile::Parse", NCErrorSeverity.Error);
                                         return null;
                                     }
 
@@ -101,7 +101,7 @@ namespace NuCore.Utilities
                                 }
                                 else
                                 {
-                                    _ = new NCException("INI parsing error: Section name must terminate with ]!", 24, "NCINIFile::Parse", NCExceptionSeverity.Error);
+                                    NCError.Throw("INI parsing error: Section name must terminate with ]!", 24, "NCINIFile::Parse", NCErrorSeverity.Error);
                                     return null;
                                 }
                                 continue;
@@ -114,7 +114,7 @@ namespace NuCore.Utilities
                                 {
                                     if (iniFile.CurSection == null)
                                     {
-                                        _ = new NCException("INI parsing error: Values must be within a section!", 26, "NCINIFile::Parse", NCExceptionSeverity.Error);
+                                        NCError.Throw("INI parsing error: Values must be within a section!", 26, "NCINIFile::Parse", NCErrorSeverity.Error);
                                         return null;
                                     }
 
@@ -138,7 +138,7 @@ namespace NuCore.Utilities
                                 }
                                 else
                                 {
-                                    _ = new NCException("INI parsing error: An INI item with no value was found!", 23, "NCINIFile::Parse", NCExceptionSeverity.Error);
+                                    NCError.Throw("INI parsing error: An INI item with no value was found!", 23, "NCINIFile::Parse", NCErrorSeverity.Error);
                                     return null;
                                 }
                                 continue;
@@ -154,7 +154,7 @@ namespace NuCore.Utilities
             }
             catch (Exception ex)
             {
-                _ = new NCException($"INI parsing error: Cannot parse INI file at {path}: \n\n{ex}", 22, "NCINIFile::Parse - unknown exception occurred", NCExceptionSeverity.Error);
+                NCError.Throw($"INI parsing error: Cannot parse INI file at {path}: \n\n{ex}", 22, "NCINIFile::Parse - unknown exception occurred", NCErrorSeverity.Error);
                 return null;
             }
         }
@@ -189,7 +189,7 @@ namespace NuCore.Utilities
             }
             catch (Exception ex)
             {
-                _ = new NCException($"Error writing to INI: {ex.Message}", 110, "An exception occurred in NCINIFile::Write", NCExceptionSeverity.Error);
+                NCError.Throw($"Error writing to INI: {ex.Message}", 110, "An exception occurred in NCINIFile::Write", NCErrorSeverity.Error);
                 return false;
             }
         }

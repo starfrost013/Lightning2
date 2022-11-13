@@ -32,8 +32,8 @@ namespace LightningGL
 
             if (protocolVersion != LNetProtocol.LNET_PROTOCOL_VERSION)
             {
-                _ = new NCException($"Received packet with invalid LNet protocol version {protocolVersion}, expected {LNetProtocol.LNET_PROTOCOL_VERSION}", 181, 
-                    "LNetSessionManager::ReadPacket - received packet with first two bytes not equal to LNetProtocol::LNET_PROTOCOL_VERSION!", NCExceptionSeverity.Warning, null, false);
+                NCError.Throw($"Received packet with invalid LNet protocol version {protocolVersion}, expected {LNetProtocol.LNET_PROTOCOL_VERSION}", 181, 
+                    "LNetSessionManager::ReadPacket - received packet with first two bytes not equal to LNetProtocol::LNET_PROTOCOL_VERSION!", NCErrorSeverity.Warning, null, false);
             }
 
             int packetId = BitConverter.ToInt32(data, curPointWithinPacket);
@@ -47,8 +47,8 @@ namespace LightningGL
 
             if (netCommand == null)
             {
-                _ = new NCException($"Received invalid packet type {packetType}, maximum is {LNetCommandTypes.MaximumValidCommand}", 182,
-                    "LNetSessionManager::ReadPacket - received an invalid packet type.", NCExceptionSeverity.Warning, null, false);
+                NCError.Throw($"Received invalid packet type {packetType}, maximum is {LNetCommandTypes.MaximumValidCommand}", 182,
+                    "LNetSessionManager::ReadPacket - received an invalid packet type.", NCErrorSeverity.Warning, null, false);
                 return null;
             }
 
@@ -82,8 +82,8 @@ namespace LightningGL
                 case 0x00:
                     return new PingPongCommand();
                 default:
-                    _ = new NCException($"Tried to parse invalid packet ID {packetId}", 180, "LNetSessionManager::PacketIdToCommand encountered invalid Packet ID!",
-                        NCExceptionSeverity.Warning, null, false);
+                    NCError.Throw($"Tried to parse invalid packet ID {packetId}", 180, "LNetSessionManager::PacketIdToCommand encountered invalid Packet ID!",
+                        NCErrorSeverity.Warning, null, false);
                     return null;
             }
             

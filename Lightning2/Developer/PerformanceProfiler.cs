@@ -41,7 +41,7 @@
         /// <summary>
         /// Initialises the performance profiler.
         /// </summary>
-        /// <exception cref="NCException">An error occurred initialising the performance profiler.</exception>
+        /// <exception cref="NCError">An error occurred initialising the performance profiler.</exception>
         internal static void Start()
         {
             DateTime now = DateTime.Now;
@@ -56,7 +56,7 @@
             catch (Exception ex)
             {
                 Initialised = false;
-                _ = new NCException("An error occurred initialising performance profiler. Profiling will not be completed.", 70, "Exception occurred in PerformanceProfiler::Init", NCExceptionSeverity.Warning, ex, true);
+                NCError.Throw("An error occurred initialising performance profiler. Profiling will not be completed.", 70, "Exception occurred in PerformanceProfiler::Init", NCErrorSeverity.Warning, ex, true);
             }
 
             return;

@@ -23,7 +23,7 @@
         {
             if (!Lightning.Renderer.ContainsRenderable(gadget.Name))
             {
-                _ = new NCException($"Attempted to remove a gadget of type ({gadget.GetType().Name} that is not in the UI Manager - you must add it first!", 135, "Called UIManager::RemoveElement with a gadget property that does not correspond to a Gadget loaded by the UI Manager!", NCExceptionSeverity.Warning);
+                NCError.Throw($"Attempted to remove a gadget of type ({gadget.GetType().Name} that is not in the UI Manager - you must add it first!", 135, "Called UIManager::RemoveElement with a gadget property that does not correspond to a Gadget loaded by the UI Manager!", NCErrorSeverity.Warning);
                 return;
             }
 

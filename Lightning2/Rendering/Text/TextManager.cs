@@ -43,7 +43,7 @@
 
             if (curFont == null)
             {
-                _ = new NCException($"Attempted to acquire invalid font with name {font}", 39, "TextManager::DrawText font parameter is not a loaded font!", NCExceptionSeverity.FatalError);
+                NCError.Throw($"Attempted to acquire invalid font with name {font}", 39, "TextManager::DrawText font parameter is not a loaded font!", NCErrorSeverity.FatalError);
                 return;
             }
 
@@ -169,8 +169,8 @@
             }
             else
             {
-                _ = new NCException($"Attempted to delete null TextCacheEntry! I twill not be deleted.", 191,
-                    "TextManager::DeleteEntry called with fontEntry parameter set to NULL", NCExceptionSeverity.Warning, null, true);
+                NCError.Throw($"Attempted to delete null TextCacheEntry! I twill not be deleted.", 191,
+                    "TextManager::DeleteEntry called with fontEntry parameter set to NULL", NCErrorSeverity.Warning, null, true);
             }
         }
 

@@ -22,19 +22,19 @@
         /// </summary>
         /// <param name="path">The path of the file to load.</param>
         /// <param name="name">A name to assign to the audio file. Optional, will be automatically generated from the file path (extension and directory removed) if not supplied.</param>
-        /// <exception cref="NCException">An error occurred loading the file.</exception>
+        /// <exception cref="NCError">An error occurred loading the file.</exception>
         internal void LoadFile(string path, string name)
         {
             if (!File.Exists(path))
             {
-                _ = new NCException($"Error loading audio file: The path {path} does not exist!", 52, "AudioManager::Load path parameter does not exist!", NCExceptionSeverity.FatalError);
+                NCError.Throw($"Error loading audio file: The path {path} does not exist!", 52, "AudioManager::Load path parameter does not exist!", NCErrorSeverity.FatalError);
                 return;
             }
 
             if (path.Contains(".mod", StringComparison.InvariantCultureIgnoreCase))
             {
-                _ = new NCException(".mod file loading is completely broken in SDL_mixer 2.6.2 and causes memory leaks. Sorry, not my code.", 167, 
-                    "AudioAssetManager::LoadFile path parameter has a .mod extension", NCExceptionSeverity.Error);
+                NCError.Throw(".mod file loading is completely broken in SDL_mixer 2.6.2 and causes memory leaks. Sorry, not my code.", 167, 
+                    "AudioAssetManager::LoadFile path parameter has a .mod extension", NCErrorSeverity.Error);
             }
 
             AudioFile tempAudio = new AudioFile(name, path);
@@ -63,8 +63,8 @@
 
             if (!Lightning.Renderer.ContainsRenderable(file.Name))
             {
-                _ = new NCException($"Attempted to load an audio file {file.Name} (path {file.Path}) that is not present in the audio files list and therefore has not been loaded!", 135,
-                    "AudioManager::UnloadFile file parameter is not a loaded AudioFile present within AudioManager::AudioFiles!", NCExceptionSeverity.Warning, null, true);
+                NCError.Throw($"Attempted to load an audio file {file.Name} (path {file.Path}) that is not present in the audio files list and therefore has not been loaded!", 135,
+                    "AudioManager::UnloadFile file parameter is not a loaded AudioFile present within AudioManager::AudioFiles!", NCErrorSeverity.Warning, null, true);
                 return;
             }
 

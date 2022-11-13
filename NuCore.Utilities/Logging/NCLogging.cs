@@ -71,8 +71,8 @@ namespace NuCore.Utilities
 
             if (Settings.WriteToLog)
             {
-                if (Settings.LogFileName == null) _ = new NCException("Passed null file name to NCLogging::Init!", 6, 
-                    "NCLogging::Init passed with Settings.LogFileName = NULL", NCExceptionSeverity.FatalError);
+                if (Settings.LogFileName == null) NCError.Throw("Passed null file name to NCLogging::Init!", 6, 
+                    "NCLogging::Init passed with Settings.LogFileName = NULL", NCErrorSeverity.FatalError);
 
                 if (File.Exists(Settings.LogFileName)) File.Delete(Settings.LogFileName);
 
@@ -82,22 +82,22 @@ namespace NuCore.Utilities
             Initialised = true;
         }
 
-        internal static void Log(string information, NCExceptionSeverity severity, bool printMetadata = true, bool logToFile = true)
+        internal static void Log(string information, NCErrorSeverity severity, bool printMetadata = true, bool logToFile = true)
         {
             if (!Initialised) return;
 
             switch (severity)
             {
-                case NCExceptionSeverity.Message:
+                case NCErrorSeverity.Message:
                     Log(information, ConsoleColor.White, logToFile, printMetadata);
                     return;
-                case NCExceptionSeverity.Warning:
+                case NCErrorSeverity.Warning:
                     Log(information, ConsoleColor.Yellow, logToFile, printMetadata);
                     return;
-                case NCExceptionSeverity.Error:
+                case NCErrorSeverity.Error:
                     Log(information, ConsoleColor.Red, logToFile, printMetadata);
                     return;
-                case NCExceptionSeverity.FatalError:
+                case NCErrorSeverity.FatalError:
                     Log(information, ConsoleColor.DarkRed, logToFile, printMetadata);
                     return;
             }

@@ -39,7 +39,7 @@
             if (!IPAddress.TryParse(ServerIP, out serverIp))
             {
                 // do not connect
-                _ = new NCException($"Invalid server IP address {ServerIP}", 183, "LNetClient::Connect tried to connect to invalid server IP", NCExceptionSeverity.Warning,
+                NCError.Throw($"Invalid server IP address {ServerIP}", 183, "LNetClient::Connect tried to connect to invalid server IP", NCErrorSeverity.Warning,
                     null, false);
                 return;
             }

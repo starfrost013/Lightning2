@@ -30,16 +30,16 @@ namespace NuCore.Utilities
 
                 string[] commaSeparatedValues = initialValue.Split(',');
 
-                if (commaSeparatedValues.Length != 2) _ = new NCException("Attempted to convert a non-Vector2 to a Vector2!", 151, 
+                if (commaSeparatedValues.Length != 2) NCError.Throw("Attempted to convert a non-Vector2 to a Vector2!", 151, 
                     "Vector2Converter::ConvertFrom was not a valid Vector2 - too many or not enough comma separated values",
-                    NCExceptionSeverity.FatalError);
+                    NCErrorSeverity.FatalError);
 
                 float x = -1, y = -1;
 
                 if (!float.TryParse(commaSeparatedValues[0], out x)
-                    || !float.TryParse(commaSeparatedValues[1], out y)) _ = new NCException("Attempted to convert a non-Vector2 to a Vector2!", 152, 
+                    || !float.TryParse(commaSeparatedValues[1], out y)) NCError.Throw("Attempted to convert a non-Vector2 to a Vector2!", 152, 
                         "Vector2Converter::ConvertFrom was not a valid Vector2 - one of the comma-separated values was not a float!",
-                    NCExceptionSeverity.FatalError);
+                    NCErrorSeverity.FatalError);
 
                 return new Vector2(x, y);
 

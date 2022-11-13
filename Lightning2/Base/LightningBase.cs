@@ -76,16 +76,16 @@ namespace LightningGL
                 NCLogging.Log($"Version {LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING}");
 
                 NCLogging.Log("Initialising SDL...");
-                if (SDL_Init(SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2: {SDL_GetError()}", 0, "Failed to initialise SDL2 during Lightning::Init", NCExceptionSeverity.FatalError);
+                if (SDL_Init(SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) NCError.Throw($"Error initialising SDL2: {SDL_GetError()}", 0, "Failed to initialise SDL2 during Lightning::Init", NCErrorSeverity.FatalError);
 
                 NCLogging.Log("Initialising SDL_image...");
-                if (IMG_Init(IMG_InitFlags.IMG_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2_image: {SDL_GetError()}", 1, "Failed to initialise SDL2_image during Lightning::Init", NCExceptionSeverity.FatalError);
+                if (IMG_Init(IMG_InitFlags.IMG_INIT_EVERYTHING) < 0) NCError.Throw($"Error initialising SDL2_image: {SDL_GetError()}", 1, "Failed to initialise SDL2_image during Lightning::Init", NCErrorSeverity.FatalError);
 
                 NCLogging.Log("Initialising SDL_ttf...");
-                if (TTF_Init() < 0) _ = new NCException($"Error initialising SDL2_ttf: {SDL_GetError()}", 2, "Failed to initialise SDL2_ttf during Lightning::Init", NCExceptionSeverity.FatalError);
+                if (TTF_Init() < 0) NCError.Throw($"Error initialising SDL2_ttf: {SDL_GetError()}", 2, "Failed to initialise SDL2_ttf during Lightning::Init", NCErrorSeverity.FatalError);
 
                 NCLogging.Log("Initialising SDL_mixer...");
-                if (Mix_Init(MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) _ = new NCException($"Error initialising SDL2_mixer: {SDL_GetError()}", 3, "Failed to initialise SDL2_mixer during Lightning::Init", NCExceptionSeverity.FatalError);
+                if (Mix_Init(MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) NCError.Throw($"Error initialising SDL2_mixer: {SDL_GetError()}", 3, "Failed to initialise SDL2_mixer during Lightning::Init", NCErrorSeverity.FatalError);
 
                 // this should always be the earliest step
                 NCLogging.Log("Obtaining system information...");
@@ -101,7 +101,7 @@ namespace LightningGL
                 NCLogging.Log($"Using renderer {Renderer.GetType().Name}!");
 
                 NCLogging.Log($"Initialising audio device ({GlobalSettings.AudioDeviceHz}Hz, {GlobalSettings.AudioChannels} channels, format {GlobalSettings.AudioFormat}, chunk size {GlobalSettings.AudioChunkSize})...");
-                if (Mix_OpenAudio(GlobalSettings.AudioDeviceHz, GlobalSettings.AudioFormat, GlobalSettings.AudioChannels, GlobalSettings.AudioChunkSize) < 0) _ = new NCException($"Error initialising audio device: {SDL_GetError()}", 56, "Failed to initialise audio device during Lightning::Init", NCExceptionSeverity.FatalError);
+                if (Mix_OpenAudio(GlobalSettings.AudioDeviceHz, GlobalSettings.AudioFormat, GlobalSettings.AudioChannels, GlobalSettings.AudioChunkSize) < 0) NCError.Throw($"Error initialising audio device: {SDL_GetError()}", 56, "Failed to initialise audio device during Lightning::Init", NCErrorSeverity.FatalError);
 
                 NCLogging.Log("Validating system requirements...");
                 GlobalSettings.Validate();
@@ -122,7 +122,7 @@ namespace LightningGL
 
                     // set default content folder
                     GlobalSettings.GeneralContentFolder ??= "Content";
-                    if (!Packager.LoadPackage(GlobalSettings.GeneralPackageFile, GlobalSettings.GeneralContentFolder)) _ = new NCException($"An error occurred loading {GlobalSettings.GeneralPackageFile}. The game cannot be loaded.", 12, "Packager::LoadPackager returned false", NCExceptionSeverity.FatalError);
+                    if (!Packager.LoadPackage(GlobalSettings.GeneralPackageFile, GlobalSettings.GeneralContentFolder)) NCError.Throw($"An error occurred loading {GlobalSettings.GeneralPackageFile}. The game cannot be loaded.", 12, "Packager::LoadPackager returned false", NCErrorSeverity.FatalError);
                 }
 
                 // Load LocalSettings
@@ -151,13 +151,13 @@ namespace LightningGL
             }
             catch (Exception err)
             {
-                _ = new NCException($"An unknown fatal error occurred. The installation may be corrupted", 0x0000DEAD, "A fatal error occurred in LightningGL::Init!", NCExceptionSeverity.FatalError, err);
+                NCError.Throw($"An unknown fatal error occurred. The installation may be corrupted", 0x0000DEAD, "A fatal error occurred in LightningGL::Init!", NCErrorSeverity.FatalError, err);
             }
         }
 
         public virtual void Shutdown()
         {
-            if (!Initialised) _ = new NCException("Attempted to shutdown without starting! Please call Lightning::Init!", 95, "Lightning::Initialised false when calling Lightning::Shutdown", NCExceptionSeverity.FatalError);
+            if (!Initialised) NCError.Throw("Attempted to shutdown without starting! Please call Lightning::Init!", 95, "Lightning::Initialised false when calling Lightning::Shutdown", NCErrorSeverity.FatalError);
 
             if (GlobalSettings.GeneralProfilePerformance)
             {
@@ -207,7 +207,7 @@ namespace LightningGL
         /// Initialises the Scene Manager.
         /// </summary>
         /// <param name="windowSettings">The window settings to use for the Scene Manager.</param>
-        /// <exception cref="NCException">An error occurred initialising the Scene Manager.</exception>
+        /// <exception cref="NCError">An error occurred initialising the Scene Manager.</exception>
         internal virtual void InitSceneManager(RendererSettings windowSettings)
         {
             Renderer.Start(windowSettings);
@@ -235,19 +235,19 @@ namespace LightningGL
                     }
                     else
                     {
-                        _ = new NCException($"Error initialising SceneManager: Failed to create scene instance!", 130,
-                        "Scene initialisation failed in SceneManager::Init", NCExceptionSeverity.FatalError);
+                        NCError.Throw($"Error initialising SceneManager: Failed to create scene instance!", 130,
+                        "Scene initialisation failed in SceneManager::Init", NCErrorSeverity.FatalError);
                     }
 
                 }
             }
 
-            if (Scenes.Count == 0) _ = new NCException($"There are no scenes defined.\n\nIf you tried to initialise Lightning without the Scene Manager," +
+            if (Scenes.Count == 0) NCError.Throw($"There are no scenes defined.\n\nIf you tried to initialise Lightning without the Scene Manager," +
                 $" this is no longer supported as of Lightning 1.2.0!", 131,
-                "SceneManager::Scenes Count = 0!", NCExceptionSeverity.FatalError);
+                "SceneManager::Scenes Count = 0!", NCErrorSeverity.FatalError);
 
-            if (CurrentScene == null) _ = new NCException($"Invalid startup scene {GlobalSettings.SceneStartupScene}", 132,
-                "GlobalSettings::StartupScene did not correspond to a valid scene", NCExceptionSeverity.FatalError);
+            if (CurrentScene == null) NCError.Throw($"Invalid startup scene {GlobalSettings.SceneStartupScene}", 132,
+                "GlobalSettings::StartupScene did not correspond to a valid scene", NCErrorSeverity.FatalError);
 
             Initialised = true;
         }
@@ -304,7 +304,7 @@ namespace LightningGL
 
             if (scene == null)
             {
-                _ = new NCException($"Tried to set invalid scene {name}!", 133, "Called SceneManager::GetCurrentScene with an invalid scene name");
+                NCError.Throw($"Tried to set invalid scene {name}!", 133, "Called SceneManager::GetCurrentScene with an invalid scene name");
                 return;
             }
 

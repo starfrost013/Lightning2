@@ -73,13 +73,13 @@
         {
             if (Size == default(Vector2))
             {
-                _ = new NCException("Cannot load an animated texture with no texture size", 44, "AnimatedTexture::Size property = (0,0)", NCExceptionSeverity.FatalError);
+                NCError.Throw("Cannot load an animated texture with no texture size", 44, "AnimatedTexture::Size property = (0,0)", NCErrorSeverity.FatalError);
                 return;
             }
             
             if (Cycle == null)
             {
-                _ = new NCException("AnimatedTextures must have a valid Cycle property", 54, "AnimatedTexture::Cycle property = null", NCExceptionSeverity.FatalError);
+                NCError.Throw("AnimatedTextures must have a valid Cycle property", 54, "AnimatedTexture::Cycle property = null", NCErrorSeverity.FatalError);
                 return;
             }
 
@@ -175,8 +175,8 @@
         {
             if (CurrentTexture == null)
             {
-                _ = new NCException("Attempted to call GetPixel on a NULL texture!", 184, "AnimatedTexture::GetPixel called when AnimatedTexture::CurrentTexture is NULL!",
-                    NCExceptionSeverity.Warning, null, true);
+                NCError.Throw("Attempted to call GetPixel on a NULL texture!", 184, "AnimatedTexture::GetPixel called when AnimatedTexture::CurrentTexture is NULL!",
+                    NCErrorSeverity.Warning, null, true);
                 return default;
             }
 
@@ -194,8 +194,8 @@
         {
             if (CurrentTexture == null)
             {
-                _ = new NCException("Attempted to call GetPixel on a NULL texture!", 185, "AnimatedTexture::SetPixel called when AnimatedTexture::CurrentTexture is NULL!",
-                    NCExceptionSeverity.Warning, null, true);
+                NCError.Throw("Attempted to call GetPixel on a NULL texture!", 185, "AnimatedTexture::SetPixel called when AnimatedTexture::CurrentTexture is NULL!",
+                    NCErrorSeverity.Warning, null, true);
                 return;
             }
 
@@ -208,7 +208,7 @@
         /// <param name="x">The X position of the pixel.</param>
         /// <param name="y">The Y position of the pixel.</param>
         /// <param name="unlockNow">Unlocks the texture immediately - use this if you do not need to draw any more pixels</param>
-        /// <exception cref="NCException">An invalid coordinate was supplied or the texture does not have a valid size.</exception>
+        /// <exception cref="NCError">An invalid coordinate was supplied or the texture does not have a valid size.</exception>
         /// <returns>A <see cref="List{T}"/> object containing the color of the pixels corresponding to the <paramref name="x"/> and <paramref name="y"/> parameters for each frame of this AnimatedTexture.</returns>
         public List<Color> GetPixelGlobal(int x, int y, bool unlockNow = false)
         {
@@ -228,7 +228,7 @@
         /// <param name="x">The X coordinate of the pixel to set.</param>
         /// <param name="y">The Y coordinate of the pixel to set.</param>
         /// <param name="unlockNow">Unlocks the texture immediately - use this if you do not need to draw any more pixels</param>
-        /// <exception cref="NCException">An invalid coordinate was supplied or the texture does not have a valid size.</exception>
+        /// <exception cref="NCError">An invalid coordinate was supplied or the texture does not have a valid size.</exception>
         public void SetPixelGlobal(int x, int y, Color color, bool unlockNow = false)
         {
             foreach (Texture texture in Frames) texture.SetPixel(x, y, color, unlockNow);

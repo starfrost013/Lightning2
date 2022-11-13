@@ -15,7 +15,7 @@
             }
             else
             {
-                _ = new NCException("Passed null font to FontAssetManager::AddAsset!", 184, "FontAssetManager::AddAsset asset parameter was null!", NCExceptionSeverity.FatalError);
+                NCError.Throw("Passed null font to FontAssetManager::AddAsset!", 184, "FontAssetManager::AddAsset asset parameter was null!", NCErrorSeverity.FatalError);
             }
 
             return asset;
@@ -87,7 +87,7 @@
 
             if (fontToUnload == null)
             {
-                _ = new NCException($"Attempted to unload invalid font FriendlyName {friendlyName}!", 71, "nonexistent friendlyName passed to TextManager::UnloadFont(string)!", NCExceptionSeverity.FatalError); // possibly not fatal?
+                NCError.Throw($"Attempted to unload invalid font FriendlyName {friendlyName}!", 71, "nonexistent friendlyName passed to TextManager::UnloadFont(string)!", NCErrorSeverity.FatalError); // possibly not fatal?
                 return;
             }
 
@@ -109,20 +109,20 @@
 
             if (font == null)
             {
-                _ = new NCException($"Passed a null font parameter to FontManager::GetTextSize!", 81, "TextManager::GetTextSize - Font parameter null!", 
-                    NCExceptionSeverity.FatalError);
+                NCError.Throw($"Passed a null font parameter to FontManager::GetTextSize!", 81, "TextManager::GetTextSize - Font parameter null!", 
+                    NCErrorSeverity.FatalError);
                 return default;
             }
 
             // call the multiline text function
             if (text.Contains('\n', StringComparison.InvariantCultureIgnoreCase)) return GetLargestTextSize(font, text);
 
-            if (!Lightning.Renderer.ContainsRenderable(font.Name)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.FontSize}) before trying to use it!", 81, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCExceptionSeverity.FatalError);
+            if (!Lightning.Renderer.ContainsRenderable(font.Name)) NCError.Throw($"Please load font (Name={font.Name}, Size={font.FontSize}) before trying to use it!", 81, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCErrorSeverity.FatalError);
 
             int fontSizeX,
                 fontSizeY;
 
-            if (TTF_SizeUTF8(font.Handle, text, out fontSizeX, out fontSizeY) < 0) _ = new NCException($"An error occurred sizing text. {SDL_GetError()}", 80, "TTF_SizeUTF8 call from TextManager::GetTextSize failed", NCExceptionSeverity.FatalError);
+            if (TTF_SizeUTF8(font.Handle, text, out fontSizeX, out fontSizeY) < 0) NCError.Throw($"An error occurred sizing text. {SDL_GetError()}", 80, "TTF_SizeUTF8 call from TextManager::GetTextSize failed", NCErrorSeverity.FatalError);
 
             return new Vector2(fontSizeX, fontSizeY);
         }
@@ -140,8 +140,8 @@
 
             if (curFont == null)
             {
-                _ = new NCException($"GetTextSize was provided an invalid font, so (0,0) will be returned", 190,
-                    "The Font parameter to FontManager::GetTextSize did not correspond to a loaded font", NCExceptionSeverity.Warning, null, true);
+                NCError.Throw($"GetTextSize was provided an invalid font, so (0,0) will be returned", 190,
+                    "The Font parameter to FontManager::GetTextSize did not correspond to a loaded font", NCErrorSeverity.Warning, null, true);
                 return default;
             }
 
@@ -163,13 +163,13 @@
             // check it's a real font
             if (font == null)
             {
-                _ = new NCException($"Tried to pass null to FontManager::GetLargestTextSize!", 183,
-                "TextManager::GetTextSize - Font parameter null!", NCExceptionSeverity.FatalError);
+                NCError.Throw($"Tried to pass null to FontManager::GetLargestTextSize!", 183,
+                "TextManager::GetTextSize - Font parameter null!", NCErrorSeverity.FatalError);
                 return default; 
             }
 
-            if (!Lightning.Renderer.ContainsRenderable(font.Name)) _ = new NCException($"Please load font (Name={font.Name}, Size={font.FontSize}) before trying to use it!", 82, 
-                "TextManager::GetTextSize - Font not in FontManager::Assets!", NCExceptionSeverity.FatalError);
+            if (!Lightning.Renderer.ContainsRenderable(font.Name)) NCError.Throw($"Please load font (Name={font.Name}, Size={font.FontSize}) before trying to use it!", 82, 
+                "TextManager::GetTextSize - Font not in FontManager::Assets!", NCErrorSeverity.FatalError);
 
             string[] lines = text.Split('\n');
 
@@ -203,8 +203,8 @@
             }
             else
             {
-                _ = new NCException($"GetLargestTextSize was provided an invalid font, so (0,0) will be returned", 189,
-                    "The Font parameter to FontManager::GetLargestTextSize did not correspond to a loaded font", NCExceptionSeverity.Warning, null, true);
+                NCError.Throw($"GetLargestTextSize was provided an invalid font, so (0,0) will be returned", 189,
+                    "The Font parameter to FontManager::GetLargestTextSize did not correspond to a loaded font", NCErrorSeverity.Warning, null, true);
                 return default;
             }
         }

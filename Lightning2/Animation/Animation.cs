@@ -90,8 +90,8 @@ namespace LightningGL
         {
             if (Length <= 0)
             {
-                _ = new NCException($"An animation must have a length of at least 1 millisecond (value = {Length})",
-                    142, "Animation::Length was less than or equal to 0 during Animation::Validate call", NCExceptionSeverity.FatalError);
+                NCError.Throw($"An animation must have a length of at least 1 millisecond (value = {Length})",
+                    142, "Animation::Length was less than or equal to 0 during Animation::Validate call", NCErrorSeverity.FatalError);
             }
 
             List<string> validTypeNames = new();
@@ -105,16 +105,16 @@ namespace LightningGL
 
             foreach (AnimationProperty property in Properties)
             {
-                if (string.IsNullOrWhiteSpace(property.Name)) _ = new NCException($"All properties in an Animation JSON must have a name!", 
-                    144, "AnimationProperty::Name failed a string.IsNullOrWhiteSpace check", NCExceptionSeverity.FatalError);
+                if (string.IsNullOrWhiteSpace(property.Name)) NCError.Throw($"All properties in an Animation JSON must have a name!", 
+                    144, "AnimationProperty::Name failed a string.IsNullOrWhiteSpace check", NCErrorSeverity.FatalError);
 
                 bool isRealType = validTypeNames.Contains(property.Type);
 
-                if (!isRealType) _ = new NCException($"Tried to use an AnimationProperty {property.Name}, type {property.Type} which is not loaded in the current AppDomain",
-                    141, "Tried to instantiate a type for an AnimationProperty from an unloaded assembly. Try referencing the assembly the type is located within.", NCExceptionSeverity.FatalError);
+                if (!isRealType) NCError.Throw($"Tried to use an AnimationProperty {property.Name}, type {property.Type} which is not loaded in the current AppDomain",
+                    141, "Tried to instantiate a type for an AnimationProperty from an unloaded assembly. Try referencing the assembly the type is located within.", NCErrorSeverity.FatalError);
 
-                if (property.Keyframes.Count == 0) _ = new NCException($"The property {property.Name} has no keyframes!", 
-                    145, "AnimationProperty::Keyframes::Count was 0 during call to Animation::Validate", NCExceptionSeverity.FatalError);
+                if (property.Keyframes.Count == 0) NCError.Throw($"The property {property.Name} has no keyframes!", 
+                    145, "AnimationProperty::Keyframes::Count was 0 during call to Animation::Validate", NCErrorSeverity.FatalError);
 
                 for (int keyframeId = 0; keyframeId < property.Keyframes.Count; keyframeId++)
                 {
@@ -122,8 +122,8 @@ namespace LightningGL
                     keyframe.Id = keyframeId;
 
                     if (keyframe.Position < 0
-                        || keyframe.Position > Length) _ = new NCException($"Keyframe {keyframe.Id} for property {property.Name} is not within the animation. The value is {keyframe.Position}, range is (0,{Length})!",
-                    143, "AnimationKeyframe::Position was less than 0 or more than Animation::Length", NCExceptionSeverity.FatalError);
+                        || keyframe.Position > Length) NCError.Throw($"Keyframe {keyframe.Id} for property {property.Name} is not within the animation. The value is {keyframe.Position}, range is (0,{Length})!",
+                    143, "AnimationKeyframe::Position was less than 0 or more than Animation::Length", NCErrorSeverity.FatalError);
                 }
             }
         }
@@ -179,8 +179,8 @@ namespace LightningGL
                                 if (thisKeyframe.GetType()
                                     != nextKeyframe.GetType())
                                 {
-                                    _ = new NCException($"All Keyframes of an animation property must be of the same type!", 146, "The value of thisKeyframe::GetType is not the same as nextKeyframe::GetType in a call to Animation::UpdateAnimationFor",
-                                        NCExceptionSeverity.FatalError);
+                                    NCError.Throw($"All Keyframes of an animation property must be of the same type!", 146, "The value of thisKeyframe::GetType is not the same as nextKeyframe::GetType in a call to Animation::UpdateAnimationFor",
+                                        NCErrorSeverity.FatalError);
                                 }
 
                                 long max = nextKeyframe.Position - thisKeyframe.Position;
@@ -218,8 +218,8 @@ namespace LightningGL
                                         if (vector2Value1 == null
                                             || vector2Value2 == null)
                                         {
-                                            _ = new NCException("Attempted to convert invalid Vector2 animation...", 182, 
-                                                "Animation::UpdateAnimationFor - call to Vector2Converter::ConvertFromInvariantString returned null!", NCExceptionSeverity.FatalError);
+                                            NCError.Throw("Attempted to convert invalid Vector2 animation...", 182, 
+                                                "Animation::UpdateAnimationFor - call to Vector2Converter::ConvertFromInvariantString returned null!", NCErrorSeverity.FatalError);
                                             break;
                                         }
                                         else
@@ -238,8 +238,8 @@ namespace LightningGL
 
                                         break;
                                     default:
-                                        _ = new NCException($"Invalid animation property type. Only int, float, double, boolean, and Vector2 are supported!", 148,
-                                        "Animation::UpdateAnimationFor attempted to set a value of an unsupported animation property type!", NCExceptionSeverity.FatalError);
+                                        NCError.Throw($"Invalid animation property type. Only int, float, double, boolean, and Vector2 are supported!", 148,
+                                        "Animation::UpdateAnimationFor attempted to set a value of an unsupported animation property type!", NCErrorSeverity.FatalError);
                                         break;
                                 }
 
@@ -249,8 +249,8 @@ namespace LightningGL
 
                                 if (propertyInfo == null)
                                 {
-                                    _ = new NCException($"Attempted to set value of invalid animation property {property.Name}", 152,
-                                       $"Tried to get an invalid property of the type {renderableType.Name} in call to Animation::UpdateAnimationFor", NCExceptionSeverity.FatalError);
+                                    NCError.Throw($"Attempted to set value of invalid animation property {property.Name}", 152,
+                                       $"Tried to get an invalid property of the type {renderableType.Name} in call to Animation::UpdateAnimationFor", NCErrorSeverity.FatalError);
                                     return;
                                 }
 
@@ -259,7 +259,7 @@ namespace LightningGL
                             }
                             catch (Exception ex)
                             {
-                                _ = new NCException($"Error: An error occurred converting an animation property of {property.Type}, value {thisKeyframe.Value}: \n\n{ex}", 147,
+                                NCError.Throw($"Error: An error occurred converting an animation property of {property.Type}, value {thisKeyframe.Value}: \n\n{ex}", 147,
                                     "An exception occurred in Animation::UpdateAnimationFor");
                             }
                         }

@@ -30,7 +30,7 @@ namespace LightningPackager
 
             if (magic != Magic)
             {
-                _ = new NCException($"Invalid magic for file catalog - expected {magic}, got {Magic}!", 102, "PackageFileCatalog::Read - magic != PackageFileCatalog::Magic!", NCExceptionSeverity.Error, null, true);
+                NCError.Throw($"Invalid magic for file catalog - expected {magic}, got {Magic}!", 102, "PackageFileCatalog::Read - magic != PackageFileCatalog::Magic!", NCErrorSeverity.Error, null, true);
                 return null;
             }
 

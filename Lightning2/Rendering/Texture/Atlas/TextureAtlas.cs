@@ -33,11 +33,11 @@
 
         internal override void Load()
         {
-            if (FrameSize == default) _ = new NCException("Cannot load a texture with no texture frame size!", 45, "TextureAtlas::FrameSize property = (0,0)!", NCExceptionSeverity.FatalError);
+            if (FrameSize == default) NCError.Throw("Cannot load a texture with no texture frame size!", 45, "TextureAtlas::FrameSize property = (0,0)!", NCErrorSeverity.FatalError);
 
             if (TextureCount.X < 1 
-                || TextureCount.Y < 1) _ = new NCException($"A texture atlas must have at least one frame, set to {TextureCount.X},{TextureCount.Y}!", 
-                    46, "TextureAtlas::TextureCount::X or Y < 1!", NCExceptionSeverity.FatalError);
+                || TextureCount.Y < 1) NCError.Throw($"A texture atlas must have at least one frame, set to {TextureCount.X},{TextureCount.Y}!", 
+                    46, "TextureAtlas::TextureCount::X or Y < 1!", NCErrorSeverity.FatalError);
 
             NCLogging.Log($"Loading atlas texture at path {Path}...");
 
@@ -52,8 +52,8 @@
             if (Index < 0
                 || Index > maxIndex)
             {
-                _ = new NCException($"Cannot draw invalid TextureAtlas ({Name}, {Path}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)",
-                    47, "TextureAtlas::Index property does not correspond to an actual index of the TextureAtlas", NCExceptionSeverity.Error, null, false);
+                NCError.Throw($"Cannot draw invalid TextureAtlas ({Name}, {Path}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)",
+                    47, "TextureAtlas::Index property does not correspond to an actual index of the TextureAtlas", NCErrorSeverity.Error, null, false);
                 return;
             }
 

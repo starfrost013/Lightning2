@@ -60,7 +60,7 @@
         {
             AudioHandle = Mix_LoadWAV(Path);
 
-            if (AudioHandle == IntPtr.Zero) _ = new NCException($"Error loading audio file at {Path}: {Mix_GetError()}", 51, "An SDL_mixer error occurred in AudioFile::Load", NCExceptionSeverity.Error);
+            if (AudioHandle == IntPtr.Zero) NCError.Throw($"Error loading audio file at {Path}: {Mix_GetError()}", 51, "An SDL_mixer error occurred in AudioFile::Load", NCErrorSeverity.Error);
 
             RealVolume = 1; // make sure there is always a value
         }

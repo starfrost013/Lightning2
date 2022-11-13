@@ -13,8 +13,8 @@
         {
             if (asset == null) return null;
 
-            if (!File.Exists(asset.Path)) _ = new NCException("Attempted to load a nonexistent animation file.", 138,
-                "Animation::Load called with Path property that does not point to a valid Animation JSON file!", NCExceptionSeverity.FatalError);
+            if (!File.Exists(asset.Path)) NCError.Throw("Attempted to load a nonexistent animation file.", 138,
+                "Animation::Load called with Path property that does not point to a valid Animation JSON file!", NCErrorSeverity.FatalError);
 
             NCLogging.Log($"Deserialising animation JSON from {asset.Path}...");
 
@@ -26,8 +26,8 @@
 
                 if (asset == null)
                 {
-                    _ = new NCException($"A fatal error occurred while deserialising an animation JSON.", 140,
-                    "Animation::Load - JsonConvert::DeserializeObject returned null", NCExceptionSeverity.FatalError);
+                    NCError.Throw($"A fatal error occurred while deserialising an animation JSON.", 140,
+                    "Animation::Load - JsonConvert::DeserializeObject returned null", NCErrorSeverity.FatalError);
                     return null;
                 }
 
@@ -44,8 +44,8 @@
             }
             catch (Exception err)
             {
-                _ = new NCException($"A fatal error occurred while deserialising an animation JSON. See base exception information for further information.", 139,
-                    "Animation::Load - fatal error in call to JsonConvert::DeserializeObject", NCExceptionSeverity.FatalError, err);
+                NCError.Throw($"A fatal error occurred while deserialising an animation JSON. See base exception information for further information.", 139,
+                    "Animation::Load - fatal error in call to JsonConvert::DeserializeObject", NCErrorSeverity.FatalError, err);
                 return null; 
             }
         }

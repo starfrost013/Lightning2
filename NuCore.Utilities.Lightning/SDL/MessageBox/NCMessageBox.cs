@@ -83,7 +83,7 @@ namespace NuCore.Utilities
             mbData.flags = Icon;
 
             // Show the message box
-            if (SDL_ShowMessageBox(ref mbData, out var buttonId) < 0) _ = new NCException($"Error creating messagebox - {SDL_GetError()}", 19, "SDL2 error occurred in NCMessageBox::Show", NCExceptionSeverity.FatalError);
+            if (SDL_ShowMessageBox(ref mbData, out var buttonId) < 0) NCError.Throw($"Error creating messagebox - {SDL_GetError()}", 19, "SDL2 error occurred in NCMessageBox::Show", NCErrorSeverity.FatalError);
 
             Debug.Assert(buttonId < buttonArray.Length);
 

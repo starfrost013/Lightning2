@@ -42,7 +42,7 @@ namespace LightningPackager
 
             if (magic != Magic)
             {
-                _ = new NCException($"Not a WAD file or magic is corrupt (expected {Magic}, got {magic}!", 99, $"PackageFile::Read - could not identify obfuscated or non-obfuscated header!", NCExceptionSeverity.Error, null, true);
+                NCError.Throw($"Not a WAD file or magic is corrupt (expected {Magic}, got {magic}!", 99, $"PackageFile::Read - could not identify obfuscated or non-obfuscated header!", NCErrorSeverity.Error, null, true);
                 return null;
             }
 
@@ -52,8 +52,8 @@ namespace LightningPackager
             if (formatVersionMajor != FormatVersionMajor
                 || formatVersionMinor != FormatVersionMinor)
             {
-                _ = new NCException($"Incorrect package file version. Cannot load (Implemented version {FormatVersionMajor}.{FormatVersionMinor}, expected version {formatVersionMajor}." +
-                    $"{formatVersionMinor})", 100, "MajorVersionHeader and MinorVersionHeader fields in WAD file not equivalent to PackageFile::MajorVersionHeader and PackageFile::MinorVersionHeader!", NCExceptionSeverity.Error, null, true);
+                NCError.Throw($"Incorrect package file version. Cannot load (Implemented version {FormatVersionMajor}.{FormatVersionMinor}, expected version {formatVersionMajor}." +
+                    $"{formatVersionMinor})", 100, "MajorVersionHeader and MinorVersionHeader fields in WAD file not equivalent to PackageFile::MajorVersionHeader and PackageFile::MinorVersionHeader!", NCErrorSeverity.Error, null, true);
                 return null;
             }
 
@@ -88,21 +88,21 @@ namespace LightningPackager
                 if (revision != LightningVersion.LIGHTNING_VERSION_REVISION
                     || build != LightningVersion.LIGHTNING_VERSION_BUILD)
                 {
-                    _ = new NCException($"Incorrect engine patch version. You may encounter issues with this game not anticipated by the developers! (expected version {LightningVersion.LIGHTNING_VERSION_BUILD_STRING}, got {metadata.EngineVersion}!)", 
+                    NCError.Throw($"Incorrect engine patch version. You may encounter issues with this game not anticipated by the developers! (expected version {LightningVersion.LIGHTNING_VERSION_BUILD_STRING}, got {metadata.EngineVersion}!)", 
                         153, "Revision and build values of a WAD's EngineVersion were not identical to the values in LightningBase's LightningVersion::LIGHTNING_VERSION_REVISION and PackagerVersion::LIGHTNING_VERSION_BUILD respectively!",
-                        NCExceptionSeverity.Warning);
+                        NCErrorSeverity.Warning);
                 }
             }
             
             // fatal error on wrong major or mninor
 
-            if (failedCompatCheck) _ = new NCException("This WAD file is incompatible with this version of Lightning.\n\n" +
+            if (failedCompatCheck) NCError.Throw("This WAD file is incompatible with this version of Lightning.\n\n" +
                 $"WAD Version: {metadata.EngineVersion}\n" +
                 $"Lightning Version: {LightningVersion.LIGHTNING_VERSION_BUILD_STRING} \n\n" +
                 $"Only versions that have the same major and minor version are compatible with each other. Either regenerate your game WAD using MakePackage.exe to be compatible with the latest " +
                 $"version of the engine, or your game has somehow been bundled with an incompatible engine version - in which case you should contact the game developer for a fix.",
                 137, $"PackageFile header parser: Major and minor versions were not identical to the values in LightningBase's LightningVersion::LIGHTNING_VERSION_MAJOR and PackagerVersion::LIGHTNING_VERSION_MINOR",
-                NCExceptionSeverity.FatalError);
+                NCErrorSeverity.FatalError);
 
             NCLogging.Log("WAD File Metadata:\n" +
                 $"Format version: {formatVersionMajor}.{formatVersionMinor}\n" +

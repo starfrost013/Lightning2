@@ -32,7 +32,7 @@ namespace LightningGL
 
             if (windowSettings == null)
             {
-                _ = new NCException("Passed null WindowSettings to Window::Start method!", 7, "Window::Start windowSettings parameter null", NCExceptionSeverity.FatalError);
+                NCError.Throw("Passed null WindowSettings to Window::Start method!", 7, "Window::Start windowSettings parameter null", NCErrorSeverity.FatalError);
                 return;
             }
 
@@ -56,8 +56,8 @@ namespace LightningGL
             // Create the window,
             Settings.WindowHandle = SDL_CreateWindow(Settings.Title, (int)Settings.Position.X, (int)Settings.Position.Y, (int)Settings.Size.X, (int)Settings.Size.Y, Settings.WindowFlags);
 
-            if (Settings.WindowHandle == IntPtr.Zero) _ = new NCException($"Failed to create Window: {SDL_GetError()}", 8, 
-                "Window::AddWindow - SDL_CreateWindow failed to create window", NCExceptionSeverity.FatalError);
+            if (Settings.WindowHandle == IntPtr.Zero) NCError.Throw($"Failed to create Window: {SDL_GetError()}", 8, 
+                "Window::AddWindow - SDL_CreateWindow failed to create window", NCErrorSeverity.FatalError);
 
             // set the window ID 
             Settings.ID = SDL_GetWindowID(Settings.WindowHandle);
@@ -68,11 +68,11 @@ namespace LightningGL
             // Get the renderer driver name using our unofficial SDL function
             string realRenderDriverName = SDLu_GetRenderDriverName();
 
-            if (realRenderDriverName != renderer) _ = new NCException($"Specified renderer {renderer} is not supported. Using {realRenderDriverName} instead!", 123, 
-                "Renderer not supported in current environment", NCExceptionSeverity.Warning, null, true);
+            if (realRenderDriverName != renderer) NCError.Throw($"Specified renderer {renderer} is not supported. Using {realRenderDriverName} instead!", 123, 
+                "Renderer not supported in current environment", NCErrorSeverity.Warning, null, true);
 
-            if (Settings.RendererHandle == IntPtr.Zero) _ = new NCException($"Failed to create Renderer: {SDL_GetError()}", 9, 
-                "Window::AddWindow - SDL_CreateRenderer failed to create renderer", NCExceptionSeverity.FatalError);
+            if (Settings.RendererHandle == IntPtr.Zero) NCError.Throw($"Failed to create Renderer: {SDL_GetError()}", 9, 
+                "Window::AddWindow - SDL_CreateRenderer failed to create renderer", NCErrorSeverity.FatalError);
 
             // Initialise the Light Manager.
             LightManager.Init();

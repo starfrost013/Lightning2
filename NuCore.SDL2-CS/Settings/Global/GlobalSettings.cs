@@ -286,7 +286,7 @@ namespace LightningBase
             // Consider this
             NCINIFile iniFile = NCINIFile.Parse(GLOBALSETTINGS_PATH);
 
-            if (iniFile == null) _ = new NCException("Failed to load Engine.ini!", 28, "GlobalSettings::Load failed to load Engine.ini!", NCExceptionSeverity.FatalError);
+            if (iniFile == null) NCError.Throw("Failed to load Engine.ini!", 28, "GlobalSettings::Load failed to load Engine.ini!", NCErrorSeverity.FatalError);
 
             NCINIFileSection generalSection = iniFile.GetSection("General");
             NCINIFileSection graphicsSection = iniFile.GetSection("Graphics");
@@ -297,12 +297,12 @@ namespace LightningBase
             NCINIFileSection networkSection = iniFile.GetSection("Network");
             NCINIFileSection debugSection = iniFile.GetSection("Debug");
 
-            if (generalSection == null) _ = new NCException("Engine.ini must have a General section!", 41, 
-                "GlobalSettings::Load call to NCINIFile::GetSection failed for General section", NCExceptionSeverity.FatalError);
-            if (locSection == null) _ = new NCException("Engine.ini must have a Localisation section!", 29, 
-                "GlobalSettings::Load call to NCINIFile::GetSection failed for Localisation section", NCExceptionSeverity.FatalError);
-            if (sceneSection == null) _ = new NCException("Engine.ini must have a Scene section!", 121,
-                "GlobalSettings::Load call to NCINIFile::GetSection failed for Scene section", NCExceptionSeverity.FatalError);
+            if (generalSection == null) NCError.Throw("Engine.ini must have a General section!", 41, 
+                "GlobalSettings::Load call to NCINIFile::GetSection failed for General section", NCErrorSeverity.FatalError);
+            if (locSection == null) NCError.Throw("Engine.ini must have a Localisation section!", 29, 
+                "GlobalSettings::Load call to NCINIFile::GetSection failed for Localisation section", NCErrorSeverity.FatalError);
+            if (sceneSection == null) NCError.Throw("Engine.ini must have a Scene section!", 121,
+                "GlobalSettings::Load call to NCINIFile::GetSection failed for Scene section", NCErrorSeverity.FatalError);
 
             // Load the General section.
 
@@ -333,13 +333,13 @@ namespace LightningBase
             }
             else
             {
-                if (!Directory.Exists(localisationFolder)) _ = new NCException("LocalisationFolder does not exist", 157,
-                    "The LocalisationFolder GlobalSetting does not correspond to an extant folder. (GlobalSettings::Load)", NCExceptionSeverity.FatalError);
+                if (!Directory.Exists(localisationFolder)) NCError.Throw("LocalisationFolder does not exist", 157,
+                    "The LocalisationFolder GlobalSetting does not correspond to an extant folder. (GlobalSettings::Load)", NCErrorSeverity.FatalError);
                 GeneralLanguage = @$"{localisationFolder}\{language}.ini";
             }
            
-            if (!File.Exists(GeneralLanguage)) _ = new NCException("Engine.ini's Localisation section must have a valid Language value!", 30, 
-                "GlobalSettings::Load call to NCINIFileSection::GetValue failed for Language value", NCExceptionSeverity.FatalError);
+            if (!File.Exists(GeneralLanguage)) NCError.Throw("Engine.ini's Localisation section must have a valid Language value!", 30, 
+                "GlobalSettings::Load call to NCINIFileSection::GetValue failed for Language value", NCErrorSeverity.FatalError);
 
             // Load the Graphics section, if it is present.
             if (graphicsSection != null)
@@ -397,8 +397,8 @@ namespace LightningBase
 
             SceneStartupScene = sceneSection.GetValue("StartupScene");
 
-            if (SceneStartupScene == null) _ = new NCException("DontUseSceneManager not specified, but StartupScene not present in the [Scene] section of Engine.ini!", 164,
-                $"GlobalSettings::DontUseSceneManager not specified, but no [Scene] section in Engine.ini!", NCExceptionSeverity.FatalError);
+            if (SceneStartupScene == null) NCError.Throw("DontUseSceneManager not specified, but StartupScene not present in the [Scene] section of Engine.ini!", 164,
+                $"GlobalSettings::DontUseSceneManager not specified, but no [Scene] section in Engine.ini!", NCErrorSeverity.FatalError);
 
             AudioDeviceHz = DEFAULT_AUDIO_DEVICE_HZ;
             AudioChannels = DEFAULT_AUDIO_CHANNELS;
@@ -471,13 +471,13 @@ namespace LightningBase
         public static void Validate()
         {
             // test system ram
-            if (RequirementsMinimumSystemRam > SystemInfo.SystemRam) _ = new NCException($"Insufficient RAM to run game. {RequirementsMinimumSystemRam}MB required, you have {SystemInfo.SystemRam}MB!", 111, $"System RAM less than GlobalSettings::MinimumSystemRam!", NCExceptionSeverity.FatalError);
+            if (RequirementsMinimumSystemRam > SystemInfo.SystemRam) NCError.Throw($"Insufficient RAM to run game. {RequirementsMinimumSystemRam}MB required, you have {SystemInfo.SystemRam}MB!", 111, $"System RAM less than GlobalSettings::MinimumSystemRam!", NCErrorSeverity.FatalError);
 
             // test threads
-            if (RequirementsMinimumLogicalProcessors > SystemInfo.Cpu.Threads) _ = new NCException($"Insufficient logical processors to run game. {RequirementsMinimumLogicalProcessors} threads required, you have {SystemInfo.Cpu.Threads}!", 112, $"System logical processor count less than GlobalSettings::MinimumLogicalProcessors!", NCExceptionSeverity.FatalError);
+            if (RequirementsMinimumLogicalProcessors > SystemInfo.Cpu.Threads) NCError.Throw($"Insufficient logical processors to run game. {RequirementsMinimumLogicalProcessors} threads required, you have {SystemInfo.Cpu.Threads}!", 112, $"System logical processor count less than GlobalSettings::MinimumLogicalProcessors!", NCErrorSeverity.FatalError);
 
             // test cpu functionality
-            if (RequirementsMinimumCpuCapabilities > SystemInfo.Cpu.Capabilities) _ = new NCException($"Insufficient CPU capabilities to run game. {RequirementsMinimumCpuCapabilities} capabilities required, you have {SystemInfo.Cpu.Capabilities}!", 113, $"CPU capabilities less than GlobalSettings::MinimumCpuCapabilities!", NCExceptionSeverity.FatalError);
+            if (RequirementsMinimumCpuCapabilities > SystemInfo.Cpu.Capabilities) NCError.Throw($"Insufficient CPU capabilities to run game. {RequirementsMinimumCpuCapabilities} capabilities required, you have {SystemInfo.Cpu.Capabilities}!", 113, $"CPU capabilities less than GlobalSettings::MinimumCpuCapabilities!", NCErrorSeverity.FatalError);
 
             bool failedOsCheck = false;
 
@@ -495,7 +495,7 @@ namespace LightningBase
             }
 
             // test OS version
-            if (failedOsCheck) _ = new NCException($"Insufficient OS version to run game. {RequirementsMinimumOperatingSystem} must be used, you have {SystemInfo.CurOperatingSystem}!", 114, $"OS version less than GlobalSettings::MinimumOperatingSystem!", NCExceptionSeverity.FatalError);
+            if (failedOsCheck) NCError.Throw($"Insufficient OS version to run game. {RequirementsMinimumOperatingSystem} must be used, you have {SystemInfo.CurOperatingSystem}!", 114, $"OS version less than GlobalSettings::MinimumOperatingSystem!", NCErrorSeverity.FatalError);
         }
 
         public static void Write() => IniFile.Write(GLOBALSETTINGS_PATH);

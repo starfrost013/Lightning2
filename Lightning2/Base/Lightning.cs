@@ -206,8 +206,8 @@
             }
             catch (Exception err)
             {
-                _ = new NCException($"An unknown fatal error occurred during client initialisation. The installation may be corrupted!", 
-                    0x0000DEAD, "A fatal error occurred in LightningGL::Init!", NCExceptionSeverity.FatalError, err);
+                NCError.Throw($"An unknown fatal error occurred during client initialisation. The installation may be corrupted!", 
+                    0x0000DEAD, "A fatal error occurred in LightningGL::Init!", NCErrorSeverity.FatalError, err);
             }
         }
 
@@ -219,8 +219,8 @@
             }
             catch (Exception err)
             {
-                _ = new NCException($"An unknown fatal error occurred during server initialisation. The installation may be corrupted!",
-                    0x0001DEAD, "A fatal error occurred in LightningGL::Init!", NCExceptionSeverity.FatalError, err);
+                NCError.Throw($"An unknown fatal error occurred during server initialisation. The installation may be corrupted!",
+                    0x0001DEAD, "A fatal error occurred in LightningGL::Init!", NCErrorSeverity.FatalError, err);
             }
         }
 
