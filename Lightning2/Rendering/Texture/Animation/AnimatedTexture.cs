@@ -73,13 +73,13 @@
         {
             if (Size == default(Vector2))
             {
-                NCError.Throw("Cannot load an animated texture with no texture size", 44, "AnimatedTexture::Size property = (0,0)", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox("Cannot load an animated texture with no texture size", 44, "AnimatedTexture::Size property = (0,0)", NCErrorSeverity.FatalError);
                 return;
             }
             
             if (Cycle == null)
             {
-                NCError.Throw("AnimatedTextures must have a valid Cycle property", 54, "AnimatedTexture::Cycle property = null", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox("AnimatedTextures must have a valid Cycle property", 54, "AnimatedTexture::Cycle property = null", NCErrorSeverity.FatalError);
                 return;
             }
 
@@ -175,7 +175,7 @@
         {
             if (CurrentTexture == null)
             {
-                NCError.Throw("Attempted to call GetPixel on a NULL texture!", 184, "AnimatedTexture::GetPixel called when AnimatedTexture::CurrentTexture is NULL!",
+                NCError.ShowErrorBox("Attempted to call GetPixel on a NULL texture!", 184, "AnimatedTexture::GetPixel called when AnimatedTexture::CurrentTexture is NULL!",
                     NCErrorSeverity.Warning, null, true);
                 return default;
             }
@@ -194,7 +194,7 @@
         {
             if (CurrentTexture == null)
             {
-                NCError.Throw("Attempted to call GetPixel on a NULL texture!", 185, "AnimatedTexture::SetPixel called when AnimatedTexture::CurrentTexture is NULL!",
+                NCError.ShowErrorBox("Attempted to call GetPixel on a NULL texture!", 185, "AnimatedTexture::SetPixel called when AnimatedTexture::CurrentTexture is NULL!",
                     NCErrorSeverity.Warning, null, true);
                 return;
             }

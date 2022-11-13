@@ -32,7 +32,7 @@
 
             if (localisationIni == null)
             {
-                NCError.Throw($"Error in localisation INI {GlobalSettings.GeneralLanguage}!", 31, "LocalisationManager::Load call to NCINIFile::Parse failed", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox($"Error in localisation INI {GlobalSettings.GeneralLanguage}!", 31, "LocalisationManager::Load call to NCINIFile::Parse failed", NCErrorSeverity.FatalError);
                 return;
             }
 
@@ -42,13 +42,13 @@
 
             if (metadataSection == null)
             {
-                NCError.Throw($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No metadata section!", 32, "LocalisationManager::Load failed to obtain the Metadata section of a localisation file.", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No metadata section!", 32, "LocalisationManager::Load failed to obtain the Metadata section of a localisation file.", NCErrorSeverity.FatalError);
                 return;
             }
 
             if (stringsSection == null)
             {
-                NCError.Throw($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No strings section!", 33, "LocalisationManager.Load failed to obtain the Strings section of a localisation file.", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No strings section!", 33, "LocalisationManager.Load failed to obtain the Strings section of a localisation file.", NCErrorSeverity.FatalError);
                 return;
             }
 
@@ -107,7 +107,7 @@
                     {
                         string? localisationString = GetString(localisationTextId);
 
-                        if (localisationString == null) NCError.Throw($"Invalid localisation string - cannot find localised string {localisationTextId}!", 35, "LocalisationManager.ProcessString", NCErrorSeverity.FatalError);
+                        if (localisationString == null) NCError.ShowErrorBox($"Invalid localisation string - cannot find localised string {localisationTextId}!", 35, "LocalisationManager.ProcessString", NCErrorSeverity.FatalError);
 
                         stringProcess = stringProcess.ReplaceExact(localisationTextId, localisationString);
                     }

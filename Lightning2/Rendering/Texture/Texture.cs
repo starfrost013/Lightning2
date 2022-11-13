@@ -105,7 +105,7 @@
             {
                 if (!Loaded)
                 {
-                    NCError.Throw("Attempted to set the opacity of an unloaded Texture - please load it first!. \nThe Opacity will not be changed until you load the texture.", 161,
+                    NCError.ShowErrorBox("Attempted to set the opacity of an unloaded Texture - please load it first!. \nThe Opacity will not be changed until you load the texture.", 161,
                    "Texture::SetOpacity called when Texture::Loaded is FALSE", NCErrorSeverity.Warning, null, false);
                     return;
                 }
@@ -125,13 +125,13 @@
             Size = new Vector2(sizeX, sizeY);
             Access = access;
 
-            if (Size == default) NCError.Throw($"Error creating texture: Must have a size!", 20, 
+            if (Size == default) NCError.ShowErrorBox($"Error creating texture: Must have a size!", 20, 
                 "Texture constructor called with invalid size", NCErrorSeverity.FatalError);
 
             Handle = SDL_CreateTexture(Lightning.Renderer.Settings.RendererHandle, SDL_PIXELFORMAT_ARGB8888, Access, (int)Size.X, (int)Size.Y);
 
             // check if texture failed to load
-            if (Handle == IntPtr.Zero) NCError.Throw($"Error creating texture: {SDL_GetError()}", 119, 
+            if (Handle == IntPtr.Zero) NCError.ShowErrorBox($"Error creating texture: {SDL_GetError()}", 119, 
                 "An SDL error occurred in the Texture constructor", NCErrorSeverity.FatalError);
 
             OnRender += Draw;
@@ -152,13 +152,13 @@
                 return;
             }
 
-            if (!File.Exists(Path)) NCError.Throw($"{Path} does not exist!", 9, "Texture::Path property does not exist", NCErrorSeverity.FatalError);
+            if (!File.Exists(Path)) NCError.ShowErrorBox($"{Path} does not exist!", 9, "Texture::Path property does not exist", NCErrorSeverity.FatalError);
 
             Handle = IMG_LoadTexture(Lightning.Renderer.Settings.RendererHandle, Path);
 
             if (Handle == IntPtr.Zero)
             {
-                NCError.Throw($"Failed to load texture at {Path} - {SDL_GetError()}", 10, "An SDL error occurred in Texture::Load!", NCErrorSeverity.Error);
+                NCError.ShowErrorBox($"Failed to load texture at {Path} - {SDL_GetError()}", 10, "An SDL error occurred in Texture::Load!", NCErrorSeverity.Error);
             }
             else
             {
@@ -177,7 +177,7 @@
             FormatHandle = SDL_AllocFormat(currentFormat);
 
             // probably not the best to actually like, allocate formats like this
-            if (FormatHandle == IntPtr.Zero) NCError.Throw($"Error allocating texture format for texture at {Path}: {SDL_GetError()}", 13, "An SDL error occurred in Texture::Init_AllocFormat", NCErrorSeverity.FatalError);
+            if (FormatHandle == IntPtr.Zero) NCError.ShowErrorBox($"Error allocating texture format for texture at {Path}: {SDL_GetError()}", 13, "An SDL error occurred in Texture::Init_AllocFormat", NCErrorSeverity.FatalError);
         }
 
         /// <summary>
@@ -194,12 +194,12 @@
             if (!Locked) Lock();
 
             if (x < 0 || y < 0
-                || x > Size.X || y > Size.Y) NCError.Throw($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y})!", 12, "An SDL error occurred in Texture::GetPixel", NCErrorSeverity.FatalError);
+                || x > Size.X || y > Size.Y) NCError.ShowErrorBox($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y})!", 12, "An SDL error occurred in Texture::GetPixel", NCErrorSeverity.FatalError);
 
             int pixelToGet = y * (int)Size.X + x;
             int maxPixelID = Pitch / 4 * Pitch;
 
-            if (pixelToGet > maxPixelID) NCError.Throw($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {pixelToGet} > {maxPixelID}!)", 14, "An SDL error occurred in Texture::GetPixel", NCErrorSeverity.FatalError);
+            if (pixelToGet > maxPixelID) NCError.ShowErrorBox($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {pixelToGet} > {maxPixelID}!)", 14, "An SDL error occurred in Texture::GetPixel", NCErrorSeverity.FatalError);
 
             int pixel = Pixels[pixelToGet];
 
@@ -221,12 +221,12 @@
             if (!Locked) Lock();
 
             if (x < 0 || y < 0
-                || x >= Size.X || y >= Size.Y) NCError.Throw($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y}) ", 15, "An SDL error occurred in Texture::SetPixel", NCErrorSeverity.FatalError);
+                || x >= Size.X || y >= Size.Y) NCError.ShowErrorBox($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y}) ", 15, "An SDL error occurred in Texture::SetPixel", NCErrorSeverity.FatalError);
 
             int pixelToGet = (y * (int)Size.X) + x;
             int maxPixelId = Pitch / 4 * Pitch;
 
-            if (pixelToGet > maxPixelId) NCError.Throw($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {pixelToGet} > {maxPixelId}!)", 16, "An SDL error occurred in Texture::SetPixel", NCErrorSeverity.FatalError);
+            if (pixelToGet > maxPixelId) NCError.ShowErrorBox($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {pixelToGet} > {maxPixelId}!)", 16, "An SDL error occurred in Texture::SetPixel", NCErrorSeverity.FatalError);
 
             // use pixeltoget to twiddle the pixel that we need using the number we calculated before
             Pixels[pixelToGet] = color.ToArgb();
@@ -246,7 +246,7 @@
 
             SDL_Rect rect = new SDL_Rect(0, 0, (int)Size.X, (int)Size.Y);
 
-            if (SDL_LockTexture(Handle, ref rect, out var nPixels, out var nPitch) < 0) NCError.Throw($"Error locking pixels for texture with path {Path}: {SDL_GetError()}.", 11, "An SDL error occurred in Texture::Lock", NCErrorSeverity.FatalError);
+            if (SDL_LockTexture(Handle, ref rect, out var nPixels, out var nPitch) < 0) NCError.ShowErrorBox($"Error locking pixels for texture with path {Path}: {SDL_GetError()}.", 11, "An SDL error occurred in Texture::Lock", NCErrorSeverity.FatalError);
 
             Pitch = nPitch;
             // convert to C pointer
@@ -280,7 +280,7 @@
         internal override void Draw()
         {
             if (!Loaded
-                && _path != null) NCError.Throw($"Texture {Path} being drawn without being loaded, you will see a black box!", 94, "Texture with image not loaded (Texture::Loaded = false)", NCErrorSeverity.Warning, null, true); // don't show a message box
+                && _path != null) NCError.ShowErrorBox($"Texture {Path} being drawn without being loaded, you will see a black box!", 94, "Texture with image not loaded (Texture::Loaded = false)", NCErrorSeverity.Warning, null, true); // don't show a message box
 
             Unlock();
 

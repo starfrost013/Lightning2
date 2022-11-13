@@ -162,7 +162,7 @@
 
             if (renderable == null)
             {
-                NCError.Throw($"Tried to remove nonexistent renderable name {name}", 190,
+                NCError.ShowErrorBox($"Tried to remove nonexistent renderable name {name}", 190,
                     "Renderer::RemoveRenderableByName's name property did not correspond to a valid Renderable", NCErrorSeverity.FatalError);
                 return;
             }

@@ -50,7 +50,7 @@
                 if (_position.X < 0
                     || _position.Y < 0
                     || _position.X > SystemInfo.ScreenResolutionX
-                    || _position.Y > SystemInfo.ScreenResolutionY) NCError.Throw($"Attempted to change window to illegal position ({_position.X},{_position.Y}!)." +
+                    || _position.Y > SystemInfo.ScreenResolutionY) NCError.ShowErrorBox($"Attempted to change window to illegal position ({_position.X},{_position.Y}!)." +
                         $" Range is 0,0 to {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY}", 118, 
                         "Set accessor of WindowSettings::Size detected an attempt to resize to an invalid window size!", NCErrorSeverity.FatalError);
 

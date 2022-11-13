@@ -33,7 +33,7 @@
             set
             {
                 if (value < 0
-                    || value > Items.Count - 1) NCError.Throw("Attempted to set an invalid SelectedIndex for this ListBox!", 83, "ListBox::SelectedIndex > ListBox::Items::Count - 1!", NCErrorSeverity.FatalError);
+                    || value > Items.Count - 1) NCError.ShowErrorBox("Attempted to set an invalid SelectedIndex for this ListBox!", 83, "ListBox::SelectedIndex > ListBox::Items::Count - 1!", NCErrorSeverity.FatalError);
 
                 _selectedindex = value;
             }
@@ -95,7 +95,7 @@
         {
             if (Font == null)
             {
-                NCError.Throw($"Tried to add an item to a ListBox with an invalid font", 185,
+                NCError.ShowErrorBox($"Tried to add an item to a ListBox with an invalid font", 185,
                     "ListBox::Font property did not correspond to an actual font during call to ListBox::AddItem", NCErrorSeverity.FatalError);
                 return;
             }
@@ -104,7 +104,7 @@
 
             if (itemFont == null)
             {
-                NCError.Throw($"Tried to add an item to a ListBox with an invalid font", 187,
+                NCError.ShowErrorBox($"Tried to add an item to a ListBox with an invalid font", 187,
                     "ListBox::Font property did not correspond to an actual font during call to ListBox::AddItem", NCErrorSeverity.FatalError);
                 return;
             }
@@ -170,7 +170,7 @@
 
             if (Font == null)
             {
-                NCError.Throw($"Tried to add an item to a ListBox with an invalid font", 188,
+                NCError.ShowErrorBox($"Tried to add an item to a ListBox with an invalid font", 188,
                     "ListBox::Font property did not correspond to an actual font during call to ListBox::Render", NCErrorSeverity.FatalError);
                 return;
             }
@@ -179,7 +179,7 @@
 
             if (curFont == null)
             {
-                NCError.Throw($"Tried to add an item to a ListBox with an invalid font", 186,
+                NCError.ShowErrorBox($"Tried to add an item to a ListBox with an invalid font", 186,
                     "ListBox::Font property did not correspond to an actual font during call to ListBox::Render", NCErrorSeverity.FatalError);
                 return;
             }

@@ -205,7 +205,7 @@
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    NCError.Throw("A Renderable must have a name!", 189, "Renderable::Name::set - no name!", NCErrorSeverity.FatalError);
+                    NCError.ShowErrorBox("A Renderable must have a name!", 189, "Renderable::Name::set - no name!", NCErrorSeverity.FatalError);
                 }
                 else
                 {
@@ -238,7 +238,7 @@
             if (animation == null
                 || !animation.Loaded)
             {
-                NCError.Throw("You must load an animation before attaching it to a renderable! The animation will not be set.", 149,
+                NCError.ShowErrorBox("You must load an animation before attaching it to a renderable! The animation will not be set.", 149,
                "animation parameter to Renderable::SetAnimation's loaded property is FALSE", NCErrorSeverity.Error);
                 return;
             }
@@ -251,7 +251,7 @@
             if (CurrentAnimation == null
                 || !CurrentAnimation.Loaded)
             {
-                NCError.Throw("You must load an animation before playing it! The animation will not be set.", 151,
+                NCError.ShowErrorBox("You must load an animation before playing it! The animation will not be set.", 151,
                 "Renderable::StartCurrentAnimation called when CurrentAnimation::Loaded property is FALSE or it was never set.", NCErrorSeverity.Error);
                 return;
             }
@@ -264,7 +264,7 @@
             if (CurrentAnimation == null
                 || !CurrentAnimation.Loaded)
             {
-                NCError.Throw("You must load an animation before playing it! The animation will not be set.", 152,
+                NCError.ShowErrorBox("You must load an animation before playing it! The animation will not be set.", 152,
                 "Renderable::StopCurrentAnimation called when CurrentAnimation::Loaded property is FALSE or it was never set.", NCErrorSeverity.Error);
                 return;
             }

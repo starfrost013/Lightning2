@@ -27,7 +27,7 @@
 
             if (Thickness < 1)
             {
-                NCError.Throw($"Cannot draw a line with a thickness property below 1 pixel! (thickness = {Thickness})", 18,
+                NCError.ShowErrorBox($"Cannot draw a line with a thickness property below 1 pixel! (thickness = {Thickness})", 18,
                 "PrimitiveRenderer::DrawLine called with thickness property < 1", NCErrorSeverity.Warning, null, false);
                 return;
             }

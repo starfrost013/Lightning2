@@ -27,13 +27,13 @@
         {
             if (!File.Exists(path))
             {
-                NCError.Throw($"Error loading audio file: The path {path} does not exist!", 52, "AudioManager::Load path parameter does not exist!", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox($"Error loading audio file: The path {path} does not exist!", 52, "AudioManager::Load path parameter does not exist!", NCErrorSeverity.FatalError);
                 return;
             }
 
             if (path.Contains(".mod", StringComparison.InvariantCultureIgnoreCase))
             {
-                NCError.Throw(".mod file loading is completely broken in SDL_mixer 2.6.2 and causes memory leaks. Sorry, not my code.", 167, 
+                NCError.ShowErrorBox(".mod file loading is completely broken in SDL_mixer 2.6.2 and causes memory leaks. Sorry, not my code.", 167, 
                     "AudioAssetManager::LoadFile path parameter has a .mod extension", NCErrorSeverity.Error);
             }
 
@@ -63,7 +63,7 @@
 
             if (!Lightning.Renderer.ContainsRenderable(file.Name))
             {
-                NCError.Throw($"Attempted to load an audio file {file.Name} (path {file.Path}) that is not present in the audio files list and therefore has not been loaded!", 135,
+                NCError.ShowErrorBox($"Attempted to load an audio file {file.Name} (path {file.Path}) that is not present in the audio files list and therefore has not been loaded!", 135,
                     "AudioManager::UnloadFile file parameter is not a loaded AudioFile present within AudioManager::AudioFiles!", NCErrorSeverity.Warning, null, true);
                 return;
             }

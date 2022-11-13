@@ -113,7 +113,7 @@
         {
             if (Texture == null)
             {
-                NCError.Throw("Attempted to draw a particle effect without loading it!", 120, "ParticleEffect::Render called before ParticleEffect::Load!", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox("Attempted to draw a particle effect without loading it!", 120, "ParticleEffect::Render called before ParticleEffect::Load!", NCErrorSeverity.FatalError);
                 return;
             }
 

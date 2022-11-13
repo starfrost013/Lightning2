@@ -23,7 +23,7 @@ namespace NuCore.Utilities
         /// <param name="exceptionSeverity">The severity of the exception - see <see cref="NCErrorSeverity"/></param>
         /// <param name="baseException">The .NET exception that caused the error, if present.</param>
         /// <param name="dontShowMessageBox">Determines if a message box was shown or not</param>
-        public static void Throw(string description, int id, string cause = null, NCErrorSeverity exceptionSeverity = NCErrorSeverity.Message, 
+        public static void ShowErrorBox(string description, int id, string cause = null, NCErrorSeverity exceptionSeverity = NCErrorSeverity.Message, 
             Exception baseException = null, bool dontShowMessageBox = false)
         {
             StringBuilder stringBuilder = new();

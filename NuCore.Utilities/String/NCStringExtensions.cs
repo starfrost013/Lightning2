@@ -31,7 +31,7 @@ namespace NuCore.Utilities
 
         public static byte[] ToByteArrayWithLength(this string input)
         {
-            if (input.Length > 255) NCError.Throw("String must be max 255 Chars for NCStringExtensions::ToByteArrayWithLength", 184,
+            if (input.Length > 255) NCError.ShowErrorBox("String must be max 255 Chars for NCStringExtensions::ToByteArrayWithLength", 184,
                 "input parameter to NCStringExtensions::ToByteArrayWithLength had a Length parameter larger than 255", NCErrorSeverity.FatalError);
             byte[] finalArray = new byte[input.Length + 1];
             finalArray[0] = Convert.ToByte(input.Length);

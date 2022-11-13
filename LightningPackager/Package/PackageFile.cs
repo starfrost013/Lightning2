@@ -43,7 +43,7 @@ namespace LightningPackager
         {
             NCLogging.Log($"Loading WAD from {path}, extracting to {outDir}...");
 
-            if (!File.Exists(path)) NCError.Throw($"The file at {path} does not exist!", 98, "PackageFile::Read path parameter is a non-existent file!", NCErrorSeverity.FatalError, null, true);
+            if (!File.Exists(path)) NCError.ShowErrorBox($"The file at {path} does not exist!", 98, "PackageFile::Read path parameter is a non-existent file!", NCErrorSeverity.FatalError, null, true);
 
             BinaryReader reader = new BinaryReader(new FileStream(path, FileMode.Open));
 
@@ -64,7 +64,7 @@ namespace LightningPackager
 
             PackageFileHeader header = PackageFileHeader.Read(reader);
 
-            if (header == null) NCError.Throw($"{path} is invalid: Package header is invalid", 105, "PackageFileHeader::Read returned null", NCErrorSeverity.FatalError, null, true);
+            if (header == null) NCError.ShowErrorBox($"{path} is invalid: Package header is invalid", 105, "PackageFileHeader::Read returned null", NCErrorSeverity.FatalError, null, true);
 
             PackageFile file = new PackageFile(header.Metadata);
 

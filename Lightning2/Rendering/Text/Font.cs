@@ -64,22 +64,22 @@ namespace LightningGL
         {
             if (!File.Exists(Path))
             {
-                NCError.Throw($"Error loading font: Attempted to load nonexistent font at {Path}", 34, "Font::Path does not exist", NCErrorSeverity.Error);
+                NCError.ShowErrorBox($"Error loading font: Attempted to load nonexistent font at {Path}", 34, "Font::Path does not exist", NCErrorSeverity.Error);
                 return;
             }
 
             if (!Path.Contains(".ttf", StringComparison.InvariantCultureIgnoreCase))
             {
-                NCError.Throw($"Error loading font: Only TTF fonts are supported!", 36, "Font::Path is not a TrueType font", NCErrorSeverity.Error);
+                NCError.ShowErrorBox($"Error loading font: Only TTF fonts are supported!", 36, "Font::Path is not a TrueType font", NCErrorSeverity.Error);
                 return;
             }
 
-            if (FontSize < 1) NCError.Throw($"Error loading font: Invalid font size {Size}, must be at least 1!", 37, 
+            if (FontSize < 1) NCError.ShowErrorBox($"Error loading font: Invalid font size {Size}, must be at least 1!", 37, 
                 "size parameter to Font::Load is not a valid font size!", NCErrorSeverity.Error);
 
             Handle = TTF_OpenFontIndex(Path, FontSize, Index);
 
-            if (Handle == IntPtr.Zero) NCError.Throw($"Error loading font at {Path}: {TTF_GetError()}", 38, 
+            if (Handle == IntPtr.Zero) NCError.ShowErrorBox($"Error loading font at {Path}: {TTF_GetError()}", 38, 
                 "An SDL error occurred during font loading from Font::Load!", NCErrorSeverity.Error);
 
             NCLogging.Log($"Loaded font {Name}, size {FontSize} at {Path}");

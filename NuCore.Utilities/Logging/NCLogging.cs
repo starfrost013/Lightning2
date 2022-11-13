@@ -71,7 +71,7 @@ namespace NuCore.Utilities
 
             if (Settings.WriteToLog)
             {
-                if (Settings.LogFileName == null) NCError.Throw("Passed null file name to NCLogging::Init!", 6, 
+                if (Settings.LogFileName == null) NCError.ShowErrorBox("Passed null file name to NCLogging::Init!", 6, 
                     "NCLogging::Init passed with Settings.LogFileName = NULL", NCErrorSeverity.FatalError);
 
                 if (File.Exists(Settings.LogFileName)) File.Delete(Settings.LogFileName);
