@@ -185,7 +185,17 @@
         static Lightning()
         {
             Client = new Client();
-            Server = new Server();  
+            Server = new Server();
+
+            // Set culture to invariant so things like different decimal symbols don't crash
+            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+
+            NCLogging.Settings = new NCLoggingSettings
+            {
+                WriteToLog = true,
+            };
+
+            NCLogging.Init();
         }
 
         public static void InitClient()

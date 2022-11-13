@@ -1,5 +1,4 @@
-﻿
-namespace LightningGL
+﻿namespace LightningGL
 {
     public class PingPongCommand : LNetCommand
     {

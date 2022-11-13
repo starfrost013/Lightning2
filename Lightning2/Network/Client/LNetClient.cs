@@ -1,4 +1,4 @@
-﻿namespace LightningNetwork
+﻿namespace LightningGL
 {
     /// <summary>
     /// Lightning Network Services client

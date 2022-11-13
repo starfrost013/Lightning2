@@ -1,6 +1,4 @@
-﻿
-
-namespace LightningNetwork
+﻿namespace LightningGL
 {
     public class ClientHelloCommand : LNetCommand
     {

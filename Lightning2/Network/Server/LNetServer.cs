@@ -1,4 +1,4 @@
-﻿namespace LightningNetwork
+﻿namespace LightningGL
 {
     /// <summary>
     /// LNetServer
@@ -37,9 +37,12 @@
 
         private void OnReceivePacket(IAsyncResult result)
         {
-            UdpState udpState = (UdpState)result.AsyncState;
+            UdpState? udpState = (UdpState?)result.AsyncState;
 
-            if (anyEndPoint == null) return;
+            IPEndPoint anyEndPoint = EndPoint;
+
+            if (udpState == null
+                || anyEndPoint == null) return;
 
             byte[] receivedData = SessionManager.UdpClient.EndReceive(result, ref anyEndPoint);
 

@@ -1,4 +1,4 @@
-﻿namespace LightningNetwork
+﻿namespace LightningGL
 {
     /// <summary>
     /// <para>UDP internal message state</para>

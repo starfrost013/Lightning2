@@ -1,5 +1,5 @@
 ﻿
-namespace LightningNetwork
+namespace LightningGL
 {
     /// <summary>
     /// LNetPacketHeader

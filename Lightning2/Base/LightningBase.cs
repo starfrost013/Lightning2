@@ -70,9 +70,6 @@ namespace LightningGL
         {
             try
             {
-                // Set culture to invariant so things like different decimal symbols don't crash
-                CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
-                InitLogging();
 
                 // Log the sign-on message
                 NCLogging.Log($"Lightning Game Engine");
@@ -156,16 +153,6 @@ namespace LightningGL
             {
                 _ = new NCException($"An unknown fatal error occurred. The installation may be corrupted", 0x0000DEAD, "A fatal error occurred in LightningGL::Init!", NCExceptionSeverity.FatalError, err);
             }
-        }
-
-        private void InitLogging()
-        {
-            NCLogging.Settings = new NCLoggingSettings
-            {
-                WriteToLog = true,
-            };
-
-            NCLogging.Init();
         }
 
         public virtual void Shutdown()
