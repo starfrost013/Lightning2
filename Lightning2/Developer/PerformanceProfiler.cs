@@ -109,6 +109,8 @@
 
             FPSList.Add(window.CurFPS);
 
+            FPSList.Sort();
+
             // Calculate some pretty basic fps values if we have measured at least 1 frame.
             // Common stuff - 1st, 5th, 50th, 95th, 99th percentiles
             if (FPSList.Count > 0)
@@ -154,7 +156,6 @@
             if (!Initialised
                 || FileStream == null) return;
 
-            FPSList.Sort();
 
             if (FPSList.Count > 0)
             {
