@@ -187,7 +187,32 @@ namespace LightningGL
 
         private void DrawPerformanceView()
         {
+            if (!GlobalSettings.GeneralProfilePerformance)
+            {
+                TextManager.DrawText("This page is disabled as the Performance Profiler is not enabled!", "DebugFont", new Vector2(0, CurrentY),
+                    DebugForeground, DebugBackground, TTF_FontStyle.Bold, -1, -1, FontSmoothingType.Default, true, false);
+                CurrentY += GlobalSettings.DebugLineDistance;
+            }
+            else
+            {
+                string[] debugText =
+                {
+                    $"FPS: {Lightning.Renderer.CurFPS.ToString("F1")} ({Lightning.Renderer.DeltaTime.ToString("F2")}ms)",
+                    $"Average: {PerformanceProfiler.CurrentAverage}",
+                    $"0.1% High: {PerformanceProfiler.Current999thPercentile}",
+                    $"1% High: {PerformanceProfiler.Current99thPercentile}",
+                    $"5% High: {PerformanceProfiler.Current95thPercentile}",
+                    $"5% Low: {PerformanceProfiler.Current5thPercentile}",
+                    $"1% Low: {PerformanceProfiler.Current1stPercentile}",
+                    $"0.1% Low: {PerformanceProfiler.Current01thPercentile}",
+                };
 
+                foreach (string line in debugText)
+                {
+                    TextManager.DrawText(line, "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, TTF_FontStyle.Normal, -1, -1, FontSmoothingType.Default, true);
+                    CurrentY += GlobalSettings.DebugLineDistance;
+                }
+            }
         }
 
         private void DrawGlobalSettingsView()
