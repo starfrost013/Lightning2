@@ -25,6 +25,8 @@
         /// </summary>
         public string Name { get; internal set; }
 
+        internal bool Connected { get; set; }
+
         public LNetClient(string name)
         {
             SessionManager = new LNetSessionManager();
@@ -34,7 +36,7 @@
         
         public void Connect()
         {
-            IPAddress? serverIp = new IPAddress(0);
+            IPAddress? serverIp = default;
 
             if (!IPAddress.TryParse(ServerIP, out serverIp))
             {
@@ -56,7 +58,7 @@
 
         }
 
-        private void Main()
+        internal void Main()
         {
             SessionManager.UdpClient.BeginReceive
             (

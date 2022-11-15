@@ -20,13 +20,7 @@
             SessionManager = new LNetSessionManager();
         }
 
-        public void Init()
-        {
-            NCLogging.Log($"Server starting on port: {GlobalSettings.NetworkDefaultPort}", "Server");
-            Main();
-        }
-
-        private void Main()
+        internal void BeginReceive()
         {
             SessionManager.UdpClient.BeginReceive
             (
@@ -50,8 +44,9 @@
             NCLogging.Log(receivedData.ToString());
 
             //todo: packet handling
-            // Loop
-            Main(); 
+            
+            //BeginReceive again
+            BeginReceive(); 
         }
     }
 }
