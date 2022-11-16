@@ -356,6 +356,7 @@ namespace LightningBase
                 _ = int.TryParse(graphicsSection.GetValue("PositionX"), out var positionXValue);
                 _ = int.TryParse(graphicsSection.GetValue("PositionY"), out var positionYValue);
                 _ = Enum.TryParse(typeof(Renderers), graphicsSection.GetValue("Renderer"), true, out var graphicsRendererValue);
+                GraphicsWindowTitle = graphicsSection.GetValue("WindowTitle");
 
                 // Set those values.
                 GraphicsMaxFPS = graphicsMaxFpsValue;
@@ -366,7 +367,7 @@ namespace LightningBase
                 if (sdlRenderingBackendValue != null) GraphicsSdlRenderingBackend = (SdlRenderingBackend)sdlRenderingBackendValue;
                 GraphicsRenderOffScreenRenderables = renderOffscreenRenderablesValue;
                 if (graphicsRendererValue != null) GraphicsRenderer = (Renderers)graphicsRendererValue;
-
+                
                 // failed to load, set default values (middle of screen)
                 if (positionXValue == 0) positionXValue = DEFAULT_GRAPHICS_POSITION_X;
                 if (positionYValue == 0) positionYValue = DEFAULT_GRAPHICS_POSITION_Y;

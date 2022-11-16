@@ -89,6 +89,13 @@ Everything that matters to the api has to go here
 * GlobalSettings optimisation.
 * GlobalSettings::RenderingBackend -> GlobalSettings::SdlRenderingBackend
 
+2022.11.15:
+* "Functional" client and server
+
+2022.11.16:
+* Remove FontManager::LoadFont, use addasset instead
+* Other minor bugfixes
+
 * todo:
 	- global usings everywhere
 	- unit testing
@@ -100,12 +107,9 @@ Everything that matters to the api has to go here
 	- can we get rid of renderposition?
 	- console
 	- redesign the FUCKING text api
+	- button background not working]
+	- change guide for start/switchto - INITALISATION ONLY NOT DRAWING, prevent scene mixing
+	- percentage util
 	- merge load/create?
       - // issue: won't update if you modify it again later
             // this is why we might need referents for renderables
-
-2022.11.15:
-* "Functional" client and server
-
-2022.11.16:
-
