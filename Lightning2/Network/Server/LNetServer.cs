@@ -29,19 +29,24 @@
             );
         }
 
+        internal void SendPacket()
+        {
+            NCLogging.Log("Sending network commands is not implemented, please remind me to implement it");
+        }
+
         private void OnReceivePacket(IAsyncResult result)
         {
             UdpState? udpState = (UdpState?)result.AsyncState;
 
-            IPEndPoint anyEndPoint = EndPoint;
+            IPEndPoint endPoint = EndPoint;
 
             if (udpState == null
-                || anyEndPoint == null) return;
+                || endPoint == null) return;
 
-            byte[] receivedData = SessionManager.UdpClient.EndReceive(result, ref anyEndPoint);
+            byte[] receivedData = SessionManager.UdpClient.EndReceive(result, ref endPoint);
 
             // TEST - DEBUG - VERSION
-            NCLogging.Log(receivedData.ToString());
+            NCLogging.Log($"CLIENT IP: {udpState.Ip} - DATA: {receivedData}");
 
             //todo: packet handling
             

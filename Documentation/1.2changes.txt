@@ -99,6 +99,13 @@ Everything that matters to the api has to go here
 		- redo particleeffects
 	- can we get rid of renderposition?
 	- console
+	- redesign the FUCKING text api
 	- merge load/create?
       - // issue: won't update if you modify it again later
             // this is why we might need referents for renderables
+
+2022.11.15:
+* "Functional" client and server
+
+2022.11.16:
+

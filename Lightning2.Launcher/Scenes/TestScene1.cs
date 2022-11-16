@@ -18,10 +18,10 @@ namespace LightningGL
 
         public override void Start()
         {
-            FontManager.LoadFont("Arial", 11, "Arial.11pt");
-            FontManager.LoadFont("Arial", 18, "Arial.18pt");
-            FontManager.LoadFont("Arial", 24, "Arial.24pt");
-            FontManager.LoadFont("Arial", 36, "Arial.36pt");
+            FontManager.AddAsset(new Font("Arial", 11, "Arial.11pt"));
+            FontManager.AddAsset(new Font("Arial", 18, "Arial.18pt"));
+            FontManager.AddAsset(new Font("Arial", 24, "Arial.24pt"));
+            FontManager.AddAsset(new Font("Arial", 36, "Arial.36pt"));
 
             Lightning.Renderer.Clear(Color.FromArgb(255, 127, 127, 127));
             Texture1 = new("Texture1", 64, 64);
@@ -86,70 +86,70 @@ namespace LightningGL
 
             ParticleManager.AddAsset(testEffect);
 
-            LightManager.AddAsset(new Light("Light1")
+            LightManager.AddAsset(new("Light1")
             {
                 Position = new(50, 375),
                 Range = 4,
                 Brightness = 15,
             });
 
-            LightManager.AddAsset(new Light("Light2")
+            LightManager.AddAsset(new("Light2")
             {
                 Position = new(250, 300),
                 Range = 4,
                 Brightness = 31,
             });
 
-            LightManager.AddAsset(new Light("Light3")
+            LightManager.AddAsset(new("Light3")
             {
                 Position = new(450, 225),
                 Range = 4,
                 Brightness = 63,
             });
 
-            LightManager.AddAsset(new Light("Light4")
+            LightManager.AddAsset(new("Light4")
             {
                 Position = new(650, 150),
                 Range = 4,
                 Brightness = 127,
             });
 
-            LightManager.AddAsset(new Light("Light5")
+            LightManager.AddAsset(new("Light5")
             {
                 Position = new(850, 75),
                 Range = 4,
                 Brightness = 255,
             });
 
-            LightManager.AddAsset(new Light("Light6")
+            LightManager.AddAsset(new("Light6")
             {
                 Position = new(850, 275),
                 Range = 4,
                 Brightness = 255,
             });
 
-            LightManager.AddAsset(new Light("Light7")
+            LightManager.AddAsset(new("Light7")
             {
                 Position = new(850, 475),
                 Range = 4,
                 Brightness = 255,
             });
 
-            LightManager.AddAsset(new Light("Light8")
+            LightManager.AddAsset(new("Light8")
             {
                 Position = new(850, 675),
                 Range = 4,
                 Brightness = 255,
             });
 
-            LightManager.AddAsset(new Light("Light9")
+            LightManager.AddAsset(new("Light9")
             {
                 Position = new(0, 0),
                 Range = 4,
                 Brightness = 255,
             });
 
-            LightManager.AddAsset(new Light("Light10")
+            LightManager.AddAsset(new("Light10")
             {
                 Position = new(200, 0),
                 LightColor = Color.FromArgb(255, 255, 217, 0),
@@ -185,7 +185,7 @@ namespace LightningGL
 
             LocalSettings.AddSection("Demonstration2");
 
-            Button btn1 = new Button("Button1", "Arial.11pt")
+            Button btn1 = new("Button1", "Arial.11pt")
             {
                 Position = new(150, 150),
                 Size = new(44, 44),
@@ -197,7 +197,7 @@ namespace LightningGL
                 Filled = true,
             };
 
-            ListBox listBox1 = new ListBox("ListBox1", "Arial.11pt")
+            ListBox listBox1 = new("ListBox1", "Arial.11pt")
             {
                 Position = new(70, 150),
                 Size = new(90, 44),
@@ -208,7 +208,7 @@ namespace LightningGL
                 Filled = true,
             };
 
-            TextBox textBox1 = new TextBox("TextBox1", 300, "Arial.11pt")
+            TextBox textBox1 = new("TextBox1", 300, "Arial.11pt")
             {
                 Size = new(90, 44),
                 Position = new(350, 150),
@@ -220,7 +220,7 @@ namespace LightningGL
                 AllowMultiline = true,
             };
 
-            CheckBox checkBox1 = new CheckBox("CheckBox1", "Arial.11pt")
+            CheckBox checkBox1 = new("CheckBox1", "Arial.11pt")
             {
                 Position = new(500, 150),
                 Size = new(40, 40),

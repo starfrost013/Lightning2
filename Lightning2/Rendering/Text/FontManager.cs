@@ -11,7 +11,20 @@
         {
             if (asset != null)
             {
-                LoadFont(asset.FontName, asset.FontSize, asset.Name, asset.Path, asset.Index);
+                try
+                {
+                    asset.Load();
+
+                    // we already triggered an error message
+                    if (asset.Loaded)
+                    {
+                        Lightning.Renderer.AddRenderable(asset);
+                    }
+                }
+                catch (Exception) // NC Exception
+                {
+                    return null;
+                }
             }
             else
             {
@@ -37,33 +50,6 @@
             catch
             {
                 return null;
-            }
-        }
-
-        /// <summary>
-        /// Loads a font.
-        /// </summary>
-        /// <param name="name">The name of the font to load.</param>
-        /// <param name="size">The size of the font to load.</param>
-        /// <param name="friendlyName">The friendly name of the font to load.</param>
-        /// <param name="path">The path to this font. If it is null, it will be loaded from the system font directory.</param>
-        /// <param name="index">Index of the font in the font file to load. Will default to 0.</param>
-        public void LoadFont(string name, int size, string friendlyName, string? path = null, int index = 0)
-        {
-            try
-            {
-                Font font = new Font(name, size, friendlyName, path, index);
-                font.Load(); 
-
-                // we already triggered an error message
-                if (font.Loaded)
-                {
-                    Lightning.Renderer.AddRenderable(font);
-                }
-            }
-            catch (Exception) // NC Exception
-            {
-                return;
             }
         }
 
