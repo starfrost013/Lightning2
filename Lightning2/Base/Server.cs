@@ -80,7 +80,7 @@
 
             NCLogging.Log($"Server starting on port: {GlobalSettings.NetworkDefaultPort}", "Server");
             NetworkServer.Init();
-            NetworkServer.BeginReceive();
+            Main();
         }
 
         internal override void Main()
