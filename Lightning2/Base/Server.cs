@@ -8,13 +8,19 @@
     public class Server : LightningBase
     {
         public bool Running { get; set; }
-        public LNetServer NetworkManager { get; set; }
+        public LNetServer NetworkServer { get; set; }
 
         public Server() : base()
         {
-            NetworkManager = new();
+            NetworkServer = new();
         }
 
+        /// <summary>
+        /// Server initialisation code
+        /// 
+        /// Cuts out everything we don't need frmo client.
+        /// TODO: Get as much of this in lightningbase as possible (CoreInit(), then ClientInit()), here for staging/testing
+        /// </summary>
         public override void Init()
         {
             // figure out what shared code can be used here
@@ -49,9 +55,6 @@
             NCLogging.Log("Loading global settings from Engine.ini...");
             GlobalSettings.Load();
 
-            NCLogging.Log($"Initialising audio device ({GlobalSettings.AudioDeviceHz}Hz, {GlobalSettings.AudioChannels} channels, format {GlobalSettings.AudioFormat}, chunk size {GlobalSettings.AudioChunkSize})...");
-            if (Mix_OpenAudio(GlobalSettings.AudioDeviceHz, GlobalSettings.AudioFormat, GlobalSettings.AudioChannels, GlobalSettings.AudioChunkSize) < 0) NCError.ShowErrorBox($"Error initialising audio device: {SDL_GetError()}", 56, "Failed to initialise audio device during Lightning::Init", NCErrorSeverity.FatalError);
-
             NCLogging.Log("Validating system requirements...");
             GlobalSettings.Validate();
 
@@ -76,7 +79,7 @@
             }
 
             NCLogging.Log($"Server starting on port: {GlobalSettings.NetworkDefaultPort}", "Server");
-            NetworkManager.BeginReceive();
+            NetworkServer.BeginReceive();
         }
 
         internal override void Main()
@@ -84,14 +87,14 @@
             while (Running)
             {
                 // server is still alive
-                NCLogging.Log("The server is still alive. wow.");
+                NCLogging.Log("The server is still alive!!!");
             }
         }
 
         public override void Shutdown()
         {
             Running = false;
-            NetworkManager.Shutdown();
+            NetworkServer.Shutdown();
             
         }
     }

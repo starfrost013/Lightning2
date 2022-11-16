@@ -70,7 +70,6 @@ namespace LightningGL
         {
             try
             {
-
                 // Log the sign-on message
                 NCLogging.Log($"Lightning Game Engine");
                 NCLogging.Log($"Version {LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING}");
@@ -153,11 +152,6 @@ namespace LightningGL
             {
                 NCError.ShowErrorBox($"An unknown fatal error occurred. The installation may be corrupted", 0x0000DEAD, "A fatal error occurred in LightningGL::Init!", NCErrorSeverity.FatalError, err);
             }
-        }
-
-        private void InitEngine()
-        {
-
         }
 
         public virtual void Shutdown()

@@ -8,11 +8,11 @@ namespace LightningGL
     /// </summary>
     public class Client : LightningBase
     {
-        public LNetClient NetworkManager { get; set; }
+        public LNetClient NetworkClient { get; set; }
 
         public Client() : base()
         {
-            NetworkManager = new LNetClient($"Test Client {Random.Shared.Next(100000, 999999)}");
+            NetworkClient = new LNetClient($"Test Client {Random.Shared.Next(100000, 999999)}");
         }
 
         public override void Init()
@@ -23,9 +23,9 @@ namespace LightningGL
 
         internal override void Main()
         {
-            if (NetworkManager.Connected)
+            if (NetworkClient.Connected)
             {
-                NetworkManager.Main();
+                NetworkClient.Main();
             }
 
             base.Main();

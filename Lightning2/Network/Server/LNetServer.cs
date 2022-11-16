@@ -19,6 +19,10 @@
             EndPoint = new IPEndPoint(IPAddress.Any, GlobalSettings.NetworkDefaultPort);
             SessionManager = new LNetSessionManager();
         }
+        internal void Init()
+        {
+            SessionManager.UdpClient = new UdpClient(GlobalSettings.NetworkDefaultPort);
+        }
 
         internal void BeginReceive()
         {
