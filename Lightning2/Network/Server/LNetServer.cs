@@ -22,6 +22,7 @@
         internal void Init()
         {
             SessionManager.UdpClient = new UdpClient(GlobalSettings.NetworkDefaultPort);
+            BeginReceive();
         }
 
         internal void BeginReceive()
