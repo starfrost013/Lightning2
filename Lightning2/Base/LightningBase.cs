@@ -155,6 +155,11 @@ namespace LightningGL
             }
         }
 
+        private void InitEngine()
+        {
+
+        }
+
         public virtual void Shutdown()
         {
             if (!Initialised) NCError.ShowErrorBox("Attempted to shutdown without starting! Please call Lightning::Init!", 95, "Lightning::Initialised false when calling Lightning::Shutdown", NCErrorSeverity.FatalError);

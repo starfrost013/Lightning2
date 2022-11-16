@@ -22,6 +22,7 @@
 
         internal void BeginReceive()
         {
+            NCLogging.Log("Preparing to receive data...");
             SessionManager.UdpClient.BeginReceive
             (
                 new AsyncCallback(OnReceivePacket),
@@ -53,5 +54,11 @@
             //BeginReceive again
             BeginReceive(); 
         }
+
+        internal void Shutdown()
+        {
+            SessionManager.UdpClient.Close();
+        }
+
     }
 }

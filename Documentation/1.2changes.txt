@@ -95,6 +95,7 @@ Everything that matters to the api has to go here
 2022.11.16:
 * Remove FontManager::LoadFont, use addasset instead
 * Other minor bugfixes
+* Fixed loading WindowTitle
 
 * todo:
 	- global usings everywhere
