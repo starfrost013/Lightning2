@@ -19,7 +19,6 @@
         /// <summary>
         /// Draws text to the screen.
         /// </summary>
-        /// <param name="Lightning.Renderer">The Window to draw this text to.</param>
         /// <param name="text">The text to draw.</param>
         /// <param name="font">The <see cref="Font.FriendlyName"/> of the <see cref="Font"/> to draw this text in.</param>
         /// <param name="position">The position to draw the text.</param>
@@ -115,7 +114,7 @@
         {
             // memory leaks are bad
             // TODO: when we extend to multithreading in the future this is a very good and easy TOCTOU / race condition issue
-            List<TextCacheEntry> textCacheEntries = GetAllTextCacheEntries();
+            List<TextCacheEntry> textCacheEntries = GetAssets();
 
             for (int entryId = 0; entryId < textCacheEntries.Count; entryId++)
             {
@@ -135,7 +134,7 @@
         internal TextCacheEntry? GetEntry(string font, string text,
             SDL_Color color, TTF_FontStyle style, FontSmoothingType type = FontSmoothingType.Default, int outlineSize = -1, SDL_Color bgColor = default)
         {
-            foreach (TextCacheEntry entry in GetAllTextCacheEntries())
+            foreach (TextCacheEntry entry in GetAssets())
             {
                 if (entry.Font == font
                     && entry.Text == text
@@ -176,7 +175,7 @@
 
         internal void UnloadAll()
         {
-            foreach (TextCacheEntry entry in GetAllTextCacheEntries())
+            foreach (TextCacheEntry entry in GetAssets())
             {
                 entry.Unload();
             }
@@ -185,7 +184,7 @@
         internal override void Update()
         {
             PurgeUnusedEntries();
-            foreach (TextCacheEntry entry in GetAllTextCacheEntries()) entry.UsedThisFrame = false;
+            foreach (TextCacheEntry entry in GetAssets()) entry.UsedThisFrame = false;
         }
 
         /// <summary>
@@ -195,23 +194,6 @@
         {
             NCLogging.Log("Uncaching all cached text - shutdown requested");
             UnloadAll();
-        }
-
-        // bit of a hack for the new 2.0 model so that textcacheentries can still be Renderables
-        private List<TextCacheEntry> GetAllTextCacheEntries()
-        {
-            List<TextCacheEntry> textCacheEntries = new();
-
-            foreach (Renderable renderable in Lightning.Renderer.Renderables)
-            {
-                if (renderable is TextCacheEntry entry)
-                {
-                    textCacheEntries.Add(entry);
-                }
-            }
-
-            return textCacheEntries;
-
         }
         
         #endregion

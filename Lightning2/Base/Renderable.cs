@@ -232,7 +232,7 @@
         /// Sets the animation of this Renderable. 
         /// An error will be raised if the animation is not loaded.
         /// </summary>
-        /// <param name="animation"></param>
+        /// <param name="animation">The animation to set as the current animation.</param>
         public virtual void SetAnimation(Animation animation)
         {
             if (animation == null
