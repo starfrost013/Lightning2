@@ -96,12 +96,14 @@ Everything that matters to the api has to go here
 * Remove FontManager::LoadFont, use addasset instead
 * Other minor bugfixes
 * Fixed loading WindowTitle
+* Server Init code
+* Server works
 
 * todo:
 	- global usings everywhere
 	- unit testing
 	- get rid of TERRIBLE HACK in LightningGL.Test!!!!
-	- .NET 7.0 / NativeAOT
+	- .NET 7.0 / NativeAOT Publish
 	- VS Item Template for Scenes
 	- still minor drawing issues:
 		- redo particleeffects
@@ -110,7 +112,19 @@ Everything that matters to the api has to go here
 	- redesign the FUCKING text api
 	- button background not working]
 	- change guide for start/switchto - INITALISATION ONLY NOT DRAWING, prevent scene mixing
+	- TOTAL RENDERABLE (no funny lists like particlemanager)
 	- percentage util
 	- merge load/create?
-      - // issue: won't update if you modify it again later
+	- getasset in assetmanager
+	- remove ALL non-assetmanager apis
+	- split api ref into individual chapters to make it more manageable
+    - // issue: won't update if you modify it again later
             // this is why we might need referents for renderables
+
+* server todo:
+	- client connecting
+	- net sending messages
+	- figure out programmability (server scenes)
+	- lightningbase InitCore!!!!!!!!!
+	- server.ini
+	- a lot

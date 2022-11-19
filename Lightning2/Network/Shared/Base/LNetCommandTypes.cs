@@ -55,13 +55,24 @@
         ServerNotifyShutdown = 0x08,
 
         /// <summary>
-        /// Client wants to add a renderable to the scene.
+        /// Client or server wants to add a renderable to the scene.
         /// </summary>
-        RequestRenderable = 0x09,
+        AddRenderable = 0x09,
+
+        /// <summary>
+        /// Client or server wants to remove a renderables.
+        /// This is done shortly after the heartbeat.
+        /// </summary>
+        RemoveRenderable = 0x0A,
+
+        /// <summary>
+        /// Client or server wants to modify a renderable.
+        /// </summary>
+        ModifyRenderable = 0x0B,
 
         /// <summary>
         /// Maximum valid command for logging.
         /// </summary>
-        MaximumValidCommand = RequestRenderable,
+        MaximumValidCommand = ModifyRenderable,
     }
 }

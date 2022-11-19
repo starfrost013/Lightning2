@@ -3,8 +3,6 @@
     /// <summary>
     /// Lightning Localisation Manager
     /// 
-    /// March 7, 2022 (modified June 15, 2022: correct variable naming convention)
-    /// 
     /// Handles string localisation
     /// </summary>
     public static class LocalisationManager
@@ -107,9 +105,16 @@
                     {
                         string? localisationString = GetString(localisationTextId);
 
-                        if (localisationString == null) NCError.ShowErrorBox($"Invalid localisation string - cannot find localised string {localisationTextId}!", 35, "LocalisationManager.ProcessString", NCErrorSeverity.FatalError);
-
-                        stringProcess = stringProcess.ReplaceExact(localisationTextId, localisationString);
+                        if (localisationString == null)
+                        {
+                            NCError.ShowErrorBox($"Invalid localisation string - cannot find localised string {localisationTextId}! The string will not be displayed.", 35, 
+                                "LocalisationManager.ProcessString", NCErrorSeverity.Warning);
+                            stringProcess = $"Unlocalised string {localisationTextId}";
+                        }
+                        else
+                        {
+                            stringProcess = stringProcess.ReplaceExact(localisationTextId, localisationString);
+                        }
                     }
                 }
             }

@@ -4,7 +4,7 @@ namespace LightningGL
     /// <summary>
     /// Client
     /// 
-    /// The lightning client.
+    /// The Lightning client.
     /// </summary>
     public class Client : LightningBase
     {
@@ -29,6 +29,11 @@ namespace LightningGL
             }
 
             base.Main();
+        }
+
+        internal void Connect(IPEndPoint endPoint)
+        {
+            
         }
     }
 }
