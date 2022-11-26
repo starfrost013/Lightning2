@@ -5,7 +5,7 @@ using System.Reflection;
 
 [assembly: AssemblyVersion("2.0.0.273")]
 [assembly: AssemblyFileVersion("2.0.0.273")]
-[assembly: AssemblyInformationalVersion("2.0.0-alpha build 273, built 2022-11-26 12:26:27")]
+[assembly: AssemblyInformationalVersion("2.0.0-alpha build 273, built 2022-11-26 12:44:16")]
 [assembly: AssemblyTitle("Lightning Base")]
 
 namespace LightningBase
@@ -19,7 +19,7 @@ namespace LightningBase
 		public const string LIGHTNING_VERSION_SPECIFIER = "-alpha";
 		public const string LIGHTNING_VERSION_STRING = "2.0.0-alpha";
 		public const string LIGHTNING_VERSION_BUILD_STRING = "2.0.0.273";
-		public static string LIGHTNING_VERSION_EXTENDED_STRING = "2.0.0-alpha build 273, built 2022-11-26 12:26:27";
+		public static string LIGHTNING_VERSION_EXTENDED_STRING = "2.0.0-alpha build 273, built 2022-11-26 12:44:16";
 	}
 }
 

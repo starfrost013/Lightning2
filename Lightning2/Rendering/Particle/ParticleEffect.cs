@@ -208,7 +208,7 @@
                 }
 
                 // IT might be better to put these as normal renderables
-                Texture.RenderPosition = particle.Position;
+                Texture.RenderPosition = particle.RenderPosition;
 
                 Texture.Draw();
             }

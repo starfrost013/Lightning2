@@ -132,7 +132,7 @@ Everything that matters to the api has to go here
 	- events for everything
 	- getasset in assetmanager
 	- remove ALL non-assetmanager apis
-	- move as much logic as possible to renderer base
+	- TODO: separate render/update? so we can use a foreach loop here
 	- split api ref into individual chapters to make it more manageable
     - // issue: won't update if you modify it again later
             // this is why we might need referents for renderables

@@ -281,9 +281,10 @@ namespace LightningGL
             // render all children 
             List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
 
+            // TODO: separate render/update? so we can use a foreach loop here
             for (int renderableId = 0; renderableId < renderables.Count; renderableId++)
             {
-                Renderable renderable = Renderables[renderableId]; // prevent collection modified exception
+                Renderable renderable = renderables[renderableId]; // prevent collection modified exception
 
                 // --- THESE TASKS need to be performed ONLY when the renderable is on screen ---
                 if (renderable.IsOnScreen
@@ -294,7 +295,7 @@ namespace LightningGL
                 }
 
                 // --- THESE tasks need to be performed when the renderable is on AND off screen ---
-                if (renderable.CurrentAnimation != null) renderable.CurrentAnimation.UpdateAnimationFor(renderable);
+                renderable.CurrentAnimation?.UpdateAnimationFor(renderable); // dont call if no
                 renderable.OnUpdate?.Invoke();
 
                 if (renderable.Children.Count > 0) RenderAll(renderable); 
