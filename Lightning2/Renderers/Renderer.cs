@@ -127,7 +127,9 @@
         /// </summary>
         public virtual void AddRenderable(Renderable renderable, Renderable? parent = null)
         {
-            NCLogging.Log($"Adding renderable of type {renderable.GetType().Name} ({renderable.Name})");
+            string parentName = (parent == null) ? "Root" : parent.Name;
+
+            NCLogging.Log($"Adding renderable of type {renderable.GetType().Name} ({renderable.Name}) - parent {parentName}");
 
             if (parent == null)
             {
@@ -152,9 +154,11 @@
         /// <summary>
         /// Removes a renderable.
         /// </summary>
-        public virtual void RemoveRenderable(Renderable renderable)
+        public virtual void RemoveRenderable(Renderable renderable, Renderable? parent = null)
         {
-            NCLogging.Log($"Removing renderable of type {renderable.GetType().Name} ({renderable.Name})");
+            string parentName = (parent == null) ? "Root" : parent.Name;
+
+            NCLogging.Log($"Removing renderable of type {renderable.GetType().Name} ({renderable.Name}) - parent {parentName}");
 
             if (renderable.Children.Count > 0)
             {
@@ -169,7 +173,17 @@
             }
 
             renderable.OnDestroy();
-            Lightning.Renderer.Renderables.Remove(renderable);
+
+            // if there's no parent...
+            if (parent == null)
+            {
+                Lightning.Renderer.Renderables.Remove(renderable);
+            }
+            else
+            {
+                parent.Children.Remove(renderable);
+            }
+            
         }
 
         public virtual void RemoveAllChildren(Renderable renderable)

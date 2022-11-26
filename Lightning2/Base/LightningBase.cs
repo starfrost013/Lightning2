@@ -70,8 +70,8 @@ namespace LightningGL
         {
             try
             {
-                NCLogging.Log("Lightning Server initialising...");
-
+                NCLogging.Log("Lightning initialising...");
+                
                 // Log the sign-on message
                 NCLogging.Log($"Lightning Game Engine");
                 NCLogging.Log($"Version {LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING}");

@@ -72,7 +72,7 @@ namespace LightningGL
 
             TextManager.DrawText($"Lightning Debug v{LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING} (Debug page {currentPage}/{maxPage} - {CurrentDebugView})", 
                 "DebugFont", new(0,0), DebugForeground, DebugBackground, TTF_FontStyle.Normal, -1, -1, FontSmoothingType.Default, true);
-            CurrentY += GlobalSettings.DEFAULT_DEBUG_LINE_DISTANCE;
+            CurrentY += GlobalSettings.DebugLineDistance;
 
             switch (CurrentDebugView)
             {
@@ -154,10 +154,31 @@ namespace LightningGL
                 {
                     Renderable renderable = Lightning.Renderer.Renderables[renderableId];
                     TextManager.DrawText($"{renderable.Name} ({renderable.GetType().Name}): position {renderable.Position}, " +
-                        $"size: {renderable.Size}, render position: {renderable.RenderPosition}, on screen: {renderable.IsOnScreen}, z-index: {renderable.ZIndex}, is animating now: {renderable.AnimationRunning}", "DebugFont", new Vector2(0, CurrentY),
+                        $"size: {renderable.Size}, render position: {renderable.RenderPosition}, on screen: {renderable.IsOnScreen}, z-index: {renderable.ZIndex}, " +
+                        $"is animating now: {renderable.AnimationRunning}", "DebugFont", new Vector2(0, CurrentY),
                         DebugForeground, DebugBackground, TTF_FontStyle.Normal, -1, -1, FontSmoothingType.Default, true);
                     CurrentY += GlobalSettings.DebugLineDistance;
+
+                    if (renderable.Children.Count > 0) DrawRenderableChildren(renderable);
                 }
+            }
+        }
+
+        private void DrawRenderableChildren(Renderable parent, int depth = 1)
+        {
+            foreach (Renderable renderable in parent.Children)
+            {
+                string initialString = $"{renderable.Name} ({renderable.GetType().Name}): position {renderable.Position}, " +
+                    $"size: {renderable.Size}, render position: {renderable.RenderPosition}, on screen: {renderable.IsOnScreen}, z-index: {renderable.ZIndex}, " +
+                    $"is animating now: {renderable.AnimationRunning} - parent {parent.Name}";
+
+                // string::format requires constants so we need to pad to the left
+                initialString = initialString.PadLeft(initialString.Length + (6 * depth)); // todo: make this a setting with a defauilt value
+                TextManager.DrawText(initialString, "DebugFont", new Vector2(0, CurrentY),
+                    DebugForeground, DebugBackground, TTF_FontStyle.Normal, -1, -1, FontSmoothingType.Default, true);
+                CurrentY += GlobalSettings.DebugLineDistance;
+                
+                if (renderable.Children.Count > 0) DrawRenderableChildren(parent, depth++);
             }
         }
 

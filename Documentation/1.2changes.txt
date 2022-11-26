@@ -98,6 +98,7 @@ Everything that matters to the api has to go here
 * Fixed loading WindowTitle
 * Server Init code
 * Server works
+* Delete old logs
 
 2022.11.17:
 * Renderable Storage (ReplicatedStorage) class for network messaging
@@ -105,6 +106,11 @@ Everything that matters to the api has to go here
 
 2022.11.19:
 * AssetManager::GetAssets()
+
+2022.11.22-2022.11.26:
+* Object hierarchy system
+* Nested Rendering
+* GlobalSettings::PaddingForChildRenderables
 
 * todo:
 	- global usings everywhere

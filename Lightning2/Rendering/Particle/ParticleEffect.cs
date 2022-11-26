@@ -93,14 +93,13 @@
         public Particle? AddParticle(Particle asset)
         {
             asset.Load();
-            Lightning.Renderer.AddRenderable(asset);
+            Lightning.Renderer.AddRenderable(asset, this);
             return asset;
         }
 
         /// <summary>
         /// Loads this particle effect.
         /// </summary>
-        /// <param name="Lightning.Renderer"></param>
         internal override void Load() 
         {
             NCLogging.Log($"Loading particle effect at path {Texture.Path}...");
@@ -136,7 +135,7 @@
             }
 
             // remove all the particles we need to remove.
-            foreach (Particle particleToRemove in particlesToRemove) particles.Remove(particleToRemove);
+            foreach (Particle particleToRemove in particlesToRemove) Lightning.Renderer.RemoveRenderable(particleToRemove, this);
 
             // determine if a new particle set is to be created. check if under max AND if frame skip
             bool createNewParticleSet = (particles.Count < Amount);
@@ -271,7 +270,7 @@
             if (NeedsManualTrigger
                 && Playing) Playing = false;
 
-            if (forceStop) Lightning.Renderer.RemoveRenderable(this);
+            if (forceStop) Lightning.Renderer.RemoveAllChildren(this);
         }
 
         /// <summary>
