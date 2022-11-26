@@ -484,7 +484,7 @@ namespace LightningGL
                     || renderable.CanReceiveEventsWhileUnfocused))
                 {
                     renderable.OnKeyPressed?.Invoke(key);
-                    (renderable.Children.Count > 0) KeyReleased(key, renderable);
+                    if (renderable.Children.Count > 0) KeyReleased(key, renderable);
                 }
             }
         }

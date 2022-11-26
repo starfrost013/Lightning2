@@ -219,9 +219,9 @@
         /// <summary>
         /// The parent of this Renderable.
         /// </summary>
-        public Renderable Parent { get; init; } 
+        public Renderable? Parent { get; init; } 
 
-        public List<Renderable> Children { get; init; }
+        public List<Renderable> Children { get; internal set; }
 
         public Renderable(string name, Renderable? parent = null)
         {
@@ -236,7 +236,8 @@
             Name = name;
             _name = Name; // fix compile warnings
             Children = new List<Renderable>();
-            Parent = parent;
+
+            if (parent != null) Parent = parent;
         }
 
         /// <summary>
