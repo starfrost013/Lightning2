@@ -110,9 +110,11 @@ Everything that matters to the api has to go here
 2022.11.22-2022.11.26:
 * Object hierarchy system
 * Nested Rendering
-* GlobalSettings::PaddingForChildRenderables
+
 
 * todo:
+	- FIX CULLING FIX CULLING FIX CULLING
+	* GlobalSettings::DebugPaddingForChildRenderables
 	- global usings everywhere
 	- unit testing
 	- get rid of TERRIBLE HACK in LightningGL.Test!!!!
@@ -124,13 +126,13 @@ Everything that matters to the api has to go here
 	- console
 	- scene switcher (debug)
 	- redesign the FUCKING text api
-	- button background not working]
+	- button background not working
 	- change guide for start/switchto - INITALISATION ONLY NOT DRAWING, prevent scene mixing
 	- TOTAL RENDERABLE (no funny lists like particlemanager)
 	- percentage util
 	- merge load/create?
 	- events for everything
-	- getasset in assetmanager
+	- event manager
 	- remove ALL non-assetmanager apis
 	- TODO: separate render/update? so we can use a foreach loop here
 	- split api ref into individual chapters to make it more manageable

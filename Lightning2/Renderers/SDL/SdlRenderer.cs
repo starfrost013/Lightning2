@@ -214,18 +214,21 @@ namespace LightningGL
         }
 
 
-        private void Cull()
+        private void Cull(Renderable? parent = null)
         {
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
+
             // if we haven't specified otherwise...
             if (!GlobalSettings.GraphicsRenderOffScreenRenderables)
             {
                 // Cull stuff offscreen and move it with the camera
-                for (int renderableId = 0; renderableId < Renderables.Count; renderableId++)
+                for (int renderableId = 0; renderableId < renderables.Count; renderableId++)
                 {
-                    Renderable renderable = Renderables[renderableId];
-
                     if (Settings.Camera != null)
                     {
+                        Renderable renderable = renderables[renderableId];
+
                         // transform the position if there is a camera.
                         Camera curCamera = Lightning.Renderer.Settings.Camera;
 
@@ -241,13 +244,19 @@ namespace LightningGL
                             && renderable.RenderPosition.X <= GlobalSettings.GraphicsResolutionX + renderable.Size.X
                             && renderable.RenderPosition.Y >= -renderable.Size.Y
                             && renderable.RenderPosition.Y <= GlobalSettings.GraphicsResolutionY + renderable.Size.Y));
+
+                        if (renderable.Children.Count > 0) Cull(renderable);
                     }
                 }
             }
             else
             {
                 // just assume they are on screen
-                foreach (Renderable renderable in Renderables) renderable.IsOnScreen = true;
+                foreach (Renderable renderable in Renderables)
+                {
+                    renderable.IsOnScreen = true;
+                    if (renderable.Children.Count > 0) Cull(renderable);
+                }
             }
         }
 
@@ -302,8 +311,11 @@ namespace LightningGL
             }
         }
 
-        internal void MousePressed(MouseButton button)
+        internal void MousePressed(MouseButton button, Renderable? parent = null)
         {
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
+
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = Settings.Camera;
 
@@ -317,23 +329,28 @@ namespace LightningGL
                     cameraPosition.Y + button.Position.Y);
             }
 
-            foreach (Renderable uiElement in Renderables)
+            foreach (Renderable renderable in renderables)
             {
-                bool intersects = AABB.Intersects(uiElement, button.Position);
+                bool intersects = AABB.Intersects(renderable, button.Position);
 
                 // check if it is focused...
-                uiElement.Focused = intersects;
+                renderable.Focused = intersects;
 
                 if ((intersects
-                    || uiElement.CanReceiveEventsWhileUnfocused))
+                    || renderable.CanReceiveEventsWhileUnfocused))
                 {
-                    uiElement.OnMousePressed?.Invoke(button);
+                    renderable.OnMousePressed?.Invoke(button);
                 }
+
+                if (renderable.Children.Count > 0) MousePressed(button, renderable);
             }
         }
 
-        internal void MouseReleased(MouseButton button)
+        internal void MouseReleased(MouseButton button, Renderable? parent = null)
         {
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
+
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = Settings.Camera;
 
@@ -347,55 +364,77 @@ namespace LightningGL
                     cameraPosition.Y + button.Position.Y);
             }
 
-            foreach (Renderable uiElement in Renderables)
+            foreach (Renderable renderable in renderables)
             {
-                bool intersects = AABB.Intersects(uiElement, button.Position);
+                bool intersects = AABB.Intersects(renderable, button.Position);
 
                 // check if it is focused...
-                uiElement.Focused = intersects;
+                renderable.Focused = intersects;
 
                 if ((intersects 
-                    || uiElement.CanReceiveEventsWhileUnfocused))
+                    || renderable.CanReceiveEventsWhileUnfocused))
                 {
-                    uiElement.OnMouseReleased?.Invoke(button);
+                    renderable.OnMouseReleased?.Invoke(button);
                 }
+
+                // children
+                if (renderable.Children.Count > 0) MouseReleased(button, renderable);
             }
         }
 
-        internal void MouseEnter()
+        internal void MouseEnter(Renderable? parent = null)
         {
-            foreach (Renderable renderable in Renderables)
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
+
+            foreach (Renderable renderable in renderables)
             {
                 renderable.OnMouseEnter?.Invoke();
+                if (renderable.Children.Count > 0) MouseEnter(renderable);
             }
         }
 
-        internal void MouseLeave()
+        internal void MouseLeave(Renderable? parent = null)
         {
-            foreach (Renderable renderable in Renderables)
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
+
+            foreach (Renderable renderable in renderables)
             {
                 renderable.OnMouseLeave?.Invoke();
+                if (renderable.Children.Count > 0) MouseLeave(renderable);
             }
         }
 
-        internal void FocusGained()
+        internal void FocusGained(Renderable? parent = null)
         {
-            foreach (Renderable renderable in Renderables)
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
+
+            foreach (Renderable renderable in renderables)
             {
                 renderable.OnFocusGained?.Invoke();
+                if (renderable.Children.Count > 0) FocusGained(renderable);
             }
         }
 
-        internal void FocusLost()
+        internal void FocusLost(Renderable? parent = null)
         {
-            foreach (Renderable renderable in Renderables)
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
+
+            foreach (Renderable renderable in renderables)
             {
                 renderable.OnFocusLost?.Invoke();
+                if (renderable.Children.Count > 0) FocusLost(renderable);
             }
         }
 
-        internal void MouseMove(MouseButton button)
+        internal void MouseMove(MouseButton button, Renderable? parent = null)
         {
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
+
             // Check for a set camera and move relative to the position of that camera if it is set.
             Camera currentCamera = Settings.Camera;
 
@@ -409,34 +448,43 @@ namespace LightningGL
                     cameraPosition.Y + button.Position.Y);
             }
 
-            foreach (Renderable renderable in Renderables)
+            foreach (Renderable renderable in renderables)
             {
                 renderable.OnMouseMove?.Invoke(button);
+                if (renderable.Children.Count > 0) MouseMove(button, renderable);
             }
         }
 
-        internal void KeyPressed(Key key)
+        internal void KeyPressed(Key key, Renderable? parent = null)
         {
-            foreach (Renderable renderable in Renderables)
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
+
+            foreach (Renderable renderable in renderables)
             {
                 // check if the UI element is focused.
                 if ((renderable.Focused 
                     || renderable.CanReceiveEventsWhileUnfocused))
                 {
                     renderable.OnKeyPressed?.Invoke(key);
+                    if (renderable.Children.Count > 0) KeyPressed(key, renderable);
                 }
             }
         }
 
-        internal void KeyReleased(Key key)
+        internal void KeyReleased(Key key, Renderable? parent = null)
         {
-            foreach (Renderable renderable in Renderables)
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
+
+            foreach (Renderable renderable in renderables)
             {
                 // check if the UI element is focused.
                 if ((renderable.Focused
                     || renderable.CanReceiveEventsWhileUnfocused))
                 {
                     renderable.OnKeyPressed?.Invoke(key);
+                    (renderable.Children.Count > 0) KeyReleased(key, renderable);
                 }
             }
         }
