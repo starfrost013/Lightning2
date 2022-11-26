@@ -56,6 +56,7 @@
         {
             Settings = new();
             FrameTimer = new();   
+            Renderables = new List<Renderable>();
         }
 
         internal virtual void Start(RendererSettings renderer)
@@ -124,13 +125,28 @@
         /// <summary>
         /// Adds a renderable..
         /// </summary>
-        public virtual void AddRenderable(Renderable renderable)
+        public virtual void AddRenderable(Renderable renderable, Renderable? parent = null)
         {
             NCLogging.Log($"Adding renderable of type {renderable.GetType().Name} ({renderable.Name})");
-            Renderables.Add(renderable);
 
-            // guaranteed never null
-            renderable.OnCreate();
+            if (parent == null)
+            {
+                // guaranteed never null
+                renderable.OnCreate();
+
+                Lightning.Renderer.Renderables.Add(renderable);
+            }
+            else
+            {
+                // check that it contains the renderable
+                if (!ContainsRenderable(parent.Name)) NCError.ShowErrorBox($"Tried to add a renderable with a parent that is not in the object hierarchy!", 194, 
+                    "Renderer::AddRenderable parent parameter is not in the renderer object hierarchy", NCErrorSeverity.FatalError);
+
+                // guaranteed never null
+                renderable.OnCreate();
+
+                parent.Children.Add(renderable);
+            }
         }
 
         /// <summary>
@@ -139,17 +155,65 @@
         public virtual void RemoveRenderable(Renderable renderable)
         {
             NCLogging.Log($"Removing renderable of type {renderable.GetType().Name} ({renderable.Name})");
+
+            if (renderable.Children.Count > 0)
+            {
+                foreach (Renderable child in renderable.Children)
+                {
+                    child.OnDestroy();
+
+                    if (child.Children.Count > 0) RemoveRenderable(child);
+
+                    renderable.Children.Remove(child);
+                }
+            }
+
             renderable.OnDestroy();
-            Renderables.Remove(renderable);
+            Lightning.Renderer.Renderables.Remove(renderable);
         }
 
-        public virtual Renderable? GetRenderableByName(string name)
+        public virtual void RemoveAllChildren(Renderable renderable)
         {
-            foreach (Renderable renderable in Renderables)
+            NCLogging.Log($"Removing all children of renderable of type {renderable.GetType().Name} ({renderable.Name})");
+
+            if (renderable.Children.Count > 0)
             {
-                if (renderable.Name == name)
+                foreach (Renderable child in renderable.Children)
                 {
-                    return renderable;
+                    child.OnDestroy();
+
+                    if (child.Children.Count > 0) RemoveRenderable(child);
+
+                    renderable.Children.Remove(child);
+                }
+            }
+        }
+
+
+        public virtual Renderable? GetRenderableByName(string name, Renderable? parent = null)
+        {
+            if (parent == null)
+            {
+                foreach (Renderable renderable in Lightning.Renderer.Renderables)
+                {
+                    if (renderable.Name == name)
+                    {
+                        return renderable;
+                    }
+
+                    if (renderable.Children.Count > 0) GetRenderableByName(name, renderable);
+                }
+            }
+            else 
+            {
+                foreach (Renderable renderable in parent.Children)
+                {
+                    if (renderable.Name == name)
+                    {
+                        return renderable;
+                    }
+
+                    if (renderable.Children.Count > 0) GetRenderableByName(name, renderable);
                 }
             }
 
@@ -170,7 +234,6 @@
             RemoveRenderable(renderable);
 
         }
-
 
         public virtual bool ContainsRenderable(string name) => GetRenderableByName(name) != null;
     }

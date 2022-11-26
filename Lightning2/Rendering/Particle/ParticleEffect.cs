@@ -25,11 +25,6 @@
         public float Variance { get; set; }
 
         /// <summary>
-        /// The list of particles as a part of this particle effect
-        /// </summary>
-        private List<Particle> Particles { get; set; }
-
-        /// <summary>
         /// Internal: The texture this effect is rendered to.
         /// </summary>
         internal Texture Texture { get; private set; }
@@ -84,6 +79,7 @@
         /// </summary>
         private readonly int DEFAULT_MAX_CREATED_EACH_FRAME_DIVISOR = 150;
 
+
         /// <summary>
         /// Constructor for particle effect.
         /// </summary>
@@ -92,8 +88,13 @@
         {
             Texture = nTexture;
             Mode = ParticleMode.SinCos;
-            OnRender += Draw;
-            Particles = new List<Particle>();
+        }
+
+        public Particle? AddParticle(Particle asset)
+        {
+            asset.Load();
+            Lightning.Renderer.AddRenderable(asset);
+            return asset;
         }
 
         /// <summary>
@@ -103,7 +104,6 @@
         internal override void Load() 
         {
             NCLogging.Log($"Loading particle effect at path {Texture.Path}...");
-            Particles = new List<Particle>();
             Texture.Load();
             Texture.SnapToScreen = SnapToScreen;
             if (MaxNumberCreatedEachFrame <= 0) MaxNumberCreatedEachFrame = Amount / DEFAULT_MAX_CREATED_EACH_FRAME_DIVISOR;
@@ -113,25 +113,33 @@
         {
             if (Texture == null)
             {
-                NCError.ShowErrorBox("Attempted to draw a particle effect without loading it!", 120, "ParticleEffect::Render called before ParticleEffect::Load!", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox("Attempted to draw a particle effect without loading it!", 120, 
+                    "ParticleEffect::Render called before ParticleEffect::Load!", NCErrorSeverity.FatalError);
                 return;
+            }
+
+            List<Particle> particles = new();
+
+            foreach (Renderable renderable in Children)
+            {
+                if (renderable is Particle) particles.Add((Particle)renderable);
             }
 
             // create a list of particles to remove
             List<Particle> particlesToRemove = new();
 
             // Check what particles have to be removed
-            foreach (Particle particle in Particles)
+            foreach (Particle particle in particles)
             {
                 particle.Lifetime++;
                 if (particle.Lifetime > Lifetime) particlesToRemove.Add(particle);
             }
 
             // remove all the particles we need to remove.
-            foreach (Particle particleToRemove in particlesToRemove) Particles.Remove(particleToRemove);
+            foreach (Particle particleToRemove in particlesToRemove) particles.Remove(particleToRemove);
 
             // determine if a new particle set is to be created. check if under max AND if frame skip
-            bool createNewParticleSet = (Particles.Count < Amount);
+            bool createNewParticleSet = (particles.Count < Amount);
 
             if (FrameSkipBetweenCreatingParticles > 0
                 && Lightning.Renderer.FrameNumber % (FrameSkipBetweenCreatingParticles + 1) != 0) createNewParticleSet = false;
@@ -140,9 +148,9 @@
 
             Texture.Position = Position;
 
-            for (int curParticle = 0; curParticle < Particles.Count; curParticle++)
+            for (int curParticle = 0; curParticle < particles.Count; curParticle++)
             {
-                Particle particle = Particles[curParticle];
+                Particle particle = particles[curParticle];
 
                 // Check if absolute velocity mode is on.
                 // This means we treat velocity as an absolute value and do not
@@ -212,7 +220,9 @@
             // save the number of particles to render this frame
             int numToAddThisFrame = MaxNumberCreatedEachFrame;
 
-            if (Amount - Particles.Count < MaxNumberCreatedEachFrame) numToAddThisFrame = (Amount - Particles.Count);
+            int count = Children.Count;
+
+            if (Amount - count < MaxNumberCreatedEachFrame) numToAddThisFrame = (Amount - count);
 
             for (int particleId = 0; particleId < numToAddThisFrame; particleId++) AddParticle();
         }
@@ -241,7 +251,7 @@
                 particle.Id = Random.Shared.Next(0, 360);
             }
 
-            Particles.Add(particle);
+            AddParticle(particle);
         }
 
         /// <summary>
@@ -261,7 +271,7 @@
             if (NeedsManualTrigger
                 && Playing) Playing = false;
 
-            if (forceStop) Particles.Clear();
+            if (forceStop) Lightning.Renderer.RemoveRenderable(this);
         }
 
         /// <summary>
@@ -270,7 +280,7 @@
         public void Unload()
         {
             Stop();
-            Particles.Clear();
+            Lightning.Renderer.RemoveRenderable(this);
             Texture.Unload();
         }
     }

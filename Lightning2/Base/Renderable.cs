@@ -5,7 +5,8 @@
     /// 
     /// June 12, 2022
     /// 
-    /// Defines a renderable object. Simply introduced to reduce code reuse.
+    /// Defines a renderable object.
+    /// A renderable is an object in Lightning that does
     /// </summary>
     public abstract class Renderable
     {
@@ -124,6 +125,7 @@
         /// </summary>
         public virtual bool NotCullable { get; set; }
 
+
         /// <summary>
         /// Backing field for <see cref="RenderPosition"/>
         /// </summary>
@@ -214,7 +216,14 @@
             }
         }
 
-        public Renderable(string name)
+        /// <summary>
+        /// The parent of this Renderable.
+        /// </summary>
+        public Renderable Parent { get; init; } 
+
+        public List<Renderable> Children { get; init; }
+
+        public Renderable(string name, Renderable? parent = null)
         {
             AnimationTimer = new Stopwatch();
 
@@ -226,6 +235,8 @@
 
             Name = name;
             _name = Name; // fix compile warnings
+            Children = new List<Renderable>();
+            Parent = parent;
         }
 
         /// <summary>
@@ -309,6 +320,34 @@
         internal virtual void Destroy()
         {
 
+        }
+
+        public virtual Renderable GetParent() => Parent;
+
+        public virtual List<Renderable> GetChildren() => Children;
+
+        public virtual Renderable? GetFirstChild()
+        {
+            if (Children.Count == 0)
+            {
+                NCError.ShowErrorBox($"Tried to call Renderable::ShowErrorBox on a renderable with no children!", 192, "Renderable::ShowErrorBox called on a Renderable " +
+                    "with Renderable::Children::Count being 0!", NCErrorSeverity.Warning, null, true);
+                return null;
+            }
+
+            return Children[0];
+        }
+
+        public virtual Renderable? GetLastChild()
+        {
+            if (Children.Count == 0)
+            {
+                NCError.ShowErrorBox($"Tried to call Renderable::ShowErrorBox on a renderable with no children!", 192, "Renderable::ShowErrorBox called on a Renderable " +
+                    "with Renderable::Children::Count being 0!", NCErrorSeverity.Warning, null, true);
+                return null;
+            }
+
+            return Children[Children.Count - 1];
         }
     }
 }

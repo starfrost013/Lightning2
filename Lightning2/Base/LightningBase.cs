@@ -11,22 +11,22 @@ namespace LightningGL
         /// <summary>
         /// The current scene that is being run.
         /// </summary>
-        internal static Scene? CurrentScene { get; private set; }
+        public static Scene? CurrentScene { get; protected set; }
 
         /// <summary>
         /// The main renderer of the application.
         /// </summary>
-        public static Renderer Renderer { get; private set; }
+        public static Renderer Renderer { get; protected set; }
 
         /// <summary>
         /// Determines if the scene manager is running.
         /// </summary>
-        internal static bool Initialised { get; private set; }
+        internal static bool Initialised { get; set; }
 
         /// <summary>
         /// The list of scenes.
         /// </summary>
-        public static List<Scene> Scenes { get; private set; }
+        public static List<Scene> Scenes { get; protected set; }
 
         static LightningBase()
         {
@@ -70,21 +70,27 @@ namespace LightningGL
         {
             try
             {
+                NCLogging.Log("Lightning Server initialising...");
+
                 // Log the sign-on message
                 NCLogging.Log($"Lightning Game Engine");
                 NCLogging.Log($"Version {LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING}");
 
                 NCLogging.Log("Initialising SDL...");
-                if (SDL_Init(SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2: {SDL_GetError()}", 0, "Failed to initialise SDL2 during Lightning::Init", NCErrorSeverity.FatalError);
+                if (SDL_Init(SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2: {SDL_GetError()}", 200,
+                    "Failed to initialise SDL2 during Lightning::Init", NCErrorSeverity.FatalError);
 
                 NCLogging.Log("Initialising SDL_image...");
-                if (IMG_Init(IMG_InitFlags.IMG_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2_image: {SDL_GetError()}", 1, "Failed to initialise SDL2_image during Lightning::Init", NCErrorSeverity.FatalError);
+                if (IMG_Init(IMG_InitFlags.IMG_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2_image: {SDL_GetError()}", 201,
+                    "Failed to initialise SDL2_image during Lightning::Init", NCErrorSeverity.FatalError);
 
                 NCLogging.Log("Initialising SDL_ttf...");
-                if (TTF_Init() < 0) NCError.ShowErrorBox($"Error initialising SDL2_ttf: {SDL_GetError()}", 2, "Failed to initialise SDL2_ttf during Lightning::Init", NCErrorSeverity.FatalError);
+                if (TTF_Init() < 0) NCError.ShowErrorBox($"Error initialising SDL2_ttf: {SDL_GetError()}", 202,
+                    "Failed to initialise SDL2_ttf during Lightning::Init", NCErrorSeverity.FatalError);
 
                 NCLogging.Log("Initialising SDL_mixer...");
-                if (Mix_Init(MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2_mixer: {SDL_GetError()}", 3, "Failed to initialise SDL2_mixer during Lightning::Init", NCErrorSeverity.FatalError);
+                if (Mix_Init(MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2_mixer: {SDL_GetError()}", 203,
+                    "Failed to initialise SDL2_mixer during Lightning::Init", NCErrorSeverity.FatalError);
 
                 // this should always be the earliest step
                 NCLogging.Log("Obtaining system information...");
@@ -94,25 +100,11 @@ namespace LightningGL
                 NCLogging.Log("Loading global settings from Engine.ini...");
                 GlobalSettings.Load();
 
-                NCLogging.Log("Initialising renderer...");
-                Renderer = RendererFactory.GetRenderer(GlobalSettings.GraphicsRenderer);
-                Debug.Assert(Renderer != null);
-                NCLogging.Log($"Using renderer {Renderer.GetType().Name}!");
-
-                NCLogging.Log($"Initialising audio device ({GlobalSettings.AudioDeviceHz}Hz, {GlobalSettings.AudioChannels} channels, format {GlobalSettings.AudioFormat}, chunk size {GlobalSettings.AudioChunkSize})...");
-                if (Mix_OpenAudio(GlobalSettings.AudioDeviceHz, GlobalSettings.AudioFormat, GlobalSettings.AudioChannels, GlobalSettings.AudioChunkSize) < 0) NCError.ShowErrorBox($"Error initialising audio device: {SDL_GetError()}", 56, "Failed to initialise audio device during Lightning::Init", NCErrorSeverity.FatalError);
-
                 NCLogging.Log("Validating system requirements...");
                 GlobalSettings.Validate();
 
                 NCLogging.Log("Initialising LocalisationManager...");
                 LocalisationManager.Load();
-
-                if (GlobalSettings.GeneralProfilePerformance)
-                {
-                    NCLogging.Log("Performance Profiler enabled, initialising profiler...");
-                    PerformanceProfiler.Start();
-                }
 
                 // load global settings package file if init settings one was not specified
                 if (GlobalSettings.GeneralPackageFile != null)
@@ -129,23 +121,6 @@ namespace LightningGL
                 {
                     NCLogging.Log($"Loading local settings from {GlobalSettings.GeneralLocalSettingsPath}...");
                     LocalSettings.Load();
-                }
-
-                // Load the scene manager.
-                InitSceneManager(new RendererSettings
-                {
-                    Position = new Vector2(GlobalSettings.GraphicsPositionX, GlobalSettings.GraphicsPositionY),
-                    Size = new Vector2(GlobalSettings.GraphicsResolutionX, GlobalSettings.GraphicsResolutionY),
-                    WindowFlags = GlobalSettings.GraphicsWindowFlags,
-                    RenderFlags = GlobalSettings.GraphicsRenderFlags,
-                    Title = GlobalSettings.GraphicsWindowTitle
-                });
-
-                // if scenemanager started successfully, run its main loop
-                if (Initialised)
-                {
-                    Initialised = true;
-                    Main();
                 }
             }
             catch (Exception err)

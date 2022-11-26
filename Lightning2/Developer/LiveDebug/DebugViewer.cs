@@ -100,7 +100,7 @@ namespace LightningGL
 
             string[] debugText =
             {
-                $"FPS: {Lightning.Renderer.CurFPS.ToString("F1")} ({Lightning.Renderer.DeltaTime.ToString("F2")}ms)",
+                $"FPS: {Lightning.Renderer.CurFPS:F1} ({Lightning.Renderer.DeltaTime:F2}ms)",
                 $"Renderer: {Lightning.Renderer.GetType().Name}",
                 Lightning.Renderer.FrameNumber.ToString(),
                 $"Number of renderables: {Lightning.Renderer.Renderables.Count}",
@@ -197,7 +197,7 @@ namespace LightningGL
             {
                 string[] debugText =
                 {
-                    $"FPS: {Lightning.Renderer.CurFPS.ToString("F1")} ({Lightning.Renderer.DeltaTime.ToString("F2")}ms)",
+                    $"FPS: {Lightning.Renderer.CurFPS:F1)} ({Lightning.Renderer.DeltaTime:F2}ms)",
                     $"Average: {PerformanceProfiler.CurrentAverage}",
                     $"0.1% High: {PerformanceProfiler.Current999thPercentile}",
                     $"1% High: {PerformanceProfiler.Current99thPercentile}",

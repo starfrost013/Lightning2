@@ -99,6 +99,13 @@ Everything that matters to the api has to go here
 * Server Init code
 * Server works
 
+2022.11.17:
+* Renderable Storage (ReplicatedStorage) class for network messaging
+* Don't crash on missing localisation text, instead warning msg box + text missnig
+
+2022.11.19:
+* AssetManager::GetAssets()
+
 * todo:
 	- global usings everywhere
 	- unit testing
@@ -109,14 +116,17 @@ Everything that matters to the api has to go here
 		- redo particleeffects
 	- can we get rid of renderposition?
 	- console
+	- scene switcher (debug)
 	- redesign the FUCKING text api
 	- button background not working]
 	- change guide for start/switchto - INITALISATION ONLY NOT DRAWING, prevent scene mixing
 	- TOTAL RENDERABLE (no funny lists like particlemanager)
 	- percentage util
 	- merge load/create?
+	- events for everything
 	- getasset in assetmanager
 	- remove ALL non-assetmanager apis
+	- move as much logic as possible to renderer base
 	- split api ref into individual chapters to make it more manageable
     - // issue: won't update if you modify it again later
             // this is why we might need referents for renderables

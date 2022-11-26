@@ -12,13 +12,12 @@ namespace LightningGL
         /// </summary>
         public SDL_Event LastEvent { get; set; }
 
-        public SdlRenderer()
+        public SdlRenderer() : base()
         {
             FrameTimer = new Stopwatch();
             // Start the delta timer.
             FrameTimer.Start();
             ThisTime = 0;
-            Renderables = new List<Renderable>();
             Settings = new RendererSettings();
         }
 
@@ -32,7 +31,7 @@ namespace LightningGL
 
             if (windowSettings == null)
             {
-                NCError.ShowErrorBox("Passed null WindowSettings to Window::Start method!", 7, "Window::Start windowSettings parameter null", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox("Passed null WindowSettings to Window::Start method!", 7, "Window::Start windowSettings parameter was set to NULL!", NCErrorSeverity.FatalError);
                 return;
             }
 
@@ -298,8 +297,6 @@ namespace LightningGL
             }
         }
 
- 
-
         internal void MousePressed(MouseButton button)
         {
             // Check for a set camera and move relative to the position of that camera if it is set.
@@ -323,10 +320,9 @@ namespace LightningGL
                 uiElement.Focused = intersects;
 
                 if ((intersects
-                    || uiElement.CanReceiveEventsWhileUnfocused)
-                    && uiElement.OnMousePressed != null)
+                    || uiElement.CanReceiveEventsWhileUnfocused))
                 {
-                    uiElement.OnMousePressed(button);
+                    uiElement.OnMousePressed?.Invoke(button);
                 }
             }
         }
@@ -354,10 +350,9 @@ namespace LightningGL
                 uiElement.Focused = intersects;
 
                 if ((intersects 
-                    || uiElement.CanReceiveEventsWhileUnfocused)
-                    && (uiElement.OnMouseReleased != null))
+                    || uiElement.CanReceiveEventsWhileUnfocused))
                 {
-                    uiElement.OnMouseReleased(button);
+                    uiElement.OnMouseReleased?.Invoke(button);
                 }
             }
         }
@@ -421,10 +416,9 @@ namespace LightningGL
             {
                 // check if the UI element is focused.
                 if ((renderable.Focused 
-                    || renderable.CanReceiveEventsWhileUnfocused) 
-                    && renderable.OnKeyPressed != null)
+                    || renderable.CanReceiveEventsWhileUnfocused))
                 {
-                    renderable.OnKeyPressed(key);
+                    renderable.OnKeyPressed?.Invoke(key);
                 }
             }
         }
@@ -435,10 +429,9 @@ namespace LightningGL
             {
                 // check if the UI element is focused.
                 if ((renderable.Focused
-                    || renderable.CanReceiveEventsWhileUnfocused)
-                    && renderable.OnKeyReleased != null)
+                    || renderable.CanReceiveEventsWhileUnfocused))
                 {
-                    renderable.OnKeyReleased(key);
+                    renderable.OnKeyPressed?.Invoke(key);
                 }
             }
         }

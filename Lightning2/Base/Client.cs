@@ -19,6 +19,37 @@ namespace LightningGL
         {
             NCLogging.Log("Lightning Client initialising...");
             base.Init();
+
+            NCLogging.Log("Initialising renderer...");
+            Renderer = RendererFactory.GetRenderer(GlobalSettings.GraphicsRenderer);
+            Debug.Assert(Renderer != null);
+            NCLogging.Log($"Using renderer {Renderer.GetType().Name}!");
+
+            NCLogging.Log($"Initialising audio device ({GlobalSettings.AudioDeviceHz}Hz, {GlobalSettings.AudioChannels} channels, format {GlobalSettings.AudioFormat}, chunk size {GlobalSettings.AudioChunkSize})...");
+            if (Mix_OpenAudio(GlobalSettings.AudioDeviceHz, GlobalSettings.AudioFormat, GlobalSettings.AudioChannels, GlobalSettings.AudioChunkSize) < 0) NCError.ShowErrorBox($"Error initialising audio device: {SDL_GetError()}", 56, "Failed to initialise audio device during Lightning::Init", NCErrorSeverity.FatalError);
+
+            if (GlobalSettings.GeneralProfilePerformance)
+            {
+                NCLogging.Log("Performance Profiler enabled, initialising profiler...");
+                PerformanceProfiler.Start();
+            }
+
+            // Load the scene manager.
+            InitSceneManager(new RendererSettings
+            {
+                Position = new Vector2(GlobalSettings.GraphicsPositionX, GlobalSettings.GraphicsPositionY),
+                Size = new Vector2(GlobalSettings.GraphicsResolutionX, GlobalSettings.GraphicsResolutionY),
+                WindowFlags = GlobalSettings.GraphicsWindowFlags,
+                RenderFlags = GlobalSettings.GraphicsRenderFlags,
+                Title = GlobalSettings.GraphicsWindowTitle
+            });
+
+            // if scenemanager started successfully, run its main loop
+            if (Initialised)
+            {
+                Initialised = true;
+                Main();
+            }
         }
 
         internal override void Main()
