@@ -173,7 +173,7 @@ namespace LightningGL
                     $"is animating now: {renderable.AnimationRunning} - parent {parent.Name}";
 
                 // string::format requires constants so we need to pad to the left
-                initialString = initialString.PadLeft(initialString.Length + (6 * depth)); // todo: make this a setting with a defauilt value
+                initialString = initialString.PadLeft(initialString.Length + (8 * depth)); // todo: make this a setting with a defauilt value
                 TextManager.DrawText(initialString, "DebugFont", new Vector2(0, CurrentY),
                     DebugForeground, DebugBackground, TTF_FontStyle.Normal, -1, -1, FontSmoothingType.Default, true);
                 CurrentY += GlobalSettings.DebugLineDistance;

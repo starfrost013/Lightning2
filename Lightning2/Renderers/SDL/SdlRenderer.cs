@@ -196,7 +196,6 @@ namespace LightningGL
 
             // Update the internal FPS values.
             UpdateFps();
-
         }
 
         private void UpdateFps()
@@ -277,9 +276,12 @@ namespace LightningGL
         /// <summary>
         /// Renders the contents of the current scene.
         /// </summary>
-        internal void RenderAll()
+        internal void RenderAll(Renderable? parent = null)
         {
-            for (int renderableId = 0; renderableId < Renderables.Count; renderableId++)
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
+
+            for (int renderableId = 0; renderableId < renderables.Count; renderableId++)
             {
                 Renderable renderable = Renderables[renderableId]; // prevent collection modified exception
 
@@ -294,6 +296,8 @@ namespace LightningGL
                 // --- THESE tasks need to be performed when the renderable is on AND off screen ---
                 if (renderable.CurrentAnimation != null) renderable.CurrentAnimation.UpdateAnimationFor(renderable);
                 renderable.OnUpdate?.Invoke();
+
+                if (renderable.Children.Count > 0) RenderAll(renderable); 
             }
         }
 
