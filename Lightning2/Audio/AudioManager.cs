@@ -42,15 +42,11 @@
             // 11/7/22 As all renderables now have to have a name we don't have to correct for this eventuality
             tempAudio.Name = name;
 
-            tempAudio.Load();
-
-            if (tempAudio.AudioHandle != IntPtr.Zero)
-            {
-                tempAudio.Channel = LastChannelId;
-                LastChannelId++;
-                NCLogging.Log($"Loaded audio file at {path} to channel {tempAudio.Channel}");
-                Lightning.Renderer.AddRenderable(tempAudio);
-            }
+            // temp
+            Lightning.Renderer.AddRenderable(tempAudio);
+            tempAudio.Channel = LastChannelId;
+            LastChannelId++;
+            NCLogging.Log($"Loaded audio file at {path} to channel {tempAudio.Channel}");
         }
 
         /// <summary>

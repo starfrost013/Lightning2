@@ -60,7 +60,7 @@ namespace LightningGL
         /// <param name="friendlyName">The friendly name of the font to load.</param>
         /// <param name="path">The path to this font. If it is null, it will be loaded from the system font directory.</param>
         /// <param name="index">Index of the font in the font file to load. Will default to 0.</param>
-        internal override void Load()
+        internal override void Create()
         {
             if (!File.Exists(Path))
             {

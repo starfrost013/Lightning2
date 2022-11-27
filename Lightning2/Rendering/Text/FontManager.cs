@@ -13,13 +13,7 @@
             {
                 try
                 {
-                    asset.Load();
-
-                    // we already triggered an error message
-                    if (asset.Loaded)
-                    {
-                        Lightning.Renderer.AddRenderable(asset);
-                    }
+                    Lightning.Renderer.AddRenderable(asset);
                 }
                 catch (Exception) // NC Exception
                 {

@@ -19,7 +19,6 @@ namespace LightningGL
         // this is here for reasons (so that it can be used from using static LightningGL.Lightning)
         public override Texture AddAsset(Texture asset)
         {
-            asset.Load();
             Lightning.Renderer.AddRenderable(asset);
             return asset;
         }
@@ -73,10 +72,9 @@ namespace LightningGL
                 // especially this
                 // don't allocate a new texture format here (we already did it)
                 newTexture.Path = texture.Path;
-                newTexture.Load();
             }
 
-            Lightning.Renderer.AddRenderable(newTexture);
+            Lightning.Renderer.AddRenderable(newTexture); // this loads it
             return newTexture;
         }
     }

@@ -25,11 +25,6 @@
         public float Variance { get; set; }
 
         /// <summary>
-        /// Internal: The texture this effect is rendered to.
-        /// </summary>
-        internal Texture Texture { get; private set; }
-
-        /// <summary>
         /// The velocity of this particle effect's particles.
         /// 
         /// Partially ignored in the case of <see cref="Mode"/> being set to <see cref="ParticleMode.Explode"/>.
@@ -79,38 +74,41 @@
         /// </summary>
         private readonly int DEFAULT_MAX_CREATED_EACH_FRAME_DIVISOR = 150;
 
+        internal Texture Texture { get; private set; }
 
         /// <summary>
-        /// Constructor for particle effect.
+        /// The constructor for the <see cref="ParticleEffect"/> class.
         /// </summary>
-        /// <param name="nTexture">The texture to use for particle effects</param>
-        public ParticleEffect(string name, Texture nTexture) : base(name)
+        /// <param name="name"><inheritdoc/></param>
+        /// <param name="texture">The texture to use for particle effects</param>
+        public ParticleEffect(string name, Texture texture) : base(name)
         {
-            Texture = nTexture;
             Mode = ParticleMode.SinCos;
+            Texture = texture;
         }
 
         public Particle? AddParticle(Particle asset)
         {
-            asset.Load();
             Lightning.Renderer.AddRenderable(asset, this);
             return asset;
         }
 
-        /// <summary>
-        /// Loads this particle effect.
-        /// </summary>
-        internal override void Load() 
+        internal override void Create()
         {
             NCLogging.Log($"Loading particle effect at path {Texture.Path}...");
-            Texture.Load();
+            // don't load it multiple times
             Texture.SnapToScreen = SnapToScreen;
             if (MaxNumberCreatedEachFrame <= 0) MaxNumberCreatedEachFrame = Amount / DEFAULT_MAX_CREATED_EACH_FRAME_DIVISOR;
+
+            // this will load the texture
+            Lightning.Renderer.AddRenderable(Texture, this);
         }
+
 
         internal override void Draw()
         {
-            if (Texture == null)
+            if (Texture == null
+                || !Texture.Loaded)
             {
                 NCError.ShowErrorBox("Attempted to draw a particle effect without loading it!", 120, 
                     "ParticleEffect::Render called before ParticleEffect::Load!", NCErrorSeverity.FatalError);
@@ -144,8 +142,6 @@
                 && Lightning.Renderer.FrameNumber % (FrameSkipBetweenCreatingParticles + 1) != 0) createNewParticleSet = false;
 
             if (createNewParticleSet) AddParticleSet();
-
-            Texture.Position = Position;
 
             for (int curParticle = 0; curParticle < particles.Count; curParticle++)
             {
@@ -208,7 +204,7 @@
                 }
 
                 // IT might be better to put these as normal renderables
-                Texture.RenderPosition = particle.RenderPosition;
+                Texture.Position = particle.Position;
 
                 Texture.Draw();
             }
@@ -232,7 +228,7 @@
             if (NeedsManualTrigger
                 && !Playing) return;
 
-            Particle particle = new($"Particle{LastId}");
+            Particle particle = new("Particle");
 
             // easier to use doubles here so we don't use random.nextsingle
             float varX = Random.Shared.NextSingle() * (Variance - -Variance) + -Variance,
@@ -249,6 +245,8 @@
             {
                 particle.Id = Random.Shared.Next(0, 360);
             }
+
+            particle.Name = $"Particle{particle.Id}";
 
             AddParticle(particle);
         }

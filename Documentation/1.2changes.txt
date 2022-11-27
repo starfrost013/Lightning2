@@ -111,7 +111,6 @@ Everything that matters to the api has to go here
 * Object hierarchy system
 * Nested Rendering
 
-
 * todo:
 	- FIX CULLING FIX CULLING FIX CULLING
 	* GlobalSettings::DebugPaddingForChildRenderables
@@ -130,7 +129,7 @@ Everything that matters to the api has to go here
 	- change guide for start/switchto - INITALISATION ONLY NOT DRAWING, prevent scene mixing
 	- TOTAL RENDERABLE (no funny lists like particlemanager)
 	- percentage util
-	- merge load/create?
+	- merge load/create
 	- events for everything
 	- event manager
 	- remove ALL non-assetmanager apis

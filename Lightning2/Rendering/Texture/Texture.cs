@@ -139,11 +139,7 @@
             AllocFormat();
         }
 
-        /// <summary>
-        /// Loads the texture for the window <see cref="Lightning.Renderer"/>
-        /// </summary>
-        /// <exception cref="NCError">An error occurred loading the texture.</exception>
-        internal override void Load()
+        internal override void Create()
         {
             if (Path == CREATED_TEXTURE_PATH)
             {

@@ -14,7 +14,6 @@
         /// <param name="asset">The particle effect to add to the window.</param>
         public override ParticleEffect AddAsset(ParticleEffect asset)
         {
-            asset.Load();
             Lightning.Renderer.AddRenderable(asset);
             return asset;
         }

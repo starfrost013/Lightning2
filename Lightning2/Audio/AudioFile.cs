@@ -56,7 +56,7 @@
         /// <summary>
         /// Loads this audio file.
         /// </summary>
-        internal override void Load()
+        internal override void Create()
         {
             AudioHandle = Mix_LoadWAV(Path);
 

@@ -102,8 +102,8 @@ namespace LightningGL
             {
                 $"FPS: {Lightning.Renderer.CurFPS:F1} ({Lightning.Renderer.DeltaTime:F2}ms)",
                 $"Renderer: {Lightning.Renderer.GetType().Name}",
-                Lightning.Renderer.FrameNumber.ToString(),
-                $"Number of renderables: {Lightning.Renderer.Renderables.Count}",
+                $"Frame #{Lightning.Renderer.FrameNumber}",
+                $"Number of renderables: {Lightning.Renderer.CountRenderables()}", // uses recursion so we have to call a method
                 $"Number of renderables on screen: {Lightning.Renderer.RenderedLastFrame}",
                 $"Delta time: {Lightning.Renderer.DeltaTime}",
                 $"Camera position: {Lightning.Renderer.Settings.Camera.Position}",

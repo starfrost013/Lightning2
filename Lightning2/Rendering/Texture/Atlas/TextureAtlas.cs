@@ -31,7 +31,7 @@
             TextureCount = textureCount;
         }
 
-        internal override void Load()
+        internal override void Create()
         {
             if (FrameSize == default) NCError.ShowErrorBox("Cannot load a texture with no texture frame size!", 45, "TextureAtlas::FrameSize property = (0,0)!", NCErrorSeverity.FatalError);
 
@@ -41,7 +41,7 @@
 
             NCLogging.Log($"Loading atlas texture at path {Path}...");
 
-            base.Load();
+            base.Create();
         }
 
         public void DrawFrame()

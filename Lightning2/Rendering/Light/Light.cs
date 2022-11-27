@@ -71,10 +71,9 @@
                 transparentBaseColor = Color.FromArgb(0, LightColor.R, LightColor.G, LightColor.B);
             }
 
-
             // calculate magnitude of vector so that the alpha can be calculated
 
-            Vector2 initialPos = new Vector2(x, y);
+            Vector2 initialPos = new(x, y);
 
             for (int curX = x - RealRange + 1; curX < x + RealRange; curX++)
             {
@@ -91,6 +90,7 @@
 
                         if (LightColor == default)
                         {
+                            // calculate alpha for white lights
                             if (newDistance > 0) opaqueness = (double)(newDistance * (10 / Range));
 
                             if (opaqueness > LightManager.EnvironmentalLight.A) opaqueness = LightManager.EnvironmentalLight.A;

@@ -68,10 +68,9 @@
         /// <summary>
         /// Loads this animated texture.
         /// </summary>
-        /// <param name="Lightning.Renderer">The window to load this animated texture to.</param>
-        internal override void Load()
+        internal override void Create()
         {
-            if (Size == default(Vector2))
+            if (Size == default)
             {
                 NCError.ShowErrorBox("Cannot load an animated texture with no texture size", 44, "AnimatedTexture::Size property = (0,0)", NCErrorSeverity.FatalError);
                 return;
@@ -87,12 +86,12 @@
             {
                 string texturePath = FramePaths[frameId];
 
-                Texture newTexture = new Texture($"{Name}Frame{frameId}", Size.X, Size.Y);
+                Texture newTexture = new($"{Name}Frame{frameId}", Size.X, Size.Y);
                 newTexture.Path = texturePath;
                 newTexture.Position = Position;
                 newTexture.Repeat = Repeat;  // do this in the getter/setter?
                 // Texture will only load current or throw fatal error. Maybe add Loaded attribute that checks if TextureHandle isn't a nullptr?
-                newTexture.Load();
+                newTexture.Create(); // temp
 
                 if (newTexture.Handle != IntPtr.Zero) Frames.Add(newTexture);
             }
@@ -212,7 +211,7 @@
         /// <returns>A <see cref="List{T}"/> object containing the color of the pixels corresponding to the <paramref name="x"/> and <paramref name="y"/> parameters for each frame of this AnimatedTexture.</returns>
         public List<Color> GetPixelGlobal(int x, int y, bool unlockNow = false)
         {
-            List<Color> colours = new List<Color>();
+            List<Color> colours = new();
 
             foreach (Texture texture in Frames)
             {

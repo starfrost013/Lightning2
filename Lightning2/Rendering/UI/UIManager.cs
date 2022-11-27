@@ -3,9 +3,7 @@
     /// <summary>
     /// UIManager
     /// 
-    /// May 15, 2022 (modified July 31, 2022)
-    /// 
-    /// A simple UI manager - all UI is on one layer, there is no hierarchy
+    /// A simple UI manager for Lightning.
     /// </summary>
     public class UIAssetManager : AssetManager<Gadget>
     {

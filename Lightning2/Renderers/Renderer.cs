@@ -133,10 +133,10 @@
 
             if (parent == null)
             {
+                Lightning.Renderer.Renderables.Add(renderable);
+
                 // guaranteed never null
                 renderable.OnCreate();
-
-                Lightning.Renderer.Renderables.Add(renderable);
             }
             else
             {
@@ -146,10 +146,10 @@
 
                 renderable.Parent = parent;
 
+                parent.Children.Add(renderable);
+
                 // guaranteed never null
                 renderable.OnCreate();
-
-                parent.Children.Add(renderable);
             }
         }
 
@@ -252,5 +252,20 @@
         }
 
         public virtual bool ContainsRenderable(string name) => GetRenderableByName(name) != null;
+
+        internal int CountRenderables(Renderable? parent = null, int initialCount = 0)
+        {
+            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
+
+            int count = initialCount;
+
+            foreach (Renderable renderable in renderables)
+            {
+                count++;
+                if (renderable.Children.Count > 0) count = CountRenderables(renderable, count);
+            }
+
+            return count;
+        }
     }
 }

@@ -39,7 +39,8 @@
             // move this if it is slower
             ScreenSpaceMap = new("ScreenSpaceMap", Lightning.Renderer.Settings.Size.X, Lightning.Renderer.Settings.Size.Y)
             {
-                SnapToScreen = true
+                SnapToScreen = true,
+                NotCullable = true,
             };
 
             SetEnvironmentalLightBlendMode(SDL_BlendMode.SDL_BLENDMODE_BLEND);

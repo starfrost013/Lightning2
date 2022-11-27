@@ -219,9 +219,9 @@
         /// <summary>
         /// The parent of this Renderable.
         /// </summary>
-        public Renderable? Parent { get; init; } 
+        public Renderable? Parent { get; internal set; } 
 
-        public List<Renderable> Children { get; internal set; }
+        public List<Renderable> Children { get; init; }
 
         public Renderable(string name, Renderable? parent = null)
         {
@@ -284,12 +284,6 @@
             CurrentAnimation.StopAnimationFor(this);
         } 
 
-
-        internal virtual void Load()
-        {
-
-        }
-
         /// <summary>
         /// Called when the renderable is created.
         /// </summary>
@@ -323,7 +317,7 @@
 
         }
 
-        public virtual Renderable GetParent() => Parent;
+        public virtual Renderable? GetParent() => Parent;
 
         public virtual List<Renderable> GetChildren() => Children;
 

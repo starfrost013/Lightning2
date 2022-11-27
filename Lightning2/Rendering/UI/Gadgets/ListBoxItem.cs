@@ -9,10 +9,13 @@
     /// </summary>
     public class ListBoxItem : Gadget
     {
+        /// <summary>
+        /// The text of this <see cref="ListBoxItem"/>
+        /// </summary>
         public string Text { get; set; }
 
         /// <summary>
-        /// UI rectangle used for drawing this textbox.
+        /// UI rectangle used for drawing this <see cref="ListBoxItem"/>.
         /// </summary>
         private Rectangle? Rectangle { get; set; }
 
@@ -30,7 +33,6 @@
         /// <summary>
         /// Renders the ListBoxItem
         /// </summary>
-        /// <param name="Lightning.Renderer">The <see cref="Renderer"/> to render the ListBoxItem to.</param>
         public void Render()
         {
             // set the default background color
