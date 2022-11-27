@@ -29,7 +29,7 @@
 
         internal override void Create()
         {
-            Rectangle = PrimitiveManager.AddRectangle(RenderPosition, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+            Rectangle = PrimitiveManager.AddRectangle(RenderPosition, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen, this);
 
             Debug.Assert(Rectangle != null);
         }
@@ -52,20 +52,16 @@
 
             Font? curFont = FontManager.GetFont(Font);
 
-            if (curFont == null)
-            {
-                // Use the default font.
-                PrimitiveManager.AddText(Text, RenderPosition, ForegroundColor, true);
-            }
-            else
-            {
-                Vector2 textSize = FontManager.GetTextSize(curFont, Text);
-                Vector2 textPos = (RenderPosition + Size);
-                textPos.X = textPos.X - (Size.X / 2) - (textSize.X / 2);
-                textPos.Y = textPos.Y - (Size.Y / 2) - (textSize.Y / 2);
+            // this should NEVER return null because it's been made a fatal error if it is
+            Debug.Assert(Font != null);
 
-                TextManager.DrawText(Text, Font, textPos, ForegroundColor, default, Style);
-            }
+            Vector2 textSize = FontManager.GetTextSize(curFont, Text);
+            Vector2 textPos = (RenderPosition + Size);
+            textPos.X = textPos.X - (Size.X / 2) - (textSize.X / 2);
+            textPos.Y = textPos.Y - (Size.Y / 2) - (textSize.Y / 2);
+
+            TextManager.DrawText(Text, Font, textPos, ForegroundColor, default, Style);
+
         }
     }
 }

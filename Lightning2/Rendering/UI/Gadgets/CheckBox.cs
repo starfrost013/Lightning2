@@ -48,7 +48,8 @@
         {
             // issue: won't update if you modify it again later
             // this is why we might need referents for renderble
-            Rectangle = PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+            Rectangle = PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen, this);
+
             CheckBoxLine1 = PrimitiveManager.AddLine(default, default, Thickness, ForegroundColor, true, SnapToScreen);
             CheckBoxLine2 = PrimitiveManager.AddLine(default, default, Thickness, ForegroundColor, true, SnapToScreen);
 

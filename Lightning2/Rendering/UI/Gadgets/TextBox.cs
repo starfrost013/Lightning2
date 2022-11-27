@@ -70,8 +70,8 @@
 
         internal override void Create()
         {
-            Rectangle = PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen);
-            Cursor = PrimitiveManager.AddLine(default, default, CursorThickness, ForegroundColor);
+            Rectangle = PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen, this);
+            Cursor = PrimitiveManager.AddLine(default, default, CursorThickness, ForegroundColor, true, false, this);
         }
 
         /// <summary>

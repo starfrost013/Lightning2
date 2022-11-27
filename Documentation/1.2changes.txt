@@ -116,11 +116,14 @@ Everything that matters to the api has to go here
 2022.11.27:
 * OnCreate now called AFTER renderable is added to hierarchy
 * Get rid of Load(), always have Create()
-* Renderable::AnimationRunning -> Renderable::IsAnimatiing
+* Renderable::AnimationRunning -> Renderable::IsAnimating
+* Add Renderable::IsNotRendering to globally turn off an item rendering 
+* Nuke shitty basic text api
 
 * todo:
 	- FIX ONLY ONE PARTICLE DISPLAYING
 	- SHOULD PROPERTIES AFFECT CHILDREN
+	- decide on keeping particlemanager
 	* GlobalSettings::DebugPaddingForChildRenderables
 	- global usings everywhere
 	- unit testing

@@ -78,7 +78,9 @@
 
         internal override void Create()
         {
-            Rectangle = PrimitiveManager.AddRectangle(Position, BoxSize, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+            Rectangle = PrimitiveManager.AddRectangle(Position, BoxSize, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen, this);
+
+            Debug.Assert(Rectangle != null);
         }
 
         /// <summary>
@@ -160,7 +162,7 @@
 
 #pragma warning disable CS8602 // not applicable because this cannot be null (as a method that cannot return null is called) and it asserts if it is
             Rectangle.Color = CurBackgroundColor;
-#pragma warning restore CS8602 
+#pragma warning restore CS8602
 
             if (Font == null)
             {
@@ -178,20 +180,10 @@
                 return;
             }
 
-            // draw the currently selected item:
-            // if the font is invalid use the default font
-            // otherwise, use the Font Manager
-            if (Children.Count > 0)
-            {
-                if (curFont == null)
-                {
-                    PrimitiveManager.AddText(SelectedItem.Text, Position, ForegroundColor, true);
-                }
-                else
-                {
-                    TextManager.DrawText(SelectedItem.Text, Font, Position, ForegroundColor);
-                }
-            }
+            // draw the currently selected item using the Font Managher
+            // if the font is invalid throw an error
+
+            if (Children.Count > 0) TextManager.DrawText(SelectedItem.Text, Font, Position, ForegroundColor);
 
             // draw the items if they are open
             foreach (ListBoxItem item in Children) item.IsNotRendering = !Open; // this is never null (set in constructor) so we do not need to check if it is.

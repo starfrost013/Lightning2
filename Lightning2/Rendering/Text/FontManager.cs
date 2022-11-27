@@ -43,6 +43,7 @@
             }
             catch
             {
+                NCError.ShowErrorBox("Attempted to acquire invalid font!", 195, "FontManager::GetFont returned an invalid font", NCErrorSeverity.FatalError);
                 return null;
             }
         }

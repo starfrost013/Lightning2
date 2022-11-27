@@ -7,11 +7,6 @@
     /// </summary>
     public class PrimitiveAssetManager : AssetManager<Primitive>
     {
-        /// <summary>
-        /// The size of the SDL2_gfx monospace font.
-        /// </summary>
-        private readonly static int MONOSPACE_FONT_SIZE = 7;
-
         public override Primitive AddAsset(Primitive asset)
         {
             Lightning.Renderer.AddRenderable(asset);
@@ -24,7 +19,7 @@
         /// <param name="position">The position of the pixel to draw.</param>
         /// <param name="color">The <see cref="Color"/> of the pixel to draw.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public Pixel AddPixel(Vector2 position, Color color, bool snapToScreen = false)
+        public Pixel AddPixel(Vector2 position, Color color, bool snapToScreen = false, Renderable? parent = null)
         {
             Pixel pixel = new("Pixel")
             {
@@ -33,7 +28,7 @@
                 SnapToScreen = snapToScreen,
             };
 
-            Lightning.Renderer.AddRenderable(pixel);
+            Lightning.Renderer.AddRenderable(pixel, parent);
 
             return pixel;
         }
@@ -47,7 +42,7 @@
         /// <param name="color">The color of this line.</param>
         /// <param name="antiAliased">Determines if this line will be anti-aliased or not.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public Line AddLine(Vector2 start, Vector2 end, short thickness, Color color, bool antiAliased = true, bool snapToScreen = false)
+        public Line AddLine(Vector2 start, Vector2 end, short thickness, Color color, bool antiAliased = true, bool snapToScreen = false, Renderable? parent = null)
         {
             Line line = new("Line")
             {
@@ -61,8 +56,8 @@
                 SnapToScreen = snapToScreen,
             };
 
-            Lightning.Renderer.AddRenderable(line);
-            return line; 
+            Lightning.Renderer.AddRenderable(line, parent);
+            return line;
         }
 
         /// <summary>
@@ -76,7 +71,7 @@
         /// <param name="borderSize">The size of this rectangle's border.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space (false) or screen-relative space (true).</param>
         public Rectangle AddRectangle(Vector2 position, Vector2 size, Color color, bool filled = false, Color borderColor = default,
-            Vector2 borderSize = default, bool snapToScreen = false)
+            Vector2 borderSize = default, bool snapToScreen = false, Renderable? parent = null)
         {
             Rectangle rectangle = new("Rectangle")
             {
@@ -89,7 +84,7 @@
                 SnapToScreen = snapToScreen,
             };
 
-            Lightning.Renderer.AddRenderable(rectangle);
+            Lightning.Renderer.AddRenderable(rectangle, parent);
             return rectangle;
         }
 
@@ -103,7 +98,7 @@
         /// <param name="filled">Determines if this rectangle will be filled or not.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
         public RoundedRectangle AddRoundedRectangle(Vector2 position, Vector2 size, Color color, int cornerRadius, bool filled = false, bool snapToScreen = false,
-            Vector2 borderSize = default, Color borderColor = default)
+            Vector2 borderSize = default, Color borderColor = default, Renderable? parent = null)
         {
             RoundedRectangle roundedRectangle = new("RoundedRectangle")
             {
@@ -117,7 +112,7 @@
                 SnapToScreen = snapToScreen
             };
 
-            Lightning.Renderer.AddRenderable(roundedRectangle);
+            Lightning.Renderer.AddRenderable(roundedRectangle, parent);
             return roundedRectangle;
         }
 
@@ -131,7 +126,7 @@
         /// <param name="filled">Determines if the triangle will be filled.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
         public Triangle AddTriangle(Vector2 point1, Vector2 point2, Vector2 point3, Color color, bool filled = false, bool snapToScreen = false,
-            Vector2 borderSize = default, Color borderColor = default)
+            Vector2 borderSize = default, Color borderColor = default, Renderable? parent = null)
         {
             Triangle triangle = new("Triangle")
             {
@@ -146,7 +141,7 @@
                 SnapToScreen = snapToScreen
             };
 
-            Lightning.Renderer.AddRenderable(triangle);
+            Lightning.Renderer.AddRenderable(triangle, parent);
             return triangle;
         }
 
@@ -159,7 +154,7 @@
         /// <param name="antiAliased">Determines if the polygon will be anti-aliased - UNFILLED POLYGONS ONLY</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
         public Polygon AddPolygon(List<Vector2> points, Color color, bool filled = false, bool antiAliased = false, bool snapToScreen = false,
-            Vector2 borderSize = default, Color borderColor = default)
+            Vector2 borderSize = default, Color borderColor = default, Renderable? parent = null)
         {
             Polygon polygon = new("Polygon")
             {
@@ -173,7 +168,7 @@
                 SnapToScreen = snapToScreen
             };
 
-            Lightning.Renderer.AddRenderable(polygon);
+            Lightning.Renderer.AddRenderable(polygon, parent);
             return polygon;
         }
 
@@ -187,7 +182,7 @@
         /// <param name="antiAliased">Determines if this circle is anti-aliased. Only has an effect on unfilled circles for now</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
         public Circle AddCircle(Vector2 position, Vector2 size, Color color, bool filled = false, bool antiAliased = false, bool snapToScreen = false,
-            Vector2 borderSize = default, Color borderColor = default)
+            Vector2 borderSize = default, Color borderColor = default, Renderable? parent = null)
         {
             Circle circle = new("Circle")
             {
@@ -201,34 +196,8 @@
                 SnapToScreen = snapToScreen
             };
 
-            Lightning.Renderer.AddRenderable(circle);
+            Lightning.Renderer.AddRenderable(circle, parent);
             return circle;
-        }
-
-        /// <summary>
-        /// Draws simple text to the screen using a debug font.
-        /// </summary>
-        /// <param name="Lightning.Renderer">The Window to draw the text to.</param>
-        /// <param name="text">The text to draw.</param>
-        /// <param name="position">The position to draw the text to. </param>
-        /// <param name="color">The color to draw the text as.</param>
-        /// <param name="localise">If true, the text will be localised with <see cref="LocalisationManager"/> before being drawn.</param>
-        ///  <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public BasicText AddText(string text, Vector2 position, Color color, bool localise = true, bool snapToScreen = false)
-        {
-            BasicText basicText = new("BasicText")
-            {
-                Position = position,
-                Text = text,
-                Localise = localise,
-                Color = color,
-                // the font is monospace so all characters are the same size
-                Size = new(MONOSPACE_FONT_SIZE * text.Length, MONOSPACE_FONT_SIZE),
-                SnapToScreen = snapToScreen
-            };
-
-            Lightning.Renderer.AddRenderable(basicText);
-            return basicText;
         }
     }
 }

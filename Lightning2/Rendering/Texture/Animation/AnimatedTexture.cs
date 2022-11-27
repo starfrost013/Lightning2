@@ -78,7 +78,7 @@
             
             if (Cycle == null)
             {
-                NCError.ShowErrorBox("AnimatedTextures must have a valid Cycle property", 54, "AnimatedTexture::Cycle property = null", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox("AnimatedTextures must have a valid Cycle property", 54, "AnimatedTexture::Cycle property = NULL!", NCErrorSeverity.FatalError);
                 return;
             }
 

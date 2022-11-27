@@ -231,16 +231,19 @@ namespace LightningGL
                 Filled = true
             };
 
-            listBox1.AddItem(new("Item1", "test 1", "Arial.11pt"));
-            listBox1.AddItem(new("Item2", "test 2", "Arial.11pt"));
-            listBox1.AddItem(new("Item3", "dfsdfsdfsdfsdfsdf", "Arial.11pt"));
-            listBox1.AddItem(new("Item4", "zxczxzxzx", "Arial.11pt"));
-            listBox1.AddItem(new("Item5", "qasqsdfwqer", "Arial.11pt"));
 
             UIManager.AddAsset(btn1);
             UIManager.AddAsset(listBox1);
             UIManager.AddAsset(textBox1);
             UIManager.AddAsset(checkBox1);
+
+            // you must load a listbox before adding it
+            // note this in docs
+            listBox1.AddItem(new("Item1", "test 1", "Arial.11pt"));
+            listBox1.AddItem(new("Item2", "test 2", "Arial.11pt"));
+            listBox1.AddItem(new("Item3", "dfsdfsdfsdfsdfsdf", "Arial.11pt"));
+            listBox1.AddItem(new("Item4", "zxczxzxzx", "Arial.11pt"));
+            listBox1.AddItem(new("Item5", "qasqsdfwqer", "Arial.11pt"));
 
             TextureManager.AddAsset(Texture1);
 
@@ -294,9 +297,9 @@ namespace LightningGL
             PrimitiveManager.AddTriangle(new(722, 10), new(747, 40), new(707, 40), Color.FromArgb(127, 255, 255, 255), false);
             PrimitiveManager.AddTriangle(new(794, 40), new(764, 40), new(779, 10), Color.FromArgb(127, 255, 255, 255), true, false, new(10, 10), Color.Yellow);
 
-            PrimitiveManager.AddText("#[STRING_TEST]", new(500, 90), Color.FromArgb(255, 0, 0, 255));
-            PrimitiveManager.AddText("Loc string test: #[STRING_TEST]", new(500, 120), Color.FromArgb(255, 0, 0, 255));
-            PrimitiveManager.AddText("Loc string test: #[STRING_TEST] aaaaaa #[STRING_TEST] #[STRING_TEST] bbbbbb", new(500, 150), Color.FromArgb(255, 0, 0, 255));
+            TextManager.DrawText("#[STRING_TEST]", "DebugFont", new(500, 90), Color.FromArgb(255, 0, 0, 255));
+            PrimitiveManager.AddText("Loc string test: #[STRING_TEST]", "DebugFont", new(500, 120), Color.FromArgb(255, 0, 0, 255));
+            PrimitiveManager.AddText("Loc string test: #[STRING_TEST] aaaaaa #[STRING_TEST] #[STRING_TEST] bbbbbb", "DebugFont", new(500, 150), Color.FromArgb(255, 0, 0, 255));
 
             TextManager.DrawText("Test1", "Arial.11pt", new(700, 10), Color.FromArgb(255, 255, 255, 255));
             TextManager.DrawText("Test2", "Arial.11pt", new(700, 30), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold);
