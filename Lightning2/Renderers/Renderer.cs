@@ -205,7 +205,6 @@
             }
         }
 
-
         public virtual Renderable? GetRenderableByName(string name, Renderable? parent = null)
         {
             if (parent == null)
@@ -248,7 +247,6 @@
             }
 
             RemoveRenderable(renderable);
-
         }
 
         public virtual bool ContainsRenderable(string name) => GetRenderableByName(name) != null;
@@ -267,5 +265,52 @@
 
             return count;
         }
+
+        protected void Cull(Renderable? parent = null)
+        {
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
+
+            // if we haven't specified otherwise...
+            if (!GlobalSettings.GraphicsRenderOffScreenRenderables)
+            {
+                // Cull stuff offscreen and move it with the camera
+                for (int renderableId = 0; renderableId < renderables.Count; renderableId++)
+                {
+                    if (Settings.Camera != null)
+                    {
+                        Renderable renderable = renderables[renderableId];
+
+                        // transform the position if there is a camera.
+                        Camera curCamera = Lightning.Renderer.Settings.Camera;
+
+                        if (curCamera != null
+                            && !renderable.SnapToScreen)
+                        {
+                            renderable.RenderPosition = new(renderable.Position.X - curCamera.Position.X,
+                                renderable.Position.Y - curCamera.Position.Y);
+                        }
+
+                        renderable.IsOnScreen = (renderable.NotCullable
+                            || (renderable.RenderPosition.X >= -renderable.Size.X
+                            && renderable.RenderPosition.X <= GlobalSettings.GraphicsResolutionX + renderable.Size.X
+                            && renderable.RenderPosition.Y >= -renderable.Size.Y
+                            && renderable.RenderPosition.Y <= GlobalSettings.GraphicsResolutionY + renderable.Size.Y));
+
+                        if (renderable.Children.Count > 0) Cull(renderable);
+                    }
+                }
+            }
+            else
+            {
+                // just assume they are on screen
+                foreach (Renderable renderable in Renderables)
+                {
+                    renderable.IsOnScreen = true;
+                    if (renderable.Children.Count > 0) Cull(renderable);
+                }
+            }
+        }
+
     }
 }

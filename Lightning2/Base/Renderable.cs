@@ -177,12 +177,18 @@
         /// <summary>
         /// Boolean determining if this animation is running automatically.
         /// </summary>
-        internal bool AnimationRunning => AnimationTimer.IsRunning;
+        internal bool IsAnimating => AnimationTimer.IsRunning;
 
         /// <summary>
         /// Determines if this renderable is currently off-screen and therefore will not be rendered.
         /// </summary>
         internal bool IsOnScreen { get; set; }
+
+        /// <summary>
+        /// Determines if this Renderable is being rendered.
+        /// This will always cull the renderable if it is set to <c>true</c>.
+        /// </summary>
+        public bool IsNotRendering { get; set; }
 
         /// <summary>
         /// The Z-Index (priority) of this renderable.

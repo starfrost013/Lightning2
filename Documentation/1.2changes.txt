@@ -47,8 +47,8 @@ Everything that matters to the api has to go here
 * PrimitiveManager::Draw**** -> PrimitiveManager::Add****
 
 2022.11.06:
-* Nullable-enabled LightningGL.
-* Make PrimitiveManager return the primitive type, add border parameters to all.
+* LightningGL properly uses nullable.
+* Make PrimitiveManager return the primitive type, add border parameters to all Primitives.
 * Remove InitSettings.
 * Fix bug with default window locations.
 * Console Core
@@ -110,9 +110,17 @@ Everything that matters to the api has to go here
 2022.11.22-2022.11.26:
 * Object hierarchy system
 * Nested Rendering
+* Nested Event Handling
+* Fixed numerous bugs with debug viewer
+
+2022.11.27:
+* OnCreate now called AFTER renderable is added to hierarchy
+* Get rid of Load(), always have Create()
+* Renderable::AnimationRunning -> Renderable::IsAnimatiing
 
 * todo:
-	- FIX CULLING FIX CULLING FIX CULLING
+	- FIX ONLY ONE PARTICLE DISPLAYING
+	- SHOULD PROPERTIES AFFECT CHILDREN
 	* GlobalSettings::DebugPaddingForChildRenderables
 	- global usings everywhere
 	- unit testing
@@ -129,7 +137,6 @@ Everything that matters to the api has to go here
 	- change guide for start/switchto - INITALISATION ONLY NOT DRAWING, prevent scene mixing
 	- TOTAL RENDERABLE (no funny lists like particlemanager)
 	- percentage util
-	- merge load/create
 	- events for everything
 	- event manager
 	- remove ALL non-assetmanager apis

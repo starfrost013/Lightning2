@@ -90,8 +90,7 @@
                 newTexture.Path = texturePath;
                 newTexture.Position = Position;
                 newTexture.Repeat = Repeat;  // do this in the getter/setter?
-                // Texture will only load current or throw fatal error. Maybe add Loaded attribute that checks if TextureHandle isn't a nullptr?
-                newTexture.Create(); // temp
+                newTexture.OnCreate(); // set to create method at creation, but good practice
 
                 if (newTexture.Handle != IntPtr.Zero) Frames.Add(newTexture);
             }
@@ -102,7 +101,6 @@
         /// <summary>
         /// Draws this animated texture.
         /// </summary>
-        /// <param name="Lightning.Renderer">The window to draw this animated texture to.</param>
         internal override void Draw()
         {
             bool reverseAnimation = (Cycle.StartFrame > Cycle.EndFrame);

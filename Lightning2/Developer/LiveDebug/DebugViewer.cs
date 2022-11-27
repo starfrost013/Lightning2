@@ -155,7 +155,7 @@ namespace LightningGL
                     Renderable renderable = Lightning.Renderer.Renderables[renderableId];
                     TextManager.DrawText($"{renderable.Name} ({renderable.GetType().Name}): position {renderable.Position}, " +
                         $"size: {renderable.Size}, render position: {renderable.RenderPosition}, on screen: {renderable.IsOnScreen}, z-index: {renderable.ZIndex}, " +
-                        $"is animating now: {renderable.AnimationRunning}", "DebugFont", new Vector2(0, CurrentY),
+                        $"is animating now: {renderable.IsAnimating}", "DebugFont", new Vector2(0, CurrentY),
                         DebugForeground, DebugBackground, TTF_FontStyle.Normal, -1, -1, FontSmoothingType.Default, true);
                     CurrentY += GlobalSettings.DebugLineDistance;
 
@@ -170,7 +170,7 @@ namespace LightningGL
             {
                 string initialString = $"{renderable.Name} ({renderable.GetType().Name}): position {renderable.Position}, " +
                     $"size: {renderable.Size}, render position: {renderable.RenderPosition}, on screen: {renderable.IsOnScreen}, z-index: {renderable.ZIndex}, " +
-                    $"is animating now: {renderable.AnimationRunning} - parent {parent.Name}";
+                    $"is animating now: {renderable.IsAnimating} - parent {parent.Name}";
 
                 // string::format requires constants so we need to pad to the left
                 initialString = initialString.PadLeft(initialString.Length + (8 * depth)); // todo: make this a setting with a defauilt value

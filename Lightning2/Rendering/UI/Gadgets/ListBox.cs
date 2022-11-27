@@ -14,11 +14,6 @@
         /// </summary>
         public bool Open { get; set; }
 
-        /// <summary>
-        /// List of items in the list box.
-        /// </summary>
-        public List<ListBoxItem> Items { get; private set; }
-
         private int _selectedindex;
 
         /// <summary>
@@ -33,7 +28,7 @@
             set
             {
                 if (value < 0
-                    || value > Items.Count - 1) NCError.ShowErrorBox("Attempted to set an invalid SelectedIndex for this ListBox!", 83, "ListBox::SelectedIndex > ListBox::Items::Count - 1!", NCErrorSeverity.FatalError);
+                    || value > Children.Count - 1) NCError.ShowErrorBox("Attempted to set an invalid SelectedIndex for this ListBox!", 83, "ListBox::SelectedIndex > ListBox::Items::Count - 1!", NCErrorSeverity.FatalError);
 
                 _selectedindex = value;
             }
@@ -42,7 +37,7 @@
         /// <summary>
         /// The current selected item. Simply returns Items[SelectedIndex].
         /// </summary>
-        public ListBoxItem SelectedItem => Items[SelectedIndex];
+        public ListBoxItem SelectedItem => (ListBoxItem)Children[SelectedIndex];
 
         /// <summary>
         /// Determines if item colors will not be alternated on every other item.
@@ -70,7 +65,6 @@
         /// </summary>
         public ListBox(string name, string font) : base(name, font)
         {
-            Items = new List<ListBoxItem>();
             OnRender += Render;
 
             // if you override the method it calls it twice (because it's defined for both classes)
@@ -118,13 +112,13 @@
             item.Size = BoxSize;
 
             // move the item so that it gets drawn in the right place
-            item.Position = new(Position.X, Position.Y + ((itemFontSize.Y * 1.25f) * (Items.Count + 1)));
+            item.Position = new(Position.X, Position.Y + ((itemFontSize.Y * 1.25f) * (Children.Count + 1)));
             if (item.BackgroundColor == default) item.BackgroundColor = BackgroundColor;
             if (item.ForegroundColor == default) item.ForegroundColor = ForegroundColor;
             if (item.BorderColor == default) item.BorderColor = BorderColor;
 
-            // alternate the colors so they look a bit better
-            if (Items.Count % 2 == 0
+            // alternate the colors so they look a bit better (if hte user specified it)
+            if (Children.Count % 2 == 0
                 && !DontAlternateItemColors)
             {
                 int altR = item.BackgroundColor.R - AlternateItemColorsAmount,
@@ -153,7 +147,7 @@
 
             // resize the listbox 
             Size = new Vector2(Size.X, Size.Y + (BoxSize.Y));
-            Items.Add(item);
+            Lightning.Renderer.AddRenderable(item, this);
         }
 
         /// <summary>
@@ -187,24 +181,20 @@
             // draw the currently selected item:
             // if the font is invalid use the default font
             // otherwise, use the Font Manager
-            if (Items.Count > 0)
+            if (Children.Count > 0)
             {
                 if (curFont == null)
                 {
-                    PrimitiveManager.AddText(Items[SelectedIndex].Text, Position, ForegroundColor, true);
+                    PrimitiveManager.AddText(SelectedItem.Text, Position, ForegroundColor, true);
                 }
                 else
                 {
-                    TextManager.DrawText(Items[SelectedIndex].Text, Font, Position, ForegroundColor);
+                    TextManager.DrawText(SelectedItem.Text, Font, Position, ForegroundColor);
                 }
             }
 
             // draw the items if they are open
-            if (Open)
-            {
-                foreach (ListBoxItem item in Items) item.OnRender(); // this is never null (set in constructor) so we do not need to check if it is.
-            }
-
+            foreach (ListBoxItem item in Children) item.IsNotRendering = !Open; // this is never null (set in constructor) so we do not need to check if it is.
         }
 
         /// <summary>
@@ -220,9 +210,9 @@
 
                 // check if the item is intersecting and if so pass the event on
                 // and don't close it
-                for (int curItem = 0; curItem < Items.Count; curItem++)
+                for (int curItem = 0; curItem < Children.Count; curItem++)
                 {
-                    ListBoxItem item = Items[curItem];
+                    ListBoxItem item = (ListBoxItem)Children[curItem];
 
                     if (item != null)
                     {
@@ -279,7 +269,7 @@
             {
                 // check if the item is intersecting and if so pass the event on
                 // and don't close it
-                foreach (ListBoxItem item in Items)
+                foreach (ListBoxItem item in Children)
                 {
                     if (AABB.Intersects(item, button.Position))
                     {
@@ -328,7 +318,7 @@
 
             // pass the event on
             // and don't close it
-            foreach (ListBoxItem item in Items)
+            foreach (ListBoxItem item in Children)
             {
                 // don't check for intersection as that's done here.
                 item.OnMouseMove?.Invoke(button);
