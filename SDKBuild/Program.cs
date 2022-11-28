@@ -1,13 +1,13 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using NuCore.Utilities;
 using System.Diagnostics;
-using System.Globalization;
 using System.Runtime.InteropServices;
 
 // SDKBuild
-// August 11, 2022 (modified October 18, 2022)
+// August 11, 2022 (modified November 28, 2022)
 //
 // Very quick and dirty tool to build a Lightning SDK setup file.
+NCLogging.Init(); // init NCLogging
 
 #region Variables
 
@@ -16,7 +16,12 @@ string config = "Debug";
 
 // If we will run setup or not.
 bool runSetup = true;
+
+// Run setup loudly.
 bool noQuiet = false;
+
+// Don't measure the time SDKBuild takes to run.
+bool noTimeBuild = false;
 
 // Paths for various parts of Lightning.
 string buildPath = $@"..\..\..\..\Lightning2\bin\{config}\net6.0\";
@@ -30,6 +35,8 @@ string finalSdkSetupPath = @"SDK\Setup\SDKSetup.exe";
 string finalSdkSetupArgsAllUsers = @"/VERYSILENT /FORCECLOSEAPPLICATIONS /RESTARTAPPLICATIONS /SP-";
 string finalSdkSetupArgsCurrentUser = @"/VERYSILENT /FORCECLOSEAPPLICATIONS /RESTARTAPPLICATIONS /SP- /CURRENTUSER";
 string finalSdkSetupArgs = finalSdkSetupArgsAllUsers;
+Stopwatch stopwatch = Stopwatch.StartNew();
+
 #endregion
 
 #region Command line parsing
@@ -53,6 +60,10 @@ for (int argId = 0; argId < args.Length; argId++)
             NCLogging.Log("Specified that setup will be run loudly", ConsoleColor.Blue);
             noQuiet = true;
             break;
+        case "-notimebuild":
+            NCLogging.Log("Not measuring time to run SDKBuild", ConsoleColor.Blue);
+            noTimeBuild = true;
+            break;
         case "-currentuser":
             NCLogging.Log("Specified install as quiet user", ConsoleColor.Blue);
             finalSdkSetupArgs = finalSdkSetupArgsCurrentUser;
@@ -61,11 +72,12 @@ for (int argId = 0; argId < args.Length; argId++)
 }
 
 #endregion
+
 #region Actual code
 
-NCLogging.Init();
+if (!noTimeBuild) stopwatch.Start();
 
-NCLogging.Log("Lightning SDK Builder version 2.0");
+NCLogging.Log("Lightning SDK Builder version 2.1");
 
 // delete sdk dir if it exists
 if (Directory.Exists("SDK"))
@@ -75,8 +87,6 @@ if (Directory.Exists("SDK"))
 }
 
 NCLogging.Log("Copying build files from Lightning build directory...");
-
-
 
 if (!Directory.Exists(buildPath))
 {
@@ -123,7 +133,7 @@ NCLogging.Log("Building examples...");
 
 Directory.CreateDirectory(@"SDK\Examples");
 
-if (!Directory.Exists(examplePath)) NCError.ShowErrorBox($"Examples directory not found ({examplePath}", 1400, "examplePath not found in Program::Main");
+if (!Directory.Exists(examplePath)) NCLogging.Log($"Examples directory not found ({examplePath}", ConsoleColor.Red);
 
 NCFile.RecursiveCopy(examplePath, @"SDK\Examples");
 
@@ -140,7 +150,7 @@ if (!Directory.Exists(innoInstallDir))
 }
 else
 {
-    NCLogging.Log("Generating installer...");
+    NCLogging.Log("SDK built! Generating installer...", ConsoleColor.Green);
 
     Process innoSetup = Process.Start($@"{innoInstallDir}\ISCC.exe", @"..\..\..\..\Setup\Setup.iss");
 
@@ -149,7 +159,7 @@ else
 
     if (innoSetup.ExitCode > 0)
     {
-        NCLogging.Log($"Error: Inno Setup failed to generate the SDK installer (exit code {innoSetup.ExitCode})", ConsoleColor.Red);
+        NCLogging.Log($"Error: Inno Setup failed to generate the SDK installer (exit code {innoSetup.ExitCode})!", ConsoleColor.Red);
     }
     else
     {
@@ -173,13 +183,21 @@ else
 
             if (sdkSetup.ExitCode > 0)
             {
-                NCLogging.Log($"Error: Failed to install SDK (exit code {sdkSetup.ExitCode})", ConsoleColor.Red);
+                NCLogging.Log($"Error: Failed to install SDK (exit code {sdkSetup.ExitCode})!", ConsoleColor.Red);
             }
         }
 
     }
 }
 
-NCLogging.Log("Done!");
+// measure how long build took
+if (!noTimeBuild)
+{
+    stopwatch.Stop();
+    double instSeconds = (double)stopwatch.ElapsedMilliseconds / 1000;
+    NCLogging.Log($"Install took {instSeconds:F1} sec (run setup={runSetup}, setup quiet={!noQuiet})");
+}
+
+NCLogging.Log("Done!", ConsoleColor.Green);
 
 #endregion
