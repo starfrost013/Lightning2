@@ -178,7 +178,7 @@ namespace LightningGL
                     DebugForeground, DebugBackground, TTF_FontStyle.Normal, -1, -1, FontSmoothingType.Default, true);
                 CurrentY += GlobalSettings.DebugLineDistance;
                 
-                if (renderable.Children.Count > 0) DrawRenderableChildren(parent, depth++);
+                if (renderable.Children.Count > 0) DrawRenderableChildren(renderable, depth++);
             }
         }
 

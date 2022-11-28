@@ -115,7 +115,8 @@
             // size it to the size of the text in the Y dimension
             BoxSize = new(Size.X, (itemFontSize.Y * 1.25f));
             item.Size = BoxSize;
-
+            Rectangle.Size = BoxSize;
+            
             // move the item so that it gets drawn in the right place
             item.Position = new(Position.X, Position.Y + ((itemFontSize.Y * 1.25f) * (Children.Count + 1)));
             if (item.BackgroundColor == default) item.BackgroundColor = BackgroundColor;
