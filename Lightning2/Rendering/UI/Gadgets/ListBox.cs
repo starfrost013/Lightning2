@@ -5,7 +5,8 @@
     /// 
     /// June 15, 2022
     /// 
-    /// Defines a list box gadget. A list box is a list of sel
+    /// Defines a list box gadget. A list box is a list of options that can be selected by the user.
+    /// This is a horrible hack and it needs to be rewritten.
     /// </summary>
     public class ListBox : Gadget
     {
@@ -78,7 +79,9 @@
 
         internal override void Create()
         {
-            Rectangle = PrimitiveManager.AddRectangle(Position, BoxSize, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen, this);
+            // HACK: Don't make this a child of this so that it does not break everything
+            // ONLY FOR THIS CLASS !!!
+            Rectangle = PrimitiveManager.AddRectangle(Position, BoxSize, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
 
             Debug.Assert(Rectangle != null);
         }

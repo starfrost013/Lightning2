@@ -28,6 +28,8 @@
         internal override void Create()
         {
             Rectangle = PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen, this);
+
+            Debug.Assert(Rectangle != null);
         }
 
         /// <summary>
@@ -42,16 +44,7 @@
             Rectangle.Color = CurBackgroundColor;
 #pragma warning restore CS8602
 
-            Font? curFont = FontManager.GetFont(Font);
-
-            if (curFont == null)
-            {
-                PrimitiveManager.AddText(Text, Position, ForegroundColor, true);
-            }
-            else
-            {
-                TextManager.DrawText(Text, Font, Position, ForegroundColor);
-            }
+            TextManager.DrawText(Text, Font, Position, ForegroundColor);
         }
     }
 }

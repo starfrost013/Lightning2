@@ -53,7 +53,7 @@
             Font? curFont = FontManager.GetFont(Font);
 
             // this should NEVER return null because it's been made a fatal error if it is
-            Debug.Assert(Font != null);
+            Debug.Assert(curFont != null);
 
             Vector2 textSize = FontManager.GetTextSize(curFont, Text);
             Vector2 textPos = (RenderPosition + Size);

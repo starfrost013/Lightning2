@@ -207,32 +207,24 @@
 
         public virtual Renderable? GetRenderableByName(string name, Renderable? parent = null)
         {
-            if (parent == null)
-            {
-                foreach (Renderable renderable in Lightning.Renderer.Renderables)
-                {
-                    if (renderable.Name == name)
-                    {
-                        return renderable;
-                    }
+            // iterate through either the root or the child list depending on if the parent paremter was provided
+            List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
 
-                    if (renderable.Children.Count > 0) GetRenderableByName(name, renderable);
-                }
-            }
-            else 
-            {
-                foreach (Renderable renderable in parent.Children)
-                {
-                    if (renderable.Name == name)
-                    {
-                        return renderable;
-                    }
+            Renderable? foundRenderable = null;
 
-                    if (renderable.Children.Count > 0) GetRenderableByName(name, renderable);
+            foreach (Renderable renderable in renderables)
+            {
+                // kind of a stupid hack but it's better than using break in a foreach lol
+                if (renderable.Children.Count > 0)
+                {
+                    Renderable? newRenderable = GetRenderableByName(name, renderable);
+                    if (newRenderable != null) foundRenderable = newRenderable; 
                 }
+
+                if (renderable.Name == name) foundRenderable = renderable;
             }
 
-            return null;
+            return foundRenderable;
         }
 
         public virtual void RemoveRenderableByName(string name)

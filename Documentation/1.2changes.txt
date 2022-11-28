@@ -124,6 +124,7 @@ Everything that matters to the api has to go here
 	- FIX ONLY ONE PARTICLE DISPLAYING
 	- SHOULD PROPERTIES AFFECT CHILDREN
 	- decide on keeping particlemanager
+	- FIX BUSTED AND SHIT HORRIBLE VERY BAD LIST BOX!!
 	* GlobalSettings::DebugPaddingForChildRenderables
 	- global usings everywhere
 	- unit testing
@@ -152,6 +153,5 @@ Everything that matters to the api has to go here
 	- client connecting
 	- net sending messages
 	- figure out programmability (server scenes)
-	- lightningbase InitCore!!!!!!!!!
 	- server.ini
 	- a lot
