@@ -77,7 +77,7 @@ for (int argId = 0; argId < args.Length; argId++)
 
 if (!noTimeBuild) stopwatch.Start();
 
-NCLogging.Log("Lightning SDK Builder version 2.1");
+NCLogging.Log("Lightning SDK Builder version 2.1.1");
 
 // delete sdk dir if it exists
 if (Directory.Exists("SDK"))
@@ -167,7 +167,7 @@ else
         {
             NCLogging.Log("Running generated SDKSetup.exe (You will receive an admin prompt and any applications may be force-closed and restarted)...");
 
-            Process sdkSetup = default;
+            Process sdkSetup;
 
             // will always change from default here
             if (noQuiet)
@@ -195,7 +195,7 @@ if (!noTimeBuild)
 {
     stopwatch.Stop();
     double instSeconds = (double)stopwatch.ElapsedMilliseconds / 1000;
-    NCLogging.Log($"Install took {instSeconds:F1} sec (run setup={runSetup}, setup quiet={!noQuiet})");
+    NCLogging.Log($"Build and install took {instSeconds:F1} sec (run setup={runSetup}, looud setup={noQuiet})");
 }
 
 NCLogging.Log("Done!", ConsoleColor.Green);

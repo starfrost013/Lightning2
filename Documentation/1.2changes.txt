@@ -120,6 +120,10 @@ Everything that matters to the api has to go here
 * Add Renderable::IsNotRendering to globally turn off an item rendering 
 * Nuke shitty basic text api
 
+2022.11.28:
+* fix sdkbuild option logging, add timer for builds
+* fix bug in containsrenderablebyname, getrenderablebyname, etc
+
 * todo:
 	- FIX ONLY ONE PARTICLE DISPLAYING
 	- SHOULD PROPERTIES AFFECT CHILDREN
