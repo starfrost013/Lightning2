@@ -124,11 +124,13 @@ Everything that matters to the api has to go here
 * fix sdkbuild option logging, add timer for builds
 * fix bug in containsrenderablebyname, getrenderablebyname, etc
 
+2022.11.29:
+* split event handling out into a separate internal static EventManager class (so that the code can be shaed between renderers, and it's more obvious where it is and what it does)
+
 * todo:
 	- FIX ONLY ONE PARTICLE DISPLAYING
 	- SHOULD PROPERTIES AFFECT CHILDREN
-	- decide on keeping particlemanager
-	- FIX BUSTED AND SHIT HORRIBLE VERY BAD LIST BOX!!
+	- FIX BUSTED AND SHIT HORRIBLE VERY BAD UI SYSTEM!!!!!!
 	* GlobalSettings::DebugPaddingForChildRenderables
 	- global usings everywhere
 	- unit testing

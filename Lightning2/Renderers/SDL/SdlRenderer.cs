@@ -108,6 +108,9 @@ namespace LightningGL
                     case SDL_EventType.SDL_KEYDOWN:
                         EventManager.FireKeyPressed((Key)currentEvent.key);
                         break;
+                    case SDL_EventType.SDL_KEYUP:
+                        EventManager.FireKeyReleased((Key)currentEvent.key);
+                        break;
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN: // Mouse down event
                         EventManager.FireMousePressed((MouseButton)currentEvent.button);
                         break;
@@ -149,6 +152,7 @@ namespace LightningGL
         /// </summary>
         internal override void Render()
         {
+            // only render if we have a scene
             Debug.Assert(CurrentScene != null);
 
             // this is actually fine for performance as it turns out (probably not a very big LINQ CALL)
@@ -247,7 +251,7 @@ namespace LightningGL
             {
                 Renderable renderable = renderables[renderableId]; // prevent collection modified exception
 
-                // --- THESE TASKS need to be performed ONLY when the renderable is on screen ---
+                // --- THESE TASKS need to be performed ONLY when the renderable is actually being drawn ---
                 if (renderable.IsOnScreen
                     && !renderable.IsNotRendering
                     && renderable.OnRender != null)
@@ -256,7 +260,7 @@ namespace LightningGL
                     RenderedLastFrame++;
                 }
 
-                // --- THESE tasks need to be performed when the renderable is on AND off screen ---
+                // --- THESE tasks need to be performed when the renderable exists, regardless of if it is being drawn or not ---
                 renderable.CurrentAnimation?.UpdateAnimationFor(renderable); // dont call if no
                 renderable.OnUpdate?.Invoke();
 
