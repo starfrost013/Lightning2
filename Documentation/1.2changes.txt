@@ -1,4 +1,4 @@
-Lightning 1.2 
+Lightning 2.0
 Changes
 
 Everything that matters to the api has to go here

@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 // SDKBuild
-// August 11, 2022 (modified November 28, 2022)
+// August 11, 2022 (modified November 29, 2022)
 //
 // Very quick and dirty tool to build a Lightning SDK setup file.
 NCLogging.Init(); // init NCLogging

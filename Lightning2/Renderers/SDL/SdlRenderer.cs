@@ -106,31 +106,31 @@ namespace LightningGL
                 switch (currentEvent.type)
                 {
                     case SDL_EventType.SDL_KEYDOWN:
-                        KeyPressed((Key)currentEvent.key);
+                        EventManager.FireKeyPressed((Key)currentEvent.key);
                         break;
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN: // Mouse down event
-                        MousePressed((MouseButton)currentEvent.button);
+                        EventManager.FireMousePressed((MouseButton)currentEvent.button);
                         break;
                     case SDL_EventType.SDL_MOUSEBUTTONUP: // Mouse up event
-                        MouseReleased((MouseButton)currentEvent.button);
+                        EventManager.FireMouseReleased((MouseButton)currentEvent.button);
                         break;
                     case SDL_EventType.SDL_MOUSEMOTION: // Mouse move event
-                        MouseMove((MouseButton)currentEvent.motion);
+                        EventManager.FireMouseMove((MouseButton)currentEvent.motion);
                         break;
                     case SDL_EventType.SDL_WINDOWEVENT: // Window Event - check subtypes
                         switch (currentEvent.window.windowEvent)
                         {
                             case SDL_WindowEventID.SDL_WINDOWEVENT_ENTER:
-                                MouseEnter();
+                                EventManager.FireMouseEnter();
                                 break;
                             case SDL_WindowEventID.SDL_WINDOWEVENT_LEAVE:
-                                MouseLeave();
+                                EventManager.FireMouseLeave();
                                 break;
                             case SDL_WindowEventID.SDL_WINDOWEVENT_FOCUS_GAINED:
-                                FocusGained();
+                                EventManager.FireFocusGained();
                                 break;
                             case SDL_WindowEventID.SDL_WINDOWEVENT_FOCUS_LOST:
-                                FocusLost();
+                                EventManager.FireFocusLost();
                                 break;
                         }
 
@@ -261,184 +261,6 @@ namespace LightningGL
                 renderable.OnUpdate?.Invoke();
 
                 if (renderable.Children.Count > 0) RenderAll(renderable); 
-            }
-        }
-
-        internal void MousePressed(MouseButton button, Renderable? parent = null)
-        {
-            // render all children 
-            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
-
-            // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = Settings.Camera;
-
-            Vector2 cameraPosition = currentCamera.Position;
-
-            if (currentCamera != null)
-            {
-                // get the real position that we are checking
-                button.Position = new Vector2
-                    (cameraPosition.X + button.Position.X,
-                    cameraPosition.Y + button.Position.Y);
-            }
-
-            foreach (Renderable renderable in renderables)
-            {
-                bool intersects = AABB.Intersects(renderable, button.Position);
-
-                // check if it is focused...
-                renderable.Focused = intersects;
-
-                if ((intersects
-                    || renderable.CanReceiveEventsWhileUnfocused))
-                {
-                    renderable.OnMousePressed?.Invoke(button);
-                }
-
-                if (renderable.Children.Count > 0) MousePressed(button, renderable);
-            }
-        }
-
-        internal void MouseReleased(MouseButton button, Renderable? parent = null)
-        {
-            // render all children 
-            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
-
-            // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = Settings.Camera;
-
-            Vector2 cameraPosition = currentCamera.Position;
-
-            if (currentCamera != null)
-            {
-                // get the real position that we are checking
-                button.Position = new Vector2
-                    (cameraPosition.X + button.Position.X,
-                    cameraPosition.Y + button.Position.Y);
-            }
-
-            foreach (Renderable renderable in renderables)
-            {
-                bool intersects = AABB.Intersects(renderable, button.Position);
-
-                // check if it is focused...
-                renderable.Focused = intersects;
-
-                if ((intersects 
-                    || renderable.CanReceiveEventsWhileUnfocused))
-                {
-                    renderable.OnMouseReleased?.Invoke(button);
-                }
-
-                // children
-                if (renderable.Children.Count > 0) MouseReleased(button, renderable);
-            }
-        }
-
-        internal void MouseEnter(Renderable? parent = null)
-        {
-            // render all children 
-            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
-
-            foreach (Renderable renderable in renderables)
-            {
-                renderable.OnMouseEnter?.Invoke();
-                if (renderable.Children.Count > 0) MouseEnter(renderable);
-            }
-        }
-
-        internal void MouseLeave(Renderable? parent = null)
-        {
-            // render all children 
-            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
-
-            foreach (Renderable renderable in renderables)
-            {
-                renderable.OnMouseLeave?.Invoke();
-                if (renderable.Children.Count > 0) MouseLeave(renderable);
-            }
-        }
-
-        internal void FocusGained(Renderable? parent = null)
-        {
-            // render all children 
-            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
-
-            foreach (Renderable renderable in renderables)
-            {
-                renderable.OnFocusGained?.Invoke();
-                if (renderable.Children.Count > 0) FocusGained(renderable);
-            }
-        }
-
-        internal void FocusLost(Renderable? parent = null)
-        {
-            // render all children 
-            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
-
-            foreach (Renderable renderable in renderables)
-            {
-                renderable.OnFocusLost?.Invoke();
-                if (renderable.Children.Count > 0) FocusLost(renderable);
-            }
-        }
-
-        internal void MouseMove(MouseButton button, Renderable? parent = null)
-        {
-            // render all children 
-            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
-
-            // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = Settings.Camera;
-
-            Vector2 cameraPosition = currentCamera.Position;
-
-            if (currentCamera != null)
-            {
-                // get the real position that we are checking
-                button.Position = new Vector2
-                    (cameraPosition.X + button.Position.X,
-                    cameraPosition.Y + button.Position.Y);
-            }
-
-            foreach (Renderable renderable in renderables)
-            {
-                renderable.OnMouseMove?.Invoke(button);
-                if (renderable.Children.Count > 0) MouseMove(button, renderable);
-            }
-        }
-
-        internal void KeyPressed(Key key, Renderable? parent = null)
-        {
-            // render all children 
-            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
-
-            foreach (Renderable renderable in renderables)
-            {
-                // check if the UI element is focused.
-                if ((renderable.Focused 
-                    || renderable.CanReceiveEventsWhileUnfocused))
-                {
-                    renderable.OnKeyPressed?.Invoke(key);
-                    if (renderable.Children.Count > 0) KeyPressed(key, renderable);
-                }
-            }
-        }
-
-        internal void KeyReleased(Key key, Renderable? parent = null)
-        {
-            // render all children 
-            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
-
-            foreach (Renderable renderable in renderables)
-            {
-                // check if the UI element is focused.
-                if ((renderable.Focused
-                    || renderable.CanReceiveEventsWhileUnfocused))
-                {
-                    renderable.OnKeyPressed?.Invoke(key);
-                    if (renderable.Children.Count > 0) KeyReleased(key, renderable);
-                }
             }
         }
 
