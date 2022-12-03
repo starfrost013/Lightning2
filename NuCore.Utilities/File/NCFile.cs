@@ -23,9 +23,11 @@ namespace NuCore.Utilities
         public static void RecursiveCopy(string sourceDir, string destinationDir = null, List<string> excludedPatterns = null)
         {
             if (destinationDir == null) destinationDir = ".";
+            // default exclude VS build artifacts
             if (excludedPatterns == null) excludedPatterns = new List<string> { ".tmp", "~$", ".g.cs", ".cache",
                 ".editorconfig", ".props", ".targets", ".vsidx", ".lock", ".v1", ".v2", ".v5.1", "dgspec", "AssemblyAttributes",
-                ".AssemblyInfo", "assets.json", ".suo", ".pdb", ".log", "test.wad" };
+                ".AssemblyInfo", "assets.json", ".suo", ".pdb", ".log", "test.wad", ".tlog", ".FileListAbsolute.txt", "BuildWithSkipAnalyzers",
+                ".0\\apphost.exe" };
 
             foreach (string fileName in Directory.EnumerateFiles(sourceDir, "*", SearchOption.AllDirectories))
             {

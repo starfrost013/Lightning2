@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using NuCore.Utilities;
 using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // SDKBuild
@@ -13,6 +14,7 @@ NCLogging.Init(); // init NCLogging
 
 // The release configuration to use.
 string config = "Debug";
+string frameworkVersion = $"{Environment.Version.Major}.{Environment.Version.Minor}";
 
 // If we will run setup or not.
 bool runSetup = true;
@@ -24,9 +26,10 @@ bool noQuiet = false;
 bool noTimeBuild = false;
 
 // Paths for various parts of Lightning.
-string buildPath = $@"..\..\..\..\Lightning2\bin\{config}\net6.0\";
-string makePackagePath = $@"..\..\..\..\MakePackage\bin\{config}\net6.0\";
-string animToolPath = $@"..\..\..\..\AnimTool\bin\{config}\net6.0-windows\";
+// (make these overridable...eventually)
+string buildPath = $@"..\..\..\..\Lightning2\bin\{config}\net{frameworkVersion}\";
+string makePackagePath = $@"..\..\..\..\MakePackage\bin\{config}\net{frameworkVersion}\";
+string animToolPath = $@"..\..\..\..\AnimTool\bin\{config}\net{frameworkVersion}-windows\";
 string docPath = $@"..\..\..\..\Documentation";
 string examplePath = $@"..\..\..\..\Examples";
 string vsTemplatePath = $@"..\..\..\..\VSTemplate";
@@ -77,7 +80,8 @@ for (int argId = 0; argId < args.Length; argId++)
 
 if (!noTimeBuild) stopwatch.Start();
 
-NCLogging.Log("Lightning SDK Builder version 2.1.1");
+FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
+NCLogging.Log($"Lightning SDK Builder version {fvi.FileMajorPart}.{fvi.FileMinorPart}");
 
 // delete sdk dir if it exists
 if (Directory.Exists("SDK"))
@@ -90,12 +94,12 @@ NCLogging.Log("Copying build files from Lightning build directory...");
 
 if (!Directory.Exists(buildPath))
 {
-    NCError.ShowErrorBox($"Build directory not found ({buildPath}). Please build Lightning in the specified configuration (provide -release for Release, otherwise Debug)",
+    NCError.ShowErrorBox($"Build directory not found ({buildPath})!. Please build Lightning in the specified configuration (provide -release for Release, otherwise Debug)",
     1402, "buildPath not found in Program::Main");
     Environment.Exit(1);
 }
 
-// build makepackage and animtool first because they may compile against older versions
+// build makepackage and animtool first because they may be compiled against older versions of lightning
 // so we overwrite old versions if they happen to be there
 NCLogging.Log("Copying MakePackage build files...");
 

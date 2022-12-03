@@ -4,4 +4,4 @@ Welcome to the Lightning game engine. A simple, easy to use, fast, and efficient
 
 ## Prerequisites
 * Visual Studio 2022.
-* .NET 6.0 SDK
+* .NET 7.0 SDK

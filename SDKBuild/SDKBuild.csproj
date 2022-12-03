@@ -9,7 +9,9 @@
 	  <TransformOnBuild>true</TransformOnBuild>
 	  <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
 	  <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
-	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	  <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+	  <AssemblyVersion>2.2.0.0</AssemblyVersion>
+	  <FileVersion>2.2.0.0</FileVersion>
   </PropertyGroup>
 
 	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
