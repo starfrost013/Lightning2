@@ -186,7 +186,7 @@ namespace LightningGL
                 if ((renderable.Focused
                     || renderable.CanReceiveEventsWhileUnfocused))
                 {
-                    renderable.OnKeyPressed?.Invoke(key);
+                    renderable.OnKeyReleased?.Invoke(key);
                     if (renderable.Children.Count > 0) FireKeyReleased(key, renderable);
                 }
             }

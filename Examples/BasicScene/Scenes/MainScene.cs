@@ -28,12 +28,12 @@ namespace BasicScene
             
         }
 
-        public override void Render(Renderer renderer)
+        public override void Render()
         {
-            PrimitiveRenderer.DrawText(renderer, "Hello from MainScene", new Vector2(300, 300), Color.Red);
+            PrimitiveRenderer.DrawText("Hello from MainScene", new Vector2(300, 300), Color.Red);
 
             // change the scene
-            if (renderer.EventWaiting)
+            if (Lightning.Renderer.EventWaiting)
             {
                 if (renderer.LastEvent.type == SDL_EventType.SDL_KEYDOWN) SceneManager.SetCurrentScene("Scene2");
             }

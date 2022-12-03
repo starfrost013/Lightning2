@@ -1,5 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
-// Lightning Basic Scene Manager Example
+// Lightning 2.0 Basic Scene Manager Example
+// December 3, 2022
+
 using LightningGL;
 
-Lightning.Init(args);
+Lightning.InitClient();
