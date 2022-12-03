@@ -57,7 +57,7 @@
         /// Run when this scene is about to be switched away from.
         /// </summary>
         /// <param name="newScene">The new scene that is about to be switched to.</param>
-        public abstract void SwitchAway(Scene newScene);
+        public abstract void SwitchFrom(Scene newScene);
 
         /// <summary>
         /// Ran on shutdown - after the window's SDL_QUIT event has been handled

@@ -11,7 +11,7 @@ namespace LightningGL
     /// </summary>
     internal static class EventManager
     {
-        internal static void FireMousePressed(MouseButton button, Renderable? parent = null)
+        internal static void FireMousePressed(MouseButton mouseButton, Renderable? parent = null)
         {
             // render all children 
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
@@ -24,14 +24,15 @@ namespace LightningGL
             if (currentCamera != null)
             {
                 // get the real position that we are checking
-                button.Position = new Vector2
-                    (cameraPosition.X + button.Position.X,
-                    cameraPosition.Y + button.Position.Y);
+                // here we have to ADD the current position to the camera position (top left)
+                mouseButton.Position = new Vector2
+                    (cameraPosition.X + mouseButton.Position.X,
+                    cameraPosition.Y + mouseButton.Position.Y); 
             }
 
             foreach (Renderable renderable in renderables)
             {
-                bool intersects = AABB.Intersects(renderable, button.Position);
+                bool intersects = AABB.Intersects(renderable, mouseButton.Position);
 
                 // check if it is focused...
                 renderable.Focused = intersects;
@@ -39,14 +40,14 @@ namespace LightningGL
                 if ((intersects
                     || renderable.CanReceiveEventsWhileUnfocused))
                 {
-                    renderable.OnMousePressed?.Invoke(button);
+                    renderable.OnMousePressed?.Invoke(mouseButton);
                 }
 
-                if (renderable.Children.Count > 0) FireMousePressed(button, renderable);
+                if (renderable.Children.Count > 0) FireMousePressed(mouseButton, renderable);
             }
         }
 
-        internal static void FireMouseReleased(MouseButton button, Renderable? parent = null)
+        internal static void FireMouseReleased(MouseButton mouseButton, Renderable? parent = null)
         {
             // render all children 
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
@@ -59,14 +60,15 @@ namespace LightningGL
             if (currentCamera != null)
             {
                 // get the real position that we are checking
-                button.Position = new Vector2
-                    (cameraPosition.X + button.Position.X,
-                    cameraPosition.Y + button.Position.Y);
+                // here we have to ADD the current position to the camera position (top left)
+                mouseButton.Position = new Vector2
+                    (cameraPosition.X + mouseButton.Position.X,
+                    cameraPosition.Y + mouseButton.Position.Y);
             }
 
             foreach (Renderable renderable in renderables)
             {
-                bool intersects = AABB.Intersects(renderable, button.Position);
+                bool intersects = AABB.Intersects(renderable, mouseButton.Position);
 
                 // check if it is focused...
                 renderable.Focused = intersects;
@@ -74,11 +76,11 @@ namespace LightningGL
                 if ((intersects
                     || renderable.CanReceiveEventsWhileUnfocused))
                 {
-                    renderable.OnMouseReleased?.Invoke(button);
+                    renderable.OnMouseReleased?.Invoke(mouseButton);
                 }
 
                 // children
-                if (renderable.Children.Count > 0) FireMouseReleased(button, renderable);
+                if (renderable.Children.Count > 0) FireMouseReleased(mouseButton, renderable);
             }
         }
 
@@ -130,7 +132,7 @@ namespace LightningGL
             }
         }
 
-        internal static void FireMouseMove(MouseButton button, Renderable? parent = null)
+        internal static void FireMouseMove(MouseButton mouseButton, Renderable? parent = null)
         {
             // render all children 
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
@@ -143,15 +145,16 @@ namespace LightningGL
             if (currentCamera != null)
             {
                 // get the real position that we are checking
-                button.Position = new Vector2
-                    (cameraPosition.X + button.Position.X,
-                    cameraPosition.Y + button.Position.Y);
+                // here we have to ADD the current position to the camera position (top left)
+                mouseButton.Position = new Vector2
+                    (cameraPosition.X + mouseButton.Position.X,
+                    cameraPosition.Y + mouseButton.Position.Y);
             }
 
             foreach (Renderable renderable in renderables)
             {
-                renderable.OnMouseMove?.Invoke(button);
-                if (renderable.Children.Count > 0) FireMouseMove(button, renderable);
+                renderable.OnMouseMove?.Invoke(mouseButton);
+                if (renderable.Children.Count > 0) FireMouseMove(mouseButton, renderable);
             }
         }
 
@@ -185,6 +188,40 @@ namespace LightningGL
                 {
                     renderable.OnKeyPressed?.Invoke(key);
                     if (renderable.Children.Count > 0) FireKeyReleased(key, renderable);
+                }
+            }
+        }
+
+        internal static void FireOnSwitchFromScene(Scene oldScene, Scene newScene, Renderable? parent = null)
+        {
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
+
+            foreach (Renderable renderable in renderables)
+            {
+                // check if the UI element is focused.
+                if ((renderable.Focused
+                    || renderable.CanReceiveEventsWhileUnfocused))
+                {
+                    renderable.OnSwitchFromScene?.Invoke(oldScene, newScene);
+                    if (renderable.Children.Count > 0) FireOnSwitchFromScene(oldScene, newScene, renderable);
+                }
+            }
+        }
+
+        internal static void FireOnSwitchToScene(Scene oldScene, Scene newScene, Renderable? parent = null)
+        {
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
+
+            foreach (Renderable renderable in renderables)
+            {
+                // check if the UI element is focused.
+                if ((renderable.Focused
+                    || renderable.CanReceiveEventsWhileUnfocused))
+                {
+                    renderable.OnSwitchToScene?.Invoke(oldScene, newScene);
+                    if (renderable.Children.Count > 0) FireOnSwitchToScene(oldScene, newScene, renderable);
                 }
             }
         }

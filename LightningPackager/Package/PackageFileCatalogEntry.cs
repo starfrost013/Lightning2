@@ -83,7 +83,7 @@ namespace LightningPackager
         internal static PackageFileCatalogEntry Read(BinaryReader reader)
         {
             string path = reader.ReadString();
-            PackageFileCatalogEntry entry = new PackageFileCatalogEntry(path, true);
+            PackageFileCatalogEntry entry = new(path, true);
 
             entry.TimeStamp = DateTimeOffset.FromUnixTimeSeconds(reader.ReadInt64()).DateTime;
             entry.Crc32 = reader.ReadUInt32();
@@ -137,10 +137,11 @@ namespace LightningPackager
             {
                 CRC32.NextBytes(fileData);
                 uint realCrc32 = CRC32.Result;
-
-                string validationString = $"CRC32 of original file = 0x{Crc32.ToString("X")}, CRC32 of extracted file = 0x{realCrc32.ToString("X")}";
+                string validationString = $"CRC32 of original file = 0x{Crc32:X}, CRC32 of extracted file = 0x{realCrc32:X}";
                 NCLogging.Log(validationString);
-                if (Crc32 != realCrc32) NCError.ShowErrorBox($"File {RealPath} is corrupt: {validationString}!", 116, "Calculated CRC32 for PackageFileCatalogEntry is not the same as PackageFileCatalogEntry::Crc32");
+
+                if (Crc32 != realCrc32) NCError.ShowErrorBox($"File {RealPath} is corrupt: {validationString}!", 116, 
+                    "Calculated CRC32 for PackageFileCatalogEntry is not the same as PackageFileCatalogEntry::Crc32", NCErrorSeverity.FatalError);
             }
         }
 

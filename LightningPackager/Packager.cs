@@ -17,25 +17,36 @@ namespace LightningPackager
 
         public static bool LoadPackage(string path, string outDir = ".")
         {
-            NCLogging.Log($"Loading WAD file from {path}...");
-
-            // delete any existing package
-            if (!File.Exists(path))
+            try
             {
-                NCError.ShowErrorBox($"Error: {path} does not exist, cannot load package!", 100, "Packager::LoadPackage path parameter does not exist!", NCErrorSeverity.Error, null, true);
+                NCLogging.Log($"Loading WAD file from {path}...");
+
+                // delete any existing package
+                if (!File.Exists(path))
+                {
+                    NCError.ShowErrorBox($"Error: {path} does not exist, cannot load package!", 100, "Packager::LoadPackage path parameter does not exist!", NCErrorSeverity.Error, null, true);
+                    return false;
+                }
+
+                PackageFileMetadata metadata = new();
+
+                PackageFile packageFile = new(metadata);
+
+                bool successful = packageFile.Extract(path, outDir);
+
+                // extract the package
+                if (successful) ContentDirectory = outDir;
+
+                return successful;
+            }
+            catch (Exception ex)
+            {
+                NCError.ShowErrorBox($"Error: An exception occurred during extraction. Exception information:\n\n{ex}", 198, 
+                    "An exception occured in Packager::LoadPackage", NCErrorSeverity.FatalError);
                 return false;
             }
+            
 
-            PackageFileMetadata metadata = new PackageFileMetadata();
-
-            PackageFile packageFile = new PackageFile(metadata);
-
-            bool successful = packageFile.Extract(path, outDir);
-
-            // extract the package
-            if (successful) ContentDirectory = outDir;
-
-            return successful;
         }
 
         public static bool GeneratePackage(PackageFile packageFile, string inFolder, string path)

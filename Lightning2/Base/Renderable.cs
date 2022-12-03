@@ -10,19 +10,19 @@
     /// </summary>
     public abstract class Renderable
     {
-        #region Event handlers
+        #region Event handler delegates
 
         [JsonIgnore]
         /// <summary>
-        /// Event handler for <see cref="KeyPressedEvent"/> event.
+        /// Event handler for <see cref="KeyEvent"/> event.
         /// </summary>
-        public KeyPressedEvent? OnKeyPressed { get; set; }
+        public KeyEvent? OnKeyPressed { get; set; }
 
         [JsonIgnore]
         /// <summary>
         /// Event handler for the <see cref="KeyReleasedEvent"/> event.
         /// </summary>
-        public KeyReleasedEvent? OnKeyReleased { get; set; }
+        public KeyEvent? OnKeyReleased { get; set; }
 
         [JsonIgnore]
         /// <summary>
@@ -59,6 +59,15 @@
         /// Event handler for the focus lost event.
         /// </summary>
         public GenericEvent? OnFocusLost { get; set; }
+
+        [JsonIgnore]
+        /// <summary>
+        /// Event handler fo
+        /// </summary>
+        public SceneEvent? OnSwitchFromScene { get; set; }
+
+        [JsonIgnore]
+        public SceneEvent? OnSwitchToScene { get; set; } 
 
         [JsonIgnore]
         /// <summary>

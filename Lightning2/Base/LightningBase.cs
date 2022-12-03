@@ -113,7 +113,8 @@ namespace LightningGL
 
                     // set default content folder
                     GlobalSettings.GeneralContentFolder ??= "Content";
-                    if (!Packager.LoadPackage(GlobalSettings.GeneralPackageFile, GlobalSettings.GeneralContentFolder)) NCError.ShowErrorBox($"An error occurred loading {GlobalSettings.GeneralPackageFile}. The game cannot be loaded.", 12, "Packager::LoadPackager returned false", NCErrorSeverity.FatalError);
+                    if (!Packager.LoadPackage(GlobalSettings.GeneralPackageFile, GlobalSettings.GeneralContentFolder)) NCError.ShowErrorBox($"An error occurred loading " +
+                        $"{GlobalSettings.GeneralPackageFile}. The game cannot be loaded.", 12, "Packager::LoadPackager returned false", NCErrorSeverity.FatalError);
                 }
 
                 // Load LocalSettings
@@ -260,11 +261,15 @@ namespace LightningGL
         /// <param name="newScene">The new <see cref="Scene"/> to set to be the current scene.</param>
         public virtual void SetCurrentScene(Scene newScene)
         {
-            Debug.Assert(CurrentScene != null); // you should never get here
+            Debug.Assert(CurrentScene != null); 
 
             NCLogging.Log($"Setting scene to {newScene.Name}...");
-            CurrentScene.SwitchAway(newScene);
+
+            // TODO: make these actually events
+            CurrentScene.SwitchFrom(newScene);
+            EventManager.FireOnSwitchFromScene(CurrentScene, newScene);
             newScene.SwitchTo(CurrentScene);
+            EventManager.FireOnSwitchToScene(CurrentScene, newScene);
             CurrentScene = newScene;
         }
 

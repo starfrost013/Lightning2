@@ -321,7 +321,7 @@ namespace LightningGL
 
         }
 
-        public override void SwitchAway(Scene newScene)
+        public override void SwitchFrom(Scene newScene)
         {
 
         }

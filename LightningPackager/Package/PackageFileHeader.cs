@@ -8,15 +8,24 @@ namespace LightningPackager
     /// 
     /// July 11, 2022
     /// 
-    /// Holds the package header data for a 
+    /// Holds the package header data for a Lightning WAD
     /// </summary>
     internal class PackageFileHeader
     {
         internal const string Magic = "feed me data!";
 
-        internal static byte[] ObfuscatedMagic = { 0xD9, 0xB4, 0xB1, 0xB1, 0xB2, 0xEE, 0xB9, 0xB1 };
-        internal const byte FormatVersionMajor = 2;
-        internal const byte FormatVersionMinor = 2;
+        /// <summary>
+        /// Obfuscated magic for WADv3 (Lightning 2.0)
+        /// </summary>
+        internal static byte[] ObfuscatedMagic = { 0x78, 0x0E, 0xFD, 0x53, 0x3D, 0x47, 0xFB, 0x3E };
+
+        /// <summary>
+        /// Obfuscated magic for WAD v2.2 (Lightning 1.x)
+        /// </summary>
+        internal static byte[] ObfuscatedMagicOld = { 0xD9, 0xB4, 0xB1, 0xB1, 0xB2, 0xEE, 0xB9, 0xB1 };
+
+        internal const byte FormatVersionMajor = 3;
+        internal const byte FormatVersionMinor = 0;
 
         internal PackageFileMetadata Metadata { get; set; }
 

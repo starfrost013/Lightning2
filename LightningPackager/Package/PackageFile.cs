@@ -1,4 +1,6 @@
 ﻿using NuCore.Utilities;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace LightningPackager
 {
@@ -9,17 +11,21 @@ namespace LightningPackager
     /// </summary>
     public class PackageFile
     {
+        /// <summary>
+        /// The header of this package file.
+        /// </summary>
         internal PackageFileHeader Header { get; set; }
 
+        /// <summary>
+        /// The catalog of this file
+        /// </summary>
         internal PackageFileCatalog Catalog { get; set; }
 
-        private byte Key = 0xD1;
-
         /// <summary>
-        /// Chunk length used for deobfuscation.
-        /// 1MB chunks used to reduce memory usage.
+        /// Rotating xor cipher used for obfuscation.
         /// </summary>
-        private int DeobfuscateChunkLength = 1048576;
+        private byte[] Key = { 0x8D, 0x8C, 0x9E, 0xC0, 0xDF, 0x91, 0x90, 0xDF, 0x88, 0x9E, 0x86,
+            0xDE, 0x29, 0x83, 0x7D, 0xAA };
 
         /// <summary>
         /// Private: Path used for the deobfuscated file.
@@ -30,6 +36,11 @@ namespace LightningPackager
         /// Stores the input folder of the package. Used to create relative paths.
         /// </summary>
         public static string InFolder { get; set; }
+
+        /// <summary>
+        /// The amount to increment by after deobfuscating.
+        /// </summary>
+        private byte INCREMENT_AMOUNT = 7;
 
         public PackageFile(PackageFileMetadata metadata)
         {
@@ -45,18 +56,22 @@ namespace LightningPackager
 
             if (!File.Exists(path)) NCError.ShowErrorBox($"The file at {path} does not exist!", 98, "PackageFile::Read path parameter is a non-existent file!", NCErrorSeverity.FatalError, null, true);
 
-            BinaryReader reader = new BinaryReader(new FileStream(path, FileMode.Open));
+            byte[] fileBytes = File.ReadAllBytes(path);
 
-            // read series of bytes
-            byte[] bytes = reader.ReadBytes(PackageFileHeader.ObfuscatedMagic.Length);
+            byte[] magic = fileBytes[0..PackageFileHeader.ObfuscatedMagic.Length];
+            BinaryReader reader = new(new MemoryStream(fileBytes));
 
-            // if it's equal to the obfuscated magic...
-            if (bytes.FastEqual(PackageFileHeader.ObfuscatedMagic))
+            if (magic.FastEqual(PackageFileHeader.ObfuscatedMagic))
             {
                 NCLogging.Log($"File is obfuscated, deobfuscating...");
 
                 // deobfuscate
-                reader = Deobfuscate(path, reader);
+                Deobfuscate(fileBytes);
+            }
+            else if (magic.FastEqual(PackageFileHeader.ObfuscatedMagicOld))
+            {
+                NCLogging.Log($"Tried to load an obfuscated Lightning 1.x (WADv2.2) WAD file - this is not supported!", ConsoleColor.Red);
+                return false;
             }
 
             // seek to zero as we've deobfuscated
@@ -66,7 +81,7 @@ namespace LightningPackager
 
             if (header == null) NCError.ShowErrorBox($"{path} is invalid: Package header is invalid", 105, "PackageFileHeader::Read returned null", NCErrorSeverity.FatalError, null, true);
 
-            PackageFile file = new PackageFile(header.Metadata);
+            PackageFile file = new(header.Metadata);
 
             PackageFileCatalog catalog = PackageFileCatalog.Read(reader);
 
@@ -85,48 +100,11 @@ namespace LightningPackager
             return true;
         }
 
-        private BinaryReader Deobfuscate(string path, BinaryReader reader)
-        {
-            // Deobfuscate the file.
-            // Seek to 0 then read until the end of the file.
-
-            // use the already open reader to reduce reopening/closing of the file 
-            // only read 1 megabyte at a time to reduce memory usage
-
-            // seek to zero so we don't skip the first few bytes
-            reader.BaseStream.Seek(0, SeekOrigin.Begin);
-
-            long numOfChunks = reader.BaseStream.Length / DeobfuscateChunkLength;
-
-            List<byte> deobfuscatedBytes = new List<byte>();
-
-            for (int curChunk = 0; curChunk <= numOfChunks; curChunk++)
-            {
-                byte[] fileBytes = reader.ReadBytes(DeobfuscateChunkLength);
-
-                // read that chunk
-                foreach (byte b in fileBytes)
-                {
-                    byte deobfuscatedByte = b;
-                    deobfuscatedByte += 3; // increment by 3
-                    deobfuscatedBytes.Add(Convert.ToByte(deobfuscatedByte ^ Key)); // use key 
-                }
-            }
-
-            reader.Close();
-
-            DeobfuscatedPath = $"d_{path}"; // prepend d_
-            File.WriteAllBytes(DeobfuscatedPath, deobfuscatedBytes.ToArray());
-
-            reader = new BinaryReader(new FileStream(DeobfuscatedPath, FileMode.Open));
-            return reader;
-        }
-
         internal void Write(string path)
         {
             NCLogging.Log($"Generating WAD file and writing it to {path}...");
 
-            using (BinaryWriter stream = new BinaryWriter(new FileStream(path, FileMode.Create)))
+            using (BinaryWriter stream = new (new FileStream(path, FileMode.Create)))
             {
                 NCLogging.Log("Writing header...");
                 Header.Write(stream);
@@ -141,23 +119,67 @@ namespace LightningPackager
 
         private void Obfuscate(string path)
         {
-            NCLogging.Log("Obfuscating (XOR key=0xD1)...");
+            NCLogging.Log("Obfuscating (Key=no)...");
 
             byte[] allBytes = File.ReadAllBytes(path);
 
-            List<byte> xorBytes = new List<byte>();
+            List<byte> xorBytes = new();
 
-            foreach (byte curByte in allBytes)
+            byte[] key = DeobfuscateKey(Key);
+
+            for (int curByteNumber = 0; curByteNumber < allBytes.Length; curByteNumber++)
             {
-                byte xorByte = Convert.ToByte(curByte ^ Key);
+                byte curByte = allBytes[curByteNumber]; 
 
-                // decrement by 3 and enforce wraparound
-                xorByte -= 3;
+                byte xorByte = Convert.ToByte(curByte ^ Key[curByteNumber % key.Length]);
+
+                // decrement by 7 and enforce wraparound
+                xorByte -= INCREMENT_AMOUNT;
 
                 xorBytes.Add(xorByte);
             }
 
             File.WriteAllBytes(path, xorBytes.ToArray());
+        }
+
+        private BinaryReader Deobfuscate(byte[] byteArray)
+        {
+            // Deobfuscate the file.
+            // Seek to 0 then read until the end of the file.
+
+            byte[] key = DeobfuscateKey(Key);
+
+            for (int curByteNumber = 0; curByteNumber <= byteArray.Length; curByteNumber++)
+            {
+                byte curByte = byteArray[curByteNumber];
+
+                byte deobfuscatedByte = (byte)(curByte ^ key[curByteNumber % key.Length]);
+
+                deobfuscatedByte += INCREMENT_AMOUNT; // increment by 7
+                byteArray[curByteNumber] = deobfuscatedByte;
+
+            }
+
+            return new BinaryReader(new MemoryStream(byteArray));
+        }
+
+        /// <summary>
+        /// Deobfuscates the wad xor key.
+        /// 
+        /// Aggressively inlined and obfuscated.
+        /// </summary>
+        /// <param name="key">The key to deobfuscate.</param>
+        /// <returns>A byte array containing the deobfuscated key</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] // duplicate the code in multiple places
+        private byte[] DeobfuscateKey(byte[] key)
+        {
+            for (int keyByte = 0; keyByte < key.Length; keyByte++)
+            {
+                // we do a little obfuscation
+                key[keyByte] = (byte)(key[keyByte] ^ Convert.ToByte(0xFF)); // 255
+            }
+
+            return key; 
         }
     }
 }

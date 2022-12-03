@@ -3,45 +3,48 @@ All of this is very early.
 Lightning 2.0 feature set:
 - Texture Rotation
 - Multitexturing
-- Controller Support (InputMethod)
+- Controller Support (Input Method API)
 - Animating fades (Renderable has colour)
 - Renderer Operations (everything funneled through the Renderer), massive renderer refactoring
 - FreeType2 Text Manager State Machine
 - Save Global Settings automatically on exit
 - GlobalSettings refactoring (start all property names with the name of their section as a start)
-- Network Services (LightningNetwork.dll)
+- Network Services
 - Proper Obsoleting Practice?
 - Linux for Dedicated Server
 - Multiple Renderer support, RenderingBackend replacement
+- BEFORE the new lighting system, allow light blending
+- Single Installer for .NET/Lightning
 
 AnimTool:
 - Editing Keyframes
 - More settings?
 
 Lightning 2.5 feature set:
-- Ability to pair multiple textures and have them move with each other in an animation
+- Ability to pair multiple Rrenderables and have them move with each other in an animation
+- "Keyframe Everything"; integrate Animation System with everything (Animatable) 
 - Skybox, Day/night cycle with customisable skyboxes for all regions of the day
 - ParticleEffect system merged with Animation
 - Don't render textures unless they move (adaptive tile refresh)
 - Dynamic Cameras
-- "Keyframe Everything"; integrate Animation System with everything (Animatable) (possibly 1.2)
 - Attach ParticleEffects to Renderables
 - Layered Rendering (z-index also)
 - Video API
 - Linux ????
 - New Lighting Engine using Raycasting (possibly 1.3)
 
-Lightning 2.0 feature set:
+Lightning 3.0 feature set:
 - OpenGL 3.3 renderer
 - Various other fancy rendering things
 - Scene Transitions
 - macOS Port
+- Animated Skybox API 
 
 At some point:
 - Bytecode Engine (LightningBytecode.dll) - not sure what language yet
 - Native parallax scrolling with N layers
 - Multithreading
-- Lightning Build Engine - build setup and everything every single build
+- Lightning Build Envioronment - build setup and everything every single build
 - Vulkan Renderer?
 
 Far future:

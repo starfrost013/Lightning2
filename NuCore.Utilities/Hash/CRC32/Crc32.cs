@@ -72,7 +72,7 @@ namespace NuCore.Utilities
             {
                 result = Crc32.ComputeCrc32(crc, data);
             }
-            else // X86, X64, ARM32
+            else // X86, X64
             {
                 NextByte(data);
             }

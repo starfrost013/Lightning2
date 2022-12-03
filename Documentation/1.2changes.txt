@@ -127,18 +127,26 @@ Everything that matters to the api has to go here
 2022.11.29:
 * split event handling out into a separate internal static EventManager class (so that the code can be shaed between renderers, and it's more obvious where it is and what it does)
 
+2022.11.30:
+* KeyPressedEvent/KeyReleasedEvent -> KeyEvent
+
+2022.12.02:
+* Actually implemented SceneChangeEvent
+* SceneManager::SwitchAway -> SceneManager::SwitchFrom
+
 * todo:
 	- FIX ONLY ONE PARTICLE DISPLAYING
 	- SHOULD PROPERTIES AFFECT CHILDREN
 	- FIX BUSTED AND SHIT HORRIBLE VERY BAD UI SYSTEM!!!!!!
 	* GlobalSettings::DebugPaddingForChildRenderables
+	* GlobalSettings::DebugForegroundColor
+	* GlobalSettings::DebugBackgroundColor
 	- global usings everywhere
 	- unit testing
+	- make scene events events
 	- get rid of TERRIBLE HACK in LightningGL.Test!!!!
 	- .NET 7.0 / NativeAOT Publish
 	- VS Item Template for Scenes
-	- still minor drawing issues:
-		- redo particleeffects
 	- can we get rid of renderposition?
 	- console
 	- scene switcher (debug)
@@ -148,7 +156,6 @@ Everything that matters to the api has to go here
 	- TOTAL RENDERABLE (no funny lists like particlemanager)
 	- percentage util
 	- events for everything
-	- event manager
 	- remove ALL non-assetmanager apis
 	- TODO: separate render/update? so we can use a foreach loop here
 	- split api ref into individual chapters to make it more manageable
