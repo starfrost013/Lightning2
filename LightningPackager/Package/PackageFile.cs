@@ -28,11 +28,6 @@ namespace LightningPackager
             0xDE, 0x29, 0x83, 0x7D, 0xAA };
 
         /// <summary>
-        /// Private: Path used for the deobfuscated file.
-        /// </summary>
-        private string DeobfuscatedPath { get; set; }
-
-        /// <summary>
         /// Stores the input folder of the package. Used to create relative paths.
         /// </summary>
         public static string InFolder { get; set; }
@@ -93,9 +88,6 @@ namespace LightningPackager
 
             file.Header = header;
             file.Catalog = catalog;
-
-            // delete the deobfuscated file
-            File.Delete(DeobfuscatedPath);
 
             return true;
         }

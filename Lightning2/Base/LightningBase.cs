@@ -143,7 +143,7 @@ namespace LightningGL
             NCLogging.Log("Shutting down the Scene Manager...");
             ShutdownAll();
 
-            NCLogging.Log("Destroying renderer...");
+            NCLogging.Log("Shutting down renderer...");
             Renderer.Shutdown();
 
             NCLogging.Log("Shutting down the Text Manager...");
