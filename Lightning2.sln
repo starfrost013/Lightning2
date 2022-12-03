@@ -21,8 +21,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnimTool", "AnimTool\AnimTo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuCore.Utilities.Lightning", "NuCore.Utilities.Lightning\NuCore.Utilities.Lightning.csproj", "{DBC2F6F3-1B14-432C-BB0B-47934E431AFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightningVSIX", "LightningVSIX\LightningVSIX.csproj", "{C2AC5F8F-02B0-442C-B277-29C15E22A10F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,14 +101,6 @@ Global
 		{DBC2F6F3-1B14-432C-BB0B-47934E431AFB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DBC2F6F3-1B14-432C-BB0B-47934E431AFB}.Release|x86.ActiveCfg = Release|Any CPU
 		{DBC2F6F3-1B14-432C-BB0B-47934E431AFB}.Release|x86.Build.0 = Release|Any CPU
-		{C2AC5F8F-02B0-442C-B277-29C15E22A10F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2AC5F8F-02B0-442C-B277-29C15E22A10F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C2AC5F8F-02B0-442C-B277-29C15E22A10F}.Debug|x86.ActiveCfg = Debug|x86
-		{C2AC5F8F-02B0-442C-B277-29C15E22A10F}.Debug|x86.Build.0 = Debug|x86
-		{C2AC5F8F-02B0-442C-B277-29C15E22A10F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C2AC5F8F-02B0-442C-B277-29C15E22A10F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C2AC5F8F-02B0-442C-B277-29C15E22A10F}.Release|x86.ActiveCfg = Release|x86
-		{C2AC5F8F-02B0-442C-B277-29C15E22A10F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

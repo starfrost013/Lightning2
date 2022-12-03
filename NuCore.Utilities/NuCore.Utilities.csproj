@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Description>Shared utility DLL</Description>
     <Configurations>Debug;Release;Debug.Arm64;Release.Arm64</Configurations>
 	<AssemblyVersion>1.0.0.0</AssemblyVersion>

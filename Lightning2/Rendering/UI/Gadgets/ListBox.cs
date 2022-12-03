@@ -82,8 +82,6 @@
             // HACK: Don't make this a child of this so that it does not break everything
             // ONLY FOR THIS CLASS !!!
             Rectangle = PrimitiveManager.AddRectangle(Position, BoxSize, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
-
-            Debug.Assert(Rectangle != null);
         }
 
         /// <summary>
@@ -92,6 +90,8 @@
         /// <param name="item">The <see cref="ListBoxItem"/> to add to this ListBox.</param>
         public void AddItem(ListBoxItem item)
         {
+            Debug.Assert(Rectangle != null);
+
             if (Font == null)
             {
                 NCError.ShowErrorBox($"Tried to add an item to a ListBox with an invalid font", 185,
