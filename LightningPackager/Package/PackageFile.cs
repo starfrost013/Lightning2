@@ -131,7 +131,7 @@ namespace LightningPackager
             {
                 byte curByte = allBytes[curByteNumber]; 
 
-                byte xorByte = Convert.ToByte(curByte ^ Key[curByteNumber % key.Length]);
+                byte xorByte = Convert.ToByte(curByte ^ key[curByteNumber % key.Length]);
 
                 // decrement by 7 and enforce wraparound
                 xorByte -= INCREMENT_AMOUNT;
@@ -149,13 +149,14 @@ namespace LightningPackager
 
             byte[] key = DeobfuscateKey(Key);
 
-            for (int curByteNumber = 0; curByteNumber <= byteArray.Length; curByteNumber++)
+            for (int curByteNumber = 0; curByteNumber < byteArray.Length; curByteNumber++)
             {
                 byte curByte = byteArray[curByteNumber];
 
+                curByte += INCREMENT_AMOUNT; // we have to increment first because we did it after xoring in the obfuscation step
+
                 byte deobfuscatedByte = (byte)(curByte ^ key[curByteNumber % key.Length]);
 
-                deobfuscatedByte += INCREMENT_AMOUNT; // increment by 7
                 byteArray[curByteNumber] = deobfuscatedByte;
 
             }
