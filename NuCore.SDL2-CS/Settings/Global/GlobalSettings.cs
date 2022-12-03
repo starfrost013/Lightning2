@@ -101,6 +101,7 @@ namespace LightningBase
         /// The distance between debug lines. The default value is 12.
         /// </summary>
         public static int DebugLineDistance { get; internal set; }
+
         #endregion
 
         #region Graphics settings

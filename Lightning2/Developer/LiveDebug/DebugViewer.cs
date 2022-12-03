@@ -11,6 +11,9 @@ namespace LightningGL
     {
         internal DebugViews CurrentDebugView { get; private set; }
 
+        /// <summary>
+        /// Private: Determines if the debug menu is enabled.
+        /// </summary>
         private bool Enabled { get; set; }
 
         /// <summary>
@@ -34,6 +37,9 @@ namespace LightningGL
         /// </summary>
         public override bool NotCullable => true;
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override int ZIndex => 2147483647;
 
         /// <summary>
@@ -251,11 +257,13 @@ namespace LightningGL
 
         private void KeyPressed(Key key)
         {
-            switch (key.ToString())
+            string keyString = key.ToString();
+
+            // case has to be a compile time constant so we do thos
+            if (keyString == GlobalSettings.DebugKey) Enabled = !Enabled;
+
+            switch (keyString)
             {
-                case "F9":
-                    Enabled = !Enabled;
-                    break;
                 case "PAGEUP":
                     CurrentDebugView--;
                     break;
@@ -267,7 +275,5 @@ namespace LightningGL
             if (CurrentDebugView < 0) CurrentDebugView = DebugViews.MaxPage;
             if (CurrentDebugView > DebugViews.MaxPage) CurrentDebugView = 0; 
         }
-
-
     }
 }
