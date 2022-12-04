@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace LightningBase.Native
+namespace LightningBase
 {
     /// <summary>
     /// An <see cref="FT_List"/> iterator function which is called during a list parse by <see cref="FT_List.Iterate"/>.
@@ -96,7 +96,7 @@ namespace LightningBase.Native
         /// <returns>List node. NULL if it wasn't found.</returns>
         public FT_ListNode Find(IntPtr data)
         {
-            return new FT_ListNode(FT.FT_List_Find(Reference, data));
+            return new FT_ListNode(FreeTypeApi.FT_List_Find(Reference, data));
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace LightningBase.Native
         /// <param name="node">The node to append.</param>
         public void Add(FT_ListNode node)
         {
-            FT.FT_List_Add(Reference, node.Reference);
+            FreeTypeApi.FT_List_Add(Reference, node.Reference);
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace LightningBase.Native
         /// <param name="node">The node to insert.</param>
         public void Insert(FT_ListNode node)
         {
-            FT.FT_List_Insert(Reference, node.Reference);
+            FreeTypeApi.FT_List_Insert(Reference, node.Reference);
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace LightningBase.Native
         /// <param name="node">The node to remove.</param>
         public void Remove(FT_ListNode node)
         {
-            FT.FT_List_Remove(Reference, node.Reference);
+            FreeTypeApi.FT_List_Remove(Reference, node.Reference);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace LightningBase.Native
         /// <param name="node">The node to move.</param>
         public void Up(FT_ListNode node)
         {
-            FT.FT_List_Up(Reference, node.Reference);
+            FreeTypeApi.FT_List_Up(Reference, node.Reference);
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace LightningBase.Native
         /// <param name="user">A user-supplied field which is passed as the second argument to the iterator.</param>
         public void Iterate(FT_List_Iterator iterator, IntPtr user)
         {
-            FT_Error err = FT.FT_List_Iterate(Reference, iterator, user);
+            FT_Error err = FreeTypeApi.FT_List_Iterate(Reference, iterator, user);
 
             if (err != FT_Error.FT_Err_Ok)
                 throw new FreeTypeException(err);
@@ -161,7 +161,7 @@ namespace LightningBase.Native
         /// <param name="user">A user-supplied field which is passed as the last argument to the destructor.</param>
         public void Finalize(FT_List_Destructor destroy, Memory memory, IntPtr user)
         {
-            FT.FT_List_Finalize(Reference, destroy, memory.Reference, user);
+            FreeTypeApi.FT_List_Finalize(Reference, destroy, memory.Reference, user);
         }
 
         #endregion

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LightningBase.Native
+namespace LightningBase
 {
 #pragma warning disable 1591
     public enum FT_Glyph_Format : uint

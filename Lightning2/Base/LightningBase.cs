@@ -70,27 +70,11 @@ namespace LightningGL
         {
             try
             {
-                NCLogging.Log("Lightning initialising...");
+                NCLogging.Log("Initialising core engine...");
                 
                 // Log the sign-on message
                 NCLogging.Log($"Lightning Game Engine");
                 NCLogging.Log($"Version {LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING}");
-
-                NCLogging.Log("Initialising SDL...");
-                if (SDL_Init(SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2: {SDL_GetError()}", 200,
-                    "Failed to initialise SDL2 during Lightning::Init", NCErrorSeverity.FatalError);
-
-                NCLogging.Log("Initialising SDL_image...");
-                if (IMG_Init(IMG_InitFlags.IMG_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2_image: {SDL_GetError()}", 201,
-                    "Failed to initialise SDL2_image during Lightning::Init", NCErrorSeverity.FatalError);
-
-                NCLogging.Log("Initialising SDL_ttf...");
-                if (TTF_Init() < 0) NCError.ShowErrorBox($"Error initialising SDL2_ttf: {SDL_GetError()}", 202,
-                    "Failed to initialise SDL2_ttf during Lightning::Init", NCErrorSeverity.FatalError);
-
-                NCLogging.Log("Initialising SDL_mixer...");
-                if (Mix_Init(MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2_mixer: {SDL_GetError()}", 203,
-                    "Failed to initialise SDL2_mixer during Lightning::Init", NCErrorSeverity.FatalError);
 
                 // this should always be the earliest step
                 NCLogging.Log("Obtaining system information...");

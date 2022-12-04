@@ -3,12 +3,12 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace LightningBase.Native
+namespace LightningBase
 {
 #if __IOS__
     [Foundation.Preserve(AllMembers=true)]
 #endif
-    public static unsafe partial class FT
+    public static unsafe partial class FreeTypeApi
     {
 
 #if __IOS__
@@ -18,9 +18,9 @@ namespace LightningBase.Native
 #endif
 
 #if NETCOREAPP3_1_OR_GREATER && !__IOS__
-        static FT()
+        static FreeTypeApi()
         {
-            NativeLibrary.SetDllImportResolver(typeof(FT).Assembly, ImportResolver);
+            NativeLibrary.SetDllImportResolver(typeof(FreeTypeApi).Assembly, ImportResolver);
         }
 
         private static IntPtr ImportResolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
@@ -31,14 +31,7 @@ namespace LightningBase.Native
             bool success = false;
 
             bool isWindows = false, isMacOS = false, isLinux = false, isAndroid = false;
-#if NETCOREAPP3_1
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                isWindows = true;
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                isMacOS = true;
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                isLinux = true;
-#else
+
             if (OperatingSystem.IsWindows())
                 isWindows = true;
             else if (OperatingSystem.IsMacOS())
@@ -47,8 +40,6 @@ namespace LightningBase.Native
                 isLinux = true;
             else if (OperatingSystem.IsAndroid())
                 isAndroid = true;
-#endif
-
             string ActualLibraryName;
             if (isWindows)
                 ActualLibraryName = "freetype.dll";
@@ -83,7 +74,7 @@ namespace LightningBase.Native
                 }
 
                 // Fallback to system installed freetype
-                success = NativeLibrary.TryLoad(libraryName, typeof(FT).Assembly,
+                success = NativeLibrary.TryLoad(libraryName, typeof(FreeTypeApi).Assembly,
                     DllImportSearchPath.ApplicationDirectory | DllImportSearchPath.UserDirectories | DllImportSearchPath.UseDllDirectoryForDependencies,
                     out handle);
 
@@ -116,7 +107,7 @@ namespace LightningBase.Native
                 }
 
                 // Fallback to system installed freetype
-                success = NativeLibrary.TryLoad(libraryName, typeof(FT).Assembly,
+                success = NativeLibrary.TryLoad(libraryName, typeof(FreeTypeApi).Assembly,
                     DllImportSearchPath.ApplicationDirectory | DllImportSearchPath.UserDirectories | DllImportSearchPath.UseDllDirectoryForDependencies,
                     out handle);
 
@@ -128,7 +119,7 @@ namespace LightningBase.Native
 
             if (isAndroid)
             {
-                success = NativeLibrary.TryLoad(ActualLibraryName, typeof(FT).Assembly,
+                success = NativeLibrary.TryLoad(ActualLibraryName, typeof(FreeTypeApi).Assembly,
                     DllImportSearchPath.ApplicationDirectory | DllImportSearchPath.UserDirectories | DllImportSearchPath.UseDllDirectoryForDependencies, 
                     out handle);
 
@@ -139,7 +130,7 @@ namespace LightningBase.Native
                     return handle;
 
                 // Fallback to system installed freetype
-                success = NativeLibrary.TryLoad(libraryName, typeof(FT).Assembly,
+                success = NativeLibrary.TryLoad(libraryName, typeof(FreeTypeApi).Assembly,
                     DllImportSearchPath.ApplicationDirectory | DllImportSearchPath.UserDirectories | DllImportSearchPath.UseDllDirectoryForDependencies,
                     out handle);
 

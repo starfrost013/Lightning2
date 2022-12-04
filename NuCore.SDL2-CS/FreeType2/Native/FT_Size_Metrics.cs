@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using FT_Fixed = System.IntPtr;
 using FT_Pos = System.IntPtr;
 
-namespace LightningBase.Native
+namespace LightningBase
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct FT_Size_Metrics

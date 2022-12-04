@@ -138,6 +138,12 @@ Everything that matters to the api has to go here
 * WADv3: Use rotating xor cipher and obfuscate key in binary to slightly increase obfuscated WAD security
 * Update to SDL 2.26.1 (from 2.24.2) 
 
+2022.12.04:
+* SDL not initialised by core engine anymore, only SDL renderer 
+* Override 
+* Make RendererSettings a property instead of parameter to Renderer::Start
+* Finally begin working on FreeType text 
+
 * todo:
 	- FIX ONLY ONE PARTICLE DISPLAYING
 	- SHOULD PROPERTIES AFFECT CHILDREN

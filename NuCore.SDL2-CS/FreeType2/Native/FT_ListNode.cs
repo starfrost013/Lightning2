@@ -1,6 +1,6 @@
 using System;
 
-namespace LightningBase.Native
+namespace LightningBase
 {
 	/// <summary>
 	/// A structure used to hold a single list element.

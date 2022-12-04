@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 
-namespace LightningBase.Native
+namespace LightningBase
 {
     /// <summary>
     /// Represents an interface-agnostic facade over a FreeType2 face pointer.
@@ -30,7 +30,7 @@ namespace LightningBase.Native
         public void SelectCharSize(int sizeInPoints, uint dpiX, uint dpiY)
         {
             var size = (IntPtr)(sizeInPoints << 6);
-            var err = FT.FT_Set_Char_Size(_Face, size, size, dpiX, dpiY);
+            var err = FreeTypeApi.FT_Set_Char_Size(_Face, size, size, dpiX, dpiY);
             if (err != FT_Error.FT_Err_Ok)
                 throw new FreeTypeException(err);
         }
@@ -41,7 +41,7 @@ namespace LightningBase.Native
         /// <param name="ix">The index of the fixed size to select.</param>
         public void SelectFixedSize(int ix)
         {
-            var err = FT.FT_Select_Size(_Face, ix);
+            var err = FreeTypeApi.FT_Select_Size(_Face, ix);
             if (err != FT_Error.FT_Err_Ok)
                 throw new FreeTypeException(err);
         }
@@ -51,7 +51,7 @@ namespace LightningBase.Native
         /// </summary>
         /// <param name="charCode">The character code for which to retrieve a glyph index.</param>
         /// <returns>The glyph index of the specified character, or 0 if the character is not defined by this face.</returns>
-        public uint GetCharIndex(uint charCode) { return FT.FT_Get_Char_Index(_Face, charCode); }
+        public uint GetCharIndex(uint charCode) { return FreeTypeApi.FT_Get_Char_Index(_Face, charCode); }
 
         /// <summary>
         /// Marshals the face's family name to a C# string.
@@ -70,7 +70,7 @@ namespace LightningBase.Native
         /// </summary>
         /// <param name="c">The character to evaluate.</param>
         /// <returns>The specified character, if it is defined by this face; otherwise, <see langword="null"/>.</returns>
-        public char? GetCharIfDefined(Char c) { return FT.FT_Get_Char_Index(_Face, c) > 0 ? c : (char?)null; }
+        public char? GetCharIfDefined(Char c) { return FreeTypeApi.FT_Get_Char_Index(_Face, c) > 0 ? c : (char?)null; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private int GetFixedSizeInPixels(FT_FaceRec* face, int ix)
@@ -112,7 +112,7 @@ namespace LightningBase.Native
 
         public bool EmboldenGlyphBitmap(int xStrength, int yStrength)
         {
-            var err = FT.FT_Bitmap_Embolden(_Library, (IntPtr)(GlyphBitmapPtr), (IntPtr)xStrength, (IntPtr)yStrength);
+            var err = FreeTypeApi.FT_Bitmap_Embolden(_Library, (IntPtr)(GlyphBitmapPtr), (IntPtr)xStrength, (IntPtr)yStrength);
             if (err != FT_Error.FT_Err_Ok)
                 return false;
 
@@ -144,25 +144,25 @@ namespace LightningBase.Native
         /// Gets a value indicating whether the face has the FT_FACE_FLAG_SCALABLE flag set.
         /// </summary>
         /// <returns><see langword="true"/> if the face has the FT_FACE_FLAG_SCALABLE flag defined; otherwise, <see langword="false"/>.</returns>
-        public bool HasScalableFlag { get { return HasFaceFlag(FT.FT_FACE_FLAG_SCALABLE); } }
+        public bool HasScalableFlag { get { return HasFaceFlag(FreeTypeApi.FT_FACE_FLAG_SCALABLE); } }
 
         /// <summary>
         /// Gets a value indicating whether the face has the FT_FACE_FLAG_FIXED_SIZES flag set.
         /// </summary>
         /// <returns><see langword="true"/> if the face has the FT_FACE_FLAG_FIXED_SIZES flag defined; otherwise, <see langword="false"/>.</returns>
-        public bool HasFixedSizes { get { return HasFaceFlag(FT.FT_FACE_FLAG_FIXED_SIZES); } }
+        public bool HasFixedSizes { get { return HasFaceFlag(FreeTypeApi.FT_FACE_FLAG_FIXED_SIZES); } }
 
         /// <summary>
         /// Gets a value indicating whether the face has the FT_FACE_FLAG_COLOR flag set.
         /// </summary>
         /// <returns><see langword="true"/> if the face has the FT_FACE_FLAG_COLOR flag defined; otherwise, <see langword="false"/>.</returns>
-        public bool HasColorFlag { get { return HasFaceFlag(FT.FT_FACE_FLAG_COLOR); } }
+        public bool HasColorFlag { get { return HasFaceFlag(FreeTypeApi.FT_FACE_FLAG_COLOR); } }
 
         /// <summary>
         /// Gets a value indicating whether the face has the FT_FACE_FLAG_KERNING flag set.
         /// </summary>
         /// <returns><see langword="true"/> if the face has the FT_FACE_FLAG_KERNING flag defined; otherwise, <see langword="false"/>.</returns>
-        public bool HasKerningFlag { get { return HasFaceFlag(FT.FT_FACE_FLAG_KERNING); } }
+        public bool HasKerningFlag { get { return HasFaceFlag(FreeTypeApi.FT_FACE_FLAG_KERNING); } }
 
         /// <summary>
         /// Gets a value indicating whether the face has any bitmap strikes with fixed sizes.

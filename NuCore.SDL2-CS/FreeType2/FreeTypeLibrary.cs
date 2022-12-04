@@ -1,5 +1,5 @@
 ﻿using System;
-using LightningBase.Native;
+using LightningBase;
 
 namespace LightningBase
 {
@@ -24,7 +24,7 @@ namespace LightningBase
         public FreeTypeLibrary()
         {
             IntPtr lib;
-            var err = FT.FT_Init_FreeType(out lib);
+            var err = FreeTypeApi.FT_Init_FreeType(out lib);
             if (err != FT_Error.FT_Err_Ok)
                 throw new FreeTypeException(err);
 
@@ -47,7 +47,7 @@ namespace LightningBase
         {
             if (Native != IntPtr.Zero)
             {
-                var err = FT.FT_Done_FreeType(Native);
+                var err = FreeTypeApi.FT_Done_FreeType(Native);
                 if (err != FT_Error.FT_Err_Ok)
                     throw new FreeTypeException(err);
 

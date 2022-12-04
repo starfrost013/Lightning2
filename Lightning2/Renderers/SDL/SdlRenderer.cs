@@ -12,30 +12,54 @@ namespace LightningGL
         /// </summary>
         public SDL_Event LastEvent { get; set; }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override SdlRendererSettings Settings => (SdlRendererSettings)base.Settings;
+
         public SdlRenderer() : base()
         {
             FrameTimer = new Stopwatch();
             // Start the delta timer.
             FrameTimer.Start();
             ThisTime = 0;
-            Settings = new RendererSettings();
+            Settings = new SdlRendererSettings();
         }
 
         /// <summary>
         /// Starts this window.
         /// </summary>
         /// <param name="windowSettings">The window settings to use when starting this window - see <see cref="RendererSettings"/></param>
-        internal override void Start(RendererSettings windowSettings)
+        internal override void Start()
         {
-            // Check that the engine has been started.
+            // Check that we provided RendererSettings
 
-            if (windowSettings == null)
+            if (Settings == null)
             {
-                NCError.ShowErrorBox("Passed null WindowSettings to Window::Start method!", 7, "Window::Start windowSettings parameter was set to NULL!", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox("Tried to run SdlRenderer::Start without specifying RendererSettings! Please use the Settings property of SdlRenderer to specify " +
+                    "renderer settings!", 7, "SdlRenderer:Start windowSettings parameter was set to NULL!", NCErrorSeverity.FatalError);
                 return;
             }
 
-            Settings = windowSettings;
+            NCLogging.Log("Initialising SDL...");
+            if (SDL_Init(SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2: {SDL_GetError()}", 200,
+                "Failed to initialise SDL2 during SdlRenderer::Init", NCErrorSeverity.FatalError);
+
+            NCLogging.Log("Initialising SDL_image...");
+            if (IMG_Init(IMG_InitFlags.IMG_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2_image: {SDL_GetError()}", 201,
+                "Failed to initialise SDL2_image during SdlRenderer::Init", NCErrorSeverity.FatalError);
+
+            NCLogging.Log("Initialising SDL_ttf...");
+            if (TTF_Init() < 0) NCError.ShowErrorBox($"Error initialising SDL2_ttf: {SDL_GetError()}", 202,
+                "Failed to initialise SDL2_ttf during SdlRenderer::Init", NCErrorSeverity.FatalError);
+
+            NCLogging.Log("Initialising SDL_mixer...");
+            if (Mix_Init(MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2_mixer: {SDL_GetError()}", 203,
+                "Failed to initialise SDL2_mixer during SdlRenderer::Init", NCErrorSeverity.FatalError);
+
+            NCLogging.Log($"Initialising audio device ({GlobalSettings.AudioDeviceHz}Hz, {GlobalSettings.AudioChannels} channels, format {GlobalSettings.AudioFormat}, chunk size {GlobalSettings.AudioChunkSize})...");
+            if (Mix_OpenAudio(GlobalSettings.AudioDeviceHz, GlobalSettings.AudioFormat, GlobalSettings.AudioChannels, GlobalSettings.AudioChunkSize) < 0) NCError.ShowErrorBox(
+                $"Error initialising audio device: {SDL_GetError()}", 56, "Failed to initialise audio device during SdlRenderer::Init", NCErrorSeverity.FatalError);
 
             // localise the window title
             Settings.Title = LocalisationManager.ProcessString(Settings.Title);
@@ -202,21 +226,6 @@ namespace LightningGL
             UpdateFps();
         }
 
-        private void UpdateFps()
-        {
-            // Set the current frame time.
-            ThisTime = FrameTimer.ElapsedTicks;
-
-            CurFPS = 10000000 / ThisTime;
-
-            DeltaTime = ((double)ThisTime / 10000);
-            
-            DeltaTime *= GlobalSettings.GraphicsTickSpeed;
-
-            if (GlobalSettings.GeneralProfilePerformance) PerformanceProfiler.Update(this);
-            FrameNumber++;
-        }
-
         /// <summary>
         /// Clears the renderer and optionally sets the color to the Color <paramref name="clearColor"/>
         /// </summary>
@@ -236,38 +245,12 @@ namespace LightningGL
         /// <param name="fullscreen">A boolean determining if the window is fullscreen (TRUE) or windowed (FALSE)</param>
         public override void SetFullscreen(bool fullscreen) => SDL_SetWindowFullscreen(Settings.WindowHandle, fullscreen ? (uint)SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
 
-        #region Event handlers
-
-        /// <summary>
-        /// Renders the contents of the current scene.
-        /// </summary>
-        internal void RenderAll(Renderable? parent = null)
+        internal override void Shutdown()
         {
-            // render all children 
-            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
+            base.Shutdown();
 
-            // TODO: separate render/update? so we can use a foreach loop here
-            for (int renderableId = 0; renderableId < renderables.Count; renderableId++)
-            {
-                Renderable renderable = renderables[renderableId]; // prevent collection modified exception
-
-                // --- THESE TASKS need to be performed ONLY when the renderable is actually being drawn ---
-                if (renderable.IsOnScreen
-                    && !renderable.IsNotRendering
-                    && renderable.OnRender != null)
-                {
-                    renderable.OnRender?.Invoke();
-                    RenderedLastFrame++;
-                }
-
-                // --- THESE tasks need to be performed when the renderable exists, regardless of if it is being drawn or not ---
-                renderable.CurrentAnimation?.UpdateAnimationFor(renderable); // dont call if no
-                renderable.OnUpdate?.Invoke();
-
-                if (renderable.Children.Count > 0) RenderAll(renderable); 
-            }
+            SDL_DestroyRenderer(Settings.RendererHandle);
+            SDL_DestroyWindow(Settings.WindowHandle);
         }
-
-        #endregion
     }
 }

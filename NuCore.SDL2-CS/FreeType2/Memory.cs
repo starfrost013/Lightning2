@@ -1,6 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
-using LightningBase.Native;
+using LightningBase;
 
 namespace LightningBase
 {
@@ -135,7 +135,7 @@ namespace LightningBase
 
             fixed (byte* inPtr = input, outPtr = output)
             {
-                FT_Error err = FT.FT_Gzip_Uncompress(Reference, (IntPtr)outPtr, ref len, (IntPtr)inPtr, (IntPtr)input.Length);
+                FT_Error err = FreeTypeApi.FT_Gzip_Uncompress(Reference, (IntPtr)outPtr, ref len, (IntPtr)inPtr, (IntPtr)input.Length);
 
                 if (err != FT_Error.FT_Err_Ok)
                     throw new FreeTypeException(err);

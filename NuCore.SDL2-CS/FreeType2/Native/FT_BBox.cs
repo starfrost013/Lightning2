@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using FT_Pos = System.IntPtr;
 
-namespace LightningBase.Native
+namespace LightningBase
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct FT_BBox

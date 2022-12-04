@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace LightningBase.Native
+namespace LightningBase
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct FT_MemoryRec

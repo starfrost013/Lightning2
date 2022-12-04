@@ -23,10 +23,8 @@ namespace LightningGL
             NCLogging.Log("Initialising renderer...");
             Renderer = RendererFactory.GetRenderer(GlobalSettings.GraphicsRenderer);
             Debug.Assert(Renderer != null);
-            NCLogging.Log($"Using renderer {Renderer.GetType().Name}!");
+            NCLogging.Log($"Using renderer {Renderer.GetType().Name}");
 
-            NCLogging.Log($"Initialising audio device ({GlobalSettings.AudioDeviceHz}Hz, {GlobalSettings.AudioChannels} channels, format {GlobalSettings.AudioFormat}, chunk size {GlobalSettings.AudioChunkSize})...");
-            if (Mix_OpenAudio(GlobalSettings.AudioDeviceHz, GlobalSettings.AudioFormat, GlobalSettings.AudioChannels, GlobalSettings.AudioChunkSize) < 0) NCError.ShowErrorBox($"Error initialising audio device: {SDL_GetError()}", 56, "Failed to initialise audio device during Lightning::Init", NCErrorSeverity.FatalError);
 
             if (GlobalSettings.GeneralProfilePerformance)
             {

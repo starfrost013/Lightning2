@@ -79,7 +79,7 @@
         internal static void Start()
         {
             DateTime now = DateTime.Now;
-            FileName = $"Lightning-Perf-{now.ToString("yyyyMMdd_HHmmss")}.csv";
+            FileName = $"Lightning-Perf-{now:yyyyMMdd_HHmmss}.csv";
 
             try
             {
@@ -100,7 +100,7 @@
         /// Writes a new FPS and frametime to the performance profiler CSV.
         /// </summary>
         /// <param name="window">The window to measure the frametime and FPS of.</param>
-        public static void Update(SdlRenderer window)
+        public static void Update(Renderer window)
         {
             if (!Initialised
                 || FileStream == null) return;
@@ -117,7 +117,7 @@
             {
                 double total = 0;
 
-                for (int i = 0; i < FPSList.Count; i++) total += FPSList[i];
+                for (int frameNumber = 0; frameNumber < FPSList.Count; frameNumber++) total += FPSList[frameNumber];
 
                 double average = 0;
 
@@ -136,16 +136,7 @@
                 Current5thPercentile = FPSList[percentile5Index];
                 Current1stPercentile = FPSList[percentile1Index];
                 Current01thPercentile = FPSList[percentile01Index];
-
-                double percentile99 = FPSList[percentile99Index];
-                double percentile95 = FPSList[percentile95Index];
-                double percentile5 = FPSList[percentile5Index];
-                double percentile1 = FPSList[percentile1Index];
-                double percentile01 = FPSList[percentile01Index];
-
             }
-
-
         }
 
         /// <summary>

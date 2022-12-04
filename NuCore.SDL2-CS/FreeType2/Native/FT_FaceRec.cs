@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using FT_Long = System.IntPtr;
 
-namespace LightningBase.Native
+namespace LightningBase
 {
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct FT_FaceRec

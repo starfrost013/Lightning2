@@ -1,6 +1,6 @@
-﻿namespace LightningBase.Native
+﻿namespace LightningBase
 {
-    static partial class FT
+    static partial class FreeTypeApi
     {
         // face flags
         public const int FT_FACE_FLAG_SCALABLE = 1 << 0;

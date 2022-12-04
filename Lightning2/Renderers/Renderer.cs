@@ -59,7 +59,7 @@
             Renderables = new List<Renderable>();
         }
 
-        internal virtual void Start(RendererSettings renderer)
+        internal virtual void Start()
         { 
         
         }
@@ -258,6 +258,36 @@
             return count;
         }
 
+        /// <summary>
+        /// Renders the contents of the current scene.
+        /// </summary>
+        internal void RenderAll(Renderable? parent = null)
+        {
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
+
+            // TODO: separate render/update? so we can use a foreach loop here
+            for (int renderableId = 0; renderableId < renderables.Count; renderableId++)
+            {
+                Renderable renderable = renderables[renderableId]; // prevent collection modified exception
+
+                // --- THESE TASKS need to be performed ONLY when the renderable is actually being drawn ---
+                if (renderable.IsOnScreen
+                    && !renderable.IsNotRendering
+                    && renderable.OnRender != null)
+                {
+                    renderable.OnRender?.Invoke();
+                    RenderedLastFrame++;
+                }
+
+                // --- THESE tasks need to be performed when the renderable exists, regardless of if it is being drawn or not ---
+                renderable.CurrentAnimation?.UpdateAnimationFor(renderable); // dont call if no
+                renderable.OnUpdate?.Invoke();
+
+                if (renderable.Children.Count > 0) RenderAll(renderable);
+            }
+        }
+
         protected void Cull(Renderable? parent = null)
         {
             // render all children 
@@ -302,6 +332,21 @@
                     if (renderable.Children.Count > 0) Cull(renderable);
                 }
             }
+        }
+
+        protected void UpdateFps()
+        {
+            // Set the current frame time.
+            ThisTime = FrameTimer.ElapsedTicks;
+
+            CurFPS = 10000000 / ThisTime;
+
+            DeltaTime = ((double)ThisTime / 10000);
+
+            DeltaTime *= GlobalSettings.GraphicsTickSpeed;
+
+            if (GlobalSettings.GeneralProfilePerformance) PerformanceProfiler.Update(this);
+            FrameNumber++;
         }
 
     }

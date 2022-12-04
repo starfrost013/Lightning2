@@ -1,4 +1,4 @@
-namespace LightningBase.Native
+namespace LightningBase
 {
     public enum FT_Glyph_BBox_Mode
     {

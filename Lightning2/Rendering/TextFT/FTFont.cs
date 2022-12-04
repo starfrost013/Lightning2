@@ -53,11 +53,6 @@
         /// <summary>
         /// Internal: Loads this font.
         /// </summary>
-        /// <param name="name">The name of the font to load.</param>
-        /// <param name="size">The size of the font to load.</param>
-        /// <param name="friendlyName">The friendly name of the font to load.</param>
-        /// <param name="path">The path to this font. If it is null, it will be loaded from the system font directory.</param>
-        /// <param name="index">Index of the font in the font file to load. Will default to 0.</param>
         internal override void Create()
         {
             if (!File.Exists(Path))
@@ -75,6 +70,7 @@
             if (FontSize < 1) NCError.ShowErrorBox($"Error loading font: Invalid font size {Size}, must be at least 1!", 37, 
                 "size parameter to Font::Load is not a valid font size!", NCErrorSeverity.Error);
 
+            
             Handle = TTF_OpenFontIndex(Path, FontSize, Index);
 
             if (Handle == IntPtr.Zero) NCError.ShowErrorBox($"Error loading font at {Path}: {TTF_GetError()}", 38, 

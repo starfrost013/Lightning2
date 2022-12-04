@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace LightningBase.Native
+namespace LightningBase
 {
 #pragma warning disable 1591
     [StructLayout(LayoutKind.Sequential)]
