@@ -556,6 +556,7 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr SDL_AllocPalette(int ncolors);
 
+        [Obsolete("Will be removed in SDL 3.0")]
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_CalculateGammaRamp(
             float gamma,

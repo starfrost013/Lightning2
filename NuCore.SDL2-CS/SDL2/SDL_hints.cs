@@ -36,6 +36,7 @@
 #region Using Statements
 using System;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using static LightningBase.Utf8Marshaling;
 #endregion
 
@@ -54,8 +55,10 @@ namespace LightningBase
             "SDL_RENDER_DIRECT3D_THREADSAFE";
         public const string SDL_HINT_RENDER_VSYNC =
             "SDL_RENDER_VSYNC";
+        [Obsolete("Removed in SDL 3.0 (Xvidmode support removed)")]
         public const string SDL_HINT_VIDEO_X11_XVIDMODE =
             "SDL_VIDEO_X11_XVIDMODE";
+        [Obsolete("Removed in SDL 3.0 (Xinerama support removed)")]
         public const string SDL_HINT_VIDEO_X11_XINERAMA =
             "SDL_VIDEO_X11_XINERAMA";
         public const string SDL_HINT_VIDEO_X11_XRANDR =
@@ -64,6 +67,7 @@ namespace LightningBase
             "SDL_GRAB_KEYBOARD";
         public const string SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS =
             "SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS";
+        [Obsolete("Replaced with the SDL_DisableScreenSaver function in SDL 3.0")]
         public const string SDL_HINT_IDLE_TIMER_DISABLED =
             "SDL_IOS_IDLE_TIMER_DISABLED";
         public const string SDL_HINT_ORIENTATIONS =
@@ -242,6 +246,7 @@ namespace LightningBase
             "SDL_JOYSTICK_HIDAPI_GAMECUBE";
         public const string SDL_HINT_DISPLAY_USABLE_BOUNDS =
             "SDL_DISPLAY_USABLE_BOUNDS";
+        [Obsolete("Replaced with the SDL_HINT_VIDEO_FORCE_EGL hint in SDL 3.0")]
         public const string SDL_HINT_VIDEO_X11_FORCE_EGL =
             "SDL_VIDEO_X11_FORCE_EGL";
         public const string SDL_HINT_GAMECONTROLLERTYPE =
@@ -403,6 +408,38 @@ namespace LightningBase
             "SDL_HINT_LINUX_HAT_DEADZONES";
         #endregion
 
+        #region 2.26.0 hints
+        /* Only available in 2.26.0 or higher. */
+        public const string SDL_HINT_JOYSTICK_HIDAPI_XBOX_360 =
+            "SDL_HINT_JOYSTICK_HIDAPI_XBOX_360";
+
+        public const string SDL_HINT_JOYSTICK_HIDAPI_XBOX_360_PLAYER_LED =
+            "SDL_HINT_JOYSTICK_HIDAPI_XBOX_360_PLAYER_LED";
+
+        public const string SDL_HINT_JOYSTICK_HIDAPI_XBOX_360_WIRELESS =
+            "SDL_HINT_JOYSTICK_HIDAPI_XBOX_360_WIRELESS";
+
+        public const string SDL_HINT_JOYSTICK_HIDAPI_XBOX_ONE =
+            "SDL_HINT_JOYSTICK_HIDAPI_XBOX_ONE";
+
+        public const string SDL_HINT_JOYSTICK_HIDAPI_XBOX_ONE_HOME_LED =
+            "SDL_HINT_JOYSTICK_HIDAPI_XBOX_ONE_HOME_LED";
+
+        public const string SDL_HINT_JOYSTICK_HIDAPI_WII_PLAYER_LED =
+            "SDL_HINT_JOYSTICK_HIDAPI_WII_PLAYER_LED";
+
+        public const string SDL_HINT_JOYSTICK_HIDAPI_VERTICAL_JOY_CONS =
+            "SDL_HINT_JOYSTICK_HIDAPI_VERTICAL_JOY_CONS";
+
+        [SupportedOSPlatform("windows")]
+        public const string SDL_HINT_MOUSE_RELATIVE_SYSTEM_SCALE =
+            "SDL_HINT_MOUSE_RELATIVE_SYSTEM_SCALE";
+
+        public const string SDL_HINT_HIDAPI_IGNORE_DEVICES =
+            "SDL_HINT_HIDAPI_IGNORE_DEVICES";
+
+        #endregion
+
         #region Hint functions (SDL_hint.h)
         public enum SDL_HintPriority
         {
@@ -507,6 +544,14 @@ namespace LightningBase
                     Utf8Encode(name, utf8Name, utf8NameBufSize)
                 );
         }
+
+
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        /// <summary>
+        /// Reset all hints.
+        /// </summary>
+        public static extern void SDL_ResetHints();
+
         #endregion
     }
 }

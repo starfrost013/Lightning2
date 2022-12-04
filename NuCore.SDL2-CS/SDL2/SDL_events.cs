@@ -471,6 +471,7 @@ namespace LightningBase
             public float data1;
             public float data2;
             public float data3;
+            public ulong timestamp_us; /* Microsecond timestamp - requires >= 2.26.0! */
         }
 
         // Ignore private members used for padding in this struct
@@ -540,10 +541,11 @@ namespace LightningBase
             public SDL_EventType type;
             public UInt32 timestamp;
 
-            /* char* filename, to be freed.
-			 * Access the variable EXACTLY ONCE like this:
-			 * string s = SDL.UTF8_ToManaged(evt.drop.file, true);
-			 */
+            /// <summary>
+            /// <para>char* filename, to be freed.</para>
+			/// <para>Access the variable EXACTLY ONCE, like this:</para>
+			/// <para>string s = SDL.UTF8_ToManaged(evt.drop.file, true);</para>
+            /// </summary>
             public IntPtr file;
             public UInt32 windowID;
         }
@@ -555,6 +557,7 @@ namespace LightningBase
             public UInt32 timestamp;
             public Int32 which;
             public fixed float data[6];
+            public ulong timestamp_us; /* Microsecond timestamp - requires >= 2.26.0! */
         }
 
         /* The "quit requested" event */

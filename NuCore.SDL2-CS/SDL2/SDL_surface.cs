@@ -1,14 +1,11 @@
 ﻿#region License
 /* Lightning SDL2 Wrapper
  * 
- * Version 3.1.0
- * Copyright © 2022 starfrost
- * August 31, 2022
  * 
  * This software is based on the open-source SDL2# - C# Wrapper for SDL2 library.
  *
- * Copyright © 2013-2021 Ethan Lee.
- * Copyright © 2022 starfrost
+ * Copyright © 2013-2022 Ethan Lee.
+ * Copyright © 2021-2023 starfrost
  * 
  * This software is provided 'as-is', without any express or implied warranty.
  * In no event will the authors be held liable for any damages arising from
@@ -205,6 +202,7 @@ namespace LightningBase
             uint flags
         );
 
+        [Obsolete("SDL_CreateSurface in SDL 3.0")]
         /* IntPtr refers to an SDL_Surface* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr SDL_CreateRGBSurface(
@@ -218,6 +216,7 @@ namespace LightningBase
             uint Amask
         );
 
+        [Obsolete("SDL_CreateSurfaceFrom in SDL 3.0")]
         /* IntPtr refers to an SDL_Surface*, pixels to a void* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr SDL_CreateRGBSurfaceFrom(
@@ -232,6 +231,7 @@ namespace LightningBase
             uint Amask
         );
 
+        [Obsolete("SDL_CreateSurface in SDL 3.0")]
         /* IntPtr refers to an SDL_Surface*
 		 * Only available in 2.0.5 or higher.
 		 */
@@ -244,6 +244,7 @@ namespace LightningBase
             uint format
         );
 
+        [Obsolete("SDL_CreateSurfaceFrom in SDL 3.0")]
         /* IntPtr refers to an SDL_Surface*, pixels to a void*
 		 * Only available in 2.0.5 or higher.
 		 */

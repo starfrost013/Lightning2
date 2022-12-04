@@ -95,8 +95,7 @@ namespace LightningBase
         /// <returns>The name of the rendering backend.</returns>
         public static string SDLu_GetRenderDriverName(int index = 0)
         {
-            SDL_RendererInfo info = new SDL_RendererInfo();
-            SDL_GetRenderDriverInfo(index, out info);
+            SDL_GetRenderDriverInfo(index, out var info);
 
             return (UTF8_ToManaged(info.name));
         }

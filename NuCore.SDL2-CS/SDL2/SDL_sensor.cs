@@ -116,6 +116,15 @@ namespace LightningBase
 
         /* sensor refers to an SDL_Sensor* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int SDL_SensorGetDataWithTimestamp(
+            IntPtr sensor,
+            long timestamp, // datetime.ticks - new DateTime(1970, 1, 1, 0, 0, 0, 0)?
+            float[] data,
+            int num_values
+        );
+
+        /* sensor refers to an SDL_Sensor* */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_SensorClose(IntPtr sensor);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]

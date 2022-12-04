@@ -238,6 +238,14 @@ namespace LightningBase
             );
         }
 
+        /* joystick refers to an SDL_Joystick* */
+        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void SDL_GetJoystickGUIDInfo(Guid guid,
+            out ushort vendor,
+            out ushort product,
+            out ushort version,
+            out ushort crc16);
+
         /* Only available in 2.0.6 or higher. */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern ushort SDL_JoystickGetDeviceVendor(int device_index);

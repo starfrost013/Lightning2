@@ -50,8 +50,8 @@ namespace LightningBase
 		 * program!
 		 */
         public const int SDL_EXPECTED_MAJOR_VERSION = 2;
-        public const int SDL_EXPECTED_MINOR_VERSION = 24;
-        public const int SDL_EXPECTED_PATCHLEVEL = 2;
+        public const int SDL_EXPECTED_MINOR_VERSION = 26;
+        public const int SDL_EXPECTED_PATCHLEVEL = 1;
 
         public static readonly int SDL_EXPECTED_COMPILEDVERSION = SDL_VERSIONNUM(
             SDL_EXPECTED_MAJOR_VERSION,
@@ -88,6 +88,7 @@ namespace LightningBase
             return UTF8_ToManaged(INTERNAL_SDL_GetRevision());
         }
 
+        [Obsolete("Removed in SDL 3.0")]
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetRevisionNumber();
 

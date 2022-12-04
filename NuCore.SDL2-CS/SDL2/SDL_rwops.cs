@@ -147,6 +147,7 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_FreeRW(IntPtr area);
 
+        [Obsolete("Will be removed in SDL 3.0 - see https://github.com/libsdl-org/SDL/blob/main/docs/README-migration.md")]
         /* fp refers to a void* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr SDL_RWFromFP(IntPtr fp, SDL_bool autoclose);

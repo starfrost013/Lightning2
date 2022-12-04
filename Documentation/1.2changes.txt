@@ -136,19 +136,17 @@ Everything that matters to the api has to go here
 
 2022.12.03:
 * WADv3: Use rotating xor cipher and obfuscate key in binary to slightly increase obfuscated WAD security
+* Update to SDL 2.26.1 (from 2.24.2) 
 
 * todo:
 	- FIX ONLY ONE PARTICLE DISPLAYING
 	- SHOULD PROPERTIES AFFECT CHILDREN
 	- FIX BUSTED AND SHIT HORRIBLE VERY BAD UI SYSTEM!!!!!!
-	* GlobalSettings::DebugPaddingForChildRenderables
-	* GlobalSettings::DebugForegroundColor
-	* GlobalSettings::DebugBackgroundColor
 	- global usings everywhere
 	- unit testing
 	- make scene events events
 	- get rid of TERRIBLE HACK in LightningGL.Test!!!!
-	- .NET 7.0 / NativeAOT Publish
+	- NativeAOT Publish
 	- VS Item Template for Scenes
 	- can we get rid of renderposition?
 	- console

@@ -48,6 +48,7 @@ namespace LightningBase
 		 * which operating system SDL2 is compiled against.
 		 */
 
+        [Obsolete("Removed in SDL 3.0")]
         /* Compare tick values, return true if A has passed B. Introduced in SDL 2.0.1,
 		 * but does not require it (it was a macro).
 		 */
@@ -62,7 +63,7 @@ namespace LightningBase
 
         /* Returns the milliseconds that have passed since SDL was initialized */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern UInt32 SDL_GetTicks();
+        public static extern UInt32 SDL_GetTicks(); // SDL 3.0: Uint64
 
         /* Returns the milliseconds that have passed since SDL was initialized
 		 * Only available in 2.0.18 or higher.
