@@ -28,8 +28,8 @@ namespace NuCore.Utilities
         {
             StringBuilder stringBuilder = new();
 
-            if (cause != null) stringBuilder.Append($"{cause}: ");
-            if (description != null) stringBuilder.Append(description);
+            if (description != null) stringBuilder.Append($"{description}");
+            if (cause != null) stringBuilder.Append($"\n\n{cause}");
             if (exceptionSeverity > NCErrorSeverity.Message) stringBuilder.Append($" [{id}]");
 
             if (baseException != null) stringBuilder.Append($"\n\nError Information:\n{baseException}");
@@ -61,7 +61,7 @@ namespace NuCore.Utilities
                     case NCErrorSeverity.FatalError:
                         msgBoxOk.Invoke(null, new object[]
                             { "Fatal Error", $"A fatal error has occurred:\n\n{errorString}\n\n" +
-                            $"The program must exit. We are sorry for the inconvenience.", SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR });
+                            $"The Lifhgtn must exit. We are sorry for the inconvenience.", SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR });
                         break;
 
                 }

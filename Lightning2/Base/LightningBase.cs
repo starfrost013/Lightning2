@@ -76,6 +76,11 @@ namespace LightningGL
                 NCLogging.Log($"Lightning Game Engine");
                 NCLogging.Log($"Version {LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING}");
 
+                // we use sdl for non-rendering tasks in all cases
+                NCLogging.Log("Initialising SDL...");
+                if (SDL_Init(SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2: {SDL_GetError()}", 200,
+                    "Failed to initialise SDL2 during SdlRenderer::Init", NCErrorSeverity.FatalError);
+
                 // this should always be the earliest step
                 NCLogging.Log("Obtaining system information...");
                 SystemInfo.Load();

@@ -69,6 +69,7 @@
                     "renderer settings!", 7, "Renderer:Start Settings parameter was set to NULL!", NCErrorSeverity.FatalError);
                 return;
             }
+
         }
 
         internal virtual bool Run()

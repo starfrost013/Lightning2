@@ -1,9 +1,4 @@
 ﻿global using static LightningGL.Lightning;
-using LightningBase;
-using System;
-using System.Data.SqlTypes;
-using System.Drawing;
-using System.Reflection.Metadata;
 
 namespace LightningGL
 {
@@ -43,10 +38,6 @@ namespace LightningGL
         internal override void Start()
         {
             base.Start();
-
-            NCLogging.Log("Initialising SDL...");
-            if (SDL_Init(SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2: {SDL_GetError()}", 200,
-                "Failed to initialise SDL2 during SdlRenderer::Init", NCErrorSeverity.FatalError);
 
             NCLogging.Log("Initialising SDL_image...");
             if (IMG_Init(IMG_InitFlags.IMG_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2_image: {SDL_GetError()}", 201,
@@ -345,6 +336,7 @@ namespace LightningGL
 
                 /* Draw polygon */
                 DrawPolygon(px, py, r, g, b, a, true);
+                return;
             }
             else
             {
@@ -396,45 +388,10 @@ namespace LightningGL
                 /*
                 * Check for special cases 
                 */
-                if (dx == 0)
+                if (dx == 0 && dy == 0)
                 {
-                    DrawVLine(x1, y1, y2, r, g, b, a);
+                    DrawPixel(x1, y1, r, g, b, a);
 
-                    if (dy > 0)
-                    {
-                        DrawVLine(x1, yy0, yy0 + dy, r, g, b, a);
-                    }
-                    else
-                    {
-                        DrawPixel(x1, y1, r, g, b, a);
-                    }
-
-                    return;
-                }
-                else if (dy == 0)
-                {
-                    /*
-                    * Horizontal line 
-                    */
-                    DrawHLine(x1, x2, y1, r, g, b, a);
-
-                    if (dx > 0)
-                    {
-                        DrawHLine(xx0, xx0 + (xdir * dx), y1, r, g, b, a);
-                    }
-                    else
-                    {
-                        DrawPixel(x1, y1, r, g, b, a);
-                    }
-
-                    return;
-                }
-                else if ((dx == dy))
-                {
-                    /*
-                    * Diagonal line (with endpoint)
-                    */
-                    DrawLine(x1, y1, x2, y2, r, g, b, a);
                     return;
                 }
 
@@ -1405,7 +1362,7 @@ namespace LightningGL
         #region Backend-specific texture code
 
         internal override nint CreateTexture(int sizeX, int sizeY, bool isTarget = false) => SDL_CreateTexture(Settings.RendererHandle, SDL_PIXELFORMAT_ARGB8888, 
-            isTarget ? SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING : SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, sizeX, sizeY);
+            isTarget ? SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET : SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, sizeX, sizeY);
 
         internal override nint AllocTextureFormat()
         {
@@ -1448,7 +1405,7 @@ namespace LightningGL
                 
                 if (SDL_LockTexture(handle, ref rect, out pixels, out pitch) != 0)
                 {
-                    NCError.ShowErrorBox("Failed to lock texture!", 228, "An SDL error occurred while locking a texture in SdlRenderer::DrawTexture", NCErrorSeverity.FatalError);
+                    NCError.ShowErrorBox("Failed to lock texture!", 228, $"An SDL error occurred while locking a texture in SdlRenderer::DrawTexture: {SDL_GetError()}", NCErrorSeverity.FatalError);
                     pixels = default;
                     pitch = 0;
                 }
