@@ -82,7 +82,14 @@
                 fontDstRect.w = fontSrcRect.w;
                 fontDstRect.h = fontSrcRect.h;
 
-                SDL_RenderCopyF(Lightning.Renderer.Settings.RendererHandle, line.Handle, ref fontSrcRect, ref fontDstRect);
+                // TEMPORARY HACK UNTIL FREETYPE (THIS CODE IS OBSOLETE ANYWAY)
+
+                if (Lightning.Renderer is SdlRenderer)
+                {
+                    SdlRenderer sdlRenderer = (SdlRenderer)Lightning.Renderer;
+                    SDL_RenderCopyF(sdlRenderer.Settings.RendererHandle, line.Handle, ref fontSrcRect, ref fontDstRect);
+                }
+                
 
                 // increment by the line length
                 if (lineLength < 0)

@@ -8,10 +8,7 @@
 
         public short Thickness { get; set; }
 
-        public Line(string name) : base(name)
-        {
-
-        }
+        public Line(string name) : base(name) { }
 
         internal override void Draw()
         {
@@ -32,31 +29,18 @@
                 return;
             }
 
-            // Check for a set camera and move relative to the position of that camera if it is set.
-            // we have to do this here for now as we don't use renderposition (todo: fix this...)
-            Camera currentCamera = Lightning.Renderer.Settings.Camera;
-
-            Vector2 renderStart = Start;
-            Vector2 renderEnd = End;
-
-            if (currentCamera != null
-                && !SnapToScreen)
-            {
-                renderStart = new(Start.X - currentCamera.Position.X, Start.Y - currentCamera.Position.Y);
-                renderEnd = new(End.X - currentCamera.Position.X, End.Y - currentCamera.Position.Y);
-            }
-
             // before we manually called lineRGBA. this is now done in c++, so we don't need to.
 
             if (BorderSize.X > 0
                 && BorderSize.Y > 0)
             {
-                thickLineRGBA(Lightning.Renderer.Settings.RendererHandle, (int)renderStart.X - (int)BorderSize.X, (int)renderStart.Y - (int)BorderSize.Y, 
-                    (int)renderEnd.X + (int)BorderSize.X, (int)renderEnd.Y + (int)BorderSize.Y, Thickness, BorderColor.R, BorderColor.G, BorderColor.B, BorderColor.A, Antialiased);
+                Lightning.Renderer.DrawLine((int)RenderPosition.X - (int)BorderSize.X, (int)RenderPosition.Y - (int)BorderSize.Y, 
+                    (int)RenderPosition.X + (int)Size.X + (int)BorderSize.X, (int)RenderPosition.Y + (int)Size.Y + (int)BorderSize.Y, 
+                    BorderColor.R, BorderColor.G, BorderColor.B, BorderColor.A, Thickness);
             }
 
-            thickLineRGBA(Lightning.Renderer.Settings.RendererHandle, (int)renderStart.X, (int)renderStart.Y, (int)renderEnd.X, (int)renderEnd.Y, Thickness, 
-                Color.R, Color.G, Color.B, Color.A, Antialiased);
+            Lightning.Renderer.DrawLine((int)RenderPosition.X, (int)RenderPosition.Y, (int)RenderPosition.X + Size.X, (int)RenderPosition.Y + Size.Y, 
+                Color.R, Color.G, Color.B, Color.A, Thickness);
         }
     }
 }

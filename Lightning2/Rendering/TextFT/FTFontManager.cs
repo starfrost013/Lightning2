@@ -7,8 +7,6 @@
     /// </summary>
     public class FTFontAssetManager : AssetManager<Font>
     {
-        public FreeTypeLibrary FreeType { get; private set; }    
-
         public override Font? AddAsset(Font asset)
         {
             if (asset != null)

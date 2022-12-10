@@ -181,10 +181,10 @@
         /// <param name="filled">Determines if this circle is filled.</param>
         /// <param name="antiAliased">Determines if this circle is anti-aliased. Only has an effect on unfilled circles for now</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public Circle AddCircle(Vector2 position, Vector2 size, Color color, bool filled = false, bool antiAliased = false, bool snapToScreen = false,
+        public Ellipse AddCircle(Vector2 position, Vector2 size, Color color, bool filled = false, bool antiAliased = false, bool snapToScreen = false,
             Vector2 borderSize = default, Color borderColor = default, Renderable? parent = null)
         {
-            Circle circle = new("Circle")
+            Ellipse circle = new("Circle")
             {
                 Position = position,
                 Size = size,

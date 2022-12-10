@@ -29,11 +29,6 @@
         public FreeTypeLibrary FreeType { get; set; }
 
         /// <summary>
-        /// The SDL window ID of this window.
-        /// </summary>
-        public uint ID { get; internal set; }
-
-        /// <summary>
         /// The current <see cref="Camera"/> used.
         /// </summary>
         public Camera Camera { get; internal set; }

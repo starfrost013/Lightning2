@@ -41,6 +41,44 @@ namespace LightningGL
         }
 
         /// <summary>
+        /// Backing field for <see cref="Position"/>.
+        /// </summary>
+        private Vector2 _position;
+
+        /// <summary>
+        /// The position of this window.
+        /// </summary>
+        public override Vector2 Position
+        {
+            get
+            {
+                return _position;
+            }
+            set
+            {
+                _position = value;
+
+                if (_position.X < 0
+                    || _position.Y < 0
+                    || _position.X > SystemInfo.ScreenResolutionX
+                    || _position.Y > SystemInfo.ScreenResolutionY) NCError.ShowErrorBox($"Attempted to change window to illegal position ({_position.X},{_position.Y}!)." +
+                        $" Range is 0,0 to {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY}", 118,
+                        "Set accessor of WindowSettings::Size detected an attempt to resize to an invalid window size!", NCErrorSeverity.FatalError);
+
+                if (WindowHandle != default)
+                {
+                    int intPosX = Convert.ToInt32(_position.X),
+                        intPosY = Convert.ToInt32(_position.Y);
+
+                    GlobalSettings.GraphicsResolutionX = Convert.ToInt32(intPosX);
+                    GlobalSettings.GraphicsResolutionY = Convert.ToInt32(intPosY);
+
+                    SDL_SetWindowPosition(WindowHandle, Convert.ToInt32(intPosX), Convert.ToInt32(intPosY));
+                }
+            }
+        }
+
+        /// <summary>
         /// The SDL window flags of this flag.
         /// </summary>
         public SDL_WindowFlags WindowFlags { get; set; }
@@ -88,6 +126,9 @@ namespace LightningGL
             WindowFlags = GlobalSettings.GraphicsWindowFlags;
             // Set a few default values.
             if (WindowFlags == 0) WindowFlags = SDL_WindowFlags.SDL_WINDOW_SHOWN;
+            Title = "Lightning Game Engine Window";
+            // wtf setters are too hard for intellisense???
+            _title = Title;
         }
     }
 }

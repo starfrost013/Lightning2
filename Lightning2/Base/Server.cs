@@ -21,10 +21,12 @@
         /// Cuts out everything we don't need frmo client.
         /// TODO: Get as much of this in lightningbase as possible (CoreInit(), then ClientInit()), here for staging/testing
         /// </summary>
-        public override void Init()
+        internal override void Init()
         {
-            NCLogging.Log("Lightning Server starting...");
             base.Init();
+
+            NCLogging.Log("Lightning Server starting...");
+            
             NCLogging.Log($"Server starting on port: {GlobalSettings.NetworkDefaultPort}", "Server");
             NetworkServer.Init();
 

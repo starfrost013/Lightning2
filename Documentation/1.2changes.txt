@@ -157,6 +157,7 @@ Everything that matters to the api has to go here
 	- can we get rid of renderposition?
 	- console
 	- scene switcher (debug)
+	- consider moving scenemanager to be under renderer?
 	- redesign the FUCKING text api
 	- button background not working
 	- change guide for start/switchto - INITALISATION ONLY NOT DRAWING, prevent scene mixing

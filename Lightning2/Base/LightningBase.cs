@@ -66,7 +66,7 @@ namespace LightningGL
         public static PrimitiveAssetManager PrimitiveManager { get; private set; }
         #endregion
 
-        public virtual void Init()
+        internal virtual void Init()
         {
             try
             {
@@ -169,7 +169,8 @@ namespace LightningGL
         /// <exception cref="NCError">An error occurred initialising the Scene Manager.</exception>
         internal virtual void InitSceneManager(RendererSettings windowSettings)
         {
-            Renderer.Start(windowSettings);
+            Renderer.Settings = windowSettings;
+            Renderer.Start();
 
             // Initialise the scenes.
             Assembly? assembly = Assembly.GetEntryAssembly();

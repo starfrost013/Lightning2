@@ -152,20 +152,13 @@
                     borderPoint3.Y = renderPoint3.Y - BorderSize.Y;
                 }
 
-                filledTrigonRGBA(Lightning.Renderer.Settings.RendererHandle, (int)borderPoint1.X, (int)borderPoint1.Y, (int)borderPoint2.X, (int)borderPoint2.Y,
-                    (int)borderPoint3.X, (int)borderPoint3.Y, BorderColor.R, BorderColor.G, BorderColor.B, BorderColor.A);
+                Lightning.Renderer.DrawTriangle((int)borderPoint1.X, (int)borderPoint1.Y, (int)borderPoint2.X, (int)borderPoint2.Y,
+                    (int)borderPoint3.X, (int)borderPoint3.Y, BorderColor.R, BorderColor.G, BorderColor.B, BorderColor.A, true);
             }
-            
-            if (Filled)
-            {
-                filledTrigonRGBA(Lightning.Renderer.Settings.RendererHandle, (int)renderPoint1.X, (int)renderPoint1.Y, (int)renderPoint2.X, (int)renderPoint2.Y, 
-                    (int)renderPoint3.X, (int)renderPoint3.Y, Color.R, Color.G, Color.B, Color.A);
-            }
-            else
-            {
-                trigonRGBA(Lightning.Renderer.Settings.RendererHandle, (int)renderPoint1.X, (int)renderPoint1.Y, (int)renderPoint2.X, (int)renderPoint2.Y, 
-                    (int)renderPoint3.X, (int)renderPoint3.Y, Color.R, Color.G, Color.B, Color.A);
-            }
+
+            Lightning.Renderer.DrawTriangle((int)renderPoint1.X, (int)renderPoint1.Y, (int)renderPoint2.X, (int)renderPoint2.Y,
+                (int)renderPoint3.X, (int)renderPoint3.Y, Color.R, Color.G, Color.B, Color.A, Filled);
+
         }
     }
 }

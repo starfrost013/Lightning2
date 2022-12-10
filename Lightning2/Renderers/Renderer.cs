@@ -15,7 +15,7 @@
         /// <summary>
         /// The settings of this window - see <see cref="RendererSettings"/>.
         /// </summary>
-        public virtual RendererSettings Settings { get; protected set; }
+        public virtual RendererSettings Settings { get; internal set; }
 
         /// <summary>
         /// Private: The time the current frame took. Used to measure FPS.
@@ -60,8 +60,15 @@
         }
 
         internal virtual void Start()
-        { 
-        
+        {
+            // Check that we provided RendererSettings
+
+            if (Settings == null)
+            {
+                NCError.ShowErrorBox("Tried to run Renderer::Start without specifying RendererSettings! Please use the Settings property of Renderer to specify " +
+                    "renderer settings!", 7, "Renderer:Start Settings parameter was set to NULL!", NCErrorSeverity.FatalError);
+                return;
+            }
         }
 
         internal virtual bool Run()
@@ -104,9 +111,6 @@
             {
                 renderable.Destroy();
             }
-
-            SDL_DestroyRenderer(Settings.RendererHandle);
-            SDL_DestroyWindow(Settings.WindowHandle);
         }
 
         private void NotifyShutdown()
@@ -349,5 +353,56 @@
             FrameNumber++;
         }
 
+        #region Backend-specific primitives
+
+        internal virtual void DrawPixel(int x, int y, byte r, byte g, byte b, byte a)
+        {
+            NCError.ShowErrorBox($"DrawPixel not implemented for renderer {GetType().Name!}", 205, 
+                "Called Renderer override with unimplemented Renderer::DrawPixel!", NCErrorSeverity.FatalError);
+        }
+
+        internal virtual void DrawLine(int x1, int y1, int x2, int y2, byte r, byte g, byte b, byte a, int thickness = 1)
+        {
+            NCError.ShowErrorBox($"DrawLine not implemented for renderer {GetType().Name!}", 206,
+                "Called Renderer override with unimplemented Renderer::DrawLine!", NCErrorSeverity.FatalError);
+        }
+
+        internal virtual void DrawBezier(int[] vx, int[] vy, int s, byte r, byte g, byte b, byte a)
+        {
+            NCError.ShowErrorBox($"DrawBezier not implemented for renderer {GetType().Name!}", 207,
+                "Called Renderer override with unimplemented Renderer::DrawBezier!", NCErrorSeverity.FatalError);
+        }
+
+        internal virtual void DrawEllipse(int x, int y, int rx, int ry, byte r, byte g, byte b, byte a, bool filled)
+        {
+            NCError.ShowErrorBox($"DrawCircle not implemented for renderer {GetType().Name!}", 208,
+                "Called Renderer override with unimplemented Renderer::DrawCircle!", NCErrorSeverity.FatalError);
+        }
+
+        internal virtual void DrawRectangle(int x1, int x2, int y1, int y2, byte r, byte g, byte b, byte a, bool filled = false)
+        {
+            NCError.ShowErrorBox($"DrawRectangle not implemented for renderer {GetType().Name!}", 209,
+                "Called Renderer override with unimplemented Renderer::DrawRectangle!", NCErrorSeverity.FatalError);
+        }
+
+        internal virtual void DrawRoundedRectangle(int x1, int y1, int x2, int y2, int rad, byte r, byte g, byte b, byte a, bool filled)
+        {
+            NCError.ShowErrorBox($"DrawRoundedRectangle not implemented for renderer {GetType().Name!}", 210,
+                "Called Renderer override with unimplemented Renderer::DrawRoundedRectangle!", NCErrorSeverity.FatalError);
+        }
+
+        internal virtual void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, byte r, byte g, byte b, byte a, bool filled)
+        {
+            NCError.ShowErrorBox($"DrawTriangle not implemented for renderer {GetType().Name!}", 211,
+                "Called Renderer override with unimplemented Renderer::DrawTriangle!", NCErrorSeverity.FatalError);
+        }
+
+        internal virtual void DrawPolygon(int[] vx, int[] vy, byte r, byte g, byte b, byte a, bool filled)
+        {
+            NCError.ShowErrorBox($"DrawPolygon not implemented for renderer {GetType().Name!}", 212,
+                "Called Renderer override with unimplemented Renderer::DrawPolygon!", NCErrorSeverity.FatalError);
+        }
+
+        #endregion
     }
 }

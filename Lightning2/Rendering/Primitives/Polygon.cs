@@ -26,49 +26,31 @@
         /// </summary>
         internal override void Draw()
         {
-            // Check for a set camera and move relative to the position of that camera if it is set.
-            Camera currentCamera = Lightning.Renderer.Settings.Camera;
-
-            if (currentCamera != null
-                && !SnapToScreen)
-            {
-                for (int curPoint = 0; curPoint < Points.Count; curPoint++)
-                {
-                    Vector2 point = Points[curPoint];
-
-                    point.X -= currentCamera.Position.X;
-                    point.Y -= currentCamera.Position.Y;
-
-                    // Vector2s cannot be returned by reference so we have to do this terribleness
-                    Points[curPoint] = point;
-                }
-            }
-
             // build a list of points
             // convert to make sdl2-gfx happy
-            List<short> pointsListX = new();
-            List<short> pointsListY = new();
+            List<int> pointsListX = new();
+            List<int> pointsListY = new();
 
             foreach (Vector2 point in Points)
             {
-                pointsListX.Add(Convert.ToInt16(point.X));
-                pointsListY.Add(Convert.ToInt16(point.Y));
+                pointsListX.Add(Convert.ToInt32(point.X));
+                pointsListY.Add(Convert.ToInt32(point.Y));
             }
 
-            short[] finalPointsX = pointsListX.ToArray();
-            short[] finalPointsY = pointsListY.ToArray();
+            int[] finalPointsX = pointsListX.ToArray();
+            int[] finalPointsY = pointsListY.ToArray();
 
             if (BorderSize.X > 0
                 && BorderSize.Y > 0)
             {
-                short[] finalBorderPointsX = new short[finalPointsX.Length];
-                short[] finalBorderPointsY = new short[finalPointsY.Length];
+                int[] finalBorderPointsX = new int[finalPointsX.Length];
+                int[] finalBorderPointsY = new int[finalPointsY.Length];
 
-                Buffer.BlockCopy(finalPointsX, 0, finalBorderPointsX, 0, sizeof(short) * finalPointsX.Length);
-                Buffer.BlockCopy(finalPointsY, 0, finalBorderPointsY, 0, sizeof(short) * finalPointsX.Length);
+                Buffer.BlockCopy(finalPointsX, 0, finalBorderPointsX, 0, sizeof(int) * finalPointsX.Length);
+                Buffer.BlockCopy(finalPointsY, 0, finalBorderPointsY, 0, sizeof(int) * finalPointsX.Length);
 
                 // calculate the size
-                short sizeX = default,
+                int sizeX = default,
                       sizeY = default,
                       minX = default,
                       minY = default,
@@ -100,8 +82,8 @@
                     if (finalBorderPointY < minY) minY = finalBorderPointY;
                 }
 
-                sizeX = Convert.ToInt16(maxX - minY);
-                sizeY = Convert.ToInt16(maxY - minY);
+                sizeX = maxX - minY;
+                sizeY = maxY - minY;
                 
                 // size for the renderer
                 Size = new(sizeX, sizeY);
@@ -110,7 +92,7 @@
                 for (int borderPointId = 0; borderPointId < finalBorderPointsX.Length; borderPointId++)
                 {
                     // make it a reference so we always increment the actual value
-                    ref short borderPointX = ref finalBorderPointsX[borderPointId];
+                    ref int borderPointX = ref finalBorderPointsX[borderPointId];
 
                     // check for halfway point
                     if (borderPointX - minX > (sizeX / 2))
@@ -127,7 +109,7 @@
                 for (int borderPointId = 0; borderPointId < finalBorderPointsY.Length; borderPointId++)
                 {
                     // make it a reference so we always increment the actual value
-                    ref short borderPointY = ref finalBorderPointsY[borderPointId];
+                    ref int borderPointY = ref finalBorderPointsY[borderPointId];
 
                     // check for halfway point
                     if (borderPointY - minY > (sizeY / 2))
@@ -141,26 +123,13 @@
                     }
                 }
 
-                filledPolygonRGBA(Lightning.Renderer.Settings.RendererHandle, finalBorderPointsX, finalBorderPointsY, finalBorderPointsX.Length, 
-                    BorderColor.R, BorderColor.G, BorderColor.B, BorderColor.A);
+                Lightning.Renderer.DrawPolygon(finalBorderPointsX, finalBorderPointsY, 
+                    BorderColor.R, BorderColor.G, BorderColor.B, BorderColor.A, true);
             }
 
             // count will always be the same so use x count
-            if (Filled)
-            {
-                filledPolygonRGBA(Lightning.Renderer.Settings.RendererHandle, finalPointsX, finalPointsY, finalPointsX.Length, Color.R, Color.G, Color.B, Color.A);
-            }
-            else
-            {
-                if (Antialiased)
-                {
-                    aapolygonRGBA(Lightning.Renderer.Settings.RendererHandle, finalPointsX, finalPointsY, finalPointsX.Length, Color.R, Color.G, Color.B, Color.A);
-                }
-                else
-                {
-                    polygonRGBA(Lightning.Renderer.Settings.RendererHandle, finalPointsX, finalPointsY, finalPointsX.Length, Color.R, Color.G, Color.B, Color.A);
-                }
-            }
+            Lightning.Renderer.DrawPolygon(finalPointsX, finalPointsY,
+                Color.R, Color.G, Color.B, Color.A, true);
         }
     }
 }

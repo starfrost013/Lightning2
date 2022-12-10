@@ -15,16 +15,16 @@ namespace LightningGL
             NetworkClient = new LNetClient($"Test Client {Random.Shared.Next(100000, 999999)}");
         }
 
-        public override void Init()
+        internal override void Init()
         {
-            NCLogging.Log("Lightning Client initialising...");
             base.Init();
 
+            NCLogging.Log("Lightning Client initialising...");
+            
             NCLogging.Log("Initialising renderer...");
             Renderer = RendererFactory.GetRenderer(GlobalSettings.GraphicsRenderer);
             Debug.Assert(Renderer != null);
             NCLogging.Log($"Using renderer {Renderer.GetType().Name}");
-
 
             if (GlobalSettings.GeneralProfilePerformance)
             {
@@ -32,15 +32,19 @@ namespace LightningGL
                 PerformanceProfiler.Start();
             }
 
-            // Load the scene manager.
-            InitSceneManager(new RendererSettings
+            // might want to move scene
+            if (Renderer is SdlRenderer)
             {
-                Position = new Vector2(GlobalSettings.GraphicsPositionX, GlobalSettings.GraphicsPositionY),
-                Size = new Vector2(GlobalSettings.GraphicsResolutionX, GlobalSettings.GraphicsResolutionY),
-                WindowFlags = GlobalSettings.GraphicsWindowFlags,
-                RenderFlags = GlobalSettings.GraphicsRenderFlags,
-                Title = GlobalSettings.GraphicsWindowTitle
-            });
+                // Load the scene manager.
+                InitSceneManager(new SdlRendererSettings
+                {
+                    Position = new Vector2(GlobalSettings.GraphicsPositionX, GlobalSettings.GraphicsPositionY),
+                    Size = new Vector2(GlobalSettings.GraphicsResolutionX, GlobalSettings.GraphicsResolutionY),
+                    WindowFlags = GlobalSettings.GraphicsWindowFlags,
+                    RenderFlags = GlobalSettings.GraphicsRenderFlags,
+                    Title = GlobalSettings.GraphicsWindowTitle
+                });
+            }
 
             // if scenemanager started successfully, run its main loop
             if (Initialised)
