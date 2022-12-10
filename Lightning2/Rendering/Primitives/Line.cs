@@ -39,7 +39,7 @@
                     BorderColor.R, BorderColor.G, BorderColor.B, BorderColor.A, Thickness);
             }
 
-            Lightning.Renderer.DrawLine((int)RenderPosition.X, (int)RenderPosition.Y, (int)RenderPosition.X + Size.X, (int)RenderPosition.Y + Size.Y, 
+            Lightning.Renderer.DrawLine((int)RenderPosition.X, (int)RenderPosition.Y, (int)RenderPosition.X + (int)Size.X, (int)RenderPosition.Y + (int)Size.Y, 
                 Color.R, Color.G, Color.B, Color.A, Thickness);
         }
     }

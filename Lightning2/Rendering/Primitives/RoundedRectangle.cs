@@ -22,16 +22,6 @@
 
             Lightning.Renderer.DrawRoundedRectangle((int)RenderPosition.X, (int)RenderPosition.Y, (int)RenderPosition.X + (int)Size.X,
                 (int)RenderPosition.Y + (int)Size.Y, CornerRadius, Color.R, Color.G, Color.B, Color.A, Filled);
-
-            if (Filled)
-            {
-
-            }
-            else
-            {
-                roundedRectangleRGBA(Lightning.Renderer.Settings.RendererHandle, (int)RenderPosition.X, (int)RenderPosition.Y,
-                (int)RenderPosition.X + (int)Size.X, (int)RenderPosition.Y + (int)Size.Y, CornerRadius, Color.R, Color.G, Color.B, Color.A);
-            }
         }
     }
 }

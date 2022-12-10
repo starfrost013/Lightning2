@@ -58,7 +58,7 @@
                       maxY = default;
 
                 // find size of polygon 
-                foreach (short finalBorderPointX in finalBorderPointsX)
+                foreach (int finalBorderPointX in finalBorderPointsX)
                 {
                     if (finalBorderPointX > maxX)
                     {
@@ -70,7 +70,7 @@
                     if (finalBorderPointX < minX) minX = finalBorderPointX;
                 }
 
-                foreach (short finalBorderPointY in finalBorderPointsY)
+                foreach (int finalBorderPointY in finalBorderPointsY)
                 {
                     if (finalBorderPointY > maxY)
                     {
@@ -97,12 +97,12 @@
                     // check for halfway point
                     if (borderPointX - minX > (sizeX / 2))
                     {
-                        borderPointX += Convert.ToInt16(BorderSize.X);
+                        borderPointX += Convert.ToInt32(BorderSize.X);
                     }
                     // we don't want to do anything if it is exactly (sizeY / 2)
                     else if (borderPointX - minX < (sizeX / 2))
                     {
-                        borderPointX -= Convert.ToInt16(BorderSize.X);
+                        borderPointX -= Convert.ToInt32(BorderSize.X);
                     }
                 }
 
@@ -114,12 +114,12 @@
                     // check for halfway point
                     if (borderPointY - minY > (sizeY / 2))
                     {
-                        borderPointY += Convert.ToInt16(BorderSize.Y);
+                        borderPointY += Convert.ToInt32(BorderSize.Y);
                     }
                     // we don't want to do anything if it is exactly (sizeY / 2)
                     else if (borderPointY - minY < (sizeY / 2))
                     {
-                        borderPointY -= Convert.ToInt16(BorderSize.Y);
+                        borderPointY -= Convert.ToInt32(BorderSize.Y);
                     }
                 }
 

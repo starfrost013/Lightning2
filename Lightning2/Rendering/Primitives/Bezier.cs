@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// Bezier
@@ -13,6 +7,11 @@ namespace LightningGL
     /// </summary>
     public class Bezier : Renderable
     {
+        public Bezier(string name) : base(name) { }
 
+        internal override void Draw()
+        {
+           
+        }
     }
 }

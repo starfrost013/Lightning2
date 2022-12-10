@@ -291,11 +291,11 @@ namespace LightningGL
             }
             else
             {
-                a = (byte)(ax & 0x000000ff);
+                a = (byte)(ax & 0xff);
             }
 
             // this already checks for failure
-            int result = pixelRGBA(Settings.RendererHandle, x, y, r, g, b, a);
+            DrawPixel(x, y, r, g, b, a);
         }
 
         internal override void DrawLine(int x1, int y1, int x2, int y2, byte r, byte g, byte b, byte a, int thickness = 1)
@@ -342,7 +342,7 @@ namespace LightningGL
                 py[3] = (int)(dy2 - nx);
 
                 /* Draw polygon */
-                return DrawPolygon(px, py, r, g, b, a, true);
+                DrawPolygon(px, py, r, g, b, a, true);
             }
             else
             {

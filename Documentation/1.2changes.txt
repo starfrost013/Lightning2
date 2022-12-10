@@ -144,6 +144,14 @@ Everything that matters to the api has to go here
 * Make RendererSettings a property instead of parameter to Renderer::Start
 * Finally begin working on FreeType text 
 
+2022.12.05-2022.12.10:
+* Renderers themselves now handle primitive rendering, so primitives are now renderer-independent
+* Removed SDL2_gfx, subset of its code now in SdlRenderer class
+* Circle -> Ellipse
+* Added Bezier Curve support
+* Anti-aliased, filled shapes (partial)
+
+
 * todo:
 	- FIX ONLY ONE PARTICLE DISPLAYING
 	- SHOULD PROPERTIES AFFECT CHILDREN
