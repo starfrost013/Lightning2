@@ -23,7 +23,7 @@ namespace LightningBase
         /// </summary>
         public FreeTypeLibrary()
         {
-            IntPtr lib;
+            nint lib;
             var err = FreeTypeApi.FT_Init_FreeType(out lib);
             if (err != FT_Error.FT_Err_Ok)
                 throw new FreeTypeException(err);
@@ -34,7 +34,7 @@ namespace LightningBase
         /// <summary>
         /// Gets the native pointer to the FreeType2 library object.
         /// </summary>
-        public IntPtr Native { get; private set; }
+        public nint Native { get; private set; }
 
         public void Dispose()
         {
@@ -45,13 +45,13 @@ namespace LightningBase
         /// <inheritdoc/>
         void Dispose(bool disposing)
         {
-            if (Native != IntPtr.Zero)
+            if (Native != nint.Zero)
             {
                 var err = FreeTypeApi.FT_Done_FreeType(Native);
                 if (err != FT_Error.FT_Err_Ok)
                     throw new FreeTypeException(err);
 
-                Native = IntPtr.Zero;
+                Native = nint.Zero;
             }
 
             disposed = true;

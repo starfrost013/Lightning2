@@ -52,7 +52,7 @@ namespace LightningBase
         {
             byte* urlPtr = Utf8EncodeHeap(url);
             int result = INTERNAL_SDL_OpenURL(urlPtr);
-            Marshal.FreeHGlobal((IntPtr)urlPtr);
+            Marshal.FreeHGlobal((nint)urlPtr);
             return result;
         }
 

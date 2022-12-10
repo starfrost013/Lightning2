@@ -47,15 +47,15 @@ namespace LightningBase
         [StructLayout(LayoutKind.Sequential)]
         public struct SDL_Locale
         {
-            IntPtr language;
-            IntPtr country;
+            nint language;
+            nint country;
         }
 
-        /* IntPtr refers to an SDL_Locale*.
+        /* nint refers to an SDL_Locale*.
 		 * Only available in 2.0.14 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GetPreferredLocales();
+        public static extern nint SDL_GetPreferredLocales();
 
         #endregion
     }

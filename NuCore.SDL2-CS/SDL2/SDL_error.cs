@@ -49,7 +49,7 @@ namespace LightningBase
         public static extern void SDL_ClearError();
 
         [DllImport(nativeLibName, EntryPoint = "SDL_GetError", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GetError();
+        private static extern nint INTERNAL_SDL_GetError();
         public static string SDL_GetError()
         {
             return UTF8_ToManaged(INTERNAL_SDL_GetError());
@@ -67,11 +67,11 @@ namespace LightningBase
             );
         }
 
-        /* IntPtr refers to a char*.
+        /* nint refers to a char*.
 		 * Only available in 2.0.14 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GetErrorMsg(IntPtr errstr, int maxlength);
+        public static extern nint SDL_GetErrorMsg(nint errstr, int maxlength);
 
         #endregion
     }

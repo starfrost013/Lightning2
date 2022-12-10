@@ -92,7 +92,7 @@
                 newTexture.Repeat = Repeat;  // do this in the getter/setter?
                 newTexture.OnCreate(); // set to create method at creation, but good practice
 
-                if (newTexture.Handle != IntPtr.Zero) Frames.Add(newTexture);
+                if (newTexture.Handle != nint.Zero) Frames.Add(newTexture);
             }
 
             CurrentFrame = Cycle.StartFrame;

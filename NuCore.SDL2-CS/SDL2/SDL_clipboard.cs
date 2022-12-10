@@ -49,7 +49,7 @@ namespace LightningBase
         public static extern SDL_bool SDL_HasClipboardText();
 
         [DllImport(nativeLibName, EntryPoint = "SDL_GetClipboardText", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GetClipboardText();
+        private static extern nint INTERNAL_SDL_GetClipboardText();
         public static string SDL_GetClipboardText()
         {
             return UTF8_ToManaged(INTERNAL_SDL_GetClipboardText(), true);
@@ -67,7 +67,7 @@ namespace LightningBase
             int result = INTERNAL_SDL_SetClipboardText(
                 utf8Text
             );
-            Marshal.FreeHGlobal((IntPtr)utf8Text);
+            Marshal.FreeHGlobal((nint)utf8Text);
             return result;
         }
 

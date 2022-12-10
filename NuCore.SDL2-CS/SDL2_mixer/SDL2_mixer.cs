@@ -91,7 +91,7 @@ namespace LightningBase
         public struct MIX_Chunk
         {
             public int allocated;
-            public IntPtr abuf; /* Uint8* */
+            public nint abuf; /* Uint8* */
             public uint alen;
             public byte volume;
         }
@@ -123,23 +123,23 @@ namespace LightningBase
         #region Delegates
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void MixFuncDelegate(
-            IntPtr udata, // void*
-            IntPtr stream, // Uint8*
+            nint udata, // void*
+            nint stream, // Uint8*
             int len
         );
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void Mix_EffectFunc_t(
             int chan,
-            IntPtr stream, // void*
+            nint stream, // void*
             int len,
-            IntPtr udata // void*
+            nint udata // void*
         );
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void Mix_EffectDone_t(
             int chan,
-            IntPtr udata // void*
+            nint udata // void*
         );
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -150,8 +150,8 @@ namespace LightningBase
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int SoundFontDelegate(
-            IntPtr a, // const char*
-            IntPtr b // void*
+            nint a, // const char*
+            nint b // void*
         );
         #endregion
 
@@ -171,13 +171,13 @@ namespace LightningBase
         );
 
         [DllImport(nativeLibName, EntryPoint = "Mix_Linked_Version", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_Mix_Linked_Version();
+        private static extern nint INTERNAL_Mix_Linked_Version();
 
         public static bool Mix_VERSION_ATLEAST(int X, int Y, int Z) => SDL_MIXER_EXPECTED_COMPILEDVERSION >= SDL_VERSIONNUM(X, Y, Z);
         public static SDL_version Mix_Linked_Version()
         {
             SDL_version result;
-            IntPtr result_ptr = INTERNAL_Mix_Linked_Version();
+            nint result_ptr = INTERNAL_Mix_Linked_Version();
             result = (SDL_version)Marshal.PtrToStructure(
                 result_ptr,
                 typeof(SDL_version)
@@ -233,47 +233,47 @@ namespace LightningBase
             out int channels
         );
 
-        /* src refers to an SDL_RWops*, IntPtr to a Mix_Chunk* */
+        /* src refers to an SDL_RWops*, nint to a Mix_Chunk* */
         /* THIS IS A PUBLIC RWops FUNCTION! */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr Mix_LoadWAV_RW(
-            IntPtr src,
+        public static extern nint Mix_LoadWAV_RW(
+            nint src,
             int freesrc
         );
 
-        /* IntPtr refers to a Mix_Chunk* */
+        /* nint refers to a Mix_Chunk* */
         /* This is an RWops macro in the C header. */
-        public static IntPtr Mix_LoadWAV(string file)
+        public static nint Mix_LoadWAV(string file)
         {
-            IntPtr rwops = SDL_RWFromFile(file, "rb");
+            nint rwops = SDL_RWFromFile(file, "rb");
             return Mix_LoadWAV_RW(rwops, 1);
         }
 
-        /* IntPtr refers to a Mix_Music* */
+        /* nint refers to a Mix_Music* */
         [DllImport(nativeLibName, EntryPoint = "Mix_LoadMUS", CallingConvention = CallingConvention.Cdecl)]
-        private static extern unsafe IntPtr INTERNAL_Mix_LoadMUS(
+        private static extern unsafe nint INTERNAL_Mix_LoadMUS(
             byte* file
         );
-        public static unsafe IntPtr Mix_LoadMUS(string file)
+        public static unsafe nint Mix_LoadMUS(string file)
         {
             byte* utf8File = Utf8EncodeHeap(file);
-            IntPtr handle = INTERNAL_Mix_LoadMUS(
+            nint handle = INTERNAL_Mix_LoadMUS(
                 utf8File
             );
-            Marshal.FreeHGlobal((IntPtr)utf8File);
+            Marshal.FreeHGlobal((nint)utf8File);
             return handle;
         }
 
-        /* IntPtr refers to a Mix_Chunk* */
+        /* nint refers to a Mix_Chunk* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr Mix_QuickLoad_WAV(
+        public static extern nint Mix_QuickLoad_WAV(
             [In()] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U1)]
                 byte[] mem
         );
 
-        /* IntPtr refers to a Mix_Chunk* */
+        /* nint refers to a Mix_Chunk* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr Mix_QuickLoad_RAW(
+        public static extern nint Mix_QuickLoad_RAW(
             [In()] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U1, SizeParamIndex = 1)]
                 byte[] mem,
             uint len
@@ -281,18 +281,18 @@ namespace LightningBase
 
         /* chunk refers to a Mix_Chunk* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void Mix_FreeChunk(IntPtr chunk);
+        public static extern void Mix_FreeChunk(nint chunk);
 
         /* music refers to a Mix_Music* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void Mix_FreeMusic(IntPtr music);
+        public static extern void Mix_FreeMusic(nint music);
 
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Mix_GetNumChunkDecoders();
 
         [DllImport(nativeLibName, EntryPoint = "Mix_GetChunkDecoder", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_Mix_GetChunkDecoder(int index);
+        private static extern nint INTERNAL_Mix_GetChunkDecoder(int index);
         public static string Mix_GetChunkDecoder(int index)
         {
             return UTF8_ToManaged(
@@ -313,7 +313,7 @@ namespace LightningBase
         public static extern int Mix_GetNumMusicDecoders();
 
         [DllImport(nativeLibName, EntryPoint = "Mix_GetMusicDecoder", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_Mix_GetMusicDecoder(int index);
+        private static extern nint INTERNAL_Mix_GetMusicDecoder(int index);
         public static string Mix_GetMusicDecoder(int index)
         {
             return UTF8_ToManaged(
@@ -323,14 +323,14 @@ namespace LightningBase
 
         /* music refers to a Mix_Music* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern Mix_MusicType Mix_GetMusicType(IntPtr music);
+        public static extern Mix_MusicType Mix_GetMusicType(nint music);
 
         /* music refers to a Mix_Music*
 		 * Only available in 2.0.5 or higher.
 		 */
         [DllImport(nativeLibName, EntryPoint = "Mix_GetMusicTitle", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr INTERNAL_Mix_GetMusicTitle(IntPtr music);
-        public static string Mix_GetMusicTitle(IntPtr music)
+        public static extern nint INTERNAL_Mix_GetMusicTitle(nint music);
+        public static string Mix_GetMusicTitle(nint music)
         {
             return UTF8_ToManaged(
                 INTERNAL_Mix_GetMusicTitle(music)
@@ -341,8 +341,8 @@ namespace LightningBase
 		 * Only available in 2.6.0 or higher.
 		 */
         [DllImport(nativeLibName, EntryPoint = "Mix_GetMusicTitleTag", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr INTERNAL_Mix_GetMusicTitleTag(IntPtr music);
-        public static string Mix_GetMusicTitleTag(IntPtr music)
+        public static extern nint INTERNAL_Mix_GetMusicTitleTag(nint music);
+        public static string Mix_GetMusicTitleTag(nint music)
         {
             return UTF8_ToManaged(
                 INTERNAL_Mix_GetMusicTitleTag(music)
@@ -353,8 +353,8 @@ namespace LightningBase
 		 * Only available in 2.6.0 or higher.
 		 */
         [DllImport(nativeLibName, EntryPoint = "Mix_GetMusicArtistTag", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr INTERNAL_Mix_GetMusicArtistTag(IntPtr music);
-        public static string Mix_GetMusicArtistTag(IntPtr music)
+        public static extern nint INTERNAL_Mix_GetMusicArtistTag(nint music);
+        public static string Mix_GetMusicArtistTag(nint music)
         {
             return UTF8_ToManaged(
                 INTERNAL_Mix_GetMusicArtistTag(music)
@@ -397,8 +397,8 @@ namespace LightningBase
 		 * Only available in 2.6.0 or higher.
 		 */
         [DllImport(nativeLibName, EntryPoint = "Mix_GetMusicAlbumTag", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr INTERNAL_Mix_GetMusicAlbumTag(IntPtr music);
-        public static string Mix_GetMusicAlbumTag(IntPtr music)
+        public static extern nint INTERNAL_Mix_GetMusicAlbumTag(nint music);
+        public static string Mix_GetMusicAlbumTag(nint music)
         {
             return UTF8_ToManaged(
                 INTERNAL_Mix_GetMusicAlbumTag(music)
@@ -409,8 +409,8 @@ namespace LightningBase
 		 * Only available in 2.6.0 or higher.
 		 */
         [DllImport(nativeLibName, EntryPoint = "Mix_GetMusicCopyrightTag", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr INTERNAL_Mix_GetMusicCopyrightTag(IntPtr music);
-        public static string Mix_GetMusicCopyrightTag(IntPtr music)
+        public static extern nint INTERNAL_Mix_GetMusicCopyrightTag(nint music);
+        public static string Mix_GetMusicCopyrightTag(nint music)
         {
             return UTF8_ToManaged(
                 INTERNAL_Mix_GetMusicCopyrightTag(music)
@@ -420,13 +420,13 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Mix_SetPostMix(
             MixFuncDelegate mix_func,
-            IntPtr arg // void*
+            nint arg // void*
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Mix_HookMusic(
             MixFuncDelegate mix_func,
-            IntPtr arg // void*
+            nint arg // void*
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -434,9 +434,9 @@ namespace LightningBase
             MusicFinishedDelegate music_finished
         );
 
-        /* IntPtr refers to a void* */
+        /* nint refers to a void* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr Mix_GetMusicHookData();
+        public static extern nint Mix_GetMusicHookData();
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Mix_ChannelFinished(
@@ -448,7 +448,7 @@ namespace LightningBase
             int chan,
             Mix_EffectFunc_t f,
             Mix_EffectDone_t d,
-            IntPtr arg // void*
+            nint arg // void*
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -504,7 +504,7 @@ namespace LightningBase
         /* chunk refers to a Mix_Chunk* */
         public static int Mix_PlayChannel(
             int channel,
-            IntPtr chunk,
+            nint chunk,
             int loops
         )
         {
@@ -515,19 +515,19 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Mix_PlayChannelTimed(
             int channel,
-            IntPtr chunk,
+            nint chunk,
             int loops,
             int ticks
         );
 
         /* music refers to a Mix_Music* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int Mix_PlayMusic(IntPtr music, int loops);
+        public static extern int Mix_PlayMusic(nint music, int loops);
 
         /* music refers to a Mix_Music* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Mix_FadeInMusic(
-            IntPtr music,
+            nint music,
             int loops,
             int ms
         );
@@ -535,7 +535,7 @@ namespace LightningBase
         /* music refers to a Mix_Music* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Mix_FadeInMusicPos(
-            IntPtr music,
+            nint music,
             int loops,
             int ms,
             double position
@@ -544,7 +544,7 @@ namespace LightningBase
         /* chunk refers to a Mix_Chunk* */
         public static int Mix_FadeInChannel(
             int channel,
-            IntPtr chunk,
+            nint chunk,
             int loops,
             int ms
         )
@@ -556,7 +556,7 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Mix_FadeInChannelTimed(
             int channel,
-            IntPtr chunk,
+            nint chunk,
             int loops,
             int ms,
             int ticks
@@ -573,7 +573,7 @@ namespace LightningBase
         /* chunk refers to a Mix_Chunk* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Mix_VolumeChunk(
-            IntPtr chunk,
+            nint chunk,
             int volume
         );
 
@@ -584,7 +584,7 @@ namespace LightningBase
 		 * Only available in 2.0.5 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int Mix_GetVolumeMusicStream(IntPtr music);
+        public static extern int Mix_GetVolumeMusicStream(nint music);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Mix_HaltChannel(int channel);
@@ -641,37 +641,37 @@ namespace LightningBase
 		 * Only available in 2.6.0 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern double Mix_GetMusicPosition(IntPtr music);
+        public static extern double Mix_GetMusicPosition(nint music);
 
         /* music refers to a Mix_Music*
 		 * Only available in 2.6.0 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern double Mix_MusicDuration(IntPtr music);
+        public static extern double Mix_MusicDuration(nint music);
 
         /* music refers to a Mix_Music*
 		 * Only available in 2.6.0 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern double Mix_GetMusicLoopStartTime(IntPtr music);
+        public static extern double Mix_GetMusicLoopStartTime(nint music);
 
         /* music refers to a Mix_Music*
 		 * Only available in 2.6.0 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern double Mix_GetMusicLoopEndTime(IntPtr music);
+        public static extern double Mix_GetMusicLoopEndTime(nint music);
 
         /* music refers to a Mix_Music*
 		 * Only available in 2.6.0 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern double Mix_GetMusicLoopLengthTime(IntPtr music);
+        public static extern double Mix_GetMusicLoopLengthTime(nint music);
 
         /* music refers to a Mix_Music*
         * Only available in 2.6.0 or higher.
         */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int Mix_GetMusicVolume(IntPtr music);
+        public static extern int Mix_GetMusicVolume(nint music);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Mix_Playing(int channel);
@@ -689,7 +689,7 @@ namespace LightningBase
             int result = INTERNAL_Mix_SetMusicCMD(
                 utf8Cmd
             );
-            Marshal.FreeHGlobal((IntPtr)utf8Cmd);
+            Marshal.FreeHGlobal((nint)utf8Cmd);
             return result;
         }
 
@@ -709,12 +709,12 @@ namespace LightningBase
             int result = INTERNAL_Mix_SetSoundFonts(
                 utf8Paths
             );
-            Marshal.FreeHGlobal((IntPtr)utf8Paths);
+            Marshal.FreeHGlobal((nint)utf8Paths);
             return result;
         }
 
         [DllImport(nativeLibName, EntryPoint = "Mix_GetSoundFonts", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_Mix_GetSoundFonts();
+        private static extern nint INTERNAL_Mix_GetSoundFonts();
         public static string Mix_GetSoundFonts()
         {
             return UTF8_ToManaged(
@@ -725,7 +725,7 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Mix_EachSoundFont(
             SoundFontDelegate function,
-            IntPtr data // void*
+            nint data // void*
         );
 
         /* Only available in 2.6.0 or later. */
@@ -737,7 +737,7 @@ namespace LightningBase
 
         /* Only available in 2.0.5 or later. */
         [DllImport(nativeLibName, EntryPoint = "Mix_GetTimidityCfg", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr INTERNAL_Mix_GetTimidityCfg();
+        public static extern nint INTERNAL_Mix_GetTimidityCfg();
         public static string Mix_GetTimidityCfg()
         {
             return UTF8_ToManaged(
@@ -745,9 +745,9 @@ namespace LightningBase
             );
         }
 
-        /* IntPtr refers to a Mix_Chunk* */
+        /* nint refers to a Mix_Chunk* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr Mix_GetChunk(int channel);
+        public static extern nint Mix_GetChunk(int channel);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Mix_CloseAudio();

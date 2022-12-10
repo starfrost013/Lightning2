@@ -8,14 +8,14 @@ namespace LightningBase
     public unsafe class FreeTypeFaceFacade
     {
         // A pointer to the wrapped FreeType2 face object.
-        private readonly IntPtr _Face;
+        private readonly nint _Face;
         private readonly FT_FaceRec* _FaceRec;
         private readonly FreeTypeLibrary _Library;
 
         /// <summary>
         /// Initialize a FreeTypeFaceFacade instance with a pointer to the Face instance.
         /// </summary>
-        public FreeTypeFaceFacade(FreeTypeLibrary library, IntPtr face)
+        public FreeTypeFaceFacade(FreeTypeLibrary library, nint face)
         {
             _Library = library;
             _Face = face;
@@ -25,7 +25,7 @@ namespace LightningBase
         /// <summary>
         /// Initialize a FreeTypeFaceFacade instance with font data.
         /// </summary>
-        public FreeTypeFaceFacade(FreeTypeLibrary library, IntPtr fontData, int dataLength, int faceIndex = 0)
+        public FreeTypeFaceFacade(FreeTypeLibrary library, nint fontData, int dataLength, int faceIndex = 0)
         {
             _Library = library;
 
@@ -38,7 +38,7 @@ namespace LightningBase
 
         #region Properties
 
-        public IntPtr Face { get { return _Face; } }
+        public nint Face { get { return _Face; } }
         public FT_FaceRec* FaceRec { get { return _FaceRec; } }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace LightningBase
         /// <param name="dpiY">The vertical pixel density.</param>
         public void SelectCharSize(int sizeInPoints, uint dpiX, uint dpiY)
         {
-            var size = (IntPtr)(sizeInPoints << 6);
+            var size = (nint)(sizeInPoints << 6);
             var err = FreeTypeApi.FT_Set_Char_Size(_Face, size, size, dpiX, dpiY);
             if (err != FT_Error.FT_Err_Ok)
                 throw new FreeTypeException(err);
@@ -233,7 +233,7 @@ namespace LightningBase
 
         public bool EmboldenGlyphBitmap(int xStrength, int yStrength)
         {
-            var err = FreeTypeApi.FT_Bitmap_Embolden(_Library.Native, (IntPtr)(GlyphBitmapPtr), (IntPtr)xStrength, (IntPtr)yStrength);
+            var err = FreeTypeApi.FT_Bitmap_Embolden(_Library.Native, (nint)(GlyphBitmapPtr), (nint)xStrength, (nint)yStrength);
             if (err != FT_Error.FT_Err_Ok)
                 return false;
 

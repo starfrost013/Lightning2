@@ -56,13 +56,13 @@ namespace LightningBase
             int result = INTERNAL_SDL_Vulkan_LoadLibrary(
                 utf8Path
             );
-            Marshal.FreeHGlobal((IntPtr)utf8Path);
+            Marshal.FreeHGlobal((nint)utf8Path);
             return result;
         }
 
         /* Only available in 2.0.6 or higher. */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_Vulkan_GetVkGetInstanceProcAddr();
+        public static extern nint SDL_Vulkan_GetVkGetInstanceProcAddr();
 
         /* Only available in 2.0.6 or higher. */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -70,13 +70,13 @@ namespace LightningBase
 
         /* window refers to an SDL_Window*, pNames to a const char**.
 		 * Only available in 2.0.6 or higher.
-		 * This overload allows for IntPtr.Zero (null) to be passed for pNames.
+		 * This overload allows for nint.Zero (null) to be passed for pNames.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_bool SDL_Vulkan_GetInstanceExtensions(
-            IntPtr window,
+            nint window,
             out uint pCount,
-            IntPtr pNames
+            nint pNames
         );
 
         /* window refers to an SDL_Window*, pNames to a const char**.
@@ -84,9 +84,9 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_bool SDL_Vulkan_GetInstanceExtensions(
-            IntPtr window,
+            nint window,
             out uint pCount,
-            IntPtr[] pNames
+            nint[] pNames
         );
 
         /* window refers to an SDL_Window.
@@ -96,8 +96,8 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_bool SDL_Vulkan_CreateSurface(
-            IntPtr window,
-            IntPtr instance,
+            nint window,
+            nint instance,
             out ulong surface
         );
 
@@ -106,7 +106,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_Vulkan_GetDrawableSize(
-            IntPtr window,
+            nint window,
             out int w,
             out int h
         );

@@ -50,7 +50,7 @@ namespace LightningBase
         public const int SDL_WINDOW_LACKS_SHAPE = -3;
 
         [DllImport(nativeLibName, EntryPoint = "SDL_CreateShapedWindow", CallingConvention = CallingConvention.Cdecl)]
-        private static unsafe extern IntPtr INTERNAL_SDL_CreateShapedWindow(
+        private static unsafe extern nint INTERNAL_SDL_CreateShapedWindow(
             byte* title,
             uint x,
             uint y,
@@ -59,16 +59,16 @@ namespace LightningBase
             SDL_WindowFlags flags
         );
 
-        public static unsafe IntPtr SDL_CreateShapedWindow(string title, uint x, uint y, uint w, uint h, SDL_WindowFlags flags)
+        public static unsafe nint SDL_CreateShapedWindow(string title, uint x, uint y, uint w, uint h, SDL_WindowFlags flags)
         {
             byte* utf8Title = Utf8EncodeHeap(title);
-            IntPtr result = INTERNAL_SDL_CreateShapedWindow(utf8Title, x, y, w, h, flags);
-            Marshal.FreeHGlobal((IntPtr)utf8Title);
+            nint result = INTERNAL_SDL_CreateShapedWindow(utf8Title, x, y, w, h, flags);
+            Marshal.FreeHGlobal((nint)utf8Title);
             return result;
         }
 
         [DllImport(nativeLibName, EntryPoint = "SDL_IsShapedWindow", CallingConvention = CallingConvention.Cdecl)]
-        public static extern SDL_bool SDL_IsShapedWindow(IntPtr window);
+        public static extern SDL_bool SDL_IsShapedWindow(nint window);
 
         public enum WindowShapeMode
         {
@@ -110,23 +110,23 @@ namespace LightningBase
         // window refers to an SDL_Window*
         [DllImport(nativeLibName, EntryPoint = "SDL_SetWindowShape", CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetWindowShape(
-            IntPtr window,
-            IntPtr shape,
+            nint window,
+            nint shape,
             ref SDL_WindowShapeMode shapeMode
         );
 
         // window refers to an SDL_Window*
         [DllImport(nativeLibName, EntryPoint = "SDL_GetShapedWindowMode", CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetShapedWindowMode(
-            IntPtr window,
+            nint window,
             out SDL_WindowShapeMode shapeMode
         );
 
         // window refers to an SDL_Window*
         [DllImport(nativeLibName, EntryPoint = "SDL_GetShapedWindowMode", CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetShapedWindowMode(
-            IntPtr window,
-            IntPtr shape_mode
+            nint window,
+            nint shape_mode
         );
         #endregion
     }

@@ -9,6 +9,6 @@ namespace LightningBase
         public FT_FaceRec* face;
         public FT_Generic generic;
         public FT_Size_Metrics metrics;
-        public IntPtr @internal;
+        public nint @internal;
     }
 }

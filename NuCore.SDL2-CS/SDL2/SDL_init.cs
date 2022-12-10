@@ -107,7 +107,7 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GDKRunApp(
             SDL_main_func mainFunction,
-            IntPtr reserved
+            nint reserved
         );
 
         #endregion

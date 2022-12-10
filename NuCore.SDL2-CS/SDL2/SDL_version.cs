@@ -82,7 +82,7 @@ namespace LightningBase
         public static extern void SDL_GetVersion(out SDL_version ver);
 
         [DllImport(nativeLibName, EntryPoint = "SDL_GetRevision", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GetRevision();
+        private static extern nint INTERNAL_SDL_GetRevision();
         public static string SDL_GetRevision()
         {
             return UTF8_ToManaged(INTERNAL_SDL_GetRevision());

@@ -45,7 +45,7 @@ namespace LightningBase
         #region SDL_mouse.c
 
         /* Note: SDL_Cursor is a typedef normally. We'll treat it as
-		 * an IntPtr, because C# doesn't do typedefs. Yay!
+		 * an nint, because C# doesn't do typedefs. Yay!
 		 */
 
         /* System cursor types */
@@ -69,7 +69,7 @@ namespace LightningBase
         /* Get the window which currently has mouse focus */
         /* Return value is an SDL_Window pointer */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GetMouseFocus();
+        public static extern nint SDL_GetMouseFocus();
 
         /* Get the current state of the mouse */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -78,17 +78,17 @@ namespace LightningBase
         /* Get the current state of the mouse */
         /* This overload allows for passing NULL to x */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern UInt32 SDL_GetMouseState(IntPtr x, out int y);
+        public static extern UInt32 SDL_GetMouseState(nint x, out int y);
 
         /* Get the current state of the mouse */
         /* This overload allows for passing NULL to y */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern UInt32 SDL_GetMouseState(out int x, IntPtr y);
+        public static extern UInt32 SDL_GetMouseState(out int x, nint y);
 
         /* Get the current state of the mouse */
         /* This overload allows for passing NULL to both x and y */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern UInt32 SDL_GetMouseState(IntPtr x, IntPtr y);
+        public static extern UInt32 SDL_GetMouseState(nint x, nint y);
 
         /* Get the current state of the mouse, in relation to the desktop.
 		 * Only available in 2.0.4 or higher.
@@ -101,21 +101,21 @@ namespace LightningBase
 		 * This overload allows for passing NULL to x.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern UInt32 SDL_GetGlobalMouseState(IntPtr x, out int y);
+        public static extern UInt32 SDL_GetGlobalMouseState(nint x, out int y);
 
         /* Get the current state of the mouse, in relation to the desktop.
 		 * Only available in 2.0.4 or higher.
 		 * This overload allows for passing NULL to y.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern UInt32 SDL_GetGlobalMouseState(out int x, IntPtr y);
+        public static extern UInt32 SDL_GetGlobalMouseState(out int x, nint y);
 
         /* Get the current state of the mouse, in relation to the desktop.
 		 * Only available in 2.0.4 or higher.
 		 * This overload allows for passing NULL to both x and y
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern UInt32 SDL_GetGlobalMouseState(IntPtr x, IntPtr y);
+        public static extern UInt32 SDL_GetGlobalMouseState(nint x, nint y);
 
         /* Get the mouse state with relative coords*/
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -124,7 +124,7 @@ namespace LightningBase
         /* Set the mouse cursor's position (within a window) */
         /* window is an SDL_Window pointer */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_WarpMouseInWindow(IntPtr window, int x, int y);
+        public static extern void SDL_WarpMouseInWindow(nint window, int x, int y);
 
         /* Set the mouse cursor's position in global screen space.
 		 * Only available in 2.0.4 or higher.
@@ -151,9 +151,9 @@ namespace LightningBase
 		 * return value is an SDL_Cursor pointer.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_CreateCursor(
-            IntPtr data,
-            IntPtr mask,
+        public static extern nint SDL_CreateCursor(
+            nint data,
+            nint mask,
             int w,
             int h,
             int hot_x,
@@ -161,11 +161,11 @@ namespace LightningBase
         );
 
         /* Create a cursor from an SDL_Surface.
-		 * IntPtr refers to an SDL_Cursor*, surface to an SDL_Surface*
+		 * nint refers to an SDL_Cursor*, surface to an SDL_Surface*
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_CreateColorCursor(
-            IntPtr surface,
+        public static extern nint SDL_CreateColorCursor(
+            nint surface,
             int hot_x,
             int hot_y
         );
@@ -174,25 +174,25 @@ namespace LightningBase
 		 * return value is an SDL_Cursor pointer
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_CreateSystemCursor(SDL_SystemCursor id);
+        public static extern nint SDL_CreateSystemCursor(SDL_SystemCursor id);
 
         /* Set the active cursor.
 		 * cursor is an SDL_Cursor pointer
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_SetCursor(IntPtr cursor);
+        public static extern void SDL_SetCursor(nint cursor);
 
         /* Return the active cursor
 		 * return value is an SDL_Cursor pointer
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GetCursor();
+        public static extern nint SDL_GetCursor();
 
         /* Frees a cursor created with one of the CreateCursor functions.
 		 * cursor in an SDL_Cursor pointer
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_FreeCursor(IntPtr cursor);
+        public static extern void SDL_FreeCursor(nint cursor);
 
         /* Toggle whether or not the cursor is shown */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]

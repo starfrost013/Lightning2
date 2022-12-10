@@ -65,42 +65,42 @@ namespace LightningBase
         [StructLayout(LayoutKind.Sequential)]
         public struct INTERNAL_windows_wminfo
         {
-            public IntPtr window; // Refers to an HWND
-            public IntPtr hdc; // Refers to an HDC
-            public IntPtr hinstance; // Refers to an HINSTANCE
+            public nint window; // Refers to an HWND
+            public nint hdc; // Refers to an HDC
+            public nint hinstance; // Refers to an HINSTANCE
         }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct INTERNAL_winrt_wminfo
         {
-            public IntPtr window; // Refers to an IInspectable*
+            public nint window; // Refers to an IInspectable*
         }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct INTERNAL_x11_wminfo
         {
-            public IntPtr display; // Refers to a Display*
-            public IntPtr window; // Refers to a Window (XID, use ToInt64!)
+            public nint display; // Refers to a Display*
+            public nint window; // Refers to a Window (XID, use ToInt64!)
         }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct INTERNAL_directfb_wminfo
         {
-            public IntPtr dfb; // Refers to an IDirectFB*
-            public IntPtr window; // Refers to an IDirectFBWindow*
-            public IntPtr surface; // Refers to an IDirectFBSurface*
+            public nint dfb; // Refers to an IDirectFB*
+            public nint window; // Refers to an IDirectFBWindow*
+            public nint surface; // Refers to an IDirectFBSurface*
         }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct INTERNAL_cocoa_wminfo
         {
-            public IntPtr window; // Refers to an NSWindow*
+            public nint window; // Refers to an NSWindow*
         }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct INTERNAL_uikit_wminfo
         {
-            public IntPtr window; // Refers to a UIWindow*
+            public nint window; // Refers to a UIWindow*
             public uint framebuffer;
             public uint colorbuffer;
             public uint resolveFramebuffer;
@@ -109,43 +109,43 @@ namespace LightningBase
         [StructLayout(LayoutKind.Sequential)]
         public struct INTERNAL_wayland_wminfo
         {
-            public IntPtr display; // Refers to a wl_display*
-            public IntPtr surface; // Refers to a wl_surface*
-            public IntPtr shell_surface; // Refers to a wl_shell_surface*
-            public IntPtr egl_window; // Refers to an egl_window*, requires >= 2.0.16
-            public IntPtr xdg_surface; // Refers to an xdg_surface*, requires >= 2.0.16
-            public IntPtr xdg_toplevel; // Refers to an xdg_toplevel*, requires >= 2.0.18
-            public IntPtr xdg_popup; // Refers to an xdg_popup*, requires >= 2.0.22
-            public IntPtr xdg_positioner; // Refers to an xdg_positioner*, requires >= 2.0.22
+            public nint display; // Refers to a wl_display*
+            public nint surface; // Refers to a wl_surface*
+            public nint shell_surface; // Refers to a wl_shell_surface*
+            public nint egl_window; // Refers to an egl_window*, requires >= 2.0.16
+            public nint xdg_surface; // Refers to an xdg_surface*, requires >= 2.0.16
+            public nint xdg_toplevel; // Refers to an xdg_toplevel*, requires >= 2.0.18
+            public nint xdg_popup; // Refers to an xdg_popup*, requires >= 2.0.22
+            public nint xdg_positioner; // Refers to an xdg_positioner*, requires >= 2.0.22
         }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct INTERNAL_mir_wminfo
         {
-            public IntPtr connection; // Refers to a MirConnection*
-            public IntPtr surface; // Refers to a MirSurface*
+            public nint connection; // Refers to a MirConnection*
+            public nint surface; // Refers to a MirSurface*
         }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct INTERNAL_android_wminfo
         {
-            public IntPtr window; // Refers to an ANativeWindow
-            public IntPtr surface; // Refers to an EGLSurface
+            public nint window; // Refers to an ANativeWindow
+            public nint surface; // Refers to an EGLSurface
         }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct INTERNAL_vivante_wminfo
         {
-            public IntPtr display; // Refers to an EGLNativeDisplayType
-            public IntPtr window; // Refers to an EGLNativeWindowType
+            public nint display; // Refers to an EGLNativeDisplayType
+            public nint window; // Refers to an EGLNativeWindowType
         }
 
         /* Only available in 2.0.14 or higher. */
         [StructLayout(LayoutKind.Sequential)]
         public struct INTERNAL_os2_wminfo
         {
-            public IntPtr hwnd; // Refers to an HWND
-            public IntPtr hwndFrame; // Refers to an HWND
+            public nint hwnd; // Refers to an HWND
+            public nint hwndFrame; // Refers to an HWND
         }
 
         /* Only available in 2.0.16 or higher. */
@@ -154,7 +154,7 @@ namespace LightningBase
         {
             int dev_index;
             int drm_fd;
-            IntPtr gbm_dev; // Refers to a gbm_device*
+            nint gbm_dev; // Refers to a gbm_device*
         }
 
         [StructLayout(LayoutKind.Explicit)]
@@ -198,7 +198,7 @@ namespace LightningBase
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_bool SDL_GetWindowWMInfo(
-            IntPtr window,
+            nint window,
             ref SDL_SysWMinfo info
         );
 

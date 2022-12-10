@@ -155,7 +155,7 @@ namespace LightningBase
             int result = INTERNAL_SDL_GameControllerAddMapping(
                 utf8MappingString
             );
-            Marshal.FreeHGlobal((IntPtr)utf8MappingString);
+            Marshal.FreeHGlobal((nint)utf8MappingString);
             return result;
         }
 
@@ -165,7 +165,7 @@ namespace LightningBase
 
         /* Only available in 2.0.6 or higher. */
         [DllImport(nativeLibName, EntryPoint = "SDL_GameControllerMappingForIndex", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GameControllerMappingForIndex(int mapping_index);
+        private static extern nint INTERNAL_SDL_GameControllerMappingForIndex(int mapping_index);
         public static string SDL_GameControllerMappingForIndex(int mapping_index)
         {
             return UTF8_ToManaged(
@@ -179,17 +179,17 @@ namespace LightningBase
         /* THIS IS AN RWops FUNCTION! */
         [DllImport(nativeLibName, EntryPoint = "SDL_GameControllerAddMappingsFromRW", CallingConvention = CallingConvention.Cdecl)]
         private static extern int INTERNAL_SDL_GameControllerAddMappingsFromRW(
-            IntPtr rw,
+            nint rw,
             int freerw
         );
         public static int SDL_GameControllerAddMappingsFromFile(string file)
         {
-            IntPtr rwops = SDL_RWFromFile(file, "rb");
+            nint rwops = SDL_RWFromFile(file, "rb");
             return INTERNAL_SDL_GameControllerAddMappingsFromRW(rwops, 1);
         }
 
         [DllImport(nativeLibName, EntryPoint = "SDL_GameControllerMappingForGUID", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GameControllerMappingForGUID(
+        private static extern nint INTERNAL_SDL_GameControllerMappingForGUID(
             Guid guid
         );
         public static string SDL_GameControllerMappingForGUID(Guid guid)
@@ -202,11 +202,11 @@ namespace LightningBase
 
         /* gamecontroller refers to an SDL_GameController* */
         [DllImport(nativeLibName, EntryPoint = "SDL_GameControllerMapping", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GameControllerMapping(
-            IntPtr gamecontroller
+        private static extern nint INTERNAL_SDL_GameControllerMapping(
+            nint gamecontroller
         );
         public static string SDL_GameControllerMapping(
-            IntPtr gamecontroller
+            nint gamecontroller
         )
         {
             return UTF8_ToManaged(
@@ -221,7 +221,7 @@ namespace LightningBase
         public static extern SDL_bool SDL_IsGameController(int joystick_index);
 
         [DllImport(nativeLibName, EntryPoint = "SDL_GameControllerNameForIndex", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GameControllerNameForIndex(
+        private static extern nint INTERNAL_SDL_GameControllerNameForIndex(
             int joystick_index
         );
         public static string SDL_GameControllerNameForIndex(
@@ -235,7 +235,7 @@ namespace LightningBase
 
         /* Only available in 2.0.9 or higher. */
         [DllImport(nativeLibName, EntryPoint = "SDL_GameControllerMappingForDeviceIndex", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GameControllerMappingForDeviceIndex(
+        private static extern nint INTERNAL_SDL_GameControllerMappingForDeviceIndex(
             int joystick_index
         );
         public static string SDL_GameControllerMappingForDeviceIndex(
@@ -248,17 +248,17 @@ namespace LightningBase
             );
         }
 
-        /* IntPtr refers to an SDL_GameController* */
+        /* nint refers to an SDL_GameController* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GameControllerOpen(int joystick_index);
+        public static extern nint SDL_GameControllerOpen(int joystick_index);
 
         /* gamecontroller refers to an SDL_GameController* */
         [DllImport(nativeLibName, EntryPoint = "SDL_GameControllerName", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GameControllerName(
-            IntPtr gamecontroller
+        private static extern nint INTERNAL_SDL_GameControllerName(
+            nint gamecontroller
         );
         public static string SDL_GameControllerName(
-            IntPtr gamecontroller
+            nint gamecontroller
         )
         {
             return UTF8_ToManaged(
@@ -271,7 +271,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern ushort SDL_GameControllerGetVendor(
-            IntPtr gamecontroller
+            nint gamecontroller
         );
 
         /* gamecontroller refers to an SDL_GameController*.
@@ -279,7 +279,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern ushort SDL_GameControllerGetProduct(
-            IntPtr gamecontroller
+            nint gamecontroller
         );
 
         /* gamecontroller refers to an SDL_GameController*.
@@ -287,18 +287,18 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern ushort SDL_GameControllerGetProductVersion(
-            IntPtr gamecontroller
+            nint gamecontroller
         );
 
         /* gamecontroller refers to an SDL_GameController*.
 		 * Only available in 2.0.14 or higher.
 		 */
         [DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetSerial", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GameControllerGetSerial(
-            IntPtr gamecontroller
+        private static extern nint INTERNAL_SDL_GameControllerGetSerial(
+            nint gamecontroller
         );
         public static string SDL_GameControllerGetSerial(
-            IntPtr gamecontroller
+            nint gamecontroller
         )
         {
             return UTF8_ToManaged(
@@ -309,15 +309,15 @@ namespace LightningBase
         /* gamecontroller refers to an SDL_GameController* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_bool SDL_GameControllerGetAttached(
-            IntPtr gamecontroller
+            nint gamecontroller
         );
 
-        /* IntPtr refers to an SDL_Joystick*
+        /* nint refers to an SDL_Joystick*
 		 * gamecontroller refers to an SDL_GameController*
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GameControllerGetJoystick(
-            IntPtr gamecontroller
+        public static extern nint SDL_GameControllerGetJoystick(
+            nint gamecontroller
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -326,7 +326,7 @@ namespace LightningBase
         /* gamecontroller refers to an SDL_GameController*. Currently for DualSense (PS5 controller) ONLY!
          * Only available in 2.24.0 or higher */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_GameControllerGetFirmwareVersion(IntPtr gameController);
+        public static extern int SDL_GameControllerGetFirmwareVersion(nint gameController);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_GameControllerUpdate();
@@ -347,7 +347,7 @@ namespace LightningBase
         }
 
         [DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetStringForAxis", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GameControllerGetStringForAxis(
+        private static extern nint INTERNAL_SDL_GameControllerGetStringForAxis(
             SDL_GameControllerAxis axis
         );
         public static string SDL_GameControllerGetStringForAxis(
@@ -364,11 +364,11 @@ namespace LightningBase
         /* gamecontroller refers to an SDL_GameController* */
         [DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetBindForAxis", CallingConvention = CallingConvention.Cdecl)]
         private static extern INTERNAL_SDL_GameControllerButtonBind INTERNAL_SDL_GameControllerGetBindForAxis(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             SDL_GameControllerAxis axis
         );
         public static SDL_GameControllerButtonBind SDL_GameControllerGetBindForAxis(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             SDL_GameControllerAxis axis
         )
         {
@@ -387,7 +387,7 @@ namespace LightningBase
         /* gamecontroller refers to an SDL_GameController* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern short SDL_GameControllerGetAxis(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             SDL_GameControllerAxis axis
         );
 
@@ -407,7 +407,7 @@ namespace LightningBase
         }
 
         [DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetStringForButton", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GameControllerGetStringForButton(
+        private static extern nint INTERNAL_SDL_GameControllerGetStringForButton(
             SDL_GameControllerButton button
         );
         public static string SDL_GameControllerGetStringForButton(
@@ -422,11 +422,11 @@ namespace LightningBase
         /* gamecontroller refers to an SDL_GameController* */
         [DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetBindForButton", CallingConvention = CallingConvention.Cdecl)]
         private static extern INTERNAL_SDL_GameControllerButtonBind INTERNAL_SDL_GameControllerGetBindForButton(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             SDL_GameControllerButton button
         );
         public static SDL_GameControllerButtonBind SDL_GameControllerGetBindForButton(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             SDL_GameControllerButton button
         )
         {
@@ -445,7 +445,7 @@ namespace LightningBase
         /* gamecontroller refers to an SDL_GameController* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern byte SDL_GameControllerGetButton(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             SDL_GameControllerButton button
         );
 
@@ -454,7 +454,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GameControllerRumble(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             UInt16 low_frequency_rumble,
             UInt16 high_frequency_rumble,
             UInt32 duration_ms
@@ -465,7 +465,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GameControllerRumbleTriggers(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             UInt16 left_rumble,
             UInt16 right_rumble,
             UInt32 duration_ms
@@ -474,14 +474,14 @@ namespace LightningBase
         /* gamecontroller refers to an SDL_GameController* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_GameControllerClose(
-            IntPtr gamecontroller
+            nint gamecontroller
         );
 
-        /* int refers to an SDL_JoystickID, IntPtr to an SDL_GameController*.
+        /* int refers to an SDL_JoystickID, nint to an SDL_GameController*.
 		 * Only available in 2.0.4 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GameControllerFromInstanceID(int joyid);
+        public static extern nint SDL_GameControllerFromInstanceID(int joyid);
 
         /* Only available in 2.0.11 or higher. */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -489,28 +489,28 @@ namespace LightningBase
             int joystick_index
         );
 
-        /* IntPtr refers to an SDL_GameController*.
+        /* nint refers to an SDL_GameController*.
 		 * Only available in 2.0.11 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_GameControllerType SDL_GameControllerGetType(
-            IntPtr gamecontroller
+            nint gamecontroller
         );
 
-        /* IntPtr refers to an SDL_GameController*.
+        /* nint refers to an SDL_GameController*.
 		 * Only available in 2.0.11 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GameControllerFromPlayerIndex(
+        public static extern nint SDL_GameControllerFromPlayerIndex(
             int player_index
         );
 
-        /* IntPtr refers to an SDL_GameController*.
+        /* nint refers to an SDL_GameController*.
 		 * Only available in 2.0.11 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_GameControllerSetPlayerIndex(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             int player_index
         );
 
@@ -519,7 +519,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_bool SDL_GameControllerHasLED(
-            IntPtr gamecontroller
+            nint gamecontroller
         );
 
         /* gamecontroller refers to an SDL_GameController*.
@@ -527,7 +527,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_bool SDL_GameControllerHasRumble(
-            IntPtr gamecontroller
+            nint gamecontroller
         );
 
         /* gamecontroller refers to an SDL_GameController*.
@@ -535,7 +535,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_bool SDL_GameControllerHasRumbleTriggers(
-            IntPtr gamecontroller
+            nint gamecontroller
         );
 
         /* gamecontroller refers to an SDL_GameController*.
@@ -543,7 +543,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GameControllerSetLED(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             byte red,
             byte green,
             byte blue
@@ -554,7 +554,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_bool SDL_GameControllerHasAxis(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             SDL_GameControllerAxis axis
         );
 
@@ -563,7 +563,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_bool SDL_GameControllerHasButton(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             SDL_GameControllerButton button
         );
 
@@ -572,7 +572,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GameControllerGetNumTouchpads(
-            IntPtr gamecontroller
+            nint gamecontroller
         );
 
         /* gamecontroller refers to an SDL_GameController*.
@@ -580,7 +580,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GameControllerGetNumTouchpadFingers(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             int touchpad
         );
 
@@ -589,7 +589,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GameControllerGetTouchpadFinger(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             int touchpad,
             int finger,
             out byte state,
@@ -603,7 +603,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_bool SDL_GameControllerHasSensor(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             SDL_SensorType type
         );
 
@@ -612,7 +612,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GameControllerSetSensorEnabled(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             SDL_SensorType type,
             SDL_bool enabled
         );
@@ -622,7 +622,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_bool SDL_GameControllerIsSensorEnabled(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             SDL_SensorType type
         );
 
@@ -632,9 +632,9 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GameControllerGetSensorData(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             SDL_SensorType type,
-            IntPtr data,
+            nint data,
             int num_values
         );
 
@@ -643,7 +643,7 @@ namespace LightningBase
         */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GameControllerGetSensorData(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             SDL_SensorType type,
             [In] float[] data,
             int num_values
@@ -654,7 +654,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern float SDL_GameControllerGetSensorDataRate(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             SDL_SensorType type
         );
 
@@ -664,8 +664,8 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GameControllerSendEffect(
-            IntPtr gamecontroller,
-            IntPtr data,
+            nint gamecontroller,
+            nint data,
             int size
         );
 
@@ -673,12 +673,12 @@ namespace LightningBase
 		* Only available in 2.0.18 or higher.
 		*/
         [DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetAppleSFSymbolsNameForButton", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GameControllerGetAppleSFSymbolsNameForButton(
-            IntPtr gamecontroller,
+        private static extern nint INTERNAL_SDL_GameControllerGetAppleSFSymbolsNameForButton(
+            nint gamecontroller,
             SDL_GameControllerButton button
         );
         public static string SDL_GameControllerGetAppleSFSymbolsNameForButton(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             SDL_GameControllerButton button
         )
         {
@@ -691,12 +691,12 @@ namespace LightningBase
 		 * Only available in 2.0.18 or higher.
 		 */
         [DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetAppleSFSymbolsNameForAxis", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GameControllerGetAppleSFSymbolsNameForAxis(
-            IntPtr gamecontroller,
+        private static extern nint INTERNAL_SDL_GameControllerGetAppleSFSymbolsNameForAxis(
+            nint gamecontroller,
             SDL_GameControllerAxis axis
         );
         public static string SDL_GameControllerGetAppleSFSymbolsNameForAxis(
-            IntPtr gamecontroller,
+            nint gamecontroller,
             SDL_GameControllerAxis axis
         )
         {

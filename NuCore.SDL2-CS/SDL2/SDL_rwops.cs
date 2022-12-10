@@ -67,44 +67,44 @@ namespace LightningBase
         }
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate long SDLRWopsSizeCallback(IntPtr context);
+        public delegate long SDLRWopsSizeCallback(nint context);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate long SDLRWopsSeekCallback(
-            IntPtr context,
+            nint context,
             long offset,
             int whence
         );
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate IntPtr SDLRWopsReadCallback(
-            IntPtr context,
-            IntPtr ptr,
-            IntPtr size,
-            IntPtr maxnum
+        public delegate nint SDLRWopsReadCallback(
+            nint context,
+            nint ptr,
+            nint size,
+            nint maxnum
         );
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate IntPtr SDLRWopsWriteCallback(
-            IntPtr context,
-            IntPtr ptr,
-            IntPtr size,
-            IntPtr num
+        public delegate nint SDLRWopsWriteCallback(
+            nint context,
+            nint ptr,
+            nint size,
+            nint num
         );
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int SDLRWopsCloseCallback(
-            IntPtr context
+            nint context
         );
 
         [StructLayout(LayoutKind.Sequential)]
         public struct SDL_RWops
         {
-            public IntPtr size;
-            public IntPtr seek;
-            public IntPtr read;
-            public IntPtr write;
-            public IntPtr close;
+            public nint size;
+            public nint seek;
+            public nint read;
+            public nint write;
+            public nint close;
 
             [MarshalAs(UnmanagedType.U4)]
             public SDL_RWOPS_TYPE type;
@@ -117,61 +117,61 @@ namespace LightningBase
         }
 
 
-        /* IntPtr refers to an SDL_RWops* */
+        /* nint refers to an SDL_RWops* */
         [DllImport(nativeLibName, EntryPoint = "SDL_RWFromFile", CallingConvention = CallingConvention.Cdecl)]
-        private static extern unsafe IntPtr INTERNAL_SDL_RWFromFile(
+        private static extern unsafe nint INTERNAL_SDL_RWFromFile(
             byte* file,
             byte* mode
         );
-        public static unsafe IntPtr SDL_RWFromFile(
+        public static unsafe nint SDL_RWFromFile(
             string file,
             string mode
         )
         {
             byte* utf8File = Utf8EncodeHeap(file);
             byte* utf8Mode = Utf8EncodeHeap(mode);
-            IntPtr rwOps = INTERNAL_SDL_RWFromFile(
+            nint rwOps = INTERNAL_SDL_RWFromFile(
                 utf8File,
                 utf8Mode
             );
-            Marshal.FreeHGlobal((IntPtr)utf8Mode);
-            Marshal.FreeHGlobal((IntPtr)utf8File);
+            Marshal.FreeHGlobal((nint)utf8Mode);
+            Marshal.FreeHGlobal((nint)utf8File);
             return rwOps;
         }
 
-        /* IntPtr refers to an SDL_RWops* */
+        /* nint refers to an SDL_RWops* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_AllocRW();
+        public static extern nint SDL_AllocRW();
 
         /* area refers to an SDL_RWops* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_FreeRW(IntPtr area);
+        public static extern void SDL_FreeRW(nint area);
 
         [Obsolete("Will be removed in SDL 3.0 - see https://github.com/libsdl-org/SDL/blob/main/docs/README-migration.md")]
         /* fp refers to a void* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_RWFromFP(IntPtr fp, SDL_bool autoclose);
+        public static extern nint SDL_RWFromFP(nint fp, SDL_bool autoclose);
 
-        /* mem refers to a void*, IntPtr to an SDL_RWops* */
+        /* mem refers to a void*, nint to an SDL_RWops* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_RWFromMem(IntPtr mem, int size);
+        public static extern nint SDL_RWFromMem(nint mem, int size);
 
-        /* mem refers to a const void*, IntPtr to an SDL_RWops* */
+        /* mem refers to a const void*, nint to an SDL_RWops* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_RWFromConstMem(IntPtr mem, int size);
+        public static extern nint SDL_RWFromConstMem(nint mem, int size);
 
         /* context refers to an SDL_RWops*.
 		 * Only available in SDL 2.0.10 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern long SDL_RWsize(IntPtr context);
+        public static extern long SDL_RWsize(nint context);
 
         /* context refers to an SDL_RWops*.
 		 * Only available in SDL 2.0.10 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern long SDL_RWseek(
-            IntPtr context,
+            nint context,
             long offset,
             int whence
         );
@@ -180,17 +180,17 @@ namespace LightningBase
 		 * Only available in SDL 2.0.10 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern long SDL_RWtell(IntPtr context);
+        public static extern long SDL_RWtell(nint context);
 
         /* context refers to an SDL_RWops*, ptr refers to a void*.
 		 * Only available in SDL 2.0.10 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern long SDL_RWread(
-            IntPtr context,
-            IntPtr ptr,
-            IntPtr size,
-            IntPtr maxnum
+            nint context,
+            nint ptr,
+            nint size,
+            nint maxnum
         );
 
         /* context refers to an SDL_RWops*, ptr refers to a const void*.
@@ -198,75 +198,75 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern long SDL_RWwrite(
-            IntPtr context,
-            IntPtr ptr,
-            IntPtr size,
-            IntPtr maxnum
+            nint context,
+            nint ptr,
+            nint size,
+            nint maxnum
         );
 
         /* Read endian functions */
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern byte SDL_ReadU8(IntPtr src);
+        public static extern byte SDL_ReadU8(nint src);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern UInt16 SDL_ReadLE16(IntPtr src);
+        public static extern UInt16 SDL_ReadLE16(nint src);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern UInt16 SDL_ReadBE16(IntPtr src);
+        public static extern UInt16 SDL_ReadBE16(nint src);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern UInt32 SDL_ReadLE32(IntPtr src);
+        public static extern UInt32 SDL_ReadLE32(nint src);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern UInt32 SDL_ReadBE32(IntPtr src);
+        public static extern UInt32 SDL_ReadBE32(nint src);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern UInt64 SDL_ReadLE64(IntPtr src);
+        public static extern UInt64 SDL_ReadLE64(nint src);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern UInt64 SDL_ReadBE64(IntPtr src);
+        public static extern UInt64 SDL_ReadBE64(nint src);
 
         /* Write endian functions */
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint SDL_WriteU8(IntPtr dst, byte value);
+        public static extern uint SDL_WriteU8(nint dst, byte value);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint SDL_WriteLE16(IntPtr dst, UInt16 value);
+        public static extern uint SDL_WriteLE16(nint dst, UInt16 value);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint SDL_WriteBE16(IntPtr dst, UInt16 value);
+        public static extern uint SDL_WriteBE16(nint dst, UInt16 value);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint SDL_WriteLE32(IntPtr dst, UInt32 value);
+        public static extern uint SDL_WriteLE32(nint dst, UInt32 value);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint SDL_WriteBE32(IntPtr dst, UInt32 value);
+        public static extern uint SDL_WriteBE32(nint dst, UInt32 value);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint SDL_WriteLE64(IntPtr dst, UInt64 value);
+        public static extern uint SDL_WriteLE64(nint dst, UInt64 value);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint SDL_WriteBE64(IntPtr dst, UInt64 value);
+        public static extern uint SDL_WriteBE64(nint dst, UInt64 value);
 
         /* context refers to an SDL_RWops*
 		 * Only available in SDL 2.0.10 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern long SDL_RWclose(IntPtr context);
+        public static extern long SDL_RWclose(nint context);
 
         /* datasize refers to a size_t*
-		 * IntPtr refers to a void*
+		 * nint refers to a void*
 		 * Only available in SDL 2.0.10 or higher.
 		 */
         [DllImport(nativeLibName, EntryPoint = "SDL_LoadFile", CallingConvention = CallingConvention.Cdecl)]
-        private static extern unsafe IntPtr INTERNAL_SDL_LoadFile(byte* file, out IntPtr datasize);
-        public static unsafe IntPtr SDL_LoadFile(string file, out IntPtr datasize)
+        private static extern unsafe nint INTERNAL_SDL_LoadFile(byte* file, out nint datasize);
+        public static unsafe nint SDL_LoadFile(string file, out nint datasize)
         {
             byte* utf8File = Utf8EncodeHeap(file);
-            IntPtr result = INTERNAL_SDL_LoadFile(utf8File, out datasize);
-            Marshal.FreeHGlobal((IntPtr)utf8File);
+            nint result = INTERNAL_SDL_LoadFile(utf8File, out datasize);
+            Marshal.FreeHGlobal((nint)utf8File);
             return result;
         }
 

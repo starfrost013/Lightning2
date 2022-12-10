@@ -157,28 +157,36 @@
                     sizeX,
                     sizeY);
 
-                switch (smoothingType)
+                // TODO: HACK HACK HACK
+                // THIS CODE IS OLD AND WILL BE REMOVERD
+
+                if (Lightning.Renderer is SdlRenderer)
                 {
-                    case FontSmoothingType.Default: // Antialiased
-                        IntPtr surfaceBlended = TTF_RenderUTF8_Blended(fontForRender.Handle, cachedLine.Text, fgColor);
-                        cachedLine.Handle = SDL_CreateTextureFromSurface(Lightning.Renderer.Settings.RendererHandle, surfaceBlended);
+                    SdlRenderer renderer = (SdlRenderer)Lightning.Renderer;
 
-                        SDL_FreeSurface(surfaceBlended);
-                        break;
-                    case FontSmoothingType.Shaded: // Only shaded
-                        IntPtr surfaceShaded = TTF_RenderUTF8_Shaded(fontForRender.Handle, cachedLine.Text, fgColor, bgColor);
-                        cachedLine.Handle = SDL_CreateTextureFromSurface(Lightning.Renderer.Settings.RendererHandle, surfaceShaded);
+                    switch (smoothingType)
+                    {
+                        case FontSmoothingType.Default: // Antialiased
+                            nint surfaceBlended = TTF_RenderUTF8_Blended(fontForRender.Handle, cachedLine.Text, fgColor);
+                            cachedLine.Handle = SDL_CreateTextureFromSurface(renderer.Settings.RendererHandle, surfaceBlended);
 
-                        SDL_FreeSurface(surfaceShaded);
-                        break;
-                    case FontSmoothingType.Solid: // No processing done
-                        IntPtr surfaceSolid = TTF_RenderUTF8_Solid(fontForRender.Handle, cachedLine.Text, fgColor);
-                        cachedLine.Handle = SDL_CreateTextureFromSurface(Lightning.Renderer.Settings.RendererHandle, surfaceSolid);
+                            SDL_FreeSurface(surfaceBlended);
+                            break;
+                        case FontSmoothingType.Shaded: // Only shaded
+                            nint surfaceShaded = TTF_RenderUTF8_Shaded(fontForRender.Handle, cachedLine.Text, fgColor, bgColor);
+                            cachedLine.Handle = SDL_CreateTextureFromSurface(renderer.Settings.RendererHandle, surfaceShaded);
 
-                        SDL_FreeSurface(surfaceSolid);
-                        break;
+                            SDL_FreeSurface(surfaceShaded);
+                            break;
+                        case FontSmoothingType.Solid: // No processing done
+                            nint surfaceSolid = TTF_RenderUTF8_Solid(fontForRender.Handle, cachedLine.Text, fgColor);
+                            cachedLine.Handle = SDL_CreateTextureFromSurface(renderer.Settings.RendererHandle, surfaceSolid);
+
+                            SDL_FreeSurface(surfaceSolid);
+                            break;
+                    }
+
                 }
-
                 entry.Lines.Add(cachedLine);
             }
 

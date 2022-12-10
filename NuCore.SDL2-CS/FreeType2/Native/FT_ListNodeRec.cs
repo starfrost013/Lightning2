@@ -6,8 +6,8 @@ namespace LightningBase
     [StructLayout(LayoutKind.Sequential)]
     public struct FT_ListNodeRec
     {
-        public IntPtr prev;
-        public IntPtr next;
-        public IntPtr data;
+        public nint prev;
+        public nint next;
+        public nint data;
     }
 }

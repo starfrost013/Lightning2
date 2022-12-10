@@ -80,7 +80,7 @@ namespace LightningBase
         [StructLayout(LayoutKind.Sequential)]
         public unsafe struct SDL_RendererInfo
         {
-            public IntPtr name; // const char*
+            public nint name; // const char*
             public uint flags;
             public uint num_texture_formats;
             public fixed uint texture_formats[16];
@@ -117,22 +117,22 @@ namespace LightningBase
             public SDL_FPoint tex_coord;
         }
 
-        /* IntPtr refers to an SDL_Renderer*, window to an SDL_Window* */
+        /* nint refers to an SDL_Renderer*, window to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_CreateRenderer(
-            IntPtr window,
+        public static extern nint SDL_CreateRenderer(
+            nint window,
             int index,
             SDL_RendererFlags flags
         );
 
-        /* IntPtr refers to an SDL_Renderer*, surface to an SDL_Surface* */
+        /* nint refers to an SDL_Renderer*, surface to an SDL_Surface* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_CreateSoftwareRenderer(IntPtr surface);
+        public static extern nint SDL_CreateSoftwareRenderer(nint surface);
 
-        /* IntPtr refers to an SDL_Texture*, renderer to an SDL_Renderer* */
+        /* nint refers to an SDL_Texture*, renderer to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_CreateTexture(
-            IntPtr renderer,
+        public static extern nint SDL_CreateTexture(
+            nint renderer,
             uint format,
             [MarshalAs(UnmanagedType.I4)]
             SDL_TextureAccess access,
@@ -140,23 +140,23 @@ namespace LightningBase
             int h
         );
 
-        /* IntPtr refers to an SDL_Texture*
+        /* nint refers to an SDL_Texture*
 		 * renderer refers to an SDL_Renderer*
 		 * surface refers to an SDL_Surface*
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_CreateTextureFromSurface(
-            IntPtr renderer,
-            IntPtr surface
+        public static extern nint SDL_CreateTextureFromSurface(
+            nint renderer,
+            nint surface
         );
 
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_DestroyRenderer(IntPtr renderer);
+        public static extern void SDL_DestroyRenderer(nint renderer);
 
         /* texture refers to an SDL_Texture* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_DestroyTexture(IntPtr texture);
+        public static extern void SDL_DestroyTexture(nint texture);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetNumRenderDrivers();
@@ -164,7 +164,7 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetRenderDrawBlendMode(
-            IntPtr renderer,
+            nint renderer,
             out SDL_BlendMode blendMode
         );
 
@@ -173,7 +173,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetTextureScaleMode(
-            IntPtr texture,
+            nint texture,
             SDL_ScaleMode scaleMode
         );
 
@@ -182,7 +182,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetTextureScaleMode(
-            IntPtr texture,
+            nint texture,
             out SDL_ScaleMode scaleMode
         );
 
@@ -192,20 +192,20 @@ namespace LightningBase
 		*/
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetTextureUserData(
-            IntPtr texture,
-            IntPtr userdata
+            nint texture,
+            nint userdata
         );
 
-        /* IntPtr refers to a void*, texture refers to an SDL_Texture*
+        /* nint refers to a void*, texture refers to an SDL_Texture*
 		 * Only available in 2.0.18 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GetTextureUserData(IntPtr texture);
+        public static extern nint SDL_GetTextureUserData(nint texture);
 
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetRenderDrawColor(
-            IntPtr renderer,
+            nint renderer,
             out byte r,
             out byte g,
             out byte b,
@@ -218,21 +218,21 @@ namespace LightningBase
             out SDL_RendererInfo info
         );
 
-        /* IntPtr refers to an SDL_Renderer*, window to an SDL_Window* */
+        /* nint refers to an SDL_Renderer*, window to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GetRenderer(IntPtr window);
+        public static extern nint SDL_GetRenderer(nint window);
 
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetRendererInfo(
-            IntPtr renderer,
+            nint renderer,
             out SDL_RendererInfo info
         );
 
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetRendererOutputSize(
-            IntPtr renderer,
+            nint renderer,
             out int w,
             out int h
         );
@@ -240,21 +240,21 @@ namespace LightningBase
         /* texture refers to an SDL_Texture* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetTextureAlphaMod(
-            IntPtr texture,
+            nint texture,
             out byte alpha
         );
 
         /* texture refers to an SDL_Texture* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetTextureBlendMode(
-            IntPtr texture,
+            nint texture,
             out SDL_BlendMode blendMode
         );
 
         /* texture refers to an SDL_Texture* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetTextureColorMod(
-            IntPtr texture,
+            nint texture,
             out byte r,
             out byte g,
             out byte b
@@ -263,22 +263,22 @@ namespace LightningBase
         /* texture refers to an SDL_Texture*, pixels to a void* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_LockTexture(
-            IntPtr texture,
+            nint texture,
             ref SDL_Rect rect,
-            out IntPtr pixels,
+            out nint pixels,
             out int pitch
         );
 
         /* texture refers to an SDL_Texture*, pixels to a void*.
 		 * Internally, this function contains logic to use default values when
 		 * the rectangle is passed as NULL.
-		 * This overload allows for IntPtr.Zero to be passed for rect.
+		 * This overload allows for nint.Zero to be passed for rect.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_LockTexture(
-            IntPtr texture,
-            IntPtr rect,
-            out IntPtr pixels,
+            nint texture,
+            nint rect,
+            out nint pixels,
             out int pitch
         );
 
@@ -287,28 +287,28 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_LockTextureToSurface(
-            IntPtr texture,
+            nint texture,
             ref SDL_Rect rect,
-            out IntPtr surface
+            out nint surface
         );
 
         /* texture refers to an SDL_Texture*, surface to an SDL_Surface*
 		 * Internally, this function contains logic to use default values when
 		 * the rectangle is passed as NULL.
-		 * This overload allows for IntPtr.Zero to be passed for rect.
+		 * This overload allows for nint.Zero to be passed for rect.
 		 * Only available in 2.0.11 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_LockTextureToSurface(
-            IntPtr texture,
-            IntPtr rect,
-            out IntPtr surface
+            nint texture,
+            nint rect,
+            out nint surface
         );
 
         /* texture refers to an SDL_Texture* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_QueryTexture(
-            IntPtr texture,
+            nint texture,
             out uint format,
             out int access,
             out int w,
@@ -317,13 +317,13 @@ namespace LightningBase
 
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_RenderClear(IntPtr renderer);
+        public static extern int SDL_RenderClear(nint renderer);
 
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopy(
-            IntPtr renderer,
-            IntPtr texture,
+            nint renderer,
+            nint texture,
             ref SDL_Rect srcrect,
             ref SDL_Rect dstrect
         );
@@ -331,47 +331,47 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture*.
 		 * Internally, this function contains logic to use default values when
 		 * source and destination rectangles are passed as NULL.
-		 * This overload allows for IntPtr.Zero (null) to be passed for srcrect.
+		 * This overload allows for nint.Zero (null) to be passed for srcrect.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopy(
-            IntPtr renderer,
-            IntPtr texture,
-            IntPtr srcrect,
+            nint renderer,
+            nint texture,
+            nint srcrect,
             ref SDL_Rect dstrect
         );
 
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture*.
 		 * Internally, this function contains logic to use default values when
 		 * source and destination rectangles are passed as NULL.
-		 * This overload allows for IntPtr.Zero (null) to be passed for dstrect.
+		 * This overload allows for nint.Zero (null) to be passed for dstrect.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopy(
-            IntPtr renderer,
-            IntPtr texture,
+            nint renderer,
+            nint texture,
             ref SDL_Rect srcrect,
-            IntPtr dstrect
+            nint dstrect
         );
 
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture*.
 		 * Internally, this function contains logic to use default values when
 		 * source and destination rectangles are passed as NULL.
-		 * This overload allows for IntPtr.Zero (null) to be passed for both SDL_Rects.
+		 * This overload allows for nint.Zero (null) to be passed for both SDL_Rects.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopy(
-            IntPtr renderer,
-            IntPtr texture,
-            IntPtr srcrect,
-            IntPtr dstrect
+            nint renderer,
+            nint texture,
+            nint srcrect,
+            nint dstrect
         );
 
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopyEx(
-            IntPtr renderer,
-            IntPtr texture,
+            nint renderer,
+            nint texture,
             ref SDL_Rect srcrect,
             ref SDL_Rect dstrect,
             double angle,
@@ -382,13 +382,13 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture*.
 		 * Internally, this function contains logic to use default values when
 		 * source, destination, and/or center are passed as NULL.
-		 * This overload allows for IntPtr.Zero (null) to be passed for srcrect.
+		 * This overload allows for nint.Zero (null) to be passed for srcrect.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopyEx(
-            IntPtr renderer,
-            IntPtr texture,
-            IntPtr srcrect,
+            nint renderer,
+            nint texture,
+            nint srcrect,
             ref SDL_Rect dstrect,
             double angle,
             ref SDL_Point center,
@@ -398,14 +398,14 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture*.
 		 * Internally, this function contains logic to use default values when
 		 * source, destination, and/or center are passed as NULL.
-		 * This overload allows for IntPtr.Zero (null) to be passed for dstrect.
+		 * This overload allows for nint.Zero (null) to be passed for dstrect.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopyEx(
-            IntPtr renderer,
-            IntPtr texture,
+            nint renderer,
+            nint texture,
             ref SDL_Rect srcrect,
-            IntPtr dstrect,
+            nint dstrect,
             double angle,
             ref SDL_Point center,
             SDL_RendererFlip flip
@@ -414,31 +414,31 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture*.
 		 * Internally, this function contains logic to use default values when
 		 * source, destination, and/or center are passed as NULL.
-		 * This overload allows for IntPtr.Zero (null) to be passed for center.
+		 * This overload allows for nint.Zero (null) to be passed for center.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopyEx(
-            IntPtr renderer,
-            IntPtr texture,
+            nint renderer,
+            nint texture,
             ref SDL_Rect srcrect,
             ref SDL_Rect dstrect,
             double angle,
-            IntPtr center,
+            nint center,
             SDL_RendererFlip flip
         );
 
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture*.
 		 * Internally, this function contains logic to use default values when
 		 * source, destination, and/or center are passed as NULL.
-		 * This overload allows for IntPtr.Zero (null) to be passed for both
+		 * This overload allows for nint.Zero (null) to be passed for both
 		 * srcrect and dstrect.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopyEx(
-            IntPtr renderer,
-            IntPtr texture,
-            IntPtr srcrect,
-            IntPtr dstrect,
+            nint renderer,
+            nint texture,
+            nint srcrect,
+            nint dstrect,
             double angle,
             ref SDL_Point center,
             SDL_RendererFlip flip
@@ -447,58 +447,58 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture*.
 		 * Internally, this function contains logic to use default values when
 		 * source, destination, and/or center are passed as NULL.
-		 * This overload allows for IntPtr.Zero (null) to be passed for both
+		 * This overload allows for nint.Zero (null) to be passed for both
 		 * srcrect and center.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopyEx(
-            IntPtr renderer,
-            IntPtr texture,
-            IntPtr srcrect,
+            nint renderer,
+            nint texture,
+            nint srcrect,
             ref SDL_Rect dstrect,
             double angle,
-            IntPtr center,
+            nint center,
             SDL_RendererFlip flip
         );
 
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture*.
 		 * Internally, this function contains logic to use default values when
 		 * source, destination, and/or center are passed as NULL.
-		 * This overload allows for IntPtr.Zero (null) to be passed for both
+		 * This overload allows for nint.Zero (null) to be passed for both
 		 * dstrect and center.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopyEx(
-            IntPtr renderer,
-            IntPtr texture,
+            nint renderer,
+            nint texture,
             ref SDL_Rect srcrect,
-            IntPtr dstrect,
+            nint dstrect,
             double angle,
-            IntPtr center,
+            nint center,
             SDL_RendererFlip flip
         );
 
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture*.
 		 * Internally, this function contains logic to use default values when
 		 * source, destination, and/or center are passed as NULL.
-		 * This overload allows for IntPtr.Zero (null) to be passed for all
+		 * This overload allows for nint.Zero (null) to be passed for all
 		 * three parameters.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopyEx(
-            IntPtr renderer,
-            IntPtr texture,
-            IntPtr srcrect,
-            IntPtr dstrect,
+            nint renderer,
+            nint texture,
+            nint srcrect,
+            nint dstrect,
             double angle,
-            IntPtr center,
+            nint center,
             SDL_RendererFlip flip
         );
 
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderDrawLine(
-            IntPtr renderer,
+            nint renderer,
             int x1,
             int y1,
             int x2,
@@ -508,7 +508,7 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderDrawLines(
-            IntPtr renderer,
+            nint renderer,
             [In] SDL_Point[] points,
             int count
         );
@@ -516,7 +516,7 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderDrawPoint(
-            IntPtr renderer,
+            nint renderer,
             int x,
             int y
         );
@@ -524,7 +524,7 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderDrawPoints(
-            IntPtr renderer,
+            nint renderer,
             [In] SDL_Point[] points,
             int count
         );
@@ -532,23 +532,23 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderDrawRect(
-            IntPtr renderer,
+            nint renderer,
             ref SDL_Rect rect
         );
 
         /* renderer refers to an SDL_Renderer*, rect to an SDL_Rect*.
-		 * This overload allows for IntPtr.Zero (null) to be passed for rect.
+		 * This overload allows for nint.Zero (null) to be passed for rect.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderDrawRect(
-            IntPtr renderer,
-            IntPtr rect
+            nint renderer,
+            nint rect
         );
 
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderDrawRects(
-            IntPtr renderer,
+            nint renderer,
             [In] SDL_Rect[] rects,
             int count
         );
@@ -556,23 +556,23 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderFillRect(
-            IntPtr renderer,
+            nint renderer,
             ref SDL_Rect rect
         );
 
         /* renderer refers to an SDL_Renderer*, rect to an SDL_Rect*.
-		 * This overload allows for IntPtr.Zero (null) to be passed for rect.
+		 * This overload allows for nint.Zero (null) to be passed for rect.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderFillRect(
-            IntPtr renderer,
-            IntPtr rect
+            nint renderer,
+            nint rect
         );
 
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderFillRects(
-            IntPtr renderer,
+            nint renderer,
             [In] SDL_Rect[] rects,
             int count
         );
@@ -584,8 +584,8 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopyF(
-            IntPtr renderer,
-            IntPtr texture,
+            nint renderer,
+            nint texture,
             ref SDL_Rect srcrect,
             ref SDL_FRect dstrect
         );
@@ -593,47 +593,47 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture*.
 		 * Internally, this function contains logic to use default values when
 		 * source and destination rectangles are passed as NULL.
-		 * This overload allows for IntPtr.Zero (null) to be passed for srcrect.
+		 * This overload allows for nint.Zero (null) to be passed for srcrect.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopyF(
-            IntPtr renderer,
-            IntPtr texture,
-            IntPtr srcrect,
+            nint renderer,
+            nint texture,
+            nint srcrect,
             ref SDL_FRect dstrect
         );
 
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture*.
 		 * Internally, this function contains logic to use default values when
 		 * source and destination rectangles are passed as NULL.
-		 * This overload allows for IntPtr.Zero (null) to be passed for dstrect.
+		 * This overload allows for nint.Zero (null) to be passed for dstrect.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopyF(
-            IntPtr renderer,
-            IntPtr texture,
+            nint renderer,
+            nint texture,
             ref SDL_Rect srcrect,
-            IntPtr dstrect
+            nint dstrect
         );
 
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture*.
 		 * Internally, this function contains logic to use default values when
 		 * source and destination rectangles are passed as NULL.
-		 * This overload allows for IntPtr.Zero (null) to be passed for both SDL_Rects.
+		 * This overload allows for nint.Zero (null) to be passed for both SDL_Rects.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopyF(
-            IntPtr renderer,
-            IntPtr texture,
-            IntPtr srcrect,
-            IntPtr dstrect
+            nint renderer,
+            nint texture,
+            nint srcrect,
+            nint dstrect
         );
 
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopyEx(
-            IntPtr renderer,
-            IntPtr texture,
+            nint renderer,
+            nint texture,
             ref SDL_Rect srcrect,
             ref SDL_FRect dstrect,
             double angle,
@@ -644,13 +644,13 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture*.
 		 * Internally, this function contains logic to use default values when
 		 * source, destination, and/or center are passed as NULL.
-		 * This overload allows for IntPtr.Zero (null) to be passed for srcrect.
+		 * This overload allows for nint.Zero (null) to be passed for srcrect.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopyEx(
-            IntPtr renderer,
-            IntPtr texture,
-            IntPtr srcrect,
+            nint renderer,
+            nint texture,
+            nint srcrect,
             ref SDL_FRect dstrect,
             double angle,
             ref SDL_FPoint center,
@@ -660,14 +660,14 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture*.
 		 * Internally, this function contains logic to use default values when
 		 * source, destination, and/or center are passed as NULL.
-		 * This overload allows for IntPtr.Zero (null) to be passed for dstrect.
+		 * This overload allows for nint.Zero (null) to be passed for dstrect.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopyExF(
-            IntPtr renderer,
-            IntPtr texture,
+            nint renderer,
+            nint texture,
             ref SDL_Rect srcrect,
-            IntPtr dstrect,
+            nint dstrect,
             double angle,
             ref SDL_FPoint center,
             SDL_RendererFlip flip
@@ -676,31 +676,31 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture*.
 		 * Internally, this function contains logic to use default values when
 		 * source, destination, and/or center are passed as NULL.
-		 * This overload allows for IntPtr.Zero (null) to be passed for center.
+		 * This overload allows for nint.Zero (null) to be passed for center.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopyExF(
-            IntPtr renderer,
-            IntPtr texture,
+            nint renderer,
+            nint texture,
             ref SDL_Rect srcrect,
             ref SDL_FRect dstrect,
             double angle,
-            IntPtr center,
+            nint center,
             SDL_RendererFlip flip
         );
 
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture*.
 		 * Internally, this function contains logic to use default values when
 		 * source, destination, and/or center are passed as NULL.
-		 * This overload allows for IntPtr.Zero (null) to be passed for both
+		 * This overload allows for nint.Zero (null) to be passed for both
 		 * srcrect and dstrect.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopyExF(
-            IntPtr renderer,
-            IntPtr texture,
-            IntPtr srcrect,
-            IntPtr dstrect,
+            nint renderer,
+            nint texture,
+            nint srcrect,
+            nint dstrect,
             double angle,
             ref SDL_FPoint center,
             SDL_RendererFlip flip
@@ -709,58 +709,58 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture*.
 		 * Internally, this function contains logic to use default values when
 		 * source, destination, and/or center are passed as NULL.
-		 * This overload allows for IntPtr.Zero (null) to be passed for both
+		 * This overload allows for nint.Zero (null) to be passed for both
 		 * srcrect and center.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopyExF(
-            IntPtr renderer,
-            IntPtr texture,
-            IntPtr srcrect,
+            nint renderer,
+            nint texture,
+            nint srcrect,
             ref SDL_FRect dstrect,
             double angle,
-            IntPtr center,
+            nint center,
             SDL_RendererFlip flip
         );
 
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture*.
 		 * Internally, this function contains logic to use default values when
 		 * source, destination, and/or center are passed as NULL.
-		 * This overload allows for IntPtr.Zero (null) to be passed for both
+		 * This overload allows for nint.Zero (null) to be passed for both
 		 * dstrect and center.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopyExF(
-            IntPtr renderer,
-            IntPtr texture,
+            nint renderer,
+            nint texture,
             ref SDL_Rect srcrect,
-            IntPtr dstrect,
+            nint dstrect,
             double angle,
-            IntPtr center,
+            nint center,
             SDL_RendererFlip flip
         );
 
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture*.
 		 * Internally, this function contains logic to use default values when
 		 * source, destination, and/or center are passed as NULL.
-		 * This overload allows for IntPtr.Zero (null) to be passed for all
+		 * This overload allows for nint.Zero (null) to be passed for all
 		 * three parameters.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderCopyExF(
-            IntPtr renderer,
-            IntPtr texture,
-            IntPtr srcrect,
-            IntPtr dstrect,
+            nint renderer,
+            nint texture,
+            nint srcrect,
+            nint dstrect,
             double angle,
-            IntPtr center,
+            nint center,
             SDL_RendererFlip flip
         );
 
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderDrawPointF(
-            IntPtr renderer,
+            nint renderer,
             float x,
             float y
         );
@@ -768,7 +768,7 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderDrawPointsF(
-            IntPtr renderer,
+            nint renderer,
             [In] SDL_FPoint[] points,
             int count
         );
@@ -776,7 +776,7 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderDrawLineF(
-            IntPtr renderer,
+            nint renderer,
             float x1,
             float y1,
             float x2,
@@ -786,7 +786,7 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderDrawLinesF(
-            IntPtr renderer,
+            nint renderer,
             [In] SDL_FPoint[] points,
             int count
         );
@@ -794,23 +794,23 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderDrawRectF(
-            IntPtr renderer,
+            nint renderer,
             ref SDL_FRect rect
         );
 
         /* renderer refers to an SDL_Renderer*, rect to an SDL_Rect*.
-		 * This overload allows for IntPtr.Zero (null) to be passed for rect.
+		 * This overload allows for nint.Zero (null) to be passed for rect.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderDrawRectF(
-            IntPtr renderer,
-            IntPtr rect
+            nint renderer,
+            nint rect
         );
 
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderDrawRectsF(
-            IntPtr renderer,
+            nint renderer,
             [In] SDL_FRect[] rects,
             int count
         );
@@ -818,23 +818,23 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderFillRectF(
-            IntPtr renderer,
+            nint renderer,
             ref SDL_FRect rect
         );
 
         /* renderer refers to an SDL_Renderer*, rect to an SDL_Rect*.
-		 * This overload allows for IntPtr.Zero (null) to be passed for rect.
+		 * This overload allows for nint.Zero (null) to be passed for rect.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderFillRectF(
-            IntPtr renderer,
-            IntPtr rect
+            nint renderer,
+            nint rect
         );
 
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderFillRectsF(
-            IntPtr renderer,
+            nint renderer,
             [In] SDL_FRect[] rects,
             int count
         );
@@ -844,14 +844,14 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_RenderGetClipRect(
-            IntPtr renderer,
+            nint renderer,
             out SDL_Rect rect
         );
 
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_RenderGetLogicalSize(
-            IntPtr renderer,
+            nint renderer,
             out int w,
             out int h
         );
@@ -859,7 +859,7 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_RenderGetScale(
-            IntPtr renderer,
+            nint renderer,
             out float scaleX,
             out float scaleY
         );
@@ -867,44 +867,44 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderGetViewport(
-            IntPtr renderer,
+            nint renderer,
             out SDL_Rect rect
         );
 
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_RenderPresent(IntPtr renderer);
+        public static extern void SDL_RenderPresent(nint renderer);
 
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderReadPixels(
-            IntPtr renderer,
+            nint renderer,
             ref SDL_Rect rect,
             uint format,
-            IntPtr pixels,
+            nint pixels,
             int pitch
         );
 
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderSetClipRect(
-            IntPtr renderer,
+            nint renderer,
             ref SDL_Rect rect
         );
 
         /* renderer refers to an SDL_Renderer*
-		 * This overload allows for IntPtr.Zero (null) to be passed for rect.
+		 * This overload allows for nint.Zero (null) to be passed for rect.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderSetClipRect(
-            IntPtr renderer,
-            IntPtr rect
+            nint renderer,
+            nint rect
         );
 
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderSetLogicalSize(
-            IntPtr renderer,
+            nint renderer,
             int w,
             int h
         );
@@ -912,7 +912,7 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderSetScale(
-            IntPtr renderer,
+            nint renderer,
             float scaleX,
             float scaleY
         );
@@ -922,28 +922,28 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderSetIntegerScale(
-            IntPtr renderer,
+            nint renderer,
             SDL_bool enable
         );
 
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderSetViewport(
-            IntPtr renderer,
+            nint renderer,
             ref SDL_Rect rect
         );
 
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetRenderDrawBlendMode(
-            IntPtr renderer,
+            nint renderer,
             SDL_BlendMode blendMode
         );
 
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetRenderDrawColor(
-            IntPtr renderer,
+            nint renderer,
             byte r,
             byte g,
             byte b,
@@ -953,8 +953,8 @@ namespace LightningBase
         /* renderer refers to an SDL_Renderer*, texture to an SDL_Texture* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetRenderTarget(
-            IntPtr renderer,
-            IntPtr texture
+            nint renderer,
+            nint texture
         );
 
         /* renderer refers to an SDL_Renderer*
@@ -963,8 +963,8 @@ namespace LightningBase
 	 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderGeometry(
-            IntPtr renderer,
-            IntPtr texture,
+            nint renderer,
+            nint texture,
             [In] SDL_Vertex[] vertices,
             int num_vertices,
             [In] int[] indices,
@@ -978,8 +978,8 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_RenderGeometryRaw(
-            IntPtr renderer,
-            IntPtr texture,
+            nint renderer,
+            nint texture,
             [In] float[] xy,
             int xy_stride,
             [In] int[] color,
@@ -987,7 +987,7 @@ namespace LightningBase
             [In] float[] uv,
             int uv_stride,
             int num_vertices,
-            IntPtr indices,
+            nint indices,
             int num_indices,
             int size_indices
         );
@@ -995,7 +995,7 @@ namespace LightningBase
         /* texture refers to an SDL_Texture* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetTextureAlphaMod(
-            IntPtr texture,
+            nint texture,
             byte alpha
         );
 
@@ -1003,14 +1003,14 @@ namespace LightningBase
         /* texture refers to an SDL_Texture* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetTextureBlendMode(
-            IntPtr texture,
+            nint texture,
             SDL_BlendMode blendMode
         );
 
         /* texture refers to an SDL_Texture* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetTextureColorMod(
-            IntPtr texture,
+            nint texture,
             byte r,
             byte g,
             byte b
@@ -1018,23 +1018,23 @@ namespace LightningBase
 
         /* texture refers to an SDL_Texture* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_UnlockTexture(IntPtr texture);
+        public static extern void SDL_UnlockTexture(nint texture);
 
         /* texture refers to an SDL_Texture* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_UpdateTexture(
-            IntPtr texture,
+            nint texture,
             ref SDL_Rect rect,
-            IntPtr pixels,
+            nint pixels,
             int pitch
         );
 
         /* texture refers to an SDL_Texture* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_UpdateTexture(
-            IntPtr texture,
-            IntPtr rect,
-            IntPtr pixels,
+            nint texture,
+            nint rect,
+            nint pixels,
             int pitch
         );
 
@@ -1043,13 +1043,13 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_UpdateYUVTexture(
-            IntPtr texture,
+            nint texture,
             ref SDL_Rect rect,
-            IntPtr yPlane,
+            nint yPlane,
             int yPitch,
-            IntPtr uPlane,
+            nint uPlane,
             int uPitch,
-            IntPtr vPlane,
+            nint vPlane,
             int vPitch
         );
 
@@ -1059,58 +1059,58 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_UpdateNVTexture(
-            IntPtr texture,
+            nint texture,
             ref SDL_Rect rect,
-            IntPtr yPlane,
+            nint yPlane,
             int yPitch,
-            IntPtr uvPlane,
+            nint uvPlane,
             int uvPitch
         );
 
         /* renderer refers to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_bool SDL_RenderTargetSupported(
-            IntPtr renderer
+            nint renderer
         );
 
-        /* IntPtr refers to an SDL_Texture*, renderer to an SDL_Renderer* */
+        /* nint refers to an SDL_Texture*, renderer to an SDL_Renderer* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GetRenderTarget(IntPtr renderer);
+        public static extern nint SDL_GetRenderTarget(nint renderer);
 
         /* renderer refers to an SDL_Renderer*
 		 * Only available in 2.0.8 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_RenderGetMetalLayer(
-            IntPtr renderer
+        public static extern nint SDL_RenderGetMetalLayer(
+            nint renderer
         );
 
         /* renderer refers to an SDL_Renderer*
 		 * Only available in 2.0.8 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_RenderGetMetalCommandEncoder(
-            IntPtr renderer
+        public static extern nint SDL_RenderGetMetalCommandEncoder(
+            nint renderer
         );
 
         /* renderer refers to an SDL_Renderer*
 		 * Only available in 2.0.4 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern SDL_bool SDL_RenderIsClipEnabled(IntPtr renderer);
+        public static extern SDL_bool SDL_RenderIsClipEnabled(nint renderer);
 
         /* renderer refers to an SDL_Renderer*
 		 * Only available in 2.0.10 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_RenderFlush(IntPtr renderer);
+        public static extern int SDL_RenderFlush(nint renderer);
 
         /* renderer refers to an SDL_Renderer*
 		* Only available in 2.0.18 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_RenderWindowToLogical(
-            IntPtr renderer,
+            nint renderer,
             int windowX,
             int windowY,
             out float logicalX,
@@ -1122,7 +1122,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_RenderLogicalToWindow(
-            IntPtr renderer,
+            nint renderer,
             float logicalX,
             float logicalY,
             out int windowX,
@@ -1133,7 +1133,7 @@ namespace LightningBase
 		* Only available in 2.0.18 or higher.
 		*/
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_RenderSetVSync(IntPtr renderer, int vsync);
+        public static extern int SDL_RenderSetVSync(nint renderer, int vsync);
 
         #endregion
     }

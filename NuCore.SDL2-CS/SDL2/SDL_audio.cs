@@ -118,14 +118,14 @@ namespace LightningBase
             public ushort samples;
             public uint size;
             public SDL_AudioCallback callback;
-            public IntPtr userdata; // void*
+            public nint userdata; // void*
         }
 
         /* userdata refers to a void*, stream to a Uint8 */
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void SDL_AudioCallback(
-            IntPtr userdata,
-            IntPtr stream,
+            nint userdata,
+            nint stream,
             int len
         );
 
@@ -154,10 +154,10 @@ namespace LightningBase
 
         /* audio_buf refers to a malloc()'d buffer from SDL_LoadWAV */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_FreeWAV(IntPtr audio_buf);
+        public static extern void SDL_FreeWAV(nint audio_buf);
 
         [DllImport(nativeLibName, EntryPoint = "SDL_GetAudioDeviceName", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GetAudioDeviceName(
+        private static extern nint INTERNAL_SDL_GetAudioDeviceName(
             int index,
             int iscapture
         );
@@ -178,7 +178,7 @@ namespace LightningBase
         );
 
         [DllImport(nativeLibName, EntryPoint = "SDL_GetAudioDriver", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GetAudioDriver(int index);
+        private static extern nint INTERNAL_SDL_GetAudioDriver(int index);
         public static string SDL_GetAudioDriver(int index)
         {
             return UTF8_ToManaged(
@@ -191,7 +191,7 @@ namespace LightningBase
 
 
         [DllImport(nativeLibName, EntryPoint = "SDL_GetCurrentAudioDriver", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GetCurrentAudioDriver();
+        private static extern nint INTERNAL_SDL_GetCurrentAudioDriver();
         public static string SDL_GetCurrentAudioDriver()
         {
             return UTF8_ToManaged(INTERNAL_SDL_GetCurrentAudioDriver());
@@ -225,24 +225,24 @@ namespace LightningBase
                 iscapture);
         }
 
-        /* audio_buf refers to a malloc()'d buffer, IntPtr to an SDL_AudioSpec* */
+        /* audio_buf refers to a malloc()'d buffer, nint to an SDL_AudioSpec* */
         /* THIS IS AN RWops FUNCTION! */
         [DllImport(nativeLibName, EntryPoint = "SDL_LoadWAV_RW", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_LoadWAV_RW(
-            IntPtr src,
+        private static extern nint INTERNAL_SDL_LoadWAV_RW(
+            nint src,
             int freesrc,
             out SDL_AudioSpec spec,
-            out IntPtr audio_buf,
+            out nint audio_buf,
             out uint audio_len
         );
-        public static IntPtr SDL_LoadWAV(
+        public static nint SDL_LoadWAV(
             string file,
             out SDL_AudioSpec spec,
-            out IntPtr audio_buf,
+            out nint audio_buf,
             out uint audio_len
         )
         {
-            IntPtr rwops = SDL_RWFromFile(file, "rb");
+            nint rwops = SDL_RWFromFile(file, "rb");
             return INTERNAL_SDL_LoadWAV_RW(
                 rwops,
                 1,
@@ -273,8 +273,8 @@ namespace LightningBase
         /* This overload allows raw pointers to be passed for dst and src. */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_MixAudioFormat(
-            IntPtr dst,
-            IntPtr src,
+            nint dst,
+            nint src,
             ushort format,
             uint len,
             int volume
@@ -301,14 +301,14 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_OpenAudio(
             ref SDL_AudioSpec desired,
-            IntPtr obtained
+            nint obtained
         );
 
         /* uint refers to an SDL_AudioDeviceID */
-        /* This overload allows for IntPtr.Zero (null) to be passed for device. */
+        /* This overload allows for nint.Zero (null) to be passed for device. */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern unsafe uint SDL_OpenAudioDevice(
-            IntPtr device,
+            nint device,
             int iscapture,
             ref SDL_AudioSpec desired,
             out SDL_AudioSpec obtained,
@@ -366,7 +366,7 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_QueueAudio(
             uint dev,
-            IntPtr data,
+            nint data,
             UInt32 len
         );
 
@@ -376,7 +376,7 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint SDL_DequeueAudio(
             uint dev,
-            IntPtr data,
+            nint data,
             uint len
         );
 
@@ -393,11 +393,11 @@ namespace LightningBase
         public static extern void SDL_ClearQueuedAudio(uint dev);
 
         /* src_format and dst_format refer to SDL_AudioFormats.
-		 * IntPtr refers to an SDL_AudioStream*.
+		 * nint refers to an SDL_AudioStream*.
 		 * Only available in 2.0.7 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_NewAudioStream(
+        public static extern nint SDL_NewAudioStream(
             ushort src_format,
             byte src_channels,
             int src_rate,
@@ -411,8 +411,8 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_AudioStreamPut(
-            IntPtr stream,
-            IntPtr buf,
+            nint stream,
+            nint buf,
             int len
         );
 
@@ -421,8 +421,8 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_AudioStreamGet(
-            IntPtr stream,
-            IntPtr buf,
+            nint stream,
+            nint buf,
             int len
         );
 
@@ -430,19 +430,19 @@ namespace LightningBase
 		 * Only available in 2.0.7 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_AudioStreamAvailable(IntPtr stream);
+        public static extern int SDL_AudioStreamAvailable(nint stream);
 
         /* stream refers to an SDL_AudioStream*.
 		 * Only available in 2.0.7 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_AudioStreamClear(IntPtr stream);
+        public static extern void SDL_AudioStreamClear(nint stream);
 
         /* stream refers to an SDL_AudioStream*.
 		 * Only available in 2.0.7 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_FreeAudioStream(IntPtr stream);
+        public static extern void SDL_FreeAudioStream(nint stream);
 
         /* Only available in 2.0.16 or higher. */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]

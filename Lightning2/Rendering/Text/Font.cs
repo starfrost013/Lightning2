@@ -17,7 +17,7 @@ namespace LightningGL
         /// <summary>
         /// Private: Pointer to the unmanaged TTF_Font containing this font.
         /// </summary>
-        public IntPtr Handle { get; private set; }
+        public nint Handle { get; private set; }
 
         /// <summary>
         /// The name of this font on the system.
@@ -79,7 +79,7 @@ namespace LightningGL
 
             Handle = TTF_OpenFontIndex(Path, FontSize, Index);
 
-            if (Handle == IntPtr.Zero) NCError.ShowErrorBox($"Error loading font at {Path}: {TTF_GetError()}", 38, 
+            if (Handle == nint.Zero) NCError.ShowErrorBox($"Error loading font at {Path}: {TTF_GetError()}", 38, 
                 "An SDL error occurred during font loading from Font::Load!", NCErrorSeverity.Error);
 
             NCLogging.Log($"Loaded font {Name}, size {FontSize} at {Path}");
@@ -93,7 +93,7 @@ namespace LightningGL
         internal void Unload()
         {
             TTF_CloseFont(Handle);
-            Handle = IntPtr.Zero;
+            Handle = nint.Zero;
             NCLogging.Log($"Unloaded font {Name}, size {FontSize}");
         }
     }

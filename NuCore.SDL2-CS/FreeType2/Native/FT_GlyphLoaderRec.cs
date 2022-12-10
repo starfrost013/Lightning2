@@ -6,7 +6,7 @@ namespace LightningBase
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct FT_GlyphLoaderRec
     {
-        public IntPtr memory;
+        public nint memory;
         public uint max_points;
         public uint max_contours;
         public uint max_subglyphs;
@@ -15,6 +15,6 @@ namespace LightningBase
         public FT_GlyphLoadRec @base;
         public FT_GlyphLoadRec current;
 
-        public IntPtr other;
+        public nint other;
     }
 }

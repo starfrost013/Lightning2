@@ -6,7 +6,7 @@ namespace LightningBase
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct FT_ListRec
     {
-        public IntPtr head;
-        public IntPtr tail;
+        public nint head;
+        public nint tail;
     }
 }

@@ -12,7 +12,7 @@ namespace LightningBase
     /// </param>
     /// <returns>Error code.</returns>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate FT_Error FT_List_Iterator(NativeReference<FT_ListNode> node, IntPtr user);
+    public delegate FT_Error FT_List_Iterator(NativeReference<FT_ListNode> node, nint user);
 
     /// <summary>
     /// An <see cref="FT_List"/> iterator function which is called during a list finalization by
@@ -24,7 +24,7 @@ namespace LightningBase
     /// A typeless pointer passed to <see cref="FT_List.Iterate"/>. It can be used to point to the iteration's state.
     /// </param>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void FT_List_Destructor(NativeReference<Memory> memory, IntPtr data, IntPtr user);
+    public delegate void FT_List_Destructor(NativeReference<Memory> memory, nint data, nint user);
 
     /// <summary>
     /// A structure used to hold a simple doubly-linked list. These are used in many parts of FreeType.
@@ -33,14 +33,14 @@ namespace LightningBase
     {
         #region Fields
 
-        private IntPtr reference;
+        private nint reference;
         private FT_ListRec rec;
 
         #endregion
 
         #region Constructors
 
-        public FT_List(IntPtr reference)
+        public FT_List(nint reference)
         {
             Reference = reference;
         }
@@ -71,7 +71,7 @@ namespace LightningBase
             }
         }
 
-        public IntPtr Reference
+        public nint Reference
         {
             get
             {
@@ -94,7 +94,7 @@ namespace LightningBase
         /// </summary>
         /// <param name="data">The address of the listed object.</param>
         /// <returns>List node. NULL if it wasn't found.</returns>
-        public FT_ListNode Find(IntPtr data)
+        public FT_ListNode Find(nint data)
         {
             return new FT_ListNode(FreeTypeApi.FT_List_Find(Reference, data));
         }
@@ -141,7 +141,7 @@ namespace LightningBase
         /// </summary>
         /// <param name="iterator">An iterator function, called on each node of the list.</param>
         /// <param name="user">A user-supplied field which is passed as the second argument to the iterator.</param>
-        public void Iterate(FT_List_Iterator iterator, IntPtr user)
+        public void Iterate(FT_List_Iterator iterator, nint user)
         {
             FT_Error err = FreeTypeApi.FT_List_Iterate(Reference, iterator, user);
 
@@ -159,7 +159,7 @@ namespace LightningBase
         /// <param name="destroy">A list destructor that will be applied to each element of the list.</param>
         /// <param name="memory">The current memory object which handles deallocation.</param>
         /// <param name="user">A user-supplied field which is passed as the last argument to the destructor.</param>
-        public void Finalize(FT_List_Destructor destroy, Memory memory, IntPtr user)
+        public void Finalize(FT_List_Destructor destroy, Memory memory, nint user)
         {
             FreeTypeApi.FT_List_Finalize(Reference, destroy, memory.Reference, user);
         }

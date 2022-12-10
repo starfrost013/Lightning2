@@ -12,7 +12,7 @@
         /// <summary>
         /// Defines the unmanaged handle to this audio file.
         /// </summary>
-        public IntPtr AudioHandle { get; private set; }
+        public nint AudioHandle { get; private set; }
 
         /// <summary>
         /// Determines if the current audio file is playing
@@ -60,7 +60,7 @@
         {
             AudioHandle = Mix_LoadWAV(Path);
 
-            if (AudioHandle == IntPtr.Zero) NCError.ShowErrorBox($"Error loading audio file at {Path}: {Mix_GetError()}", 51, "An SDL_mixer error occurred in AudioFile::Load", NCErrorSeverity.Error);
+            if (AudioHandle == nint.Zero) NCError.ShowErrorBox($"Error loading audio file at {Path}: {Mix_GetError()}", 51, "An SDL_mixer error occurred in AudioFile::Load", NCErrorSeverity.Error);
 
             RealVolume = 1; // make sure there is always a value
         }

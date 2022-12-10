@@ -84,13 +84,13 @@ namespace LightningBase
         /* Get the window which has kbd focus */
         /* Return type is an SDL_Window pointer */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GetKeyboardFocus();
+        public static extern nint SDL_GetKeyboardFocus();
 
         /* Get a snapshot of the keyboard state. */
         /* Return value is a pointer to a UInt8 array */
         /* Numkeys returns the size of the array if non-null */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GetKeyboardState(out int numkeys);
+        public static extern nint SDL_GetKeyboardState(out int numkeys);
 
         /* Get the current key modifier state for the keyboard. */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -112,7 +112,7 @@ namespace LightningBase
 
         /* Wrapper for SDL_GetScancodeName */
         [DllImport(nativeLibName, EntryPoint = "SDL_GetScancodeName", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GetScancodeName(SDL_Scancode scancode);
+        private static extern nint INTERNAL_SDL_GetScancodeName(SDL_Scancode scancode);
         public static string SDL_GetScancodeName(SDL_Scancode scancode)
         {
             return UTF8_ToManaged(
@@ -136,7 +136,7 @@ namespace LightningBase
 
         /* Wrapper for SDL_GetKeyName */
         [DllImport(nativeLibName, EntryPoint = "SDL_GetKeyName", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GetKeyName(SDL_Keycode key);
+        private static extern nint INTERNAL_SDL_GetKeyName(SDL_Keycode key);
         public static string SDL_GetKeyName(SDL_Keycode key)
         {
             return UTF8_ToManaged(INTERNAL_SDL_GetKeyName(key));
@@ -187,7 +187,7 @@ namespace LightningBase
         /* Is the on-screen keyboard shown for a given window? */
         /* window is an SDL_Window pointer */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern SDL_bool SDL_IsScreenKeyboardShown(IntPtr window);
+        public static extern SDL_bool SDL_IsScreenKeyboardShown(nint window);
 
         /* Resets keyboard state.
          * Only available in 2.24.0 and later */

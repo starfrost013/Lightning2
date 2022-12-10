@@ -6,7 +6,7 @@ namespace LightningBase
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct FT_Vector
     {
-        public IntPtr x;
-        public IntPtr y;
+        public nint x;
+        public nint y;
     }
 }

@@ -41,7 +41,7 @@
         /// <summary>
         /// Pointer to unmanaged memory for the SDL_Texture of this Texture.
         /// </summary>
-        public IntPtr Handle { get; internal set; }
+        public nint Handle { get; internal set; }
 
         /// <summary>
         /// Pointer to unmanaged SDL_Texture pixels.
@@ -87,14 +87,18 @@
         /// <summary>
         /// Private: Texture format allocated for internal use
         /// </summary>
-        internal IntPtr FormatHandle { get; set; }
+        internal nint FormatHandle { get; set; }
 
         /// <summary>
-        /// Types of texture acess.
+        /// Determines if this texture can be used as a a render target.
         /// </summary>
-        public SDL_TextureAccess Access { get; internal set; }
+        public bool IsTarget { get; set; }
 
         public byte _opacity;
+
+        /// <summary>
+        /// SDL modulus for alpha
+        /// </summary>
         public byte Opacity
         {
             get
@@ -111,7 +115,17 @@
                 }
 
                 _opacity = value;
-                SDL_SetTextureAlphaMod(Handle, _opacity);
+                
+                // slower than the old method but renderer independent
+                for (int y = 0; y < Size.Y; y++)
+                {
+                    for (int x = 0; x < Size.X; x++)
+                    {
+                        Color orig = GetPixel(x, y);
+
+                        if (orig.A != _opacity) SetPixel(x, y, Color.FromArgb(_opacity, orig.R, orig.G, orig.B));
+                    }
+                }
             }
         }
 
@@ -120,60 +134,38 @@
         /// </summary>
         /// <param name="sizeX">The width of the texture in pixels.</param>
         /// <param name="sizeY">The height of the texture in pixels.</param>
-        public Texture(string name, float sizeX, float sizeY, SDL_TextureAccess access = SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING) : base(name)
+        public Texture(string name, float sizeX, float sizeY, bool isTarget = false) : base(name)
         {
             Size = new Vector2(sizeX, sizeY);
-            Access = access;
+
+            IsTarget = isTarget;
 
             if (Size == default) NCError.ShowErrorBox($"Error creating texture: Must have a size!", 20, 
                 "Texture constructor called with invalid size", NCErrorSeverity.FatalError);
 
-            Handle = SDL_CreateTexture(Lightning.Renderer.Settings.RendererHandle, SDL_PIXELFORMAT_ARGB8888, Access, (int)Size.X, (int)Size.Y);
+            Handle = Lightning.Renderer.CreateTexture((int)sizeX, (int)sizeY, isTarget);
 
             // check if texture failed to load
-            if (Handle == IntPtr.Zero) NCError.ShowErrorBox($"Error creating texture: {SDL_GetError()}", 119, 
+            if (Handle == nint.Zero) NCError.ShowErrorBox($"Error creating texture: {SDL_GetError()}", 119, 
                 "An SDL error occurred in the Texture constructor", NCErrorSeverity.FatalError);
 
             OnRender += Draw;
 
-            AllocFormat();
+            Lightning.Renderer.AllocTextureFormat();
         }
 
         internal override void Create()
         {
+            // not great
             if (Path == CREATED_TEXTURE_PATH)
             {
-                // not great
                 Loaded = true;
                 return;
             }
 
             if (!File.Exists(Path)) NCError.ShowErrorBox($"{Path} does not exist!", 9, "Texture::Path property does not exist", NCErrorSeverity.FatalError);
 
-            Handle = IMG_LoadTexture(Lightning.Renderer.Settings.RendererHandle, Path);
-
-            if (Handle == IntPtr.Zero)
-            {
-                NCError.ShowErrorBox($"Failed to load texture at {Path} - {SDL_GetError()}", 10, "An SDL error occurred in Texture::Load!", NCErrorSeverity.Error);
-            }
-            else
-            {
-                Loaded = true;
-            }
-        }
-
-        /// <summary>
-        /// Private method that allocates a texture format based on the window pixel format for this texture during loading. 
-        /// </summary>
-        /// <exception cref="NCError">An error occurred while allocating a texture format.</exception>
-        private void AllocFormat()
-        {
-            uint currentFormat = SDL_GetWindowPixelFormat(Lightning.Renderer.Settings.WindowHandle);
-
-            FormatHandle = SDL_AllocFormat(currentFormat);
-
-            // probably not the best to actually like, allocate formats like this
-            if (FormatHandle == IntPtr.Zero) NCError.ShowErrorBox($"Error allocating texture format for texture at {Path}: {SDL_GetError()}", 13, "An SDL error occurred in Texture::Init_AllocFormat", NCErrorSeverity.FatalError);
+            Loaded = (Lightning.Renderer.LoadTexture(Path)) != nint.Zero;
         }
 
         /// <summary>
@@ -240,13 +232,11 @@
             // do nothing if we are calling this on an already locked texture
             if (Locked) return;
 
-            SDL_Rect rect = new SDL_Rect(0, 0, (int)Size.X, (int)Size.Y);
+            Lightning.Renderer.LockTexture(Handle, new(0, 0), new(Size.X, Size.Y), out var pixels, out var pitch);
 
-            if (SDL_LockTexture(Handle, ref rect, out var nPixels, out var nPitch) < 0) NCError.ShowErrorBox($"Error locking pixels for texture with path {Path}: {SDL_GetError()}.", 11, "An SDL error occurred in Texture::Lock", NCErrorSeverity.FatalError);
-
-            Pitch = nPitch;
+            Pitch = pitch;
             // convert to C pointer
-            Pixels = (int*)nPixels.ToPointer();
+            Pixels = (int*)pixels.ToPointer();
             Locked = true;
         }
 
@@ -258,7 +248,7 @@
             // don't unlock if already unlocked
             if (!Locked) return;
 
-            SDL_UnlockTexture(Handle);
+            Lightning.Renderer.UnlockTexture(Handle);
 
             // these values are now invalid 
             Pixels = null;
@@ -271,7 +261,6 @@
         /// <summary>
         /// Draws this texture instance.
         /// </summary>
-        /// <param name="Lightning.Renderer">The window to draw this texture to.</param>
         /// <exception cref="NCError">An error occurred rendering the texture. Extended information is available in <see cref="NCError.Description"/></exception>
         internal override void Draw()
         {
@@ -280,64 +269,19 @@
 
             Unlock();
 
-            SDL_Rect sourceRect = new SDL_Rect();
-            SDL_FRect destinationRect = new SDL_FRect();
-
             // failsafe just in case of any weird stuff happening
-            if (RenderPosition == default(Vector2)) RenderPosition = Position;
+            if (RenderPosition == default) RenderPosition = Position;
 
-            // Draw to the viewpoint
-            if (ViewportStart == default
-                && ViewportEnd == default)
+            Lightning.Renderer.DrawTexture(new object[]
             {
-                sourceRect.x = 0;
-                sourceRect.y = 0;
-                sourceRect.w = (int)Size.X;
-                sourceRect.h = (int)Size.Y;
+                ViewportStart,
+                ViewportEnd,
+                RenderPosition,
+                Size,
+                Handle,
+                Repeat
+            });
 
-                destinationRect.x = RenderPosition.X;
-                destinationRect.y = RenderPosition.Y;
-                destinationRect.w = Size.X;
-                destinationRect.h = Size.Y;
-            }
-            else
-            {
-                sourceRect.x = (int)ViewportStart.X;
-                sourceRect.y = (int)ViewportStart.Y;
-                sourceRect.w = (int)(ViewportEnd.X - ViewportStart.X);
-                sourceRect.h = (int)(ViewportEnd.Y - ViewportStart.Y);
-
-                destinationRect.x = RenderPosition.X;
-                destinationRect.y = RenderPosition.Y;
-                destinationRect.w = ViewportEnd.X - ViewportStart.X;
-                destinationRect.h = ViewportEnd.Y - ViewportStart.Y;
-            }
-
-            if (Repeat == default)
-            {
-                // call to SDL - we are simply drawing it once.
-                SDL_RenderCopyF(Lightning.Renderer.Settings.RendererHandle, Handle, ref sourceRect, ref destinationRect);
-            }
-            else
-            {
-                SDL_FRect newRect = new SDL_FRect(destinationRect.x, destinationRect.y, destinationRect.w, destinationRect.h);
-
-                // Draws a tiled texture.
-                for (int y = 0; y < Repeat.Y; y++)
-                {
-                    SDL_RenderCopyF(Lightning.Renderer.Settings.RendererHandle, Handle, ref sourceRect, ref newRect);
-
-                    for (int x = 0; x < Repeat.X; x++)
-                    {
-                        SDL_RenderCopyF(Lightning.Renderer.Settings.RendererHandle, Handle, ref sourceRect, ref newRect);
-
-                        newRect.x += destinationRect.w;
-                    }
-
-                    newRect.y += destinationRect.h; // we already set it up
-                    newRect.x = destinationRect.x;
-                }
-            }
         }
 
         /// <summary>
@@ -369,7 +313,18 @@
         /// Sets the blend mode of this texture. See the documentation for the <see cref="SDL_BlendMode"/> enum.
         /// </summary>
         /// <param name="blendMode">The <see cref="SDL_BlendMode"/> to set the texture to.</param>
-        public void SetBlendMode(SDL_BlendMode blendMode) => SDL_SetTextureBlendMode(Handle, blendMode);
+        public void SetBlendMode(SDL_BlendMode blendMode)
+        {
+            if (Lightning.Renderer is SdlRenderer)
+            {
+                Lightning.Renderer.SetTextureBlendMode(new
+                {
+                    Handle,
+                    blendMode
+                });
+            }
+            
+        }
 
         /// <summary>
         /// Unloads this texture.
@@ -378,8 +333,8 @@
         {
             Loaded = false;
             SDL_DestroyTexture(Handle);
-            FormatHandle = IntPtr.Zero;
-            Handle = IntPtr.Zero;
+            FormatHandle = nint.Zero;
+            Handle = nint.Zero;
             Pitch = 0;
             Pixels = null;
         }

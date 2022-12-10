@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using FT_Fixed = System.IntPtr;
-using FT_Pos = System.IntPtr;
+using FT_Fixed = System.nint;
+using FT_Pos = System.nint;
 
 namespace LightningBase
 {
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct FT_GlyphSlotRec
     {
-        public IntPtr library;
+        public nint library;
         public FT_FaceRec* face;
         public FT_GlyphSlotRec* next;
         public uint reserved;
@@ -30,14 +30,14 @@ namespace LightningBase
         public uint num_subglyphs;
         public FT_SubGlyphRec* subglyphs;
 
-        public IntPtr control_data;
+        public nint control_data;
         public FT_Fixed control_len;
 
         public FT_Pos lsb_delta;
         public FT_Pos rsb_delta;
 
-        public IntPtr other;
+        public nint other;
 
-        public IntPtr @internal;
+        public nint @internal;
     }
 }

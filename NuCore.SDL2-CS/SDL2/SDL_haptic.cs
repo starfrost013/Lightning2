@@ -194,7 +194,7 @@ namespace LightningBase
             public byte channels;
             public ushort period;
             public ushort samples;
-            public IntPtr data; // Uint16*
+            public nint data; // Uint16*
                                 // Envelope
             public ushort attack_length;
             public ushort attack_level;
@@ -223,36 +223,36 @@ namespace LightningBase
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_HapticClose(IntPtr haptic);
+        public static extern void SDL_HapticClose(nint haptic);
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_HapticDestroyEffect(
-            IntPtr haptic,
+            nint haptic,
             int effect
         );
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_HapticEffectSupported(
-            IntPtr haptic,
+            nint haptic,
             ref SDL_HapticEffect effect
         );
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_HapticGetEffectStatus(
-            IntPtr haptic,
+            nint haptic,
             int effect
         );
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_HapticIndex(IntPtr haptic);
+        public static extern int SDL_HapticIndex(nint haptic);
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, EntryPoint = "SDL_HapticName", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_HapticName(int device_index);
+        private static extern nint INTERNAL_SDL_HapticName(int device_index);
         public static string SDL_HapticName(int device_index)
         {
             return UTF8_ToManaged(INTERNAL_SDL_HapticName(device_index));
@@ -261,71 +261,71 @@ namespace LightningBase
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_HapticNewEffect(
-            IntPtr haptic,
+            nint haptic,
             ref SDL_HapticEffect effect
         );
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_HapticNumAxes(IntPtr haptic);
+        public static extern int SDL_HapticNumAxes(nint haptic);
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_HapticNumEffects(IntPtr haptic);
+        public static extern int SDL_HapticNumEffects(nint haptic);
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_HapticNumEffectsPlaying(IntPtr haptic);
+        public static extern int SDL_HapticNumEffectsPlaying(nint haptic);
 
-        /* IntPtr refers to an SDL_Haptic* */
+        /* nint refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_HapticOpen(int device_index);
+        public static extern nint SDL_HapticOpen(int device_index);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_HapticOpened(int device_index);
 
-        /* IntPtr refers to an SDL_Haptic*, joystick to an SDL_Joystick* */
+        /* nint refers to an SDL_Haptic*, joystick to an SDL_Joystick* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_HapticOpenFromJoystick(
-            IntPtr joystick
+        public static extern nint SDL_HapticOpenFromJoystick(
+            nint joystick
         );
 
-        /* IntPtr refers to an SDL_Haptic* */
+        /* nint refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_HapticOpenFromMouse();
+        public static extern nint SDL_HapticOpenFromMouse();
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_HapticPause(IntPtr haptic);
+        public static extern int SDL_HapticPause(nint haptic);
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint SDL_HapticQuery(IntPtr haptic);
+        public static extern uint SDL_HapticQuery(nint haptic);
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_HapticRumbleInit(IntPtr haptic);
+        public static extern int SDL_HapticRumbleInit(nint haptic);
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_HapticRumblePlay(
-            IntPtr haptic,
+            nint haptic,
             float strength,
             uint length
         );
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_HapticRumbleStop(IntPtr haptic);
+        public static extern int SDL_HapticRumbleStop(nint haptic);
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_HapticRumbleSupported(IntPtr haptic);
+        public static extern int SDL_HapticRumbleSupported(nint haptic);
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_HapticRunEffect(
-            IntPtr haptic,
+            nint haptic,
             int effect,
             uint iterations
         );
@@ -333,43 +333,43 @@ namespace LightningBase
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_HapticSetAutocenter(
-            IntPtr haptic,
+            nint haptic,
             int autocenter
         );
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_HapticSetGain(
-            IntPtr haptic,
+            nint haptic,
             int gain
         );
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_HapticStopAll(IntPtr haptic);
+        public static extern int SDL_HapticStopAll(nint haptic);
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_HapticStopEffect(
-            IntPtr haptic,
+            nint haptic,
             int effect
         );
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_HapticUnpause(IntPtr haptic);
+        public static extern int SDL_HapticUnpause(nint haptic);
 
         /* haptic refers to an SDL_Haptic* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_HapticUpdateEffect(
-            IntPtr haptic,
+            nint haptic,
             int effect,
             ref SDL_HapticEffect data
         );
 
         /* joystick refers to an SDL_Joystick* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_JoystickIsHaptic(IntPtr joystick);
+        public static extern int SDL_JoystickIsHaptic(nint joystick);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_MouseIsHaptic();

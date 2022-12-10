@@ -2,6 +2,8 @@
 using LightningBase;
 using System;
 using System.Data.SqlTypes;
+using System.Drawing;
+using System.Reflection.Metadata;
 
 namespace LightningGL
 {
@@ -80,7 +82,7 @@ namespace LightningGL
             // Create the window,
             Settings.WindowHandle = SDL_CreateWindow(Settings.Title, (int)Settings.Position.X, (int)Settings.Position.Y, (int)Settings.Size.X, (int)Settings.Size.Y, Settings.WindowFlags);
 
-            if (Settings.WindowHandle == IntPtr.Zero) NCError.ShowErrorBox($"Failed to create Window: {SDL_GetError()}", 8, 
+            if (Settings.WindowHandle == nint.Zero) NCError.ShowErrorBox($"Failed to create Window: {SDL_GetError()}", 8, 
                 "Window::AddWindow - SDL_CreateWindow failed to create window", NCErrorSeverity.FatalError);
 
             // Create the renderer.
@@ -92,7 +94,7 @@ namespace LightningGL
             if (realRenderDriverName != renderer) NCError.ShowErrorBox($"Specified renderer {renderer} is not supported! Using {realRenderDriverName} instead!", 123, 
                 "Renderer not supported in current environment", NCErrorSeverity.Warning, null, false);
 
-            if (Settings.RendererHandle == IntPtr.Zero) NCError.ShowErrorBox($"Failed to create Renderer: {SDL_GetError()}", 9, 
+            if (Settings.RendererHandle == nint.Zero) NCError.ShowErrorBox($"Failed to create Renderer: {SDL_GetError()}", 9, 
                 "Window::AddWindow - SDL_CreateRenderer failed to create renderer", NCErrorSeverity.FatalError);
 
             // Initialise the Light Manager.
@@ -1396,6 +1398,196 @@ namespace LightningGL
                 }
             }
 
+        }
+
+        #endregion
+
+        #region Backend-specific texture code
+
+        internal override nint CreateTexture(int sizeX, int sizeY, bool isTarget = false) => SDL_CreateTexture(Settings.RendererHandle, SDL_PIXELFORMAT_ARGB8888, 
+            isTarget ? SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING : SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, sizeX, sizeY);
+
+        internal override nint AllocTextureFormat()
+        {
+            uint currentFormat = SDL_GetWindowPixelFormat(Settings.WindowHandle);
+
+            nint handle = SDL_AllocFormat(currentFormat);
+
+            // probably not the best to allocate formats like this (once for each texture)
+            if (handle == nint.Zero) NCError.ShowErrorBox($"Error allocating texture format for texture: {SDL_GetError()}",
+                13, "An SDL error occurred in SdlRenderer::AllocFormat", NCErrorSeverity.FatalError);
+
+            return handle;
+        }
+
+        internal override nint LoadTexture(string path)
+        {
+            if (!File.Exists(path)) NCError.ShowErrorBox($"{path} does not exist!", 9, "Texture::Path property does not exist", NCErrorSeverity.FatalError);
+
+            nint handle = IMG_LoadTexture(Settings.RendererHandle, path);
+
+            if (handle == nint.Zero)
+            {
+                NCError.ShowErrorBox($"Failed to load texture at {path} - {SDL_GetError()}", 10, "An error occurred in SdlRenderer::LoadTexture!", NCErrorSeverity.Error);
+            }
+
+            return handle;
+        }
+
+        internal override void LockTexture(nint handle, Vector2 start, Vector2 size, out nint pixels, out int pitch)
+        {
+            if (handle == nint.Zero)
+            {
+                NCError.ShowErrorBox("Attempted to lock an invalid texture!", 226, "SdlRenderer::LockTexture's HANDLE parameter was NULL", NCErrorSeverity.FatalError);
+                pixels = default;
+                pitch = 0;
+            }
+            else
+            {
+                SDL_Rect rect = new((int)start.X, (int)start.Y, (int)size.X, (int)size.Y);
+                
+                if (SDL_LockTexture(handle, ref rect, out pixels, out pitch) != 0)
+                {
+                    NCError.ShowErrorBox("Failed to lock texture!", 228, "An SDL error occurred while locking a texture in SdlRenderer::DrawTexture", NCErrorSeverity.FatalError);
+                    pixels = default;
+                    pitch = 0;
+                }
+            }
+        }
+
+        internal override void UnlockTexture(nint handle)
+        {
+            if (handle == nint.Zero)
+            {
+                NCError.ShowErrorBox("Attempted to unlock an invalid texture!", 227, "SdlRenderer::UnlockTexture's HANDLE parameter was NULL", NCErrorSeverity.FatalError);
+            }
+            else
+            {
+                SDL_UnlockTexture(handle);
+            }
+        }
+
+        internal override void DrawTexture(params object[] args)
+        {
+            // Parameters:
+            // Argument 0 - Vector2 - viewport start
+            // Argument 1 - Vector2 - viewport end
+            // Argument 2 - Vector2 - render position
+            // Argument 3 - Vector2 - size
+            // Argument 4 - nint - Handle
+            // Argument 5 - Vector2 - Repeat
+
+            int numberOfArgs = 6;
+
+            if (args.Length != numberOfArgs
+                || args[0] is not Vector2
+                || args[1] is not Vector2
+                || args[2] is not Vector2
+                || args[3] is not Vector2
+                || args[4] is not nint
+                || args[5] is not Vector2)
+            {
+                NCError.ShowErrorBox($"CODE IS BORKED! Incorrect parameter types or invalid number of parameters to SdlRenderer::DrawTexture!\n\nTHIS IS AN ENGINE BUG PLEASE FILE A BUG REPORT!", 
+                    229, "Invalid number of parameters, or incorrect parameter types, in call to SdlRenderer::DrawTexture\n\nI REPEAT THIS IS AN ENGINE BUG!", NCErrorSeverity.FatalError);
+                return;
+            }
+
+            Vector2 viewportStart = (Vector2)args[0];
+            Vector2 viewportEnd = (Vector2)args[1];
+            Vector2 renderPosition = (Vector2)args[2];
+            Vector2 size = (Vector2)args[3];
+            nint handle = (nint)args[4];
+            Vector2 repeat = (Vector2)args[5];
+
+            SDL_Rect sourceRect = new();
+            SDL_FRect destinationRect = new();
+
+            // Draw to the viewpoint
+            if (viewportStart == default
+                && viewportEnd == default)
+            {
+                sourceRect.x = 0;
+                sourceRect.y = 0;
+                sourceRect.w = (int)size.X;
+                sourceRect.h = (int)size.Y;
+
+                destinationRect.x = renderPosition.X;
+                destinationRect.y = renderPosition.Y;
+                destinationRect.w = size.X;
+                destinationRect.h = size.Y;
+            }
+            else
+            {
+                sourceRect.x = (int)viewportStart.X;
+                sourceRect.y = (int)viewportStart.Y;
+                sourceRect.w = (int)(viewportEnd.X - viewportStart.X);
+                sourceRect.h = (int)(viewportEnd.Y - viewportStart.Y);
+
+                destinationRect.x = renderPosition.X;
+                destinationRect.y = renderPosition.Y;
+                destinationRect.w = viewportEnd.X - viewportStart.X;
+                destinationRect.h = viewportEnd.Y - viewportStart.Y;
+            }
+
+            if (repeat == default)
+            {
+                // call to SDL - we are simply drawing it once.
+                SDL_RenderCopyF(Settings.RendererHandle, handle, ref sourceRect, ref destinationRect);
+            }
+            else
+            {
+                SDL_FRect newRect = new SDL_FRect(destinationRect.x, destinationRect.y, destinationRect.w, destinationRect.h);
+
+                // Draws a tiled texture.
+                for (int y = 0; y < repeat.Y; y++)
+                {
+                    SDL_RenderCopyF(Settings.RendererHandle, handle, ref sourceRect, ref newRect);
+
+                    for (int x = 0; x < repeat.X; x++)
+                    {
+                        SDL_RenderCopyF(Settings.RendererHandle, handle, ref sourceRect, ref newRect);
+
+                        newRect.x += destinationRect.w;
+                    }
+
+                    newRect.y += destinationRect.h; // we already set it up
+                    newRect.x = destinationRect.x;
+                }
+            }
+        }
+
+        internal override void SetTextureBlendMode(params object[] args)
+        {
+            // Parameters:
+            // Argument 0 - nint - Handle
+            // Argument 1 - SDL_BlendMode - BlendMode 
+
+            int numOfArgs = 2;
+
+            if (args.Length != numOfArgs
+                || args[0] is not nint
+                || args[1] is not SDL_BlendMode)
+            {
+                NCError.ShowErrorBox($"CODE IS BORKED! Incorrect parameter types or invalid number of parameters to SdlRenderer::SetTextureBlendMode!\n\nTHIS IS AN ENGINE BUG PLEASE FILE A BUG REPORT!",
+                    230, "Invalid number of parameters, or incorrect parameter types, in call to SdlRenderer::SetTextureBlendMode\n\nI REPEAT THIS IS AN ENGINE BUG!", NCErrorSeverity.FatalError);
+                return;
+            }
+
+            nint handle = (nint)args[0];
+            SDL_BlendMode blendMode = (SDL_BlendMode)args[1];
+
+            if (SDL_SetTextureBlendMode(handle, blendMode) != 0)
+            {
+                NCError.ShowErrorBox("Failed to set texture blend mode!", 231, "An SDL error occurred while setting" +
+                    " a texture's blend mode in SdlRenderer::SetTextureBlendMode", NCErrorSeverity.FatalError);
+            }
+        }
+
+        internal override nint DestroyTexture(nint handle)
+        {
+            SDL_DestroyTexture(handle);
+            handle = nint.Zero;
+            return handle; 
         }
 
         #endregion

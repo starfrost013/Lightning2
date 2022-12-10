@@ -452,7 +452,7 @@ namespace LightningBase
         public static extern void SDL_ClearHints();
 
         [DllImport(nativeLibName, EntryPoint = "SDL_GetHint", CallingConvention = CallingConvention.Cdecl)]
-        private static extern unsafe IntPtr INTERNAL_SDL_GetHint(byte* name);
+        private static extern unsafe nint INTERNAL_SDL_GetHint(byte* name);
         public static unsafe string SDL_GetHint(string name)
         {
             int utf8NameBufSize = Utf8Size(name);

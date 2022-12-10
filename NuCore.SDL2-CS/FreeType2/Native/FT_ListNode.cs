@@ -15,7 +15,7 @@ namespace LightningBase
 
 		#region Constructors
 
-		public FT_ListNode(IntPtr reference): base(reference)
+		public FT_ListNode(nint reference): base(reference)
 		{
 		}
 
@@ -30,7 +30,7 @@ namespace LightningBase
 		{
 			get
 			{
-				if (rec.prev == IntPtr.Zero)
+				if (rec.prev == nint.Zero)
 					return null;
 
 				return new FT_ListNode(rec.prev);
@@ -44,7 +44,7 @@ namespace LightningBase
 		{
 			get
 			{
-				if (rec.next == IntPtr.Zero)
+				if (rec.next == nint.Zero)
 					return null;
 
 				return new FT_ListNode(rec.next);
@@ -54,7 +54,7 @@ namespace LightningBase
 		/// <summary>
 		/// Gets a typeless pointer to the listed object.
 		/// </summary>
-		public IntPtr Data
+		public nint Data
 		{
 			get
 			{
@@ -62,7 +62,7 @@ namespace LightningBase
 			}
 		}
 
-		public override IntPtr Reference
+		public override nint Reference
 		{
 			get
 			{

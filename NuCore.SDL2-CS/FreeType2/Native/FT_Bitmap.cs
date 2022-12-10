@@ -10,11 +10,11 @@ namespace LightningBase
         public UInt32 rows;
         public UInt32 width;
         public Int32 pitch;
-        public IntPtr buffer;
+        public nint buffer;
         public UInt16 num_grays;
         public Byte pixel_mode;
         public Byte palette_mode;
-        public IntPtr palette;
+        public nint palette;
     }
 #pragma warning restore 1591
 }

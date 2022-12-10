@@ -48,9 +48,9 @@ namespace LightningBase
         /* Windows */
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate IntPtr SDL_WindowsMessageHook(
-            IntPtr userdata,
-            IntPtr hWnd,
+        public delegate nint SDL_WindowsMessageHook(
+            nint userdata,
+            nint hWnd,
             uint message,
             ulong wParam,
             long lParam
@@ -59,34 +59,34 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_SetWindowsMessageHook(
             SDL_WindowsMessageHook callback,
-            IntPtr userdata
+            nint userdata
         );
 
         /* renderer refers to an SDL_Renderer*
-		 * IntPtr refers to an IDirect3DDevice9*
+		 * nint refers to an IDirect3DDevice9*
 		 * Only available in 2.0.1 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_RenderGetD3D9Device(IntPtr renderer);
+        public static extern nint SDL_RenderGetD3D9Device(nint renderer);
 
         /* renderer refers to an SDL_Renderer*
-		 * IntPtr refers to an ID3D11Device*
+		 * nint refers to an ID3D11Device*
 		 * Only available in 2.0.16 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_RenderGetD3D11Device(IntPtr renderer);
+        public static extern nint SDL_RenderGetD3D11Device(nint renderer);
 
         /* iOS */
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void SDL_iPhoneAnimationCallback(IntPtr p);
+        public delegate void SDL_iPhoneAnimationCallback(nint p);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_iPhoneSetAnimationCallback(
-            IntPtr window, /* SDL_Window* */
+            nint window, /* SDL_Window* */
             int interval,
             SDL_iPhoneAnimationCallback callback,
-            IntPtr callbackParam
+            nint callbackParam
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -97,13 +97,13 @@ namespace LightningBase
         public const int SDL_ANDROID_EXTERNAL_STORAGE_READ = 0x01;
         public const int SDL_ANDROID_EXTERNAL_STORAGE_WRITE = 0x02;
 
-        /* IntPtr refers to a JNIEnv* */
+        /* nint refers to a JNIEnv* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_AndroidGetJNIEnv();
+        public static extern nint SDL_AndroidGetJNIEnv();
 
-        /* IntPtr refers to a jobject */
+        /* nint refers to a jobject */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_AndroidGetActivity();
+        public static extern nint SDL_AndroidGetActivity();
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_bool SDL_IsAndroidTV();
@@ -118,7 +118,7 @@ namespace LightningBase
         public static extern void SDL_AndroidBackButton();
 
         [DllImport(nativeLibName, EntryPoint = "SDL_AndroidGetInternalStoragePath", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_AndroidGetInternalStoragePath();
+        private static extern nint INTERNAL_SDL_AndroidGetInternalStoragePath();
 
         public static string SDL_AndroidGetInternalStoragePath()
         {
@@ -131,7 +131,7 @@ namespace LightningBase
         public static extern int SDL_AndroidGetExternalStorageState();
 
         [DllImport(nativeLibName, EntryPoint = "SDL_AndroidGetExternalStoragePath", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_AndroidGetExternalStoragePath();
+        private static extern nint INTERNAL_SDL_AndroidGetExternalStoragePath();
 
         public static string SDL_AndroidGetExternalStoragePath()
         {
@@ -156,7 +156,7 @@ namespace LightningBase
             SDL_bool result = INTERNAL_SDL_AndroidRequestPermission(
                 permissionPtr
             );
-            Marshal.FreeHGlobal((IntPtr)permissionPtr);
+            Marshal.FreeHGlobal((nint)permissionPtr);
             return result;
         }
 
@@ -185,7 +185,7 @@ namespace LightningBase
                 xOffset,
                 yOffset
             );
-            Marshal.FreeHGlobal((IntPtr)messagePtr);
+            Marshal.FreeHGlobal((nint)messagePtr);
             return result;
         }
 

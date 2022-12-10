@@ -222,18 +222,18 @@ namespace LightningBase
             public int w;
             public int h;
             public int refresh_rate;
-            public IntPtr driverdata; // void*
+            public nint driverdata; // void*
         }
 
         /* win refers to an SDL_Window*, area to a const SDL_Point*, data to a void*.
 		 * Only available in 2.0.4 or higher.
 		 */
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate SDL_HitTestResult SDL_HitTest(IntPtr win, IntPtr area, IntPtr data);
+        public delegate SDL_HitTestResult SDL_HitTest(nint win, nint area, nint data);
 
-        /* IntPtr refers to an SDL_Window* */
+        /* nint refers to an SDL_Window* */
         [DllImport(nativeLibName, EntryPoint = "SDL_CreateWindow", CallingConvention = CallingConvention.Cdecl)]
-        private static extern unsafe IntPtr INTERNAL_SDL_CreateWindow(
+        private static extern unsafe nint INTERNAL_SDL_CreateWindow(
             byte* title,
             int x,
             int y,
@@ -241,7 +241,7 @@ namespace LightningBase
             int h,
             SDL_WindowFlags flags
         );
-        public static unsafe IntPtr SDL_CreateWindow(
+        public static unsafe nint SDL_CreateWindow(
             string title,
             int x,
             int y,
@@ -265,17 +265,17 @@ namespace LightningBase
             int width,
             int height,
             SDL_WindowFlags window_flags,
-            out IntPtr window,
-            out IntPtr renderer
+            out nint window,
+            out nint renderer
         );
 
-        /* data refers to some native window type, IntPtr to an SDL_Window* */
+        /* data refers to some native window type, nint to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_CreateWindowFrom(IntPtr data);
+        public static extern nint SDL_CreateWindowFrom(nint data);
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_DestroyWindow(IntPtr window);
+        public static extern void SDL_DestroyWindow(nint window);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_DisableScreenSaver();
@@ -283,9 +283,9 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_EnableScreenSaver();
 
-        /* IntPtr refers to an SDL_DisplayMode. Just use closest. */
+        /* nint refers to an SDL_DisplayMode. Just use closest. */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GetClosestDisplayMode(
+        public static extern nint SDL_GetClosestDisplayMode(
             int displayIndex,
             ref SDL_DisplayMode mode,
             out SDL_DisplayMode closest
@@ -298,7 +298,7 @@ namespace LightningBase
         );
 
         [DllImport(nativeLibName, EntryPoint = "SDL_GetCurrentVideoDriver", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GetCurrentVideoDriver();
+        private static extern nint INTERNAL_SDL_GetCurrentVideoDriver();
         public static string SDL_GetCurrentVideoDriver()
         {
             return UTF8_ToManaged(INTERNAL_SDL_GetCurrentVideoDriver());
@@ -311,7 +311,7 @@ namespace LightningBase
         );
 
         [DllImport(nativeLibName, EntryPoint = "SDL_GetDisplayName", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GetDisplayName(int index);
+        private static extern nint INTERNAL_SDL_GetDisplayName(int index);
         public static string SDL_GetDisplayName(int index)
         {
             return UTF8_ToManaged(INTERNAL_SDL_GetDisplayName(index));
@@ -364,7 +364,7 @@ namespace LightningBase
         public static extern int SDL_GetNumVideoDrivers();
 
         [DllImport(nativeLibName, EntryPoint = "SDL_GetVideoDriver", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GetVideoDriver(
+        private static extern nint INTERNAL_SDL_GetVideoDriver(
             int index
         );
         public static string SDL_GetVideoDriver(int index)
@@ -375,7 +375,7 @@ namespace LightningBase
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern float SDL_GetWindowBrightness(
-            IntPtr window
+            nint window
         );
 
         /* window refers to an SDL_Window*
@@ -383,7 +383,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetWindowOpacity(
-            IntPtr window,
+            nint window,
             float opacity
         );
 
@@ -392,7 +392,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetWindowOpacity(
-            IntPtr window,
+            nint window,
             out float out_opacity
         );
 
@@ -401,24 +401,24 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetWindowModalFor(
-            IntPtr modal_window,
-            IntPtr parent_window
+            nint modal_window,
+            nint parent_window
         );
 
         /* window refers to an SDL_Window*
 		 * Only available in 2.0.5 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_SetWindowInputFocus(IntPtr window);
+        public static extern int SDL_SetWindowInputFocus(nint window);
 
-        /* window refers to an SDL_Window*, IntPtr to a void* */
+        /* window refers to an SDL_Window*, nint to a void* */
         [DllImport(nativeLibName, EntryPoint = "SDL_GetWindowData", CallingConvention = CallingConvention.Cdecl)]
-        private static extern unsafe IntPtr INTERNAL_SDL_GetWindowData(
-            IntPtr window,
+        private static extern unsafe nint INTERNAL_SDL_GetWindowData(
+            nint window,
             byte* name
         );
-        public static unsafe IntPtr SDL_GetWindowData(
-            IntPtr window,
+        public static unsafe nint SDL_GetWindowData(
+            nint window,
             string name
         )
         {
@@ -433,7 +433,7 @@ namespace LightningBase
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetWindowDisplayIndex(
-            IntPtr window
+            nint window
         );
 
         /* Only avaiable in 2.24.0 and higher. */
@@ -449,22 +449,22 @@ namespace LightningBase
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetWindowDisplayMode(
-            IntPtr window,
+            nint window,
             out SDL_DisplayMode mode
         );
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint SDL_GetWindowFlags(IntPtr window);
+        public static extern uint SDL_GetWindowFlags(nint window);
 
-        /* IntPtr refers to an SDL_Window* */
+        /* nint refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GetWindowFromID(uint id);
+        public static extern nint SDL_GetWindowFromID(uint id);
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetWindowGammaRamp(
-            IntPtr window,
+            nint window,
             [Out()] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U2, SizeConst = 256)]
                 ushort[] red,
             [Out()] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U2, SizeConst = 256)]
@@ -475,34 +475,34 @@ namespace LightningBase
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern SDL_bool SDL_GetWindowGrab(IntPtr window);
+        public static extern SDL_bool SDL_GetWindowGrab(nint window);
 
         /* window refers to an SDL_Window*
 		 * Only available in 2.0.16 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern SDL_bool SDL_GetWindowKeyboardGrab(IntPtr window);
+        public static extern SDL_bool SDL_GetWindowKeyboardGrab(nint window);
 
         /* window refers to an SDL_Window*
 		 * Only available in 2.0.16 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern SDL_bool SDL_GetWindowMouseGrab(IntPtr window);
+        public static extern SDL_bool SDL_GetWindowMouseGrab(nint window);
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint SDL_GetWindowID(IntPtr window);
+        public static extern uint SDL_GetWindowID(nint window);
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint SDL_GetWindowPixelFormat(
-            IntPtr window
+            nint window
         );
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_GetWindowMaximumSize(
-            IntPtr window,
+            nint window,
             out int max_w,
             out int max_h
         );
@@ -510,7 +510,7 @@ namespace LightningBase
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_GetWindowMinimumSize(
-            IntPtr window,
+            nint window,
             out int min_w,
             out int min_h
         );
@@ -518,7 +518,7 @@ namespace LightningBase
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_GetWindowPosition(
-            IntPtr window,
+            nint window,
             out int x,
             out int y
         );
@@ -526,21 +526,21 @@ namespace LightningBase
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_GetWindowSize(
-            IntPtr window,
+            nint window,
             out int w,
             out int h
         );
 
-        /* IntPtr refers to an SDL_Surface*, window to an SDL_Window* */
+        /* nint refers to an SDL_Surface*, window to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GetWindowSurface(IntPtr window);
+        public static extern nint SDL_GetWindowSurface(nint window);
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, EntryPoint = "SDL_GetWindowTitle", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GetWindowTitle(
-            IntPtr window
+        private static extern nint INTERNAL_SDL_GetWindowTitle(
+            nint window
         );
-        public static string SDL_GetWindowTitle(IntPtr window)
+        public static string SDL_GetWindowTitle(nint window)
         {
             return UTF8_ToManaged(
                 INTERNAL_SDL_GetWindowTitle(window)
@@ -550,18 +550,18 @@ namespace LightningBase
         /* texture refers to an SDL_Texture* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GL_BindTexture(
-            IntPtr texture,
+            nint texture,
             out float texw,
             out float texh
         );
 
-        /* IntPtr and window refer to an SDL_GLContext and SDL_Window* */
+        /* nint and window refer to an SDL_GLContext and SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GL_CreateContext(IntPtr window);
+        public static extern nint SDL_GL_CreateContext(nint window);
 
         /* context refers to an SDL_GLContext */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_GL_DeleteContext(IntPtr context);
+        public static extern void SDL_GL_DeleteContext(nint context);
 
         [DllImport(nativeLibName, EntryPoint = "SDL_GL_LoadLibrary", CallingConvention = CallingConvention.Cdecl)]
         private static extern unsafe int INTERNAL_SDL_GL_LoadLibrary(byte* path);
@@ -571,21 +571,21 @@ namespace LightningBase
             int result = INTERNAL_SDL_GL_LoadLibrary(
                 utf8Path
             );
-            Marshal.FreeHGlobal((IntPtr)utf8Path);
+            Marshal.FreeHGlobal((nint)utf8Path);
             return result;
         }
 
-        /* IntPtr refers to a function pointer, proc to a const char* */
+        /* nint refers to a function pointer, proc to a const char* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GL_GetProcAddress(IntPtr proc);
+        public static extern nint SDL_GL_GetProcAddress(nint proc);
 
-        /* IntPtr refers to a function pointer */
-        public static unsafe IntPtr SDL_GL_GetProcAddress(string proc)
+        /* nint refers to a function pointer */
+        public static unsafe nint SDL_GL_GetProcAddress(string proc)
         {
             int utf8ProcBufSize = Utf8Size(proc);
             byte* utf8Proc = stackalloc byte[utf8ProcBufSize];
             return SDL_GL_GetProcAddress(
-                (IntPtr)Utf8Encode(proc, utf8Proc, utf8ProcBufSize)
+                (nint)Utf8Encode(proc, utf8Proc, utf8ProcBufSize)
             );
         }
 
@@ -621,24 +621,24 @@ namespace LightningBase
         /* window and context refer to an SDL_Window* and SDL_GLContext */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GL_MakeCurrent(
-            IntPtr window,
-            IntPtr context
+            nint window,
+            nint context
         );
 
-        /* IntPtr refers to an SDL_Window* */
+        /* nint refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GL_GetCurrentWindow();
+        public static extern nint SDL_GL_GetCurrentWindow();
 
-        /* IntPtr refers to an SDL_Context */
+        /* nint refers to an SDL_Context */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GL_GetCurrentContext();
+        public static extern nint SDL_GL_GetCurrentContext();
 
         /* window refers to an SDL_Window*.
 		 * Only available in SDL 2.0.1 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_GL_GetDrawableSize(
-            IntPtr window,
+            nint window,
             out int w,
             out int h
         );
@@ -662,53 +662,53 @@ namespace LightningBase
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_GL_SwapWindow(IntPtr window);
+        public static extern void SDL_GL_SwapWindow(nint window);
 
         /* texture refers to an SDL_Texture* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_GL_UnbindTexture(IntPtr texture);
+        public static extern int SDL_GL_UnbindTexture(nint texture);
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_HideWindow(IntPtr window);
+        public static extern void SDL_HideWindow(nint window);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_bool SDL_IsScreenSaverEnabled();
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_MaximizeWindow(IntPtr window);
+        public static extern void SDL_MaximizeWindow(nint window);
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_MinimizeWindow(IntPtr window);
+        public static extern void SDL_MinimizeWindow(nint window);
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_RaiseWindow(IntPtr window);
+        public static extern void SDL_RaiseWindow(nint window);
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_RestoreWindow(IntPtr window);
+        public static extern void SDL_RestoreWindow(nint window);
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetWindowBrightness(
-            IntPtr window,
+            nint window,
             float brightness
         );
 
-        /* IntPtr and userdata are void*, window is an SDL_Window* */
+        /* nint and userdata are void*, window is an SDL_Window* */
         [DllImport(nativeLibName, EntryPoint = "SDL_SetWindowData", CallingConvention = CallingConvention.Cdecl)]
-        private static extern unsafe IntPtr INTERNAL_SDL_SetWindowData(
-            IntPtr window,
+        private static extern unsafe nint INTERNAL_SDL_SetWindowData(
+            nint window,
             byte* name,
-            IntPtr userdata
+            nint userdata
         );
-        public static unsafe IntPtr SDL_SetWindowData(
-            IntPtr window,
+        public static unsafe nint SDL_SetWindowData(
+            nint window,
             string name,
-            IntPtr userdata
+            nint userdata
         )
         {
             int utf8NameBufSize = Utf8Size(name);
@@ -723,7 +723,7 @@ namespace LightningBase
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetWindowDisplayMode(
-            IntPtr window,
+            nint window,
             ref SDL_DisplayMode mode
         );
 
@@ -731,21 +731,21 @@ namespace LightningBase
         /* NULL overload - use the window's dimensions and the desktop's format and refresh rate */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetWindowDisplayMode(
-            IntPtr window,
-            IntPtr mode
+            nint window,
+            nint mode
         );
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetWindowFullscreen(
-            IntPtr window,
+            nint window,
             uint flags
         );
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetWindowGammaRamp(
-            IntPtr window,
+            nint window,
             [In()] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U2, SizeConst = 256)]
                 ushort[] red,
             [In()] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U2, SizeConst = 256)]
@@ -757,7 +757,7 @@ namespace LightningBase
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_SetWindowGrab(
-            IntPtr window,
+            nint window,
             SDL_bool grabbed
         );
 
@@ -766,7 +766,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_SetWindowKeyboardGrab(
-            IntPtr window,
+            nint window,
             SDL_bool grabbed
         );
 
@@ -775,7 +775,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_SetWindowMouseGrab(
-            IntPtr window,
+            nint window,
             SDL_bool grabbed
         );
 
@@ -783,14 +783,14 @@ namespace LightningBase
         /* window refers to an SDL_Window*, icon to an SDL_Surface* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_SetWindowIcon(
-            IntPtr window,
-            IntPtr icon
+            nint window,
+            nint icon
         );
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_SetWindowMaximumSize(
-            IntPtr window,
+            nint window,
             int max_w,
             int max_h
         );
@@ -798,7 +798,7 @@ namespace LightningBase
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_SetWindowMinimumSize(
-            IntPtr window,
+            nint window,
             int min_w,
             int min_h
         );
@@ -806,7 +806,7 @@ namespace LightningBase
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_SetWindowPosition(
-            IntPtr window,
+            nint window,
             int x,
             int y
         );
@@ -814,7 +814,7 @@ namespace LightningBase
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_SetWindowSize(
-            IntPtr window,
+            nint window,
             int w,
             int h
         );
@@ -822,14 +822,14 @@ namespace LightningBase
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_SetWindowBordered(
-            IntPtr window,
+            nint window,
             SDL_bool bordered
         );
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetWindowBordersSize(
-            IntPtr window,
+            nint window,
             out int top,
             out int left,
             out int bottom,
@@ -841,7 +841,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_SetWindowResizable(
-            IntPtr window,
+            nint window,
             SDL_bool resizable
         );
 
@@ -850,18 +850,18 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_SetWindowAlwaysOnTop(
-            IntPtr window,
+            nint window,
             SDL_bool on_top
         );
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, EntryPoint = "SDL_SetWindowTitle", CallingConvention = CallingConvention.Cdecl)]
         private static extern unsafe void INTERNAL_SDL_SetWindowTitle(
-            IntPtr window,
+            nint window,
             byte* title
         );
         public static unsafe void SDL_SetWindowTitle(
-            IntPtr window,
+            nint window,
             string title
         )
         {
@@ -875,16 +875,16 @@ namespace LightningBase
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_ShowWindow(IntPtr window);
+        public static extern void SDL_ShowWindow(nint window);
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_UpdateWindowSurface(IntPtr window);
+        public static extern int SDL_UpdateWindowSurface(nint window);
 
         /* window refers to an SDL_Window* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_UpdateWindowSurfaceRects(
-            IntPtr window,
+            nint window,
             [In] SDL_Rect[] rects,
             int numrects
         );
@@ -910,35 +910,35 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetWindowHitTest(
-            IntPtr window,
+            nint window,
             SDL_HitTest callback,
-            IntPtr callback_data
+            nint callback_data
         );
 
-        /* IntPtr refers to an SDL_Window*
+        /* nint refers to an SDL_Window*
 		 * Only available in 2.0.4 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GetGrabbedWindow();
+        public static extern nint SDL_GetGrabbedWindow();
 
         /* window refers to an SDL_Window*
 		 * Only available in 2.0.16 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_FlashWindow(
-            IntPtr window,
+            nint window,
             SDL_FlashOperation operation
         );
 
-        /* IntPtr refers to a void*
+        /* nint refers to a void*
 		* window refers to an SDL_Window*
 		* mode refers to a size_t*
 		* Only available in 2.0.18 or higher.
 		*/
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GetWindowICCProfile(
-            IntPtr window,
-            out IntPtr mode
+        public static extern nint SDL_GetWindowICCProfile(
+            nint window,
+            out nint mode
         );
 
         /* window refers to an SDL_Window*
@@ -946,28 +946,28 @@ namespace LightningBase
  */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetWindowMouseRect(
-            IntPtr window,
+            nint window,
             ref SDL_Rect rect
         );
 
         /* window refers to an SDL_Window*
 		 * rect refers to an SDL_Rect*
-		 * This overload allows for IntPtr.Zero (null) to be passed for rect.
+		 * This overload allows for nint.Zero (null) to be passed for rect.
 		 * Only available in 2.0.18 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetWindowMouseRect(
-            IntPtr window,
-            IntPtr rect
+            nint window,
+            nint rect
         );
 
         /* window refers to an SDL_Window*
-		 * IntPtr refers to an SDL_Rect*
+		 * nint refers to an SDL_Rect*
 		 * Only available in 2.0.18 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GetWindowMouseRect(
-            IntPtr window
+        public static extern nint SDL_GetWindowMouseRect(
+            nint window
         );
 
         #endregion

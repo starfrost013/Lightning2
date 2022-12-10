@@ -10,13 +10,13 @@ namespace LightningBase
     [StructLayout(LayoutKind.Sequential)]
     public struct NativeReference<T> where T : NativeObject
     {
-        private readonly IntPtr memoryPtr;
+        private readonly nint memoryPtr;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NativeReference{T}"/> struct.
         /// </summary>
         /// <param name="memoryPtr">The memory PTR.</param>
-        public NativeReference(IntPtr memoryPtr)
+        public NativeReference(nint memoryPtr)
         {
             this.memoryPtr = memoryPtr;
         }

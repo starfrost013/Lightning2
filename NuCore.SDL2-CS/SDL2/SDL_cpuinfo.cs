@@ -107,15 +107,15 @@ namespace LightningBase
 
         /* Only available in SDL 2.0.10 or higher. */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_SIMDAlloc(uint len);
+        public static extern nint SDL_SIMDAlloc(uint len);
 
         /* Only available in SDL 2.0.14 or higher. */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_SIMDRealloc(IntPtr ptr, uint len);
+        public static extern nint SDL_SIMDRealloc(nint ptr, uint len);
 
         /* Only available in SDL 2.0.10 or higher. */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_SIMDFree(IntPtr ptr);
+        public static extern void SDL_SIMDFree(nint ptr);
 
         /* Only available in SDL 2.0.11 or higher. */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]

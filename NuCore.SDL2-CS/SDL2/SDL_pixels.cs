@@ -520,7 +520,7 @@ namespace LightningBase
         public struct SDL_Palette
         {
             public int ncolors;
-            public IntPtr colors;
+            public nint colors;
             public int version;
             public int refcount;
         }
@@ -529,7 +529,7 @@ namespace LightningBase
         public struct SDL_PixelFormat
         {
             public uint format;
-            public IntPtr palette; // SDL_Palette*
+            public nint palette; // SDL_Palette*
             public byte BitsPerPixel;
             public byte BytesPerPixel;
             public uint Rmask;
@@ -545,16 +545,16 @@ namespace LightningBase
             public byte Bshift;
             public byte Ashift;
             public int refcount;
-            public IntPtr next; // SDL_PixelFormat*
+            public nint next; // SDL_PixelFormat*
         }
 
-        /* IntPtr refers to an SDL_PixelFormat* */
+        /* nint refers to an SDL_PixelFormat* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_AllocFormat(uint pixel_format);
+        public static extern nint SDL_AllocFormat(uint pixel_format);
 
-        /* IntPtr refers to an SDL_Palette* */
+        /* nint refers to an SDL_Palette* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_AllocPalette(int ncolors);
+        public static extern nint SDL_AllocPalette(int ncolors);
 
         [Obsolete("Will be removed in SDL 3.0")]
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -566,14 +566,14 @@ namespace LightningBase
 
         /* format refers to an SDL_PixelFormat* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_FreeFormat(IntPtr format);
+        public static extern void SDL_FreeFormat(nint format);
 
         /* palette refers to an SDL_Palette* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_FreePalette(IntPtr palette);
+        public static extern void SDL_FreePalette(nint palette);
 
         [DllImport(nativeLibName, EntryPoint = "SDL_GetPixelFormatName", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GetPixelFormatName(
+        private static extern nint INTERNAL_SDL_GetPixelFormatName(
             uint format
         );
         public static string SDL_GetPixelFormatName(uint format)
@@ -587,7 +587,7 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_GetRGB(
             uint pixel,
-            IntPtr format,
+            nint format,
             out byte r,
             out byte g,
             out byte b
@@ -597,7 +597,7 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_GetRGBA(
             uint pixel,
-            IntPtr format,
+            nint format,
             out byte r,
             out byte g,
             out byte b,
@@ -607,7 +607,7 @@ namespace LightningBase
         /* format refers to an SDL_PixelFormat* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint SDL_MapRGB(
-            IntPtr format,
+            nint format,
             byte r,
             byte g,
             byte b
@@ -616,7 +616,7 @@ namespace LightningBase
         /* format refers to an SDL_PixelFormat* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint SDL_MapRGBA(
-            IntPtr format,
+            nint format,
             byte r,
             byte g,
             byte b,
@@ -645,7 +645,7 @@ namespace LightningBase
         /* palette refers to an SDL_Palette* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetPaletteColors(
-            IntPtr palette,
+            nint palette,
             [In] SDL_Color[] colors,
             int firstcolor,
             int ncolors
@@ -654,8 +654,8 @@ namespace LightningBase
         /* format and palette refer to an SDL_PixelFormat* and SDL_Palette* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SetPixelFormatPalette(
-            IntPtr format,
-            IntPtr palette
+            nint format,
+            nint palette
         );
 
         #endregion

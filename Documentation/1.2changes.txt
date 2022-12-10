@@ -153,6 +153,7 @@ Everything that matters to the api has to go here
 
 
 * todo:
+	- renderer independent blend mode
 	- FIX ONLY ONE PARTICLE DISPLAYING
 	- SHOULD PROPERTIES AFFECT CHILDREN
 	- FIX BUSTED AND SHIT HORRIBLE VERY BAD UI SYSTEM!!!!!!

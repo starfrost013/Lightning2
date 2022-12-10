@@ -11,7 +11,7 @@ namespace LightningBase
     /// <param name="size">The size in bytes to allocate.</param>
     /// <returns>Address of new memory block. 0 in case of failure.</returns>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr FT_Alloc_Func(NativeReference<Memory> memory, IntPtr size);
+    public delegate nint FT_Alloc_Func(NativeReference<Memory> memory, nint size);
 
     /// <summary>
     /// A function used to release a given block of memory.
@@ -19,7 +19,7 @@ namespace LightningBase
     /// <param name="memory">A handle to the source memory manager.</param>
     /// <param name="block">The address of the target memory block.</param>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void FT_Free_Func(NativeReference<Memory> memory, IntPtr block);
+    public delegate void FT_Free_Func(NativeReference<Memory> memory, nint block);
 
     /// <summary>
     /// A function used to re-allocate a given block of memory.
@@ -33,7 +33,7 @@ namespace LightningBase
     /// <param name="block">The block's current address.</param>
     /// <returns>New block address. 0 in case of memory shortage.</returns>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr FT_Realloc_Func(NativeReference<Memory> memory, IntPtr currentSize, IntPtr newSize, IntPtr block);
+    public delegate nint FT_Realloc_Func(NativeReference<Memory> memory, nint currentSize, nint newSize, nint block);
 
     /// <summary>
     /// A structure used to describe a given memory manager to FreeType 2.
@@ -48,7 +48,7 @@ namespace LightningBase
 
         #region Constructors
 
-        public Memory(IntPtr reference) : base(reference)
+        public Memory(nint reference) : base(reference)
         {
         }
 
@@ -59,7 +59,7 @@ namespace LightningBase
         /// <summary>
         /// Gets a generic typeless pointer for user data.
         /// </summary>
-        public IntPtr User
+        public nint User
         {
             get
             {
@@ -100,7 +100,7 @@ namespace LightningBase
             }
         }
 
-        public override IntPtr Reference
+        public override nint Reference
         {
             get
             {
@@ -131,11 +131,11 @@ namespace LightningBase
         /// <returns>The length of the used data in output.</returns>
         public unsafe int GzipUncompress(byte[] input, byte[] output)
         {
-            IntPtr len = (IntPtr)output.Length;
+            nint len = (nint)output.Length;
 
             fixed (byte* inPtr = input, outPtr = output)
             {
-                FT_Error err = FreeTypeApi.FT_Gzip_Uncompress(Reference, (IntPtr)outPtr, ref len, (IntPtr)inPtr, (IntPtr)input.Length);
+                FT_Error err = FreeTypeApi.FT_Gzip_Uncompress(Reference, (nint)outPtr, ref len, (nint)inPtr, (nint)input.Length);
 
                 if (err != FT_Error.FT_Err_Ok)
                     throw new FreeTypeException(err);

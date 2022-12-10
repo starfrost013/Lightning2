@@ -47,7 +47,7 @@ namespace LightningBase
 
         /* Only available in 2.0.1 or higher. */
         [DllImport(nativeLibName, EntryPoint = "SDL_GetBasePath", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GetBasePath();
+        private static extern nint INTERNAL_SDL_GetBasePath();
         public static string SDL_GetBasePath()
         {
             return UTF8_ToManaged(INTERNAL_SDL_GetBasePath(), true);
@@ -55,7 +55,7 @@ namespace LightningBase
 
         /* Only available in 2.0.1 or higher. */
         [DllImport(nativeLibName, EntryPoint = "SDL_GetPrefPath", CallingConvention = CallingConvention.Cdecl)]
-        private static extern unsafe IntPtr INTERNAL_SDL_GetPrefPath(
+        private static extern unsafe nint INTERNAL_SDL_GetPrefPath(
             byte* org,
             byte* app
         );

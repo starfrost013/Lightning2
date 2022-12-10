@@ -12,7 +12,7 @@
         /// <summary>
         /// Handle to each line of the the SDL_Texture* of this font image.
         /// </summary>
-        internal IntPtr Handle { get; set; }
+        internal nint Handle { get; set; }
 
         /// <summary>
         /// The lines of the font of this font cache entry.

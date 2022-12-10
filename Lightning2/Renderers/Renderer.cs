@@ -404,5 +404,63 @@
         }
 
         #endregion
+
+        #region Backend-specific texture code
+
+        internal virtual nint CreateTexture(int sizeX, int sizeY, bool isTarget = false)
+        {
+            NCError.ShowErrorBox($"AllocTexture not implemented for renderer {GetType().Name!}", 223,
+                "Called Renderer override with unimplemented Renderer::CreateTexture!", NCErrorSeverity.FatalError);
+            return default;
+        }
+
+        internal virtual nint LoadTexture(string path)
+        {
+            NCError.ShowErrorBox($"LoadTexture not implemented for renderer {GetType().Name!}", 220,
+                    "Called Renderer override with unimplemented Renderer::LoadTexture!", NCErrorSeverity.FatalError);
+            return default;
+        }
+
+        internal virtual nint AllocTextureFormat() // probably SDL only
+        {
+            NCError.ShowErrorBox($"AllocTextureFormat not implemented for renderer {GetType().Name!}", 221,
+                    "Called Renderer override with unimplemented Renderer::AllocTextureFormat!", NCErrorSeverity.FatalError);
+            return default;
+        }
+
+        internal virtual void LockTexture(nint handle, Vector2 start, Vector2 size, out nint pixels, out int pitch) // probably SDL only
+        {
+            NCError.ShowErrorBox($"LockTexture not implemented for renderer {GetType().Name!}", 224,
+                "Called Renderer override with unimplemented Renderer::LockTexture!", NCErrorSeverity.FatalError);
+            pixels = default;
+            pitch = 0;
+        }
+
+        internal virtual void UnlockTexture(nint handle) // probably SDL only
+        {
+            NCError.ShowErrorBox($"UnlockTexture not implemented for renderer {GetType().Name!}", 225,
+                "Called Renderer override with unimplemented Renderer::UnlockTexture!", NCErrorSeverity.FatalError);
+        }
+
+        internal virtual void DrawTexture(params object[] args)
+        {
+            NCError.ShowErrorBox($"DrawTexture not implemented for renderer {GetType().Name!}", 222,
+                "Called Renderer override with unimplemented Renderer::DrawTexture!", NCErrorSeverity.FatalError);
+        }
+
+        internal virtual void SetTextureBlendMode(params object[] args) // probably SDL only 
+        {
+            NCError.ShowErrorBox($"SetTextureBlendMode not implemented for renderer {GetType().Name!}", 230,
+            "Called Renderer override with unimplemented Renderer::SetTextureBlendMode!", NCErrorSeverity.FatalError);
+        }
+
+        internal virtual nint DestroyTexture(nint handle)
+        {
+            NCError.ShowErrorBox($"DestroyTexture not implemented for renderer {GetType().Name!}", 232,
+                "Called Renderer override with unimplemented Renderer::DestroyTexture!", NCErrorSeverity.FatalError);
+            return default; 
+        }
+
+        #endregion
     }
 }

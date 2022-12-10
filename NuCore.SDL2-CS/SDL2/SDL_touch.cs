@@ -87,7 +87,7 @@ namespace LightningBase
 		 *  Returns pointer to SDL_Finger.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_GetTouchFinger(long touchID, int index);
+        public static extern nint SDL_GetTouchFinger(long touchID, int index);
 
         /* Only available in 2.0.10 or higher. */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -95,7 +95,7 @@ namespace LightningBase
 
         /* Only available in 2.0.22 or higher. */
         [DllImport(nativeLibName, EntryPoint = "SDL_GetTouchName", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GetTouchName(int index);
+        private static extern nint INTERNAL_SDL_GetTouchName(int index);
 
         /* Only available in 2.0.22 or higher. */
         public static string SDL_GetTouchName(int index)

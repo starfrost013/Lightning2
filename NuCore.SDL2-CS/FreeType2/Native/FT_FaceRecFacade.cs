@@ -14,7 +14,7 @@ namespace LightningBase
         /// Initializes a new instance of the <see cref="FT_FaceRecFacade"/> structure.
         /// </summary>
         /// <param name="face">A pointer to the wrapped FreeType2 face object.</param>
-        public FT_FaceRecFacade(IntPtr face, IntPtr library)
+        public FT_FaceRecFacade(nint face, nint library)
         {
             _Face = face;
             _FaceRec = (FT_FaceRec*)this._Face;
@@ -29,7 +29,7 @@ namespace LightningBase
         /// <param name="dpiY">The vertical pixel density.</param>
         public void SelectCharSize(int sizeInPoints, uint dpiX, uint dpiY)
         {
-            var size = (IntPtr)(sizeInPoints << 6);
+            var size = (nint)(sizeInPoints << 6);
             var err = FreeTypeApi.FT_Set_Char_Size(_Face, size, size, dpiX, dpiY);
             if (err != FT_Error.FT_Err_Ok)
                 throw new FreeTypeException(err);
@@ -112,7 +112,7 @@ namespace LightningBase
 
         public bool EmboldenGlyphBitmap(int xStrength, int yStrength)
         {
-            var err = FreeTypeApi.FT_Bitmap_Embolden(_Library, (IntPtr)(GlyphBitmapPtr), (IntPtr)xStrength, (IntPtr)yStrength);
+            var err = FreeTypeApi.FT_Bitmap_Embolden(_Library, (nint)(GlyphBitmapPtr), (nint)xStrength, (nint)yStrength);
             if (err != FT_Error.FT_Err_Ok)
                 return false;
 
@@ -231,8 +231,8 @@ namespace LightningBase
         public FT_GlyphSlotRec* GlyphSlot { get { return _FaceRec->glyph; } }
 
         // A pointer to the wrapped FreeType2 face object.
-        private readonly IntPtr _Face;
+        private readonly nint _Face;
         private readonly FT_FaceRec* _FaceRec;
-        private readonly IntPtr _Library;
+        private readonly nint _Library;
     }
 }

@@ -9,12 +9,12 @@ namespace LightningBase
 	public static class PInvokeHelper
 	{
 		/// <summary>
-		/// A generic wrapper for <see cref="Marshal.PtrToStructure(IntPtr, Type)"/>.
+		/// A generic wrapper for <see cref="Marshal.PtrToStructure(nint, Type)"/>.
 		/// </summary>
 		/// <typeparam name="T">The type to cast to.</typeparam>
 		/// <param name="reference">The pointer that holds the struct.</param>
 		/// <returns>A marshalled struct.</returns>
-		public static T PtrToStructure<T>(IntPtr reference)
+		public static T PtrToStructure<T>(nint reference)
 		{
 			return Marshal.PtrToStructure<T>(reference);
 		}
@@ -27,7 +27,7 @@ namespace LightningBase
 		/// <param name="destination">The destination pointer.</param>
 		/// <param name="destinationOffset">An offset into the destination buffer.</param>
 		/// <param name="count">The number of bytes to copy.</param>
-		public static unsafe void Copy(IntPtr source, int sourceOffset, IntPtr destination, int destinationOffset, int count)
+		public static unsafe void Copy(nint source, int sourceOffset, nint destination, int destinationOffset, int count)
 		{
 			byte* src = (byte*)source + sourceOffset;
 			byte* dst = (byte*)destination + destinationOffset;
@@ -46,9 +46,9 @@ namespace LightningBase
 		/// <param name="start">A pointer to the start of a struct.</param>
 		/// <param name="fieldName">The name of the field to get an offset to.</param>
 		/// <returns><code>start</code> + the offset of the <code>fieldName</code> field in <code>T</code>.</returns>
-		public static IntPtr AbsoluteOffsetOf<T>(IntPtr start, string fieldName)
+		public static nint AbsoluteOffsetOf<T>(nint start, string fieldName)
 		{
-			return new IntPtr(start.ToInt64() + Marshal.OffsetOf<T>(fieldName).ToInt64());
+			return new nint(start.ToInt64() + Marshal.OffsetOf<T>(fieldName).ToInt64());
 		}
 	}
 }

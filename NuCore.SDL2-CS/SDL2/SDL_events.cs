@@ -246,7 +246,7 @@ namespace LightningBase
             public SDL_EventType type;
             public UInt32 timestamp;
             public UInt32 windowID;
-            public IntPtr text; /* char*, free with SDL_free */
+            public nint text; /* char*, free with SDL_free */
             public Int32 start;
             public Int32 length;
         }
@@ -546,7 +546,7 @@ namespace LightningBase
 			/// <para>Access the variable EXACTLY ONCE, like this:</para>
 			/// <para>string s = SDL.UTF8_ToManaged(evt.drop.file, true);</para>
             /// </summary>
-            public IntPtr file;
+            public nint file;
             public UInt32 windowID;
         }
 
@@ -576,8 +576,8 @@ namespace LightningBase
             public UInt32 timestamp;
             public UInt32 windowID;
             public Int32 code;
-            public IntPtr data1; /* user-defined */
-            public IntPtr data2; /* user-defined */
+            public nint data1; /* user-defined */
+            public nint data2; /* user-defined */
         }
 
         /* A video driver dependent event (event.syswm.*), disabled */
@@ -586,7 +586,7 @@ namespace LightningBase
         {
             public SDL_EventType type;
             public UInt32 timestamp;
-            public IntPtr msg; /* SDL_SysWMmsg*, system-dependent*/
+            public nint msg; /* SDL_SysWMmsg*, system-dependent*/
         }
 
         /* General event structure */
@@ -660,8 +660,8 @@ namespace LightningBase
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int SDL_EventFilter(
-            IntPtr userdata, // void*
-            IntPtr sdlevent // SDL_Event* event, lolC#
+            nint userdata, // void*
+            nint sdlevent // SDL_Event* event, lolC#
         );
 
         /* Pump the event loop, getting events from the input devices*/
@@ -734,23 +734,23 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_SetEventFilter(
             SDL_EventFilter filter,
-            IntPtr userdata
+            nint userdata
         );
 
         /* userdata refers to a void* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         private static extern SDL_bool SDL_GetEventFilter(
-            out IntPtr filter,
-            out IntPtr userdata
+            out nint filter,
+            out nint userdata
         );
         public static SDL_bool SDL_GetEventFilter(
             out SDL_EventFilter filter,
-            out IntPtr userdata
+            out nint userdata
         )
         {
-            IntPtr result = IntPtr.Zero;
+            nint result = nint.Zero;
             SDL_bool retval = SDL_GetEventFilter(out result, out userdata);
-            if (result != IntPtr.Zero)
+            if (result != nint.Zero)
             {
                 filter = (SDL_EventFilter)Marshal.GetDelegateForFunctionPointer(
                     result,
@@ -768,21 +768,21 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_AddEventWatch(
             SDL_EventFilter filter,
-            IntPtr userdata
+            nint userdata
         );
 
         /* userdata refers to a void* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_DelEventWatch(
             SDL_EventFilter filter,
-            IntPtr userdata
+            nint userdata
         );
 
         /* userdata refers to a void* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_FilterEvents(
             SDL_EventFilter filter,
-            IntPtr userdata
+            nint userdata
         );
 
         /* These are for SDL_EventState() */

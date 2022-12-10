@@ -61,7 +61,7 @@ namespace LightningBase
         public static extern int SDL_NumSensors();
 
         [DllImport(nativeLibName, EntryPoint = "SDL_SensorGetDeviceName", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_SensorGetDeviceName(int device_index);
+        private static extern nint INTERNAL_SDL_SensorGetDeviceName(int device_index);
         public static string SDL_SensorGetDeviceName(int device_index)
         {
             return UTF8_ToManaged(INTERNAL_SDL_SensorGetDeviceName(device_index));
@@ -76,40 +76,40 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Int32 SDL_SensorGetDeviceInstanceID(int device_index);
 
-        /* IntPtr refers to an SDL_Sensor* */
+        /* nint refers to an SDL_Sensor* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_SensorOpen(int device_index);
+        public static extern nint SDL_SensorOpen(int device_index);
 
-        /* IntPtr refers to an SDL_Sensor* */
+        /* nint refers to an SDL_Sensor* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_SensorFromInstanceID(
+        public static extern nint SDL_SensorFromInstanceID(
             Int32 instance_id
         );
 
         /* sensor refers to an SDL_Sensor* */
         [DllImport(nativeLibName, EntryPoint = "SDL_SensorGetName", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_SensorGetName(IntPtr sensor);
-        public static string SDL_SensorGetName(IntPtr sensor)
+        private static extern nint INTERNAL_SDL_SensorGetName(nint sensor);
+        public static string SDL_SensorGetName(nint sensor)
         {
             return UTF8_ToManaged(INTERNAL_SDL_SensorGetName(sensor));
         }
 
         /* sensor refers to an SDL_Sensor* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern SDL_SensorType SDL_SensorGetType(IntPtr sensor);
+        public static extern SDL_SensorType SDL_SensorGetType(nint sensor);
 
         /* sensor refers to an SDL_Sensor* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_SensorGetNonPortableType(IntPtr sensor);
+        public static extern int SDL_SensorGetNonPortableType(nint sensor);
 
         /* sensor refers to an SDL_Sensor* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern Int32 SDL_SensorGetInstanceID(IntPtr sensor);
+        public static extern Int32 SDL_SensorGetInstanceID(nint sensor);
 
         /* sensor refers to an SDL_Sensor* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SensorGetData(
-            IntPtr sensor,
+            nint sensor,
             float[] data,
             int num_values
         );
@@ -117,7 +117,7 @@ namespace LightningBase
         /* sensor refers to an SDL_Sensor* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_SensorGetDataWithTimestamp(
-            IntPtr sensor,
+            nint sensor,
             long timestamp, // datetime.ticks - new DateTime(1970, 1, 1, 0, 0, 0, 0)?
             float[] data,
             int num_values
@@ -125,7 +125,7 @@ namespace LightningBase
 
         /* sensor refers to an SDL_Sensor* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_SensorClose(IntPtr sensor);
+        public static extern void SDL_SensorClose(nint sensor);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_SensorUpdate();

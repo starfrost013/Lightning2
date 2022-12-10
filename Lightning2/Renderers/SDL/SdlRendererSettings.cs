@@ -91,12 +91,12 @@ namespace LightningGL
         /// <summary>
         /// The native window handle for this renderer.
         /// </summary>
-        public IntPtr WindowHandle { get; internal set; }
+        public nint WindowHandle { get; internal set; }
 
         /// <summary>
         /// The native renderer handle for this renderer.
         /// </summary>
-        public IntPtr RendererHandle { get; internal set; }
+        public nint RendererHandle { get; internal set; }
 
         /// <summary>
         /// Backing field for <see cref="Title"/>

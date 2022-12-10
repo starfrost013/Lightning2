@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using FT_Long = System.IntPtr;
+using FT_Long = System.nint;
 
 namespace LightningBase
 {
@@ -15,8 +15,8 @@ namespace LightningBase
 
         public FT_Long num_glyphs;
 
-        public IntPtr family_name;
-        public IntPtr style_name;
+        public nint family_name;
+        public nint style_name;
 
         public int num_fixed_sizes;
         public FT_Bitmap_Size* available_sizes;
@@ -43,15 +43,15 @@ namespace LightningBase
         public FT_SizeRec* size;
         public FT_CharMapRec* charmap;
 
-        public IntPtr driver;
-        public IntPtr memory;
-        public IntPtr stream;
+        public nint driver;
+        public nint memory;
+        public nint stream;
 
         public FT_ListRec sizes_list;
 
         public FT_Generic autohint;
-        public IntPtr extensions;
+        public nint extensions;
 
-        public IntPtr @internal;
+        public nint @internal;
     }
 }

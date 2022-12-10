@@ -93,11 +93,11 @@ namespace LightningBase
         /* userdata refers to a void*, message to a const char* */
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void SDL_LogOutputFunction(
-            IntPtr userdata,
+            nint userdata,
             [MarshalAs(UnmanagedType.I4)] // treat as nt32
 			SDL_LogCategory category,
             SDL_LogPriority priority,
-            IntPtr message
+            nint message
         );
 
         /* Use string.Format for arglists */
@@ -313,20 +313,20 @@ namespace LightningBase
         /* userdata refers to a void* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SDL_LogGetOutputFunction(
-            out IntPtr callback,
-            out IntPtr userdata
+            out nint callback,
+            out nint userdata
         );
         public static void SDL_LogGetOutputFunction(
             out SDL_LogOutputFunction callback,
-            out IntPtr userdata
+            out nint userdata
         )
         {
-            IntPtr result = IntPtr.Zero;
+            nint result = nint.Zero;
             SDL_LogGetOutputFunction(
                 out result,
                 out userdata
             );
-            if (result != IntPtr.Zero)
+            if (result != nint.Zero)
             {
                 callback = (SDL_LogOutputFunction)Marshal.GetDelegateForFunctionPointer(
                     result,
@@ -343,7 +343,7 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_LogSetOutputFunction(
             SDL_LogOutputFunction callback,
-            IntPtr userdata
+            nint userdata
         );
 
         #endregion

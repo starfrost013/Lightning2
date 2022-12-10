@@ -198,7 +198,6 @@ namespace LightningGL
                 $"SDL_image {SDL_IMAGE_EXPECTED_MAJOR_VERSION}.{SDL_IMAGE_EXPECTED_MINOR_VERSION}.{SDL_IMAGE_EXPECTED_PATCHLEVEL}",
                 $"SDL_mixer {SDL_MIXER_EXPECTED_MAJOR_VERSION}.{SDL_MIXER_EXPECTED_MINOR_VERSION}.{SDL_MIXER_EXPECTED_PATCHLEVEL}",
                 $"SDL_ttf {SDL_TTF_EXPECTED_MAJOR_VERSION}.{SDL_TTF_EXPECTED_MINOR_VERSION}.{SDL_TTF_EXPECTED_PATCHLEVEL}",
-                $"SDL_gfx {SDL_GFX_VERSION_MAJOR}.{SDL_GFX_VERSION_MINOR}.{SDL_GFX_VERSION_REVISION}",
                 $"{SystemInfo.Cpu.ProcessArchitecture} Lightning on {SystemInfo.Cpu.SystemArchitecture} {SystemInfo.CurOperatingSystem}",
                 $"CPU Capabilities: {SystemInfo.Cpu.Capabilities}",
                 $"Hardware Threads (NOT cores!): {SystemInfo.Cpu.Threads}",

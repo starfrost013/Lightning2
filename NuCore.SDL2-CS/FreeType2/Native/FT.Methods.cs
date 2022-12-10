@@ -23,11 +23,11 @@ namespace LightningBase
             NativeLibrary.SetDllImportResolver(typeof(FreeTypeApi).Assembly, ImportResolver);
         }
 
-        private static IntPtr ImportResolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
+        private static nint ImportResolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
         {
             if (libraryName != FreeTypeLibaryName) return default;
 
-            IntPtr handle = default;
+            nint handle = default;
             bool success = false;
 
             bool isWindows = false, isMacOS = false, isLinux = false, isAndroid = false;
@@ -149,17 +149,17 @@ namespace LightningBase
         #region FreeType Version
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_Library_Version(IntPtr library, out int amajor, out int aminor, out int apatch);
+        public static extern void FT_Library_Version(nint library, out int amajor, out int aminor, out int apatch);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
-        public static extern bool FT_Face_CheckTrueTypePatents(IntPtr face);
+        public static extern bool FT_Face_CheckTrueTypePatents(nint face);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
-        public static extern bool FT_Face_SetUnpatentedHinting(IntPtr face, [MarshalAs(UnmanagedType.U1)] bool value);
+        public static extern bool FT_Face_SetUnpatentedHinting(nint face, [MarshalAs(UnmanagedType.U1)] bool value);
         
 
         #endregion
@@ -167,123 +167,123 @@ namespace LightningBase
         #region Base Interface
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Init_FreeType(out IntPtr alibrary);
+        public static extern FT_Error FT_Init_FreeType(out nint alibrary);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Done_FreeType(IntPtr library);
+        public static extern FT_Error FT_Done_FreeType(nint library);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        public static extern FT_Error FT_New_Face(IntPtr library, string filepathname, int face_index, out IntPtr aface);
+        public static extern FT_Error FT_New_Face(nint library, string filepathname, int face_index, out nint aface);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_New_Memory_Face(IntPtr library, IntPtr file_base, int file_size, int face_index, out IntPtr aface);
+        public static extern FT_Error FT_New_Memory_Face(nint library, nint file_base, int file_size, int face_index, out nint aface);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Open_Face(IntPtr library, IntPtr args, int face_index, out IntPtr aface);
+        public static extern FT_Error FT_Open_Face(nint library, nint args, int face_index, out nint aface);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        public static extern FT_Error FT_Attach_File(IntPtr face, string filepathname);
+        public static extern FT_Error FT_Attach_File(nint face, string filepathname);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Attach_Stream(IntPtr face, IntPtr parameters);
+        public static extern FT_Error FT_Attach_Stream(nint face, nint parameters);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Reference_Face(IntPtr face);
+        public static extern FT_Error FT_Reference_Face(nint face);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Done_Face(IntPtr face);
+        public static extern FT_Error FT_Done_Face(nint face);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Select_Size(IntPtr face, int strike_index);
+        public static extern FT_Error FT_Select_Size(nint face, int strike_index);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Request_Size(IntPtr face, IntPtr req);
+        public static extern FT_Error FT_Request_Size(nint face, nint req);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Set_Char_Size(IntPtr face, IntPtr char_width, IntPtr char_height, uint horz_resolution, uint vert_resolution);
+        public static extern FT_Error FT_Set_Char_Size(nint face, nint char_width, nint char_height, uint horz_resolution, uint vert_resolution);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Set_Pixel_Sizes(IntPtr face, uint pixel_width, uint pixel_height);
+        public static extern FT_Error FT_Set_Pixel_Sizes(nint face, uint pixel_width, uint pixel_height);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Load_Glyph(IntPtr face, uint glyph_index, int load_flags);
+        public static extern FT_Error FT_Load_Glyph(nint face, uint glyph_index, int load_flags);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Load_Char(IntPtr face, uint char_code, int load_flags);
+        public static extern FT_Error FT_Load_Char(nint face, uint char_code, int load_flags);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_Set_Transform(IntPtr face, IntPtr matrix, IntPtr delta);
+        public static extern void FT_Set_Transform(nint face, nint matrix, nint delta);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Render_Glyph(IntPtr slot, FT_Render_Mode render_mode);
+        public static extern FT_Error FT_Render_Glyph(nint slot, FT_Render_Mode render_mode);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Get_Kerning(IntPtr face, uint left_glyph, uint right_glyph, uint kern_mode, out FT_Vector akerning);
+        public static extern FT_Error FT_Get_Kerning(nint face, uint left_glyph, uint right_glyph, uint kern_mode, out FT_Vector akerning);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Get_Track_Kerning(IntPtr face, IntPtr point_size, int degree, out IntPtr akerning);
+        public static extern FT_Error FT_Get_Track_Kerning(nint face, nint point_size, int degree, out nint akerning);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Get_Glyph_Name(IntPtr face, uint glyph_index, IntPtr buffer, uint buffer_max);
+        public static extern FT_Error FT_Get_Glyph_Name(nint face, uint glyph_index, nint buffer, uint buffer_max);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr FT_Get_Postscript_Name(IntPtr face);
+        public static extern nint FT_Get_Postscript_Name(nint face);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Select_Charmap(IntPtr face, FT_Encoding encoding);
+        public static extern FT_Error FT_Select_Charmap(nint face, FT_Encoding encoding);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Set_Charmap(IntPtr face, IntPtr charmap);
+        public static extern FT_Error FT_Set_Charmap(nint face, nint charmap);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int FT_Get_Charmap_Index(IntPtr charmap);
+        public static extern int FT_Get_Charmap_Index(nint charmap);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint FT_Get_Char_Index(IntPtr face, uint charcode);
+        public static extern uint FT_Get_Char_Index(nint face, uint charcode);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint FT_Get_First_Char(IntPtr face, out uint agindex);
+        public static extern uint FT_Get_First_Char(nint face, out uint agindex);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint FT_Get_Next_Char(IntPtr face, uint char_code, out uint agindex);
+        public static extern uint FT_Get_Next_Char(nint face, uint char_code, out uint agindex);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint FT_Get_Name_Index(IntPtr face, IntPtr glyph_name);
+        public static extern uint FT_Get_Name_Index(nint face, nint glyph_name);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Get_SubGlyph_Info(IntPtr glyph, uint sub_index, out int p_index, out uint p_flags, out int p_arg1, out int p_arg2, out FT_Matrix p_transform);
+        public static extern FT_Error FT_Get_SubGlyph_Info(nint glyph, uint sub_index, out int p_index, out uint p_flags, out int p_arg1, out int p_arg2, out FT_Matrix p_transform);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern ushort FT_Get_FSType_Flags(IntPtr face);
+        public static extern ushort FT_Get_FSType_Flags(nint face);
         
 
         #endregion
@@ -291,23 +291,23 @@ namespace LightningBase
         #region Glyph Variants
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint FT_Face_GetCharVariantIndex(IntPtr face, uint charcode, uint variantSelector);
+        public static extern uint FT_Face_GetCharVariantIndex(nint face, uint charcode, uint variantSelector);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int FT_Face_GetCharVariantIsDefault(IntPtr face, uint charcode, uint variantSelector);
+        public static extern int FT_Face_GetCharVariantIsDefault(nint face, uint charcode, uint variantSelector);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr FT_Face_GetVariantSelectors(IntPtr face);
+        public static extern nint FT_Face_GetVariantSelectors(nint face);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr FT_Face_GetVariantsOfChar(IntPtr face, uint charcode);
+        public static extern nint FT_Face_GetVariantsOfChar(nint face, uint charcode);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr FT_Face_GetCharsOfVariant(IntPtr face, uint variantSelector);
+        public static extern nint FT_Face_GetCharsOfVariant(nint face, uint variantSelector);
         
 
         #endregion
@@ -315,27 +315,27 @@ namespace LightningBase
         #region Glyph Management
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Get_Glyph(IntPtr slot, out IntPtr aglyph);
+        public static extern FT_Error FT_Get_Glyph(nint slot, out nint aglyph);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Glyph_Copy(IntPtr source, out IntPtr target);
+        public static extern FT_Error FT_Glyph_Copy(nint source, out nint target);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Glyph_Transform(IntPtr glyph, ref FT_Matrix matrix, ref FT_Vector delta);
+        public static extern FT_Error FT_Glyph_Transform(nint glyph, ref FT_Matrix matrix, ref FT_Vector delta);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_Glyph_Get_CBox(IntPtr glyph, FT_Glyph_BBox_Mode bbox_mode, out FT_BBox acbox);
+        public static extern void FT_Glyph_Get_CBox(nint glyph, FT_Glyph_BBox_Mode bbox_mode, out FT_BBox acbox);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Glyph_To_Bitmap(ref IntPtr the_glyph, FT_Render_Mode render_mode, ref FT_Vector origin, [MarshalAs(UnmanagedType.U1)] bool destroy);
+        public static extern FT_Error FT_Glyph_To_Bitmap(ref nint the_glyph, FT_Render_Mode render_mode, ref FT_Vector origin, [MarshalAs(UnmanagedType.U1)] bool destroy);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_Done_Glyph(IntPtr glyph);
+        public static extern void FT_Done_Glyph(nint glyph);
         
 
         #endregion
@@ -344,31 +344,31 @@ namespace LightningBase
 
         // No methods in iOS
         //[DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        //public static extern FT_Error FT_New_Face_From_FOND(IntPtr library, IntPtr fond, int face_index, out IntPtr aface);
+        //public static extern FT_Error FT_New_Face_From_FOND(nint library, nint fond, int face_index, out nint aface);
         
 
         // No methods in iOS
         //[DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        //public static extern FT_Error FT_GetFile_From_Mac_Name(string fontName, out IntPtr pathSpec, out int face_index);
+        //public static extern FT_Error FT_GetFile_From_Mac_Name(string fontName, out nint pathSpec, out int face_index);
         
         // No methods in iOS
         //[DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        //public static extern FT_Error FT_GetFile_From_Mac_ATS_Name(string fontName, out IntPtr pathSpec, out int face_index);
+        //public static extern FT_Error FT_GetFile_From_Mac_ATS_Name(string fontName, out nint pathSpec, out int face_index);
         
 
         // No methods in iOS
         //[DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        //public static extern FT_Error FT_GetFilePath_From_Mac_ATS_Name(string fontName, IntPtr path, int maxPathSize, out int face_index);
+        //public static extern FT_Error FT_GetFilePath_From_Mac_ATS_Name(string fontName, nint path, int maxPathSize, out int face_index);
         
 
         // No methods in iOS
         //[DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        //public static extern FT_Error FT_New_Face_From_FSSpec(IntPtr library, IntPtr spec, int face_index, out IntPtr aface);
+        //public static extern FT_Error FT_New_Face_From_FSSpec(nint library, nint spec, int face_index, out nint aface);
         
 
         // No methods in iOS
         //[DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        //public static extern FT_Error FT_New_Face_From_FSRef(IntPtr library, IntPtr @ref, int face_index, out IntPtr aface);
+        //public static extern FT_Error FT_New_Face_From_FSRef(nint library, nint @ref, int face_index, out nint aface);
         
 
         #endregion
@@ -376,15 +376,15 @@ namespace LightningBase
         #region Size Management
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_New_Size(IntPtr face, out IntPtr size);
+        public static extern FT_Error FT_New_Size(nint face, out nint size);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Done_Size(IntPtr size);
+        public static extern FT_Error FT_Done_Size(nint size);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Activate_Size(IntPtr size);
+        public static extern FT_Error FT_Activate_Size(nint size);
         
 
         #endregion
@@ -396,27 +396,27 @@ namespace LightningBase
         #region Computations
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr FT_MulDiv(IntPtr a, IntPtr b, IntPtr c);
+        public static extern nint FT_MulDiv(nint a, nint b, nint c);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr FT_MulFix(IntPtr a, IntPtr b);
+        public static extern nint FT_MulFix(nint a, nint b);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr FT_DivFix(IntPtr a, IntPtr b);
+        public static extern nint FT_DivFix(nint a, nint b);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr FT_RoundFix(IntPtr a);
+        public static extern nint FT_RoundFix(nint a);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr FT_CeilFix(IntPtr a);
+        public static extern nint FT_CeilFix(nint a);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr FT_FloorFix(IntPtr a);
+        public static extern nint FT_FloorFix(nint a);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
@@ -432,74 +432,74 @@ namespace LightningBase
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr FT_Sin(IntPtr angle);
+        public static extern nint FT_Sin(nint angle);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr FT_Cos(IntPtr angle);
+        public static extern nint FT_Cos(nint angle);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr FT_Tan(IntPtr angle);
+        public static extern nint FT_Tan(nint angle);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr FT_Atan2(IntPtr x, IntPtr y);
+        public static extern nint FT_Atan2(nint x, nint y);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr FT_Angle_Diff(IntPtr angle1, IntPtr angle2);
+        public static extern nint FT_Angle_Diff(nint angle1, nint angle2);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_Vector_Unit(out FT_Vector vec, IntPtr angle);
+        public static extern void FT_Vector_Unit(out FT_Vector vec, nint angle);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_Vector_Rotate(ref FT_Vector vec, IntPtr angle);
+        public static extern void FT_Vector_Rotate(ref FT_Vector vec, nint angle);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr FT_Vector_Length(ref FT_Vector vec);
+        public static extern nint FT_Vector_Length(ref FT_Vector vec);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_Vector_Polarize(ref FT_Vector vec, out IntPtr length, out IntPtr angle);
+        public static extern void FT_Vector_Polarize(ref FT_Vector vec, out nint length, out nint angle);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_Vector_From_Polar(out FT_Vector vec, IntPtr length, IntPtr angle);
+        public static extern void FT_Vector_From_Polar(out FT_Vector vec, nint length, nint angle);
         
         #endregion
 
         #region List Processing
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr FT_List_Find(IntPtr list, IntPtr data);
+        public static extern nint FT_List_Find(nint list, nint data);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_List_Add(IntPtr list, IntPtr node);
+        public static extern void FT_List_Add(nint list, nint node);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_List_Insert(IntPtr list, IntPtr node);
+        public static extern void FT_List_Insert(nint list, nint node);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_List_Remove(IntPtr list, IntPtr node);
+        public static extern void FT_List_Remove(nint list, nint node);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_List_Up(IntPtr list, IntPtr node);
+        public static extern void FT_List_Up(nint list, nint node);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_List_Iterate(IntPtr list, FT_List_Iterator iterator, IntPtr user);
+        public static extern FT_Error FT_List_Iterate(nint list, FT_List_Iterator iterator, nint user);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_List_Finalize(IntPtr list, FT_List_Destructor destroy, IntPtr memory, IntPtr user);
+        public static extern void FT_List_Finalize(nint list, FT_List_Destructor destroy, nint memory, nint user);
         
 
         #endregion
@@ -507,73 +507,73 @@ namespace LightningBase
         #region Outline Processing
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Outline_New(IntPtr library, uint numPoints, int numContours, out IntPtr anoutline);
+        public static extern FT_Error FT_Outline_New(nint library, uint numPoints, int numContours, out nint anoutline);
         
 
         // No methods in iOS
         //[DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        //public static extern FT_Error FT_Outline_New_Internal(IntPtr memory, uint numPoints, int numContours, out IntPtr anoutline);
+        //public static extern FT_Error FT_Outline_New_Internal(nint memory, uint numPoints, int numContours, out nint anoutline);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Outline_Done(IntPtr library, IntPtr outline);
+        public static extern FT_Error FT_Outline_Done(nint library, nint outline);
         
 
         // No methods in iOS
         //[DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        //public static extern FT_Error FT_Outline_Done_Internal(IntPtr memory, IntPtr outline);
+        //public static extern FT_Error FT_Outline_Done_Internal(nint memory, nint outline);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Outline_Copy(IntPtr source, ref IntPtr target);
+        public static extern FT_Error FT_Outline_Copy(nint source, ref nint target);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_Outline_Translate(IntPtr outline, int xOffset, int yOffset);
+        public static extern void FT_Outline_Translate(nint outline, int xOffset, int yOffset);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_Outline_Transform(IntPtr outline, ref FT_Matrix matrix);
+        public static extern void FT_Outline_Transform(nint outline, ref FT_Matrix matrix);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Outline_Embolden(IntPtr outline, IntPtr strength);
+        public static extern FT_Error FT_Outline_Embolden(nint outline, nint strength);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Outline_EmboldenXY(IntPtr outline, int xstrength, int ystrength);
+        public static extern FT_Error FT_Outline_EmboldenXY(nint outline, int xstrength, int ystrength);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_Outline_Reverse(IntPtr outline);
+        public static extern void FT_Outline_Reverse(nint outline);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Outline_Check(IntPtr outline);
+        public static extern FT_Error FT_Outline_Check(nint outline);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Outline_Get_BBox(IntPtr outline, out FT_BBox abbox);
+        public static extern FT_Error FT_Outline_Get_BBox(nint outline, out FT_BBox abbox);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Outline_Decompose(IntPtr outline, ref FT_Outline_Funcs func_interface, IntPtr user);
+        public static extern FT_Error FT_Outline_Decompose(nint outline, ref FT_Outline_Funcs func_interface, nint user);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_Outline_Get_CBox(IntPtr outline, out FT_BBox acbox);
+        public static extern void FT_Outline_Get_CBox(nint outline, out FT_BBox acbox);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Outline_Get_Bitmap(IntPtr library, IntPtr outline, IntPtr abitmap);
+        public static extern FT_Error FT_Outline_Get_Bitmap(nint library, nint outline, nint abitmap);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Outline_Render(IntPtr library, IntPtr outline, IntPtr @params);
+        public static extern FT_Error FT_Outline_Render(nint library, nint outline, nint @params);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Orientation FT_Outline_Get_Orientation(IntPtr outline);
+        public static extern FT_Orientation FT_Outline_Get_Orientation(nint outline);
         
 
         #endregion
@@ -581,11 +581,11 @@ namespace LightningBase
         #region Quick retrieval of advance values
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Get_Advance(IntPtr face, uint gIndex, uint load_flags, out IntPtr padvance);
+        public static extern FT_Error FT_Get_Advance(nint face, uint gIndex, uint load_flags, out nint padvance);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Get_Advances(IntPtr face, uint start, uint count, uint load_flags, out IntPtr padvance);
+        public static extern FT_Error FT_Get_Advances(nint face, uint start, uint count, uint load_flags, out nint padvance);
         
 
         #endregion
@@ -593,27 +593,27 @@ namespace LightningBase
         #region Bitmap Handling
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_Bitmap_New(IntPtr abitmap);
+        public static extern void FT_Bitmap_New(nint abitmap);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Bitmap_Copy(IntPtr library, IntPtr source, IntPtr target);
+        public static extern FT_Error FT_Bitmap_Copy(nint library, nint source, nint target);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Bitmap_Embolden(IntPtr library, IntPtr bitmap, IntPtr xStrength, IntPtr yStrength);
+        public static extern FT_Error FT_Bitmap_Embolden(nint library, nint bitmap, nint xStrength, nint yStrength);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Bitmap_Convert(IntPtr library, IntPtr source, IntPtr target, int alignment);
+        public static extern FT_Error FT_Bitmap_Convert(nint library, nint source, nint target, int alignment);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_GlyphSlot_Own_Bitmap(IntPtr slot);
+        public static extern FT_Error FT_GlyphSlot_Own_Bitmap(nint slot);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Bitmap_Done(IntPtr library, IntPtr bitmap);
+        public static extern FT_Error FT_Bitmap_Done(nint library, nint bitmap);
         
 
         #endregion
@@ -621,75 +621,75 @@ namespace LightningBase
         #region Glyph Stroker
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_StrokerBorder FT_Outline_GetInsideBorder(IntPtr outline);
+        public static extern FT_StrokerBorder FT_Outline_GetInsideBorder(nint outline);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_StrokerBorder FT_Outline_GetOutsideBorder(IntPtr outline);
+        public static extern FT_StrokerBorder FT_Outline_GetOutsideBorder(nint outline);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Stroker_New(IntPtr library, out IntPtr astroker);
+        public static extern FT_Error FT_Stroker_New(nint library, out nint astroker);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_Stroker_Set(IntPtr stroker, int radius, FT_Stroker_LineCap line_cap, FT_Stroker_LineJoin line_join, IntPtr miter_limit);
+        public static extern void FT_Stroker_Set(nint stroker, int radius, FT_Stroker_LineCap line_cap, FT_Stroker_LineJoin line_join, nint miter_limit);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_Stroker_Rewind(IntPtr stroker);
+        public static extern void FT_Stroker_Rewind(nint stroker);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Stroker_ParseOutline(IntPtr stroker, IntPtr outline, [MarshalAs(UnmanagedType.U1)] bool opened);
+        public static extern FT_Error FT_Stroker_ParseOutline(nint stroker, nint outline, [MarshalAs(UnmanagedType.U1)] bool opened);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Stroker_BeginSubPath(IntPtr stroker, ref FT_Vector to, [MarshalAs(UnmanagedType.U1)] bool open);
+        public static extern FT_Error FT_Stroker_BeginSubPath(nint stroker, ref FT_Vector to, [MarshalAs(UnmanagedType.U1)] bool open);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Stroker_EndSubPath(IntPtr stroker);
+        public static extern FT_Error FT_Stroker_EndSubPath(nint stroker);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Stroker_LineTo(IntPtr stroker, ref FT_Vector to);
+        public static extern FT_Error FT_Stroker_LineTo(nint stroker, ref FT_Vector to);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Stroker_ConicTo(IntPtr stroker, ref FT_Vector control, ref FT_Vector to);
+        public static extern FT_Error FT_Stroker_ConicTo(nint stroker, ref FT_Vector control, ref FT_Vector to);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Stroker_CubicTo(IntPtr stroker, ref FT_Vector control1, ref FT_Vector control2, ref FT_Vector to);
+        public static extern FT_Error FT_Stroker_CubicTo(nint stroker, ref FT_Vector control1, ref FT_Vector control2, ref FT_Vector to);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Stroker_GetBorderCounts(IntPtr stroker, FT_StrokerBorder border, out uint anum_points, out uint anum_contours);
+        public static extern FT_Error FT_Stroker_GetBorderCounts(nint stroker, FT_StrokerBorder border, out uint anum_points, out uint anum_contours);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_Stroker_ExportBorder(IntPtr stroker, FT_StrokerBorder border, IntPtr outline);
+        public static extern void FT_Stroker_ExportBorder(nint stroker, FT_StrokerBorder border, nint outline);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Stroker_GetCounts(IntPtr stroker, out uint anum_points, out uint anum_contours);
+        public static extern FT_Error FT_Stroker_GetCounts(nint stroker, out uint anum_points, out uint anum_contours);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_Stroker_Export(IntPtr stroker, IntPtr outline);
+        public static extern void FT_Stroker_Export(nint stroker, nint outline);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_Stroker_Done(IntPtr stroker);
+        public static extern void FT_Stroker_Done(nint stroker);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Glyph_Stroke(ref IntPtr pglyph, IntPtr stoker, [MarshalAs(UnmanagedType.U1)] bool destroy);
+        public static extern FT_Error FT_Glyph_Stroke(ref nint pglyph, nint stoker, [MarshalAs(UnmanagedType.U1)] bool destroy);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Glyph_StrokeBorder(ref IntPtr pglyph, IntPtr stoker, [MarshalAs(UnmanagedType.U1)] bool inside, [MarshalAs(UnmanagedType.U1)] bool destroy);
+        public static extern FT_Error FT_Glyph_StrokeBorder(ref nint pglyph, nint stoker, [MarshalAs(UnmanagedType.U1)] bool inside, [MarshalAs(UnmanagedType.U1)] bool destroy);
         
 
         #endregion
@@ -697,52 +697,52 @@ namespace LightningBase
         #region Module Management
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Add_Module(IntPtr library, IntPtr clazz);
+        public static extern FT_Error FT_Add_Module(nint library, nint clazz);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        public static extern IntPtr FT_Get_Module(IntPtr library, string module_name);
+        public static extern nint FT_Get_Module(nint library, string module_name);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Remove_Module(IntPtr library, IntPtr module);
+        public static extern FT_Error FT_Remove_Module(nint library, nint module);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        public static extern FT_Error FT_Property_Set(IntPtr library, string module_name, string property_name, IntPtr value);
+        public static extern FT_Error FT_Property_Set(nint library, string module_name, string property_name, nint value);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        public static extern FT_Error FT_Property_Get(IntPtr library, string module_name, string property_name, IntPtr value);
+        public static extern FT_Error FT_Property_Get(nint library, string module_name, string property_name, nint value);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Reference_Library(IntPtr library);
+        public static extern FT_Error FT_Reference_Library(nint library);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_New_Library(IntPtr memory, out IntPtr alibrary);
+        public static extern FT_Error FT_New_Library(nint memory, out nint alibrary);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Done_Library(IntPtr library);
+        public static extern FT_Error FT_Done_Library(nint library);
         
 
         //TODO figure out the method signature for debug_hook. (FT_DebugHook_Func)
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_Set_Debug_Hook(IntPtr library, uint hook_index, IntPtr debug_hook);
+        public static extern void FT_Set_Debug_Hook(nint library, uint hook_index, nint debug_hook);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_Add_Default_Modules(IntPtr library);
+        public static extern void FT_Add_Default_Modules(nint library);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr FT_Get_Renderer(IntPtr library, FT_Glyph_Format format);
+        public static extern nint FT_Get_Renderer(nint library, FT_Glyph_Format format);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Set_Renderer(IntPtr library, IntPtr renderer, uint num_params, IntPtr parameters);
+        public static extern FT_Error FT_Set_Renderer(nint library, nint renderer, uint num_params, nint parameters);
         
 
         #endregion
@@ -750,11 +750,11 @@ namespace LightningBase
         #region GZIP Streams
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Stream_OpenGzip(IntPtr stream, IntPtr source);
+        public static extern FT_Error FT_Stream_OpenGzip(nint stream, nint source);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Gzip_Uncompress(IntPtr memory, IntPtr output, ref IntPtr output_len, IntPtr input, IntPtr input_len);
+        public static extern FT_Error FT_Gzip_Uncompress(nint memory, nint output, ref nint output_len, nint input, nint input_len);
         
 
         #endregion
@@ -762,7 +762,7 @@ namespace LightningBase
         #region LZW Streams
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Stream_OpenLZW(IntPtr stream, IntPtr source);
+        public static extern FT_Error FT_Stream_OpenLZW(nint stream, nint source);
         
 
         #endregion
@@ -770,7 +770,7 @@ namespace LightningBase
         #region BZIP2 Streams
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Stream_OpenBzip2(IntPtr stream, IntPtr source);
+        public static extern FT_Error FT_Stream_OpenBzip2(nint stream, nint source);
         
 
         #endregion
@@ -778,11 +778,11 @@ namespace LightningBase
         #region LCD Filtering
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Library_SetLcdFilter(IntPtr library, FT_LcdFilter filter);
+        public static extern FT_Error FT_Library_SetLcdFilter(nint library, FT_LcdFilter filter);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_Library_SetLcdFilterWeights(IntPtr library, byte[] weights);
+        public static extern FT_Error FT_Library_SetLcdFilterWeights(nint library, byte[] weights);
         
 
         #endregion
@@ -792,63 +792,63 @@ namespace LightningBase
         #region Caching Sub-system
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FTC_Manager_New(IntPtr library, uint max_faces, uint max_sizes, ulong maxBytes, FTC_Face_Requester requester, IntPtr req_data, out IntPtr amanager);
+        public static extern FT_Error FTC_Manager_New(nint library, uint max_faces, uint max_sizes, ulong maxBytes, FTC_Face_Requester requester, nint req_data, out nint amanager);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FTC_Manager_Reset(IntPtr manager);
+        public static extern void FTC_Manager_Reset(nint manager);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FTC_Manager_Done(IntPtr manager);
+        public static extern void FTC_Manager_Done(nint manager);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FTC_Manager_LookupFace(IntPtr manager, IntPtr face_id, out IntPtr aface);
+        public static extern FT_Error FTC_Manager_LookupFace(nint manager, nint face_id, out nint aface);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FTC_Manager_LookupSize(IntPtr manager, IntPtr scaler, out IntPtr asize);
+        public static extern FT_Error FTC_Manager_LookupSize(nint manager, nint scaler, out nint asize);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FTC_Node_Unref(IntPtr node, IntPtr manager);
+        public static extern void FTC_Node_Unref(nint node, nint manager);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FTC_Manager_RemoveFaceID(IntPtr manager, IntPtr face_id);
+        public static extern void FTC_Manager_RemoveFaceID(nint manager, nint face_id);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FTC_CMapCache_New(IntPtr manager, out IntPtr acache);
+        public static extern FT_Error FTC_CMapCache_New(nint manager, out nint acache);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint FTC_CMapCache_Lookup(IntPtr cache, IntPtr face_id, int cmap_index, uint char_code);
+        public static extern uint FTC_CMapCache_Lookup(nint cache, nint face_id, int cmap_index, uint char_code);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FTC_ImageCache_New(IntPtr manager, out IntPtr acache);
+        public static extern FT_Error FTC_ImageCache_New(nint manager, out nint acache);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FTC_ImageCache_Lookup(IntPtr cache, IntPtr type, uint gindex, out IntPtr aglyph, out IntPtr anode);
+        public static extern FT_Error FTC_ImageCache_Lookup(nint cache, nint type, uint gindex, out nint aglyph, out nint anode);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FTC_ImageCache_LookupScaler(IntPtr cache, IntPtr scaler, uint load_flags, uint gindex, out IntPtr aglyph, out IntPtr anode);
+        public static extern FT_Error FTC_ImageCache_LookupScaler(nint cache, nint scaler, uint load_flags, uint gindex, out nint aglyph, out nint anode);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FTC_SBitCache_New(IntPtr manager, out IntPtr acache);
+        public static extern FT_Error FTC_SBitCache_New(nint manager, out nint acache);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FTC_SBitCache_Lookup(IntPtr cache, IntPtr type, uint gindex, out IntPtr sbit, out IntPtr anode);
+        public static extern FT_Error FTC_SBitCache_Lookup(nint cache, nint type, uint gindex, out nint sbit, out nint anode);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FTC_SBitCache_LookupScaler(IntPtr cache, IntPtr scaler, uint load_flags, uint gindex, out IntPtr sbit, out IntPtr anode);
+        public static extern FT_Error FTC_SBitCache_LookupScaler(nint cache, nint scaler, uint load_flags, uint gindex, out nint sbit, out nint anode);
         
 
         #endregion
@@ -858,11 +858,11 @@ namespace LightningBase
         #region OpenType Validation
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_OpenType_Validate(IntPtr face, uint validation_flags, out IntPtr base_table, out IntPtr gdef_table, out IntPtr gpos_table, out IntPtr gsub_table, out IntPtr jsft_table);
+        public static extern FT_Error FT_OpenType_Validate(nint face, uint validation_flags, out nint base_table, out nint gdef_table, out nint gpos_table, out nint gsub_table, out nint jsft_table);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void FT_OpenType_Free(IntPtr face, IntPtr table);
+        public static extern void FT_OpenType_Free(nint face, nint table);
         
 
         #endregion
@@ -870,7 +870,7 @@ namespace LightningBase
         #region The TrueType Engine
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_TrueTypeEngineType FT_Get_TrueType_Engine_Type(IntPtr library);
+        public static extern FT_TrueTypeEngineType FT_Get_TrueType_Engine_Type(nint library);
         
 
         #endregion
@@ -878,19 +878,19 @@ namespace LightningBase
         #region TrueTypeGX/AAT Validation
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_TrueTypeGX_Validate(IntPtr face, uint validation_flags, ref byte[] tables, uint tableLength);
+        public static extern FT_Error FT_TrueTypeGX_Validate(nint face, uint validation_flags, ref byte[] tables, uint tableLength);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_TrueTypeGX_Free(IntPtr face, IntPtr table);
+        public static extern FT_Error FT_TrueTypeGX_Free(nint face, nint table);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_ClassicKern_Validate(IntPtr face, uint validation_flags, out IntPtr ckern_table);
+        public static extern FT_Error FT_ClassicKern_Validate(nint face, uint validation_flags, out nint ckern_table);
         
 
         [DllImport(FreeTypeLibaryName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern FT_Error FT_ClassicKern_Free(IntPtr face, IntPtr table);
+        public static extern FT_Error FT_ClassicKern_Free(nint face, nint table);
         
 
         #endregion

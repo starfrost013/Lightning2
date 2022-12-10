@@ -49,9 +49,9 @@ namespace LightningBase
         }
 
         /* This is public because SDL_DropEvent needs it! */
-        public static unsafe string UTF8_ToManaged(IntPtr s, bool freePtr = false)
+        public static unsafe string UTF8_ToManaged(nint s, bool freePtr = false)
         {
-            if (s == IntPtr.Zero) return null;
+            if (s == nint.Zero) return null;
 
             /* We get to do strlen ourselves! */
             byte* ptr = (byte*)s;

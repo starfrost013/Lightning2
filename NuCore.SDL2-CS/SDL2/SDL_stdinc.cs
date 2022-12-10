@@ -57,10 +57,10 @@ namespace LightningBase
         /* malloc/free are used by the marshaler! -flibit */
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr SDL_malloc(IntPtr size);
+        internal static extern nint SDL_malloc(nint size);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void SDL_free(IntPtr memblock);
+        internal static extern void SDL_free(nint memblock);
 
         #endregion
 

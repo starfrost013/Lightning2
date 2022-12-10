@@ -45,21 +45,21 @@ namespace LightningBase
 
         /* Only available in 2.0.11 or higher. */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_Metal_CreateView(
-            IntPtr window
+        public static extern nint SDL_Metal_CreateView(
+            nint window
         );
 
         /* Only available in 2.0.11 or higher. */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_Metal_DestroyView(
-            IntPtr view
+            nint view
         );
 
         /* view refers to an SDL_MetalView.
 		 * Only available in 2.0.14 or higher. */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_Metal_GetLayer(
-            IntPtr view
+        public static extern nint SDL_Metal_GetLayer(
+            nint view
         );
 
         /* window refers to an SDL_Window*.
@@ -67,7 +67,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_Metal_GetDrawableSize(
-            IntPtr window,
+            nint window,
             out int w,
             out int h
         );

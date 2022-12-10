@@ -47,7 +47,7 @@ namespace LightningBase
         #region SDL_platform.h
 
         [DllImport(nativeLibName, EntryPoint = "SDL_GetPlatform", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_GetPlatform();
+        private static extern nint INTERNAL_SDL_GetPlatform();
         public static string SDL_GetPlatform()
         {
             return UTF8_ToManaged(INTERNAL_SDL_GetPlatform());

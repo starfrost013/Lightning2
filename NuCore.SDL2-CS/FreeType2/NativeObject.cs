@@ -7,18 +7,18 @@ namespace LightningBase
     /// </summary>
     public abstract class NativeObject
     {
-        private IntPtr reference;
+        private nint reference;
 
         /// <summary>
         /// Construct a new NativeObject and assign the reference.
         /// </summary>
         /// <param name="reference"></param>
-        protected NativeObject(IntPtr reference)
+        protected NativeObject(nint reference)
         {
             this.reference = reference;
         }
 
-        public virtual IntPtr Reference
+        public virtual nint Reference
         {
             get
             {

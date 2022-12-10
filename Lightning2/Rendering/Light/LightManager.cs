@@ -56,7 +56,7 @@
         /// <param name="asset">The <see cref="Light"/> object to add to the light manager.</param>
         public override Light AddAsset(Light asset)
         {
-            if (ScreenSpaceMap.Handle == IntPtr.Zero) NCError.ShowErrorBox("The Light Manager must be initialised before using it!", 61, "LightManager::AddLight called before LightManager::Init!", NCErrorSeverity.FatalError);
+            if (ScreenSpaceMap.Handle == nint.Zero) NCError.ShowErrorBox("The Light Manager must be initialised before using it!", 61, "LightManager::AddLight called before LightManager::Init!", NCErrorSeverity.FatalError);
             asset.RenderToTexture();
             Lightning.Renderer.AddRenderable(asset);
             return asset;
@@ -79,7 +79,7 @@
         /// <param name="color">The <see cref="Color"/> to set as the environmental light color.</param>
         public void SetEnvironmentalLight(Color color)
         {
-            if (ScreenSpaceMap.Handle == IntPtr.Zero) NCError.ShowErrorBox("The Light Manager must be initialised before using it!", 124, "LightManager::SetEnvironmentalLight called before LightManager::Init!", NCErrorSeverity.FatalError);
+            if (ScreenSpaceMap.Handle == nint.Zero) NCError.ShowErrorBox("The Light Manager must be initialised before using it!", 124, "LightManager::SetEnvironmentalLight called before LightManager::Init!", NCErrorSeverity.FatalError);
             EnvironmentalLight = color;
 
             if (EnvironmentalLight == default(Color)) EnvironmentalLight = Color.FromArgb(255, 255, 255, 255);
@@ -94,7 +94,7 @@
         /// <param name="blendMode">The <see cref="SDL_BlendMode"/> of the environmental light texture to set,</param>
         public void SetEnvironmentalLightBlendMode(SDL_BlendMode blendMode)
         {
-            if (ScreenSpaceMap.Handle == IntPtr.Zero) NCError.ShowErrorBox("The Light Manager must be initialised before using it!", 
+            if (ScreenSpaceMap.Handle == nint.Zero) NCError.ShowErrorBox("The Light Manager must be initialised before using it!", 
                 125, "LightManager::SetEnvironmentalLightBlendMode called before LightManager::Init!", NCErrorSeverity.FatalError);
             SDL_SetTextureBlendMode(ScreenSpaceMap.Handle, blendMode);
         }
@@ -105,7 +105,7 @@
         /// <param name="Lightning.Renderer">The window to render the current screen-space light map to.</param>
         internal override void Update()
         {
-            if (ScreenSpaceMap.Handle == IntPtr.Zero) NCError.ShowErrorBox("The Light Manager must be initialised before using it!",
+            if (ScreenSpaceMap.Handle == nint.Zero) NCError.ShowErrorBox("The Light Manager must be initialised before using it!",
                 62, "LightManager::RenderLightmap called before LightManager::Init!", NCErrorSeverity.FatalError);
             ScreenSpaceMap.Draw();
         }

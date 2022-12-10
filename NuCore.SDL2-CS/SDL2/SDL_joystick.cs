@@ -87,7 +87,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_JoystickRumble(
-            IntPtr joystick,
+            nint joystick,
             UInt16 low_frequency_rumble,
             UInt16 high_frequency_rumble,
             UInt32 duration_ms
@@ -98,7 +98,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_JoystickRumbleTriggers(
-            IntPtr joystick,
+            nint joystick,
             UInt16 left_rumble,
             UInt16 right_rumble,
             UInt32 duration_ms
@@ -106,7 +106,7 @@ namespace LightningBase
 
         /* joystick refers to an SDL_Joystick* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_JoystickClose(IntPtr joystick);
+        public static extern void SDL_JoystickClose(nint joystick);
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_JoystickEventState(int state);
@@ -114,7 +114,7 @@ namespace LightningBase
         /* joystick refers to an SDL_Joystick* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern short SDL_JoystickGetAxis(
-            IntPtr joystick,
+            nint joystick,
             int axis
         );
 
@@ -123,7 +123,7 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_bool SDL_JoystickGetAxisInitialState(
-            IntPtr joystick,
+            nint joystick,
             int axis,
             out short state
         );
@@ -131,7 +131,7 @@ namespace LightningBase
         /* joystick refers to an SDL_Joystick* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_JoystickGetBall(
-            IntPtr joystick,
+            nint joystick,
             int ball,
             out int dx,
             out int dy
@@ -140,28 +140,28 @@ namespace LightningBase
         /* joystick refers to an SDL_Joystick* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern byte SDL_JoystickGetButton(
-            IntPtr joystick,
+            nint joystick,
             int button
         );
 
         /* joystick refers to an SDL_Joystick* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern byte SDL_JoystickGetHat(
-            IntPtr joystick,
+            nint joystick,
             int hat
         );
 
         /* joystick refers to an SDL_Joystick*.
          * Only available in 2.24.0 or higher */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_JoystickGetFirmwareVersion(IntPtr joystick);
+        public static extern int SDL_JoystickGetFirmwareVersion(nint joystick);
 
         /* joystick refers to an SDL_Joystick* */
         [DllImport(nativeLibName, EntryPoint = "SDL_JoystickName", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_JoystickName(
-            IntPtr joystick
+        private static extern nint INTERNAL_SDL_JoystickName(
+            nint joystick
         );
-        public static string SDL_JoystickName(IntPtr joystick)
+        public static string SDL_JoystickName(nint joystick)
         {
             return UTF8_ToManaged(
                 INTERNAL_SDL_JoystickName(joystick)
@@ -169,7 +169,7 @@ namespace LightningBase
         }
 
         [DllImport(nativeLibName, EntryPoint = "SDL_JoystickNameForIndex", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_JoystickNameForIndex(
+        private static extern nint INTERNAL_SDL_JoystickNameForIndex(
             int device_index
         );
         public static string SDL_JoystickNameForIndex(int device_index)
@@ -181,23 +181,23 @@ namespace LightningBase
 
         /* joystick refers to an SDL_Joystick* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_JoystickNumAxes(IntPtr joystick);
+        public static extern int SDL_JoystickNumAxes(nint joystick);
 
         /* joystick refers to an SDL_Joystick* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_JoystickNumBalls(IntPtr joystick);
+        public static extern int SDL_JoystickNumBalls(nint joystick);
 
         /* joystick refers to an SDL_Joystick* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_JoystickNumButtons(IntPtr joystick);
+        public static extern int SDL_JoystickNumButtons(nint joystick);
 
         /* joystick refers to an SDL_Joystick* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_JoystickNumHats(IntPtr joystick);
+        public static extern int SDL_JoystickNumHats(nint joystick);
 
-        /* IntPtr refers to an SDL_Joystick* */
+        /* nint refers to an SDL_Joystick* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_JoystickOpen(int device_index);
+        public static extern nint SDL_JoystickOpen(int device_index);
 
         /* joystick refers to an SDL_Joystick* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -215,7 +215,7 @@ namespace LightningBase
         /* joystick refers to an SDL_Joystick* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Guid SDL_JoystickGetGUID(
-            IntPtr joystick
+            nint joystick
         );
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -272,29 +272,29 @@ namespace LightningBase
 		 * Only available in 2.0.6 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern ushort SDL_JoystickGetVendor(IntPtr joystick);
+        public static extern ushort SDL_JoystickGetVendor(nint joystick);
 
         /* joystick refers to an SDL_Joystick*.
 		 * Only available in 2.0.6 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern ushort SDL_JoystickGetProduct(IntPtr joystick);
+        public static extern ushort SDL_JoystickGetProduct(nint joystick);
 
         /* joystick refers to an SDL_Joystick*.
 		 * Only available in 2.0.6 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern ushort SDL_JoystickGetProductVersion(IntPtr joystick);
+        public static extern ushort SDL_JoystickGetProductVersion(nint joystick);
 
         /* joystick refers to an SDL_Joystick*.
 		 * Only available in 2.0.14 or higher.
 		 */
         [DllImport(nativeLibName, EntryPoint = "SDL_JoystickGetSerial", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_SDL_JoystickGetSerial(
-            IntPtr joystick
+        private static extern nint INTERNAL_SDL_JoystickGetSerial(
+            nint joystick
         );
         public static string SDL_JoystickGetSerial(
-            IntPtr joystick
+            nint joystick
         )
         {
             return UTF8_ToManaged(
@@ -306,29 +306,29 @@ namespace LightningBase
 		 * Only available in 2.0.6 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern SDL_JoystickType SDL_JoystickGetType(IntPtr joystick);
+        public static extern SDL_JoystickType SDL_JoystickGetType(nint joystick);
 
         /* joystick refers to an SDL_Joystick* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern SDL_bool SDL_JoystickGetAttached(IntPtr joystick);
+        public static extern SDL_bool SDL_JoystickGetAttached(nint joystick);
 
         /* int refers to an SDL_JoystickID, joystick to an SDL_Joystick* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_JoystickInstanceID(IntPtr joystick);
+        public static extern int SDL_JoystickInstanceID(nint joystick);
 
         /* joystick refers to an SDL_Joystick*.
 		 * Only available in 2.0.4 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_JoystickPowerLevel SDL_JoystickCurrentPowerLevel(
-            IntPtr joystick
+            nint joystick
         );
 
-        /* int refers to an SDL_JoystickID, IntPtr to an SDL_Joystick*.
+        /* int refers to an SDL_JoystickID, nint to an SDL_Joystick*.
 		 * Only available in 2.0.4 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_JoystickFromInstanceID(int instance_id);
+        public static extern nint SDL_JoystickFromInstanceID(int instance_id);
 
         /* Only available in 2.0.7 or higher. */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -338,18 +338,18 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_UnlockJoysticks();
 
-        /* IntPtr refers to an SDL_Joystick*.
+        /* nint refers to an SDL_Joystick*.
 		 * Only available in 2.0.11 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_JoystickFromPlayerIndex(int player_index);
+        public static extern nint SDL_JoystickFromPlayerIndex(int player_index);
 
-        /* IntPtr refers to an SDL_Joystick*.
+        /* nint refers to an SDL_Joystick*.
 		 * Only available in 2.0.11 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_JoystickSetPlayerIndex(
-            IntPtr joystick,
+            nint joystick,
             int player_index
         );
 
@@ -378,8 +378,8 @@ namespace LightningBase
             short padding;
             // you need to convert this
             byte* name;
-            IntPtr userdata;
-            IntPtr update;
+            nint userdata;
+            nint update;
         }
 
         /* Only available in 2.24.0 or higher.
@@ -397,61 +397,61 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern SDL_bool SDL_JoystickIsVirtual(int device_index);
 
-        /* IntPtr refers to an SDL_Joystick*.
+        /* nint refers to an SDL_Joystick*.
 		 * Only available in 2.0.14 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_JoystickSetVirtualAxis(
-            IntPtr joystick,
+            nint joystick,
             int axis,
             Int16 value
         );
 
-        /* IntPtr refers to an SDL_Joystick*.
+        /* nint refers to an SDL_Joystick*.
 		 * Only available in 2.0.14 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_JoystickSetVirtualButton(
-            IntPtr joystick,
+            nint joystick,
             int button,
             byte value
         );
 
-        /* IntPtr refers to an SDL_Joystick*.
+        /* nint refers to an SDL_Joystick*.
 		 * Only available in 2.0.14 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_JoystickSetVirtualHat(
-            IntPtr joystick,
+            nint joystick,
             int hat,
             byte value
         );
 
-        /* IntPtr refers to an SDL_Joystick*.
+        /* nint refers to an SDL_Joystick*.
 		 * Only available in 2.0.14 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern SDL_bool SDL_JoystickHasLED(IntPtr joystick);
+        public static extern SDL_bool SDL_JoystickHasLED(nint joystick);
 
 
-        /* IntPtr refers to an SDL_Joystick*.
+        /* nint refers to an SDL_Joystick*.
 		 * Only available in 2.0.18 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern SDL_bool SDL_JoystickHasRumble(IntPtr joystick);
+        public static extern SDL_bool SDL_JoystickHasRumble(nint joystick);
 
-        /* IntPtr refers to an SDL_Joystick*.
+        /* nint refers to an SDL_Joystick*.
 		 * Only available in 2.0.18 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern SDL_bool SDL_JoystickHasRumbleTriggers(IntPtr joystick);
+        public static extern SDL_bool SDL_JoystickHasRumbleTriggers(nint joystick);
 
-        /* IntPtr refers to an SDL_Joystick*.
+        /* nint refers to an SDL_Joystick*.
 		 * Only available in 2.0.14 or higher.
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_JoystickSetLED(
-            IntPtr joystick,
+            nint joystick,
             byte red,
             byte green,
             byte blue
@@ -463,8 +463,8 @@ namespace LightningBase
 		 */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_JoystickSendEffect(
-            IntPtr joystick,
-            IntPtr data,
+            nint joystick,
+            nint data,
             int size
         );
 

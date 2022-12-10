@@ -48,13 +48,13 @@ namespace LightningBase
         public static extern void SDL_SetMainReady();
 
         /* This is used as a function pointer to a C main() function */
-        public delegate int SDL_main_func(int argc, IntPtr argv);
+        public delegate int SDL_main_func(int argc, nint argv);
 
         /* Use this function with UWP to call your C# Main() function! */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_WinRTRunApp(
             SDL_main_func mainFunction,
-            IntPtr reserved
+            nint reserved
         );
 
         /* Use this function with iOS to call your C# Main() function!
@@ -63,7 +63,7 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_UIKitRunApp(
             int argc,
-            IntPtr argv,
+            nint argv,
             SDL_main_func mainFunction
         );
 

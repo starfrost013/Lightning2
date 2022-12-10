@@ -81,14 +81,14 @@ namespace LightningBase
 
         /* param refers to a void* */
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate UInt32 SDL_TimerCallback(UInt32 interval, IntPtr param);
+        public delegate UInt32 SDL_TimerCallback(UInt32 interval, nint param);
 
         /* int refers to an SDL_TimerID, param to a void* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_AddTimer(
             UInt32 interval,
             SDL_TimerCallback callback,
-            IntPtr param
+            nint param
         );
 
         /* id refers to an SDL_TimerID */

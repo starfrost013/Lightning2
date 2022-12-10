@@ -88,7 +88,7 @@ namespace LightningBase
         {
             public SDL_MessageBoxButtonFlags flags;
             public int buttonid;
-            public IntPtr text; /* The UTF-8 button text */
+            public nint text; /* The UTF-8 button text */
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -126,19 +126,19 @@ namespace LightningBase
         private struct INTERNAL_SDL_MessageBoxData
         {
             public SDL_MessageBoxFlags flags;
-            public IntPtr window;               /* Parent window, can be NULL */
-            public IntPtr title;                /* UTF-8 title */
-            public IntPtr message;              /* UTF-8 message text */
+            public nint window;               /* Parent window, can be NULL */
+            public nint title;                /* UTF-8 title */
+            public nint message;              /* UTF-8 message text */
             public int numbuttons;
-            public IntPtr buttons;
-            public IntPtr colorScheme;          /* Can be NULL to use system settings */
+            public nint buttons;
+            public nint colorScheme;          /* Can be NULL to use system settings */
         }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct SDL_MessageBoxData
         {
             public SDL_MessageBoxFlags flags;
-            public IntPtr window;               /* Parent window, can be NULL */
+            public nint window;               /* Parent window, can be NULL */
             public string title;                /* UTF-8 title */
             public string message;              /* UTF-8 message text */
             public int numbuttons;
@@ -150,14 +150,14 @@ namespace LightningBase
         private static extern int INTERNAL_SDL_ShowMessageBox([In()] ref INTERNAL_SDL_MessageBoxData messageboxdata, out int buttonid);
 
         /* Ripped from Jameson's LpUtf8StrMarshaler */
-        private static IntPtr INTERNAL_AllocUTF8(string str)
+        private static nint INTERNAL_AllocUTF8(string str)
         {
             if (string.IsNullOrEmpty(str))
             {
-                return IntPtr.Zero;
+                return nint.Zero;
             }
             byte[] bytes = System.Text.Encoding.UTF8.GetBytes(str + '\0');
-            IntPtr mem = SDL.SDL_malloc((IntPtr)bytes.Length);
+            nint mem = SDL.SDL_malloc((nint)bytes.Length);
             Marshal.Copy(bytes, 0, mem, bytes.Length);
             return mem;
         }
@@ -193,7 +193,7 @@ namespace LightningBase
             int result;
             fixed (INTERNAL_SDL_MessageBoxButtonData* buttonsPtr = &buttons[0])
             {
-                data.buttons = (IntPtr)buttonsPtr;
+                data.buttons = (nint)buttonsPtr;
                 result = INTERNAL_SDL_ShowMessageBox(ref data, out buttonid);
             }
 
@@ -214,13 +214,13 @@ namespace LightningBase
             SDL_MessageBoxFlags flags,
             byte* title,
             byte* message,
-            IntPtr window
+            nint window
         );
         public static unsafe int SDL_ShowSimpleMessageBox(
             SDL_MessageBoxFlags flags,
             string title,
             string message,
-            IntPtr window
+            nint window
         )
         {
             int utf8TitleBufSize = Utf8Size(title);

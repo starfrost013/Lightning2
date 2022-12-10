@@ -6,7 +6,7 @@ namespace LightningBase
     [StructLayout(LayoutKind.Sequential)]
     public struct FT_Matrix
     {
-        public IntPtr xx, xy;
-        public IntPtr yx, yy;
+        public nint xx, xy;
+        public nint yx, yy;
     }
 }

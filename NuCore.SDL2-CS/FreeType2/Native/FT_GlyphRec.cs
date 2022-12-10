@@ -7,7 +7,7 @@ namespace LightningBase
     public unsafe struct FT_GlyphRec
     {
         public FT_LibraryRec* library;
-        public IntPtr clazz;
+        public nint clazz;
         public FT_Glyph_Format format;
         public FT_Vector advance;
     }

@@ -80,11 +80,11 @@ namespace LightningBase
         }
 
         [DllImport(nativeLibName, EntryPoint = "IMG_Linked_Version", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr INTERNAL_IMG_Linked_Version();
+        private static extern nint INTERNAL_IMG_Linked_Version();
         public static SDL_version IMG_Linked_Version()
         {
             SDL_version result;
-            IntPtr result_ptr = INTERNAL_IMG_Linked_Version();
+            nint result_ptr = INTERNAL_IMG_Linked_Version();
             result = (SDL_version)Marshal.PtrToStructure(
                 result_ptr,
                 typeof(SDL_version)
@@ -125,49 +125,49 @@ namespace LightningBase
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void IMG_Quit();
 
-        /* IntPtr refers to an SDL_Surface* */
+        /* nint refers to an SDL_Surface* */
         [DllImport(nativeLibName, EntryPoint = "IMG_Load", CallingConvention = CallingConvention.Cdecl)]
-        private static extern unsafe IntPtr INTERNAL_IMG_Load(
+        private static extern unsafe nint INTERNAL_IMG_Load(
             byte* file
         );
-        public static unsafe IntPtr IMG_Load(string file)
+        public static unsafe nint IMG_Load(string file)
         {
             byte* utf8File = Utf8EncodeHeap(file);
-            IntPtr handle = INTERNAL_IMG_Load(
+            nint handle = INTERNAL_IMG_Load(
                 utf8File
             );
-            Marshal.FreeHGlobal((IntPtr)utf8File);
+            Marshal.FreeHGlobal((nint)utf8File);
             return handle;
         }
 
-        /* src refers to an SDL_RWops*, IntPtr return typeto an SDL_Surface* */
+        /* src refers to an SDL_RWops*, nint return typeto an SDL_Surface* */
         /* THIS IS A PUBLIC RWops FUNCTION! */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr IMG_Load_RW(
-            IntPtr src,
+        public static extern nint IMG_Load_RW(
+            nint src,
             int freesrc
         );
 
-        /* src refers to an SDL_RWops*, IntPtr return type to an SDL_Surface* */
+        /* src refers to an SDL_RWops*, nint return type to an SDL_Surface* */
         /* THIS IS A PUBLIC RWops FUNCTION! */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr IMG_LoadSizedSVG_RW(
-            IntPtr src,
+        public static extern nint IMG_LoadSizedSVG_RW(
+            nint src,
             int width,
             int height
         );
 
-        /* src refers to an SDL_RWops*, IntPtr to an SDL_Surface* */
+        /* src refers to an SDL_RWops*, nint to an SDL_Surface* */
         /* THIS IS A PUBLIC RWops FUNCTION! */
         [DllImport(nativeLibName, EntryPoint = "IMG_LoadTyped_RW", CallingConvention = CallingConvention.Cdecl)]
-        private static extern unsafe IntPtr INTERNAL_IMG_LoadTyped_RW(
-            IntPtr src,
+        private static extern unsafe nint INTERNAL_IMG_LoadTyped_RW(
+            nint src,
             int freesrc,
             byte* type
         );
 
-        public static unsafe IntPtr IMG_LoadTyped_RW(
-            IntPtr src,
+        public static unsafe nint IMG_LoadTyped_RW(
+            nint src,
             int freesrc,
             string type
         )
@@ -181,79 +181,79 @@ namespace LightningBase
             );
         }
 
-        /* IntPtr refers to an SDL_Texture*, renderer to an SDL_Renderer* */
+        /* nint refers to an SDL_Texture*, renderer to an SDL_Renderer* */
         [DllImport(nativeLibName, EntryPoint = "IMG_LoadTexture", CallingConvention = CallingConvention.Cdecl)]
-        private static extern unsafe IntPtr INTERNAL_IMG_LoadTexture(
-            IntPtr renderer,
+        private static extern unsafe nint INTERNAL_IMG_LoadTexture(
+            nint renderer,
             byte* file
         );
-        public static unsafe IntPtr IMG_LoadTexture(
-            IntPtr renderer,
+        public static unsafe nint IMG_LoadTexture(
+            nint renderer,
             string file
         )
         {
             byte* utf8File = Utf8EncodeHeap(file);
-            IntPtr handle = INTERNAL_IMG_LoadTexture(
+            nint handle = INTERNAL_IMG_LoadTexture(
                 renderer,
                 utf8File
             );
-            Marshal.FreeHGlobal((IntPtr)utf8File);
+            Marshal.FreeHGlobal((nint)utf8File);
             return handle;
         }
 
         /* renderer refers to an SDL_Renderer*.
 		 * src refers to an SDL_RWops*.
-		 * IntPtr to an SDL_Texture*.
+		 * nint to an SDL_Texture*.
 		 */
         /* THIS IS A PUBLIC RWops FUNCTION! */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr IMG_LoadTexture_RW(
-            IntPtr renderer,
-            IntPtr src,
+        public static extern nint IMG_LoadTexture_RW(
+            nint renderer,
+            nint src,
             int freesrc
         );
 
         /* renderer refers to an SDL_Renderer*.
 		 * src refers to an SDL_RWops*.
-		 * IntPtr to an SDL_Texture*.
+		 * nint to an SDL_Texture*.
 		 */
         /* THIS IS A PUBLIC RWops FUNCTION! */
         [DllImport(nativeLibName, EntryPoint = "IMG_LoadTextureTyped_RW", CallingConvention = CallingConvention.Cdecl)]
-        private static extern unsafe IntPtr INTERNAL_IMG_LoadTextureTyped_RW(
-            IntPtr renderer,
-            IntPtr src,
+        private static extern unsafe nint INTERNAL_IMG_LoadTextureTyped_RW(
+            nint renderer,
+            nint src,
             int freesrc,
             byte* type
         );
-        public static unsafe IntPtr IMG_LoadTextureTyped_RW(
-            IntPtr renderer,
-            IntPtr src,
+        public static unsafe nint IMG_LoadTextureTyped_RW(
+            nint renderer,
+            nint src,
             int freesrc,
             string type
         )
         {
             byte* utf8Type = Utf8EncodeHeap(type);
-            IntPtr handle = INTERNAL_IMG_LoadTextureTyped_RW(
+            nint handle = INTERNAL_IMG_LoadTextureTyped_RW(
                 renderer,
                 src,
                 freesrc,
                 utf8Type
             );
-            Marshal.FreeHGlobal((IntPtr)utf8Type);
+            Marshal.FreeHGlobal((nint)utf8Type);
             return handle;
         }
 
-        /* IntPtr refers to an SDL_Surface* */
+        /* nint refers to an SDL_Surface* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr IMG_ReadXPMFromArray(
+        public static extern nint IMG_ReadXPMFromArray(
             [In()] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
                 string[] xpm
         );
 
-        /* IntPtr refers to an SDL_Surface*
+        /* nint refers to an SDL_Surface*
          * Only available in 2.6.0 and higher */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr IMG_ReadXPMFromArrayToRGB888(
+        public static extern nint IMG_ReadXPMFromArrayToRGB888(
             [In()] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] // null terminated 
                 string[] xpm
         );
@@ -261,18 +261,18 @@ namespace LightningBase
         /* surface refers to an SDL_Surface* */
         [DllImport(nativeLibName, EntryPoint = "IMG_SavePNG", CallingConvention = CallingConvention.Cdecl)]
         private static extern unsafe int INTERNAL_IMG_SavePNG(
-            IntPtr surface,
+            nint surface,
             byte* file
         );
 
-        public static unsafe int IMG_SavePNG(IntPtr surface, string file)
+        public static unsafe int IMG_SavePNG(nint surface, string file)
         {
             byte* utf8File = Utf8EncodeHeap(file);
             int result = INTERNAL_IMG_SavePNG(
                 surface,
                 utf8File
             );
-            Marshal.FreeHGlobal((IntPtr)utf8File);
+            Marshal.FreeHGlobal((nint)utf8File);
             return result;
         }
 
@@ -280,19 +280,19 @@ namespace LightningBase
         /* THIS IS A PUBLIC RWops FUNCTION! */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int IMG_SavePNG_RW(
-            IntPtr surface,
-            IntPtr dst,
+            nint surface,
+            nint dst,
             int freedst
         );
 
         /* surface refers to an SDL_Surface* */
         [DllImport(nativeLibName, EntryPoint = "IMG_SaveJPG", CallingConvention = CallingConvention.Cdecl)]
         private static extern unsafe int INTERNAL_IMG_SaveJPG(
-            IntPtr surface,
+            nint surface,
             byte* file,
             int quality
         );
-        public static unsafe int IMG_SaveJPG(IntPtr surface, string file, int quality)
+        public static unsafe int IMG_SaveJPG(nint surface, string file, int quality)
         {
             byte* utf8File = Utf8EncodeHeap(file);
             int result = INTERNAL_IMG_SaveJPG(
@@ -300,7 +300,7 @@ namespace LightningBase
                 utf8File,
                 quality
             );
-            Marshal.FreeHGlobal((IntPtr)utf8File);
+            Marshal.FreeHGlobal((nint)utf8File);
             return result;
         }
 
@@ -308,8 +308,8 @@ namespace LightningBase
         /* THIS IS A PUBLIC RWops FUNCTION! */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int IMG_SaveJPG_RW(
-            IntPtr surface,
-            IntPtr dst,
+            nint surface,
+            nint dst,
             int freedst,
             int quality
         );
@@ -326,30 +326,30 @@ namespace LightningBase
         {
             public int w;
             public int h;
-            public IntPtr frames; /* SDL_Surface** */
-            public IntPtr delays; /* int* */
+            public nint frames; /* SDL_Surface** */
+            public nint delays; /* int* */
         }
 
-        /* IntPtr refers to an IMG_Animation* */
+        /* nint refers to an IMG_Animation* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr IMG_LoadAnimation(
+        public static extern nint IMG_LoadAnimation(
             [In()] [MarshalAs(UnmanagedType.LPStr)]
                 string file
         );
 
-        /* IntPtr refers to an IMG_Animation*, src to an SDL_RWops* */
+        /* nint refers to an IMG_Animation*, src to an SDL_RWops* */
         /* THIS IS A PUBLIC RWops FUNCTION! */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr IMG_LoadAnimation_RW(
-            IntPtr src,
+        public static extern nint IMG_LoadAnimation_RW(
+            nint src,
             int freesrc
         );
 
-        /* IntPtr refers to an IMG_Animation*, src to an SDL_RWops* */
+        /* nint refers to an IMG_Animation*, src to an SDL_RWops* */
         /* THIS IS A PUBLIC RWops FUNCTION! */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr IMG_LoadAnimationTyped_RW(
-            IntPtr src,
+        public static extern nint IMG_LoadAnimationTyped_RW(
+            nint src,
             int freesrc,
             [In()] [MarshalAs(UnmanagedType.LPStr)]
                 string type
@@ -357,12 +357,12 @@ namespace LightningBase
 
         /* anim refers to an IMG_Animation* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void IMG_FreeAnimation(IntPtr anim);
+        public static extern void IMG_FreeAnimation(nint anim);
 
-        /* IntPtr refers to an IMG_Animation*, src to an SDL_RWops* */
+        /* nint refers to an IMG_Animation*, src to an SDL_RWops* */
         /* THIS IS A PUBLIC RWops FUNCTION! */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr IMG_LoadGIFAnimation_RW(IntPtr src);
+        public static extern nint IMG_LoadGIFAnimation_RW(nint src);
 
         #endregion
 
