@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using FT_Long = System.nint;
+using FT_Long = System.IntPtr;
 
 namespace LightningBase
 {

@@ -145,10 +145,6 @@
 
             Handle = Lightning.Renderer.CreateTexture((int)sizeX, (int)sizeY, isTarget);
 
-            // check if texture failed to load
-            if (Handle == nint.Zero) NCError.ShowErrorBox($"Error creating texture: {SDL_GetError()}", 119, 
-                "An SDL error occurred in the Texture constructor", NCErrorSeverity.FatalError);
-
             OnRender += Draw;
 
             Lightning.Renderer.AllocTextureFormat();
@@ -332,9 +328,8 @@
         public void Unload()
         {
             Loaded = false;
-            SDL_DestroyTexture(Handle);
+            Handle = Lightning.Renderer.DestroyTexture(Handle);
             FormatHandle = nint.Zero;
-            Handle = nint.Zero;
             Pitch = 0;
             Pixels = null;
         }
