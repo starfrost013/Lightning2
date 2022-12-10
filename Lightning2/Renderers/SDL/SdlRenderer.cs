@@ -452,6 +452,8 @@ namespace LightningGL
                         wgt = (erracc >> intshift) & 255;
                         DrawPixelWeighted(xx0, yy0, r, g, b, a, 255 - wgt);
                         DrawPixelWeighted(x0pxdir, yy0, r, g, b, a, wgt);
+
+                        dy--;
                     }
 
                 }
@@ -494,6 +496,8 @@ namespace LightningGL
                         wgt = (erracc >> intshift) & 255;
                         DrawPixelWeighted(xx0, yy0, r, g, b, a, 255 - wgt);
                         DrawPixelWeighted(xx0, y0p1, r, g, b, a, wgt);
+
+                        dx--;
                     }
                 }
 
@@ -1345,7 +1349,16 @@ namespace LightningGL
                     for (int y = startY; y <= endY; y++)
                     {
                         // calculate where the line ends for the current scanline
-                        int realEndX = Convert.ToInt32(startX + ((endX - startX) * Convert.ToDouble(diffY / (y - startY))));
+
+                        int realEndX = startX;
+
+                        if (y - startY > 0)
+                        {
+                            realEndX = Convert.ToInt32(startX + ((endX - startX) * Convert.ToDouble(diffY / (y - startY))));
+                        }
+                        
+                        
+                        
 
                         for (int x = startX; x <= realEndX; x++)
                         {
