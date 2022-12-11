@@ -151,6 +151,8 @@ Everything that matters to the api has to go here
 * Added Bezier Curve support
 * Anti-aliased, filled shapes (partial)
 
+2022.12.11:
+* Actually implement Bezier Curve
 
 * todo:
 	- renderer independent blend mode!!!!!!!!!!!

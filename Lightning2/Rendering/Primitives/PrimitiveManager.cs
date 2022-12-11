@@ -60,23 +60,6 @@
             return line;
         }
 
-        public Bezier AddBezier(List<Vector2> points, int steps, Color color, bool snapToScreen = false, Renderable? parent = null)
-        {
-            Bezier bezier = new Bezier
-            {
-                Points = points,
-                Steps = steps,
-                Color = color,
-                SnapToScreen = snapToScreen,
-                Position = points[0], // largest to smallest
-                Size = points[points.Count - 1] - points[0] // largest to smallest
-            };
-
-            Lightning.Renderer.AddRenderable(bezier, parent);
-            return bezier;
-
-        }
-
         /// <summary>
         /// Draws a rectangle to the screen.
         /// </summary>
@@ -106,90 +89,6 @@
         }
 
         /// <summary>
-        /// Draws a rounded rectangle to the screen.
-        /// </summary>
-        /// <param name="position">The position of the rectangle to draw</param>
-        /// <param name="size">The size of the rectangle to draw.</param>
-        /// <param name="color">The color of the rectangle to draw.</param>
-        /// <param name="cornerRadius">The radius, in pixels, of this rectangle's corners.</param>
-        /// <param name="filled">Determines if this rectangle will be filled or not.</param>
-        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public RoundedRectangle AddRoundedRectangle(Vector2 position, Vector2 size, Color color, int cornerRadius, bool filled = false, bool snapToScreen = false,
-            Vector2 borderSize = default, Color borderColor = default, Renderable? parent = null)
-        {
-            RoundedRectangle roundedRectangle = new("RoundedRectangle")
-            {
-                Position = position,
-                Size = size,
-                Color = color,
-                Filled = filled,
-                CornerRadius = cornerRadius,
-                BorderSize = borderSize,
-                BorderColor = borderColor,
-                SnapToScreen = snapToScreen
-            };
-
-            Lightning.Renderer.AddRenderable(roundedRectangle, parent);
-            return roundedRectangle;
-        }
-
-        /// <summary>
-        /// Draws a triangle to the screen
-        /// </summary>
-        /// <param name="point1">The first point of the triangle.</param>
-        /// <param name="point2">The second point of the triangle.</param>
-        /// <param name="point3">The third point of the triangle.</param>
-        /// <param name="color">The color of the triangle - see <see cref="Color"/></param>
-        /// <param name="filled">Determines if the triangle will be filled.</param>
-        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public Triangle AddTriangle(Vector2 point1, Vector2 point2, Vector2 point3, Color color, bool filled = false, bool snapToScreen = false,
-            Vector2 borderSize = default, Color borderColor = default, Renderable? parent = null)
-        {
-            Triangle triangle = new("Triangle")
-            {
-                Point1 = point1,
-                Point2 = point2,
-                Point3 = point3,
-                Position = point1, // for now
-                Color = color,
-                Filled = filled,
-                BorderSize = borderSize,
-                BorderColor = borderColor,
-                SnapToScreen = snapToScreen
-            };
-
-            Lightning.Renderer.AddRenderable(triangle, parent);
-            return triangle;
-        }
-
-        /// <summary>
-        /// Draws a polygon to the screen.
-        /// </summary>
-        /// <param name="points">The points of the polygon.</param>
-        /// <param name="color">The color of the polygon.</param>
-        /// <param name="filled">Determines if the polygon will be filled or not.</param>
-        /// <param name="antiAliased">Determines if the polygon will be anti-aliased - UNFILLED POLYGONS ONLY</param>
-        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public Polygon AddPolygon(List<Vector2> points, Color color, bool filled = false, bool antiAliased = false, bool snapToScreen = false,
-            Vector2 borderSize = default, Color borderColor = default, Renderable? parent = null)
-        {
-            Polygon polygon = new("Polygon")
-            {
-                Points = points,
-                Position = points[0], // for now
-                Color = color,
-                Filled = filled,
-                Antialiased = antiAliased,
-                BorderColor = borderColor,
-                BorderSize = borderSize,
-                SnapToScreen = snapToScreen
-            };
-
-            Lightning.Renderer.AddRenderable(polygon, parent);
-            return polygon;
-        }
-
-        /// <summary>
         /// Draws a circle to the screen.
         /// </summary>
         /// <param name="position">The position of the circle to draw</param>
@@ -198,7 +97,7 @@
         /// <param name="filled">Determines if this circle is filled.</param>
         /// <param name="antiAliased">Determines if this circle is anti-aliased. Only has an effect on unfilled circles for now</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public Ellipse AddCircle(Vector2 position, Vector2 size, Color color, bool filled = false, bool antiAliased = false, bool snapToScreen = false,
+        public Ellipse AddEllipse(Vector2 position, Vector2 size, Color color, bool filled = false, bool antiAliased = false, bool snapToScreen = false,
             Vector2 borderSize = default, Color borderColor = default, Renderable? parent = null)
         {
             Ellipse circle = new("Circle")
