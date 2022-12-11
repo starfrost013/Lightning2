@@ -60,6 +60,23 @@
             return line;
         }
 
+        public Bezier AddBezier(List<Vector2> points, int steps, Color color, bool snapToScreen = false, Renderable? parent = null)
+        {
+            Bezier bezier = new Bezier
+            {
+                Points = points,
+                Steps = steps,
+                Color = color,
+                SnapToScreen = snapToScreen,
+                Position = points[0], // largest to smallest
+                Size = points[points.Count - 1] - points[0] // largest to smallest
+            };
+
+            Lightning.Renderer.AddRenderable(bezier, parent);
+            return bezier;
+
+        }
+
         /// <summary>
         /// Draws a rectangle to the screen.
         /// </summary>

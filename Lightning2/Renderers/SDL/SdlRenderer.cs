@@ -1357,9 +1357,6 @@ namespace LightningGL
                             realEndX = Convert.ToInt32(startX + ((endX - startX) * Convert.ToDouble(diffY / (y - startY))));
                         }
                         
-                        
-                        
-
                         for (int x = startX; x <= realEndX; x++)
                         {
                             DrawPixel(x, y, r, g, b, a);

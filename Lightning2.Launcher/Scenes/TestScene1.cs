@@ -232,18 +232,18 @@ namespace LightningGL
             };
 
 
-            UIManager.AddAsset(btn1);
-            UIManager.AddAsset(listBox1);
-            UIManager.AddAsset(textBox1);
-            UIManager.AddAsset(checkBox1);
+            //UIManager.AddAsset(btn1);
+            //UIManager.AddAsset(listBox1);
+            //UIManager.AddAsset(textBox1);
+            //UIManager.AddAsset(checkBox1);
 
             // you must load a listbox before adding it
             // note this in docs
-            listBox1.AddItem(new("Item1", "test 1", "Arial.11pt"));
-            listBox1.AddItem(new("Item2", "test 2", "Arial.11pt"));
-            listBox1.AddItem(new("Item3", "dfsdfsdfsdfsdfsdf", "Arial.11pt"));
-            listBox1.AddItem(new("Item4", "zxczxzxzx", "Arial.11pt"));
-            listBox1.AddItem(new("Item5", "qasqsdfwqer", "Arial.11pt"));
+            //listBox1.AddItem(new("Item1", "test 1", "Arial.11pt"));
+            //listBox1.AddItem(new("Item2", "test 2", "Arial.11pt"));
+            //listBox1.AddItem(new("Item3", "dfsdfsdfsdfsdfsdf", "Arial.11pt"));
+            //listBox1.AddItem(new("Item4", "zxczxzxzx", "Arial.11pt"));
+            //listBox1.AddItem(new("Item5", "qasqsdfwqer", "Arial.11pt"));
 
             TextureManager.AddAsset(Texture1);
 
@@ -284,18 +284,18 @@ namespace LightningGL
             PrimitiveManager.AddLine(new(500, 240), new(600, 240), 7, Color.FromArgb(255, 255, 255, 255), false);
             PrimitiveManager.AddLine(new(500, 210), new(600, 210), 15, Color.FromArgb(255, 255, 255, 255), true);
 
-            PrimitiveManager.AddCircle(new(500, 10), new(50, 50), Color.FromArgb(255, 255, 255, 255), true);
-            PrimitiveManager.AddCircle(new(500, 309), new(50, 50), Color.FromArgb(127, 255, 255, 255), false);
+            //PrimitiveManager.AddCircle(new(500, 10), new(50, 50), Color.FromArgb(255, 255, 255, 255), true);
+            //PrimitiveManager.AddCircle(new(500, 309), new(50, 50), Color.FromArgb(127, 255, 255, 255), false);
 
-            PrimitiveManager.AddRectangle(new(552, 10), new(30, 30), Color.FromArgb(255, 255, 255, 255), false);
-            PrimitiveManager.AddRectangle(new(584, 10), new(30, 30), Color.FromArgb(33, 0, 0, 255), true);
+            //PrimitiveManager.AddRectangle(new(552, 10), new(30, 30), Color.FromArgb(255, 255, 255, 255), false);
+            //PrimitiveManager.AddRectangle(new(584, 10), new(30, 30), Color.FromArgb(33, 0, 0, 255), true);
 
-            PrimitiveManager.AddRoundedRectangle(new(616, 10), new(30, 30), Color.FromArgb(127, 255, 255, 255), 3, false);
-            PrimitiveManager.AddRoundedRectangle(new(648, 10), new(30, 30), Color.FromArgb(127, 255, 255, 255), 3, true);
-            PrimitiveManager.AddRoundedRectangle(new(680, 10), new(30, 30), Color.FromArgb(127, 255, 255, 255), 12, true);
+            //PrimitiveManager.AddRoundedRectangle(new(616, 10), new(30, 30), Color.FromArgb(127, 255, 255, 255), 3, false);
+            //PrimitiveManager.AddRoundedRectangle(new(648, 10), new(30, 30), Color.FromArgb(127, 255, 255, 255), 3, true);
+            //PrimitiveManager.AddRoundedRectangle(new(680, 10), new(30, 30), Color.FromArgb(127, 255, 255, 255), 12, true);
 
-            PrimitiveManager.AddTriangle(new(722, 10), new(747, 40), new(707, 40), Color.FromArgb(127, 255, 255, 255), false);
-            PrimitiveManager.AddTriangle(new(794, 40), new(764, 40), new(779, 10), Color.FromArgb(127, 255, 255, 255), true, false, new(10, 10), Color.Yellow);
+            //PrimitiveManager.AddTriangle(new(722, 10), new(747, 40), new(707, 40), Color.FromArgb(127, 255, 255, 255), false);
+            //PrimitiveManager.AddTriangle(new(794, 40), new(764, 40), new(779, 10), Color.FromArgb(127, 255, 255, 255), true, false, new(10, 10), Color.Yellow);
 
             TextManager.DrawText("#[STRING_TEST]", "DebugFont", new(500, 90), Color.FromArgb(255, 0, 0, 255));
             TextManager.DrawText("Loc string test: #[STRING_TEST]", "DebugFont", new(500, 120), Color.FromArgb(255, 0, 0, 255));
