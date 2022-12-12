@@ -144,10 +144,7 @@
                 "Texture constructor called with invalid size", NCErrorSeverity.FatalError);
 
             Handle = Lightning.Renderer.CreateTexture((int)sizeX, (int)sizeY, isTarget);
-
-            OnRender += Draw;
-
-            Lightning.Renderer.AllocTextureFormat();
+            FormatHandle = Lightning.Renderer.AllocTextureFormat();
         }
 
         internal override void Create()
@@ -161,7 +158,8 @@
 
             if (!File.Exists(Path)) NCError.ShowErrorBox($"{Path} does not exist!", 9, "Texture::Path property does not exist", NCErrorSeverity.FatalError);
 
-            Loaded = (Lightning.Renderer.LoadTexture(Path)) != nint.Zero;
+            Handle = Lightning.Renderer.LoadTexture(Path);
+            Loaded = Handle != nint.Zero;
         }
 
         /// <summary>

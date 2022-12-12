@@ -818,7 +818,7 @@ namespace LightningGL
             // Argument 3 - Vector2 - size
             // Argument 4 - nint - Handle
             // Argument 5 - Vector2 - Repeat
-
+            
             int numberOfArgs = 6;
 
             if (args.Length != numberOfArgs

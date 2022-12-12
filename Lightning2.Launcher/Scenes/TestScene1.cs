@@ -287,12 +287,8 @@ namespace LightningGL
             //PrimitiveManager.AddEllipse(new(500, 10), new(50, 50), Color.FromArgb(255, 255, 255, 255), true);
             //PrimitiveManager.AddEllipse(new(500, 309), new(50, 50), Color.FromArgb(127, 255, 255, 255), false);
 
-            PrimitiveManager.AddRectangle(new(552, 10), new(30, 30), Color.FromArgb(255, 255, 255, 255), false);
-            PrimitiveManager.AddRectangle(new(584, 10), new(30, 30), Color.FromArgb(33, 0, 0, 255), true);
-
-            //PrimitiveManager.AddRoundedRectangle(new(616, 10), new(30, 30), Color.FromArgb(127, 255, 255, 255), 3, false);
-            //PrimitiveManager.AddRoundedRectangle(new(648, 10), new(30, 30), Color.FromArgb(127, 255, 255, 255), 3, true);
-            //PrimitiveManager.AddRoundedRectangle(new(680, 10), new(30, 30), Color.FromArgb(127, 255, 255, 255), 12, true);
+            //PrimitiveManager.AddRectangle(new(552, 10), new(30, 30), Color.FromArgb(255, 255, 255, 255), false);
+            //PrimitiveManager.AddRectangle(new(584, 10), new(30, 30), Color.FromArgb(33, 0, 0, 255), true);
 
             //PrimitiveManager.AddTriangle(new(722, 10), new(747, 40), new(707, 40), Color.FromArgb(127, 255, 255, 255), false);
             //PrimitiveManager.AddTriangle(new(794, 40), new(764, 40), new(779, 10), Color.FromArgb(127, 255, 255, 255), true, false, new(10, 10), Color.Yellow);

@@ -152,7 +152,13 @@ Everything that matters to the api has to go here
 * Anti-aliased, filled shapes (partial)
 
 2022.12.11:
-* Actually implement Bezier Curve
+* Remove non-required renderables:
+	- Thick lines
+	- Bezier curves
+	- Rounded rectangles
+	- Triangles
+	- n-sided polygons
+	- 
 
 * todo:
 	- renderer independent blend mode!!!!!!!!!!!
