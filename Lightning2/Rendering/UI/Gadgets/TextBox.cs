@@ -15,11 +15,6 @@
         public int Capacity { get; set; }
 
         /// <summary>
-        /// The thickness of the cursor in pixels.
-        /// </summary>
-        public short CursorThickness { get; set; }
-
-        /// <summary>
         /// The number of milliseconds between cursor blinks.
         /// </summary>
         public int CursorBlinkFrequency { get; set; }
@@ -59,7 +54,6 @@
             Capacity = capacity;
             OnKeyPressed += KeyPressed;
             OnRender += Render;
-            if (CursorThickness == 0) CursorThickness = 2;
             if (CursorBlinkFrequency == 0) CursorBlinkFrequency = 300;
             if (ForegroundColor == default) ForegroundColor = Color.White;
             if (CursorBlinkLength == 0) CursorBlinkLength = 50;
@@ -71,7 +65,7 @@
         internal override void Create()
         {
             Rectangle = PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen, this);
-            Cursor = PrimitiveManager.AddLine(default, default, CursorThickness, ForegroundColor, true, false, this);
+            Cursor = PrimitiveManager.AddLine(default, default, ForegroundColor, true, false, this);
         }
 
         /// <summary>

@@ -279,19 +279,19 @@ namespace LightningGL
 
             Texture1.StartCurrentAnimation();
 
-            //PrimitiveManager.AddLine(new(500, 300), new(600, 300), 1, Color.FromArgb(255, 255, 255, 255), false);
-            //PrimitiveManager.AddLine(new(500, 270), new(600, 270), 3, Color.FromArgb(255, 255, 255, 255), true);
-            //PrimitiveManager.AddLine(new(500, 240), new(600, 240), 7, Color.FromArgb(255, 255, 255, 255), false);
-            //PrimitiveManager.AddLine(new(500, 210), new(600, 210), 15, Color.FromArgb(255, 255, 255, 255), true);
+            PrimitiveManager.AddLine(new(500, 300), new(600, 300), Color.FromArgb(255, 255, 255, 255), false);
+            PrimitiveManager.AddLine(new(500, 270), new(600, 270), Color.FromArgb(255, 255, 255, 255), true);
+            PrimitiveManager.AddLine(new(500, 240), new(600, 240), Color.FromArgb(255, 255, 255, 255), false);
+            PrimitiveManager.AddLine(new(500, 210), new(600, 210),  Color.FromArgb(255, 255, 255, 255), true);
 
-            //PrimitiveManager.AddEllipse(new(500, 10), new(50, 50), Color.FromArgb(255, 255, 255, 255), true);
-            //PrimitiveManager.AddEllipse(new(500, 309), new(50, 50), Color.FromArgb(127, 255, 255, 255), false);
+            PrimitiveManager.AddEllipse(new(500, 10), new(50, 50), Color.FromArgb(255, 255, 255, 255), true);
+            PrimitiveManager.AddEllipse(new(500, 309), new(50, 50), Color.FromArgb(127, 255, 255, 255), false);
 
-            //PrimitiveManager.AddRectangle(new(552, 10), new(30, 30), Color.FromArgb(255, 255, 255, 255), false);
-            //PrimitiveManager.AddRectangle(new(584, 10), new(30, 30), Color.FromArgb(33, 0, 0, 255), true);
+            PrimitiveManager.AddRectangle(new(552, 10), new(30, 30), Color.FromArgb(255, 255, 255, 255), false);
+            PrimitiveManager.AddRectangle(new(584, 10), new(30, 30), Color.FromArgb(33, 0, 0, 255), true);
 
-            //PrimitiveManager.AddTriangle(new(722, 10), new(747, 40), new(707, 40), Color.FromArgb(127, 255, 255, 255), false);
-            //PrimitiveManager.AddTriangle(new(794, 40), new(764, 40), new(779, 10), Color.FromArgb(127, 255, 255, 255), true, false, new(10, 10), Color.Yellow);
+            PrimitiveManager.AddTriangle(new(722, 10), new(747, 40), new(707, 40), Color.FromArgb(127, 255, 255, 255), false);
+            PrimitiveManager.AddTriangle(new(794, 40), new(764, 40), new(779, 10), Color.FromArgb(127, 255, 255, 255), true, false, new(10, 10), Color.Yellow);
 
             TextManager.DrawText("#[STRING_TEST]", "DebugFont", new(500, 90), Color.FromArgb(255, 0, 0, 255));
             TextManager.DrawText("Loc string test: #[STRING_TEST]", "DebugFont", new(500, 120), Color.FromArgb(255, 0, 0, 255));

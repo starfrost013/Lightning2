@@ -362,7 +362,7 @@
                 "Called Renderer override with unimplemented Renderer::DrawPixel!", NCErrorSeverity.FatalError);
         }
 
-        internal virtual void DrawLine(int x1, int y1, int x2, int y2, byte r, byte g, byte b, byte a, int thickness = 1)
+        internal virtual void DrawLine(int x1, int y1, int x2, int y2, byte r, byte g, byte b, byte a)
         {
             NCError.ShowErrorBox($"DrawLine not implemented for renderer {GetType().Name!}", 206,
                 "Called Renderer override with unimplemented Renderer::DrawLine!", NCErrorSeverity.FatalError);

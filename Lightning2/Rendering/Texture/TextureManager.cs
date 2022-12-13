@@ -43,7 +43,11 @@ namespace LightningGL
                 return new Texture($"{texture.Name}_{rTexture}", texture.Size.X, texture.Size.Y)
                 {
                     Handle = texture.Handle,
-                    FormatHandle = texture.FormatHandle
+                    FormatHandle = texture.FormatHandle,
+                    Repeat = texture.Repeat,
+                    SnapToScreen = texture.SnapToScreen,
+                    ViewportStart = texture.ViewportStart,
+                    ViewportEnd = texture.ViewportEnd,
                 };
             }
             catch

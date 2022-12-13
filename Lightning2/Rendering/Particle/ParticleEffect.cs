@@ -206,7 +206,7 @@
                 // IT might be better to put these as normal renderables
                 Texture.Position = particle.Position;
 
-                Texture.Draw();
+                //Texture.Draw();
             }
         }
 
@@ -228,8 +228,21 @@
             if (NeedsManualTrigger
                 && !Playing) return;
 
-            Particle particle = new("Particle");
+            Texture? tempTexture = TextureManager.GetInstanceOfTexture(Texture.Name);
 
+            Debug.Assert(tempTexture != null); // should never be null
+
+            // manually convert due to CS0553 (not directly convertable as particle is a derived class
+            Particle particle = new(tempTexture.Name, (int)tempTexture.Size.X, (int)tempTexture.Size.Y, tempTexture.IsTarget) 
+            { 
+                Handle = tempTexture.Handle,
+                FormatHandle = tempTexture.FormatHandle,
+                Repeat = tempTexture.Repeat,
+                SnapToScreen = tempTexture.SnapToScreen,
+                ViewportStart = tempTexture.ViewportStart,
+                ViewportEnd = tempTexture.ViewportEnd,
+            };
+            
             // easier to use doubles here so we don't use random.nextsingle
             float varX = Random.Shared.NextSingle() * (Variance - -Variance) + -Variance,
                   varY = Random.Shared.NextSingle() * (Variance - -Variance) + -Variance;

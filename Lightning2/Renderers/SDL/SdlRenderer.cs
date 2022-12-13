@@ -292,7 +292,7 @@ namespace LightningGL
             DrawPixel(x, y, r, g, b, a);
         }
 
-        internal override void DrawLine(int x1, int y1, int x2, int y2, byte r, byte g, byte b, byte a, int thickness = 1)
+        internal override void DrawLine(int x1, int y1, int x2, int y2, byte r, byte g, byte b, byte a)
         {
                 /*
                 * Draw

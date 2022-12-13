@@ -15,11 +15,6 @@
         public bool Checked { get; set; }
 
         /// <summary>
-        /// The thickness of the line of this CheckBox.
-        /// </summary>
-        public short Thickness { get; set; }
-
-        /// <summary>
         /// UI rectangle used for drawing this textbox.
         /// </summary>
         private Rectangle? Rectangle { get; set; }
@@ -41,7 +36,6 @@
         {
             OnRender += Render;
             OnMousePressed += CheckBoxMousePressed;
-            if (Thickness == 0) Thickness = 2;
         }
 
         internal override void Create()
@@ -50,8 +44,8 @@
             // this is why we might need referents for renderble
             Rectangle = PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen, this);
 
-            CheckBoxLine1 = PrimitiveManager.AddLine(default, default, Thickness, ForegroundColor, true, SnapToScreen);
-            CheckBoxLine2 = PrimitiveManager.AddLine(default, default, Thickness, ForegroundColor, true, SnapToScreen);
+            CheckBoxLine1 = PrimitiveManager.AddLine(default, default, ForegroundColor, true, SnapToScreen);
+            CheckBoxLine2 = PrimitiveManager.AddLine(default, default, ForegroundColor, true, SnapToScreen);
 
             Debug.Assert(Rectangle != null);
             Debug.Assert(CheckBoxLine1 != null);

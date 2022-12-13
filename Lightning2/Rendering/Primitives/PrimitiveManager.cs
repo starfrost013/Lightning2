@@ -42,7 +42,7 @@
         /// <param name="color">The color of this line.</param>
         /// <param name="antiAliased">Determines if this line will be anti-aliased or not.</param>
         /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public Line AddLine(Vector2 start, Vector2 end, short thickness, Color color, bool antiAliased = true, bool snapToScreen = false, Renderable? parent = null)
+        public Line AddLine(Vector2 start, Vector2 end, Color color, bool antiAliased = true, bool snapToScreen = false, Renderable? parent = null)
         {
             Line line = new("Line")
             {
@@ -51,7 +51,6 @@
                 End = end,
                 Position = start, // set the position to the start of the line
                 Size = end - start, // size to the start
-                Thickness = thickness,
                 Antialiased = antiAliased,
                 SnapToScreen = snapToScreen,
             };

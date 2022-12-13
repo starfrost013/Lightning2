@@ -7,7 +7,7 @@
     /// 
     /// Defines an individual particle as a part of a particle effect.
     /// </summary>
-    public class Particle : Renderable
+    public class Particle : Texture
     {
         /// <summary>
         /// Lifetime of this particle in frames. Taken from its <see cref="ParticleEffect"/>.
@@ -20,9 +20,6 @@
         /// </summary>
         public int Id { get; set; }
 
-        public Particle(string name) : base(name)
-        {
-
-        }
+        public Particle(string name, int sizeX, int sizeY, bool isTarget = false) : base(name, sizeX, sizeY) { }
     }
 }

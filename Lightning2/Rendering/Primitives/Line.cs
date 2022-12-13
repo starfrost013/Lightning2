@@ -6,8 +6,6 @@
 
         public Vector2 End { get; set; }
 
-        public short Thickness { get; set; }
-
         public Line(string name) : base(name) { }
 
         internal override void Draw()
@@ -22,13 +20,6 @@
             // nobody will ever need a line more than 32,767 pixels wide
             // (he says, regretting this in the future). If we do we can just change to sint32 in c++.
 
-            if (Thickness < 1)
-            {
-                NCError.ShowErrorBox($"Cannot draw a line with a thickness property below 1 pixel! (thickness = {Thickness})", 18,
-                "PrimitiveRenderer::DrawLine called with thickness property < 1", NCErrorSeverity.Warning, null, false);
-                return;
-            }
-
             // before we manually called lineRGBA. this is now done in c++, so we don't need to.
 
             if (BorderSize.X > 0
@@ -36,11 +27,11 @@
             {
                 Lightning.Renderer.DrawLine((int)RenderPosition.X - (int)BorderSize.X, (int)RenderPosition.Y - (int)BorderSize.Y, 
                     (int)RenderPosition.X + (int)Size.X + (int)BorderSize.X, (int)RenderPosition.Y + (int)Size.Y + (int)BorderSize.Y, 
-                    BorderColor.R, BorderColor.G, BorderColor.B, BorderColor.A, Thickness);
+                    BorderColor.R, BorderColor.G, BorderColor.B, BorderColor.A);
             }
 
             Lightning.Renderer.DrawLine((int)RenderPosition.X, (int)RenderPosition.Y, (int)RenderPosition.X + (int)Size.X, (int)RenderPosition.Y + (int)Size.Y, 
-                Color.R, Color.G, Color.B, Color.A, Thickness);
+                Color.R, Color.G, Color.B, Color.A);
         }
     }
 }

@@ -158,7 +158,13 @@ Everything that matters to the api has to go here
 	- Rounded rectangles
 	- Triangles
 	- n-sided polygons
-	- 
+
+2022.12.12
+* Fix rectangles
+* Fix texture rendering
+
+2022.12.13
+* Fix particle effects
 
 * todo:
 	- renderer independent blend mode!!!!!!!!!!!
