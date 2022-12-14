@@ -180,7 +180,7 @@ namespace LightningGL
 
                 // string::format requires constants so we need to pad to the left
                 initialString = initialString.PadLeft(initialString.Length + (8 * depth)); // todo: make this a setting with a defauilt value
-                TextManager.DrawText(initialString, "DebugFont", new Vector2(0, CurrentY),
+                TextManager.DrawText(initialString, "DebugFont", new(0, CurrentY),
                     DebugForeground, DebugBackground, TTF_FontStyle.Normal, -1, -1, FontSmoothingType.Default, true);
                 CurrentY += GlobalSettings.DebugLineDistance;
                 
@@ -224,10 +224,10 @@ namespace LightningGL
                 string[] debugText =
                 {
                     $"FPS: {Lightning.Renderer.CurFPS:F1)} ({Lightning.Renderer.DeltaTime:F2}ms)",
-                    $"Average: {PerformanceProfiler.CurrentAverage}",
                     $"0.1% High: {PerformanceProfiler.Current999thPercentile}",
                     $"1% High: {PerformanceProfiler.Current99thPercentile}",
                     $"5% High: {PerformanceProfiler.Current95thPercentile}",
+                    $"Average: {PerformanceProfiler.CurrentAverage}",
                     $"5% Low: {PerformanceProfiler.Current5thPercentile}",
                     $"1% Low: {PerformanceProfiler.Current1stPercentile}",
                     $"0.1% Low: {PerformanceProfiler.Current01thPercentile}",
