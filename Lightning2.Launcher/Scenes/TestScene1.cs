@@ -290,9 +290,6 @@ namespace LightningGL
             PrimitiveManager.AddRectangle(new(552, 10), new(30, 30), Color.FromArgb(255, 255, 255, 255), false);
             PrimitiveManager.AddRectangle(new(584, 10), new(30, 30), Color.FromArgb(33, 0, 0, 255), true);
 
-            PrimitiveManager.AddTriangle(new(722, 10), new(747, 40), new(707, 40), Color.FromArgb(127, 255, 255, 255), false);
-            PrimitiveManager.AddTriangle(new(794, 40), new(764, 40), new(779, 10), Color.FromArgb(127, 255, 255, 255), true, false, new(10, 10), Color.Yellow);
-
             TextManager.DrawText("#[STRING_TEST]", "DebugFont", new(500, 90), Color.FromArgb(255, 0, 0, 255));
             TextManager.DrawText("Loc string test: #[STRING_TEST]", "DebugFont", new(500, 120), Color.FromArgb(255, 0, 0, 255));
             TextManager.DrawText("Loc string test: #[STRING_TEST] aaaaaa #[STRING_TEST] #[STRING_TEST] bbbbbb", "DebugFont", new(500, 150), Color.FromArgb(255, 0, 0, 255));
