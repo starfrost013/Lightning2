@@ -45,7 +45,7 @@ namespace LightningBase
         /// <summary>
         /// Name of the SDL2 library.
         /// </summary>
-        private const string nativeLibName = @"Libraries\SDL2";
+        private const string nativeLibName = @"SDL2";
 
         #endregion
     }

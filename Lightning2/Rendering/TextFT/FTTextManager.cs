@@ -1,6 +1,11 @@
 ﻿namespace LightningGL
 {
-    public class TextAssetManager : AssetManager<TextCacheEntry>
+    /// <summary>
+    /// FTTextAssetManager
+    /// 
+    /// Text asset manager (FreeType Version)
+    /// </summary>
+    public class FTTextAssetManager : AssetManager<TextCacheEntry>
     {
         public override TextCacheEntry AddAsset(TextCacheEntry asset)
         {

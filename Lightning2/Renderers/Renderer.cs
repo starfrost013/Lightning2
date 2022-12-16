@@ -52,6 +52,8 @@
         /// </summary>
         internal int RenderedLastFrame { get; set; }
 
+        public FreeTypeLibrary? FreeTypeLibrary { get; set; }
+
         public Renderer()
         {
             Settings = new();
@@ -62,6 +64,9 @@
         internal virtual void Start()
         {
             // Check that we provided RendererSettings
+            NCLogging.Log("Initialising FreeType...");
+
+            FreeTypeLibrary = new FreeTypeLibrary();
 
             if (Settings == null)
             {
@@ -69,7 +74,6 @@
                     "renderer settings!", 7, "Renderer:Start Settings parameter was set to NULL!", NCErrorSeverity.FatalError);
                 return;
             }
-
         }
 
         internal virtual bool Run()
@@ -112,6 +116,9 @@
             {
                 renderable.Destroy();
             }
+
+            NCLogging.Log("Shutting down FreeType...");
+            FreeTypeLibrary?.Dispose();
         }
 
         private void NotifyShutdown()

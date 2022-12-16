@@ -132,15 +132,15 @@ namespace LightningGL
             NCLogging.Log("Shutting down the Scene Manager...");
             ShutdownAll();
 
-            NCLogging.Log("Shutting down renderer...");
-            Renderer.Shutdown();
-
             NCLogging.Log("Shutting down the Text Manager...");
             TextManager.Shutdown();
 
             // Shut down the light manager if it has been started.
             NCLogging.Log("Shutting down the Light Manager...");
             if (LightManager.Initialised) LightManager.Shutdown();
+
+            NCLogging.Log("Shutting down renderer...");
+            Renderer.Shutdown();
 
             // Clear up any unpacked package data if Engine.ini specifies to
             Packager.Shutdown(GlobalSettings.GeneralDeleteUnpackedFilesOnExit);
@@ -152,16 +152,6 @@ namespace LightningGL
                 NCLogging.Log("Saving local settings as they were changed...");
                 LocalSettings.Save();
             }
-
-            // Shut all SDL libraries down in reverse order.
-            NCLogging.Log("Shutting down SDL_ttf...");
-            TTF_Quit();
-
-            NCLogging.Log("Shutting down SDL_mixer...");
-            Mix_Quit();
-
-            NCLogging.Log("Shutting down SDL_image..");
-            IMG_Quit();
 
             NCLogging.Log("Shutting down SDL...");
             SDL_Quit();

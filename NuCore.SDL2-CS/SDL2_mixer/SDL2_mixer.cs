@@ -47,11 +47,7 @@ namespace LightningBase
         #region SDL2# Variables
 
         /* Used by DllImport to load the native library. */
-#if X64 // x86-64
-        private const string nativeLibName = @"Libraries\SDL2_mixer-x64";
-#elif ARM64 // AArch64 v8.0+
-		private const string nativeLibName = @"Libraries\SDL2_mixer-ARM64";
-#endif
+        private const string nativeLibName = @"SDL2_mixer";
 
         #endregion
 

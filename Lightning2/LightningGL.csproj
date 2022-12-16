@@ -39,7 +39,6 @@
     <None Remove="..\Libraries\libvorbisfile-3.dll" />
     <None Remove="..\Libraries\libwebp-7.dll" />
     <None Remove="..\Libraries\SDL2-v2.0.20-x64.dll" />
-    <None Remove="..\Libraries\SDL2_gfx-x64.dll" />
     <None Remove="..\Libraries\SDL2_image-v2.0.5-x64.dll" />
     <None Remove="..\Libraries\SDL2_image-x64.dll" />
     <None Remove="..\Libraries\SDL2_mixer-x64.dll" />
@@ -99,12 +98,16 @@
     </Content>
     <Content Include="..\Libraries\SDL2_image-x64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  <Link>Libraries\SDL2_image-x64.dll</Link>
+	  <Link>SDL2_image.dll</Link>
     </Content>
     <Content Include="..\Libraries\SDL2_mixer-x64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  <Link>Libraries\SDL2_mixer-x64.dll</Link>
+	  <Link>SDL2_mixer.dll</Link>
     </Content>
+	<Content Include="..\Libraries\FreeType2-x64.dll">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Link>freetype.dll</Link>  
+	</Content>
     <Content Include="..\Libraries\libvorbis-0.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  <Link>libvorbis-0.dll</Link>
@@ -123,7 +126,7 @@
     </Content>
     <Content Include="..\Libraries\SDL2.dll">
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  <Link>Libraries\SDL2.dll</Link>
+	  <Link>SDL2.dll</Link>
     </Content>
     <Content Include="..\Libraries\zlib1.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

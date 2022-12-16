@@ -105,7 +105,7 @@
 
             if (TTF_SizeUTF8(font.Handle, text, out fontSizeX, out fontSizeY) < 0) NCError.ShowErrorBox($"An error occurred sizing text. {SDL_GetError()}", 80, "TTF_SizeUTF8 call from TextManager::GetTextSize failed", NCErrorSeverity.FatalError);
 
-            return new Vector2(fontSizeX, fontSizeY);
+            return new(fontSizeX, fontSizeY);
         }
 
         /// <summary>

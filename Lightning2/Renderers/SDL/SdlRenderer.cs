@@ -241,8 +241,19 @@ namespace LightningGL
         {
             base.Shutdown();
 
+            NCLogging.Log("Destroying renderer...");
             SDL_DestroyRenderer(Settings.RendererHandle);
             SDL_DestroyWindow(Settings.WindowHandle);
+
+            // Shut all SDLRenderer-specific libraries down in reverse order.
+            NCLogging.Log("Shutting down SDL_ttf...");
+            TTF_Quit();
+
+            NCLogging.Log("Shutting down SDL_mixer...");
+            Mix_Quit();
+
+            NCLogging.Log("Shutting down SDL_image...");
+            IMG_Quit();
         }
 
         #region Backend-specific primitive code

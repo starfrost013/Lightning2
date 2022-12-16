@@ -69,7 +69,6 @@
 
             if (FontSize < 1) NCError.ShowErrorBox($"Error loading font: Invalid font size {Size}, must be at least 1!", 37, 
                 "size parameter to Font::Load is not a valid font size!", NCErrorSeverity.Error);
-
             
             Handle = TTF_OpenFontIndex(Path, FontSize, Index);
 

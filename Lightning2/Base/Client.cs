@@ -20,7 +20,7 @@ namespace LightningGL
             base.Init();
 
             NCLogging.Log("Lightning Client initialising...");
-            
+
             NCLogging.Log("Initialising renderer...");
             Renderer = RendererFactory.GetRenderer(GlobalSettings.GraphicsRenderer);
             Debug.Assert(Renderer != null);
