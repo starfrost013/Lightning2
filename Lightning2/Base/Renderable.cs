@@ -297,12 +297,12 @@
             }
 
             CurrentAnimation.StopAnimationFor(this);
-        } 
+        }
 
         /// <summary>
         /// Called when the renderable is created.
         /// </summary>
-        internal virtual void Create()
+        public virtual void Create()
         {
 
         }
@@ -311,7 +311,7 @@
         /// Draws this Renderable.
         /// NOT RUN if the renderable is not rendered.
         /// </summary>
-        internal virtual void Draw()
+        public virtual void Draw()
         {
             // temp?
         }
@@ -319,7 +319,7 @@
         /// <summary>
         /// Run each frame REGARDLESS of if the renderable is rendered or not.
         /// </summary>
-        internal virtual void Update()
+        public virtual void Update()
         {
 
         }
@@ -327,7 +327,7 @@
         /// <summary>
         /// Called when the renderable is destroyed.
         /// </summary>
-        internal virtual void Destroy()
+        public virtual void Destroy()
         {
 
         }

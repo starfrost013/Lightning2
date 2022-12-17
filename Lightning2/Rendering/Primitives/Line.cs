@@ -8,7 +8,7 @@
 
         public Line(string name) : base(name) { }
 
-        internal override void Draw()
+        public override void Draw()
         {
             // lineRGBA(); just calls SDL.SDL_RenderDrawLine
             // thickLine does other stuff. 

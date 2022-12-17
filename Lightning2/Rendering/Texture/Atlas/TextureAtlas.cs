@@ -31,7 +31,7 @@
             TextureCount = textureCount;
         }
 
-        internal override void Create()
+        public override void Create()
         {
             if (FrameSize == default) NCError.ShowErrorBox("Cannot load a texture with no texture frame size!", 45, "TextureAtlas::FrameSize property = (0,0)!", NCErrorSeverity.FatalError);
 
@@ -71,7 +71,7 @@
             base.Draw();
         }
 
-        internal override void Draw()
+        public override void Draw()
         {
             // figure out a better way of "not drawing it once each frame"
         }

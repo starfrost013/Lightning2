@@ -271,7 +271,7 @@ namespace LightningGL
             }
         }
 
-        internal override void Destroy()
+        public override void Destroy()
         {
             Properties.Clear();
         }

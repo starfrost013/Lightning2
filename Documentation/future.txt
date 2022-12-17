@@ -21,8 +21,8 @@ AnimTool:
 - More settings?
 
 Lightning 2.5 feature set:
-- Ability to pair multiple Rrenderables and have them move with each other in an animation
-- "Keyframe Everything"; integrate Animation System with everything (Animatable) 
+- Ability to pair multiple renderables and have them move with each other in an animation
+- "Keyframe Everything"; integrate Animation System with everything (Animatable class) 
 - Skybox, Day/night cycle with customisable skyboxes for all regions of the day
 - ParticleEffect system merged with Animation
 - Don't render textures unless they move (adaptive tile refresh)

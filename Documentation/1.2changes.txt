@@ -166,6 +166,10 @@ Everything that matters to the api has to go here
 2022.12.13
 * Fix particle effects
 
+2022.12.16:
+* Fix SDL dll locations
+* Separate client/server shutdown code
+
 * todo:
 	- renderer independent blend mode!!!!!!!!!!!
 	- FIX ONLY ONE PARTICLE DISPLAYING

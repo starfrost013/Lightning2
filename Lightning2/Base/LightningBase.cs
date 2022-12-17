@@ -115,13 +115,15 @@ namespace LightningGL
             }
             catch (Exception err)
             {
-                NCError.ShowErrorBox($"An unknown fatal error occurred. The installation may be corrupted", 0x0000DEAD, "A fatal error occurred in LightningGL::Init!", NCErrorSeverity.FatalError, err);
+                NCError.ShowErrorBox($"An unknown fatal error occurred. The engine installation may be corrupted!", 0x0000DEAD, 
+                    "An unknown error occurred, or an error occurred during LightningBase::Init", NCErrorSeverity.FatalError, err);
             }
         }
 
         public virtual void Shutdown()
         {
-            if (!Initialised) NCError.ShowErrorBox("Attempted to shutdown without starting! Please call Lightning::Init!", 95, "Lightning::Initialised false when calling Lightning::Shutdown", NCErrorSeverity.FatalError);
+            if (!Initialised) NCError.ShowErrorBox("Attempted to shutdown without starting! Please call Client::Init or Server::Init!", 95, 
+                "LightningBase::Initialised false when calling Lightning::Shutdown", NCErrorSeverity.FatalError);
 
             if (GlobalSettings.GeneralProfilePerformance)
             {

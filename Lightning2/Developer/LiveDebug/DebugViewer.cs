@@ -57,14 +57,14 @@ namespace LightningGL
             OnKeyPressed += KeyPressed;
         }
 
-        internal override void Create()
+        public override void Create()
         {
             NCLogging.Log("Loading debug font...");
             // Load the debug font.
             FontManager.AddAsset(new Font("Arial", 11, "DebugFont"));
         }
 
-        internal override void Draw()
+        public override void Draw()
         {
             if (!Enabled) return;
 

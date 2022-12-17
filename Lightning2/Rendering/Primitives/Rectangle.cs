@@ -7,7 +7,7 @@
 
         }
 
-        internal override void Draw()
+        public override void Draw()
         {
             if (BorderColor != default)
             {

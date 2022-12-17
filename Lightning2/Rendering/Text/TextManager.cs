@@ -186,7 +186,7 @@
             }
         }
 
-        internal override void Update()
+        public override void Update()
         {
             PurgeUnusedEntries();
             foreach (TextCacheEntry entry in GetAssets()) entry.UsedThisFrame = false;

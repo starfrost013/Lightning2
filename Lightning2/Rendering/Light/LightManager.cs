@@ -103,7 +103,7 @@
         /// Internal: Renders the current screen-space lightmap.
         /// </summary>
         /// <param name="Lightning.Renderer">The window to render the current screen-space light map to.</param>
-        internal override void Update()
+        public override void Update()
         {
             if (ScreenSpaceMap.Handle == nint.Zero) NCError.ShowErrorBox("The Light Manager must be initialised before using it!",
                 62, "LightManager::RenderLightmap called before LightManager::Init!", NCErrorSeverity.FatalError);

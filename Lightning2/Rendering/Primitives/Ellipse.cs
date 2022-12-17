@@ -4,7 +4,7 @@
     {
         public Ellipse(string name) : base(name) { }
 
-        internal override void Draw()
+        public override void Draw()
         {
             if (BorderSize.X > 0
                 && BorderSize.Y > 0)

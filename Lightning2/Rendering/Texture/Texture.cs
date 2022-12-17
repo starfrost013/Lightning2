@@ -147,7 +147,7 @@
             FormatHandle = Lightning.Renderer.AllocTextureFormat();
         }
 
-        internal override void Create()
+        public override void Create()
         {
             // not great
             if (Path == CREATED_TEXTURE_PATH)
@@ -256,7 +256,7 @@
         /// Draws this texture instance.
         /// </summary>
         /// <exception cref="NCError">An error occurred rendering the texture. Extended information is available in <see cref="NCError.Description"/></exception>
-        internal override void Draw()
+        public override void Draw()
         {
             if (!Loaded
                 && _path != null) NCError.ShowErrorBox($"Texture {Path} being drawn without being loaded, you will see a black box!", 94, "Texture with image not loaded (Texture::Loaded = false)", NCErrorSeverity.Warning, null, true); // don't show a message box

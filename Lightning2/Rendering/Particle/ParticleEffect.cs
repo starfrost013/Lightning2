@@ -93,7 +93,7 @@
             return asset;
         }
 
-        internal override void Create()
+        public override void Create()
         {
             NCLogging.Log($"Loading particle effect at path {Texture.Path}...");
             // don't load it multiple times
@@ -105,7 +105,7 @@
         }
 
 
-        internal override void Draw()
+        public override void Draw()
         {
             if (Texture == null
                 || !Texture.Loaded)

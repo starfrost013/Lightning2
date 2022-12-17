@@ -77,7 +77,7 @@
             AlternateItemColorsAmount = 30;
         }
 
-        internal override void Create()
+        public override void Create()
         {
             // HACK: Don't make this a child of this so that it does not break everything
             // ONLY FOR THIS CLASS !!!

@@ -5,21 +5,10 @@
     /// 
     /// Text asset manager (FreeType Version)
     /// </summary>
-    public class FTTextAssetManager : AssetManager<TextCacheEntry>
+    public class Text : Renderable
     {
-        public override TextCacheEntry AddAsset(TextCacheEntry asset)
-        {
-            // temp code
-            if (asset.Font != null)
-            {
-                DrawText(asset.Text, asset.Font, asset.Position, Color.FromArgb(asset.Color.a, asset.Color.r, asset.Color.g, asset.Color.b),
-                    Color.FromArgb(asset.BackgroundColor.a, asset.BackgroundColor.r, asset.BackgroundColor.g, asset.BackgroundColor.b), asset.Style, asset.OutlineSize, -1,
-                    asset.SmoothingType, false);
-            }
 
-            return asset;
-        }
-
+        public Text(string name) : base(name) { }  
 
         /// <summary>
         /// Draws text to the screen.
@@ -115,7 +104,7 @@
         {
             TextCacheEntry? entry = TextCacheEntry.Render(font, text, color, style, type, outlineSize, bgColor);
             
-            if (entry != null) Lightning.Renderer.AddRenderable(entry);
+            if (entry != null) Lightning.Renderer.AddRenderable(entry, this);
 
             return entry;
         }
@@ -124,11 +113,10 @@
         {
             // memory leaks are bad
             // TODO: when we extend to multithreading in the future this is a very good and easy TOCTOU / race condition issue
-            List<TextCacheEntry> textCacheEntries = GetAssets();
 
-            for (int entryId = 0; entryId < textCacheEntries.Count; entryId++)
+            for (int entryId = 0; entryId < Children.Count; entryId++)
             {
-                TextCacheEntry entry = textCacheEntries[entryId];
+                TextCacheEntry entry = (TextCacheEntry)Children[entryId];
 
                 if (!entry.UsedThisFrame)
                 {
@@ -144,7 +132,7 @@
         internal TextCacheEntry? GetEntry(string font, string text,
             SDL_Color color, TTF_FontStyle style, FontSmoothingType type = FontSmoothingType.Default, int outlineSize = -1, SDL_Color bgColor = default)
         {
-            foreach (TextCacheEntry entry in GetAssets())
+            foreach (TextCacheEntry entry in Children)
             {
                 if (entry.Font == font
                     && entry.Text == text
@@ -185,16 +173,16 @@
 
         internal void UnloadAll()
         {
-            foreach (TextCacheEntry entry in GetAssets())
+            foreach (TextCacheEntry entry in Children)
             {
                 entry.Unload();
             }
         }
 
-        internal override void Update()
+        public override void Update()
         {
             PurgeUnusedEntries();
-            foreach (TextCacheEntry entry in GetAssets()) entry.UsedThisFrame = false;
+            foreach (TextCacheEntry entry in Children) entry.UsedThisFrame = false;
         }
 
         /// <summary>

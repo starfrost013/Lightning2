@@ -1,4 +1,0 @@
-1.1.3: 
-- fix property names
-- fix property accessibility
-- FIX PURGEUNUSEDENTRIES!!!!

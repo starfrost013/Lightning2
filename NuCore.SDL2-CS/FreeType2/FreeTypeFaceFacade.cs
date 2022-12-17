@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using LightningBase;
+using NuCore.Utilities;
 
 namespace LightningBase
 {
@@ -12,6 +12,7 @@ namespace LightningBase
         private readonly FT_FaceRec* _FaceRec;
         private readonly FreeTypeLibrary _Library;
 
+        private bool Initialised { get; set; }
         /// <summary>
         /// Initialize a FreeTypeFaceFacade instance with a pointer to the Face instance.
         /// </summary>
@@ -34,6 +35,8 @@ namespace LightningBase
                 throw new FreeTypeException(err);
 
             _FaceRec = (FT_FaceRec*)_Face;
+
+            Initialised = true;
         }
 
         #region Properties
@@ -140,7 +143,17 @@ namespace LightningBase
         /// </summary>
         /// <param name="flag">The flag to evaluate.</param>
         /// <returns><see langword="true"/> if the face has the specified flag defined; otherwise, <see langword="false"/>.</returns>
-        public bool HasFaceFlag(int flag) { return (((int)_FaceRec->face_flags) & flag) != 0; }
+        public bool HasFaceFlag(int flag)
+        {
+            if (!Initialised)
+            {
+                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 248,
+                    "FreeTypeFaceFacade::HasFaceFlag called when FreeTypeFaceFacade::Initialised is FALSE!", NCErrorSeverity.Warning);
+                return false;
+            }
+
+            return (((int)_FaceRec->face_flags) & flag) != 0;
+        }
 
         /// <summary>
         /// Selects the specified character size for the font face.
@@ -150,10 +163,19 @@ namespace LightningBase
         /// <param name="dpiY">The vertical pixel density.</param>
         public void SelectCharSize(int sizeInPoints, uint dpiX, uint dpiY)
         {
+            if (!Initialised)
+            {
+                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 247,
+                    "FreeTypeFaceFacade::SelectCharSize called when FreeTypeFaceFacade::Initialised is FALSE!", NCErrorSeverity.Warning);
+            }
+
             var size = (nint)(sizeInPoints << 6);
             var err = FreeTypeApi.FT_Set_Char_Size(_Face, size, size, dpiX, dpiY);
             if (err != FT_Error.FT_Err_Ok)
-                throw new FreeTypeException(err);
+            {
+                NCError.ShowErrorBox($"FreeType Internal Error - Failed to set character size ({err})", 250,
+                    "FreeTypeFaceFacade::SelectCharSize call to FT_Set_Char_Size failed", NCErrorSeverity.Warning);
+            }
         }
 
         /// <summary>
@@ -162,9 +184,19 @@ namespace LightningBase
         /// <param name="ix">The index of the fixed size to select.</param>
         public void SelectFixedSize(int ix)
         {
+            if (!Initialised)
+            {
+                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 246,
+                    "FreeTypeFaceFacade::SelectFixedSize called when FreeTypeFaceFacade::Initialised is FALSE!", NCErrorSeverity.Warning);
+            }
+
             var err = FreeTypeApi.FT_Select_Size(_Face, ix);
             if (err != FT_Error.FT_Err_Ok)
-                throw new FreeTypeException(err);
+            {
+                NCError.ShowErrorBox("FreeType Internal Error - Error selecting fixed font size", 253,
+                    "FreeTypeFaceFacade::SelectFixedSize call to FT_Select_Size failed!", NCErrorSeverity.Error, default, true);
+            }
+                
         }
 
         /// <summary>
@@ -172,30 +204,79 @@ namespace LightningBase
         /// </summary>
         /// <param name="charCode">The character code for which to retrieve a glyph index.</param>
         /// <returns>The glyph index of the specified character, or 0 if the character is not defined by this face.</returns>
-        public uint GetCharIndex(uint charCode) { return FreeTypeApi.FT_Get_Char_Index(_Face, charCode); }
+        public uint GetCharIndex(uint charCode)
+        {
+            if (!Initialised)
+            {
+                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 242,
+                    "FreeTypeFaceFacade::GetCharIndex called when FreeTypeFaceFacade::Initialised is FALSE!", NCErrorSeverity.FatalError);
+                return 90000000; // fatal error but obvious nonsense value
+            }
+
+            return FreeTypeApi.FT_Get_Char_Index(_Face, charCode);
+        }
 
         /// <summary>
         /// Marshals the face's family name to a C# string.
         /// </summary>
         /// <returns>The marshalled string.</returns>
-        public string MarshalFamilyName() { return Marshal.PtrToStringAnsi(_FaceRec->family_name); }
+        public string MarshalFamilyName()
+        {
+            if (!Initialised)
+            {
+                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 243,
+                    "FreeTypeFaceFacade::MarshalFamilyName called when FreeTypeFaceFacade::Initialised is FALSE!", NCErrorSeverity.FatalError);
+
+                return string.Empty;
+            }
+
+            return Marshal.PtrToStringAnsi(_FaceRec->family_name);
+        }
 
         /// <summary>
         /// Marshals the face's style name to a C# string.
         /// </summary>
         /// <returns>The marshalled string.</returns>
-        public string MarshalStyleName() { return Marshal.PtrToStringAnsi(_FaceRec->style_name); }
+        public string MarshalStyleName()
+        {
+            if (!Initialised)
+            {
+                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 244,
+                    "FreeTypeFaceFacade::MarshalStyleName called when FreeTypeFaceFacade::Initialised is FALSE!", NCErrorSeverity.FatalError);
+
+                return string.Empty;
+            }
+
+            return Marshal.PtrToStringAnsi(_FaceRec->style_name);
+        }
 
         /// <summary>
         /// Returns the specified character if it is defined by this face; otherwise, returns <see langword="null"/>.
         /// </summary>
         /// <param name="c">The character to evaluate.</param>
         /// <returns>The specified character, if it is defined by this face; otherwise, <see langword="null"/>.</returns>
-        public char? GetCharIfDefined(Char c) { return FreeTypeApi.FT_Get_Char_Index(_Face, c) > 0 ? c : (char?)null; }
+        public char? GetCharIfDefined(Char c)
+        {
+            if (!Initialised)
+            {
+                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 245,
+                    "FreeTypeFaceFacade::GetCharIfDefined called when FreeTypeFaceFacade::Initialised is FALSE!", NCErrorSeverity.Warning);
+
+                return null;
+            }
+
+            return FreeTypeApi.FT_Get_Char_Index(_Face, c) > 0 ? c : (char?)null;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private int GetFixedSizeInPixels(FT_FaceRec* face, int ix)
         {
+            if (!Initialised)
+            {
+                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 241,
+                    "FreeTypeFaceFacade::GetFixedSizeInPixels called when FreeTypeFaceFacade::Initialised is FALSE!", NCErrorSeverity.FatalError);
+            }
+
             return face->available_sizes[ix].height;
         }
 
@@ -207,10 +288,22 @@ namespace LightningBase
         /// <returns>The index of the closest matching fixed size.</returns>
         public int FindNearestMatchingPixelSize(int sizeInPixels, bool requireExactMatch = false)
         {
-            var numFixedSizes = _FaceRec->num_fixed_sizes;
-            if (numFixedSizes == 0)
-                throw new InvalidOperationException("FONT_DOES_NOT_HAVE_BITMAP_STRIKES");
+            if (!Initialised)
+            {
+                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 239, 
+                    "FreeTypeFaceFacade::FindNearestMatchingPixelSize called when FreeTypeFaceFacade::Initialised is FALSE!", NCErrorSeverity.Error, default, true);
+                return sizeInPixels;
+            }
 
+            var numFixedSizes = _FaceRec->num_fixed_sizes;
+
+            if (numFixedSizes == 0)
+            {
+                NCError.ShowErrorBox("FreeType Internal Error - tried to find a nearest matching ixed size on a proportional font!", 239, "FreeTypeFaceFacade::FindNearestMatchingPixelSize " +
+                    "tried to find the nearest matching fixed pixel size on a proportional font!", NCErrorSeverity.Error, default, true);
+                return sizeInPixels;
+            }
+               
             var bestMatchIx = 0;
             var bestMatchDiff = Math.Abs(GetFixedSizeInPixels(_FaceRec, 0) - sizeInPixels);
 
@@ -226,16 +319,31 @@ namespace LightningBase
             }
 
             if (bestMatchDiff != 0 && requireExactMatch)
-                throw new InvalidOperationException(string.Format("NO_MATCHING_PIXEL_SIZE: {0}", sizeInPixels));
+            {
+                NCError.ShowErrorBox("FreeType Internal Error - could not find matching pixel size", 251, "FreeTypeFaceFacade::FindNearestMatchingPixelSize " +
+                    "tried to find the nearest matching fixed pixel size on a proportional font!", NCErrorSeverity.Error, default, true);
+                return sizeInPixels;
+            }
 
             return bestMatchIx;
         }
 
         public bool EmboldenGlyphBitmap(int xStrength, int yStrength)
         {
+            if (!Initialised)
+            {
+                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 240,
+                    "FreeTypeFaceFacade::EmboldenGlyphBitmap called when FreeTypeFaceFacade::Initialised is FALSE!", NCErrorSeverity.FatalError);
+            }
+
             var err = FreeTypeApi.FT_Bitmap_Embolden(_Library.Native, (nint)(GlyphBitmapPtr), (nint)xStrength, (nint)yStrength);
+
             if (err != FT_Error.FT_Err_Ok)
+            {
+                NCError.ShowErrorBox("FreeType Internal Error - Failed to embolden font", 249,
+                    "FreeTypeFaceFacade::EmboldenGlyphBitmap call to FT_Bitmap_Embolden failed!", NCErrorSeverity.Warning, default, true);
                 return false;
+            }
 
             if ((int)_FaceRec->glyph->advance.x > 0)
                 _FaceRec->glyph->advance.x += xStrength;
@@ -251,6 +359,22 @@ namespace LightningBase
 
             _FaceRec->glyph->bitmap_top += (yStrength >> 6);
 
+            return true;
+        }
+
+        public bool Unload()
+        {
+            FT_Error unloadError = FreeTypeApi.FT_Done_Face(_Face);
+
+            if (unloadError != FT_Error.FT_Err_Ok)
+            {
+                NCError.ShowErrorBox($"FreeType Internal Error - Error unloading font {unloadError}", 249,
+                    "FreeTypeFaceFacade::Unload call to FT_Done_Face failed", NCErrorSeverity.Error, default, true);
+
+                return false; 
+            }
+
+            Initialised = false;
             return true;
         }
 

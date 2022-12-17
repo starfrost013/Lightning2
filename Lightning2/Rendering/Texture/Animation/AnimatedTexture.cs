@@ -68,7 +68,7 @@
         /// <summary>
         /// Loads this animated texture.
         /// </summary>
-        internal override void Create()
+        public override void Create()
         {
             if (Size == default)
             {
@@ -101,7 +101,7 @@
         /// <summary>
         /// Draws this animated texture.
         /// </summary>
-        internal override void Draw()
+        public override void Draw()
         {
             bool reverseAnimation = (Cycle.StartFrame > Cycle.EndFrame);
             if (AnimationFinished) return;

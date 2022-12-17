@@ -38,7 +38,7 @@
             OnMousePressed += CheckBoxMousePressed;
         }
 
-        internal override void Create()
+        public override void Create()
         {
             // issue: won't update if you modify it again later
             // this is why we might need referents for renderble

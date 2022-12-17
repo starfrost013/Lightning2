@@ -62,7 +62,7 @@
             NumberOfFramesUntilNextBlink = CursorBlinkFrequency;
         }
 
-        internal override void Create()
+        public override void Create()
         {
             Rectangle = PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen, this);
             Cursor = PrimitiveManager.AddLine(default, default, ForegroundColor, true, false, this);

@@ -1,4 +1,6 @@
-﻿namespace LightningGL
+﻿using LightningGL.Rendering.TextFT;
+
+namespace LightningGL
 {
     /// <summary>
     /// Font
@@ -15,7 +17,7 @@
         /// <summary>
         /// Private: Pointer to the unmanaged TTF_Font containing this font.
         /// </summary>
-        public nint Handle { get; private set; }
+        public FreeTypeFaceFacade? Handle { get; private set; }
 
         /// <summary>
         /// The name of this font on the system.
@@ -42,51 +44,84 @@
 
             if (path == null) // default to system load path 
             {
-                Path = @$"{Environment.GetFolderPath(Environment.SpecialFolder.Fonts)}\{name}.ttf";
+                Path = @$"{Environment.GetFolderPath(Environment.SpecialFolder.Fonts)}\{name}";
             }
             else
             {
-                Path = $"{path}.ttf";
+                Path = $"{path}";
             }
         }
 
         /// <summary>
         /// Internal: Loads this font.
         /// </summary>
-        internal override void Create()
+        public override void Create()
         {
+            Debug.Assert(Lightning.Renderer.FreeTypeLibrary != null);
+
             if (!File.Exists(Path))
             {
                 NCError.ShowErrorBox($"Error loading font: Attempted to load nonexistent font at {Path}", 34, "Font::Path does not exist", NCErrorSeverity.Error);
                 return;
             }
 
-            if (!Path.Contains(".ttf", StringComparison.InvariantCultureIgnoreCase))
+            for (int fontType = 0; fontType < (int)FontFormat.MAX_FONT; fontType++)
             {
-                NCError.ShowErrorBox($"Error loading font: Only TTF fonts are supported!", 36, "Font::Path is not a TrueType font", NCErrorSeverity.Error);
-                return;
+                if (!Path.Contains($".{(FontFormat)fontType}", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    NCError.ShowErrorBox($"Error loading font: Attempted to load an invalid font format. The supported font formats are:\n\n" +
+                        $"- TrueType and TrueType collections (.ttf/ttc)\n" +
+                        $"- OpenType and OpenType collections (.otf/otc)\n" +
+                        $"- OpenType CFF\n" +
+                        $"- WOFF\n" +
+                        $"- Adobe Type 1\n" +
+                        $"- CID\n" +
+                        $"- SFNT\n" +
+                        $"- X11 PCF\n" +
+                        $"- Windows legacy FNT\n" +
+                        $"- BDF\n" +
+                        $"- PFR\n" +
+                        $"- PostScript Type 42 (limited support)" +
+                        $"- ", 36, "Font::Path is not a FreeType-supported font", NCErrorSeverity.Error);
+                    return;
+                }
             }
 
             if (FontSize < 1) NCError.ShowErrorBox($"Error loading font: Invalid font size {Size}, must be at least 1!", 37, 
                 "size parameter to Font::Load is not a valid font size!", NCErrorSeverity.Error);
-            
-            Handle = TTF_OpenFontIndex(Path, FontSize, Index);
 
-            if (Handle == nint.Zero) NCError.ShowErrorBox($"Error loading font at {Path}: {TTF_GetError()}", 38, 
-                "An SDL error occurred during font loading from Font::Load!", NCErrorSeverity.Error);
+            FT_Error newFaceError = FT_New_Face(Lightning.Renderer.FreeTypeLibrary.Native, Path, Index, out var newHandle);
+
+            if (newFaceError != FT_Error.FT_Err_Ok)
+            {
+                NCError.ShowErrorBox($"A fatal FreeType error occurred loading the font: {newFaceError}", 236, 
+                    $"FreeType returned an error code during the FontManager's call to FT_New_Face!", NCErrorSeverity.Error);
+                return;
+            }
+
+            Handle = new FreeTypeFaceFacade(Lightning.Renderer.FreeTypeLibrary, newHandle);
+
+            try
+            {
+                Handle.SelectCharSize(FontSize, 0, 0);
+            }
+            catch
+            {
+                NCError.ShowErrorBox($"A fatal FreeType error occurred setting the font size: {newFaceError}", 236,
+                $"FreeType returned an error code during the FontManager's call to FT_New_Face!", NCErrorSeverity.Error);
+                return;
+            }
 
             NCLogging.Log($"Loaded font {Name}, size {FontSize} at {Path}");
-
+            
             Loaded = true;
         }
 
-        /// <summary>
-        /// Unloads this font. Should ONLY be called if this font is about to be removed
-        /// </summary>
-        internal void Unload()
+        public override void Destroy()
         {
-            TTF_CloseFont(Handle);
-            Handle = nint.Zero;
+            Handle?.Unload();
+            Handle = null;
+            Loaded = false; 
             NCLogging.Log($"Unloaded font {Name}, size {FontSize}");
         }
     }

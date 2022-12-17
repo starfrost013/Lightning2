@@ -27,7 +27,7 @@
             OnRender += Render;
         }
 
-        internal override void Create()
+        public override void Create()
         {
             Rectangle = PrimitiveManager.AddRectangle(RenderPosition, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen, this);
 

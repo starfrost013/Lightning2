@@ -56,7 +56,7 @@
         /// <summary>
         /// Loads this audio file.
         /// </summary>
-        internal override void Create()
+        public override void Create()
         {
             AudioHandle = Mix_LoadWAV(Path);
 
@@ -83,7 +83,7 @@
         /// Internal: Update positional sound volume based on current main camera position.
         /// </summary>
         /// <param name="SceneManager.Renderer"></param>
-        internal override void Update()
+        public override void Update()
         {
             if (!PositionalSound) return;
 

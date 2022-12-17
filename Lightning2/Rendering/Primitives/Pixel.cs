@@ -4,6 +4,6 @@
     {
         public Pixel(string name) : base(name) { }
 
-        internal override void Draw() => Lightning.Renderer.DrawPixel((int)RenderPosition.X, (int)RenderPosition.Y, Color.R, Color.G, Color.B, Color.A);
+        public override void Draw() => Lightning.Renderer.DrawPixel((int)RenderPosition.X, (int)RenderPosition.Y, Color.R, Color.G, Color.B, Color.A);
     }
 }

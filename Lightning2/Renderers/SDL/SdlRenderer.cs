@@ -258,7 +258,7 @@ namespace LightningGL
 
         #region Backend-specific primitive code
 
-        internal override void DrawPixel(int x, int y, byte r, byte g, byte b, byte a)
+        public override void DrawPixel(int x, int y, byte r, byte g, byte b, byte a)
         {
             int result = 0;
             result |= SDL_SetRenderDrawBlendMode(Settings.RendererHandle, (a == 255) ? SDL_BlendMode.SDL_BLENDMODE_NONE : SDL_BlendMode.SDL_BLENDMODE_BLEND);
@@ -303,7 +303,7 @@ namespace LightningGL
             DrawPixel(x, y, r, g, b, a);
         }
 
-        internal override void DrawLine(int x1, int y1, int x2, int y2, byte r, byte g, byte b, byte a)
+        public override void DrawLine(int x1, int y1, int x2, int y2, byte r, byte g, byte b, byte a)
         {
                 /*
                 * Draw
@@ -327,7 +327,7 @@ namespace LightningGL
 
         private void DrawVLine(int x, int y1, int y2, byte r, byte g, byte b, byte a) => DrawLine(x, y1, x, y2, r, g, b, a);
 
-        internal override void DrawEllipse(int x, int y, int rx, int ry, byte r, byte g, byte b, byte a, bool filled)
+        public override void DrawEllipse(int x, int y, int rx, int ry, byte r, byte g, byte b, byte a, bool filled)
         {
             if (filled)
             {
@@ -715,7 +715,7 @@ namespace LightningGL
             }
         }
 
-        internal override void DrawRectangle(Vector2 position, Vector2 size, byte r, byte g, byte b, byte a, bool filled = false)
+        public override void DrawRectangle(Vector2 position, Vector2 size, byte r, byte g, byte b, byte a, bool filled = false)
         {
             int result = 0;
             SDL_Rect rect;
@@ -820,7 +820,7 @@ namespace LightningGL
             }
         }
 
-        internal override void DrawTexture(params object[] args)
+        public override void DrawTexture(params object[] args)
         {
             // Parameters:
             // Argument 0 - Vector2 - viewport start
