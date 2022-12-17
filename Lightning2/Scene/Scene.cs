@@ -46,7 +46,6 @@
         /// </summary>
         public abstract void Render();
 
-
         /// <summary>
         /// Run when this scene is about to be switched to.
         /// </summary>

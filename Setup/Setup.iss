@@ -8,7 +8,7 @@
 ; Updated October 17, 2022 for Lightning 1.1 (again)
 ; Updated October 21, 2022 to add an Animation Editor shortcut
 ; Updated December 3, 2022 for .NET 7.0
-
+; Updated December 17, 2022 for Lightning 2.0 file locations
 
 
 #define MyAppName "Lightning Software Development Kit"                                                     
@@ -68,6 +68,7 @@ Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\AnimTool.exe"; D
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\AnimTool.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\AnimTool.deps.json"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\AnimTool.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\freetype.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\MakePackage.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\MakePackage.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\MakePackage.deps.json"; DestDir: "{app}"; Flags: ignoreversion
@@ -75,6 +76,9 @@ Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\MakePackage.runt
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\NuCore.Utilities.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\NuCore.Utilities.Lightning.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\SDL2.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\SDL2_image.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\SDL2_mixer.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\zlib1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\Content\*"; DestDir: "{app}\Content"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\Documentation\*"; DestDir: "{app}\Documentation"; Flags: ignoreversion recursesubdirs createallsubdirs

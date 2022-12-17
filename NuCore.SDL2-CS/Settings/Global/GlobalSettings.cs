@@ -165,6 +165,7 @@ namespace LightningBase
         /// The renderer that will be used
         /// </summary>
         public static Renderers GraphicsRenderer { get; internal set; }
+
         #endregion
 
         #region System requirements
@@ -252,6 +253,12 @@ namespace LightningBase
         public static int DEFAULT_GRAPHICS_POSITION_X => SystemInfo.ScreenResolutionX / 2 - (GraphicsResolutionX / 2);
 
         public static int DEFAULT_GRAPHICS_POSITION_Y => SystemInfo.ScreenResolutionY / 2 - (GraphicsResolutionY / 2);
+
+        public static int DEFAULT_GRAPHICS_RESOLUTION_X => SystemInfo.ScreenResolutionX;
+
+        public static int DEFAULT_GRAPHICS_RESOLUTION_Y => SystemInfo.ScreenResolutionY;
+
+        public static int DEFAULT_MAX_FPS = 60;
 
         public const int DEFAULT_GRAPHICS_TICK_SPEED = 1;
 
@@ -359,7 +366,17 @@ namespace LightningBase
                 _ = Enum.TryParse(typeof(Renderers), graphicsSection.GetValue("Renderer"), true, out var graphicsRendererValue);
                 GraphicsWindowTitle = graphicsSection.GetValue("WindowTitle");
 
-                // Set those values.
+                if (graphicsMaxFpsValue == 0) graphicsMaxFpsValue = DEFAULT_MAX_FPS;
+                if (resolutionXValue == 0) resolutionXValue = DEFAULT_GRAPHICS_RESOLUTION_X;
+                if (resolutionYValue == 0) resolutionYValue = DEFAULT_GRAPHICS_RESOLUTION_Y;
+                // failed to load, set default values (middle of screen)
+                if (positionXValue == 0) positionXValue = DEFAULT_GRAPHICS_POSITION_X;
+                if (positionYValue == 0) positionYValue = DEFAULT_GRAPHICS_POSITION_Y;
+
+                // set the default delta multiplier value
+                if (tickSpeedValue == 0) tickSpeedValue = DEFAULT_GRAPHICS_TICK_SPEED;
+
+                // Set the actual GlobalSettings values.
                 GraphicsMaxFPS = graphicsMaxFpsValue;
                 GraphicsResolutionX = resolutionXValue;
                 GraphicsResolutionY = resolutionYValue;
@@ -369,12 +386,6 @@ namespace LightningBase
                 GraphicsRenderOffScreenRenderables = renderOffscreenRenderablesValue;
                 if (graphicsRendererValue != null) GraphicsRenderer = (Renderers)graphicsRendererValue;
                 
-                // failed to load, set default values (middle of screen)
-                if (positionXValue == 0) positionXValue = DEFAULT_GRAPHICS_POSITION_X;
-                if (positionYValue == 0) positionYValue = DEFAULT_GRAPHICS_POSITION_Y;
-
-                // set the default delta multiplier value
-                if (tickSpeedValue == 0) tickSpeedValue = DEFAULT_GRAPHICS_TICK_SPEED;
 
                 GraphicsTickSpeed = tickSpeedValue;
                 GraphicsPositionX = positionXValue;

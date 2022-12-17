@@ -175,8 +175,11 @@ Everything that matters to the api has to go here
 * Freetype font loading and unloading
 * Freetype initialisation
 * Text is now a renderable
+* Default to primary monitor resolution if resolution not provided
 
 * todo:
+	- overridable default values
+	- a lot more configurable
 	- renderer independent blend mode!!!!!!!!!!!
 	- SHOULD PROPERTIES AFFECT CHILDREN
 	- FIX BUSTED AND SHIT HORRIBLE VERY BAD UI SYSTEM!!!!!!
