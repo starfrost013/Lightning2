@@ -164,15 +164,20 @@ Everything that matters to the api has to go here
 * Fix texture rendering
 
 2022.12.13
-* Fix particle effects
+* Fix particle effects (Particles are now all instances of their parent texture)
 
 2022.12.16:
 * Fix SDL dll locations
 * Separate client/server shutdown code
 
+2022.12.17:
+* Renderable create/draw/update/destroy now public
+* Freetype font loading and unloading
+* Freetype initialisation
+* Text is now a renderable
+
 * todo:
 	- renderer independent blend mode!!!!!!!!!!!
-	- FIX ONLY ONE PARTICLE DISPLAYING
 	- SHOULD PROPERTIES AFFECT CHILDREN
 	- FIX BUSTED AND SHIT HORRIBLE VERY BAD UI SYSTEM!!!!!!
 	- global usings everywhere
