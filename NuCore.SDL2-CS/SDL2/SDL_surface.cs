@@ -202,7 +202,6 @@ namespace LightningBase
             uint flags
         );
 
-        [Obsolete("SDL_CreateSurface in SDL 3.0")]
         /* nint refers to an SDL_Surface* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern nint SDL_CreateRGBSurface(
@@ -216,7 +215,6 @@ namespace LightningBase
             uint Amask
         );
 
-        [Obsolete("SDL_CreateSurfaceFrom in SDL 3.0")]
         /* nint refers to an SDL_Surface*, pixels to a void* */
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern nint SDL_CreateRGBSurfaceFrom(
@@ -231,7 +229,6 @@ namespace LightningBase
             uint Amask
         );
 
-        [Obsolete("SDL_CreateSurface in SDL 3.0")]
         /* nint refers to an SDL_Surface*
 		 * Only available in 2.0.5 or higher.
 		 */
@@ -244,7 +241,6 @@ namespace LightningBase
             uint format
         );
 
-        [Obsolete("SDL_CreateSurfaceFrom in SDL 3.0")]
         /* nint refers to an SDL_Surface*, pixels to a void*
 		 * Only available in 2.0.5 or higher.
 		 */

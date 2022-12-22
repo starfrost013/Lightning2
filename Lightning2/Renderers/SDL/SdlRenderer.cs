@@ -1,5 +1,6 @@
 ﻿global using static LightningGL.Lightning;
 using LightningBase;
+using System.IO;
 
 namespace LightningGL
 {
@@ -775,16 +776,60 @@ namespace LightningGL
 
         internal override nint LoadTexture(string path)
         {
-            if (!File.Exists(path)) NCError.ShowErrorBox($"{path} does not exist!", 9, "Texture::Path property does not exist", NCErrorSeverity.FatalError);
-
             nint handle = IMG_LoadTexture(Settings.RendererHandle, path);
 
             if (handle == nint.Zero)
             {
                 NCError.ShowErrorBox($"Failed to load texture at {path} - {SDL_GetError()}", 10, "An error occurred in SdlRenderer::LoadTexture!", NCErrorSeverity.Error);
+                // this already returns nint.zero
             }
 
             return handle;
+        }
+
+        internal unsafe override Texture? TextureFromFreeTypeBitmap(FT_Bitmap bitmap, Texture texture, Color foregroundColor)
+        {
+            if (!texture.Loaded)
+            {
+                NCError.ShowErrorBox($"Passed an unloaded texture to SdlRenderer::TextureFromFreeTypeBitmap", 256, 
+                    "An error occurred in SdlRenderer::LoadTexture!", NCErrorSeverity.FatalError);
+                return null;
+            }
+
+            // Create the surface.
+
+            // TODO: SDL_CreateSurfaceFrom in SDL3
+
+            // When FreeType renders a glyph, it actually creates an "alpha map" of the alpha values of the glyph that we have rendered in INDEX8 format.
+            // Therefore, we create an SDL surface, convert it to a texture (for hardware acceleration so that it is rendered by the GPU).
+            // Lightning uses ARGB8888, so we need to convert to ARGB8888 using the colour the user specified.
+            // and then plot the pixels of the *RGB* component of the surface, the alpha already having been set for us by freetype.
+            nint surfaceHandle = SDL_CreateRGBSurfaceWithFormatFrom(bitmap.buffer, (int)bitmap.width, (int)bitmap.rows, 8, bitmap.pitch, SDL_PIXELFORMAT_INDEX8);
+
+            // temporary INDEX8 texture
+            // it's likely still faster to convert it to a texture than setting its pixels as a surface so let's do that
+            nint tempTextureHandle = SDL_CreateTextureFromSurface(Settings.RendererHandle, surfaceHandle);
+            SDL_FreeSurface(surfaceHandle);
+            SDL_Rect tempRect = new(0, 0, (int)texture.Size.X, (int)texture.Size.Y);
+
+            SDL_LockTexture(tempTextureHandle, ref tempRect, out var tempPixels, out var tempPitch);
+
+            // get a pointer to the index8 pointer pixels (byte pointer)
+            byte* pixels = (byte*)tempPixels.ToPointer();
+            
+            // Now we actually set the pixels to the colour
+            // convert to ARGB
+            for (int y = 0; y < texture.Size.Y; y++)
+            {
+                for (int x = 0; x < texture.Size.X; x++)
+                {
+                    texture.SetPixel(x, y, Color.FromArgb(pixels[(x * y) + x], foregroundColor.R, foregroundColor.G, foregroundColor.B));
+                }
+            }
+
+            SDL_UnlockTexture(tempTextureHandle);
+            SDL_DestroyTexture(tempTextureHandle);
+            return texture; 
         }
 
         internal override void LockTexture(nint handle, Vector2 start, Vector2 size, out nint pixels, out int pitch)

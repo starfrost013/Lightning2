@@ -12,7 +12,7 @@ namespace LightningBase
         public Int32 pitch;
         public nint buffer;
         public UInt16 num_grays;
-        public Byte pixel_mode;
+        public FT_Pixel_Mode pixel_mode;
         public Byte palette_mode;
         public nint palette;
     }

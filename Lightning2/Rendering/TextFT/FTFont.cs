@@ -35,6 +35,8 @@ namespace LightningGL
         /// </summary>
         public int Index { get; internal set; }
 
+        internal GlyphCache Cache { get; set; }  
+
         public FTFont(string name, int size, string friendlyName, string? path = null, int index = 0) : base(friendlyName)
         {
             FontName = name;
@@ -50,6 +52,9 @@ namespace LightningGL
             {
                 Path = $"{path}";
             }
+
+            // this is automatically added by create
+            Cache = new("GlyphCache");
         }
 
         /// <summary>
@@ -101,6 +106,8 @@ namespace LightningGL
 
             Handle = new FreeTypeFaceFacade(Lightning.Renderer.FreeTypeLibrary, newHandle);
 
+            //todo: kerning 
+
             try
             {
                 Handle.SelectCharSize(FontSize, 0, 0);
@@ -111,6 +118,9 @@ namespace LightningGL
                 $"FreeType returned an error code during the FontManager's call to FT_New_Face!", NCErrorSeverity.Error);
                 return;
             }
+
+            NCLogging.Log($"Creating glyph cache for font {Name}...");
+            Lightning.Renderer.AddRenderable(Cache, this);
 
             NCLogging.Log($"Loaded font {Name}, size {FontSize} at {Path}");
             

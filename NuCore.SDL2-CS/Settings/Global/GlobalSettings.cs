@@ -369,9 +369,6 @@ namespace LightningBase
                 if (graphicsMaxFpsValue == 0) graphicsMaxFpsValue = DEFAULT_MAX_FPS;
                 if (resolutionXValue == 0) resolutionXValue = DEFAULT_GRAPHICS_RESOLUTION_X;
                 if (resolutionYValue == 0) resolutionYValue = DEFAULT_GRAPHICS_RESOLUTION_Y;
-                // failed to load, set default values (middle of screen)
-                if (positionXValue == 0) positionXValue = DEFAULT_GRAPHICS_POSITION_X;
-                if (positionYValue == 0) positionYValue = DEFAULT_GRAPHICS_POSITION_Y;
 
                 // set the default delta multiplier value
                 if (tickSpeedValue == 0) tickSpeedValue = DEFAULT_GRAPHICS_TICK_SPEED;
@@ -385,7 +382,11 @@ namespace LightningBase
                 if (sdlRenderingBackendValue != null) GraphicsSdlRenderingBackend = (SdlRenderingBackend)sdlRenderingBackendValue;
                 GraphicsRenderOffScreenRenderables = renderOffscreenRenderablesValue;
                 if (graphicsRendererValue != null) GraphicsRenderer = (Renderers)graphicsRendererValue;
-                
+
+                // why the fuck do these have to be here???? this is fucked up fix it
+                // failed to load, set default values (middle of screen)
+                if (positionXValue == 0) positionXValue = DEFAULT_GRAPHICS_POSITION_X;
+                if (positionYValue == 0) positionYValue = DEFAULT_GRAPHICS_POSITION_Y;
 
                 GraphicsTickSpeed = tickSpeedValue;
                 GraphicsPositionX = positionXValue;

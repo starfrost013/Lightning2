@@ -177,6 +177,12 @@ Everything that matters to the api has to go here
 * Text is now a renderable
 * Default to primary monitor resolution if resolution not provided
 
+2022.12.18-2022.12.22:
+* Freetype font loader
+* Freetype font manager
+* GlyphCache
+* Glyph management and rendering
+
 * todo:
 	- overridable default values
 	- a lot more configurable

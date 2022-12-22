@@ -145,6 +145,8 @@
 
             Handle = Lightning.Renderer.CreateTexture((int)sizeX, (int)sizeY, isTarget);
             FormatHandle = Lightning.Renderer.AllocTextureFormat();
+            Loaded = Handle != nint.Zero
+                && FormatHandle != nint.Zero;
         }
 
         public override void Create()
@@ -159,7 +161,6 @@
             if (!File.Exists(Path)) NCError.ShowErrorBox($"{Path} does not exist!", 9, "Texture::Path property does not exist", NCErrorSeverity.FatalError);
 
             Handle = Lightning.Renderer.LoadTexture(Path);
-            Loaded = Handle != nint.Zero;
         }
 
         /// <summary>
@@ -275,7 +276,6 @@
                 Handle,
                 Repeat
             });
-
         }
 
         /// <summary>

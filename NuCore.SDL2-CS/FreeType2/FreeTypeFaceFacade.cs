@@ -368,7 +368,7 @@ namespace LightningBase
 
             if (unloadError != FT_Error.FT_Err_Ok)
             {
-                NCError.ShowErrorBox($"FreeType Internal Error - Error unloading font {unloadError}", 249,
+                NCError.ShowErrorBox($"FreeType Internal Error - Error unloading font {unloadError}", 254,
                     "FreeTypeFaceFacade::Unload call to FT_Done_Face failed", NCErrorSeverity.Error, default, true);
 
                 return false; 
@@ -376,6 +376,40 @@ namespace LightningBase
 
             Initialised = false;
             return true;
+        }
+
+        /// <summary>
+        /// Get the bits per pixel for a pixel mode
+        /// </summary>
+        /// <returns>An integer indicating the bits per pixel (bit depth) for a pixel mode.</returns>
+        public int GetBitsPerPixel()
+        {
+            if (!Initialised)
+            {
+                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 255,
+                    "FreeTypeFaceFacade::GetBitsPerPixel called when FreeTypeFaceFacade::Initialised is FALSE!", NCErrorSeverity.FatalError);
+            }
+
+            switch (_FaceRec->glyph->bitmap.pixel_mode)
+            {
+                case FT_Pixel_Mode.FT_PIXEL_MODE_NONE:
+                    return 0;
+                case FT_Pixel_Mode.FT_PIXEL_MODE_MONO:
+                    return 1;
+                case FT_Pixel_Mode.FT_PIXEL_MODE_GRAY2:
+                    return 2;
+                case FT_Pixel_Mode.FT_PIXEL_MODE_GRAY4:
+                    return 4;
+                case FT_Pixel_Mode.FT_PIXEL_MODE_GRAY:
+                case FT_Pixel_Mode.FT_PIXEL_MODE_LCD:
+                case FT_Pixel_Mode.FT_PIXEL_MODE_LCD_V:
+                    return 8;
+                case FT_Pixel_Mode.FT_PIXEL_MODE_BGRA:
+                    return 32;
+                default:
+                    return 8; // assume 8bit for everything else
+            }
+
         }
 
         #endregion
