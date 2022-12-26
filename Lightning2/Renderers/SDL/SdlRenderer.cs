@@ -787,7 +787,7 @@ namespace LightningGL
             return handle;
         }
 
-        internal unsafe override Texture? TextureFromFreeTypeBitmap(FT_Bitmap bitmap, Texture texture, Color foregroundColor)
+        internal unsafe override Texture? TextureFromFreetypeBitmap(FT_Bitmap bitmap, Texture texture)
         {
             if (!texture.Loaded)
             {
@@ -823,7 +823,7 @@ namespace LightningGL
             {
                 for (int x = 0; x < texture.Size.X; x++)
                 {
-                    texture.SetPixel(x, y, Color.FromArgb(pixels[(x * y) + x], foregroundColor.R, foregroundColor.G, foregroundColor.B));
+                    texture.SetPixel(x, y, Color.FromArgb(pixels[(x * y) + x], 255, 255, 255));
                 }
             }
 

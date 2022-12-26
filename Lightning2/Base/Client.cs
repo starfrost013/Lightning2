@@ -49,6 +49,7 @@ namespace LightningGL
             // if scenemanager started successfully, run its main loop
             if (Initialised)
             {
+                NCLogging.Log("Client initialisation successful!", ConsoleColor.Green);
                 Initialised = true;
                 Main();
             }

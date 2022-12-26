@@ -7,14 +7,22 @@ namespace LightningGL
     /// Holds a cached freetype glyph.
     /// DO NOT INSERT INTO THE HIERARCHY!
     /// </summary>
-    public unsafe class Glyph : Texture
+    internal unsafe class Glyph : Texture
     {
         public Glyph(string name, int sizeX, int sizeY, bool isTarget = false) : base(name, sizeX, sizeY, isTarget) { }
 
-        public FT_GlyphSlotRec* GlyphRec { get; set; }
+        /// <summary>
+        /// The friendly name of the font of this glyph.
+        /// </summary>
+        internal string? Font { get; set; }
 
-        public Color ForegroundColor { get; set; }
+        /// <summary>
+        /// The character this glyph represents.
+        /// </summary>
+        internal char Character { get; set; }
 
-        public Color BackgroundColor { get; set; }
+        internal FT_GlyphSlotRec* GlyphRec { get; set; }
+
+        internal FontSmoothingType SmoothingType { get; set; }
     }
 }

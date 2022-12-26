@@ -183,11 +183,18 @@ Everything that matters to the api has to go here
 * GlyphCache
 * Glyph management and rendering
 
+2022.12.22-2022.12.25:
+* Text class for FreeType
+* Sizing for freetype
+* Colouring for freetype
+
 * todo:
 	- overridable default values
+	- Lightning.SetCurrentScene
+	- textmanager for freetype
 	- a lot more configurable
+	- path as texture constructor
 	- renderer independent blend mode!!!!!!!!!!!
-	- SHOULD PROPERTIES AFFECT CHILDREN
 	- FIX BUSTED AND SHIT HORRIBLE VERY BAD UI SYSTEM!!!!!!
 	- global usings everywhere
 	- unit testing
@@ -206,7 +213,6 @@ Everything that matters to the api has to go here
 	- percentage util
 	- events for everything
 	- remove ALL non-assetmanager apis
-	- TODO: separate render/update? so we can use a foreach loop here
 	- split api ref into individual chapters to make it more manageable
     - // issue: won't update if you modify it again later
             // this is why we might need referents for renderables

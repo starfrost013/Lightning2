@@ -6,48 +6,60 @@ namespace LightningGL
     /// 
     /// Caches glyphs for each font so that drawing is faster.
     /// </summary>
-    internal class GlyphCache : Renderable
+    internal static class GlyphCache
     {
-        internal GlyphCache(string name) : base(name)
+        static GlyphCache(string name)
         {
             Glyphs = new();
         }
 
-        internal List<Glyph> Glyphs { get; set; }
+        /// <summary>
+        /// The list of glyphs
+        /// 
+        /// These are not in the object hierarchy...because they are strictly internal to a static class.
+        /// </summary>
+        internal static List<Glyph> Glyphs { get; set; }
 
         /// <summary>
         /// Caches a character for this font.
         /// </summary>
         /// <param name="character">The character to cache.</param>
-        internal unsafe void CacheCharacter(char character, Color foregroundColor, Color backgroundColor = default, 
+        internal static unsafe void CacheCharacter(string fontName, char character, 
             FontSmoothingType smoothingType = FontSmoothingType.Default)
         {
             // always a child of a font
 
-            if (Parent is not FTFont)
+            FTFont? font = FontManager.GetFont(fontName);
+
+            if (font == null)
             {
-                NCError.ShowErrorBox("A glyph cache's parent is not a font. This is an engine bug! THIS IS MY BUSTED ASS CODE, NOT YOURS! REPORT THIS ERROR!", 
-                    251, "A GlyphCache's parent property was not of type FTFont", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox("Passed an unloaded font to GlyphCache::CacheCharacter!",
+                    256, "GlyphCache::CacheCharacter's font parameter was NULL", NCErrorSeverity.FatalError);
                 return;
             }
 
-            FTFont theFont = (FTFont)Parent;
+            if (font.Handle == default)
+            {
+                NCError.ShowErrorBox("Font failed to load while trying to cache a character. This is an engine bug! THIS IS MY BUSTED ASS CODE, NOT YOURS! REPORT THIS ERROR!", 
+                    251, "Called GlyphCache::CacheCharacter with a font that was not loaded!", NCErrorSeverity.FatalError);
+                return;
+            }
 
-            Debug.Assert(theFont.Handle != null);
+            Debug.Assert(font.Handle != null);
 
-            NCLogging.Log($"Trying to cache character {character} for font {Parent.Name}...");
+            NCLogging.Log($"Trying to cache character {character} for font {font.Name}...");
 
-            if (theFont.Handle.GetCharIfDefined(character) == null)
+            if (font.Handle.GetCharIfDefined(character) == null)
             {
                 NCError.ShowErrorBox($"Tried to cache character {character} not defined in font! The character will not be drawn!",
                     252, "Font Glyphcache: Tried to cache a character that the font does not define", NCErrorSeverity.Warning, null, true);
                 return;
             }
 
-            uint glyphIndex = theFont.Handle.GetCharIndex(character);
+            uint glyphIndex = font.Handle.GetCharIndex(character);
 
             // load it and weep
-            FT_Error error = FT_Load_Glyph(theFont.Handle.Face, glyphIndex, FT_LOAD_DEFAULT);
+            FT_Error error = FT_Load_Glyph(font.Handle.Face, glyphIndex, FT_LOAD_DEFAULT);
 
             if (error != FT_Error.FT_Err_Ok)
             {
@@ -61,10 +73,10 @@ namespace LightningGL
                 case FontSmoothingType.Solid:
                 case FontSmoothingType.Shaded:
                 case FontSmoothingType.Blended:
-                    error = FT_Render_Glyph(theFont.Handle.Face, FT_Render_Mode.FT_RENDER_MODE_NORMAL);
+                    error = FT_Render_Glyph(font.Handle.Face, FT_Render_Mode.FT_RENDER_MODE_NORMAL);
                     break;
                 case FontSmoothingType.LCD:
-                    error = FT_Render_Glyph(theFont.Handle.Face, FT_Render_Mode.FT_RENDER_MODE_LCD);
+                    error = FT_Render_Glyph(font.Handle.Face, FT_Render_Mode.FT_RENDER_MODE_LCD);
                     break;
             }
 
@@ -78,22 +90,41 @@ namespace LightningGL
             NCLogging.Log("Cache successful! Rendering...");
             // we have to use -> because it's a pointer in c#
 
-            FT_Bitmap bitmap = theFont.Handle.FaceRec->glyph->bitmap;
+            FT_Bitmap bitmap = font.Handle.FaceRec->glyph->bitmap;
 
-            nint textureHandle = Lightning.Renderer.CreateTexture(theFont.FontSize, theFont.FontSize);
+            nint textureHandle = Lightning.Renderer.CreateTexture(font.FontSize, font.FontSize);
 
-            Glyph? glyph = new("Glyph", theFont.FontSize, theFont.FontSize)
+            Glyph? glyph = new("Glyph", font.FontSize, font.FontSize)
             {
-                GlyphRec = theFont.Handle.FaceRec->glyph,
+                GlyphRec = font.Handle.FaceRec->glyph,
                 Handle = textureHandle,
-                ForegroundColor = foregroundColor,
-                BackgroundColor = backgroundColor
+                SmoothingType = smoothingType,
+                Font = font.Name,
             };
 
-            glyph = (Glyph?)Lightning.Renderer.TextureFromFreeTypeBitmap(bitmap, glyph, foregroundColor);
+            glyph = (Glyph?)Lightning.Renderer.TextureFromFreetypeBitmap(bitmap, glyph);
             Debug.Assert(glyph != null);
 
             Glyphs.Add(glyph);
+        }
+
+        internal static Glyph? QueryCache(string font, char character, FontSmoothingType smoothingType = FontSmoothingType.Default)
+        {
+            foreach (Glyph glyph in Glyphs)
+            {
+                if (glyph.Font == font
+                    && glyph.Character == character
+                    && glyph.SmoothingType == smoothingType)
+                {
+                    NCLogging.Log($"Glyph cache hit (font: {glyph.Font} {glyph.Character} (0x{glyph.Character:X}), smoothing type {glyph.SmoothingType})");
+                    return glyph;
+                }
+            }
+
+            NCLogging.Log($"Glyph cache miss (font: {font} {character} (0x{character:X}), smoothing type {smoothingType}). Caching for next time...");
+
+            CacheCharacter(font, character, smoothingType);
+            return null;
         }
     }
 }

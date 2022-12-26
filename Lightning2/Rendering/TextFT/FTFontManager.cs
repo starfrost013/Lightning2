@@ -34,12 +34,12 @@
         /// Acquires a Font if it is loaded, given its <see cref="Font.FriendlyName"/>.
         /// </summary>
         /// <param name="friendlyName">The <see cref="Font.FriendlyName"/></param>
-        /// <returns></returns>
-        internal Font? GetFont(string friendlyName)
+        /// <returns>A <see cref="FTFont"/> object containing the font with the <see cref="Font.FriendlyName"/> property corresponding to the <paramref name="friendlyName"/> parameter.</returns>
+        internal FTFont? GetFont(string friendlyName)
         {
             try
             {
-                return (Font?)Lightning.Renderer.GetRenderableByName(friendlyName);
+                return (FTFont?)Lightning.Renderer.GetRenderableByName(friendlyName);
             }
             catch
             {
@@ -52,19 +52,11 @@
         /// Unloads a font.
         /// </summary>
         /// <param name="font">The font to unload.</param>
-        public void UnloadFont(Font font)
-        {
-            try
-            {
-                font.Unload();
-                Lightning.Renderer.RemoveRenderable(font);
-            }
-            catch (Exception) { };
-        }
+        public void UnloadFont(FTFont font) => Lightning.Renderer.RemoveRenderable(font);
 
         public void UnloadFont(string friendlyName)
         {
-            Font? fontToUnload = GetFont(friendlyName);
+            FTFont? fontToUnload = GetFont(friendlyName);
 
             if (fontToUnload == null)
             {
@@ -83,7 +75,7 @@
         /// <param name="font">The font used for <paramref name="text"/></param>
         /// <param name="text">The text to get the font size for</param>
         /// <returns>A <see cref="Vector2"/> containing the size of <paramref name="text"/> in pixels.</returns>
-        public Vector2 GetTextSize(Font font, string text)
+        public Vector2 GetTextSize(FTFont font, string text)
         {
             // check the string is not empty
             if (string.IsNullOrWhiteSpace(text)) return default;
@@ -100,12 +92,30 @@
 
             if (!Lightning.Renderer.ContainsRenderable(font.Name)) NCError.ShowErrorBox($"Please load font (Name={font.Name}, Size={font.FontSize}) before trying to use it!", 81, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCErrorSeverity.FatalError);
 
-            int fontSizeX,
-                fontSizeY;
+            Vector2 fontSize = new();
 
-            if (TTF_SizeUTF8(font.Handle, text, out fontSizeX, out fontSizeY) < 0) NCError.ShowErrorBox($"An error occurred sizing text. {SDL_GetError()}", 80, "TTF_SizeUTF8 call from TextManager::GetTextSize failed", NCErrorSeverity.FatalError);
+            foreach (char textChar in text)
+            {
+                Glyph? glyph = null;
 
-            return new Vector2(fontSizeX, fontSizeY);
+                glyph = GlyphCache.QueryCache(font.Name, textChar, FontSmoothingType.Default); // todo: set the smoothing type
+
+                // temp - lcd
+                if (glyph == null)
+                {
+                    // cache it here (only try once...)
+                    GlyphCache.CacheCharacter(font.Name, textChar, FontSmoothingType.Default);
+                    glyph = GlyphCache.QueryCache(font.Name, textChar, FontSmoothingType.Default); // todo: set the smoothing type
+                }
+
+                // is it still null? then ignore it (there should already be an error here) 
+                if (glyph != null)
+                {
+                    fontSize += glyph.Size;
+                }
+            }
+
+            return fontSize;
         }
 
         /// <summary>
@@ -117,7 +127,7 @@
         /// <returns>A <see cref="Vector2"/> containing the size of <paramref name="text"/> in pixels.</returns>
         public Vector2 GetTextSize(string font, string text)
         {
-            Font? curFont = GetFont(font);
+            FTFont? curFont = GetFont(font);
 
             if (curFont == null)
             {
@@ -136,7 +146,7 @@
         /// <param name="font">The font used for <paramref name="text"/></param>
         /// <param name="text">The text to get the font size for</param>
         /// <returns>A <see cref="Vector2"/> containing the size of <paramref name="text"/> in pixels.</returns>
-        internal Vector2 GetLargestTextSize(Font font, string text)
+        internal Vector2 GetLargestTextSize(FTFont font, string text)
         {
             // check the string is not empty
             if (string.IsNullOrWhiteSpace(text)) return default;
@@ -176,7 +186,7 @@
         /// <returns>A <see cref="Vector2"/> containing the size of <paramref name="text"/> in pixels.</returns>
         internal Vector2 GetLargestTextSize(string font, string text)
         {
-            Font? curFont = GetFont(font);
+            FTFont? curFont = GetFont(font);
 
             if (curFont != null)
             {

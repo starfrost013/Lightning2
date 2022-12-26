@@ -31,6 +31,9 @@
             NetworkServer.Init();
 
             Running = true;
+
+            Initialised = true;
+            NCLogging.Log("Server initialisation successful!", ConsoleColor.Green);
             Main();
         }
 

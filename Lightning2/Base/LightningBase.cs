@@ -55,7 +55,7 @@ namespace LightningGL
 
         public static UIAssetManager UIManager { get; private set; }
 
-        public static FontAssetManager FontManager { get; private set; }
+        public static FTFontAssetManager FontManager { get; private set; }
 
         public static TextAssetManager TextManager { get; private set; }
 
@@ -73,8 +73,8 @@ namespace LightningGL
                 NCLogging.Log("Initialising core engine...");
                 
                 // Log the sign-on message
-                NCLogging.Log($"Lightning Game Engine");
-                NCLogging.Log($"Version {LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING}");
+                NCLogging.Log($"Lightning Game Engine", ConsoleColor.Blue);
+                NCLogging.Log($"Version {LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING}", ConsoleColor.Blue);
 
                 // we use sdl for non-rendering tasks in all cases
                 NCLogging.Log("Initialising SDL...");
@@ -166,6 +166,7 @@ namespace LightningGL
         /// <exception cref="NCError">An error occurred initialising the Scene Manager.</exception>
         internal virtual void InitSceneManager(RendererSettings windowSettings)
         {
+            NCLogging.Log("Initialising renderer...");
             Renderer.Settings = windowSettings;
             Renderer.Start();
 

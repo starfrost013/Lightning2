@@ -8,26 +8,104 @@
     public class Text : Renderable
     {
 
-        public Text(string name) : base(name) { }  
+        public Text(string name) : base(name) { }
 
         /// <summary>
-        /// Draws text to the screen.
+        /// The text to draw.
         /// </summary>
-        /// <param name="text">The text to draw.</param>
-        /// <param name="font">The <see cref="Font.FriendlyName"/> of the <see cref="Font"/> to draw this text in.</param>
-        /// <param name="position">The position to draw the text.</param>
-        /// <param name="foreground">The foreground color of the text.</param>
-        /// <param name="background">Optional: The background color of the text.</param>
-        /// <param name="style">Optional: The <see cref="TTF_FontStyle"/> of the text.</param>
-        /// <param name="outlineSize">Optional: Size of the font outline . Range is 1 to the font size.</param>
-        /// <param name="lineLength">Optional: Maximum line length in pixels. Ignores newlines.</param>
-        /// <param name="smoothingType">Optional: The <see cref="FontSmoothingType"/> of the text.</param>
-        /// <param name="snapToScreen">Determines if the pixel will be drawn in world-relative space or camera-relative space.</param>
-        public void DrawText(string text, string font, Vector2 position, Color foreground, Color background = default,
-            TTF_FontStyle style = TTF_FontStyle.Normal, int outlineSize = -1, int lineLength = -1, FontSmoothingType smoothingType = FontSmoothingType.Default,
-            bool snapToScreen = false, bool localise = true)
-        {
+        public string? Content { get; set; }
 
+        /// <summary>
+        /// The font of the text to draw.
+        /// </summary>
+        public string? Font { get; set; }
+
+        /// <summary>
+        /// The foreground colour of the text to draw.
+        /// </summary>
+        public Color ForegroundColor { get; set; }
+
+        /// <summary>
+        /// The background colour of the text to draw.
+        /// </summary>
+        public Color BackgroundColor { get; set; }
+
+        /// <summary>
+        /// The style of the text to draw - see <see cref="FontStyle"/>
+        /// </summary>
+        public FontStyle Style { get; set; }
+
+        /// <summary>
+        /// The size of the text's outline.
+        /// </summary>
+        public int OutlineSize { get; set; }
+
+        /// <summary>
+        /// The smoothing type of this font - see <see cref="FontSmoothingType"/>,
+        /// </summary>
+        public FontSmoothingType SmoothingType { get; set; }
+
+        /// <summary>
+        /// Determines if this text will be localised.
+        /// </summary>
+        public bool Localise { get; set; }
+
+        public override void Draw()
+        {
+            if (string.IsNullOrWhiteSpace(Font))
+            {
+                NCError.ShowErrorBox($"Tried to draw a text with no font!", 256,
+                    "Text::Draw - Font property is null!", NCErrorSeverity.FatalError);
+                return;
+            }
+
+            // variable to store localised text
+            string? text = Content;
+
+            // just ignore it if there is still text to draw
+            if (string.IsNullOrWhiteSpace(text)) return;
+
+            if (Font == null)
+            {
+                NCError.ShowErrorBox($"Tried to draw a text with no font!", 256,
+                    "Text::Draw - Font property is null!", NCErrorSeverity.FatalError);
+                return;
+            }
+
+            // Localise the string using Localisation Manager.
+            if (Localise) text = LocalisationManager.ProcessString(text);
+
+            // Get the font and throw an error if it's invalid
+            FTFont? curFont = FontManager.GetFont(Font);
+
+            if (curFont == null
+                || curFont.Handle == default)
+            {
+                NCError.ShowErrorBox($"Attempted to acquire invalid font with name {Font}", 39, 
+                    "Text::Draw font parameter is not a loaded font!", NCErrorSeverity.FatalError);
+                return;
+            }
+
+            // cache everything
+            foreach (char character in text)
+            {
+                Glyph? glyph = GlyphCache.QueryCache(Font, character, SmoothingType);
+
+                if (glyph == null) GlyphCache.CacheCharacter(Font, character, SmoothingType);
+
+                glyph = GlyphCache.QueryCache(Font, character, SmoothingType);
+
+                if (glyph != null)
+                {
+                    
+                }
+                else
+                {
+                    NCError.ShowErrorBox($"Failed to cache character {character} in text, it will not be displayed!", 260, "Call to GlyphCache::QueryCache in Text::Draw failed", NCErrorSeverity.Error, null, true);
+                }
+            }
+
+            /*
             // Localise the string using Localisation Manager.
             if (localise) text = LocalisationManager.ProcessString(text);
 
@@ -97,6 +175,7 @@
 
             // weird hack. if we don't do this weird stuff happens
             if (outlineSize > -1) TTF_SetFontOutline(curFont.Handle, -1);
+            */
         }
 
         internal TextCacheEntry? AddEntry(string font, string text,
