@@ -85,6 +85,32 @@
         internal virtual void Render()
         {
 
+            // this is actually fine for performance as it turns out (probably not a very big LINQ CALL)
+            Renderables = Renderables.OrderBy(x => x.ZIndex).ToList();
+
+            // Build a list of renderables to render from all asset managers.
+            // Other stuff can be added "outside" so we simply remove and add to the list (todo: this isn't great)
+            Cull();
+
+            // Draw every object.
+            RenderAll();
+
+            // Update the primitive manager.
+            PrimitiveManager.Update();
+
+            // Render the lightmap.
+            LightManager.Update();
+
+            // Update audio.
+            AudioManager.Update();
+
+            // purge the text manager glyph cache
+            GlyphCache.PurgeUnusedEntries();
+
+            // Update camera (if it's not null)
+            Settings.Camera?.Update();
+
+           
         }
 
         /// <summary>

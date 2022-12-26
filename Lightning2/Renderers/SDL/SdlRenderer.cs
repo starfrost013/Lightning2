@@ -172,30 +172,7 @@ namespace LightningGL
             // only render if we have a scene
             Debug.Assert(CurrentScene != null);
 
-            // this is actually fine for performance as it turns out (probably not a very big LINQ CALL)
-            Renderables = Renderables.OrderBy(x => x.ZIndex).ToList();
-
-            // Build a list of renderables to render from all asset managers.
-            // Other stuff can be added "outside" so we simply remove and add to the list (todo: this isn't great)
-            Cull();
-
-            // Draw every object.
-            RenderAll();
-
-            // Update the primitive manager.
-            PrimitiveManager.Update();
-
-            // Render the lightmap.
-            LightManager.Update();
-
-            // Update audio.
-            AudioManager.Update();
-
-            // Update the text manager
-            TextManager.Update();
-
-            // Update camera (if it's not null)
-            Settings.Camera?.Update();
+            base.Render();
 
             // Correctly draw the background
             SDL_SetRenderDrawColor(Settings.RendererHandle, Settings.BackgroundColor.R, Settings.BackgroundColor.G, Settings.BackgroundColor.B, Settings.BackgroundColor.A);

@@ -290,22 +290,21 @@ namespace LightningGL
             PrimitiveManager.AddRectangle(new(552, 10), new(30, 30), Color.FromArgb(255, 255, 255, 255), false);
             PrimitiveManager.AddRectangle(new(584, 10), new(30, 30), Color.FromArgb(33, 0, 0, 255), true);
 
-            TextManager.DrawText("#[STRING_TEST]", "DebugFont", new(500, 90), Color.FromArgb(255, 0, 0, 255));
-            TextManager.DrawText("Loc string test: #[STRING_TEST]", "DebugFont", new(500, 120), Color.FromArgb(255, 0, 0, 255));
-            TextManager.DrawText("Loc string test: #[STRING_TEST] aaaaaa #[STRING_TEST] #[STRING_TEST] bbbbbb", "DebugFont", new(500, 150), Color.FromArgb(255, 0, 0, 255));
+            TextManager.AddAsset("#[STRING_TEST]", "DebugFont", new(500, 90), Color.FromArgb(255, 0, 0, 255));
+            TextManager.AddAsset("Loc string test: #[STRING_TEST]", "DebugFont", new(500, 120), Color.FromArgb(255, 0, 0, 255));
+            TextManager.AddAsset("Loc string test: #[STRING_TEST] aaaaaa #[STRING_TEST] #[STRING_TEST] bbbbbb", "DebugFont", new(500, 150), Color.FromArgb(255, 0, 0, 255));
 
-            TextManager.DrawText("Test1", "Arial.11pt", new(700, 10), Color.FromArgb(255, 255, 255, 255));
-            TextManager.DrawText("Test2", "Arial.11pt", new(700, 30), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold);
-            TextManager.DrawText("Test3", "Arial.11pt", new(700, 50), Color.FromArgb(255, 255, 255, 0), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Italic);
-            TextManager.DrawText("Test4", "Arial.11pt", new(700, 70), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Underline);
-            TextManager.DrawText("Test5", "Arial.11pt", new(700, 90), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Strikeout, 1);
-            TextManager.DrawText("Test6", "Arial.11pt", new(700, 110), Color.FromArgb(255, 255, 255, 0), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, 3);
-            TextManager.DrawText("Test7", "Arial.11pt", new(700, 130), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, 15, -1);
-            TextManager.DrawText("Test8", "Arial.11pt", new(700, 150), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, -1);
-            TextManager.DrawText("Test9", "Arial.11pt", new(700, 170), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, -1, FontSmoothingType.Shaded);
-            TextManager.DrawText("Test10", "Arial.11pt", new(700, 190), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, -1, FontSmoothingType.Solid);
-            TextManager.DrawText("Test11", "Arial.11pt", new(700, 210), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline);
-            TextManager.DrawText("#[STRING_TEST]\nTest2\nTest3", "Arial.11pt", new(700, 230), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline | SDL_ttf.TTF_FontStyle.Strikeout);
+            TextManager.AddAsset("Test1", "Arial.11pt", new(700, 10), Color.FromArgb(255, 255, 255, 255));
+            TextManager.AddAsset("Test2", "Arial.11pt", new(700, 30), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold);
+            TextManager.AddAsset("Test3", "Arial.11pt", new(700, 50), Color.FromArgb(255, 255, 255, 0), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Italic);
+            TextManager.AddAsset("Test4", "Arial.11pt", new(700, 70), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Underline);
+            TextManager.AddAsset("Test5", "Arial.11pt", new(700, 90), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Strikeout, 1);
+            TextManager.AddAsset("Test6", "Arial.11pt", new(700, 110), Color.FromArgb(255, 255, 255, 0), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, 3);
+            TextManager.AddAsset("Test7", "Arial.11pt", new(700, 130), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, 15, -1);
+            TextManager.AddAsset("Test8", "Arial.11pt", new(700, 150), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, -1);
+            TextManager.AddAsset("Test10", "Arial.11pt", new(700, 190), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold, -1, -1, FontSmoothingType.Solid);
+            TextManager.AddAsset("Test11", "Arial.11pt", new(700, 210), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline);
+            TextManager.AddAsset("#[STRING_TEST]\nTest2\nTest3", "Arial.11pt", new(700, 230), Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), SDL_ttf.TTF_FontStyle.Bold | SDL_ttf.TTF_FontStyle.Italic | SDL_ttf.TTF_FontStyle.Underline | SDL_ttf.TTF_FontStyle.Strikeout);
 
         }
 

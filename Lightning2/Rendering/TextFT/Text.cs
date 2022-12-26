@@ -1,4 +1,6 @@
-﻿namespace LightningGL
+﻿using System.Reflection.PortableExecutable;
+
+namespace LightningGL
 {
     /// <summary>
     /// FTTextAssetManager
@@ -50,6 +52,62 @@
         /// </summary>
         public bool Localise { get; set; }
 
+        public override int ZIndex
+        {
+            get
+            {
+                if (ZIndexNotRelativeToParent
+                    || Parent == null)
+                {
+                    return base.ZIndex;
+                }
+                else
+                {
+                    return base.ZIndex + RelativeZIndex;
+                }
+            }
+            set
+            {
+                if (ZIndexNotRelativeToParent
+                    || Parent == null)
+                {
+                    base.ZIndex = value;
+                }
+                else
+                {
+                    base.ZIndex = Parent.ZIndex + RelativeZIndex;
+                }
+            }
+        }
+
+        /// <summary>
+        /// The text orientation (reading order) of this text.
+        /// </summary>
+        public Orientation Orientation { get; set; }
+
+        /// <summary>
+        /// The relative zindex value for this text.
+        /// 
+        /// Ignored if <see cref="ZIndexNotRelativeToParent"/> is set to true.
+        /// </summary>
+        public int RelativeZIndex { get; set; }
+
+        /// <summary>
+        /// Determines if, if this text has a parent,
+        /// if its z-index will be interpreted relative to it using the <see cref="RelativeZIndex"/> property or not.
+        /// </summary>
+        public bool ZIndexNotRelativeToParent { get; set; }
+
+        /// <summary>
+        /// Default value for <see cref="RelativeZIndex"/>..
+        /// </summary>
+        private const int DEFAULT_RELATIVE_Z_INDEX = 1; 
+
+        public override void Create()
+        {
+            RelativeZIndex = DEFAULT_RELATIVE_Z_INDEX; 
+        }
+
         public override void Draw()
         {
             if (string.IsNullOrWhiteSpace(Font))
@@ -86,193 +144,50 @@
                 return;
             }
 
+            Vector2 currentPosition = RenderPosition;
+
             // cache everything
             foreach (char character in text)
             {
-                Glyph? glyph = GlyphCache.QueryCache(Font, character, SmoothingType);
+                Glyph? glyph = GlyphCache.QueryCache(Font, character, ForegroundColor, SmoothingType);
 
-                if (glyph == null) GlyphCache.CacheCharacter(Font, character, SmoothingType);
+                if (glyph == null) GlyphCache.CacheCharacter(Font, character, ForegroundColor, SmoothingType);
 
-                glyph = GlyphCache.QueryCache(Font, character, SmoothingType);
+                glyph = GlyphCache.QueryCache(Font, character, ForegroundColor, SmoothingType);
 
                 if (glyph != null)
                 {
-                    
+                    glyph.UsedThisFrame = true; 
+
+                    // new() does not work here!!!
+                    switch (Orientation)
+                    {
+                        case Orientation.LeftToRight:
+                            currentPosition += new Vector2(glyph.Size.X, 0);
+                            break;
+                        case Orientation.RightToLeft:
+                            currentPosition += new Vector2(-glyph.Size.X, 0);
+                            break;
+                        case Orientation.TopToBottom:
+                            currentPosition += new Vector2(0, glyph.Size.Y);
+                            break;
+                        case Orientation.BottomToTop:
+                            currentPosition += new Vector2(0, -glyph.Size.Y);
+                            break;
+                    }
+
+
+                    // just grab the texture and draw it again
+                    // these should definitely be in the hierarchy...hmm...
+                    glyph.Position = currentPosition;
+                    glyph.Draw();
+
                 }
                 else
                 {
                     NCError.ShowErrorBox($"Failed to cache character {character} in text, it will not be displayed!", 260, "Call to GlyphCache::QueryCache in Text::Draw failed", NCErrorSeverity.Error, null, true);
                 }
             }
-
-            /*
-            // Localise the string using Localisation Manager.
-            if (localise) text = LocalisationManager.ProcessString(text);
-
-            // Get the font and throw an error if it's invalid
-            Font? curFont = FontManager.GetFont(font);
-
-            if (curFont == null)
-            {
-                NCError.ShowErrorBox($"Attempted to acquire invalid font with name {font}", 39, "TextManager::DrawText font parameter is not a loaded font!", NCErrorSeverity.FatalError);
-                return;
-            }
-
-            // Set the foreground color
-            SDL_Color fgColor = new(foreground.R, foreground.G, foreground.B, foreground.A);
-
-            // default to entirely transparent background (if the user has specified shasded for some reason, we still need a BG color...)
-            SDL_Color bgColor = default;
-
-            int fontSizeX = -1;
-            int fontSizeY = -1;
-
-            // use the cached entry if it exists
-            TextCacheEntry? cacheEntry = GetEntry(font, text, fgColor, style, smoothingType, outlineSize, bgColor);
-
-            // if it doesn't exist add it
-            if (cacheEntry == null) cacheEntry = AddEntry(font, text, fgColor, style, smoothingType, outlineSize, bgColor);
-
-            // if we failed to create it bail out
-            if (cacheEntry == null) return;
-
-            cacheEntry.SnapToScreen = snapToScreen;
-            cacheEntry.UsedThisFrame = true;
-
-            // it's null if there is no background so draw it
-            if (cacheEntry.Rectangle != null) cacheEntry.Rectangle.Position = position;
-
-            SDL_Rect fontSrcRect = new(0, 0, fontSizeX, fontSizeY);
-            SDL_FRect fontDstRect = new(position.X, position.Y, fontSizeX, fontSizeY);
-
-            foreach (TextCacheEntryLine line in cacheEntry.Lines)
-            {
-                fontSrcRect.w = (int)line.Size.X;
-                fontSrcRect.h = (int)line.Size.Y;
-
-                fontDstRect.w = fontSrcRect.w;
-                fontDstRect.h = fontSrcRect.h;
-
-                // TEMPORARY HACK UNTIL FREETYPE (THIS CODE IS OBSOLETE ANYWAY)
-
-                if (Lightning.Renderer is SdlRenderer)
-                {
-                    SdlRenderer sdlRenderer = (SdlRenderer)Lightning.Renderer;
-                    SDL_RenderCopyF(sdlRenderer.Settings.RendererHandle, line.Handle, ref fontSrcRect, ref fontDstRect);
-                }
-                
-
-                // increment by the line length
-                if (lineLength < 0)
-                {
-                    fontDstRect.y += fontSizeY;
-                }
-                else
-                {
-                    fontDstRect.y += lineLength;
-                }
-            }
-
-            // weird hack. if we don't do this weird stuff happens
-            if (outlineSize > -1) TTF_SetFontOutline(curFont.Handle, -1);
-            */
         }
-
-        internal TextCacheEntry? AddEntry(string font, string text,
-            SDL_Color color, TTF_FontStyle style, FontSmoothingType type = FontSmoothingType.Default, int outlineSize = -1, SDL_Color bgColor = default)
-        {
-            TextCacheEntry? entry = TextCacheEntry.Render(font, text, color, style, type, outlineSize, bgColor);
-            
-            if (entry != null) Lightning.Renderer.AddRenderable(entry, this);
-
-            return entry;
-        }
-
-        internal void PurgeUnusedEntries()
-        {
-            // memory leaks are bad
-            // TODO: when we extend to multithreading in the future this is a very good and easy TOCTOU / race condition issue
-
-            for (int entryId = 0; entryId < Children.Count; entryId++)
-            {
-                TextCacheEntry entry = (TextCacheEntry)Children[entryId];
-
-                if (!entry.UsedThisFrame)
-                {
-                    NCLogging.Log($"Removing unused cached text (font={entry.Font}, text={entry.Text}, style={entry.Style}, " +
-                        $"smoothing type={entry.SmoothingType}, bgcolor={entry.BackgroundColor}, outline size={entry.OutlineSize})");
-                    DeleteEntry(entry);
-                }
-            }
-        }
-
-        #region Cache code
-
-        internal TextCacheEntry? GetEntry(string font, string text,
-            SDL_Color color, TTF_FontStyle style, FontSmoothingType type = FontSmoothingType.Default, int outlineSize = -1, SDL_Color bgColor = default)
-        {
-            foreach (TextCacheEntry entry in Children)
-            {
-                if (entry.Font == font
-                    && entry.Text == text
-                    && entry.Color.Equals(color)
-                    && entry.Style == style
-                    && entry.SmoothingType == type
-                    && entry.OutlineSize == outlineSize
-                    && entry.BackgroundColor.Equals(bgColor))
-                {
-                    return entry;
-                }
-            }
-
-            return null;
-        }
-
-        internal void DeleteEntry(string font, string text,
-            SDL_Color color, TTF_FontStyle style, FontSmoothingType type = FontSmoothingType.Default, int outlineSize = -1, SDL_Color bgColor = default)
-        {
-            TextCacheEntry? fontEntry = GetEntry(font, text, color, style, type, outlineSize, bgColor);
-
-            DeleteEntry(fontEntry);
-        }
-
-        internal void DeleteEntry(TextCacheEntry? fontEntry)
-        {
-            if (fontEntry != null)
-            {
-                fontEntry.Unload();
-                Lightning.Renderer.RemoveRenderable(fontEntry);
-            }
-            else
-            {
-                NCError.ShowErrorBox($"Attempted to delete null TextCacheEntry! I twill not be deleted.", 191,
-                    "TextManager::DeleteEntry called with fontEntry parameter set to NULL", NCErrorSeverity.Warning, null, true);
-            }
-        }
-
-        internal void UnloadAll()
-        {
-            foreach (TextCacheEntry entry in Children)
-            {
-                entry.Unload();
-            }
-        }
-
-        public override void Update()
-        {
-            PurgeUnusedEntries();
-            foreach (TextCacheEntry entry in Children) entry.UsedThisFrame = false;
-        }
-
-        /// <summary>
-        /// Internal: Shuts down the Font Manager.
-        /// </summary>
-        internal void Shutdown()
-        {
-            NCLogging.Log("Uncaching all cached text - shutdown requested");
-            UnloadAll();
-        }
-        
-        #endregion
     }
 }
