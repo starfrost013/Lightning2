@@ -30,8 +30,8 @@ namespace LightningGL
         Underline = 0x4,
 
         /// <summary>
-        /// Strikethrough font styling.
+        /// Strikeojt font styling.
         /// </summary>
-        Strikethrough = 0x8,    
+        Strikeout = 0x8,    
     }
 }

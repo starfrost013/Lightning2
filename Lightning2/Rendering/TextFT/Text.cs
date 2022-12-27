@@ -9,9 +9,6 @@ namespace LightningGL
     /// </summary>
     public class Text : Renderable
     {
-
-        public Text(string name) : base(name) { }
-
         /// <summary>
         /// The text to draw.
         /// </summary>
@@ -101,7 +98,22 @@ namespace LightningGL
         /// <summary>
         /// Default value for <see cref="RelativeZIndex"/>..
         /// </summary>
-        private const int DEFAULT_RELATIVE_Z_INDEX = 1; 
+        private const int DEFAULT_RELATIVE_Z_INDEX = 1;
+
+        public Text(string name) : base(name) { }
+
+        public Text(string name, string text, string font, Vector2 position, Color foregroundColor, Color backgroundColor = default,
+            FontStyle style = default, int outlineSize = 0, FontSmoothingType smoothingType = default) : base(name)
+        {
+            Content = text;
+            Font = font;
+            Position = position;
+            ForegroundColor = foregroundColor;
+            BackgroundColor = backgroundColor;
+            Style = style;
+            OutlineSize = outlineSize;
+            SmoothingType = smoothingType;
+        }
 
         public override void Create()
         {
@@ -134,7 +146,7 @@ namespace LightningGL
             if (Localise) text = LocalisationManager.ProcessString(text);
 
             // Get the font and throw an error if it's invalid
-            FTFont? curFont = FontManager.GetFont(Font);
+            Font? curFont = FontManager.GetFont(Font);
 
             if (curFont == null
                 || curFont.Handle == default)

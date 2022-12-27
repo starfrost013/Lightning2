@@ -7,7 +7,7 @@ namespace LightningGL
     /// 
     /// Defines a font (FreeType2).
     /// </summary>
-    public class FTFont : Renderable
+    public class Font : Renderable
     {
         /// <summary>
         /// The size of this font.
@@ -35,7 +35,7 @@ namespace LightningGL
         /// </summary>
         public int Index { get; internal set; }
 
-        public FTFont(string name, int size, string friendlyName, string? path = null, int index = 0) : base(friendlyName)
+        public Font(string name, int size, string friendlyName, string? path = null, int index = 0) : base(friendlyName)
         {
             FontName = name;
             Name = friendlyName;

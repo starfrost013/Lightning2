@@ -28,18 +28,18 @@
             return asset;
         }
 
-        public override void RemoveAsset(Font asset) => asset.Unload();
+        public override void RemoveAsset(Font asset) => asset.Destroy();
 
         /// <summary>
         /// Acquires a Font if it is loaded, given its <see cref="Font.FriendlyName"/>.
         /// </summary>
         /// <param name="friendlyName">The <see cref="Font.FriendlyName"/></param>
-        /// <returns>A <see cref="FTFont"/> object containing the font with the <see cref="Font.FriendlyName"/> property corresponding to the <paramref name="friendlyName"/> parameter.</returns>
-        internal FTFont? GetFont(string friendlyName)
+        /// <returns>A <see cref="Font"/> object containing the font with the <see cref="Font.FriendlyName"/> property corresponding to the <paramref name="friendlyName"/> parameter.</returns>
+        internal Font? GetFont(string friendlyName)
         {
             try
             {
-                return (FTFont?)Lightning.Renderer.GetRenderableByName(friendlyName);
+                return (Font?)Lightning.Renderer.GetRenderableByName(friendlyName);
             }
             catch
             {
@@ -52,11 +52,11 @@
         /// Unloads a font.
         /// </summary>
         /// <param name="font">The font to unload.</param>
-        public void UnloadFont(FTFont font) => Lightning.Renderer.RemoveRenderable(font);
+        public void UnloadFont(Font font) => Lightning.Renderer.RemoveRenderable(font);
 
         public void UnloadFont(string friendlyName)
         {
-            FTFont? fontToUnload = GetFont(friendlyName);
+            Font? fontToUnload = GetFont(friendlyName);
 
             if (fontToUnload == null)
             {
@@ -75,7 +75,7 @@
         /// <param name="font">The font used for <paramref name="text"/></param>
         /// <param name="text">The text to get the font size for</param>
         /// <returns>A <see cref="Vector2"/> containing the size of <paramref name="text"/> in pixels.</returns>
-        public Vector2 GetTextSize(FTFont font, string text, Color foregroundColor)
+        public Vector2 GetTextSize(Font font, string text, Color foregroundColor)
         {
             // check the string is not empty
             if (string.IsNullOrWhiteSpace(text)) return default;
@@ -128,7 +128,7 @@
         /// <returns>A <see cref="Vector2"/> containing the size of <paramref name="text"/> in pixels.</returns>
         public Vector2 GetTextSize(string font, string text, Color foregroundColor)
         {
-            FTFont? curFont = GetFont(font);
+            Font? curFont = GetFont(font);
 
             if (curFont == null)
             {
@@ -147,7 +147,7 @@
         /// <param name="font">The font used for <paramref name="text"/></param>
         /// <param name="text">The text to get the font size for</param>
         /// <returns>A <see cref="Vector2"/> containing the size of <paramref name="text"/> in pixels.</returns>
-        internal Vector2 GetLargestTextSize(FTFont font, string text, Color foregroundColor)
+        internal Vector2 GetLargestTextSize(Font font, string text, Color foregroundColor)
         {
             // check the string is not empty
             if (string.IsNullOrWhiteSpace(text)) return default;
@@ -187,7 +187,7 @@
         /// <returns>A <see cref="Vector2"/> containing the size of <paramref name="text"/> in pixels.</returns>
         internal Vector2 GetLargestTextSize(string font, string text, Color foregroundColor)
         {
-            FTFont? curFont = GetFont(font);
+            Font? curFont = GetFont(font);
 
             if (curFont != null)
             {
