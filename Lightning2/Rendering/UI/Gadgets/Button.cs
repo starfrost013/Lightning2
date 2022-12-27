@@ -17,7 +17,7 @@
         /// <summary>
         /// The text style that this button will use.
         /// </summary>
-        public TTF_FontStyle Style { get; set; }
+        public FontStyle Style { get; set; }
         
         public Rectangle? Rectangle { get; set; }
 
@@ -55,12 +55,12 @@
             // this should NEVER return null because it's been made a fatal error if it is
             Debug.Assert(curFont != null);
 
-            Vector2 textSize = FontManager.GetTextSize(curFont, Text);
+            Vector2 textSize = FontManager.GetTextSize(curFont, Text, ForegroundColor);
             Vector2 textPos = (RenderPosition + Size);
             textPos.X = textPos.X - (Size.X / 2) - (textSize.X / 2);
             textPos.Y = textPos.Y - (Size.Y / 2) - (textSize.Y / 2);
 
-            TextManager.DrawText(Text, Font, textPos, ForegroundColor, default, Style);
+            TextManager.AddAsset(new("ButtonText", Text, Font, textPos, ForegroundColor, default, Style));
 
         }
     }

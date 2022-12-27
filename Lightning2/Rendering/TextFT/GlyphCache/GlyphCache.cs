@@ -175,9 +175,27 @@ namespace LightningGL
 
                 if (!glyph.UsedThisFrame)
                 {
-                    Glyphs.Remove(glyph);
+                    RemoveGlyph(glyph);
                     glyphId--;
                 }
+            }
+        }
+
+        private static unsafe void RemoveGlyph(Glyph glyph)
+        {
+            SDL_DestroyTexture(glyph.Handle);
+            FT_Done_Glyph(glyph.GlyphRec->@internal);
+            Glyphs.Remove(glyph); // i trust that you already made sure that it's in glyphs
+        }
+
+        internal static void Shutdown()
+        {
+            // Clear all glyphs
+            for (int glyphId = 0; glyphId < Glyphs.Count; glyphId++)
+            {
+                Glyph glyph = Glyphs[glyphId];
+                RemoveGlyph(glyph);
+                glyphId--;
             }
         }
     }

@@ -17,7 +17,7 @@
         Solid = 0,
 
         /// <summary>
-        /// Indicates
+        /// Indicates LCD smoothing is being done.
         /// </summary>
         LCD = 3,
     }

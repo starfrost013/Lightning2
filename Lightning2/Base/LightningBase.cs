@@ -55,7 +55,7 @@ namespace LightningGL
 
         public static UIAssetManager UIManager { get; private set; }
 
-        public static FTFontAssetManager FontManager { get; private set; }
+        public static FontAssetManager FontManager { get; private set; }
 
         public static TextAssetManager TextManager { get; private set; }
 
@@ -134,8 +134,8 @@ namespace LightningGL
             NCLogging.Log("Shutting down the Scene Manager...");
             ShutdownAll();
 
-            NCLogging.Log("Shutting down the Text Manager...");
-            TextManager.Shutdown();
+            NCLogging.Log("Freeing GlyphCache glyphs (Text Manager)...");
+            GlyphCache.Shutdown();
 
             // Shut down the light manager if it has been started.
             NCLogging.Log("Shutting down the Light Manager...");

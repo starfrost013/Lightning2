@@ -5,7 +5,7 @@
     /// 
     /// Provides functions for managing fonts and drawing text.
     /// </summary>
-    public class FTFontAssetManager : AssetManager<Font>
+    public class FontAssetManager : AssetManager<Font>
     {
         public override Font? AddAsset(Font asset)
         {

@@ -44,7 +44,7 @@
             Rectangle.Color = CurBackgroundColor;
 #pragma warning restore CS8602
 
-            TextManager.DrawText(Text, Font, Position, ForegroundColor);
+            TextManager.AddAsset(new Text("Text1", Text, Font, Position, ForegroundColor));
         }
     }
 }

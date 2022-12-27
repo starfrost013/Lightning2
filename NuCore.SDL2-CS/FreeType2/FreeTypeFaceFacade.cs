@@ -390,26 +390,16 @@ namespace LightningBase
                     "FreeTypeFaceFacade::GetBitsPerPixel called when FreeTypeFaceFacade::Initialised is FALSE!", NCErrorSeverity.FatalError);
             }
 
-            switch (_FaceRec->glyph->bitmap.pixel_mode)
+            return _FaceRec->glyph->bitmap.pixel_mode switch
             {
-                case FT_Pixel_Mode.FT_PIXEL_MODE_NONE:
-                    return 0;
-                case FT_Pixel_Mode.FT_PIXEL_MODE_MONO:
-                    return 1;
-                case FT_Pixel_Mode.FT_PIXEL_MODE_GRAY2:
-                    return 2;
-                case FT_Pixel_Mode.FT_PIXEL_MODE_GRAY4:
-                    return 4;
-                case FT_Pixel_Mode.FT_PIXEL_MODE_GRAY:
-                case FT_Pixel_Mode.FT_PIXEL_MODE_LCD:
-                case FT_Pixel_Mode.FT_PIXEL_MODE_LCD_V:
-                    return 8;
-                case FT_Pixel_Mode.FT_PIXEL_MODE_BGRA:
-                    return 32;
-                default:
-                    return 8; // assume 8bit for everything else
-            }
-
+                FT_Pixel_Mode.FT_PIXEL_MODE_NONE => 0,
+                FT_Pixel_Mode.FT_PIXEL_MODE_MONO => 1,
+                FT_Pixel_Mode.FT_PIXEL_MODE_GRAY2 => 2,
+                FT_Pixel_Mode.FT_PIXEL_MODE_GRAY4 => 4,
+                FT_Pixel_Mode.FT_PIXEL_MODE_GRAY or FT_Pixel_Mode.FT_PIXEL_MODE_LCD or FT_Pixel_Mode.FT_PIXEL_MODE_LCD_V => 8,
+                FT_Pixel_Mode.FT_PIXEL_MODE_BGRA => 32,
+                _ => 8,// assume 8bit for everything else
+            };
         }
 
         #endregion

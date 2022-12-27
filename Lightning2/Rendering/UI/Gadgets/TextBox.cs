@@ -148,14 +148,14 @@
 #pragma warning disable CS8602
             Rectangle.Color = CurBackgroundColor;
 
-            TextManager.DrawText(Text, Font, Position, ForegroundColor);
+            TextManager.AddAsset(new Text("TextBoxText", Text, Font, Position, ForegroundColor));
 
             // slight hack
             if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
 
             if (!HideCursor)
             {
-                Vector2 fontSize = FontManager.GetLargestTextSize(Font, Text);
+                Vector2 fontSize = FontManager.GetLargestTextSize(Font, Text, ForegroundColor);
                 Vector2 cursorPosition = new(Position.X + fontSize.X, Position.Y);
 
                 // actually blink it

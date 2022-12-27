@@ -105,7 +105,7 @@
             }
         }
 
-        public static FTFontAssetManager FontManager
+        public static FontAssetManager FontManager
         {
             get
             {
