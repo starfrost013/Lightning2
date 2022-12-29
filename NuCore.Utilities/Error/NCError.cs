@@ -61,7 +61,7 @@ namespace NuCore.Utilities
                     case NCErrorSeverity.FatalError:
                         msgBoxOk.Invoke(null, new object[]
                             { "Fatal Error", $"A fatal error has occurred:\n\n{errorString}\n\n" +
-                            $"The Lifhgtn must exit. We are sorry for the inconvenience.", SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR });
+                            $"The Lightning Game Engine-based application you are running must exit. We are sorry for the inconvenience.", SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR });
                         break;
 
                 }
