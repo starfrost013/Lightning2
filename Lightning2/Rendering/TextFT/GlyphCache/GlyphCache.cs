@@ -68,13 +68,14 @@ namespace LightningGL
                 return;
             }
 
+            NCLogging.Log(font.Handle.FaceRec->glyph->format.ToString());
             switch (smoothingType)
             {
                 case FontSmoothingType.Solid:
-                    error = FT_Render_Glyph(font.Handle.Face, FT_Render_Mode.FT_RENDER_MODE_NORMAL);
+                    error = FT_Render_Glyph((nint)font.Handle.GlyphSlot, FT_Render_Mode.FT_RENDER_MODE_NORMAL);
                     break;
                 case FontSmoothingType.LCD:
-                    error = FT_Render_Glyph(font.Handle.Face, FT_Render_Mode.FT_RENDER_MODE_LCD);
+                    error = FT_Render_Glyph((nint)font.Handle.GlyphSlot, FT_Render_Mode.FT_RENDER_MODE_LCD);
                     break;
             }
 
@@ -85,7 +86,7 @@ namespace LightningGL
                 return;
             }
 
-            NCLogging.Log("Cache successful! Rendering...");
+            NCLogging.Log("Cache successful! Rendering to texture...");
             // we have to use -> because it's a pointer in c#
 
             FT_Bitmap bitmap = font.Handle.FaceRec->glyph->bitmap;
@@ -131,6 +132,9 @@ namespace LightningGL
 
         internal static Glyph? QueryCache(string font, char character, Color foregroundColor, FontSmoothingType smoothingType = FontSmoothingType.Default)
         {
+            // because utf16
+            int hexVersion = Convert.ToInt32(character);
+
             foreach (Glyph glyph in Glyphs)
             {
                 if (glyph.Font == font
@@ -138,12 +142,12 @@ namespace LightningGL
                     && glyph.ForegroundColor == foregroundColor 
                     && glyph.SmoothingType == smoothingType)
                 {
-                    NCLogging.Log($"Glyph cache hit (font: {glyph.Font} {glyph.Character} (0x{glyph.Character:X}), smoothing type {glyph.SmoothingType})");
+                    NCLogging.Log($"Glyph cache hit (font: {glyph.Font}), character {glyph.Character} (0x{hexVersion:X}), smoothing type {glyph.SmoothingType})");
                     return glyph;
                 }
             }
 
-            NCLogging.Log($"Glyph cache miss (font: {font} {character} (0x{character:X}), smoothing type {smoothingType}). Caching for next time...");
+            NCLogging.Log($"Glyph cache miss (font: {font}), character {character} (0x{hexVersion:X}), smoothing type {smoothingType}). Caching for next time...");
 
             CacheCharacter(font, character, foregroundColor, smoothingType);
             return null;

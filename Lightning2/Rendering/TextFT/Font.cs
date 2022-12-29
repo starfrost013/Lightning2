@@ -65,26 +65,36 @@ namespace LightningGL
                 return;
             }
 
+            bool isValidFontType = false;
+
             for (int fontType = 0; fontType < (int)FontFormat.MAX_FONT; fontType++)
             {
-                if (!Path.Contains($".{(FontFormat)fontType}", StringComparison.InvariantCultureIgnoreCase))
+                string extension = $".{(FontFormat)fontType}";
+
+                // if we have a valid extension judge the font as valid
+                if (Path.Contains(extension, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    NCError.ShowErrorBox($"Error loading font: Attempted to load an invalid font format. The supported font formats are:\n\n" +
-                        $"- TrueType and TrueType collections (.ttf/ttc)\n" +
-                        $"- OpenType and OpenType collections (.otf/otc)\n" +
-                        $"- OpenType CFF\n" +
-                        $"- WOFF\n" +
-                        $"- Adobe Type 1\n" +
-                        $"- CID\n" +
-                        $"- SFNT\n" +
-                        $"- X11 PCF\n" +
-                        $"- Windows legacy FNT\n" +
-                        $"- BDF\n" +
-                        $"- PFR\n" +
-                        $"- PostScript Type 42 (limited support)" +
-                        $"- ", 36, "Font::Path is not a FreeType-supported font", NCErrorSeverity.Error);
-                    return;
+                    isValidFontType = true;
                 }
+            }
+           
+            if (!isValidFontType)
+            {
+                NCError.ShowErrorBox($"Error loading font: Attempted to load an invalid font format. The supported font formats are:\n\n" +
+                    $"- TrueType and TrueType collections (.ttf/ttc)\n" +
+                    $"- OpenType and OpenType collections (.otf/otc)\n" +
+                    $"- OpenType CFF\n" +
+                    $"- WOFF\n" +
+                    $"- Adobe Type 1\n" +
+                    $"- CID\n" +
+                    $"- SFNT\n" +
+                    $"- X11 PCF\n" +
+                    $"- Windows legacy FNT\n" +
+                    $"- BDF\n" +
+                    $"- PFR\n" +
+                    $"- PostScript Type 42 (limited support)" +
+                    $"- ", 36, "Font::Path is not a FreeType-supported font", NCErrorSeverity.Error);
+                return;
             }
 
             if (FontSize < 1) NCError.ShowErrorBox($"Error loading font: Invalid font size {Size}, must be at least 1!", 37, 

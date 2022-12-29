@@ -21,6 +21,7 @@ namespace LightningBase
             _Library = library;
             _Face = face;
             _FaceRec = (FT_FaceRec*)_Face;
+            Initialised = true;
         }
 
         /// <summary>

@@ -61,7 +61,7 @@ namespace LightningGL
         {
             NCLogging.Log("Loading debug font...");
             // Load the debug font.
-            FontManager.AddAsset(new Font("Arial", 11, "DebugFont"));
+            FontManager.AddAsset(new Font("Arial.ttf", 11, "DebugFont"));
         }
 
         public override void Draw()

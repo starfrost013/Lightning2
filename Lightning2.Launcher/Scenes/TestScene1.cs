@@ -18,10 +18,10 @@ namespace LightningGL
 
         public override void Start()
         {
-            FontManager.AddAsset(new Font("Arial", 11, "Arial.11pt"));
-            FontManager.AddAsset(new Font("Arial", 18, "Arial.18pt"));
-            FontManager.AddAsset(new Font("Arial", 24, "Arial.24pt"));
-            FontManager.AddAsset(new Font("Arial", 36, "Arial.36pt"));
+            FontManager.AddAsset(new Font("Arial.ttf", 11, "Arial.11pt"));
+            FontManager.AddAsset(new Font("Arial.ttf", 18, "Arial.18pt"));
+            FontManager.AddAsset(new Font("Arial.ttf", 24, "Arial.24pt"));
+            FontManager.AddAsset(new Font("Arial.ttf", 36, "Arial.36pt"));
 
             Lightning.Renderer.Clear(Color.FromArgb(255, 127, 127, 127));
             Texture1 = new("Texture1", 64, 64);
