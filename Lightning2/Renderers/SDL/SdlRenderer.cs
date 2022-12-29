@@ -786,7 +786,7 @@ namespace LightningGL
             // we have to use UpdateTexture (the texture we created is already the same size)
             if (SDL_LockSurface(surfaceHandle) != 0)
             {
-                NCError.ShowErrorBox($"A fatal error occurred trying to lock the temporary surface created from an FT_Bitmap while rendering an SDL character for the GlyphCache", 269,
+                NCError.ShowErrorBox($"A fatal error occurred trying to lock the temporary surface created from an FT_Bitmap while rendering an SDL character for the GlyphCache: {SDL_GetError()}", 269,
                     "The call to SDL_LockSurface in TextureFromFreetypeBitmap failed", NCErrorSeverity.FatalError);
                 return null;
             }
