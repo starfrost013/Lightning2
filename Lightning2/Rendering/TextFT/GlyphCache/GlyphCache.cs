@@ -68,14 +68,16 @@ namespace LightningGL
                 return;
             }
 
-            NCLogging.Log(font.Handle.FaceRec->glyph->format.ToString());
+            nint glyphPtr = (nint)font.Handle.FaceRec->glyph;
+            NCLogging.Log(glyphPtr.ToString("X"));
+
             switch (smoothingType)
             {
                 case FontSmoothingType.Solid:
-                    error = FT_Render_Glyph((nint)font.Handle.GlyphSlot, FT_Render_Mode.FT_RENDER_MODE_NORMAL);
+                    error = FT_Render_Glyph((nint)font.Handle.FaceRec->glyph, FT_Render_Mode.FT_RENDER_MODE_NORMAL);
                     break;
                 case FontSmoothingType.LCD:
-                    error = FT_Render_Glyph((nint)font.Handle.GlyphSlot, FT_Render_Mode.FT_RENDER_MODE_LCD);
+                    error = FT_Render_Glyph((nint)font.Handle.FaceRec->glyph, FT_Render_Mode.FT_RENDER_MODE_LCD);
                     break;
             }
 

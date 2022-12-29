@@ -103,7 +103,7 @@ namespace LightningGL
         public Text(string name) : base(name) { }
 
         public Text(string name, string text, string font, Vector2 position, Color foregroundColor, Color backgroundColor = default,
-            FontStyle style = default, int outlineSize = 0, FontSmoothingType smoothingType = default, bool snapToScreen = false, bool localise = true) : base(name)
+            FontStyle style = default, int outlineSize = 0, FontSmoothingType smoothingType = FontSmoothingType.Default, bool snapToScreen = false, bool localise = true) : base(name)
         {
             Content = text;
             Font = font;

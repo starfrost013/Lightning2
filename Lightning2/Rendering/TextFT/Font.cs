@@ -100,11 +100,11 @@ namespace LightningGL
             if (FontSize < 1) NCError.ShowErrorBox($"Error loading font: Invalid font size {Size}, must be at least 1!", 37, 
                 "size parameter to Font::Load is not a valid font size!", NCErrorSeverity.Error);
 
-            FT_Error newFaceError = FT_New_Face(Lightning.Renderer.FreeTypeLibrary.Native, Path, Index, out var newHandle);
+            FT_Error error = FT_New_Face(Lightning.Renderer.FreeTypeLibrary.Native, Path, Index, out var newHandle);
 
-            if (newFaceError != FT_Error.FT_Err_Ok)
+            if (error != FT_Error.FT_Err_Ok)
             {
-                NCError.ShowErrorBox($"A fatal FreeType error occurred loading the font: {newFaceError}", 236, 
+                NCError.ShowErrorBox($"A fatal FreeType error occurred loading the font: {error}", 236, 
                     $"FreeType returned an error code during the FontManager's call to FT_New_Face!", NCErrorSeverity.Error);
                 return;
             }
@@ -119,7 +119,7 @@ namespace LightningGL
             }
             catch
             {
-                NCError.ShowErrorBox($"A fatal FreeType error occurred setting the font size: {newFaceError}", 236,
+                NCError.ShowErrorBox($"A fatal FreeType error occurred setting the font size: {error}", 236,
                 $"FreeType returned an error code during the FontManager's call to FT_New_Face!", NCErrorSeverity.Error);
                 return;
             }
