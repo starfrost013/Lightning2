@@ -764,7 +764,7 @@ namespace LightningGL
             return handle;
         }
 
-        internal unsafe override Texture? TextureFromFreetypeBitmap(FT_Bitmap bitmap, Texture texture)
+        internal unsafe override Texture? TextureFromFreetypeBitmap(FT_Bitmap bitmap, Texture texture, Color foregroundColor)
         {
             if (!texture.Loaded)
             {
@@ -783,29 +783,56 @@ namespace LightningGL
             // and then plot the pixels of the *RGB* component of the surface, the alpha already having been set for us by freetype.
             nint surfaceHandle = SDL_CreateRGBSurfaceWithFormatFrom(bitmap.buffer, (int)bitmap.width, (int)bitmap.rows, 8, bitmap.pitch, SDL_PIXELFORMAT_INDEX8);
 
-            // temporary INDEX8 texture
-            // it's likely still faster to convert it to a texture than setting its pixels as a surface so let's do that
-            nint tempTextureHandle = SDL_CreateTextureFromSurface(Settings.RendererHandle, surfaceHandle);
-            SDL_FreeSurface(surfaceHandle);
+            // we have to use UpdateTexture (the texture we created is already the same size)
+            if (SDL_LockSurface(surfaceHandle) != 0)
+            {
+                NCError.ShowErrorBox($"A fatal error occurred trying to lock the temporary surface created from an FT_Bitmap while rendering an SDL character for the GlyphCache", 269,
+                    "The call to SDL_LockSurface in TextureFromFreetypeBitmap failed", NCErrorSeverity.FatalError);
+                return null;
+            }
+
             SDL_Rect tempRect = new(0, 0, (int)texture.Size.X, (int)texture.Size.Y);
 
-            SDL_LockTexture(tempTextureHandle, ref tempRect, out var tempPixels, out var tempPitch);
+            // create a temporary INDEX8 texture
 
-            // get a pointer to the index8 pointer pixels (byte pointer)
-            byte* pixels = (byte*)tempPixels.ToPointer();
+            nint tempHandle = SDL_CreateTexture(Settings.RendererHandle, SDL_PIXELFORMAT_INDEX8, SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, (int)texture.Size.X, (int)texture.Size.Y);
+
+            // This isn't very efficient. At all, because we update the pixel texture and then lock it. Too fucking bad, can this actually work pleases
+            // Why am I such a tool?
+            if (SDL_UpdateTexture(tempHandle, ref tempRect, surfaceHandle, bitmap.pitch) != 0)
+            {
+                NCError.ShowErrorBox($"A fatal error occurred trying to update the texture with the pixels from the surface", 269,
+                    "The call to SDL_LockSurface in TextureFromFreetypeBitmap failed", NCErrorSeverity.FatalError);
+                return null;
+            }
+
+            SDL_FreeSurface(surfaceHandle);
+
+            if (SDL_LockTexture(tempHandle, ref tempRect, out var tempPixels, out var tempPitch) != 0)
+            {
+                NCError.ShowErrorBox($"A fatal error occurred trying to lock the temporary texture for editing", 269,
+                "The call to SDL_LockSurface in TextureFromFreetypeBitmap failed", NCErrorSeverity.FatalError);
+                return null;
+            }
+
+            texture.Lock();
             
-            // Now we actually set the pixels to the colour
+            // Now we actually set the pixels to the colour required
             // convert to ARGB
             for (int y = 0; y < texture.Size.Y; y++)
             {
                 for (int x = 0; x < texture.Size.X; x++)
                 {
-                    texture.SetPixel(x, y, Color.FromArgb(pixels[(x * y) + x], 255, 255, 255));
+                    texture.SetPixel(x, y, Color.FromArgb(texture.Pixels[(x * y) + x], foregroundColor.R, foregroundColor.G, foregroundColor.B));
                 }
             }
 
-            SDL_UnlockTexture(tempTextureHandle);
-            SDL_DestroyTexture(tempTextureHandle);
+            texture.Unlock();
+
+            // Destroy the temporary texture.
+            SDL_UnlockTexture(tempHandle);
+            SDL_DestroyTexture(tempHandle);
+
             return texture; 
         }
 

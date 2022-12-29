@@ -69,7 +69,6 @@ namespace LightningGL
             }
 
             nint glyphPtr = (nint)font.Handle.FaceRec->glyph;
-            NCLogging.Log(glyphPtr.ToString("X"));
 
             switch (smoothingType)
             {
@@ -105,29 +104,8 @@ namespace LightningGL
                 Size = new(bitmap.width, bitmap.rows),
             };
 
-            glyph = (Glyph?)Lightning.Renderer.TextureFromFreetypeBitmap(bitmap, glyph);
+            glyph = (Glyph?)Lightning.Renderer.TextureFromFreetypeBitmap(bitmap, glyph, foregroundColor);
             Debug.Assert(glyph != null);
-
-            // it is now time...to colour in the glyph
-            // it might be good to move this recolouring part to the cache...but cache misses are easier then
-            for (int y = 0; y < glyph.Size.Y; y++)
-            {
-                for (int x = 0; x < glyph.Size.X; x++)
-                {
-                    Color oldColor = glyph.GetPixel(x, y);
-
-                    // don't recolour stuff that is already the same colour!!!
-                    // still a bit slow due to multiple pieces of text of different colours but hopefully should mitigate some of it
-                    if (oldColor.R != foregroundColor.R
-                        && oldColor.G != foregroundColor.G
-                        && oldColor.B != foregroundColor.B)
-                    {
-                        // keep alpha
-                        // sdl_settexturecolormod faster?
-                        glyph.SetPixel(x, y, Color.FromArgb(oldColor.A, foregroundColor.R, foregroundColor.G, foregroundColor.B));
-                    }
-                }
-            }
 
             Glyphs.Add(glyph);
         }

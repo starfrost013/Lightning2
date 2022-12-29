@@ -424,7 +424,7 @@
             return default;
         }
 
-        internal virtual Texture? TextureFromFreetypeBitmap(FT_Bitmap bitmap, Texture texture)
+        internal virtual Texture? TextureFromFreetypeBitmap(FT_Bitmap bitmap, Texture texture, Color foregroundColor)
         {
             NCError.ShowErrorBox($"TextureFromFreeTypeBitmap not implemented for renderer {GetType().Name!}", 254,
                     "Called Renderer override with unimplemented Renderer::TextureFromFreeTypeBitmap!", NCErrorSeverity.FatalError);
