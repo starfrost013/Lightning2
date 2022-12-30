@@ -82,8 +82,8 @@ namespace LightningGL
 
             if (error != FT_Error.FT_Err_Ok)
             {
-                NCError.ShowErrorBox($"Error loading character {character} - FreeType failed to render the glyph",
-                    254, "Font Glyphcache: Tried to cache a character that the font does not define", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox($"Error loading character {character} - FreeType failed to render the glyph: {error}",
+                    254, "Font Glyphcache: Internal FreeType error trying to render the glyph", NCErrorSeverity.FatalError);
                 return;
             }
 
@@ -92,22 +92,28 @@ namespace LightningGL
 
             FT_Bitmap bitmap = font.Handle.FaceRec->glyph->bitmap;
 
-            nint textureHandle = Lightning.Renderer.CreateTexture((int)bitmap.width, (int)bitmap.rows);
-
-            Glyph? glyph = new("Glyph", font.FontSize, font.FontSize)
+            // it could be 0 size in case that it's, for example, a space character.
+            // so don't try and draw those
+            if (bitmap.width != 0
+                && bitmap.rows != 0)
             {
-                GlyphRec = font.Handle.FaceRec->glyph,
-                Handle = textureHandle,
-                ForegroundColor = foregroundColor, 
-                SmoothingType = smoothingType,
-                Font = font.Name,
-                Size = new(bitmap.width, bitmap.rows),
-            };
+                nint textureHandle = Lightning.Renderer.CreateTexture((int)bitmap.width, (int)bitmap.rows);
 
-            glyph = (Glyph?)Lightning.Renderer.TextureFromFreetypeBitmap(bitmap, glyph, foregroundColor);
-            Debug.Assert(glyph != null);
+                Glyph? glyph = new("Glyph", font.FontSize, font.FontSize)
+                {
+                    GlyphRec = font.Handle.FaceRec->glyph,
+                    Handle = textureHandle,
+                    ForegroundColor = foregroundColor,
+                    SmoothingType = smoothingType,
+                    Font = font.Name,
+                    Size = new(bitmap.width, bitmap.rows),
+                };
 
-            Glyphs.Add(glyph);
+                glyph = (Glyph?)Lightning.Renderer.TextureFromFreetypeBitmap(bitmap, glyph, foregroundColor);
+                Debug.Assert(glyph != null);
+
+                Glyphs.Add(glyph);
+            }
         }
 
         internal static Glyph? QueryCache(string font, char character, Color foregroundColor, FontSmoothingType smoothingType = FontSmoothingType.Default)
@@ -168,7 +174,7 @@ namespace LightningGL
         private static unsafe void RemoveGlyph(Glyph glyph)
         {
             SDL_DestroyTexture(glyph.Handle);
-            FT_Done_Glyph(glyph.GlyphRec->@internal);
+            
             Glyphs.Remove(glyph); // i trust that you already made sure that it's in glyphs
         }
 

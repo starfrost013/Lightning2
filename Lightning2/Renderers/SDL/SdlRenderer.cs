@@ -735,8 +735,20 @@ namespace LightningGL
 
         #region Backend-specific texture code
 
-        internal override nint CreateTexture(int sizeX, int sizeY, bool isTarget = false) => SDL_CreateTexture(Settings.RendererHandle, SDL_PIXELFORMAT_ARGB8888, 
+        internal override nint CreateTexture(int sizeX, int sizeY, bool isTarget = false)
+        {
+            nint handle = SDL_CreateTexture(Settings.RendererHandle, SDL_PIXELFORMAT_ARGB8888,
             isTarget ? SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET : SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, sizeX, sizeY);
+
+            if (handle == nint.Zero)
+            {
+                NCError.ShowErrorBox($"Somehow failed to create a texture (call to SdlRenderer::CreateTexture failed): {SDL.SDL_GetError()}", 274,
+                    "The call to SDL_CreateTexture in SdlRenderer::CreateTexture failed", NCErrorSeverity.FatalError);
+                // fatal and would return a nullptr in all cases
+            }
+
+            return handle;
+        }
 
         internal override nint AllocTextureFormat()
         {
@@ -783,36 +795,20 @@ namespace LightningGL
             // and then plot the pixels of the *RGB* component of the surface, the alpha already having been set for us by freetype.
             nint surfaceHandle = SDL_CreateRGBSurfaceWithFormatFrom(bitmap.buffer, (int)bitmap.width, (int)bitmap.rows, 8, bitmap.pitch, SDL_PIXELFORMAT_INDEX8);
 
-            // we have to use UpdateTexture (the texture we created is already the same size)
-            if (SDL_LockSurface(surfaceHandle) != 0)
-            {
-                NCError.ShowErrorBox($"A fatal error occurred trying to lock the temporary surface created from an FT_Bitmap while rendering an SDL character for the GlyphCache: {SDL_GetError()}", 269,
-                    "The call to SDL_LockSurface in TextureFromFreetypeBitmap failed", NCErrorSeverity.FatalError);
-                return null;
-            }
+            // convert to a pointer so we can get the alpha
+            byte* surfacePtr = (byte*)surfaceHandle.ToPointer();
 
             SDL_Rect tempRect = new(0, 0, (int)texture.Size.X, (int)texture.Size.Y);
-
-            // create a temporary INDEX8 texture
-
-            nint tempHandle = SDL_CreateTexture(Settings.RendererHandle, SDL_PIXELFORMAT_INDEX8, SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, (int)texture.Size.X, (int)texture.Size.Y);
-
-            // This isn't very efficient. At all, because we update the pixel texture and then lock it. Too fucking bad, can this actually work pleases
-            // Why am I such a tool?
-            if (SDL_UpdateTexture(tempHandle, ref tempRect, surfaceHandle, bitmap.pitch) != 0)
+            
+            if (SDL_MUSTLOCK(surfaceHandle))
             {
-                NCError.ShowErrorBox($"A fatal error occurred trying to update the texture with the pixels from the surface", 269,
-                    "The call to SDL_LockSurface in TextureFromFreetypeBitmap failed", NCErrorSeverity.FatalError);
-                return null;
-            }
-
-            SDL_FreeSurface(surfaceHandle);
-
-            if (SDL_LockTexture(tempHandle, ref tempRect, out var tempPixels, out var tempPitch) != 0)
-            {
-                NCError.ShowErrorBox($"A fatal error occurred trying to lock the temporary texture for editing", 269,
-                "The call to SDL_LockSurface in TextureFromFreetypeBitmap failed", NCErrorSeverity.FatalError);
-                return null;
+                // we have to use UpdateTexture (the texture we created is already the same size)
+                if (SDL_LockSurface(surfaceHandle) != 0)
+                {
+                    NCError.ShowErrorBox($"A fatal error occurred trying to lock the temporary surface created from an FT_Bitmap while rendering an SDL character for the GlyphCache: {SDL_GetError()}", 273,
+                        "The call to SDL_LockSurface in TextureFromFreetypeBitmap failed", NCErrorSeverity.FatalError);
+                    return null;
+                }
             }
 
             texture.Lock();
@@ -823,16 +819,12 @@ namespace LightningGL
             {
                 for (int x = 0; x < texture.Size.X; x++)
                 {
-                    texture.SetPixel(x, y, Color.FromArgb(texture.Pixels[(x * y) + x], foregroundColor.R, foregroundColor.G, foregroundColor.B));
+                    texture.SetPixel(x, y, Color.FromArgb(surfacePtr[(x * y) + x], foregroundColor.R, foregroundColor.G, foregroundColor.B));
                 }
             }
 
             texture.Unlock();
-
-            // Destroy the temporary texture.
-            SDL_UnlockTexture(tempHandle);
-            SDL_DestroyTexture(tempHandle);
-
+            SDL_FreeSurface(surfaceHandle); // destroy the surface (we don't need it anymore)
             return texture; 
         }
 
