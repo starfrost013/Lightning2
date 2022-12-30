@@ -789,31 +789,10 @@ namespace LightningGL
             // this has to be in a better place
             texture.SetBlendMode(SDL_BlendMode.SDL_BLENDMODE_BLEND);
 
-            // Create the surface.
-
-            // TODO: SDL_CreateSurfaceFrom in SDL3
-
             // When FreeType renders a glyph, it actually creates an "alpha map" of the alpha values of the glyph that we have rendered in INDEX8 format.
-            // Therefore, we create an SDL surface, convert it to a texture (for hardware acceleration so that it is rendered by the GPU).
             // Lightning uses ARGB8888, so we need to convert to ARGB8888 using the colour the user specified.
             // and then plot the pixels of the *RGB* component of the surface, the alpha already having been set for us by freetype.
-            nint surfaceHandle = SDL_CreateRGBSurfaceWithFormatFrom(bitmap.buffer, (int)bitmap.width, (int)bitmap.rows, 8, bitmap.pitch, SDL_PIXELFORMAT_INDEX8);
-
             // convert to a pointer so we can get the alpha
-            byte* bufferPtr = (byte*)bitmap.buffer.ToPointer();
-
-            SDL_Rect tempRect = new(0, 0, (int)texture.Size.X, (int)texture.Size.Y);
-            
-            if (SDL_MUSTLOCK(surfaceHandle))
-            {
-                // we have to use UpdateTexture (the texture we created is already the same size)
-                if (SDL_LockSurface(surfaceHandle) != 0)
-                {
-                    NCError.ShowErrorBox($"A fatal error occurred trying to lock the temporary surface created from an FT_Bitmap while rendering an SDL character for the GlyphCache: {SDL_GetError()}", 273,
-                        "The call to SDL_LockSurface in TextureFromFreetypeBitmap failed", NCErrorSeverity.FatalError);
-                    return null;
-                }
-            }
 
             texture.Lock();
             
@@ -832,7 +811,6 @@ namespace LightningGL
             }
 
             texture.Unlock();
-            SDL_FreeSurface(surfaceHandle); // destroy the surface (we don't need it anymore)
             return texture; 
         }
 

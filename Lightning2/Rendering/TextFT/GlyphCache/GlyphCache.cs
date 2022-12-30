@@ -129,7 +129,6 @@ namespace LightningGL
                     && glyph.ForegroundColor == foregroundColor 
                     && glyph.SmoothingType == smoothingType)
                 {
-                    NCLogging.Log($"Glyph cache hit (font: {glyph.Font}), character {glyph.Character} (0x{hexVersion:X}), smoothing type {glyph.SmoothingType})");
                     return glyph;
                 }
             }
