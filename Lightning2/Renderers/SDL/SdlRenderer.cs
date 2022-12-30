@@ -819,6 +819,7 @@ namespace LightningGL
             {
                 for (int x = 0; x < texture.Size.X; x++)
                 {
+                    // COMPLICATED DIRECTMORON LAYER FUCK YOU FUCK YOU
                     texture.SetPixel(x, y, Color.FromArgb(surfacePtr[(x * y) + x], foregroundColor.R, foregroundColor.G, foregroundColor.B));
                 }
             }

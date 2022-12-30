@@ -107,6 +107,7 @@ namespace LightningGL
                     SmoothingType = smoothingType,
                     Font = font.Name,
                     Size = new(bitmap.width, bitmap.rows),
+                    Character = character,
                 };
 
                 glyph = (Glyph?)Lightning.Renderer.TextureFromFreetypeBitmap(bitmap, glyph, foregroundColor);

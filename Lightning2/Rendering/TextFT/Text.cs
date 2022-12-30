@@ -197,10 +197,7 @@ namespace LightningGL
                     glyph.Draw();
 
                 }
-                else
-                {
-                    NCError.ShowErrorBox($"Failed to cache character {character} in text, it will not be displayed!", 260, "Call to GlyphCache::QueryCache in Text::Draw failed", NCErrorSeverity.Error, null, true);
-                }
+                //todo: just push forward by the space character size
             }
         }
     }
