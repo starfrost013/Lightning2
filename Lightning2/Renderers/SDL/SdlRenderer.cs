@@ -785,6 +785,8 @@ namespace LightningGL
                 return null;
             }
 
+            // we have to use SDL_BLENDMODE_BLEND to render text
+            // this has to be in a better place
             texture.SetBlendMode(SDL_BlendMode.SDL_BLENDMODE_BLEND);
 
             // Create the surface.
@@ -798,7 +800,7 @@ namespace LightningGL
             nint surfaceHandle = SDL_CreateRGBSurfaceWithFormatFrom(bitmap.buffer, (int)bitmap.width, (int)bitmap.rows, 8, bitmap.pitch, SDL_PIXELFORMAT_INDEX8);
 
             // convert to a pointer so we can get the alpha
-            byte* surfacePtr = (byte*)surfaceHandle.ToPointer();
+            byte* bufferPtr = (byte*)bitmap.buffer.ToPointer();
 
             SDL_Rect tempRect = new(0, 0, (int)texture.Size.X, (int)texture.Size.Y);
             
@@ -813,8 +815,6 @@ namespace LightningGL
                 }
             }
 
-            
-
             texture.Lock();
             
             // Now we actually set the pixels to the colour required
@@ -824,7 +824,9 @@ namespace LightningGL
                 for (int x = 0; x < texture.Size.X; x++)
                 {
                     // COMPLICATED DIRECTMORON LAYER FUCK YOU FUCK YOU
-                    byte alpha = surfacePtr[(x * y) + x];
+                    byte alpha = bufferPtr[y * (int)texture.Size.X + x];
+                    NCLogging.Log((y * (int)texture.Size.X + x).ToString());
+
                     texture.SetPixel(x, y, Color.FromArgb(alpha, foregroundColor.R, foregroundColor.G, foregroundColor.B));
                 }
             }
