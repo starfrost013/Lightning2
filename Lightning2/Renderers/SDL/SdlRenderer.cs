@@ -785,6 +785,8 @@ namespace LightningGL
                 return null;
             }
 
+            texture.SetBlendMode(SDL_BlendMode.SDL_BLENDMODE_BLEND);
+
             // Create the surface.
 
             // TODO: SDL_CreateSurfaceFrom in SDL3
@@ -811,6 +813,8 @@ namespace LightningGL
                 }
             }
 
+            
+
             texture.Lock();
             
             // Now we actually set the pixels to the colour required
@@ -820,7 +824,8 @@ namespace LightningGL
                 for (int x = 0; x < texture.Size.X; x++)
                 {
                     // COMPLICATED DIRECTMORON LAYER FUCK YOU FUCK YOU
-                    texture.SetPixel(x, y, Color.FromArgb(surfacePtr[(x * y) + x], foregroundColor.R, foregroundColor.G, foregroundColor.B));
+                    byte alpha = surfacePtr[(x * y) + x];
+                    texture.SetPixel(x, y, Color.FromArgb(alpha, foregroundColor.R, foregroundColor.G, foregroundColor.B));
                 }
             }
 

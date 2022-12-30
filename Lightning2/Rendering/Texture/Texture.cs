@@ -267,15 +267,7 @@
             // failsafe just in case of any weird stuff happening
             if (RenderPosition == default) RenderPosition = Position;
 
-            Lightning.Renderer.DrawTexture(new object[]
-            {
-                ViewportStart,
-                ViewportEnd,
-                RenderPosition,
-                Size,
-                Handle,
-                Repeat
-            });
+            Lightning.Renderer.DrawTexture(ViewportStart, ViewportEnd, RenderPosition, Size, Handle, Repeat);
         }
 
         /// <summary>
@@ -311,11 +303,7 @@
         {
             if (Lightning.Renderer is SdlRenderer)
             {
-                Lightning.Renderer.SetTextureBlendMode(new
-                {
-                    Handle,
-                    blendMode
-                });
+                Lightning.Renderer.SetTextureBlendMode(Handle, blendMode);
             }
             
         }
