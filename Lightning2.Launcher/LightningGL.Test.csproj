@@ -39,7 +39,6 @@
     <None Remove="Content\xm_boot.mp3" />
     <None Remove="Content\xm_boot_ogg.ogg" />
     <None Remove="Content\xm_title.mp3" />
-    <None Remove="Content\xm_title_ogg.ogg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -71,9 +70,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\xm_title.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\xm_title_ogg.ogg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
