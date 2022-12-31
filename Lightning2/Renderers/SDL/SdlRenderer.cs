@@ -763,14 +763,32 @@ namespace LightningGL
             return handle;
         }
 
-        internal override nint LoadTexture(string path)
+        internal override unsafe nint LoadTexture(string path)
         {
             nint handle = IMG_LoadTexture(Settings.RendererHandle, path);
 
+            // this is here for now
+
             if (handle == nint.Zero)
             {
-                NCError.ShowErrorBox($"Failed to load texture at {path} - {SDL_GetError()}", 10, "An error occurred in SdlRenderer::LoadTexture!", NCErrorSeverity.Error);
-                // this already returns nint.zero
+                // Print an error message and load a 'default' texture (see MissingTexture) as of 12/31/22
+                NCError.ShowErrorBox($"Failed to load texture at {path} - {SDL_GetError()}", 10, 
+                    "An error occurred in SdlRenderer::LoadTexture!", NCErrorSeverity.Error, null, true);
+
+                fixed (byte* missingTexturePtr = MissingTexture.Data)
+                {
+                    nint missingTexture = (nint)missingTexturePtr;
+                    nint missingTextureRw = SDL_RWFromMem(missingTexture, MissingTexture.Data.Length);
+
+                    handle = IMG_LoadTexture_RW(Settings.RendererHandle, missingTextureRw, true);
+                }
+               
+                // we have to check again to see if the missing texture texture failed to load
+                if (handle == nint.Zero)
+                {
+                    NCError.ShowErrorBox($"Failed to load texture at {path} - {SDL_GetError()} AND failed to load missing texture. THIS IS AN ENGINE BUG", 271,
+                    "Failed to load missing texture - call to IMG_LoadTexture_RW failed. This is an engine bug.", NCErrorSeverity.FatalError);
+                }
             }
 
             return handle;
@@ -806,8 +824,6 @@ namespace LightningGL
                 {
                     // COMPLICATED DIRECTMORON LAYER FUCK YOU FUCK YOU
                     byte alpha = bufferPtr[y * (int)texture.Size.X + x];
-                    NCLogging.Log((y * (int)texture.Size.X + x).ToString());
-
                     texture.SetPixel(x, y, Color.FromArgb(alpha, foregroundColor.R, foregroundColor.G, foregroundColor.B));
                 }
             }

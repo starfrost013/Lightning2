@@ -99,15 +99,8 @@
             {
                 Glyph? glyph = null;
 
+                // this automatically caches it now
                 glyph = GlyphCache.QueryCache(font.Name, textChar, foregroundColor, FontSmoothingType.Default); // todo: set the smoothing type
-
-                // temp - lcd
-                if (glyph == null)
-                {
-                    // cache it here (only try once...)
-                    GlyphCache.CacheCharacter(font.Name, textChar, foregroundColor, FontSmoothingType.Default);
-                    glyph = GlyphCache.QueryCache(font.Name, textChar, foregroundColor, FontSmoothingType.Default); // todo: set the smoothing type
-                }
 
                 // is it still null? then ignore it (there should already be an error here) 
                 if (glyph != null)

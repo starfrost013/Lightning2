@@ -206,7 +206,7 @@ namespace LightningBase
         public static extern nint IMG_LoadTexture_RW(
             nint renderer,
             nint src,
-            int freesrc
+            bool freesrc
         );
 
         /* renderer refers to an SDL_Renderer*.

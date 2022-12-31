@@ -165,10 +165,6 @@ namespace LightningGL
             {
                 Glyph? glyph = GlyphCache.QueryCache(Font, character, ForegroundColor, SmoothingType);
 
-                if (glyph == null) GlyphCache.CacheCharacter(Font, character, ForegroundColor, SmoothingType);
-
-                glyph = GlyphCache.QueryCache(Font, character, ForegroundColor, SmoothingType);
-
                 if (glyph != null)
                 {
                     glyph.UsedThisFrame = true; 
@@ -190,11 +186,16 @@ namespace LightningGL
                             break;
                     }
 
+                    // the glyph is empty so just push forward by the size of the glyph
+                    // (tabs, spaces, etc)
+                    if (!glyph.IsEmpty)
+                    {
+                        // just grab the texture and draw it again
+                        // these should definitely be in the hierarchy...hmm...
+                        glyph.Position = currentPosition;
+                        glyph.Draw();
+                    }
 
-                    // just grab the texture and draw it again
-                    // these should definitely be in the hierarchy...hmm...
-                    glyph.Position = currentPosition;
-                    glyph.Draw();
 
                 }
                 //todo: just push forward by the space character size

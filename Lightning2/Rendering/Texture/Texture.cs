@@ -134,7 +134,7 @@
         /// </summary>
         /// <param name="sizeX">The width of the texture in pixels.</param>
         /// <param name="sizeY">The height of the texture in pixels.</param>
-        public Texture(string name, float sizeX, float sizeY, bool isTarget = false) : base(name)
+        public Texture(string name, float sizeX, float sizeY, bool isTarget = false, string path = CREATED_TEXTURE_PATH) : base(name)
         {
             Size = new Vector2(sizeX, sizeY);
 
@@ -147,6 +147,7 @@
             FormatHandle = Lightning.Renderer.AllocTextureFormat();
             Loaded = Handle != nint.Zero
                 && FormatHandle != nint.Zero;
+            Path = path;
         }
 
         public override void Create()
@@ -155,12 +156,14 @@
             if (Path == CREATED_TEXTURE_PATH)
             {
                 Loaded = true;
-                return;
             }
+            else
+            {
+                // missing texture will be loaded if it fails to load
 
-            if (!File.Exists(Path)) NCError.ShowErrorBox($"{Path} does not exist!", 9, "Texture::Path property does not exist", NCErrorSeverity.FatalError);
-
-            Handle = Lightning.Renderer.LoadTexture(Path);
+                Handle = Lightning.Renderer.LoadTexture(Path);
+                Loaded = (Handle != default);
+            }
         }
 
         /// <summary>

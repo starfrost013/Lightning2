@@ -69,7 +69,8 @@ namespace LightningGL
 
             // todo: particleeffectsettings?
 
-            Texture testEffectTexture = new("testEffectTexture", 16, 16);
+            Texture testEffectTexture = new("testEffectTexture", 16, 16, false, @"Content\Sparkles.png");
+            Texture missingTextureTest = new("DONOTCREATETHISTEXTURE", 128, 128, false, "asdjasdjasjdhasjhsahjasdhjashjasdhsa");
 
             testEffectTexture.Path = @"Content\Sparkles.png";
 
@@ -246,7 +247,9 @@ namespace LightningGL
             //listBox1.AddItem(new("Item5", "qasqsdfwqer", "Arial.11pt"));
 
             TextureManager.AddAsset(Texture1);
+            TextureManager.AddAsset(missingTextureTest);
 
+            missingTextureTest.Position = new(150, 150);
             // bug:
             // as it is the same handle, setpixel changes pixel for every single texture 
             Texture? texture2 = TextureManager.GetInstanceOfTexture(Texture1);

@@ -51,8 +51,18 @@ namespace LightningGL
 
             if (font.Handle.GetCharIfDefined(character) == null)
             {
-                NCError.ShowErrorBox($"Tried to cache character {character} not defined in font! The character will not be drawn!",
+                // hack warning
+                NCError.ShowErrorBox($"Tried to cache character {character} not defined in font! The character will not be cached!",
                     252, "Font Glyphcache: Tried to cache a character that the font does not define", NCErrorSeverity.Warning, null, true);
+
+                // create an empty glyph such that we don't try and cache this character again
+                Glyph emptyGlyph = new("UndefinedCharGlyph", 1, 1)
+                {
+                    IsEmpty = true,
+                };
+
+                Glyphs.Add(emptyGlyph);
+
                 return;
             }
 
@@ -88,36 +98,37 @@ namespace LightningGL
             }
 
             NCLogging.Log("Cache successful! Rendering to texture...");
-            // we have to use -> because it's a pointer in c#
 
+            // we have to use -> because it's a pointer in c#
             FT_Bitmap bitmap = font.Handle.FaceRec->glyph->bitmap;
 
-            // it could be 0 size in case that it's, for example, a space character.
-            // so don't try and draw those
-            if (bitmap.width != 0
-                && bitmap.rows != 0)
+            bool isEmpty = (bitmap.width == 0
+                || bitmap.rows == 0);
+
+            // create a blank bitmap for a space or similar
+            if (bitmap.width == 0) bitmap.width = (uint)font.Handle.FaceRec->glyph->advance.x;
+            if (bitmap.rows == 0) bitmap.rows = bitmap.width; // create a square for now
+
+            Glyph? glyph = new("Glyph", (int)bitmap.width, (int)bitmap.rows)
             {
-                nint textureHandle = Lightning.Renderer.CreateTexture((int)bitmap.width, (int)bitmap.rows);
+                GlyphRec = font.Handle.FaceRec->glyph,
+                ForegroundColor = foregroundColor,
+                SmoothingType = smoothingType,
+                Font = font.Name,
+                Size = new(bitmap.width, bitmap.rows),
+                Character = character,
+                IsEmpty = isEmpty,
+            };
 
-                Glyph? glyph = new("Glyph", font.FontSize, font.FontSize)
-                {
-                    GlyphRec = font.Handle.FaceRec->glyph,
-                    Handle = textureHandle,
-                    ForegroundColor = foregroundColor,
-                    SmoothingType = smoothingType,
-                    Font = font.Name,
-                    Size = new(bitmap.width, bitmap.rows),
-                    Character = character,
-                };
+            if (!glyph.IsEmpty) glyph = (Glyph?)Lightning.Renderer.TextureFromFreetypeBitmap(bitmap, glyph, foregroundColor);
 
-                glyph = (Glyph?)Lightning.Renderer.TextureFromFreetypeBitmap(bitmap, glyph, foregroundColor);
-                Debug.Assert(glyph != null);
+            Debug.Assert(glyph != null);
 
-                Glyphs.Add(glyph);
-            }
+            Glyphs.Add(glyph);
+
         }
 
-        internal static Glyph? QueryCache(string font, char character, Color foregroundColor, FontSmoothingType smoothingType = FontSmoothingType.Default)
+        internal static Glyph? QueryCache(string font, char character, Color foregroundColor, FontSmoothingType smoothingType = FontSmoothingType.Default, bool failNow = false)
         {
             // because utf16
             int hexVersion = Convert.ToInt32(character);
@@ -135,8 +146,18 @@ namespace LightningGL
 
             NCLogging.Log($"Glyph cache miss (font: {font}), character {character} (0x{hexVersion:X}), smoothing type {smoothingType}). Caching for next time...");
 
-            CacheCharacter(font, character, foregroundColor, smoothingType);
+            // prevent a stack overflow it will only try and cache it once
+            if (!failNow)
+            {
+                CacheCharacter(font, character, foregroundColor, smoothingType);
+
+                // try and query the cache again
+                return QueryCache(font, character, foregroundColor, smoothingType, true);
+            }
+
+            // don't try and cache a third time if we already tried once
             return null;
+
         }
 
         internal static void DeleteEntry(string font, char character, Color foregroundColor, FontSmoothingType smoothingType = FontSmoothingType.Default)

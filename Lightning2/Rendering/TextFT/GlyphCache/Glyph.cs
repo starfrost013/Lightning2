@@ -31,8 +31,21 @@ namespace LightningGL
         /// </summary>
         internal bool UsedThisFrame { get; set; }
 
+        /// <summary>
+        /// Determines if this glyph is empty or not.
+        /// </summary>
+        internal bool IsEmpty { get; set; }
+
+        /// <summary>
+        /// A pointer to the FreeType glyphslot take up by this glyph.
+        /// </summary>
         internal FT_GlyphSlotRec* GlyphRec { get; set; }
 
+        /// <summary>
+        /// The smoothing type of this font.
+        /// 
+        /// See <see cref="FontSmoothingType"/>.
+        /// </summary>
         internal FontSmoothingType SmoothingType { get; set; }
 
     }

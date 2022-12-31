@@ -189,14 +189,17 @@ Everything that matters to the api has to go here
 * Colouring for freetype
 
 2022.12.30:
-* Holy shit it finally works.
+* Holy shit it finally kinda works.
+
+2022.12.31:
+* Added path to texture constructor (optional)
+* Implemented missing texture.
 
 * todo:
 	- overridable default values
 	- Lightning.SetCurrentScene
 	- textmanager for freetype
 	- a lot more configurable
-	- path as texture constructor
 	- renderer independent blend mode!!!!!!!!!!!
 	- FIX BUSTED AND SHIT HORRIBLE VERY BAD UI SYSTEM!!!!!!
 	- global usings everywhere
