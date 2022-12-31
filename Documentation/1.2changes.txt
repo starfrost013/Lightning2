@@ -188,6 +188,9 @@ Everything that matters to the api has to go here
 * Sizing for freetype
 * Colouring for freetype
 
+2022.12.30:
+* Holy shit it finally works.
+
 * todo:
 	- overridable default values
 	- Lightning.SetCurrentScene
