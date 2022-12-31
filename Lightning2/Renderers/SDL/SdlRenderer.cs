@@ -785,6 +785,8 @@ namespace LightningGL
                 return null;
             }
 
+            byte* bufferPtr = (byte*)bitmap.buffer.ToPointer();
+
             // we have to use SDL_BLENDMODE_BLEND to render text
             // this has to be in a better place
             texture.SetBlendMode(SDL_BlendMode.SDL_BLENDMODE_BLEND);
