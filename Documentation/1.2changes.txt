@@ -193,7 +193,7 @@ Everything that matters to the api has to go here
 
 2022.12.31:
 * Added path to texture constructor (optional)
-* Implemented missing texture.
+* Implemented missing texture functionality.
 
 * todo:
 	- overridable default values

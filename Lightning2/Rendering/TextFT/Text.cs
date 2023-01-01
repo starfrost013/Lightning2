@@ -169,7 +169,7 @@ namespace LightningGL
                 {
                     glyph.UsedThisFrame = true; 
 
-                    // new() does not work here!!!
+                    // syntax note: new() does not work here!!! you must provide a type name
                     switch (Orientation)
                     {
                         case Orientation.LeftToRight:
@@ -195,10 +195,7 @@ namespace LightningGL
                         glyph.Position = currentPosition;
                         glyph.Draw();
                     }
-
-
                 }
-                //todo: just push forward by the space character size
             }
         }
     }
