@@ -76,7 +76,7 @@ namespace LightningGL
             int currentPage = (int)CurrentDebugView + 1;
             int maxPage = (int)DebugViews.MaxPage + 1;
 
-            TextManager.AddAsset(new Text("Text1", $"Lightning Debug v{LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING} (Debug page {currentPage}/{maxPage} - {CurrentDebugView})", 
+            TextManager.AddAsset(new TextBlock("Text1", $"Lightning Debug v{LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING} (Debug page {currentPage}/{maxPage} - {CurrentDebugView})", 
                 "DebugFont", new(0,0), DebugForeground, DebugBackground, FontStyle.Normal, -1, FontSmoothingType.Default, true));
 
             CurrentY += GlobalSettings.DebugLineDistance;
@@ -118,12 +118,12 @@ namespace LightningGL
 
             foreach (string line in debugText)
             {
-                TextManager.AddAsset(new Text("Text1", line, "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, FontStyle.Normal, 
+                TextManager.AddAsset(new TextBlock("Text1", line, "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, FontStyle.Normal, 
                     -1, FontSmoothingType.Default, true));
                 CurrentY += GlobalSettings.DebugLineDistance;
             }
 
-            TextManager.AddAsset(new Text("Text1", $"Current scene: {CurrentScene.Name}", "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, 
+            TextManager.AddAsset(new TextBlock("Text1", $"Current scene: {CurrentScene.Name}", "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, 
                 FontStyle.Normal, -1, FontSmoothingType.Default, true));
 
             CurrentY += GlobalSettings.DebugLineDistance;
@@ -137,7 +137,7 @@ namespace LightningGL
 
                 if (maxFps == 0) maxFps = 60;
 
-                TextManager.AddAsset(new Text("Text1", $"Running under target FPS ({maxFps})!", "DebugFont", new Vector2(0, CurrentY), 
+                TextManager.AddAsset(new TextBlock("Text1", $"Running under target FPS ({maxFps})!", "DebugFont", new Vector2(0, CurrentY), 
                     DebugForeground, DebugBackground, FontStyle.Bold, -1, FontSmoothingType.Default, true));
                 CurrentY += GlobalSettings.DebugLineDistance;
             }
@@ -149,20 +149,20 @@ namespace LightningGL
             // bail too many renderables
             if (Lightning.Renderer.Renderables.Count > 5000)
             {
-                TextManager.AddAsset(new Text("Text1", $"Something went wrong, renderable vomiting in progress (>5000 renderables in scene!!!!)", "DebugFont", new(0, CurrentY),
+                TextManager.AddAsset(new TextBlock("Text1", $"Something went wrong, renderable vomiting in progress (>5000 renderables in scene!!!!)", "DebugFont", new(0, CurrentY),
                     DebugForeground, DebugBackground, FontStyle.Bold, -1, FontSmoothingType.Default, true));
                 CurrentY += GlobalSettings.DebugLineDistance;
             }
             else
             {
-                TextManager.AddAsset(new Text("Text1", $"Camera Position: {Lightning.Renderer.Settings.Camera.Position}", "DebugFont", new Vector2(0, CurrentY), DebugForeground, 
+                TextManager.AddAsset(new TextBlock("Text1", $"Camera Position: {Lightning.Renderer.Settings.Camera.Position}", "DebugFont", new Vector2(0, CurrentY), DebugForeground, 
                     DebugBackground, FontStyle.Normal, -1, FontSmoothingType.Default, true));
                 CurrentY += GlobalSettings.DebugLineDistance;
 
                 for (int renderableId = 0; renderableId < Lightning.Renderer.Renderables.Count; renderableId++)
                 {
                     Renderable renderable = Lightning.Renderer.Renderables[renderableId];
-                    TextManager.AddAsset(new Text("Text1", $"{renderable.Name} ({renderable.GetType().Name}): position {renderable.Position}, " + $"size: {renderable.Size}, " +
+                    TextManager.AddAsset(new TextBlock("Text1", $"{renderable.Name} ({renderable.GetType().Name}): position {renderable.Position}, " + $"size: {renderable.Size}, " +
                         $"render position: {renderable.RenderPosition}, on screen: {renderable.IsOnScreen}, z-index: {renderable.ZIndex}, " + $"is animating now: {renderable.IsAnimating}", 
                         "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, FontStyle.Normal, -1, FontSmoothingType.Default, true));
                     CurrentY += GlobalSettings.DebugLineDistance;
@@ -183,7 +183,7 @@ namespace LightningGL
                 // string::format requires constants so we need to pad to the left
                 initialString = initialString.PadLeft(initialString.Length + (8 * depth)); // todo: make this a setting with a defauilt value
 
-                TextManager.AddAsset(new Text("Text1", initialString, "DebugFont", new(0, CurrentY),
+                TextManager.AddAsset(new TextBlock("Text1", initialString, "DebugFont", new(0, CurrentY),
                     DebugForeground, DebugBackground, FontStyle.Normal, -1, FontSmoothingType.Default, true));
                 CurrentY += GlobalSettings.DebugLineDistance;
                 
@@ -196,7 +196,7 @@ namespace LightningGL
             string[] debugText =
             {
                 $"Resolution: {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY} (window size: {GlobalSettings.GraphicsResolutionX},{GlobalSettings.GraphicsResolutionY} " +
-                $"(SDL is using the {GlobalSettings.GraphicsSdlRenderingBackend} rendering backend, window flags: {GlobalSettings.GraphicsWindowFlags}, render flags: {GlobalSettings.GraphicsRenderFlags})",
+                $"Window flags: {GlobalSettings.GraphicsWindowFlags}, render flags: {GlobalSettings.GraphicsRenderFlags})",
                 $"SDL {SDL_EXPECTED_MAJOR_VERSION}.{SDL_EXPECTED_MINOR_VERSION}.{SDL_EXPECTED_PATCHLEVEL}",
                 $"SDL_image {SDL_IMAGE_EXPECTED_MAJOR_VERSION}.{SDL_IMAGE_EXPECTED_MINOR_VERSION}.{SDL_IMAGE_EXPECTED_PATCHLEVEL}",
                 $"SDL_mixer {SDL_MIXER_EXPECTED_MAJOR_VERSION}.{SDL_MIXER_EXPECTED_MINOR_VERSION}.{SDL_MIXER_EXPECTED_PATCHLEVEL}",
@@ -208,7 +208,7 @@ namespace LightningGL
 
             foreach (string line in debugText)
             {
-                TextManager.AddAsset(new Text("Text1", line, "DebugFont", new Vector2(0, CurrentY), DebugForeground, 
+                TextManager.AddAsset(new TextBlock("Text1", line, "DebugFont", new Vector2(0, CurrentY), DebugForeground, 
                     DebugBackground, FontStyle.Normal, -1, FontSmoothingType.Default, true));
                 CurrentY += GlobalSettings.DebugLineDistance;
             }
@@ -218,7 +218,7 @@ namespace LightningGL
         {
             if (!GlobalSettings.GeneralProfilePerformance)
             {
-                TextManager.AddAsset(new Text("Text1", "This page is disabled as the Performance Profiler is not enabled!", "DebugFont", new Vector2(0, CurrentY),
+                TextManager.AddAsset(new TextBlock("Text1", "This page is disabled as the Performance Profiler is not enabled!", "DebugFont", new Vector2(0, CurrentY),
                     DebugForeground, DebugBackground, FontStyle.Bold, -1, FontSmoothingType.Default, true, false));
                 CurrentY += GlobalSettings.DebugLineDistance;
             }
@@ -238,7 +238,7 @@ namespace LightningGL
 
                 foreach (string line in debugText)
                 {
-                    TextManager.AddAsset(new Text("Text1", line, "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, 
+                    TextManager.AddAsset(new TextBlock("Text1", line, "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, 
                         FontStyle.Normal, -1, FontSmoothingType.Default, true));
                     CurrentY += GlobalSettings.DebugLineDistance;
                 }
@@ -252,7 +252,7 @@ namespace LightningGL
 
             foreach (string line in lines)
             {
-                TextManager.AddAsset(new Text("Text1", line, "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, FontStyle.Normal, 
+                TextManager.AddAsset(new TextBlock("Text1", line, "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, FontStyle.Normal, 
                     -1, FontSmoothingType.Default, true, false));
                 CurrentY += GlobalSettings.DebugLineDistance;
             }

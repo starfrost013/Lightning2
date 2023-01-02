@@ -22,7 +22,7 @@
         /// <summary>
         /// The real range of this light used when drawing
         /// </summary>
-        private int RealRange => (int)((Range * 40) * sinus);
+        private int RealRange => (int)(Range * (40 * sinus));
 
         /// <summary>
         /// The colour of this Light.
@@ -36,18 +36,27 @@
         const float sinus = 0.70710678118f;
 
         /// <summary>
+        /// Default value for <see cref="Brightness"/>
+        /// </summary>
+        private const int DEFAULT_BRIGHTNESS = 255;
+
+        /// <summary>
+        /// Default value for <see cref="Range"/>
+        /// </summary>
+        private const int DEFAULT_RANGE = 10;
+
+        /// <summary>
         /// Constructor of the Light class. Sets the default range to 10 and the default brightness to 255.
         /// </summary>
         public Light(string name) : base(name)
         {
-            Brightness = 255;
-            Range = 10;
+            Brightness = DEFAULT_BRIGHTNESS;
+            Range = DEFAULT_RANGE;
         }
 
         /// <summary>
         /// Renders this Light to a texture
         /// </summary>
-        /// <param name="Lightning.Renderer">The window to render this Light to.</param>
         internal void RenderToTexture()
         {
             // Code nicked and modified from
@@ -80,7 +89,10 @@
                 for (int curY = y - RealRange + 1; curY < y + RealRange; curY++)
                 {
                     // don't draw offscreen pixels
-                    if (curX >= 0 && curY >= 0 && curX < maxSizeX && curY < maxSizeY)
+                    if (curX >= 0 
+                        && curY >= 0 
+                        && curX < maxSizeX 
+                        && curY < maxSizeY)
                     {
                         Vector2 final = new(curX, curY);
 
@@ -101,7 +113,7 @@
                         {
                             if (newDistance > 0)
                             {
-                                opaqueness = (double)(newDistance * (10 / Range));
+                                opaqueness = (newDistance * (10d / Range));
 
                                 // set per-pixel opaqueness
                                 // this "inverts" the normal algorithm for masking out of a screenspace lightmap
@@ -154,7 +166,7 @@
         /// <summary>
         /// Removes this Light from the texture.
         /// </summary>
-        /// <param name="Lightning.Renderer">The window to remove this light from.</param>
+
         internal void RemoveFromTexture()
         {
             // Code nicked and modified from
@@ -174,7 +186,10 @@
                 {
                     // set all non-offscreen pixels of the light (we don't draw offscreen light pixels currently) to the environmental light colour
                     // don't draw offscreen pixels
-                    if (curX >= 0 && curY >= 0 && curX < maxSizeX && curY < maxSizeY) LightManager.ScreenSpaceMap.SetPixel(x, curY, LightManager.EnvironmentalLight);
+                    if (curX >= 0 
+                        && curY >= 0
+                        && curX < maxSizeX 
+                        && curY < maxSizeY) LightManager.ScreenSpaceMap.SetPixel(x, curY, LightManager.EnvironmentalLight);
                 }
             }
         }

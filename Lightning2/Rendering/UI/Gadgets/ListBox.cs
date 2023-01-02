@@ -187,7 +187,7 @@
             // draw the currently selected item using the Font Managher
             // if the font is invalid throw an error
 
-            if (Children.Count > 0) TextManager.AddAsset(new Text("ListBoxItemText", SelectedItem.Text, Font, Position, ForegroundColor));
+            if (Children.Count > 0) TextManager.AddAsset(new TextBlock("ListBoxItemText", SelectedItem.Text, Font, Position, ForegroundColor));
 
             // draw the items if they are open
             foreach (ListBoxItem item in Children) item.IsNotRendering = !Open; // this is never null (set in constructor) so we do not need to check if it is.

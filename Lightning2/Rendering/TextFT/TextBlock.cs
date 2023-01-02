@@ -3,16 +3,16 @@
 namespace LightningGL
 {
     /// <summary>
-    /// FTTextAssetManager
+    /// TextBlock
     /// 
-    /// Text asset manager (FreeType Version)
+    /// Defines a block of text.
     /// </summary>
-    public class Text : Renderable
+    public class TextBlock : Renderable
     {
         /// <summary>
         /// The text to draw.
         /// </summary>
-        public string? Content { get; set; }
+        public string? Text { get; set; }
 
         /// <summary>
         /// The font of the text to draw.
@@ -100,12 +100,12 @@ namespace LightningGL
         /// </summary>
         private const int DEFAULT_RELATIVE_Z_INDEX = 1;
 
-        public Text(string name) : base(name) { }
+        public TextBlock(string name) : base(name) { }
 
-        public Text(string name, string text, string font, Vector2 position, Color foregroundColor, Color backgroundColor = default,
+        public TextBlock(string name, string text, string font, Vector2 position, Color foregroundColor, Color backgroundColor = default,
             FontStyle style = default, int outlineSize = 0, FontSmoothingType smoothingType = FontSmoothingType.Default, bool snapToScreen = false, bool localise = true) : base(name)
         {
-            Content = text;
+            Text = text;
             Font = font;
             Position = position;
             ForegroundColor = foregroundColor;
@@ -132,7 +132,7 @@ namespace LightningGL
             }
 
             // variable to store localised text
-            string? text = Content;
+            string? text = Text;
 
             // just ignore it if there is still text to draw
             if (!string.IsNullOrWhiteSpace(text))
@@ -148,6 +148,7 @@ namespace LightningGL
                 if (Localise) text = LocalisationManager.ProcessString(text);
 
                 // Get the font and throw an error if it's invalid
+                // we only use this for minimum character spacing
                 Font? curFont = FontManager.GetFont(Font);
 
                 if (curFont == null
@@ -169,20 +170,32 @@ namespace LightningGL
                     {
                         glyph.UsedThisFrame = true;
 
+                        // this just prettifies the text a bit
+                        // some font characters are a bit too small so freetype's advance isn't long enough to give them a proper amount of spacing, so they look weird
+                        // this is only a problem in the X direction
+                        // we just fix that here
+                        double minimumSpacing = (curFont.FontSize * GlobalSettings.GraphicsMinimumCharacterSpacing);
+
+                        int pushRight = (int)(minimumSpacing - glyph.Advance.X) + 1;
+
+                        // ignore negative values
+                        if (pushRight < 0) pushRight = 0;  
+
                         // syntax note: new() does not work here!!! you must provide a type name
                         switch (Orientation)
                         {
                             case Orientation.LeftToRight:
-                                currentPosition += new Vector2(glyph.Advance.X, 0);
+                                currentPosition += new Vector2(glyph.Advance.X + pushRight, 0);
                                 break;
                             case Orientation.RightToLeft:
-                                currentPosition += new Vector2(-glyph.Advance.X, 0);
+                                currentPosition += new Vector2(-glyph.Advance.X - pushRight, 0);
                                 break;
+                            // use X here so the horizontal spacing is used vertically for these reading orders
                             case Orientation.TopToBottom:
-                                currentPosition += new Vector2(0, glyph.Advance.Y);
+                                currentPosition += new Vector2(0, glyph.Advance.X + pushRight);
                                 break;
                             case Orientation.BottomToTop:
-                                currentPosition += new Vector2(0, -glyph.Advance.Y);
+                                currentPosition += new Vector2(0, -glyph.Advance.X - pushRight);
                                 break;
                         }
 
@@ -196,6 +209,26 @@ namespace LightningGL
                             glyph.Position = new(currentPosition.X + glyph.Offset.X,
                                 currentPosition.Y - glyph.Offset.Y);
                             glyph.Draw();
+                        }
+
+                        // fucking shit hack
+                        // we gotta move it back
+                        // syntax note: new() does not work here!!! you must provide a type name
+                        switch (Orientation)
+                        {
+                            case Orientation.LeftToRight:
+                                currentPosition -= new Vector2(pushRight, 0);
+                                break;
+                            case Orientation.RightToLeft:
+                                currentPosition -= new Vector2(-pushRight, 0);
+                                break;
+                            // use X here so the horizontal spacing is used vertically for these reading orders
+                            case Orientation.TopToBottom:
+                                currentPosition -= new Vector2(pushRight);
+                                break;
+                            case Orientation.BottomToTop:
+                                currentPosition -= new Vector2(-pushRight);
+                                break;
                         }
                     }
                 }

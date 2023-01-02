@@ -21,7 +21,6 @@ namespace LightningGL
         /// <summary>
         /// Executes the console command.
         /// </summary>
-        /// <param name="Lightning.Renderer">The renderer used for execution..</param>
         public abstract void Execute();
     }
 }

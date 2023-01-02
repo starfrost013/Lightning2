@@ -198,11 +198,15 @@ Everything that matters to the api has to go here
 2023.01.01:
 * Freetype text rendering 90% working (from 50%)
 * Way simpler glyphcache.
-* Text::Content
 
+2023.01.02:
+* Text -> TextBlock
+* Remove SdLRenderingBackend
+* Implement new GlobalSetting:
+	+ MinimumCharacterSpacing
+	+ WordSpacing
 * todo:
 	- overridable default values
-	- textmanager for freetype
 	- a lot more configurable
 	- renderer independent blend mode!!!!!!!!!!!
 	- FIX BUSTED AND SHIT HORRIBLE VERY BAD UI SYSTEM!!!!!!

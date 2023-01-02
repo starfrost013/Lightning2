@@ -2,6 +2,9 @@
 {
     public class TextBox : Gadget
     {
+        /// <summary>
+        /// The text of this textbox.
+        /// </summary>
         public string? Text { get; set; }
 
         /// <summary>
@@ -49,6 +52,11 @@
         /// </summary>
         private Line? Cursor { get; set; }
 
+        /// <summary>
+        /// UI text used for drawing the text.
+        /// </summary>
+        private TextBlock? TextBoxText { get; set; }
+
         public TextBox(string name, int capacity, string font) : base(name, font)
         {
             Capacity = capacity;
@@ -60,12 +68,15 @@
 
             // reasonable default
             NumberOfFramesUntilNextBlink = CursorBlinkFrequency;
+
         }
 
         public override void Create()
         {
+            Text ??= string.Empty;
             Rectangle = PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen, this);
             Cursor = PrimitiveManager.AddLine(default, default, ForegroundColor, true, false, this);
+            TextBoxText = TextManager.AddAsset(new TextBlock("TextBoxText", Text, Font, Position, ForegroundColor));
         }
 
         /// <summary>
@@ -87,7 +98,8 @@
             bool lowercase = (!keyMod.HasFlag(SDL_Keymod.KMOD_CAPS));
 
             // invert case on shift
-            if (keyMod.HasFlag(SDL_Keymod.KMOD_LSHIFT) || keyMod.HasFlag(SDL_Keymod.KMOD_RSHIFT)) lowercase = !lowercase;
+            if (keyMod.HasFlag(SDL_Keymod.KMOD_LSHIFT) 
+                || keyMod.HasFlag(SDL_Keymod.KMOD_RSHIFT)) lowercase = !lowercase;
 
             // switch various selected keys
             switch (keySym)
@@ -134,53 +146,62 @@
         /// <summary>
         /// Renders this TextBox.
         /// </summary>
-        /// <param name="Lightning.Renderer">The window to render this <see cref="TextBox"/> to.</param>
         public void Render()
         {
-            Text ??= "";
+            Debug.Assert(TextBoxText != null
+                && Rectangle != null
+                && Cursor != null);
 
-            if (Font == null)
+            if (!string.IsNullOrWhiteSpace(Text))
             {
-                NCLogging.Log($"Cannot draw a TextBox when the value of its Font property is null!", ConsoleColor.Yellow);
-                return;
+                TextBoxText.Text = Text; // maybe put this in the getter
+
+                if (Font == null)
+                {
+                    NCLogging.Log($"Cannot draw a TextBox when the value of its Font property is null!", ConsoleColor.Yellow);
+                    return;
+                }
+
+                Rectangle.Color = CurBackgroundColor;
+
+                // slight hack
+                if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
+
+                if (!HideCursor)
+                {
+                    Vector2 fontSize = FontManager.GetLargestTextSize(Font, Text, ForegroundColor);
+                    Vector2 cursorPosition = new(Position.X + fontSize.X, Position.Y);
+
+                    // actually blink it
+                    if (NumberOfFramesUntilNextBlink == 0)
+                    {
+                        IsActive = !IsActive;
+                        if (Lightning.Renderer.DeltaTime > 0) NumberOfFramesUntilNextBlink = Convert.ToInt32((CursorBlinkLength - 1) + 
+                            (CursorBlinkFrequency / Lightning.Renderer.DeltaTime));
+                    }
+
+                    Cursor.Start = cursorPosition;
+                    Cursor.End = new(cursorPosition.X, cursorPosition.Y + Size.Y);
+
+                    // if it's active, draw the line
+                    if (IsActive)
+                    {
+                        Cursor.Color = Color.FromArgb(0, ForegroundColor);
+                    }
+                    else
+                    {
+                        Cursor.Color = ForegroundColor;
+                    }
+
+                    NumberOfFramesUntilNextBlink--;
+                }
             }
-
-#pragma warning disable CS8602
-            Rectangle.Color = CurBackgroundColor;
-
-            TextManager.AddAsset(new Text("TextBoxText", Text, Font, Position, ForegroundColor));
-
-            // slight hack
-            if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
-
-            if (!HideCursor)
+            else
             {
-                Vector2 fontSize = FontManager.GetLargestTextSize(Font, Text, ForegroundColor);
-                Vector2 cursorPosition = new(Position.X + fontSize.X, Position.Y);
-
-                // actually blink it
-                if (NumberOfFramesUntilNextBlink == 0)
-                {
-                    IsActive = !IsActive;
-                    if (Lightning.Renderer.DeltaTime > 0) NumberOfFramesUntilNextBlink = Convert.ToInt32((CursorBlinkLength - 1) + (CursorBlinkFrequency / Lightning.Renderer.DeltaTime));
-                }
-
-                Cursor.Start = cursorPosition;
-                Cursor.End = new(cursorPosition.X, cursorPosition.Y + Size.Y);
-#pragma warning restore CS8602
-
-                // if it's active, draw the line
-                if (IsActive)
-                {
-                    Cursor.Color = Color.FromArgb(0, ForegroundColor);
-                }
-                else
-                {
-                    Cursor.Color = ForegroundColor;
-                }
-
-                NumberOfFramesUntilNextBlink--;
+                NCError.ShowErrorBox($"Tried to draw a textbox with text that is null, empty, or only whitespace. Ignoring", 280, 
+                    "string.IsNullOrWhiteSpace(Text) returned TRUE in call to TextBox::Render", NCErrorSeverity.Warning, null, true);
             }
+            
         }
     }
 }

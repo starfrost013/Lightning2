@@ -3,13 +3,11 @@
     /// <summary>
     /// AnimationPropertyFactory
     /// 
-    /// September 17, 2022
-    /// 
     /// Defines animation property value calculators for various types of animation properties.
     /// </summary>
     internal static class AnimationPropertyFactory
     {
-        internal static int GetIntValue(int int1, int int2, long cur, long max) => int1 + ((int2 - int1) * Convert.ToInt32((double)cur / max));
+        internal static int GetIntValue(int int1, int int2, long cur, long max) => int1 + ((int2 - int1) * (int)((double)cur / max));
 
         internal static double GetDoubleValue(double double1, double double2, long cur, long max) => double1 + ((double2 - double1) * ((double)cur / max));
 

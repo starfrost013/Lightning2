@@ -146,11 +146,6 @@ namespace LightningBase
         public static string GraphicsWindowTitle { get; internal set; }
 
         /// <summary>
-        /// The rendering backend to use. Default is <see cref="Renderer.OpenGL"/>
-        /// </summary>
-        public static SdlRenderingBackend GraphicsSdlRenderingBackend { get; internal set; }
-
-        /// <summary>
         /// Delta-time / tick speed multiplier
         /// Default is 1.0
         /// </summary>
@@ -166,6 +161,15 @@ namespace LightningBase
         /// </summary>
         public static Renderers GraphicsRenderer { get; internal set; }
 
+        /// <summary>
+        /// The default multiplier of the font size that is the minimum allowed value for spacing between characters
+        /// </summary>
+        public static double GraphicsMinimumCharacterSpacing { get; internal set; }
+
+        /// <summary>
+        /// The spacing between words.
+        /// </summary>
+        public static double GraphicsWordSpacing { get; internal set; }
         #endregion
 
         #region System requirements
@@ -258,29 +262,33 @@ namespace LightningBase
 
         public static int DEFAULT_GRAPHICS_RESOLUTION_Y => SystemInfo.ScreenResolutionY;
 
-        public static int DEFAULT_MAX_FPS = 60;
+        private const int DEFAULT_MAX_FPS = 60;
 
-        public const int DEFAULT_GRAPHICS_TICK_SPEED = 1;
+        private const int DEFAULT_GRAPHICS_TICK_SPEED = 1;
 
-        public const int DEFAULT_AUDIO_DEVICE_HZ = 44100;
+        private const int DEFAULT_AUDIO_DEVICE_HZ = 44100;
 
-        public const int DEFAULT_AUDIO_CHANNELS = 2;
+        private const int DEFAULT_AUDIO_CHANNELS = 2;
 
-        public const Mix_AudioFormat DEFAULT_AUDIO_FORMAT = Mix_AudioFormat.MIX_DEFAULT_FORMAT;
+        private const Mix_AudioFormat DEFAULT_AUDIO_FORMAT = Mix_AudioFormat.MIX_DEFAULT_FORMAT;
 
-        public const int DEFAULT_AUDIO_CHUNK_SIZE = 2048;
+        private const int DEFAULT_AUDIO_CHUNK_SIZE = 2048;
 
-        public const string DEFAULT_NETWORK_MASTER_SERVER = "https://lightningpowered.net:7801";
+        private const string DEFAULT_NETWORK_MASTER_SERVER = "https://lightningpowered.net:7801";
 
-        public const int DEFAULT_NETWORK_PORT = 7800;
+        private const int DEFAULT_NETWORK_PORT = 7800;
 
-        public const int DEFAULT_NETWORK_KEEP_ALIVE_MS = 500;
+        private const int DEFAULT_NETWORK_KEEP_ALIVE_MS = 500;
 
-        public const string DEFAULT_DEBUG_KEY = "F9";
+        private const string DEFAULT_DEBUG_KEY = "F9";
 
-        public const bool DEFAULT_SHOW_ABOUT_SCREEN_ON_SHIFT_F9 = true;
+        private const bool DEFAULT_SHOW_ABOUT_SCREEN_ON_SHIFT_F9 = true;
 
-        public const int DEFAULT_DEBUG_LINE_DISTANCE = 12; 
+        private const int DEFAULT_DEBUG_LINE_DISTANCE = 12;
+
+        private const double DEFAULT_MINIMUM_CHARACTER_SPACING = (5d / 11d); // 5 pixels for font size 11, just base it on that
+
+        public const double DEFAULT_WORD_SPACING = 0.55d;
 
         #endregion
 
@@ -354,43 +362,51 @@ namespace LightningBase
             {
                 // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
                 _ = int.TryParse(graphicsSection.GetValue("MaxFPS"), out var graphicsMaxFpsValue);
-                _ = int.TryParse(graphicsSection.GetValue("ResolutionX"), out var resolutionXValue);
-                _ = int.TryParse(graphicsSection.GetValue("ResolutionY"), out var resolutionYValue);
-                _ = Enum.TryParse(typeof(SDL_WindowFlags), graphicsSection.GetValue("WindowFlags"), true, out var windowFlagsValue);
-                _ = Enum.TryParse(typeof(SDL_RendererFlags), graphicsSection.GetValue("RenderFlags"), true, out var renderFlagsValue);
-                _ = Enum.TryParse(typeof(SdlRenderingBackend), graphicsSection.GetValue("SdlRenderingBackend"), true, out var sdlRenderingBackendValue) ;
-                _ = int.TryParse(graphicsSection.GetValue("TickSpeed"), out var tickSpeedValue);
-                _ = bool.TryParse(graphicsSection.GetValue("RenderOffScreenRenderables"), out var renderOffscreenRenderablesValue);
-                _ = int.TryParse(graphicsSection.GetValue("PositionX"), out var positionXValue);
-                _ = int.TryParse(graphicsSection.GetValue("PositionY"), out var positionYValue);
+                _ = int.TryParse(graphicsSection.GetValue("ResolutionX"), out var graphicsResolutionXValue);
+                _ = int.TryParse(graphicsSection.GetValue("ResolutionY"), out var graphicsResolutionYValue);
+                _ = Enum.TryParse(typeof(SDL_WindowFlags), graphicsSection.GetValue("WindowFlags"), true, out var graphicsWindowFlagsValue);
+                _ = Enum.TryParse(typeof(SDL_RendererFlags), graphicsSection.GetValue("RenderFlags"), true, out var graphicsRenderFlagsValue);
+                _ = int.TryParse(graphicsSection.GetValue("TickSpeed"), out var graphicsTickSpeedValue);
+                _ = bool.TryParse(graphicsSection.GetValue("RenderOffScreenRenderables"), out var graphicsRenderOffscreenRenderablesValue);
+                _ = int.TryParse(graphicsSection.GetValue("PositionX"), out var graphicsPositionXValue);
+                _ = int.TryParse(graphicsSection.GetValue("PositionY"), out var graphicsPositionYValue);
                 _ = Enum.TryParse(typeof(Renderers), graphicsSection.GetValue("Renderer"), true, out var graphicsRendererValue);
+                _ = double.TryParse(graphicsSection.GetValue("MinimumCharacterSpacing"), out var graphicsMinimumCharacterSpacingValue);
+                _ = double.TryParse(graphicsSection.GetValue("WordSpacing"), out var graphicsWordSpacingValue);
+
                 GraphicsWindowTitle = graphicsSection.GetValue("WindowTitle");
 
                 if (graphicsMaxFpsValue == 0) graphicsMaxFpsValue = DEFAULT_MAX_FPS;
-                if (resolutionXValue == 0) resolutionXValue = DEFAULT_GRAPHICS_RESOLUTION_X;
-                if (resolutionYValue == 0) resolutionYValue = DEFAULT_GRAPHICS_RESOLUTION_Y;
+                if (graphicsResolutionXValue == 0) graphicsResolutionXValue = DEFAULT_GRAPHICS_RESOLUTION_X;
+                if (graphicsResolutionYValue == 0) graphicsResolutionYValue = DEFAULT_GRAPHICS_RESOLUTION_Y;
 
                 // set the default delta multiplier value
-                if (tickSpeedValue == 0) tickSpeedValue = DEFAULT_GRAPHICS_TICK_SPEED;
+                if (graphicsTickSpeedValue == 0) graphicsTickSpeedValue = DEFAULT_GRAPHICS_TICK_SPEED;
+
+                // set minimum spacing values
+                if (graphicsMinimumCharacterSpacingValue == 0) graphicsMinimumCharacterSpacingValue = DEFAULT_MINIMUM_CHARACTER_SPACING;
+                if (graphicsWordSpacingValue == 0) graphicsWordSpacingValue = DEFAULT_WORD_SPACING;
 
                 // Set the actual GlobalSettings values.
                 GraphicsMaxFPS = graphicsMaxFpsValue;
-                GraphicsResolutionX = resolutionXValue;
-                GraphicsResolutionY = resolutionYValue;
-                if (windowFlagsValue != null) GraphicsWindowFlags = (SDL_WindowFlags)windowFlagsValue;
-                if (renderFlagsValue != null) GraphicsRenderFlags = (SDL_RendererFlags)renderFlagsValue;
-                if (sdlRenderingBackendValue != null) GraphicsSdlRenderingBackend = (SdlRenderingBackend)sdlRenderingBackendValue;
-                GraphicsRenderOffScreenRenderables = renderOffscreenRenderablesValue;
+                GraphicsResolutionX = graphicsResolutionXValue;
+                GraphicsResolutionY = graphicsResolutionYValue;
+                if (graphicsWindowFlagsValue != null) GraphicsWindowFlags = (SDL_WindowFlags)graphicsWindowFlagsValue;
+                if (graphicsRenderFlagsValue != null) GraphicsRenderFlags = (SDL_RendererFlags)graphicsRenderFlagsValue;
+                GraphicsRenderOffScreenRenderables = graphicsRenderOffscreenRenderablesValue;
                 if (graphicsRendererValue != null) GraphicsRenderer = (Renderers)graphicsRendererValue;
+                GraphicsMinimumCharacterSpacing = graphicsMinimumCharacterSpacingValue;
+                GraphicsWordSpacing = graphicsWordSpacingValue;
 
-                // why the fuck do these have to be here???? this is fucked up fix it
+                // why the fuck do these have to be here???? this is fucked up
+                // (because it uses other globalsettings like resolution so you need to load it after resolution. THIS IS A DESIGN PROBLEM, FIX IT)
                 // failed to load, set default values (middle of screen)
-                if (positionXValue == 0) positionXValue = DEFAULT_GRAPHICS_POSITION_X;
-                if (positionYValue == 0) positionYValue = DEFAULT_GRAPHICS_POSITION_Y;
+                if (graphicsPositionXValue == 0) graphicsPositionXValue = DEFAULT_GRAPHICS_POSITION_X;
+                if (graphicsPositionYValue == 0) graphicsPositionYValue = DEFAULT_GRAPHICS_POSITION_Y;
 
-                GraphicsTickSpeed = tickSpeedValue;
-                GraphicsPositionX = positionXValue;
-                GraphicsPositionY = positionYValue;
+                GraphicsTickSpeed = graphicsTickSpeedValue;
+                GraphicsPositionX = graphicsPositionXValue;
+                GraphicsPositionY = graphicsPositionYValue;
             }
 
             // Load the Requirements section, if it is present.

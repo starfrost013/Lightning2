@@ -37,7 +37,6 @@
         /// <summary>
         /// Renders this button.
         /// </summary>
-        /// <param name="Lightning.Renderer">The window to render this button to.</param>
         public void Render()
         {
             if (Text == null) return;

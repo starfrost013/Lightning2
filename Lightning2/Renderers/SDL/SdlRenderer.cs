@@ -56,18 +56,6 @@ namespace LightningGL
             // localise the window title
             Settings.Title = LocalisationManager.ProcessString(Settings.Title);
 
-            // set the renderer if the user specified one
-            string renderer = SDLu_GetRenderDriverName();
-
-            if (GlobalSettings.GraphicsSdlRenderingBackend != default)
-            {
-                // set the renderer
-                renderer = GlobalSettings.GraphicsSdlRenderingBackend.ToString().ToLowerInvariant(); // needs to be lowercase
-                SDL_SetHintWithPriority("SDL_HINT_RENDER_DRIVER", renderer, SDL_HintPriority.SDL_HINT_OVERRIDE);
-            }
-
-            NCLogging.Log($"Using renderer: {renderer}");
-
             // Create the window,
             Settings.WindowHandle = SDL_CreateWindow(Settings.Title, (int)Settings.Position.X, (int)Settings.Position.Y, (int)Settings.Size.X, (int)Settings.Size.Y, Settings.WindowFlags);
 
@@ -76,12 +64,6 @@ namespace LightningGL
 
             // Create the renderer.
             Settings.RendererHandle = SDL_CreateRenderer(Settings.WindowHandle, -1, Settings.RenderFlags);
-
-            // Get the renderer driver name using our unofficial SDL function
-            string realRenderDriverName = SDLu_GetRenderDriverName();
-
-            if (realRenderDriverName != renderer) NCError.ShowErrorBox($"Specified renderer {renderer} is not supported! Using {realRenderDriverName} instead!", 123, 
-                "Renderer not supported in current environment", NCErrorSeverity.Warning, null, false);
 
             if (Settings.RendererHandle == nint.Zero) NCError.ShowErrorBox($"Failed to create Renderer: {SDL_GetError()}", 9, 
                 "Window::AddWindow - SDL_CreateRenderer failed to create renderer", NCErrorSeverity.FatalError);

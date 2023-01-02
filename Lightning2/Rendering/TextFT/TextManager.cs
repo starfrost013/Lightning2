@@ -5,9 +5,9 @@
     /// 
     /// Provides functions for managing fonts and drawing text.
     /// </summary>
-    public class TextAssetManager : AssetManager<Text>
+    public class TextAssetManager : AssetManager<TextBlock>
     {
-        public override Text? AddAsset(Text asset)
+        public override TextBlock? AddAsset(TextBlock asset)
         {
             if (asset != null)
             {

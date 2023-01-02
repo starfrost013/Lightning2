@@ -124,6 +124,10 @@
 
         }
 
+        /// <summary>
+        /// Clears the renderer.
+        /// </summary>
+        /// <param name="clearColor">The colour to clear the renderer.</param>
         public virtual void Clear(Color clearColor)
         {
 
@@ -180,7 +184,7 @@
             {
                 // check that it contains the renderable
                 if (!ContainsRenderable(parent.Name)) NCError.ShowErrorBox($"Tried to add a renderable with a parent that is not in the object hierarchy!", 194, 
-                    "Renderer::AddRenderable parent parameter is not in the renderer object hierarchy", NCErrorSeverity.FatalError);
+                    "Renderer::AddRenderable parent parameter is not in the object hierarchy", NCErrorSeverity.FatalError);
 
                 renderable.Parent = parent;
 

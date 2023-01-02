@@ -8,10 +8,9 @@
     public class ParticleAssetManager : AssetManager<ParticleEffect>
     {
         /// <summary>
-        /// Adds the particle effect <see cref="ParticleEffect"/> for the window <paramref name="Lightning.Renderer"/>.
+        /// Adds the particle effect <see cref="ParticleEffect"/>.
         /// </summary>
-        /// <param name="Lightning.Renderer">The window to add the particle effect for.</param>
-        /// <param name="asset">The particle effect to add to the window.</param>
+        /// <param name="asset">The particle effect to add.</param>
         public override ParticleEffect AddAsset(ParticleEffect asset)
         {
             Lightning.Renderer.AddRenderable(asset);
@@ -19,9 +18,8 @@
         }
 
         /// <summary>
-        /// Removes the particle effect <see cref="ParticleEffect"/> for the window <paramref name="Lightning.Renderer"/> from the Particle Manager.
+        /// Removes the particle effect <see cref="ParticleEffect"/>.
         /// </summary>
-        /// <param name="Lightning.Renderer">The window to remove the particle effect from.</param>
         /// <param name="asset">The particle effect to remove.</param>
         public override void RemoveAsset(ParticleEffect asset)
         {

@@ -55,7 +55,6 @@
         /// <summary>
         /// Renders this CheckBox.
         /// </summary>
-        /// <param name="Lightning.Renderer">The window to render this checkbox to.</param>
         public void Render()
         {
 #pragma warning disable CS8602 // not applicable because this cannot be null (as a method that cannot return null is called) and it asserts if it is

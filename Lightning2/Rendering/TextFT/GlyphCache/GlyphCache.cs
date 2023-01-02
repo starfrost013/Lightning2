@@ -87,9 +87,11 @@ namespace LightningGL
                 || bitmap.rows == 0);
 
             // create a blank bitmap for a space or similar
+            Vector2 advance = new(font.Handle.FaceRec->glyph->advance.x >> 6,
+                font.Handle.FaceRec->glyph->advance.y >> 6);
 
             // FreeType uses 16.16 fixed point multipliers so we have to shift right by 6 bits in order to get the actual value
-            if (bitmap.width == 0) bitmap.width = (uint)(font.Handle.FaceRec->glyph->advance.x >> 6);
+            if (bitmap.width == 0) bitmap.width = (uint)(font.FontSize * GlobalSettings.DEFAULT_WORD_SPACING);
             if (bitmap.rows == 0) bitmap.rows = bitmap.width; // create a square for now
 
             Glyph? glyph = new("Glyph", (int)bitmap.width, (int)bitmap.rows)
@@ -102,8 +104,7 @@ namespace LightningGL
                 IsEmpty = isEmpty,
                 Offset = new(font.Handle.FaceRec->glyph->bitmap_left,
                 font.Handle.FaceRec->glyph->bitmap_top),
-                Advance = new(font.Handle.FaceRec->glyph->advance.x >> 6,
-                font.Handle.FaceRec->glyph->advance.y >> 6),
+                Advance = advance,
             };
 
             if (!glyph.IsEmpty) glyph = (Glyph?)Lightning.Renderer.TextureFromFreetypeBitmap(bitmap, glyph, foregroundColor);
