@@ -9,10 +9,10 @@
 ; Updated October 21, 2022 to add an Animation Editor shortcut
 ; Updated December 3, 2022 for .NET 7.0
 ; Updated December 17, 2022 for Lightning 2.0 file locations
-
+; Updated January 2, 2023 for no more SDL_ttf/gfx
 
 #define MyAppName "Lightning Software Development Kit"                                                     
-#define MyAppVersion "1.1.0-rc0"
+#define MyAppVersion "2.0.0-alpha"
 #define MyAppPublisher "starfrost"
 #define MyAppURL "https://lightning.starfrost.net"
 #define BuildConfig "Debug"
@@ -60,6 +60,9 @@ Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\libopusfile-0.dl
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\libpng16-16.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\libvorbis-0.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\libvorbisfile-3.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\libtiff-5.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\libwebp-7.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\libjpeg-5.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\LightningBase.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\LightningGL.deps.json"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\LightningGL.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -83,7 +86,7 @@ Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\zlib1.dll"; Dest
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\Content\*"; DestDir: "{app}\Content"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\Documentation\*"; DestDir: "{app}\Documentation"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\Examples\*"; DestDir: "{app}\Examples"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\Libraries\*"; DestDir: "{app}\Libraries"; Flags: ignoreversion recursesubdirs createallsubdirs
+
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\VSTemplate\*"; DestDir: "{userdocs}\Visual Studio 2022\Templates\ProjectTemplates"; 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
