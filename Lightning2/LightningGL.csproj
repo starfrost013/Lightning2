@@ -120,10 +120,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  <Link>Libraries\libwebp-7.dll</Link>
     </Content>
-    <Content Include="..\Libraries\SDL2_ttf-v2.0.18-x64.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  <Link>Libraries\SDL2_ttf-v2.0.18-x64.dll</Link>
-    </Content>
     <Content Include="..\Libraries\SDL2.dll">
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  <Link>SDL2.dll</Link>
