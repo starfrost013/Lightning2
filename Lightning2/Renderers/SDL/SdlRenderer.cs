@@ -45,10 +45,6 @@ namespace LightningGL
             if (IMG_Init(IMG_InitFlags.IMG_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2_image: {SDL_GetError()}", 201,
                 "Failed to initialise SDL2_image during SdlRenderer::Init", NCErrorSeverity.FatalError);
 
-            NCLogging.Log("Initialising SDL_ttf...");
-            if (TTF_Init() < 0) NCError.ShowErrorBox($"Error initialising SDL2_ttf: {SDL_GetError()}", 202,
-                "Failed to initialise SDL2_ttf during SdlRenderer::Init", NCErrorSeverity.FatalError);
-
             NCLogging.Log("Initialising SDL_mixer...");
             if (Mix_Init(MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2_mixer: {SDL_GetError()}", 203,
                 "Failed to initialise SDL2_mixer during SdlRenderer::Init", NCErrorSeverity.FatalError);
@@ -222,11 +218,6 @@ namespace LightningGL
             NCLogging.Log("Destroying renderer...");
             SDL_DestroyRenderer(Settings.RendererHandle);
             SDL_DestroyWindow(Settings.WindowHandle);
-
-            // Shut all SDLRenderer-specific libraries down in reverse order.
-            NCLogging.Log("Shutting down SDL_ttf...");
-            TTF_Quit();
-
             NCLogging.Log("Shutting down SDL_mixer...");
             Mix_Quit();
 

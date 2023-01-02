@@ -23,5 +23,4 @@ global using static LightningBase.FreeTypeApi;
 global using static LightningBase.SDL;
 global using static LightningBase.SDL_image;
 global using static LightningBase.SDL_mixer;
-global using static LightningBase.SDL_ttf;
 #endregion
