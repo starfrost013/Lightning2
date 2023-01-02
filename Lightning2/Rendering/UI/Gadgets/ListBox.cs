@@ -15,6 +15,9 @@
         /// </summary>
         public bool Open { get; set; }
 
+        /// <summary>
+        /// Backing field for <see cref="SelectedIndex"/>
+        /// </summary>
         private int _selectedindex;
 
         /// <summary>

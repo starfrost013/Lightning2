@@ -134,35 +134,43 @@ namespace LightningGL
             // variable to store localised text
             string? text = Text;
 
-            // just ignore it if there is still text to draw
-            if (!string.IsNullOrWhiteSpace(text))
+            if (string.IsNullOrWhiteSpace(text))
             {
-                if (Font == null)
-                {
-                    NCError.ShowErrorBox($"Tried to draw a text with no font!", 256,
-                        "Text::Draw - Font property is null!", NCErrorSeverity.FatalError);
-                    return;
-                }
+                NCError.ShowErrorBox($"Tried to draw text that is null, empty, or pure whitespace. Ignoring", 274,
+                "string.IsNullOrWhiteSpace(Content) returned TRUE in Text::Draw", NCErrorSeverity.Warning, null, true);
+                return; 
+            }
 
-                // Localise the string using Localisation Manager.
-                if (Localise) text = LocalisationManager.ProcessString(text);
+            if (Font == null)
+            {
+                NCError.ShowErrorBox($"Tried to draw a text with no font!", 256,
+                    "Text::Draw - Font property is null!", NCErrorSeverity.FatalError);
+                return;
+            }
 
-                // Get the font and throw an error if it's invalid
-                // we only use this for minimum character spacing
-                Font? curFont = FontManager.GetFont(Font);
+            // Localise the string using Localisation Manager.
+            if (Localise) text = LocalisationManager.ProcessString(text);
 
-                if (curFont == null
-                    || curFont.Handle == default)
-                {
-                    NCError.ShowErrorBox($"Attempted to acquire invalid font with name {Font}", 39,
-                        "Text::Draw font parameter is not a loaded font!", NCErrorSeverity.FatalError);
-                    return;
-                }
+            // Get the font and throw an error if it's invalid
+            // we only use this for minimum character spacing
+            Font? font = FontManager.GetFont(Font);
 
-                Vector2 currentPosition = RenderPosition;
+            if (font == null
+                || font.Handle == default)
+            {
+                NCError.ShowErrorBox($"Attempted to acquire invalid font with name {Font}", 39,
+                    "Text::Draw font parameter is not a loaded font!", NCErrorSeverity.FatalError);
+                return;
+            }
 
-                // cache everything
-                foreach (char character in text)
+            Vector2 currentPosition = RenderPosition;
+
+            // split text by lines
+            string[] linesArray = text.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+            foreach (string line in linesArray)
+            {
+                foreach (char character in line)
                 {
                     Glyph? glyph = GlyphCache.QueryCache(Font, character, ForegroundColor, SmoothingType);
 
@@ -174,12 +182,12 @@ namespace LightningGL
                         // some font characters are a bit too small so freetype's advance isn't long enough to give them a proper amount of spacing, so they look weird
                         // this is only a problem in the X direction
                         // we just fix that here
-                        double minimumSpacing = (curFont.FontSize * GlobalSettings.GraphicsMinimumCharacterSpacing);
+                        double minimumSpacing = (font.FontSize * GlobalSettings.GraphicsMinimumCharacterSpacing);
 
                         int pushRight = (int)(minimumSpacing - glyph.Advance.X) + 1;
 
                         // ignore negative values
-                        if (pushRight < 0) pushRight = 0;  
+                        if (pushRight < 0) pushRight = 0;
 
                         // syntax note: new() does not work here!!! you must provide a type name
                         switch (Orientation)
@@ -224,21 +232,35 @@ namespace LightningGL
                                 break;
                             // use X here so the horizontal spacing is used vertically for these reading orders
                             case Orientation.TopToBottom:
-                                currentPosition -= new Vector2(pushRight);
+                                currentPosition -= new Vector2(0, pushRight);
                                 break;
                             case Orientation.BottomToTop:
-                                currentPosition -= new Vector2(-pushRight);
+                                currentPosition -= new Vector2(0, -pushRight);
                                 break;
                         }
                     }
                 }
+
+                int lineSpacing = (int)(font.FontSize * GlobalSettings.GraphicsLineSpacing);
+
+                // move down a line
+                switch (Orientation)
+                {
+                    case Orientation.LeftToRight:
+                    case Orientation.RightToLeft:
+                        currentPosition += new Vector2(0, lineSpacing);
+                        break;
+                    case Orientation.TopToBottom:
+                    case Orientation.BottomToTop:
+                        currentPosition += new Vector2(lineSpacing, 0);
+                        break;
+                }
             }
-            else
-            {
-                NCError.ShowErrorBox($"Tried to draw text that is null, empty, or pure whitespace. Ignoring", 274, 
-                    "string.IsNullOrWhiteSpace(Content) returned TRUE in Text::Draw", NCErrorSeverity.Warning, null, true);
-            }
-            
+        }
+
+        private void DrawLine(string line)
+        {
+
         }
     }
 }

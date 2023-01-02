@@ -167,9 +167,15 @@ namespace LightningBase
         public static double GraphicsMinimumCharacterSpacing { get; internal set; }
 
         /// <summary>
-        /// The spacing between words.
+        /// The spacing between words. A multiplier of the font size.
         /// </summary>
         public static double GraphicsWordSpacing { get; internal set; }
+
+        /// <summary>
+        /// The spacing between linse. A multiplier of the font size.
+        /// </summary>
+        public static double GraphicsLineSpacing { get; internal set; }
+
         #endregion
 
         #region System requirements
@@ -288,7 +294,9 @@ namespace LightningBase
 
         private const double DEFAULT_MINIMUM_CHARACTER_SPACING = (5d / 11d); // 5 pixels for font size 11, just base it on that
 
-        public const double DEFAULT_WORD_SPACING = 0.55d;
+        private const double DEFAULT_WORD_SPACING = 0.55d;
+
+        private const double DEFAULT_LINE_SPACING = 1.2d;
 
         #endregion
 
@@ -373,19 +381,22 @@ namespace LightningBase
                 _ = Enum.TryParse(typeof(Renderers), graphicsSection.GetValue("Renderer"), true, out var graphicsRendererValue);
                 _ = double.TryParse(graphicsSection.GetValue("MinimumCharacterSpacing"), out var graphicsMinimumCharacterSpacingValue);
                 _ = double.TryParse(graphicsSection.GetValue("WordSpacing"), out var graphicsWordSpacingValue);
+                _ = double.TryParse(graphicsSection.GetValue("LineSpacing"), out var graphicsLineSpacingValue);
+
 
                 GraphicsWindowTitle = graphicsSection.GetValue("WindowTitle");
 
-                if (graphicsMaxFpsValue == 0) graphicsMaxFpsValue = DEFAULT_MAX_FPS;
-                if (graphicsResolutionXValue == 0) graphicsResolutionXValue = DEFAULT_GRAPHICS_RESOLUTION_X;
-                if (graphicsResolutionYValue == 0) graphicsResolutionYValue = DEFAULT_GRAPHICS_RESOLUTION_Y;
+                if (graphicsMaxFpsValue <= 0) graphicsMaxFpsValue = DEFAULT_MAX_FPS;
+                if (graphicsResolutionXValue <= 0) graphicsResolutionXValue = DEFAULT_GRAPHICS_RESOLUTION_X;
+                if (graphicsResolutionYValue <= 0) graphicsResolutionYValue = DEFAULT_GRAPHICS_RESOLUTION_Y;
 
-                // set the default delta multiplier value
-                if (graphicsTickSpeedValue == 0) graphicsTickSpeedValue = DEFAULT_GRAPHICS_TICK_SPEED;
+                // set the default tick speed value
+                if (graphicsTickSpeedValue <= 0) graphicsTickSpeedValue = DEFAULT_GRAPHICS_TICK_SPEED;
 
                 // set minimum spacing values
-                if (graphicsMinimumCharacterSpacingValue == 0) graphicsMinimumCharacterSpacingValue = DEFAULT_MINIMUM_CHARACTER_SPACING;
-                if (graphicsWordSpacingValue == 0) graphicsWordSpacingValue = DEFAULT_WORD_SPACING;
+                if (graphicsMinimumCharacterSpacingValue <= 0) graphicsMinimumCharacterSpacingValue = DEFAULT_MINIMUM_CHARACTER_SPACING;
+                if (graphicsWordSpacingValue <= 0) graphicsWordSpacingValue = DEFAULT_WORD_SPACING;
+                if (graphicsLineSpacingValue <= 0) graphicsLineSpacingValue = DEFAULT_LINE_SPACING;  
 
                 // Set the actual GlobalSettings values.
                 GraphicsMaxFPS = graphicsMaxFpsValue;
@@ -397,12 +408,13 @@ namespace LightningBase
                 if (graphicsRendererValue != null) GraphicsRenderer = (Renderers)graphicsRendererValue;
                 GraphicsMinimumCharacterSpacing = graphicsMinimumCharacterSpacingValue;
                 GraphicsWordSpacing = graphicsWordSpacingValue;
+                GraphicsLineSpacing = graphicsLineSpacingValue;
 
                 // why the fuck do these have to be here???? this is fucked up
                 // (because it uses other globalsettings like resolution so you need to load it after resolution. THIS IS A DESIGN PROBLEM, FIX IT)
                 // failed to load, set default values (middle of screen)
-                if (graphicsPositionXValue == 0) graphicsPositionXValue = DEFAULT_GRAPHICS_POSITION_X;
-                if (graphicsPositionYValue == 0) graphicsPositionYValue = DEFAULT_GRAPHICS_POSITION_Y;
+                if (graphicsPositionXValue <= 0) graphicsPositionXValue = DEFAULT_GRAPHICS_POSITION_X;
+                if (graphicsPositionYValue <= 0) graphicsPositionYValue = DEFAULT_GRAPHICS_POSITION_Y;
 
                 GraphicsTickSpeed = graphicsTickSpeedValue;
                 GraphicsPositionX = graphicsPositionXValue;
@@ -430,15 +442,11 @@ namespace LightningBase
             if (SceneStartupScene == null) NCError.ShowErrorBox("DontUseSceneManager not specified, but StartupScene not present in the [Scene] section of Engine.ini!", 164,
                 $"GlobalSettings::DontUseSceneManager not specified, but no [Scene] section in Engine.ini!", NCErrorSeverity.FatalError);
 
-            AudioDeviceHz = DEFAULT_AUDIO_DEVICE_HZ;
-            AudioChannels = DEFAULT_AUDIO_CHANNELS;
             AudioFormat = DEFAULT_AUDIO_FORMAT;
-            AudioChunkSize = DEFAULT_AUDIO_CHUNK_SIZE;
 
             // Load the audio settings, if it is present
             if (audioSection != null)
             {
-
                 _ = int.TryParse(audioSection.GetValue("DeviceHz"), out var audioDeviceHzValue);
                 _ = int.TryParse(audioSection.GetValue("Channels"), out var audioChannelsValue);
                 _ = Enum.TryParse(typeof(Mix_AudioFormat), audioSection.GetValue("Format"), true, out var audioFormatValue);
@@ -477,9 +485,6 @@ namespace LightningBase
                     && networkKeepAliveMsValue > 0) NetworkKeepAliveMs = networkKeepAliveMsValue;
             }
 
-            DebugKey = DEFAULT_DEBUG_KEY;
-            DebugLineDistance = DEFAULT_DEBUG_LINE_DISTANCE;
-
             // Load the debug settings, if they are present
             if (debugSection != null)
             {
@@ -489,6 +494,7 @@ namespace LightningBase
                 _ = int.TryParse(sceneSection.GetValue("DebugLineDistance"), out var debugLineDistanceValue);
 
                 if (debugLineDistanceValue <= 0) debugLineDistanceValue = DEFAULT_DEBUG_LINE_DISTANCE;
+                if (string.IsNullOrWhiteSpace(DebugKey)) DebugKey = DEFAULT_DEBUG_KEY;
 
                 DebugLineDistance = debugLineDistanceValue;
                 DebugDisabled = debugDisabledValue;

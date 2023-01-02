@@ -91,7 +91,7 @@ namespace LightningGL
                 font.Handle.FaceRec->glyph->advance.y >> 6);
 
             // FreeType uses 16.16 fixed point multipliers so we have to shift right by 6 bits in order to get the actual value
-            if (bitmap.width == 0) bitmap.width = (uint)(font.FontSize * GlobalSettings.DEFAULT_WORD_SPACING);
+            if (bitmap.width == 0) bitmap.width = (uint)(font.FontSize * GlobalSettings.GraphicsWordSpacing);
             if (bitmap.rows == 0) bitmap.rows = bitmap.width; // create a square for now
 
             Glyph? glyph = new("Glyph", (int)bitmap.width, (int)bitmap.rows)

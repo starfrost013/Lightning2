@@ -205,6 +205,8 @@ Everything that matters to the api has to go here
 * Implement new GlobalSetting:
 	+ MinimumCharacterSpacing
 	+ WordSpacing
+	+ lINEsPACING 
+
 * todo:
 	- overridable default values
 	- a lot more configurable
