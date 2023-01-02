@@ -48,5 +48,14 @@ namespace LightningGL
         /// </summary>
         internal FontSmoothingType SmoothingType { get; set; }
 
+        /// <summary>
+        /// The advance amount of this glyph.
+        /// </summary>
+        internal Vector2 Advance { get; set; }
+
+        /// <summary>
+        /// The offset of this glyph.
+        /// </summary>
+        internal Vector2 Offset { get; set; }
     }
 }

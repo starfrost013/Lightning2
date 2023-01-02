@@ -195,9 +195,13 @@ Everything that matters to the api has to go here
 * Added path to texture constructor (optional)
 * Implemented missing texture functionality.
 
+2023.01.01:
+* Freetype text rendering 90% working (from 50%)
+* Way simpler glyphcache.
+* Text::Content
+
 * todo:
 	- overridable default values
-	- Lightning.SetCurrentScene
 	- textmanager for freetype
 	- a lot more configurable
 	- renderer independent blend mode!!!!!!!!!!!

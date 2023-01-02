@@ -135,68 +135,77 @@ namespace LightningGL
             string? text = Content;
 
             // just ignore it if there is still text to draw
-            if (string.IsNullOrWhiteSpace(text)) return;
-
-            if (Font == null)
+            if (!string.IsNullOrWhiteSpace(text))
             {
-                NCError.ShowErrorBox($"Tried to draw a text with no font!", 256,
-                    "Text::Draw - Font property is null!", NCErrorSeverity.FatalError);
-                return;
-            }
-
-            // Localise the string using Localisation Manager.
-            if (Localise) text = LocalisationManager.ProcessString(text);
-
-            // Get the font and throw an error if it's invalid
-            Font? curFont = FontManager.GetFont(Font);
-
-            if (curFont == null
-                || curFont.Handle == default)
-            {
-                NCError.ShowErrorBox($"Attempted to acquire invalid font with name {Font}", 39, 
-                    "Text::Draw font parameter is not a loaded font!", NCErrorSeverity.FatalError);
-                return;
-            }
-
-            Vector2 currentPosition = RenderPosition;
-
-            // cache everything
-            foreach (char character in text)
-            {
-                Glyph? glyph = GlyphCache.QueryCache(Font, character, ForegroundColor, SmoothingType);
-
-                if (glyph != null)
+                if (Font == null)
                 {
-                    glyph.UsedThisFrame = true; 
+                    NCError.ShowErrorBox($"Tried to draw a text with no font!", 256,
+                        "Text::Draw - Font property is null!", NCErrorSeverity.FatalError);
+                    return;
+                }
 
-                    // syntax note: new() does not work here!!! you must provide a type name
-                    switch (Orientation)
-                    {
-                        case Orientation.LeftToRight:
-                            currentPosition += new Vector2(glyph.Size.X, 0);
-                            break;
-                        case Orientation.RightToLeft:
-                            currentPosition += new Vector2(-glyph.Size.X, 0);
-                            break;
-                        case Orientation.TopToBottom:
-                            currentPosition += new Vector2(0, glyph.Size.Y);
-                            break;
-                        case Orientation.BottomToTop:
-                            currentPosition += new Vector2(0, -glyph.Size.Y);
-                            break;
-                    }
+                // Localise the string using Localisation Manager.
+                if (Localise) text = LocalisationManager.ProcessString(text);
 
-                    // the glyph is empty so just push forward by the size of the glyph
-                    // (tabs, spaces, etc)
-                    if (!glyph.IsEmpty)
+                // Get the font and throw an error if it's invalid
+                Font? curFont = FontManager.GetFont(Font);
+
+                if (curFont == null
+                    || curFont.Handle == default)
+                {
+                    NCError.ShowErrorBox($"Attempted to acquire invalid font with name {Font}", 39,
+                        "Text::Draw font parameter is not a loaded font!", NCErrorSeverity.FatalError);
+                    return;
+                }
+
+                Vector2 currentPosition = RenderPosition;
+
+                // cache everything
+                foreach (char character in text)
+                {
+                    Glyph? glyph = GlyphCache.QueryCache(Font, character, ForegroundColor, SmoothingType);
+
+                    if (glyph != null)
                     {
-                        // just grab the texture and draw it again
-                        // these should definitely be in the hierarchy...hmm...
-                        glyph.Position = currentPosition;
-                        glyph.Draw();
+                        glyph.UsedThisFrame = true;
+
+                        // syntax note: new() does not work here!!! you must provide a type name
+                        switch (Orientation)
+                        {
+                            case Orientation.LeftToRight:
+                                currentPosition += new Vector2(glyph.Advance.X, 0);
+                                break;
+                            case Orientation.RightToLeft:
+                                currentPosition += new Vector2(-glyph.Advance.X, 0);
+                                break;
+                            case Orientation.TopToBottom:
+                                currentPosition += new Vector2(0, glyph.Advance.Y);
+                                break;
+                            case Orientation.BottomToTop:
+                                currentPosition += new Vector2(0, -glyph.Advance.Y);
+                                break;
+                        }
+
+
+                        // the glyph is empty so just push forward by the size of the glyph
+                        // (tabs, spaces, etc)
+                        if (!glyph.IsEmpty)
+                        {
+                            // just grab the texture and draw it again
+                            // these should definitely be in the hierarchy...hmm...
+                            glyph.Position = new(currentPosition.X + glyph.Offset.X,
+                                currentPosition.Y - glyph.Offset.Y);
+                            glyph.Draw();
+                        }
                     }
                 }
             }
+            else
+            {
+                NCError.ShowErrorBox($"Tried to draw text that is null, empty, or pure whitespace. Ignoring", 274, 
+                    "string.IsNullOrWhiteSpace(Content) returned TRUE in Text::Draw", NCErrorSeverity.Warning, null, true);
+            }
+            
         }
     }
 }

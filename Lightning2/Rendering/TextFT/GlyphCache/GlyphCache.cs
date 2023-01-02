@@ -69,31 +69,12 @@ namespace LightningGL
             uint glyphIndex = font.Handle.GetCharIndex(character);
 
             // load it and weep
-            FT_Error error = FT_Load_Glyph(font.Handle.Face, glyphIndex, FT_LOAD_DEFAULT);
+            FT_Error error = FT_Load_Glyph(font.Handle.Face, glyphIndex, FT_LOAD_RENDER);
 
             if (error != FT_Error.FT_Err_Ok)
             {
-                NCError.ShowErrorBox($"Error loading character {character} - FreeType failed to load the glyph",
+                NCError.ShowErrorBox($"Error loading character {character} - FreeType failed to load and render the glyph",
                     253, "Font Glyphcache: Tried to cache a character that the font does not define", NCErrorSeverity.FatalError);
-                return;
-            }
-
-            nint glyphPtr = (nint)font.Handle.FaceRec->glyph;
-
-            switch (smoothingType)
-            {
-                case FontSmoothingType.Solid:
-                    error = FT_Render_Glyph((nint)font.Handle.FaceRec->glyph, FT_Render_Mode.FT_RENDER_MODE_NORMAL);
-                    break;
-                case FontSmoothingType.LCD:
-                    error = FT_Render_Glyph((nint)font.Handle.FaceRec->glyph, FT_Render_Mode.FT_RENDER_MODE_LCD);
-                    break;
-            }
-
-            if (error != FT_Error.FT_Err_Ok)
-            {
-                NCError.ShowErrorBox($"Error loading character {character} - FreeType failed to render the glyph: {error}",
-                    254, "Font Glyphcache: Internal FreeType error trying to render the glyph", NCErrorSeverity.FatalError);
                 return;
             }
 
@@ -106,7 +87,9 @@ namespace LightningGL
                 || bitmap.rows == 0);
 
             // create a blank bitmap for a space or similar
-            if (bitmap.width == 0) bitmap.width = (uint)font.Handle.FaceRec->glyph->advance.x;
+
+            // FreeType uses 16.16 fixed point multipliers so we have to shift right by 6 bits in order to get the actual value
+            if (bitmap.width == 0) bitmap.width = (uint)(font.Handle.FaceRec->glyph->advance.x >> 6);
             if (bitmap.rows == 0) bitmap.rows = bitmap.width; // create a square for now
 
             Glyph? glyph = new("Glyph", (int)bitmap.width, (int)bitmap.rows)
@@ -117,6 +100,10 @@ namespace LightningGL
                 Font = font.Name,
                 Character = character,
                 IsEmpty = isEmpty,
+                Offset = new(font.Handle.FaceRec->glyph->bitmap_left,
+                font.Handle.FaceRec->glyph->bitmap_top),
+                Advance = new(font.Handle.FaceRec->glyph->advance.x >> 6,
+                font.Handle.FaceRec->glyph->advance.y >> 6),
             };
 
             if (!glyph.IsEmpty) glyph = (Glyph?)Lightning.Renderer.TextureFromFreetypeBitmap(bitmap, glyph, foregroundColor);
