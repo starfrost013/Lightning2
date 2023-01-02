@@ -168,8 +168,12 @@ namespace LightningGL
             // split text by lines
             string[] linesArray = text.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
+
             foreach (string line in linesArray)
             {
+                // reset line length
+                int lineLength = 0;
+
                 foreach (char character in line)
                 {
                     Glyph? glyph = GlyphCache.QueryCache(Font, character, ForegroundColor, SmoothingType);
@@ -189,55 +193,40 @@ namespace LightningGL
                         // ignore negative values
                         if (pushRight < 0) pushRight = 0;
 
+                        lineLength += (int)glyph.Advance.X;
+
                         // syntax note: new() does not work here!!! you must provide a type name
                         switch (Orientation)
                         {
                             case Orientation.LeftToRight:
-                                currentPosition += new Vector2(glyph.Advance.X + pushRight, 0);
+                                currentPosition += new Vector2(glyph.Advance.X, 0);
+                                // just grab the texture and draw it again
+                                // these should definitely be in the hierarchy...hmm...
+                                glyph.Position = new(currentPosition.X + glyph.Offset.X + pushRight,
+                                    currentPosition.Y - glyph.Offset.Y);
                                 break;
                             case Orientation.RightToLeft:
-                                currentPosition += new Vector2(-glyph.Advance.X - pushRight, 0);
+                                currentPosition += new Vector2(-glyph.Advance.X, 0);
+                                glyph.Position = new(currentPosition.X + glyph.Offset.X - pushRight,
+                                    currentPosition.Y - glyph.Offset.Y);
                                 break;
                             // use X here so the horizontal spacing is used vertically for these reading orders
                             case Orientation.TopToBottom:
-                                currentPosition += new Vector2(0, glyph.Advance.X + pushRight);
+                                currentPosition += new Vector2(0, glyph.Advance.X);
+                                glyph.Position = new(currentPosition.X + glyph.Offset.X,
+                                    currentPosition.Y - glyph.Offset.Y + pushRight);
                                 break;
                             case Orientation.BottomToTop:
-                                currentPosition += new Vector2(0, -glyph.Advance.X - pushRight);
+                                currentPosition += new Vector2(0, -glyph.Advance.X);
+                                glyph.Position = new(currentPosition.X + glyph.Offset.X,
+                                    currentPosition.Y - glyph.Offset.Y - pushRight);
                                 break;
                         }
 
 
                         // the glyph is empty so just push forward by the size of the glyph
                         // (tabs, spaces, etc)
-                        if (!glyph.IsEmpty)
-                        {
-                            // just grab the texture and draw it again
-                            // these should definitely be in the hierarchy...hmm...
-                            glyph.Position = new(currentPosition.X + glyph.Offset.X,
-                                currentPosition.Y - glyph.Offset.Y);
-                            glyph.Draw();
-                        }
-
-                        // fucking shit hack
-                        // we gotta move it back
-                        // syntax note: new() does not work here!!! you must provide a type name
-                        switch (Orientation)
-                        {
-                            case Orientation.LeftToRight:
-                                currentPosition -= new Vector2(pushRight, 0);
-                                break;
-                            case Orientation.RightToLeft:
-                                currentPosition -= new Vector2(-pushRight, 0);
-                                break;
-                            // use X here so the horizontal spacing is used vertically for these reading orders
-                            case Orientation.TopToBottom:
-                                currentPosition -= new Vector2(0, pushRight);
-                                break;
-                            case Orientation.BottomToTop:
-                                currentPosition -= new Vector2(0, -pushRight);
-                                break;
-                        }
+                        if (!glyph.IsEmpty) glyph.Draw();
                     }
                 }
 
@@ -248,19 +237,16 @@ namespace LightningGL
                 {
                     case Orientation.LeftToRight:
                     case Orientation.RightToLeft:
-                        currentPosition += new Vector2(0, lineSpacing);
+                        currentPosition += new Vector2(-lineLength, lineSpacing);
                         break;
                     case Orientation.TopToBottom:
+                        currentPosition += new Vector2(lineSpacing, -lineLength);
+                        break;
                     case Orientation.BottomToTop:
-                        currentPosition += new Vector2(lineSpacing, 0);
+                        currentPosition += new Vector2(lineSpacing, lineLength);
                         break;
                 }
             }
-        }
-
-        private void DrawLine(string line)
-        {
-
         }
     }
 }
