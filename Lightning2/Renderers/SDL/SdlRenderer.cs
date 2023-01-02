@@ -787,7 +787,7 @@ namespace LightningGL
                 if (handle == nint.Zero)
                 {
                     NCError.ShowErrorBox($"Failed to load texture at {path} - {SDL_GetError()} AND failed to load missing texture. THIS IS AN ENGINE BUG", 271,
-                    "Failed to load missing texture - call to IMG_LoadTexture_RW failed. This is an engine bug.", NCErrorSeverity.FatalError);
+                    "Failed to load missing texture texture - call to IMG_LoadTexture_RW failed. This is an engine bug.", NCErrorSeverity.FatalError);
                 }
             }
 
@@ -815,17 +815,24 @@ namespace LightningGL
             // convert to a pointer so we can get the alpha
 
             texture.Lock();
-            
+
             // Now we actually set the pixels to the colour required
             // convert to ARGB
+
+            int pixelId = 0;
+
             for (int y = 0; y < texture.Size.Y; y++)
             {
                 for (int x = 0; x < texture.Size.X; x++)
                 {
                     // COMPLICATED DIRECTMORON LAYER FUCK YOU FUCK YOU
-                    byte alpha = bufferPtr[y * (int)texture.Size.X + x];
+
+                    pixelId = (bitmap.pitch * y) + x;
+                    byte alpha = bufferPtr[pixelId];
+                    NCLogging.Log(pixelId.ToString());
                     texture.SetPixel(x, y, Color.FromArgb(alpha, foregroundColor.R, foregroundColor.G, foregroundColor.B));
                 }
+
             }
 
             texture.Unlock();
