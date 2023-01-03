@@ -76,6 +76,9 @@ namespace LightningGL
         {
             if (!Enabled) return;
 
+            // lazy hack to get over the fact i cant be bothered to rewrite this to use the new text APIs
+            Lightning.Renderer.RemoveAllChildren(this);
+
             // reset drawing
             // TODO: configurable colours
 
@@ -108,8 +111,7 @@ namespace LightningGL
                     break;
             }
 
-            // lazy hack to get over the fact i cant be bothered to rewrite this to use the new text APIs
-            Lightning.Renderer.RemoveAllChildren(this);
+
         }
 
         private void DrawBigPictureView()
@@ -187,8 +189,6 @@ namespace LightningGL
         {
             foreach (Renderable renderable in parent.Children)
             {
-                //Renderable renderable = parent.Children[renderableId];
-
                 string initialString = $"{renderable.Name} ({renderable.GetType().Name}): position {renderable.Position}, " +
                     $"size: {renderable.Size}, render position: {renderable.RenderPosition}, on screen: {renderable.IsOnScreen}, z-index: {renderable.ZIndex}, " +
                     $"is animating now: {renderable.IsAnimating} - parent {parent.Name}";
@@ -196,6 +196,7 @@ namespace LightningGL
                 // string::format requires constants so we need to pad to the left
                 initialString = initialString.PadLeft(initialString.Length + (8 * depth)); // todo: make this a setting with a defauilt value
 
+                // this is not a child of this because i cant be bothered to fix this very bad debugviewer
                 Lightning.Renderer.AddRenderable(new TextBlock("DebugText8", initialString, "DebugFont", new(0, CurrentY),
                     DebugForeground, DebugBackground, FontStyle.Normal, -1, FontSmoothingType.Default, true));
                 CurrentY += LineSpacing;
