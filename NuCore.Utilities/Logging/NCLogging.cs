@@ -105,7 +105,7 @@ namespace NuCore.Utilities
 
         public static void Log(string information, ConsoleColor color = ConsoleColor.White, bool printMetadata = true, bool logToFile = true)
         {
-#if !FINAL // final build turns off all non-error and server logging
+
             if (!Initialised)
             {
                 Console.WriteLine("NCLogging not initialised, not logging anything!");
@@ -141,6 +141,7 @@ namespace NuCore.Utilities
 
             if (Settings.WriteToLog 
                 && logToFile) LogStream.Write(finalLogText);
+#if !FINAL // final build turns off all non-error and server console logging
 
             NCConsole.ForegroundColor = color;
 
