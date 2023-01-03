@@ -7,7 +7,7 @@
     /// 
     /// Defines an audio file.
     /// </summary>
-    public class AudioFile : Renderable
+    public class Audio : Renderable
     {
         /// <summary>
         /// Defines the unmanaged handle to this audio file.
@@ -48,7 +48,9 @@
         /// </summary>
         private double RealVolume { get; set; }
 
-        public AudioFile(string name, string path) : base(name)
+        private const double DEFAULT_REAL_VOLUME = 1d;
+
+        public Audio(string name, string path) : base(name)
         {
             Path = path;
         }
@@ -62,13 +64,32 @@
 
             if (AudioHandle == nint.Zero) NCError.ShowErrorBox($"Error loading audio file at {Path}: {Mix_GetError()}", 51, "An SDL_mixer error occurred in AudioFile::Load", NCErrorSeverity.Error);
 
-            RealVolume = 1; // make sure there is always a value
+            RealVolume = DEFAULT_REAL_VOLUME; // make sure there is always a value
+
+            if (!File.Exists(Path))
+            {
+                NCError.ShowErrorBox($"Error loading audio file: The path {Path} does not exist!", 52, "AudioManager::Load path parameter does not exist!", NCErrorSeverity.FatalError);
+                return;
+            }
+
+            if (Path.Contains(".mod", StringComparison.InvariantCultureIgnoreCase))
+            {
+                NCError.ShowErrorBox(".mod file loading is completely broken in SDL_mixer 2.6.2 and causes memory leaks. Sorry, not my code.", 167,
+                    "AudioAssetManager::LoadFile path parameter has a .mod extension", NCErrorSeverity.Error);
+                return;
+            }
+
+            Channel = AudioManager.LastChannelId;
+            AudioManager.LastChannelId++;
+
+            NCLogging.Log($"Loaded audio file at {Path} to channel {Channel}");
+            Loaded = true;
         }
 
         /// <summary>
         /// Internal: Used by AudioManager ONLY to unload file
         /// </summary>
-        internal void Unload() => Mix_FreeChunk(AudioHandle); // loadmus used therefore we are freeing chunks
+        public override void Destroy() => Mix_FreeChunk(AudioHandle); // loadmus used therefore we are freeing chunks
 
         /// <summary>
         /// Plays this audio file until <see cref="Stop"/> is called.

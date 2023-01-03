@@ -2,9 +2,16 @@
 { 
     public class Rectangle : Primitive
     {
-        public Rectangle(string name) : base(name)
+        public Rectangle(string name, Vector2 position, Vector2 size, Color color, bool filled = false, Color borderColor = default,
+            Vector2 borderSize = default, bool snapToScreen = false) : base(name)
         {
-
+            Position = position;
+            Size = size;
+            Color = color;
+            Filled = filled;
+            BorderColor = borderColor;
+            BorderSize = borderSize;
+            SnapToScreen = snapToScreen;
         }
 
         public override void Draw()

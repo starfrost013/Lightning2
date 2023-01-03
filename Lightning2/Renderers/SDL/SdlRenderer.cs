@@ -1,6 +1,4 @@
 ﻿global using static LightningGL.Lightning;
-using LightningBase;
-using System.IO;
 
 namespace LightningGL
 {
@@ -20,7 +18,7 @@ namespace LightningGL
         public override SdlRendererSettings Settings => (SdlRendererSettings)base.Settings;
 
         // no idea where to put this now (temporary SDL_gfx stuff)
-        private const int AAbits = 8;
+        private const int DEFAULT_AA_BITS = 8;
 
         private const int DEFAULT_ELLIPSE_OVERSCAN = 4;
 
@@ -702,7 +700,7 @@ namespace LightningGL
             }
         }
 
-       
+
 
         #endregion
 
@@ -798,11 +796,8 @@ namespace LightningGL
             {
                 for (int x = 0; x < texture.Size.X; x++)
                 {
-                    // COMPLICATED DIRECTMORON LAYER FUCK YOU FUCK YOU
-
                     pixelId = (bitmap.pitch * y) + x;
                     byte alpha = bufferPtr[pixelId];
-                    NCLogging.Log(pixelId.ToString());
                     texture.SetPixel(x, y, Color.FromArgb(alpha, foregroundColor.R, foregroundColor.G, foregroundColor.B));
                 }
 
@@ -865,8 +860,9 @@ namespace LightningGL
                 || args[4] is not nint
                 || args[5] is not Vector2)
             {
-                NCError.ShowErrorBox($"CODE IS BORKED! Incorrect parameter types or invalid number of parameters to SdlRenderer::DrawTexture!\n\nTHIS IS AN ENGINE BUG PLEASE FILE A BUG REPORT!", 
-                    229, "Invalid number of parameters, or incorrect parameter types, in call to SdlRenderer::DrawTexture\n\nI REPEAT THIS IS AN ENGINE BUG!", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox($"CODE IS BORKED! Incorrect parameter types or invalid number of parameters to SdlRenderer::DrawTexture!\n\n" +
+                    $"THIS IS AN ENGINE BUG PLEASE FILE A BUG REPORT!",  229, "Invalid number of parameters, or incorrect parameter types, in call to " +
+                    "SdlRenderer::DrawTexture\n\nI REPEAT THIS IS AN ENGINE BUG!", NCErrorSeverity.FatalError);
                 return;
             }
 

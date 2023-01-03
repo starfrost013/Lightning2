@@ -104,7 +104,6 @@
             Lightning.Renderer.AddRenderable(Texture, this);
         }
 
-
         public override void Draw()
         {
             if (Texture == null
@@ -287,11 +286,10 @@
         /// <summary>
         /// Unloads this particle effect.
         /// </summary>
-        public void Unload()
+        public override void Destroy()
         {
             Stop();
-            Lightning.Renderer.RemoveRenderable(this);
-            Texture.Unload();
+            Lightning.Renderer.RemoveRenderable(Texture);
         }
     }
 }

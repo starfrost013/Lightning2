@@ -69,8 +69,6 @@
         /// </summary>
         public ListBox(string name, string font) : base(name, font)
         {
-            OnRender += Render;
-
             // if you override the method it calls it twice (because it's defined for both classes)
             // so simply use a different method
             OnMousePressed += ListBoxMousePressed;
@@ -83,8 +81,8 @@
         public override void Create()
         {
             // HACK: Don't make this a child of this so that it does not break everything
-            // ONLY FOR THIS CLASS !!!
-            Rectangle = PrimitiveManager.AddRectangle(Position, BoxSize, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen);
+            // Make this hack go away in the future
+            Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("ListBoxRectangle", Position, BoxSize, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen));
         }
 
         /// <summary>
@@ -102,7 +100,7 @@
                 return;
             }
 
-            Font? itemFont = FontManager.GetFont(Font);
+            Font? itemFont = (Font?)Lightning.Renderer.GetRenderableByName(Font);
 
             if (itemFont == null)
             {
@@ -162,7 +160,7 @@
         /// <summary>
         /// Renders this ListBox.
         /// </summary>
-        public void Render()
+        public override void Draw()
         {
             // set the default background color if it's not set. a hack...
             if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
@@ -178,7 +176,7 @@
                 return;
             }
 
-            Font? curFont = FontManager.GetFont(Font);
+            Font? curFont = (Font?)Lightning.Renderer.GetRenderableByName(Font);
 
             if (curFont == null)
             {
@@ -190,7 +188,7 @@
             // draw the currently selected item using the Font Managher
             // if the font is invalid throw an error
 
-            if (Children.Count > 0) TextManager.AddAsset(new TextBlock("ListBoxItemText", SelectedItem.Text, Font, Position, ForegroundColor));
+            if (Children.Count > 0) Lightning.Renderer.AddRenderable(new TextBlock("ListBoxItemText", SelectedItem.Text, Font, Position, ForegroundColor));
 
             // draw the items if they are open
             foreach (ListBoxItem item in Children) item.IsNotRendering = !Open; // this is never null (set in constructor) so we do not need to check if it is.

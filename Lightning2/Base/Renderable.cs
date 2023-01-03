@@ -212,7 +212,7 @@
         /// <summary>
         /// The Name of this Renderable.
         /// </summary>
-        public string Name
+        public virtual string Name
         {
             get
             {
@@ -291,8 +291,6 @@
             if (CurrentAnimation == null
                 || !CurrentAnimation.Loaded)
             {
-                NCError.ShowErrorBox("You must load an animation before playing it! The animation will not be set.", 152,
-                "Renderable::StopCurrentAnimation called when CurrentAnimation::Loaded property is FALSE or it was never set.", NCErrorSeverity.Error);
                 return;
             }
 

@@ -25,7 +25,7 @@ namespace LightningGL
         /// <summary>
         /// Name of this animation
         /// </summary>
-        public new string Name
+        public override string Name
         {
             get
             {
@@ -77,21 +77,64 @@ namespace LightningGL
         /// </summary>
         public Animation(string name, string path) : base(name)
         {
-            Properties = new List<AnimationProperty>();
+            Properties = new();
             Path = path;
             Name = name;
             _name = Name; // fix compile warnings
         }
-        
+
+        public override void Create()
+        {
+            if (!File.Exists(Path))
+            {
+                NCError.ShowErrorBox("Attempted to load a nonexistent animation file.", 138,
+                    "Animation::Load called with Path property that does not point to a valid Animation JSON file!", NCErrorSeverity.FatalError);
+                return;
+            }
+
+            NCLogging.Log($"Deserialising animation JSON from {Path}...");
+
+            // try to deserialise
+            try
+            {
+                Animation? tempAnimation = JsonConvert.DeserializeObject<Animation>(File.ReadAllText(Path));
+
+                if (tempAnimation == null)
+                {
+                    NCError.ShowErrorBox($"A fatal error occurred while deserialising an animation JSON.", 140,
+                    "Animation::Load - JsonConvert::DeserializeObject returned null", NCErrorSeverity.FatalError);
+                    return;
+                }
+
+                // set properties
+                Properties = tempAnimation.Properties;
+                Length = tempAnimation.Length;
+                Repeat = tempAnimation.Repeat;
+                Reverse = tempAnimation.Reverse;
+
+                NCLogging.Log($"Validating animation JSON from {Path}...");
+
+                // Validate
+                Loaded = Validate(); 
+            }
+            catch (Exception err)
+            {
+                NCError.ShowErrorBox($"A fatal error occurred while deserialising an animation JSON. See base exception information for further information.", 139,
+                    "Animation::Load - fatal error in call to JsonConvert::DeserializeObject", NCErrorSeverity.FatalError, err);
+                return;
+            }
+        }
+
         /// <summary>
         /// Validate this animation
         /// </summary>
-        internal void Validate()
+        internal bool Validate()
         {
             if (Length <= 0)
             {
                 NCError.ShowErrorBox($"An animation must have a length of at least 1 millisecond (value = {Length})",
-                    142, "Animation::Length was less than or equal to 0 during Animation::Validate call", NCErrorSeverity.FatalError);
+                    142, "Animation::Length was less than or equal to 0 during Animation::Validate call", NCErrorSeverity.Error);
+                return false; 
             }
 
             List<string> validTypeNames = new();
@@ -105,16 +148,28 @@ namespace LightningGL
 
             foreach (AnimationProperty property in Properties)
             {
-                if (string.IsNullOrWhiteSpace(property.Name)) NCError.ShowErrorBox($"All properties in an Animation JSON must have a name!", 
-                    144, "AnimationProperty::Name failed a string.IsNullOrWhiteSpace check", NCErrorSeverity.FatalError);
+                if (string.IsNullOrWhiteSpace(property.Name))
+                {
+                    NCError.ShowErrorBox($"All properties in an Animation JSON must have a name!",
+                        144, "AnimationProperty::Name failed a string.IsNullOrWhiteSpace check", NCErrorSeverity.Error);
+                    return false; 
+                }
 
                 bool isRealType = validTypeNames.Contains(property.Type);
 
-                if (!isRealType) NCError.ShowErrorBox($"Tried to use an AnimationProperty {property.Name}, type {property.Type} which is not loaded in the current AppDomain",
-                    141, "Tried to instantiate a type for an AnimationProperty from an unloaded assembly. Try referencing the assembly the type is located within.", NCErrorSeverity.FatalError);
+                if (!isRealType)
+                {
+                    NCError.ShowErrorBox($"Tried to use an AnimationProperty {property.Name}, type {property.Type} which is not loaded in the current AppDomain",
+                        141, "Tried to instantiate a type for an AnimationProperty from an unloaded assembly. Try referencing the assembly the type is located within.", NCErrorSeverity.Error);
+                    return false;
+                }
 
-                if (property.Keyframes.Count == 0) NCError.ShowErrorBox($"The property {property.Name} has no keyframes!", 
-                    145, "AnimationProperty::Keyframes::Count was 0 during call to Animation::Validate", NCErrorSeverity.FatalError);
+                if (property.Keyframes.Count == 0)
+                {
+                    NCError.ShowErrorBox($"The property {property.Name} has no keyframes!",
+                        145, "AnimationProperty::Keyframes::Count was 0 during call to Animation::Validate", NCErrorSeverity.Error);
+                    return false; 
+                }
 
                 for (int keyframeId = 0; keyframeId < property.Keyframes.Count; keyframeId++)
                 {
@@ -122,10 +177,17 @@ namespace LightningGL
                     keyframe.Id = keyframeId;
 
                     if (keyframe.Position < 0
-                        || keyframe.Position > Length) NCError.ShowErrorBox($"Keyframe {keyframe.Id} for property {property.Name} is not within the animation. The value is {keyframe.Position}, range is (0,{Length})!",
-                    143, "AnimationKeyframe::Position was less than 0 or more than Animation::Length", NCErrorSeverity.FatalError);
+                        || keyframe.Position > Length)
+                    {
+                        NCError.ShowErrorBox($"Keyframe {keyframe.Id} for property {property.Name} is not within the animation. The value is {keyframe.Position}, range is (0,{Length})!",
+                            143, "AnimationKeyframe::Position was less than 0 or more than Animation::Length", NCErrorSeverity.Error);
+                        return false; 
+                    }
+                    
                 }
             }
+
+            return true;
         }
 
         internal void StartAnimationFor(Renderable renderable) => renderable.AnimationTimer.Restart();
@@ -264,9 +326,6 @@ namespace LightningGL
                             }
                         }
                     }
-
-
-
                 }
             }
         }

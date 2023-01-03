@@ -41,7 +41,7 @@ namespace NuCore.Utilities
         private const string DEFAULT_DATE_STRING = "yyyyMMdd_HHmmss";
 
         /// <summary>
-        /// Private static constructor for initialising the NuCore logging system
+        /// Static constructor for initialising the NuCore logging system
         /// </summary>
         static NCLogging()
         {

@@ -15,7 +15,7 @@
         AbsoluteVelocity = 0,
 
         /// <summary>
-        /// Same as <see cref="AbsoluteVelocity"/>he velocity does not increase over time.
+        /// Same as <see cref="AbsoluteVelocity"/>, but the velocity does not increase over time.
         /// </summary>
         ConstantVelocity = 1,
 

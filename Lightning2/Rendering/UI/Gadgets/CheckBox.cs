@@ -34,32 +34,28 @@
         /// </summary>
         public CheckBox(string name, string font) : base(name, font)
         {
-            OnRender += Render;
             OnMousePressed += CheckBoxMousePressed;
         }
 
         public override void Create()
         {
             // issue: won't update if you modify it again later
-            // this is why we might need referents for renderble
-            Rectangle = PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen, this);
+            Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("CheckBoxRectangle", Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen), this);
 
-            CheckBoxLine1 = PrimitiveManager.AddLine(default, default, ForegroundColor, true, SnapToScreen);
-            CheckBoxLine2 = PrimitiveManager.AddLine(default, default, ForegroundColor, true, SnapToScreen);
-
-            Debug.Assert(Rectangle != null);
-            Debug.Assert(CheckBoxLine1 != null);
-            Debug.Assert(CheckBoxLine2 != null);
+            CheckBoxLine1 = Lightning.Renderer.AddRenderable(new Line("CheckBoxLine1", default, default, ForegroundColor, SnapToScreen), this);
+            CheckBoxLine2 = Lightning.Renderer.AddRenderable(new Line("CheckBoxLine2", default, default, ForegroundColor, SnapToScreen), this);
         }
 
         /// <summary>
         /// Renders this CheckBox.
         /// </summary>
-        public void Render()
+        public override void Draw()
         {
-#pragma warning disable CS8602 // not applicable because this cannot be null (as a method that cannot return null is called) and it asserts if it is
+            Debug.Assert(Rectangle != null
+                && CheckBoxLine1 != null
+                && CheckBoxLine2 != null);
+
             Rectangle.Color = CurBackgroundColor;
-#pragma warning restore CS8602 
 
             if (Checked)
             {
@@ -68,13 +64,10 @@
                 Vector2 line2Start = line1End;
                 Vector2 line2End = new(Position.X + Size.X, Position.Y);
 
-#pragma warning disable CS8602 // we assert if they are, and they can never be null anyway
                 CheckBoxLine1.Start = line1Start;
                 CheckBoxLine1.End = line1End;
                 CheckBoxLine2.Start = line2Start;
                 CheckBoxLine2.End = line2End;
-#pragma warning restore CS8602
-
             }
         }
 

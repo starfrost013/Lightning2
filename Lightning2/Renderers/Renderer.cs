@@ -52,7 +52,7 @@
         /// </summary>
         internal int RenderedLastFrame { get; set; }
 
-        public FreeTypeLibrary? FreeTypeLibrary { get; set; }
+        internal FreeTypeLibrary? FreeTypeLibrary { get; set; }
 
         public Renderer()
         {
@@ -81,11 +81,9 @@
             return false;
         }
 
-
         internal virtual void Render()
         {
-
-            // this is actually fine for performance as it turns out (probably not a very big LINQ CALL)
+            // this is actually fine for performance as it turns out (probably not a very big LINQ call)
             Renderables = Renderables.OrderBy(x => x.ZIndex).ToList();
 
             // Build a list of renderables to render from all asset managers.
@@ -95,22 +93,14 @@
             // Draw every object.
             RenderAll();
 
-            // Update the primitive manager.
-            PrimitiveManager.Update();
-
             // Render the lightmap.
             LightManager.Update();
-
-            // Update audio.
-            AudioManager.Update();
 
             // purge the text manager glyph cache
             GlyphCache.PurgeUnusedEntries();
 
             // Update camera (if it's not null)
             Settings.Camera?.Update();
-
-           
         }
 
         /// <summary>
@@ -142,9 +132,12 @@
             NotifyShutdown();
 
             NCLogging.Log("Destroying all renderables...");
-            foreach (Renderable renderable in Renderables)
+
+            for (int renderableId = 0; renderableId < Renderables.Count; renderableId++)
             {
-                renderable.Destroy();
+                Renderable renderable = Renderables[renderableId];
+                RemoveRenderable(renderable);
+                renderableId--;
             }
 
             NCLogging.Log("Shutting down FreeType...");
@@ -155,19 +148,14 @@
         {
             foreach (Renderable uiElement in Renderables)
             {
-                if (uiElement.OnShutdown != null)
-                {
-                    // stop animating this renderable - prevents "collection modified" issues
-                    uiElement.StopCurrentAnimation();
-                    uiElement.OnShutdown();
-                }
+                if (uiElement.OnShutdown != null) uiElement.OnShutdown();
             }
         }
 
         /// <summary>
-        /// Adds a renderable..
+        /// Adds a renderable to the renderer hierarchy.
         /// </summary>
-        public virtual void AddRenderable(Renderable renderable, Renderable? parent = null)
+        public virtual T AddRenderable<T>(T renderable, Renderable? parent = null) where T : Renderable
         {
             string parentName = (parent == null) ? "Root" : parent.Name;
 
@@ -193,6 +181,8 @@
                 // guaranteed never null
                 renderable.OnCreate();
             }
+
+            return renderable;
         }
 
         /// <summary>
@@ -206,16 +196,20 @@
 
             if (renderable.Children.Count > 0)
             {
-                foreach (Renderable child in renderable.Children)
+                for (int childId = 0; childId < renderable.Children.Count; childId++)
                 {
+                    Renderable child = renderable.Children[childId];
+                    child.StopCurrentAnimation();
                     child.OnDestroy();
 
                     if (child.Children.Count > 0) RemoveRenderable(child);
 
                     renderable.Children.Remove(child);
+                    childId--;
                 }
             }
 
+            renderable.StopCurrentAnimation();
             renderable.OnDestroy();
 
             // if there's no parent...
@@ -475,7 +469,7 @@
             "Called Renderer override with unimplemented Renderer::SetTextureBlendMode!", NCErrorSeverity.FatalError);
         }
 
-        internal virtual nint DestroyTexture(nint handle)
+        internal  virtual nint DestroyTexture(nint handle)
         {
             NCError.ShowErrorBox($"DestroyTexture not implemented for renderer {GetType().Name!}", 232,
                 "Called Renderer override with unimplemented Renderer::DestroyTexture!", NCErrorSeverity.FatalError);

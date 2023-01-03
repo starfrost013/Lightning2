@@ -5,8 +5,6 @@
     /// </summary>
     public abstract class AssetManager<T> where T : Renderable
     {
-        public abstract T? AddAsset(T asset);
-
         public virtual List<T> GetAssets()
         {
             Debug.Assert(Lightning.Renderer != null);
@@ -40,11 +38,6 @@
             }
 
             return count;
-        }
-
-        public virtual void RemoveAsset(T asset)
-        {
-            
         }
 
         public virtual void RemoveAllAssets()

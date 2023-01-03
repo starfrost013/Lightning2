@@ -21,5 +21,16 @@
         public int Id { get; set; }
 
         public Particle(string name, int sizeX, int sizeY, bool isTarget = false) : base(name, sizeX, sizeY) { }
+
+        public override void Destroy()
+        {
+            // this does nothing
+            // all particles share the same texture
+            // so we don't want to unload it
+            // but particle inherits from texture and texture::destroy unloads the texture
+            // therefore we have this stupid method
+            //
+            // my precious hack...
+        }
     }
 }

@@ -57,26 +57,43 @@
         /// </summary>
         private TextBlock? TextBoxText { get; set; }
 
+        /// <summary>
+        /// Default value for <see cref="CursorBlinkLength"/>.
+        /// </summary>
+        private const int DEFAULT_CURSOR_BLINK_LENGTH = 50;
+
+        /// <summary>
+        /// Default value for <see cref="ForegroundColor"/>.
+        /// </summary>
+        private readonly Color DEFAULT_FOREGROUND_COLOR = Color.White;
+
+        /// <summary>
+        /// Default value for <see cref="CursorBlinkFrequency"/>.
+        /// </summary>
+        private const int DEFAULT_CURSOR_BLINK_FREQUENCY = 300;
+
+        /// <summary>
+        /// Default value for <see cref="NumberOfFramesUntilNextBlink"/>.
+        /// </summary>
+        private const int DEFAULT_NUMBER_OF_FRAMES_UNTIL_NEXT_BLINK = DEFAULT_CURSOR_BLINK_FREQUENCY; // reasonable default
+
         public TextBox(string name, int capacity, string font) : base(name, font)
         {
             Capacity = capacity;
             OnKeyPressed += KeyPressed;
-            OnRender += Render;
-            if (CursorBlinkFrequency == 0) CursorBlinkFrequency = 300;
-            if (ForegroundColor == default) ForegroundColor = Color.White;
-            if (CursorBlinkLength == 0) CursorBlinkLength = 50;
+            if (CursorBlinkFrequency <= 0) CursorBlinkFrequency = DEFAULT_CURSOR_BLINK_FREQUENCY;
+            if (ForegroundColor == default) ForegroundColor = DEFAULT_FOREGROUND_COLOR;
+            if (CursorBlinkLength <= 0) CursorBlinkLength = DEFAULT_CURSOR_BLINK_LENGTH;
 
-            // reasonable default
-            NumberOfFramesUntilNextBlink = CursorBlinkFrequency;
-
+            NumberOfFramesUntilNextBlink = DEFAULT_NUMBER_OF_FRAMES_UNTIL_NEXT_BLINK;
         }
 
         public override void Create()
         {
             Text ??= string.Empty;
-            Rectangle = PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen, this);
-            Cursor = PrimitiveManager.AddLine(default, default, ForegroundColor, true, false, this);
-            TextBoxText = TextManager.AddAsset(new TextBlock("TextBoxText", Text, Font, Position, ForegroundColor));
+            Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("TextBoxRectangle", Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen), this);
+            Cursor = Lightning.Renderer.AddRenderable(new Line("TextBoxLine", default, default, ForegroundColor), this);
+            TextBoxText = Lightning.Renderer.AddRenderable(new TextBlock("TextBoxText", Text, Font, Position, ForegroundColor), this);
         }
 
         /// <summary>
@@ -86,8 +103,8 @@
         public void KeyPressed(Key key)
         {
             // reject if text is not set or text is longer than capacity
-            if (Text == null) return;
-            if (Text.Length > Capacity) return;
+            if (Text == null
+                || Text.Length > Capacity) return;
 
             SDL_Scancode keySym = key.KeySym.scancode;
             SDL_Keymod keyMod = key.KeySym.mod;
@@ -108,45 +125,36 @@
                 case SDL_Scancode.SDL_SCANCODE_BACKSPACE:
                 case SDL_Scancode.SDL_SCANCODE_KP_BACKSPACE:
                     if (Text.Length > 0) Text = Text.Remove(Text.Length - 1, 1);
-                    return;
-                // do nothing
-                case SDL_Scancode.SDL_SCANCODE_LEFT:
-                case SDL_Scancode.SDL_SCANCODE_RIGHT:
-                case SDL_Scancode.SDL_SCANCODE_UP:
-                case SDL_Scancode.SDL_SCANCODE_DOWN:
-                case SDL_Scancode.SDL_SCANCODE_LALT:
-                case SDL_Scancode.SDL_SCANCODE_RALT:
-                // already handled these three
-                case SDL_Scancode.SDL_SCANCODE_LSHIFT:
-                case SDL_Scancode.SDL_SCANCODE_RSHIFT:
-                case SDL_Scancode.SDL_SCANCODE_CAPSLOCK:
-                // some more:
-                case SDL_Scancode.SDL_SCANCODE_LGUI:
-                case SDL_Scancode.SDL_SCANCODE_RGUI:
-                case SDL_Scancode.SDL_SCANCODE_LCTRL:
-                case SDL_Scancode.SDL_SCANCODE_RCTRL:
-                    return;
+                    break;
                 case SDL_Scancode.SDL_SCANCODE_RETURN:
                 case SDL_Scancode.SDL_SCANCODE_RETURN2:
                 case SDL_Scancode.SDL_SCANCODE_KP_ENTER:
                     if (AllowMultiline) Text = $"{Text}\n";
-                    return;
+                    break;
+                // already handled these three
+                case SDL_Scancode.SDL_SCANCODE_LSHIFT:
+                case SDL_Scancode.SDL_SCANCODE_RSHIFT:
+                case SDL_Scancode.SDL_SCANCODE_CAPSLOCK:
+                // block everything in a few different ranges
+                // TODO: MOVEABLE CURSOR
+                case >= SDL_Scancode.SDL_SCANCODE_PRINTSCREEN and <= SDL_Scancode.SDL_SCANCODE_UP: 
+                case >= SDL_Scancode.SDL_SCANCODE_APPLICATION and <= SDL_Scancode.SDL_SCANCODE_PRIOR:
+                case >= SDL_Scancode.SDL_SCANCODE_SEPARATOR and <= SDL_Scancode.SDL_SCANCODE_AUDIOFASTFORWARD:
+                    break;
                 default:
                     string keyStr = key.KeySym.ToString();
 
                     // check if lowercase
                     if (lowercase) keyStr = keyStr.ToLower();
                     Text = $"{Text}{keyStr}";
-                    return;
+                    break;
             }
-
-
         }
 
         /// <summary>
         /// Renders this TextBox.
         /// </summary>
-        public void Render()
+        public override void Draw()
         {
             Debug.Assert(TextBoxText != null
                 && Rectangle != null
@@ -201,7 +209,6 @@
                 NCError.ShowErrorBox($"Tried to draw a textbox with text that is null, empty, or only whitespace. Ignoring", 280, 
                     "string.IsNullOrWhiteSpace(Text) returned TRUE in call to TextBox::Render", NCErrorSeverity.Warning, null, true);
             }
-            
         }
     }
 }

@@ -60,51 +60,6 @@
             }
         }
 
-        public static AudioAssetManager AudioManager
-        {
-            get
-            {
-                if (Client.Initialised)
-                {
-                    return Client.AudioManager;
-                }
-                else
-                {
-                    return Server.AudioManager;
-                }
-            }
-        }
-
-        public static ParticleAssetManager ParticleManager
-        {
-            get
-            {
-                if (Client.Initialised)
-                {
-                    return Client.ParticleManager;
-                }
-                else
-                {
-                    return Server.ParticleManager;
-                }
-            }
-        }
-
-        public static UIAssetManager UIManager
-        {
-            get
-            {
-                if (Client.Initialised)
-                {
-                    return Client.UIManager;
-                }
-                else
-                {
-                    return Server.UIManager;
-                }
-            }
-        }
-
         public static FontAssetManager FontManager
         {
             get
@@ -120,21 +75,6 @@
             }
         }
 
-        public static TextAssetManager TextManager
-        {
-            get
-            {
-                if (Client.Initialised)
-                {
-                    return Client.TextManager;
-                }
-                else
-                {
-                    return Server.TextManager;
-                }
-            }
-        }
-
         public static LightAssetManager LightManager
         {
             get
@@ -146,36 +86,6 @@
                 else
                 {
                     return Server.LightManager;
-                }
-            }
-        }
-
-        public static AnimationAssetManager AnimationManager
-        {
-            get
-            {
-                if (Client.Initialised)
-                {
-                    return Client.AnimationManager;
-                }
-                else
-                {
-                    return Server.AnimationManager;
-                }
-            }
-        }
-
-        public static PrimitiveAssetManager PrimitiveManager
-        {
-            get
-            {
-                if (Client.Initialised)
-                {
-                    return Client.PrimitiveManager;
-                }
-                else
-                {
-                    return Server.PrimitiveManager;
                 }
             }
         }

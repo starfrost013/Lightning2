@@ -314,7 +314,7 @@
         /// <summary>
         /// Unloads this texture.
         /// </summary>
-        public void Unload()
+        public override void Destroy()
         {
             Loaded = false;
             Handle = Lightning.Renderer.DestroyTexture(Handle);

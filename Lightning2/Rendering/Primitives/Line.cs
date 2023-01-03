@@ -6,7 +6,15 @@
 
         public Vector2 End { get; set; }
 
-        public Line(string name) : base(name) { }
+        public Line(string name, Vector2 start, Vector2 end, Color color, bool snapToScreen = false) : base(name)
+        {
+            Color = color;
+            Start = start;
+            End = end;
+            Position = start; // set the position to the start of the line
+            Size = end - start; // size to the start
+            SnapToScreen = snapToScreen;
+        }
 
         public override void Draw()
         {

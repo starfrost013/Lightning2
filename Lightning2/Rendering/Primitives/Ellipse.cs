@@ -2,7 +2,17 @@
 {
     public class Ellipse : Primitive
     {
-        public Ellipse(string name) : base(name) { }
+        public Ellipse(string name, Vector2 position, Vector2 size, Color color, bool filled = false, bool snapToScreen = false,
+            Vector2 borderSize = default, Color borderColor = default) : base(name)
+        {
+            Position = position;
+            Size = size;
+            Color = color;
+            Filled = filled;
+            SnapToScreen = snapToScreen;
+            BorderSize = borderSize;
+            BorderColor = borderColor;
+        }
 
         public override void Draw()
         {

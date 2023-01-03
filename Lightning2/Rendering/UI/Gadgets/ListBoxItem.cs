@@ -19,32 +19,38 @@
         /// </summary>
         private Rectangle? Rectangle { get; set; }
 
+        private TextBlock? TextBlock { get; set; }  
+
         public ListBoxItem(string name, string text, string font) : base(name, font)
         {
             Text = text;
-            OnRender += Render;
         }
 
         public override void Create()
         {
-            Rectangle = PrimitiveManager.AddRectangle(Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen, this);
+            Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("ListBoxItemRectangle", Position, Size, CurBackgroundColor, Filled, 
+                BorderColor, BorderSize, SnapToScreen), this);
+
+            TextBlock = Lightning.Renderer.AddRenderable(new TextBlock("ListBoxItemText", Text, Font, Position, ForegroundColor), this);
 
             Debug.Assert(Rectangle != null);
         }
 
         /// <summary>
-        /// Renders the ListBoxItem
+        /// Renders the ListBoxItem.
         /// </summary>
-        public void Render()
+        public override void Draw()
         {
+            Debug.Assert(Rectangle != null
+                && TextBlock != null);
+
             // set the default background color
             if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
 
-#pragma warning disable CS8602
             Rectangle.Color = CurBackgroundColor;
-#pragma warning restore CS8602
 
-            TextManager.AddAsset(new TextBlock("Text1", Text, Font, Position, ForegroundColor));
+            // stupid hack to ensure it changes
+            TextBlock.Text = Text; 
         }
     }
 }

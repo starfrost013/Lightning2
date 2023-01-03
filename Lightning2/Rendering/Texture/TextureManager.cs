@@ -16,19 +16,6 @@ namespace LightningGL
         /// </summary>
         public static bool SnapToScreen { get; set; }
 
-        // this is here for reasons (so that it can be used from using static LightningGL.Lightning)
-        public override Texture AddAsset(Texture asset)
-        {
-            Lightning.Renderer.AddRenderable(asset);
-            return asset;
-        }
-
-        public override void RemoveAsset(Texture asset)
-        {
-            asset.Unload();
-            Lightning.Renderer.RemoveRenderable(asset);
-        }
-
         public Texture? GetInstanceOfTexture(string name)
         {
             try

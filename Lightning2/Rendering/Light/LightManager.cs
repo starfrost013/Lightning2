@@ -48,31 +48,6 @@
             Initialised = true;
         }
 
-
-        /// <summary>
-        /// Adds a light.
-        /// </summary>
-        /// <param name="window">The window to add the light to.</param>
-        /// <param name="asset">The <see cref="Light"/> object to add to the light manager.</param>
-        public override Light AddAsset(Light asset)
-        {
-            if (ScreenSpaceMap.Handle == nint.Zero) NCError.ShowErrorBox("The Light Manager must be initialised before using it!", 61, "LightManager::AddLight called before LightManager::Init!", NCErrorSeverity.FatalError);
-            asset.RenderToTexture();
-            Lightning.Renderer.AddRenderable(asset);
-            return asset;
-        }
-
-        /// <summary>
-        /// Removes a light.
-        /// </summary>
-        /// <param name="Lightning.Renderer"></param>
-        /// <param name="asset"></param>
-        public override void RemoveAsset(Light asset)
-        {
-            asset.RemoveFromTexture();
-            Lightning.Renderer.RemoveRenderable(asset);
-        }
-
         /// <summary>
         /// Sets the environmental light color.
         /// </summary>

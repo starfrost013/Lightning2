@@ -18,10 +18,10 @@ namespace LightningGL
 
         public override void Start()
         {
-            FontManager.AddAsset(new Font("Arial.ttf", 11, "Arial.11pt"));
-            FontManager.AddAsset(new Font("Arial.ttf", 18, "Arial.18pt"));
-            FontManager.AddAsset(new Font("Arial.ttf", 24, "Arial.24pt"));
-            FontManager.AddAsset(new Font("Arial.ttf", 36, "Arial.36pt"));
+            Lightning.Renderer.AddRenderable(new Font("Arial.ttf", 11, "Arial.11pt"));
+            Lightning.Renderer.AddRenderable(new Font("Arial.ttf", 18, "Arial.18pt"));
+            Lightning.Renderer.AddRenderable(new Font("Arial.ttf", 24, "Arial.24pt"));
+            Lightning.Renderer.AddRenderable(new Font("Arial.ttf", 36, "Arial.36pt"));
 
             Lightning.Renderer.Clear(Color.FromArgb(255, 127, 127, 127));
             Texture1 = new("Texture1", 64, 64);
@@ -53,7 +53,7 @@ namespace LightningGL
                 Position = new(256, 256)
             };
 
-            TextureManager.AddAsset(TextureAtlas1);
+            Lightning.Renderer.AddRenderable(TextureAtlas1);
 
             AnimatedTexture animatedTexture1 = new AnimatedTexture("AnimatedTexture1", 256, 256, new(0, 3, 1000));
             animatedTexture1.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF0.png");
@@ -63,7 +63,7 @@ namespace LightningGL
 
             animatedTexture1.Position = new(320, 256);
 
-            TextureManager.AddAsset(animatedTexture1);
+            Lightning.Renderer.AddRenderable(animatedTexture1);
 
             LightManager.SetEnvironmentalLight(Color.FromArgb(0, 0, 0, 0));
 
@@ -85,72 +85,70 @@ namespace LightningGL
                 Mode = ParticleMode.AbsoluteVelocity,
             };
 
-            ParticleManager.AddAsset(testEffect);
+            Lightning.Renderer.AddRenderable(testEffect);
 
-            LightManager.AddAsset(new("Light1")
+            Lightning.Renderer.AddRenderable(new Light("Light1")
             {
                 Position = new(50, 375),
                 Range = 4,
                 Brightness = 15,
             });
 
-            LightManager.AddAsset(new("Light2")
+            Lightning.Renderer.AddRenderable(new Light("Light2")
             {
                 Position = new(250, 300),
                 Range = 4,
                 Brightness = 31,
             });
 
-            LightManager.AddAsset(new("Light3")
-            {
-                Position = new(450, 225),
-                Range = 4,
-                Brightness = 63,
+            Lightning.Renderer.AddRenderable(new Light("Light3")
+            { 
+                Position = new(450, 225), 
+                Range = 4, 
+                Brightness = 63 });
+
+            Lightning.Renderer.AddRenderable(new Light("Light4")
+            { 
+                Position = new(650, 150), 
+                Range = 4, 
+                Brightness = 127 });
+
+            Lightning.Renderer.AddRenderable(new Light("Light5")
+            { 
+                Position = new(850, 75), 
+                Range = 4, 
+                Brightness = 255 
             });
 
-            LightManager.AddAsset(new("Light4")
-            {
-                Position = new(650, 150),
-                Range = 4,
-                Brightness = 127,
+            Lightning.Renderer.AddRenderable(new Light("Light6")
+            { 
+                Position = new(850, 275), 
+                Range = 4, 
+                Brightness = 255 
             });
 
-            LightManager.AddAsset(new("Light5")
-            {
-                Position = new(850, 75),
-                Range = 4,
-                Brightness = 255,
+            Lightning.Renderer.AddRenderable(new Light("Light7")
+            { 
+                Position = new(850, 475), 
+                Range = 4, 
+                Brightness = 255 
             });
 
-            LightManager.AddAsset(new("Light6")
-            {
-                Position = new(850, 275),
-                Range = 4,
-                Brightness = 255,
-            });
-
-            LightManager.AddAsset(new("Light7")
-            {
-                Position = new(850, 475),
-                Range = 4,
-                Brightness = 255,
-            });
-
-            LightManager.AddAsset(new("Light8")
-            {
+            Lightning.Renderer.AddRenderable(new Light("Light8")
+            { 
                 Position = new(850, 675),
-                Range = 4,
-                Brightness = 255,
+                Range = 4, 
+                Brightness = 255 
             });
 
-            LightManager.AddAsset(new("Light9")
-            {
-                Position = new(0, 0),
-                Range = 4,
-                Brightness = 255,
+            Lightning.Renderer.AddRenderable(new Light("Light9")
+            { 
+                Position = new(0, 0), 
+                Range = 4, 
+                Brightness = 255 
             });
 
-            LightManager.AddAsset(new("Light10")
+            Lightning.Renderer.AddRenderable(new Light("Light10")
             {
                 Position = new(200, 0),
                 LightColor = Color.FromArgb(255, 255, 217, 0),
@@ -158,13 +156,13 @@ namespace LightningGL
                 Brightness = 200,
             });
 
-            AudioManager.AddAsset(new("xm_boot", @"Content\xm_boot.mp3"));
-            AudioManager.AddAsset(new("xm_boot_ogg", @"Content\xm_boot_ogg.ogg"));
-            AudioManager.AddAsset(new("xm_title", @"Content\xm_title.mp3"));
+            Lightning.Renderer.AddRenderable(new Audio("xm_boot", @"Content\xm_boot.mp3"));
+            Lightning.Renderer.AddRenderable(new Audio("xm_boot_ogg", @"Content\xm_boot_ogg.ogg"));
+            Lightning.Renderer.AddRenderable(new Audio("xm_title", @"Content\xm_title.mp3"));
 
-            AudioFile? xmBoot = (AudioFile?)Lightning.Renderer.GetRenderableByName("xm_boot");
-            AudioFile? xmBootOgg = (AudioFile?)Lightning.Renderer.GetRenderableByName("xm_boot_ogg");
-            AudioFile? xmTitle = (AudioFile?)Lightning.Renderer.GetRenderableByName("xm_title");
+            Audio? xmBoot = (Audio?)Lightning.Renderer.GetRenderableByName("xm_boot");
+            Audio? xmBootOgg = (Audio?)Lightning.Renderer.GetRenderableByName("xm_boot_ogg");
+            Audio? xmTitle = (Audio?)Lightning.Renderer.GetRenderableByName("xm_title");
 
             Debug.Assert(xmBoot != null);
             Debug.Assert(xmBootOgg != null);
@@ -246,8 +244,8 @@ namespace LightningGL
             //listBox1.AddItem(new("Item4", "zxczxzxzx", "Arial.11pt"));
             //listBox1.AddItem(new("Item5", "qasqsdfwqer", "Arial.11pt"));
 
-            TextureManager.AddAsset(Texture1);
-            TextureManager.AddAsset(missingTextureTest);
+            Lightning.Renderer.AddRenderable(Texture1);
+            Lightning.Renderer.AddRenderable(missingTextureTest);
 
             missingTextureTest.Position = new(150, 150);
             // bug:
@@ -268,12 +266,12 @@ namespace LightningGL
 
             texture2.Unlock();
             texture2.Position = new(-200, 0);
-            TextureManager.AddAsset(texture2);
+            Lightning.Renderer.AddRenderable(texture2);
 
-            TextureManager.AddAsset(animatedTexture1);
+            Lightning.Renderer.AddRenderable(animatedTexture1);
 
-            Animation? anim1 = new Animation("anim1", @"Content\Animations\TestAnimation.json");
-            anim1 = AnimationManager.AddAsset(anim1);
+            Animation? anim1 = new("anim1", @"Content\Animations\TestAnimation.json");
+            anim1 = Lightning.Renderer.AddRenderable(anim1);
 
             Debug.Assert(anim1 != null);
 
@@ -282,43 +280,44 @@ namespace LightningGL
 
             Texture1.StartCurrentAnimation();
 
-            PrimitiveManager.AddLine(new(500, 300), new(600, 300), Color.FromArgb(255, 255, 255, 255), false);
-            PrimitiveManager.AddLine(new(500, 270), new(600, 270), Color.FromArgb(255, 255, 255, 255), true);
-            PrimitiveManager.AddLine(new(500, 240), new(600, 240), Color.FromArgb(255, 255, 255, 255), false);
-            PrimitiveManager.AddLine(new(500, 210), new(600, 210),  Color.FromArgb(255, 255, 255, 255), true);
+            Lightning.Renderer.AddRenderable(new Line("Line1", new(500, 300), new(600, 300), Color.FromArgb(255, 255, 255, 255)));
+            Lightning.Renderer.AddRenderable(new Line("Line2", new(500, 270), new(600, 270), Color.FromArgb(255, 255, 255, 255)));
+            Lightning.Renderer.AddRenderable(new Line("Line3", new(500, 240), new(600, 240), Color.FromArgb(255, 255, 255, 255)));
+            Lightning.Renderer.AddRenderable(new Line("Line4", new(500, 210), new(600, 210), Color.FromArgb(255, 255, 255, 255)));
 
-            PrimitiveManager.AddEllipse(new(500, 10), new(50, 50), Color.FromArgb(255, 255, 255, 255), true);
-            PrimitiveManager.AddEllipse(new(500, 309), new(50, 50), Color.FromArgb(127, 255, 255, 255), false);
+            Lightning.Renderer.AddRenderable(new Ellipse("Ellipse1", new(500, 10), new(50, 50), Color.FromArgb(255, 255, 255, 255)));
 
-            PrimitiveManager.AddRectangle(new(552, 10), new(30, 30), Color.FromArgb(255, 255, 255, 255), false);
-            PrimitiveManager.AddRectangle(new(584, 10), new(30, 30), Color.FromArgb(33, 0, 0, 255), true);
+            Lightning.Renderer.AddRenderable(new Ellipse("Ellipse2", new(500, 309), new(50, 50), Color.FromArgb(127, 255, 255, 255)));
 
-            TextManager.AddAsset(new("text1", "#[STRING_TEST]", "DebugFont", new(500, 90), Color.FromArgb(255, 0, 0, 255)));
-            TextManager.AddAsset(new("text2", "Loc string test: #[STRING_TEST]", "DebugFont", new(500, 120), Color.FromArgb(255, 0, 0, 255)));
-            TextManager.AddAsset(new("text3", "Loc string test: #[STRING_TEST] aaaaaa #[STRING_TEST] #[STRING_TEST] bbbbbb", "DebugFont", 
+            Lightning.Renderer.AddRenderable(new Rectangle("Rect1", new(552, 10), new(30, 30), Color.FromArgb(255, 255, 255, 255), false));
+            Lightning.Renderer.AddRenderable(new Rectangle("Rect2", new(584, 10), new(30, 30), Color.FromArgb(33, 0, 0, 255), true));
+
+            Lightning.Renderer.AddRenderable(new TextBlock("text1", "#[STRING_TEST]", "DebugFont", new(500, 90), Color.FromArgb(255, 0, 0, 255)));
+            Lightning.Renderer.AddRenderable(new TextBlock("text2", "Loc string test: #[STRING_TEST]", "DebugFont", new(500, 120), Color.FromArgb(255, 0, 0, 255)));
+            Lightning.Renderer.AddRenderable(new TextBlock("text3", "Loc string test: #[STRING_TEST] aaaaaa #[STRING_TEST] #[STRING_TEST] bbbbbb", "DebugFont", 
                 new(500, 150), Color.FromArgb(255, 0, 0, 255)));
 
-            TextManager.AddAsset(new("text4", "Test1", "Arial.11pt", new(700, 10), Color.FromArgb(255, 255, 255, 255)));
-            TextManager.AddAsset(new("text5", "Test2", "Arial.11pt", new(700, 30), Color.FromArgb(255, 255, 255, 255), 
+            Lightning.Renderer.AddRenderable(new TextBlock("text4", "Test1", "Arial.11pt", new(700, 10), Color.FromArgb(255, 255, 255, 255)));
+            Lightning.Renderer.AddRenderable(new TextBlock("text5", "Test2", "Arial.11pt", new(700, 30), Color.FromArgb(255, 255, 255, 255), 
                 Color.FromArgb(255, 255, 0, 0), FontStyle.Bold));
-            TextManager.AddAsset(new("text6", "Test3", "Arial.11pt", new(700, 50), Color.FromArgb(255, 255, 255, 0), 
+            Lightning.Renderer.AddRenderable(new TextBlock("text6", "Test3", "Arial.11pt", new(700, 50), Color.FromArgb(255, 255, 255, 0), 
                 Color.FromArgb(255, 255, 0, 0), FontStyle.Italic));
-            TextManager.AddAsset(new("text7", "Test4", "Arial.11pt", new(700, 70), Color.FromArgb(255, 255, 255, 255), 
+            Lightning.Renderer.AddRenderable(new TextBlock("text7", "Test4", "Arial.11pt", new(700, 70), Color.FromArgb(255, 255, 255, 255), 
                 Color.FromArgb(255, 255, 0, 0), FontStyle.Underline));
-            TextManager.AddAsset(new("text8", "Test5", "Arial.11pt", new(700, 90), Color.FromArgb(255, 255, 255, 255), 
+            Lightning.Renderer.AddRenderable(new TextBlock("text8", "Test5", "Arial.11pt", new(700, 90), Color.FromArgb(255, 255, 255, 255), 
                 Color.FromArgb(255, 255, 0, 0), FontStyle.Strikeout, 1));
-            TextManager.AddAsset(new("text9", "Test6", "Arial.11pt", new(700, 110), Color.FromArgb(255, 255, 255, 0), 
+            Lightning.Renderer.AddRenderable(new TextBlock("text9", "Test6", "Arial.11pt", new(700, 110), Color.FromArgb(255, 255, 255, 0), 
                 Color.FromArgb(255, 255, 0, 0), FontStyle.Bold, -1));
-            TextManager.AddAsset(new("text10", "Test7", "Arial.11pt", new(700, 130), Color.FromArgb(255, 255, 255, 255), 
+            Lightning.Renderer.AddRenderable(new TextBlock("text10", "Test7", "Arial.11pt", new(700, 130), Color.FromArgb(255, 255, 255, 255), 
                 Color.FromArgb(255, 255, 0, 0), FontStyle.Bold, 15));
-            TextManager.AddAsset(new("text11", "Test8", "Arial.11pt", new(700, 150), Color.FromArgb(255, 255, 255, 255), 
+            Lightning.Renderer.AddRenderable(new TextBlock("text11", "Test8", "Arial.11pt", new(700, 150), Color.FromArgb(255, 255, 255, 255),
                 Color.FromArgb(255, 255, 0, 0), FontStyle.Bold, -1));
-            TextManager.AddAsset(new("text12", "Test10", "Arial.11pt", new(700, 190), Color.FromArgb(255, 255, 255, 255), 
+            Lightning.Renderer.AddRenderable(new TextBlock("text12", "Test9", "Arial.11pt", new(700, 190), Color.FromArgb(255, 255, 255, 255), 
                 Color.FromArgb(255, 255, 0, 0), FontStyle.Bold, -1, FontSmoothingType.Solid));
-            TextManager.AddAsset(new("text13", "Test11", "Arial.11pt", new(700, 210), Color.FromArgb(255, 255, 255, 255), 
+            Lightning.Renderer.AddRenderable(new TextBlock("text13", "Test10", "Arial.11pt", new(700, 210), Color.FromArgb(255, 255, 255, 255), 
                 Color.FromArgb(255, 255, 0, 0), FontStyle.Bold | FontStyle.Italic | FontStyle.Underline));
-            TextManager.AddAsset(new("text14", "#[STRING_TEST]\nTest2\nTest3", "Arial.11pt", new(700, 230), Color.FromArgb(255, 255, 255, 255), 
-                Color.FromArgb(255, 255, 0, 0), FontStyle.Bold | FontStyle.Italic | FontStyle.Underline | FontStyle.Strikeout));
+            Lightning.Renderer.AddRenderable(new TextBlock("text14", "#[STRING_TEST]\nMulti-line text test\nTest3", "Arial.11pt", new(700, 230), 
+                Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), FontStyle.Bold | FontStyle.Italic | FontStyle.Underline | FontStyle.Strikeout));
 
         }
 

@@ -203,14 +203,21 @@ Everything that matters to the api has to go here
 * Text -> TextBlock
 * Remove SdLRenderingBackend
 * Implement new GlobalSetting:
-	+ MinimumCharacterSpacing
-	+ WordSpacing
-	+ lINEsPACING 
+	+ GlobalSettings::MinimumCharacterSpacing
+	+ GlobalSettings::WordSpacing
+	+ GlobalSettings::LineSpacing
+
+2023.01.03:
+* Use Lightning.Renderer.AddRenderable for everything
+* Every Renderable now uses standard creation/destruction methods
+* Remove nearly all Asset Manager APIs and those that remain are now internal static state classes
 
 * todo:
 	- overridable default values
+	- fix memory leak lmao
 	- a lot more configurable
 	- renderer independent blend mode!!!!!!!!!!!
+	- remaining freetype features
 	- FIX BUSTED AND SHIT HORRIBLE VERY BAD UI SYSTEM!!!!!!
 	- global usings everywhere
 	- unit testing
@@ -218,11 +225,11 @@ Everything that matters to the api has to go here
 	- get rid of TERRIBLE HACK in LightningGL.Test!!!!
 	- NativeAOT Publish
 	- VS Item Template for Scenes
+	- Moveable Cursor?
 	- can we get rid of renderposition?
 	- console
 	- scene switcher (debug)
 	- consider moving scenemanager to be under renderer?
-	- redesign the FUCKING text api
 	- button background not working
 	- change guide for start/switchto - INITALISATION ONLY NOT DRAWING, prevent scene mixing
 	- TOTAL RENDERABLE (no funny lists like particlemanager)
@@ -230,8 +237,8 @@ Everything that matters to the api has to go here
 	- events for everything
 	- remove ALL non-assetmanager apis
 	- split api ref into individual chapters to make it more manageable
+	- features in future.txt
     - // issue: won't update if you modify it again later
-            // this is why we might need referents for renderables
 
 * server todo:
 	- client connecting

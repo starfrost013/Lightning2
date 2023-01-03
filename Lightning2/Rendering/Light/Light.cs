@@ -54,6 +54,11 @@
             Range = DEFAULT_RANGE;
         }
 
+        public override void Create()
+        {
+            RenderToTexture();
+        }
+
         /// <summary>
         /// Renders this Light to a texture
         /// </summary>
@@ -192,6 +197,11 @@
                         && curY < maxSizeY) LightManager.ScreenSpaceMap.SetPixel(x, curY, LightManager.EnvironmentalLight);
                 }
             }
+        }
+
+        public override void Destroy()
+        {
+            RemoveFromTexture();
         }
     }
 }

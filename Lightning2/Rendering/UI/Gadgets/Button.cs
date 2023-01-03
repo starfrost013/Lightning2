@@ -19,17 +19,20 @@
         /// </summary>
         public FontStyle Style { get; set; }
         
-        public Rectangle? Rectangle { get; set; }
+        private Rectangle? Rectangle { get; set; }
 
-        public Button(string name, string font) : base(name, font)
-        {
-            // Hook up event handlers
-            OnRender += Render;
-        }
+        private TextBlock? TextBlock { get; set; }
+
+        public Button(string name, string font) : base(name, font) { }
 
         public override void Create()
         {
-            Rectangle = PrimitiveManager.AddRectangle(RenderPosition, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen, this);
+            Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("ButtonRectangle", RenderPosition, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen), this);
+
+            // hack for now
+            Text ??= string.Empty;
+
+            TextBlock = Lightning.Renderer.AddRenderable(new TextBlock("ButtonText", Text, Font, Position, ForegroundColor, default, Style), this);
 
             Debug.Assert(Rectangle != null);
         }
@@ -37,30 +40,35 @@
         /// <summary>
         /// Renders this button.
         /// </summary>
-        public void Render()
+        public override void Draw()
         {
-            if (Text == null) return;
+            Debug.Assert(Rectangle != null
+                && TextBlock != null);
+            if (string.IsNullOrWhiteSpace(Text))
+            {
+                NCError.ShowErrorBox("Tried to draw a button with null, empty, or only whitespace text. Ignoring...", 283, "string.IsNullOrWhiteSpace(Text) returned TRUE" +
+                    "in Button::Draw");
+                return;
+            }
 
             // This is a bit of a hack, but it works for now
             if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
 
-#pragma warning disable CS8602 // create is always called before this method and this can never be null
             Rectangle.Color = CurBackgroundColor;
             Rectangle.BorderColor = BorderColor;
-#pragma warning restore CS8602
 
-            Font? curFont = FontManager.GetFont(Font);
+            Font? curFont = (Font?)Lightning.Renderer.GetRenderableByName(Font);
 
             // this should NEVER return null because it's been made a fatal error if it is
             Debug.Assert(curFont != null);
 
+            // calculate the initial text position
             Vector2 textSize = FontManager.GetTextSize(curFont, Text, ForegroundColor);
             Vector2 textPos = (RenderPosition + Size);
             textPos.X = textPos.X - (Size.X / 2) - (textSize.X / 2);
             textPos.Y = textPos.Y - (Size.Y / 2) - (textSize.Y / 2);
 
-            TextManager.AddAsset(new("ButtonText", Text, Font, textPos, ForegroundColor, default, Style));
-
+            TextBlock.Position = textPos;
         }
     }
 }

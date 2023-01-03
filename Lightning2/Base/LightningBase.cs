@@ -36,34 +36,16 @@ namespace LightningGL
 
             // Initialise all asset managers
             TextureManager = new TextureAssetManager();
-            AudioManager = new AudioAssetManager();
-            ParticleManager = new ParticleAssetManager();
-            UIManager = new UIAssetManager();
             FontManager = new FontAssetManager();
-            TextManager = new TextAssetManager();
             LightManager = new LightAssetManager();
-            AnimationManager = new AnimationAssetManager();
-            PrimitiveManager = new PrimitiveAssetManager();
         }
 
         #region Asset managers
         public static TextureAssetManager TextureManager { get; private set; } // init not valid on static members
 
-        public static AudioAssetManager AudioManager { get; private set; }
-
-        public static ParticleAssetManager ParticleManager { get; private set; }
-
-        public static UIAssetManager UIManager { get; private set; }
-
         public static FontAssetManager FontManager { get; private set; }
-
-        public static TextAssetManager TextManager { get; private set; }
-
         public static LightAssetManager LightManager { get; private set; }
 
-        public static AnimationAssetManager AnimationManager { get; private set; }
-
-        public static PrimitiveAssetManager PrimitiveManager { get; private set; }
         #endregion
 
         internal virtual void Init()
@@ -137,12 +119,12 @@ namespace LightningGL
             NCLogging.Log("Freeing GlyphCache glyphs (Text Manager)...");
             GlyphCache.Shutdown();
 
+            NCLogging.Log("Shutting down renderer...");
+            Renderer.Shutdown();
+
             // Shut down the light manager if it has been started.
             NCLogging.Log("Shutting down the Light Manager...");
             if (LightManager.Initialised) LightManager.Shutdown();
-
-            NCLogging.Log("Shutting down renderer...");
-            Renderer.Shutdown();
 
             // Clear up any unpacked package data if Engine.ini specifies to
             Packager.Shutdown(GlobalSettings.GeneralDeleteUnpackedFilesOnExit);

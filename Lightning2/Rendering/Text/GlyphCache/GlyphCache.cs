@@ -29,7 +29,7 @@ namespace LightningGL
         {
             // always a child of a font
 
-            Font? font = FontManager.GetFont(fontName);
+            Font? font = (Font?)Lightning.Renderer.GetRenderableByName(fontName);
 
             if (font == null)
             {
