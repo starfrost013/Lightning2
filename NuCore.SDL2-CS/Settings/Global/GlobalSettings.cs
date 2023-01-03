@@ -98,9 +98,9 @@ namespace LightningBase
         public static string DebugKey { get; internal set; }
 
         /// <summary>
-        /// The distance between debug lines. The default value is 12.
+        /// The font size of debug.
         /// </summary>
-        public static int DebugLineDistance { get; internal set; }
+        public static int DebugFontSize { get; internal set; }
 
         #endregion
 
@@ -288,9 +288,9 @@ namespace LightningBase
 
         private const string DEFAULT_DEBUG_KEY = "F9";
 
-        private const bool DEFAULT_SHOW_ABOUT_SCREEN_ON_SHIFT_F9 = true;
+        private const int DEFAULT_DEBUG_FONT_SIZE = 11; 
 
-        private const int DEFAULT_DEBUG_LINE_DISTANCE = 12;
+        private const bool DEFAULT_SHOW_ABOUT_SCREEN_ON_SHIFT_F9 = true;
 
         private const double DEFAULT_MINIMUM_CHARACTER_SPACING = (5d / 11d); // 5 pixels for font size 11, just base it on that
 
@@ -383,7 +383,6 @@ namespace LightningBase
                 _ = double.TryParse(graphicsSection.GetValue("WordSpacing"), out var graphicsWordSpacingValue);
                 _ = double.TryParse(graphicsSection.GetValue("LineSpacing"), out var graphicsLineSpacingValue);
 
-
                 GraphicsWindowTitle = graphicsSection.GetValue("WindowTitle");
 
                 if (graphicsMaxFpsValue <= 0) graphicsMaxFpsValue = DEFAULT_MAX_FPS;
@@ -460,15 +459,15 @@ namespace LightningBase
                 if (AudioDeviceHz <= 0) AudioDeviceHz = DEFAULT_AUDIO_DEVICE_HZ;
                 if (AudioChannels <= 0) AudioChannels = DEFAULT_AUDIO_CHANNELS;
                 if (AudioChunkSize <= 0) AudioChunkSize = DEFAULT_AUDIO_CHUNK_SIZE;
-
             }
+
+            NetworkMasterServer = DEFAULT_NETWORK_MASTER_SERVER;
+            NetworkDefaultPort = DEFAULT_NETWORK_PORT;
+            NetworkKeepAliveMs = DEFAULT_NETWORK_KEEP_ALIVE_MS;
 
             // Load the network settings, if they are present
             if (networkSection != null)
             {
-                NetworkMasterServer = DEFAULT_NETWORK_MASTER_SERVER;
-                NetworkDefaultPort = DEFAULT_NETWORK_PORT;
-                NetworkKeepAliveMs = DEFAULT_NETWORK_KEEP_ALIVE_MS;
 
                 string networkMasterServer = networkSection.GetValue("MasterServer");
                 string networkDefaultPort = networkSection.GetValue("Port");
@@ -485,19 +484,25 @@ namespace LightningBase
                     && networkKeepAliveMsValue > 0) NetworkKeepAliveMs = networkKeepAliveMsValue;
             }
 
+            DebugKey = DEFAULT_DEBUG_KEY;
+            DebugFontSize = DEFAULT_DEBUG_FONT_SIZE;
+            // debugdisabled = false
+
             // Load the debug settings, if they are present
             if (debugSection != null)
             {
                 DebugKey = sceneSection.GetValue("DebugKey");
 
                 _ = bool.TryParse(sceneSection.GetValue("DebugDisabled"), out var debugDisabledValue);
-                _ = int.TryParse(sceneSection.GetValue("DebugLineDistance"), out var debugLineDistanceValue);
+                _ = int.TryParse(sceneSection.GetValue("DebugFontSize"), out var debugFontSizeValue);
 
-                if (debugLineDistanceValue <= 0) debugLineDistanceValue = DEFAULT_DEBUG_LINE_DISTANCE;
                 if (string.IsNullOrWhiteSpace(DebugKey)) DebugKey = DEFAULT_DEBUG_KEY;
+                if (debugFontSizeValue <= 0) debugFontSizeValue = DEFAULT_DEBUG_FONT_SIZE;
 
-                DebugLineDistance = debugLineDistanceValue;
                 DebugDisabled = debugDisabledValue;
+                DebugFontSize = debugFontSizeValue;
+
+                if (DebugFontSize <= 0) DebugFontSize = DEFAULT_DEBUG_FONT_SIZE;
             }
         }
 

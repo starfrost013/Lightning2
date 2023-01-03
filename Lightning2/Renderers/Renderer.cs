@@ -194,19 +194,16 @@
 
             NCLogging.Log($"Removing renderable of type {renderable.GetType().Name} ({renderable.Name}) - parent {parentName}");
 
-            if (renderable.Children.Count > 0)
+            for (int childId = 0; childId < renderable.Children.Count; childId++)
             {
-                for (int childId = 0; childId < renderable.Children.Count; childId++)
-                {
-                    Renderable child = renderable.Children[childId];
-                    child.StopCurrentAnimation();
-                    child.OnDestroy();
+                Renderable child = renderable.Children[childId];
+                child.StopCurrentAnimation();
+                child.OnDestroy();
 
-                    if (child.Children.Count > 0) RemoveRenderable(child);
+                if (child.Children.Count > 0) RemoveRenderable(child);
 
-                    renderable.Children.Remove(child);
-                    childId--;
-                }
+                renderable.Children.Remove(child);
+                childId--;
             }
 
             renderable.StopCurrentAnimation();
@@ -228,16 +225,10 @@
         {
             NCLogging.Log($"Removing all children of renderable of type {renderable.GetType().Name} ({renderable.Name})");
 
-            if (renderable.Children.Count > 0)
+            for (int renderableId = 0; renderableId < renderable.Children.Count; renderableId++)
             {
-                foreach (Renderable child in renderable.Children)
-                {
-                    child.OnDestroy();
-
-                    if (child.Children.Count > 0) RemoveRenderable(child);
-
-                    renderable.Children.Remove(child);
-                }
+                Renderable child = renderable.Children[renderableId];
+                RemoveRenderable(child, renderable);
             }
         }
 
