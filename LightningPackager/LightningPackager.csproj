@@ -8,7 +8,7 @@
 	<TransformOnBuild>true</TransformOnBuild>
 	<TransformOutOfDateOnly>false</TransformOutOfDateOnly>
 	<OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
-	<Configurations>Debug;Release;Debug.Arm64;Release.Arm64</Configurations>
+	<Configurations>Debug;Release;Debug.Arm64;Release.Arm64;Final</Configurations>
 	<PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
@@ -22,6 +22,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 	  <PlatformTarget>x64</PlatformTarget>
 	  <DefineConstants>TRACE;WINDOWS,X64</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Final|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DefineConstants>TRACE;WINDOWS,X64</DefineConstants>
   </PropertyGroup>
 	
   <ItemGroup>

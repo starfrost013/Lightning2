@@ -10,6 +10,7 @@
 	<TransformOnBuild>true</TransformOnBuild>
 	<TransformOutOfDateOnly>false</TransformOutOfDateOnly>
 	<OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
+	<Configurations>Debug;Release;Final</Configurations>
   </PropertyGroup>
 
 

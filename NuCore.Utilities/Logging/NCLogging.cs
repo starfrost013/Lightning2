@@ -62,10 +62,7 @@ namespace NuCore.Utilities
                 // delete all .log files
                 foreach (string fileName in Directory.GetFiles(Directory.GetCurrentDirectory()))
                 {
-                    if (fileName.Contains(".log"))
-                    {
-                        File.Delete(fileName);  
-                    }
+                    if (fileName.Contains(".log")) File.Delete(fileName);
                 }
             }
 
@@ -80,6 +77,7 @@ namespace NuCore.Utilities
             }
 
             Initialised = true;
+
         }
 
         internal static void Log(string information, NCErrorSeverity severity, bool printMetadata = true, bool logToFile = true)
@@ -88,9 +86,11 @@ namespace NuCore.Utilities
 
             switch (severity)
             {
+#if !FINAL
                 case NCErrorSeverity.Message:
                     Log(information, ConsoleColor.White, logToFile, printMetadata);
                     return;
+#endif
                 case NCErrorSeverity.Warning:
                     Log(information, ConsoleColor.Yellow, logToFile, printMetadata);
                     return;
@@ -105,6 +105,7 @@ namespace NuCore.Utilities
 
         public static void Log(string information, ConsoleColor color = ConsoleColor.White, bool printMetadata = true, bool logToFile = true)
         {
+#if !FINAL // final build turns off all non-error and server logging
             if (!Initialised)
             {
                 Console.WriteLine("NCLogging not initialised, not logging anything!");
@@ -146,6 +147,7 @@ namespace NuCore.Utilities
             NCConsole.Write(finalLogText);
 
             NCConsole.ForegroundColor = ConsoleColor.White;
+#endif
         }
 
         public static void Log(string information, string prefix, ConsoleColor color = ConsoleColor.White, bool printMetadata = true, bool logToFile = true)

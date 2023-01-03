@@ -55,8 +55,16 @@ namespace LightningGL
                 NCLogging.Log("Initialising core engine...");
                 
                 // Log the sign-on message
-                NCLogging.Log($"Lightning Game Engine", ConsoleColor.Blue);
+                NCLogging.Log("Lightning Game Engine", ConsoleColor.Blue);
                 NCLogging.Log($"Version {LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING}", ConsoleColor.Blue);
+
+#if DEBUG
+                NCLogging.Log("Debug build (Pre-release - do not distribute!)", ConsoleColor.Yellow);
+#elif RELEASE
+                NCLogging.Log("Release build (Pre-release - do not distribute!)", ConsoleColor.Yellow);
+#elif FINAL
+                NCLogging.Log("Final build!", ConsoleColor.Green);
+#endif
 
                 // we use sdl for non-rendering tasks in all cases
                 NCLogging.Log("Initialising SDL...");
