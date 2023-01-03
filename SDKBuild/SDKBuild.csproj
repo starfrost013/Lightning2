@@ -15,6 +15,10 @@
 	  <Configurations>Debug;Release;Final</Configurations>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Final|AnyCPU'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
 	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
 	
   <ItemGroup>
