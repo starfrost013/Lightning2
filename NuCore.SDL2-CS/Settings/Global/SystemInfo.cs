@@ -92,6 +92,7 @@ namespace LightningBase
                 if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22621, 0)) CurOperatingSystem = SystemInfoOperatingSystem.Nickel;
                 // moving target so use earliest known build
                 if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 25054, 0)) CurOperatingSystem = SystemInfoOperatingSystem.Copper;
+                if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 25240, 0)) CurOperatingSystem = SystemInfoOperatingSystem.Zinc;
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {

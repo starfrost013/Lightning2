@@ -118,6 +118,11 @@
         Copper = 24,
 
         /// <summary>
+        /// Zinc (Windows Dev Channel 2023)
+        /// </summary>
+        Zinc = 25,
+
+        /// <summary>
         /// OSX 10.13 (High Sierra)
         /// </summary>
         MacOS1013 = 50,

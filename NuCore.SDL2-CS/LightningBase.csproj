@@ -35,6 +35,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Final|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
     <DefineConstants>TRACE;WINDOWS,X64</DefineConstants>
+    <Optimize>True</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release.Arm64|AnyCPU'">
