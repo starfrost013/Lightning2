@@ -337,7 +337,8 @@ namespace LightningBase
                     "FreeTypeFaceFacade::EmboldenGlyphBitmap called when FreeTypeFaceFacade::Initialised is FALSE!", NCErrorSeverity.FatalError);
             }
 
-            var err = FreeTypeApi.FT_Bitmap_Embolden(_Library.Native, (nint)(GlyphBitmapPtr), (nint)xStrength, (nint)yStrength);
+            // 26.6 format
+            var err = FreeTypeApi.FT_Bitmap_Embolden(_Library.Native, (nint)(GlyphBitmapPtr), (nint)(xStrength << 6), (nint)(yStrength << 6));
 
             if (err != FT_Error.FT_Err_Ok)
             {

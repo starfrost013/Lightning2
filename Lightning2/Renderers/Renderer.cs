@@ -321,7 +321,7 @@
             List<Renderable> renderables = (parent == null) ? Renderables : parent.Children;
 
             // if we haven't specified otherwise...
-            if (!GlobalSettings.GraphicsRenderOffScreenRenderables)
+            if (!GlobalSettings.GraphicsDontCullRenderables)
             {
                 // Cull stuff offscreen and move it with the camera
                 for (int renderableId = 0; renderableId < renderables.Count; renderableId++)
@@ -352,7 +352,7 @@
             }
             else
             {
-                // just assume they are on screen
+                // just set every renderable to be on screen
                 foreach (Renderable renderable in Renderables)
                 {
                     renderable.IsOnScreen = true;

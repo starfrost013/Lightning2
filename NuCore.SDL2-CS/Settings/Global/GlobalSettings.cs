@@ -154,7 +154,7 @@ namespace LightningBase
         /// <summary>
         /// Determines if offscreen <see cref="Renderable"/>s will be culled from the rendering or not.
         /// </summary>
-        public static bool GraphicsRenderOffScreenRenderables { get; internal set; }
+        public static bool GraphicsDontCullRenderables { get; internal set; }
 
         /// <summary>
         /// The renderer that will be used
@@ -176,6 +176,20 @@ namespace LightningBase
         /// </summary>
         public static double GraphicsLineSpacing { get; internal set; }
 
+        /// <summary>
+        /// How much the bold font style horizontally emboldens font bitmaps.
+        /// </summary>
+        public static int GraphicsBoldFactorX { get; internal set; }
+
+        /// <summary>
+        /// How much the bold font style vertically emboldens font bitmaps.
+        /// </summary>
+        public static int GraphicsBoldFactorY { get; internal set; }
+
+        /// <summary>
+        /// The angle applied to italic text.
+        /// </summary>
+        public static int GraphicsItalicAngle { get; internal set; }
         #endregion
 
         #region System requirements
@@ -298,6 +312,12 @@ namespace LightningBase
 
         private const double DEFAULT_LINE_SPACING = 1.2d;
 
+        private const int DEFAULT_BOLD_FACTOR_X = 4;
+
+        private const int DEFAULT_BOLD_FACTOR_Y = 4;
+
+        private const int DEFAULT_ITALIC_ANGLE_DEGREES = 12;
+
         #endregion
 
         #region GlobalSettings methods
@@ -375,14 +395,16 @@ namespace LightningBase
                 _ = Enum.TryParse(typeof(SDL_WindowFlags), graphicsSection.GetValue("WindowFlags"), true, out var graphicsWindowFlagsValue);
                 _ = Enum.TryParse(typeof(SDL_RendererFlags), graphicsSection.GetValue("RenderFlags"), true, out var graphicsRenderFlagsValue);
                 _ = int.TryParse(graphicsSection.GetValue("TickSpeed"), out var graphicsTickSpeedValue);
-                _ = bool.TryParse(graphicsSection.GetValue("RenderOffScreenRenderables"), out var graphicsRenderOffscreenRenderablesValue);
+                _ = bool.TryParse(graphicsSection.GetValue("DontCullRenderables"), out var graphicsDontCullRenderablesValue);
                 _ = int.TryParse(graphicsSection.GetValue("PositionX"), out var graphicsPositionXValue);
                 _ = int.TryParse(graphicsSection.GetValue("PositionY"), out var graphicsPositionYValue);
                 _ = Enum.TryParse(typeof(Renderers), graphicsSection.GetValue("Renderer"), true, out var graphicsRendererValue);
                 _ = double.TryParse(graphicsSection.GetValue("MinimumCharacterSpacing"), out var graphicsMinimumCharacterSpacingValue);
                 _ = double.TryParse(graphicsSection.GetValue("WordSpacing"), out var graphicsWordSpacingValue);
                 _ = double.TryParse(graphicsSection.GetValue("LineSpacing"), out var graphicsLineSpacingValue);
-
+                _ = int.TryParse(graphicsSection.GetValue("BoldFactorX"), out var graphicsBoldFactorXValue);
+                _ = int.TryParse(graphicsSection.GetValue("BoldFactorY"), out var graphicsBoldFactorYValue);
+                _ = int.TryParse(graphicsSection.GetValue("ItalicAngle"), out var graphicsItalicAngleValue);
                 GraphicsWindowTitle = graphicsSection.GetValue("WindowTitle");
 
                 if (graphicsMaxFpsValue <= 0) graphicsMaxFpsValue = DEFAULT_MAX_FPS;
@@ -395,7 +417,11 @@ namespace LightningBase
                 // set minimum spacing values
                 if (graphicsMinimumCharacterSpacingValue <= 0) graphicsMinimumCharacterSpacingValue = DEFAULT_MINIMUM_CHARACTER_SPACING;
                 if (graphicsWordSpacingValue <= 0) graphicsWordSpacingValue = DEFAULT_WORD_SPACING;
-                if (graphicsLineSpacingValue <= 0) graphicsLineSpacingValue = DEFAULT_LINE_SPACING;  
+                if (graphicsLineSpacingValue <= 0) graphicsLineSpacingValue = DEFAULT_LINE_SPACING;
+                if (graphicsBoldFactorXValue <= 0) graphicsBoldFactorXValue = DEFAULT_BOLD_FACTOR_X;
+                if (graphicsBoldFactorYValue <= 0) graphicsBoldFactorYValue = DEFAULT_BOLD_FACTOR_Y;
+                if (graphicsItalicAngleValue <= 0
+                    || graphicsItalicAngleValue >= 360) graphicsItalicAngleValue = DEFAULT_ITALIC_ANGLE_DEGREES;
 
                 // Set the actual GlobalSettings values.
                 GraphicsMaxFPS = graphicsMaxFpsValue;
@@ -403,11 +429,14 @@ namespace LightningBase
                 GraphicsResolutionY = graphicsResolutionYValue;
                 if (graphicsWindowFlagsValue != null) GraphicsWindowFlags = (SDL_WindowFlags)graphicsWindowFlagsValue;
                 if (graphicsRenderFlagsValue != null) GraphicsRenderFlags = (SDL_RendererFlags)graphicsRenderFlagsValue;
-                GraphicsRenderOffScreenRenderables = graphicsRenderOffscreenRenderablesValue;
+                GraphicsDontCullRenderables = graphicsDontCullRenderablesValue;
                 if (graphicsRendererValue != null) GraphicsRenderer = (Renderers)graphicsRendererValue;
                 GraphicsMinimumCharacterSpacing = graphicsMinimumCharacterSpacingValue;
                 GraphicsWordSpacing = graphicsWordSpacingValue;
                 GraphicsLineSpacing = graphicsLineSpacingValue;
+                GraphicsBoldFactorX = graphicsBoldFactorXValue;
+                GraphicsBoldFactorY = graphicsBoldFactorYValue;
+                GraphicsItalicAngle = graphicsItalicAngleValue;
 
                 // why the fuck do these have to be here???? this is fucked up
                 // (because it uses other globalsettings like resolution so you need to load it after resolution. THIS IS A DESIGN PROBLEM, FIX IT)

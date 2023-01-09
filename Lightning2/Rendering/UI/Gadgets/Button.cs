@@ -14,11 +14,6 @@
         /// </summary>
         public string? Text { get; set; }
 
-        /// <summary>
-        /// The text style that this button will use.
-        /// </summary>
-        public FontStyle Style { get; set; }
-        
         private Rectangle? Rectangle { get; set; }
 
         private TextBlock? TextBlock { get; set; }
@@ -63,7 +58,7 @@
             Debug.Assert(curFont != null);
 
             // calculate the initial text position
-            Vector2 textSize = FontManager.GetTextSize(curFont, Text, ForegroundColor);
+            Vector2 textSize = FontManager.GetTextSize(curFont, Text, ForegroundColor, Style, TextBlock.SmoothingType);
             Vector2 textPos = (RenderPosition + Size);
             textPos.X = textPos.X - (Size.X / 2) - (textSize.X / 2);
             textPos.Y = textPos.Y - (Size.Y / 2) - (textSize.Y / 2);

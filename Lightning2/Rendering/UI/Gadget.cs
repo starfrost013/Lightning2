@@ -59,6 +59,11 @@
         public string Font { get; set; }
 
         /// <summary>
+        /// The font style the text of this gadget will use, if applicable.
+        /// </summary>
+        public FontStyle Style { get; set; }
+
+        /// <summary>
         /// Gadget constructor.
         /// </summary>
         public Gadget(string name, string font) : base(name)

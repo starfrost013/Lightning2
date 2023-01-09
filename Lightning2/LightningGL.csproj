@@ -144,7 +144,6 @@
 
   <ItemGroup>
     <Folder Include="Content\Fonts\" />
-    <Folder Include="Developer\Console\Commands\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 

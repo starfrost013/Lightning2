@@ -176,7 +176,7 @@ namespace LightningGL
 
                 foreach (char character in line)
                 {
-                    Glyph? glyph = GlyphCache.QueryCache(Font, character, ForegroundColor, SmoothingType);
+                    Glyph? glyph = GlyphCache.QueryCache(Font, character, ForegroundColor, Style, SmoothingType);
 
                     if (glyph != null)
                     {

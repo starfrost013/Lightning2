@@ -25,7 +25,7 @@ namespace LightningGL
         /// </summary>
         /// <param name="character">The character to cache.</param>
         internal static unsafe void CacheCharacter(string fontName, char character, Color foregroundColor,
-            FontSmoothingType smoothingType = FontSmoothingType.Default)
+            FontStyle style = FontStyle.Default, FontSmoothingType smoothingType = FontSmoothingType.Default)
         {
             // always a child of a font
 
@@ -91,8 +91,14 @@ namespace LightningGL
                 font.Handle.FaceRec->glyph->advance.y >> 6);
 
             // FreeType uses 16.16 fixed point multipliers so we have to shift right by 6 bits in order to get the actual value
+            // todo: get rid of this code, it's dumb.
             if (bitmap.width == 0) bitmap.width = (uint)(font.FontSize * GlobalSettings.GraphicsWordSpacing);
             if (bitmap.rows == 0) bitmap.rows = bitmap.width; // create a square for now
+
+            if (style.HasFlag(FontStyle.Bold))
+            {
+                font.Handle.EmboldenGlyphBitmap(GlobalSettings.GraphicsBoldFactorX, GlobalSettings.GraphicsBoldFactorY);
+            }
 
             Glyph? glyph = new("Glyph", (int)bitmap.width, (int)bitmap.rows)
             {
@@ -105,6 +111,7 @@ namespace LightningGL
                 Offset = new(font.Handle.FaceRec->glyph->bitmap_left,
                 font.Handle.FaceRec->glyph->bitmap_top),
                 Advance = advance,
+                Style = style,
             };
 
             if (!glyph.IsEmpty) glyph = (Glyph?)Lightning.Renderer.TextureFromFreetypeBitmap(bitmap, glyph, foregroundColor);
@@ -115,7 +122,7 @@ namespace LightningGL
 
         }
 
-        internal static Glyph? QueryCache(string font, char character, Color foregroundColor, FontSmoothingType smoothingType = FontSmoothingType.Default, bool failNow = false)
+        internal static Glyph? QueryCache(string font, char character, Color foregroundColor, FontStyle style, FontSmoothingType smoothingType = FontSmoothingType.Default, bool failNow = false)
         {
             // because utf16
             int hexVersion = Convert.ToInt32(character);
@@ -125,21 +132,22 @@ namespace LightningGL
                 if (glyph.Font == font
                     && glyph.Character == character
                     && glyph.ForegroundColor == foregroundColor 
+                    && glyph.Style == style
                     && glyph.SmoothingType == smoothingType)
                 {
                     return glyph;
                 }
             }
 
-            NCLogging.Log($"Glyph cache miss (font: {font}), character {character} (0x{hexVersion:X}), smoothing type {smoothingType}). Caching for next time...");
+            NCLogging.Log($"Glyph cache miss (font: {font}), character {character} (0x{hexVersion:X}), style {style}, smoothing type {smoothingType}). Caching for next time...");
 
             // prevent a stack overflow it will only try and cache it once
             if (!failNow)
             {
-                CacheCharacter(font, character, foregroundColor, smoothingType);
+                CacheCharacter(font, character, foregroundColor, style, smoothingType);
 
                 // try and query the cache again
-                return QueryCache(font, character, foregroundColor, smoothingType, true);
+                return QueryCache(font, character, foregroundColor, style, smoothingType, true);
             }
 
             // don't try and cache a third time if we already tried once

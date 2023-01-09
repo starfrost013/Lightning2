@@ -64,6 +64,7 @@
         /// </summary>
         private Rectangle? Rectangle { get; set; }
 
+
         /// <summary>
         /// Static listbox constructor.
         /// </summary>
@@ -111,7 +112,7 @@
 
             item.Font = Font;
 
-            Vector2 itemFontSize = FontManager.GetTextSize(itemFont, item.Text, item.ForegroundColor);
+            Vector2 itemFontSize = FontManager.GetTextSize(itemFont, item.Text, item.ForegroundColor, item.Style, FontSmoothingType.Default);
 
             // size it to the size of the text in the Y dimension
             BoxSize = new(Size.X, (itemFontSize.Y * 1.25f));

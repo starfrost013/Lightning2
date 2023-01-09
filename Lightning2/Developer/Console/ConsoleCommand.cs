@@ -1,5 +1,4 @@
-﻿
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// ConsoleCommand
@@ -21,6 +20,6 @@ namespace LightningGL
         /// <summary>
         /// Executes the console command.
         /// </summary>
-        public abstract void Execute();
+        public abstract void Execute(object[] parameters);
     }
 }

@@ -163,6 +163,7 @@
             if (!string.IsNullOrWhiteSpace(Text))
             {
                 TextBoxText.Text = Text; // maybe put this in the getter
+                TextBoxText.Style = Style;
 
                 if (Font == null)
                 {
@@ -177,7 +178,7 @@
 
                 if (!HideCursor)
                 {
-                    Vector2 fontSize = FontManager.GetLargestTextSize(Font, Text, ForegroundColor);
+                    Vector2 fontSize = FontManager.GetLargestTextSize(Font, Text, ForegroundColor, Style, TextBoxText.SmoothingType);
                     Vector2 cursorPosition = new(Position.X + fontSize.X, Position.Y);
 
                     // actually blink it

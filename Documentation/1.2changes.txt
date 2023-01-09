@@ -211,18 +211,27 @@ Everything that matters to the api has to go here
 * Use Lightning.Renderer.AddRenderable for everything
 * Every Renderable now uses standard creation/destruction methods
 * Remove nearly all Asset Manager APIs and those that remain are now utility methods only
-* NCMessageBoxPresets::CreateBaseMessageBox -> * NCMessageBoxPresets::CreateMessageBox
+* NCMessageBoxPresets::CreateBaseMessageBox -> NCMessageBoxPresets::CreateMessageBox
 * AudioFile -> Audio
 * Remove GlobalSettings
 	- GlobalSettings::DebugLineDistance
 * Add new GlobalSettings
 	+ GlobalSettings::DebugFontSize
 
+2023.01.05:
+* Add setgvar and setlvar stubs
+* Add new GlobalSettings
+	+ GlobalSettings::BoldFactorX
+	+ GlobalSettings::BoldFactorY
+	+ GlobalSettings::ItalicAngleDegrees
+* RenderOffscreenRenderables -> DontCullRenderables
+* Reimplement bold text
+
 * todo:
 	- overridable default values
 	- fix memory leak lmao
 	- DEATH to DUPLICATE CODE
-	- remove on load failure?
+	- defaults on load failure
 	- a lot more configurable
 	- renderer independent blend mode!!!!!!!!!!!
 	- remaining freetype features

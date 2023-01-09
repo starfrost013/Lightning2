@@ -15,6 +15,11 @@ namespace LightningGL
         Normal = 0,
 
         /// <summary>
+        /// The default font style.
+        /// </summary>
+        Default = Normal,
+
+        /// <summary>
         /// Bold font styling.
         /// </summary>
         Bold = 0x1,
