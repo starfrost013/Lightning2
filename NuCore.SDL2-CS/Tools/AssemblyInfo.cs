@@ -3,9 +3,9 @@
 
 using System.Reflection;
 
-[assembly: AssemblyVersion("2.0.0.314")]
-[assembly: AssemblyFileVersion("2.0.0.314")]
-[assembly: AssemblyInformationalVersion("2.0.0-alpha build 314, built 2023-01-06 21:53:37")]
+[assembly: AssemblyVersion("2.0.0.318")]
+[assembly: AssemblyFileVersion("2.0.0.318")]
+[assembly: AssemblyInformationalVersion("2.0.0-alpha build 318, built 2023-01-10 22:14:30")]
 [assembly: AssemblyTitle("Lightning Base")]
 
 namespace LightningBase
@@ -15,11 +15,11 @@ namespace LightningBase
 		public const int LIGHTNING_VERSION_MAJOR = 2;
 		public const int LIGHTNING_VERSION_MINOR = 0; 
 		public const int LIGHTNING_VERSION_REVISION = 0;
-		public const int LIGHTNING_VERSION_BUILD = 314;
+		public const int LIGHTNING_VERSION_BUILD = 318;
 		public const string LIGHTNING_VERSION_SPECIFIER = "-alpha";
 		public const string LIGHTNING_VERSION_STRING = "2.0.0-alpha";
-		public const string LIGHTNING_VERSION_BUILD_STRING = "2.0.0.314";
-		public static string LIGHTNING_VERSION_EXTENDED_STRING = "2.0.0-alpha build 314, built 2023-01-06 21:53:37";
+		public const string LIGHTNING_VERSION_BUILD_STRING = "2.0.0.318";
+		public static string LIGHTNING_VERSION_EXTENDED_STRING = "2.0.0-alpha build 318, built 2023-01-10 22:14:30";
 	}
 }
 
