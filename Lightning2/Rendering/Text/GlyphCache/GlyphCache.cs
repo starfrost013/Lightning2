@@ -40,7 +40,7 @@ namespace LightningGL
 
             if (font.Handle == default)
             {
-                NCError.ShowErrorBox("Font failed to load while trying to cache a character. This is an engine bug! THIS IS MY BUSTED ASS CODE, NOT YOURS! REPORT THIS ERROR!", 
+                NCError.ShowErrorBox("Font failed to load while trying to cache a character. This is an engine bug! THIS IS MY BUSTED ASS CODE, NOT YOURS! REPORT THIS ERROR!",
                     251, "Called GlyphCache::CacheCharacter with a font that was not loaded!", NCErrorSeverity.FatalError);
                 return;
             }
@@ -95,10 +95,13 @@ namespace LightningGL
             if (bitmap.width == 0) bitmap.width = (uint)(font.FontSize * GlobalSettings.GraphicsWordSpacing);
             if (bitmap.rows == 0) bitmap.rows = bitmap.width; // create a square for now
 
+            /*
+             this actually just does "corrupt glyph bitmap", apparently randomly
             if (style.HasFlag(FontStyle.Bold))
             {
-                font.Handle.EmboldenGlyphBitmap(GlobalSettings.GraphicsBoldFactorX, GlobalSettings.GraphicsBoldFactorY);
+                font.Handle.EmboldenGlyphBitmap(GlobalSettings.GraphicsBoldFactorX << 6, GlobalSettings.GraphicsBoldFactorY << 6);
             }
+            */
 
             Glyph? glyph = new("Glyph", (int)bitmap.width, (int)bitmap.rows)
             {
@@ -114,18 +117,18 @@ namespace LightningGL
                 Style = style,
             };
 
-            if (!glyph.IsEmpty) glyph = (Glyph?)Lightning.Renderer.TextureFromFreetypeBitmap(bitmap, glyph, foregroundColor);
-
-            Debug.Assert(glyph != null);
+            if (!glyph.IsEmpty)
+            {
+                glyph = (Glyph?)Lightning.Renderer.TextureFromFreetypeBitmap(bitmap, glyph, foregroundColor);
+            }
 
             Glyphs.Add(glyph);
-
         }
 
         internal static Glyph? QueryCache(string font, char character, Color foregroundColor, FontStyle style, FontSmoothingType smoothingType = FontSmoothingType.Default, bool failNow = false)
         {
             // because utf16
-            int hexVersion = Convert.ToInt32(character);
+            int hexChar = Convert.ToInt32(character);
 
             foreach (Glyph glyph in Glyphs)
             {
@@ -139,7 +142,7 @@ namespace LightningGL
                 }
             }
 
-            NCLogging.Log($"Glyph cache miss (font: {font}), character {character} (0x{hexVersion:X}), style {style}, smoothing type {smoothingType}). Caching for next time...");
+            NCLogging.Log($"Glyph cache miss (font: {font}), character {character} (0x{hexChar:X}), style {style}, smoothing type {smoothingType}). Caching for next time...");
 
             // prevent a stack overflow it will only try and cache it once
             if (!failNow)

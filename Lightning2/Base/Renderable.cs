@@ -134,7 +134,6 @@
         /// </summary>
         public virtual bool NotCullable { get; set; }
 
-
         /// <summary>
         /// Backing field for <see cref="RenderPosition"/>
         /// </summary>
@@ -238,7 +237,7 @@
 
         public List<Renderable> Children { get; init; }
 
-        public Renderable(string name, Renderable? parent = null)
+        public Renderable(string name)
         {
             AnimationTimer = new Stopwatch();
 
@@ -251,8 +250,6 @@
             Name = name;
             _name = Name; // fix compile warnings
             Children = new List<Renderable>();
-
-            if (parent != null) Parent = parent;
         }
 
         /// <summary>
