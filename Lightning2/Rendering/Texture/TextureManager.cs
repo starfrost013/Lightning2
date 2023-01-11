@@ -65,7 +65,7 @@ namespace LightningGL
                 newTexture.Path = texture.Path;
             }
 
-            Lightning.Renderer.AddRenderable(newTexture); // this loads it
+            Lightning.Renderer.AddRenderable(newTexture, texture); // this loads it
             return newTexture;
         }
     }

@@ -241,7 +241,7 @@
                 ViewportStart = tempTexture.ViewportStart,
                 ViewportEnd = tempTexture.ViewportEnd,
             };
-            
+
             // easier to use doubles here so we don't use random.nextsingle
             float varX = Random.Shared.NextSingle() * (Variance - -Variance) + -Variance,
                   varY = Random.Shared.NextSingle() * (Variance - -Variance) + -Variance;

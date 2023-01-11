@@ -231,18 +231,18 @@ namespace LightningGL
             };
 
 
-            //UIManager.AddAsset(btn1);
-            //UIManager.AddAsset(listBox1);
-            //UIManager.AddAsset(textBox1);
-            //UIManager.AddAsset(checkBox1);
+            Lightning.Renderer.AddRenderable(btn1);
+            Lightning.Renderer.AddRenderable(listBox1);
+            Lightning.Renderer.AddRenderable(textBox1);
+            Lightning.Renderer.AddRenderable(checkBox1);
 
             // you must load a listbox before adding it
             // note this in docs
-            //listBox1.AddItem(new("Item1", "test 1", "Arial.11pt"));
-            //listBox1.AddItem(new("Item2", "test 2", "Arial.11pt"));
-            //listBox1.AddItem(new("Item3", "dfsdfsdfsdfsdfsdf", "Arial.11pt"));
-            //listBox1.AddItem(new("Item4", "zxczxzxzx", "Arial.11pt"));
-            //listBox1.AddItem(new("Item5", "qasqsdfwqer", "Arial.11pt"));
+            listBox1.AddItem(new("Item1", "test 1", "Arial.11pt"));
+            listBox1.AddItem(new("Item2", "test 2", "Arial.11pt"));
+            listBox1.AddItem(new("Item3", "dfsdfsdfsdfsdfsdf", "Arial.11pt"));
+            listBox1.AddItem(new("Item4", "zxczxzxzx", "Arial.11pt"));
+            listBox1.AddItem(new("Item5", "qasqsdfwqer", "Arial.11pt"));
 
             Lightning.Renderer.AddRenderable(Texture1);
             Lightning.Renderer.AddRenderable(missingTextureTest);

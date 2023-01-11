@@ -100,7 +100,29 @@ namespace LightningGL
         /// </summary>
         private const int DEFAULT_RELATIVE_Z_INDEX = 1;
 
-        public TextBlock(string name) : base(name) { }
+        /// <summary>
+        /// Line used for rendering underline.
+        /// </summary>
+        private Line? UnderlineLine { get; set; }
+
+        /// <summary>
+        /// Line used for rendering strikeout.
+        /// </summary>
+        private Line? StrikeoutLine { get; set; }
+
+        public TextBlock(string name, string text, string font) : base(name)
+        {
+            Text = text;
+            Font = font;
+        }
+
+        public TextBlock(string name, string text, string font, Vector2 position, Color foregroundColor) : base(name)
+        {
+            Text = text;
+            Font = font;
+            Position = position;
+            ForegroundColor = foregroundColor; 
+        }
 
         public TextBlock(string name, string text, string font, Vector2 position, Color foregroundColor, Color backgroundColor = default,
             FontStyle style = default, int outlineSize = 0, FontSmoothingType smoothingType = FontSmoothingType.Default, bool snapToScreen = false, bool localise = true) : base(name)
@@ -247,6 +269,19 @@ namespace LightningGL
                         break;
                 }
             }
+
+            if (Style.HasFlag(FontStyle.Underline))
+            {
+                UnderlineLine ??= Lightning.Renderer.AddRenderable(new Line("TextUnderlineLine", 
+                    new(Position.X, Position.Y), new(Position.X, Position.Y)), this);
+            }
+
+            if (Style.HasFlag(FontStyle.Strikeout))
+            {
+                StrikeoutLine ??= Lightning.Renderer.AddRenderable(new Line("TextStrikeoutLine",
+                    new(Position.X, Position.Y), new(Position.X, Position.Y)), this);
+            }
+
         }
     }
 }
