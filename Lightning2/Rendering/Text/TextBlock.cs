@@ -131,7 +131,8 @@ namespace LightningGL
         }
 
         public TextBlock(string name, string text, string font, Vector2 position, Color foregroundColor, Color backgroundColor = default,
-            FontStyle style = default, int outlineSize = 0, FontSmoothingType smoothingType = FontSmoothingType.Default, bool snapToScreen = false, bool localise = true) : base(name)
+            FontStyle style = default, int outlineSize = 0, FontSmoothingType smoothingType = FontSmoothingType.Default, bool snapToScreen = false, bool localise = true, 
+            int relativeZIndex = DEFAULT_RELATIVE_Z_INDEX) : base(name)
         {
             Text = text;
             Font = font;
@@ -142,12 +143,8 @@ namespace LightningGL
             OutlineSize = outlineSize;
             SmoothingType = smoothingType;
             SnapToScreen = snapToScreen;
-            Localise = localise; 
-        }
-
-        public override void Create()
-        {
-            RelativeZIndex = DEFAULT_RELATIVE_Z_INDEX; 
+            Localise = localise;
+            RelativeZIndex = relativeZIndex;
         }
 
         public override void Draw()
@@ -192,16 +189,12 @@ namespace LightningGL
             // split text by lines
             string[] linesArray = text.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
-
             foreach (string line in linesArray)
             {
                 // reset line length
                 int lineLength = 0;
                 // offset from first y position for drawing underline/strikethrough line. start at 1 pixel below lin
                 int maxVerticalLineSize = 1;
-
-                // first character position
-                Vector2 firstCharPosition = new();
 
                 foreach (char character in line)
                 {
@@ -226,7 +219,7 @@ namespace LightningGL
                         if (glyph.Size.Y > maxVerticalLineSize) maxVerticalLineSize = (int)glyph.Size.Y;
 
                         // change line length
-                        lineLength += (int)(glyph.Advance.X);
+                        lineLength += (int)glyph.Advance.X;
                         
                         // syntax note: new() does not work here!!! you must provide a type name
                         switch (Orientation)
@@ -256,10 +249,6 @@ namespace LightningGL
                                 break;
                         }
 
-                        //if the line length is zero set the first character position
-                        //*****STUPID HACK*****
-                        if (lineLength == glyph.Advance.X) firstCharPosition = currentPosition; 
-
                         // the glyph is empty so just push forward by the size of the glyph
                         // (tabs, spaces, etc)
                         if (!glyph.IsEmpty) glyph.Draw();
@@ -277,7 +266,7 @@ namespace LightningGL
 
                     if (UnderlineLine != null)
                     {
-                        UnderlineLine.Position = new(firstCharPosition.X, firstCharPosition.Y + maxVerticalLineSize);
+                        UnderlineLine.Position = new(Position.X + (font.FontSize / 2), Position.YY);
                         UnderlineLine.Size = new(lineLength, GlobalSettings.GraphicsUnderlineThickness);
                         UnderlineLine.Color = ForegroundColor; // update colour
                     }
@@ -291,10 +280,11 @@ namespace LightningGL
 
                     if (StrikeoutLine != null)
                     {
-                        StrikeoutLine.Position = new(firstCharPosition.X, firstCharPosition.Y + (maxVerticalLineSize / 2) + 1);
+                        StrikeoutLine.Position = new(Position.X + (font.FontSize / 2), Position.Y - (maxVerticalLineSize / 2));
                         StrikeoutLine.Size = new(lineLength, GlobalSettings.GraphicsStrikeoutThickness);
                         StrikeoutLine.Color = ForegroundColor; // update colour
                     }
+                    
                 }
 
                 // line is done
