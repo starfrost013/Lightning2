@@ -71,9 +71,9 @@ namespace LightningPackager
 
             if (!extract)
             {
-                if (!File.Exists(FilePath)) NCError.ShowErrorBox($"Attempted to add a non-existent file ({path}) to a PackageFileCatalog!", 96, "PackageFileCatalogEntry constructor: Path does not exist!", NCErrorSeverity.FatalError, null, true);
+                if (!File.Exists(FilePath)) NCError.ShowErrorBox($"Attempted to add a non-existent file ({path}) to a PackageFileCatalog!", 96, NCErrorSeverity.FatalError, null, true);
 
-                FileInfo fileInfo = new FileInfo(FilePath);
+                FileInfo fileInfo = new(FilePath);
                 Size = fileInfo.Length;
                 TimeStamp = fileInfo.LastWriteTimeUtc;
             }
@@ -133,15 +133,14 @@ namespace LightningPackager
             File.WriteAllBytes(finalPath, fileData);
 
             // will be this value if we do not specify CRC32 compression mode
-            if (Crc32 != default(uint))
+            if (Crc32 != default)
             {
                 CRC32.NextBytes(fileData);
                 uint realCrc32 = CRC32.Result;
                 string validationString = $"CRC32 of original file = 0x{Crc32:X}, CRC32 of extracted file = 0x{realCrc32:X}";
                 NCLogging.Log(validationString);
 
-                if (Crc32 != realCrc32) NCError.ShowErrorBox($"File {RealPath} is corrupt: {validationString}!", 116, 
-                    "Calculated CRC32 for PackageFileCatalogEntry is not the same as PackageFileCatalogEntry::Crc32", NCErrorSeverity.FatalError);
+                if (Crc32 != realCrc32) NCError.ShowErrorBox($"File {RealPath} is corrupt: {validationString}!", 116, NCErrorSeverity.FatalError);
             }
         }
 

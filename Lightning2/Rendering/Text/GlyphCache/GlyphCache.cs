@@ -34,14 +34,14 @@ namespace LightningGL
             if (font == null)
             {
                 NCError.ShowErrorBox("Passed an unloaded font to GlyphCache::CacheCharacter!",
-                    256, "GlyphCache::CacheCharacter's font parameter was NULL", NCErrorSeverity.FatalError);
+                    256, NCErrorSeverity.FatalError);
                 return;
             }
 
             if (font.Handle == default)
             {
                 NCError.ShowErrorBox("Font failed to load while trying to cache a character. This is an engine bug! THIS IS MY BUSTED ASS CODE, NOT YOURS! REPORT THIS ERROR!",
-                    251, "Called GlyphCache::CacheCharacter with a font that was not loaded!", NCErrorSeverity.FatalError);
+                    251, NCErrorSeverity.FatalError);
                 return;
             }
 
@@ -53,7 +53,7 @@ namespace LightningGL
             {
                 // hack warning
                 NCError.ShowErrorBox($"Tried to cache character {character} not defined in font! The character will not be cached!",
-                    252, "Font Glyphcache: Tried to cache a character that the font does not define", NCErrorSeverity.Warning, null, true);
+                    252, NCErrorSeverity.Warning, null, true);
 
                 // create an empty glyph such that we don't try and cache this character again
                 Glyph emptyGlyph = new("UndefinedCharGlyph", 1, 1)
@@ -74,7 +74,7 @@ namespace LightningGL
             if (error != FT_Error.FT_Err_Ok)
             {
                 NCError.ShowErrorBox($"Error loading character {character} - FreeType failed to load and render the glyph",
-                    253, "Font Glyphcache: Tried to cache a character that the font does not define", NCErrorSeverity.FatalError);
+                    253, NCErrorSeverity.FatalError);
                 return;
             }
 
@@ -118,7 +118,8 @@ namespace LightningGL
             Glyphs.Add(glyph);
         }
 
-        internal static Glyph? QueryCache(string font, char character, Color foregroundColor, FontStyle style, FontSmoothingType smoothingType = FontSmoothingType.Default, bool failNow = false)
+        internal static Glyph? QueryCache(string font, char character, Color foregroundColor, FontStyle style,
+            FontSmoothingType smoothingType = FontSmoothingType.Default, bool failNow = false)
         {
             // because utf16
             int hexChar = Convert.ToInt32(character);
@@ -165,8 +166,7 @@ namespace LightningGL
                 }
             }
 
-            NCError.ShowErrorBox($"Tried to remove non-cached {character} for font {font}, color {foregroundColor} smoothing type {smoothingType}", 261, 
-                "GlyphCache::DeleteEntry called with glyph not in the glyph cache", NCErrorSeverity.Error);
+            NCError.ShowErrorBox($"Tried to remove non-cached {character} for font {font}, color {foregroundColor} smoothing type {smoothingType}", 261, NCErrorSeverity.Error);
         }
 
         internal static void PurgeUnusedEntries()

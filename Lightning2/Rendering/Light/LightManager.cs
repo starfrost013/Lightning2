@@ -9,13 +9,10 @@
     /// </summary>
     public class LightAssetManager : AssetManager<Light>
     {
-        // set in constructor (see constructor), no method called by the construct
-#pragma warning disable CS8618
         /// <summary>
         /// Internal: Texture used for rendering lights
         /// </summary>
-        internal Texture ScreenSpaceMap { get; private set; }
-#pragma warning restore CS8618
+        internal Texture? ScreenSpaceMap { get; private set; }
 
         /// <summary>
         /// The default color of the environment.
@@ -54,7 +51,9 @@
         /// <param name="color">The <see cref="Color"/> to set as the environmental light color.</param>
         public void SetEnvironmentalLight(Color color)
         {
-            if (ScreenSpaceMap.Handle == nint.Zero) NCError.ShowErrorBox("The Light Manager must be initialised before using it!", 124, "LightManager::SetEnvironmentalLight called before LightManager::Init!", NCErrorSeverity.FatalError);
+            Debug.Assert(ScreenSpaceMap != null);
+
+            if (ScreenSpaceMap.Handle == nint.Zero) NCError.ShowErrorBox("The Light Manager must be initialised before using it!", 124, NCErrorSeverity.FatalError);
             EnvironmentalLight = color;
 
             if (EnvironmentalLight == default(Color)) EnvironmentalLight = Color.FromArgb(255, 255, 255, 255);
@@ -69,8 +68,10 @@
         /// <param name="blendMode">The <see cref="SDL_BlendMode"/> of the environmental light texture to set,</param>
         public void SetEnvironmentalLightBlendMode(SDL_BlendMode blendMode)
         {
+            Debug.Assert(ScreenSpaceMap != null);
+
             if (ScreenSpaceMap.Handle == nint.Zero) NCError.ShowErrorBox("The Light Manager must be initialised before using it!", 
-                125, "LightManager::SetEnvironmentalLightBlendMode called before LightManager::Init!", NCErrorSeverity.FatalError);
+                125, NCErrorSeverity.FatalError);
             SDL_SetTextureBlendMode(ScreenSpaceMap.Handle, blendMode);
         }
 
@@ -80,14 +81,20 @@
         /// <param name="Lightning.Renderer">The window to render the current screen-space light map to.</param>
         internal override void Update()
         {
+            Debug.Assert(ScreenSpaceMap != null);
+
             if (ScreenSpaceMap.Handle == nint.Zero) NCError.ShowErrorBox("The Light Manager must be initialised before using it!",
-                62, "LightManager::RenderLightmap called before LightManager::Init!", NCErrorSeverity.FatalError);
+                62, NCErrorSeverity.FatalError);
             ScreenSpaceMap.Draw();
         }
 
         /// <summary>
         /// Internal - used by LightningGL.Shutdown
         /// </summary>
-        internal void Shutdown() => SDL_DestroyTexture(ScreenSpaceMap.Handle);
+        internal void Shutdown()
+        {
+            Debug.Assert(ScreenSpaceMap != null);
+            SDL_DestroyTexture(ScreenSpaceMap.Handle);
+        } 
     }
 }

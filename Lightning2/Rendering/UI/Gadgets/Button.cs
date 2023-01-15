@@ -41,8 +41,7 @@
                 && TextBlock != null);
             if (string.IsNullOrWhiteSpace(Text))
             {
-                NCError.ShowErrorBox("Tried to draw a button with null, empty, or only whitespace text. Ignoring...", 283, "string.IsNullOrWhiteSpace(Text) returned TRUE" +
-                    "in Button::Draw");
+                NCError.ShowErrorBox("Tried to draw a button with null, empty, or only whitespace text. Ignoring...", 283, NCErrorSeverity.Warning, null, true);
                 return;
             }
 

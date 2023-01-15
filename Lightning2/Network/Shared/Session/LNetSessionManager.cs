@@ -17,12 +17,39 @@ namespace LightningGL
         /// </summary>
         private int LastPacketId { get; set; }
 
+        /// <summary>
+        /// The stack of packets to use.
+        /// The most recent one is at the top.
+        /// </summary>
+        public Stack<LNetCommand> Commands { get; set; }
+
+        private bool PacketsLeft => Commands.Count > 0;
+
         public LNetSessionManager()
         {
             UdpClient = new UdpClient();
+            Commands = new Stack<LNetCommand>(); 
         }
         
-        public LNetCommand? ReadPacket(byte[] data)
+        public void OnReceivePacket(byte[] data)
+        {
+            LNetCommand? latestCommand = ReadPacket(data);
+            
+            if (latestCommand != null)
+            {
+                Commands.Push(latestCommand);
+            }
+        }
+
+        public void HandleAnyRemainingPackets()
+        {
+            while (PacketsLeft)
+            {
+                LNetCommand command = Commands.Pop();
+            }
+        }
+
+        private LNetCommand? ReadPacket(byte[] data)
         {
             int curPointWithinPacket = 0;
 
@@ -32,8 +59,8 @@ namespace LightningGL
 
             if (protocolVersion != LNetProtocol.LNET_PROTOCOL_VERSION)
             {
-                NCError.ShowErrorBox($"Received packet with invalid LNet protocol version {protocolVersion}, expected {LNetProtocol.LNET_PROTOCOL_VERSION}", 181, 
-                    "LNetSessionManager::ReadPacket - received packet with first two bytes not equal to LNetProtocol::LNET_PROTOCOL_VERSION!", NCErrorSeverity.Warning, null, false);
+                NCError.ShowErrorBox($"Received packet with invalid network  protocol version {protocolVersion}, expected {LNetProtocol.LNET_PROTOCOL_VERSION}", 181, 
+                    NCErrorSeverity.Warning, default, false);
             }
 
             int packetId = BitConverter.ToInt32(data, curPointWithinPacket);
@@ -48,7 +75,7 @@ namespace LightningGL
             if (netCommand == null)
             {
                 NCError.ShowErrorBox($"Received invalid packet type {packetType}, maximum is {LNetCommandTypes.MaximumValidCommand}", 182,
-                    "LNetSessionManager::ReadPacket - received an invalid packet type.", NCErrorSeverity.Warning, null, false);
+                    NCErrorSeverity.Warning, null, false);
                 return null;
             }
 
@@ -61,7 +88,7 @@ namespace LightningGL
             {
                 // pass a zero byte array to ReceiveCommandData. 
                 // This is a special value indicating there is no command data. So hopefully every command will detect this and try and parse it.
-                netCommand.ReadCommandData(new byte[0]);
+                netCommand.ReadCommandData(Array.Empty<byte>());
                 return netCommand;
             }
             else
@@ -74,7 +101,6 @@ namespace LightningGL
 
         }
 
-
         public virtual LNetCommand? PacketIdToCommand(byte packetId)
         {
             switch (packetId)
@@ -82,7 +108,7 @@ namespace LightningGL
                 case 0x00:
                     return new PingPongCommand();
                 default:
-                    NCError.ShowErrorBox($"Tried to parse invalid packet ID {packetId}", 180, "LNetSessionManager::PacketIdToCommand encountered invalid Packet ID!",
+                    NCError.ShowErrorBox($"Tried to parse invalid packet ID {packetId}", 180,
                         NCErrorSeverity.Warning, null, false);
                     return null;
             }

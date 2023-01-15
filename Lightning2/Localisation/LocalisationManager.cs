@@ -26,27 +26,27 @@
         internal static void Load()
         {
             // globalsettings loader checks for valid file
-            NCINIFile localisationIni = NCINIFile.Parse(GlobalSettings.GeneralLanguage);
+            NCINIFile? localisationIni = NCINIFile.Parse(GlobalSettings.GeneralLanguage);
 
             if (localisationIni == null)
             {
-                NCError.ShowErrorBox($"Error in localisation INI {GlobalSettings.GeneralLanguage}!", 31, "LocalisationManager::Load call to NCINIFile::Parse failed", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox($"Error in localisation INI {GlobalSettings.GeneralLanguage}!", 31, NCErrorSeverity.FatalError);
                 return;
             }
 
-            NCINIFileSection metadataSection = localisationIni.GetSection("Metadata");
+            NCINIFileSection? metadataSection = localisationIni.GetSection("Metadata");
 
-            NCINIFileSection stringsSection = localisationIni.GetSection("Strings");
+            NCINIFileSection? stringsSection = localisationIni.GetSection("Strings");
 
             if (metadataSection == null)
             {
-                NCError.ShowErrorBox($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No metadata section!", 32, "LocalisationManager::Load failed to obtain the Metadata section of a localisation file.", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No metadata section!", 32, NCErrorSeverity.FatalError);
                 return;
             }
 
             if (stringsSection == null)
             {
-                NCError.ShowErrorBox($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No strings section!", 33, "LocalisationManager.Load failed to obtain the Strings section of a localisation file.", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No strings section!", 33, NCErrorSeverity.FatalError);
                 return;
             }
 
@@ -107,8 +107,7 @@
 
                         if (localisationString == null)
                         {
-                            NCError.ShowErrorBox($"Invalid localisation string - cannot find localised string {localisationTextId}! The string will not be displayed.", 35, 
-                                "LocalisationManager.ProcessString", NCErrorSeverity.Warning);
+                            NCError.ShowErrorBox($"Invalid localisation string - cannot find localised string {localisationTextId}! The string will not be displayed.", 35, NCErrorSeverity.Warning);
                             stringProcess = $"Unlocalised string {localisationTextId}";
                         }
                         else

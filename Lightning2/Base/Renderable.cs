@@ -221,7 +221,7 @@
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    NCError.ShowErrorBox("A Renderable must have a name!", 189, "Renderable::Name::set - no name!", NCErrorSeverity.FatalError);
+                    NCError.ShowErrorBox("A Renderable must have a name!", 189, NCErrorSeverity.FatalError);
                 }
                 else
                 {
@@ -262,8 +262,7 @@
             if (animation == null
                 || !animation.Loaded)
             {
-                NCError.ShowErrorBox("You must load an animation before attaching it to a renderable! The animation will not be set.", 149,
-               "animation parameter to Renderable::SetAnimation's loaded property is FALSE", NCErrorSeverity.Error);
+                NCError.ShowErrorBox("You must load an animation before attaching it to a renderable! The animation will not be set.", 149, NCErrorSeverity.Error);
                 return;
             }
 
@@ -275,8 +274,7 @@
             if (CurrentAnimation == null
                 || !CurrentAnimation.Loaded)
             {
-                NCError.ShowErrorBox("You must load an animation before playing it! The animation will not be set.", 151,
-                "Renderable::StartCurrentAnimation called when CurrentAnimation::Loaded property is FALSE or it was never set.", NCErrorSeverity.Error);
+                NCError.ShowErrorBox("You must load an animation before playing it! The animation will not be set.", 151, NCErrorSeverity.Error);
                 return;
             }
 
@@ -335,8 +333,7 @@
         {
             if (Children.Count == 0)
             {
-                NCError.ShowErrorBox($"Tried to call Renderable::ShowErrorBox on a renderable with no children!", 192, "Renderable::ShowErrorBox called on a Renderable " +
-                    "with Renderable::Children::Count being 0!", NCErrorSeverity.Warning, null, true);
+                NCError.ShowErrorBox($"Tried to call Renderable::GetFirstChild on a renderable with no children!", 301, NCErrorSeverity.Warning, null, true);
                 return null;
             }
 
@@ -347,8 +344,7 @@
         {
             if (Children.Count == 0)
             {
-                NCError.ShowErrorBox($"Tried to call Renderable::ShowErrorBox on a renderable with no children!", 192, "Renderable::ShowErrorBox called on a Renderable " +
-                    "with Renderable::Children::Count being 0!", NCErrorSeverity.Warning, null, true);
+                NCError.ShowErrorBox($"Tried to call Renderable::GetLastChild on a renderable with no children!", 192, NCErrorSeverity.Warning, null, true);
                 return null;
             }
 

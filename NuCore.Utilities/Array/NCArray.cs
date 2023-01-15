@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-
-namespace NuCore.Utilities
+﻿namespace NuCore.Utilities
 {
     public static class NCArray
     {

@@ -5,14 +5,14 @@
     /// 
     /// The Lightning Network server.
     /// </summary>
-    public class LNetServer
+    public class NetworkServer
     {
         public List<LNetRoom> Rooms { get; init; }
         public LNetSessionManager SessionManager { get; init; }
 
         private IPEndPoint EndPoint { get; init; }
 
-        public LNetServer()
+        public NetworkServer()
         {
             Rooms = new List<LNetRoom>();
             // this is the server so we want to listen to everything
@@ -44,7 +44,7 @@
         {
             UdpState? udpState = (UdpState?)result.AsyncState;
 
-            IPEndPoint endPoint = EndPoint;
+            IPEndPoint? endPoint = EndPoint;
 
             if (udpState == null
                 || endPoint == null) return;

@@ -8,11 +8,11 @@ namespace LightningGL
     /// </summary>
     public class LNetRoom
     {
-        public List<LNetClient> Clients { get; private set; }
+        public List<NetworkClient> Clients { get; private set; }
 
         public LNetRoom()
         {
-            Clients = new List<LNetClient>();
+            Clients = new List<NetworkClient>();
         }
     }
 }

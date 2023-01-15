@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NuCore.Utilities
+﻿namespace NuCore.Utilities
 {
     /// <summary>
     /// NCLoggingSettings
@@ -29,5 +27,20 @@ namespace NuCore.Utilities
         /// Determines if old logs will be kept or not.
         /// </summary>
         public bool KeepOldLogs { get; set; }
+
+        /// <summary>
+        /// The date string to use when creating log files.
+        /// </summary>
+        public string DateString { get; set; }
+
+        /// <summary>
+        /// A constant default value for <see cref="DateString"/>
+        /// </summary>
+        private const string DEFAULT_DATE_STRING = "yyyyMMdd_HHmmss";
+
+        public NCLoggingSettings()
+        {
+            DateString = DEFAULT_DATE_STRING;
+        }
     }
 }

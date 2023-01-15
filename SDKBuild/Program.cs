@@ -4,9 +4,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-// SDKBuild
-// August 11, 2022 (modified November 29, 2022)
-//
+// SDKBuild 2.2 for Lightning 2.0
 // Very quick and dirty tool to build a Lightning SDK setup file.
 NCLogging.Init(); // init NCLogging
 
@@ -94,8 +92,8 @@ NCLogging.Log("Copying build files from Lightning build directory...");
 
 if (!Directory.Exists(buildPath))
 {
-    NCError.ShowErrorBox($"Build directory not found ({buildPath})!. Please build Lightning in the specified configuration (provide -release for Release, otherwise Debug)",
-    1402, "buildPath not found in Program::Main");
+    NCError.ShowErrorBox($"Build directory not found ({buildPath})!. Please build Lightning in the specified configuration (provide -release for Release, otherwise Debug)", 1402,
+        NCErrorSeverity.FatalError);
     Environment.Exit(1);
 }
 
@@ -127,7 +125,7 @@ NCFile.RecursiveCopy(buildPath, "SDK");
 // TODO: VSIX Installation
 NCLogging.Log("Building documentation...");
 
-if (!Directory.Exists(docPath)) NCError.ShowErrorBox($"Documentation directory not found ({docPath}", 1401, "docPath not found in Program::Main");
+if (!Directory.Exists(docPath)) NCError.ShowErrorBox($"Documentation directory not found ({docPath}!", 1401, NCErrorSeverity.Warning);
 
 Directory.CreateDirectory(@"SDK\Documentation");
 
@@ -137,7 +135,7 @@ NCLogging.Log("Building examples...");
 
 Directory.CreateDirectory(@"SDK\Examples");
 
-if (!Directory.Exists(examplePath)) NCLogging.Log($"Examples directory not found ({examplePath}", ConsoleColor.Red);
+if (!Directory.Exists(examplePath)) NCError.ShowErrorBox($"Examples directory not found ({examplePath}!", 1403, NCErrorSeverity.Warning);
 
 NCFile.RecursiveCopy(examplePath, @"SDK\Examples");
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Reflection;
+﻿using System.Text;
 
 namespace NuCore.Utilities
 {
@@ -13,9 +11,8 @@ namespace NuCore.Utilities
     /// </summary>
     public static class NCError
     {
-
         /// <summary>
-        /// Throw an error.
+        /// Display an error box.
         /// </summary>
         /// <param name="description">A description of the error.</param>
         /// <param name="id">The ID of the error.</param>
@@ -23,13 +20,12 @@ namespace NuCore.Utilities
         /// <param name="exceptionSeverity">The severity of the exception - see <see cref="NCErrorSeverity"/></param>
         /// <param name="baseException">The .NET exception that caused the error, if present.</param>
         /// <param name="dontShowMessageBox">Determines if a message box was shown or not</param>
-        public static void ShowErrorBox(string description, int id, string cause = null, NCErrorSeverity exceptionSeverity = NCErrorSeverity.Message, 
-            Exception baseException = null, bool dontShowMessageBox = false)
+        public static void ShowErrorBox(string description, int id, NCErrorSeverity exceptionSeverity = NCErrorSeverity.Message,
+            Exception? baseException = null, bool dontShowMessageBox = false)
         {
             StringBuilder stringBuilder = new();
 
             if (description != null) stringBuilder.Append($"{description}");
-            if (cause != null) stringBuilder.Append($"\n\n{cause}");
             if (exceptionSeverity > NCErrorSeverity.Message) stringBuilder.Append($" [{id}]");
 
             if (baseException != null) stringBuilder.Append($"\n\nError Information:\n{baseException}");
@@ -42,26 +38,41 @@ namespace NuCore.Utilities
             if (NCAssembly.NCLightningExists
                 && !dontShowMessageBox)
             {
-                MethodBase msgBoxOk = NCAssembly.NCLightningAssembly.GetType(NCAssembly.LIGHTNING_UTILITIES_PRESET_NAME, false, true).GetMethod("MessageBoxOK");
+                Debug.Assert(NCAssembly.NCLightningAssembly != null);
+                Type? lightningUtilName = NCAssembly.NCLightningAssembly.GetType(NCAssembly.LIGHTNING_UTILITIES_PRESET_NAME, false, true);
+
+                if (lightningUtilName == null)
+                {
+                    NCLogging.Log("Failed to load NCMessageBox type through reflection (ignoring)", ConsoleColor.Yellow);
+                    return; 
+                }
+
+                MethodBase? msgBoxOk = lightningUtilName.GetMethod("MessageBoxOK");
+
+                if (msgBoxOk == null)
+                {
+                    NCLogging.Log("Failed to display error box (ignoring)", ConsoleColor.Yellow);
+                    return;
+                }
 
                 switch (exceptionSeverity)
                 {
                     case NCErrorSeverity.Message:
-                        msgBoxOk.Invoke(null, new object[] 
-                        { "Information", errorString, SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION } );
+                        msgBoxOk.Invoke(null, new object[]
+                        { "Information", errorString, SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION });
                         break;
                     case NCErrorSeverity.Warning:
-                        msgBoxOk.Invoke(null, new object[] 
-                        { "Warning", errorString, SDL_MessageBoxFlags.SDL_MESSAGEBOX_WARNING } );
+                        msgBoxOk.Invoke(null, new object[]
+                        { "Warning", errorString, SDL_MessageBoxFlags.SDL_MESSAGEBOX_WARNING });
                         break;
                     case NCErrorSeverity.Error:
-                        msgBoxOk.Invoke(null, new object[] 
+                        msgBoxOk.Invoke(null, new object[]
                         { "Error", errorString, SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR });
                         break;
                     case NCErrorSeverity.FatalError:
                         msgBoxOk.Invoke(null, new object[]
                             { "Fatal Error", $"A fatal error has occurred:\n\n{errorString}\n\n" +
-                                $"The Lightning Game Engine-based application you are running must exit. We are sorry for the inconvenience.", 
+                                $"The Lightning Game Engine-based application you are running must exit. We are sorry for the inconvenience.",
                                 SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR });
                         break;
 

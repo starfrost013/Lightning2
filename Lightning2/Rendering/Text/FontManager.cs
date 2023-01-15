@@ -21,8 +21,7 @@
 
             if (font == null)
             {
-                NCError.ShowErrorBox($"Passed a null font parameter to FontManager::GetTextSize!", 81, "TextManager::GetTextSize - Font parameter null!", 
-                    NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox($"Passed a null font parameter to FontManager::GetTextSize!", 81, NCErrorSeverity.FatalError);
                 return default;
             }
 
@@ -30,7 +29,7 @@
             if (text.Contains('\n', StringComparison.InvariantCultureIgnoreCase)) return GetLargestTextSize(font, text, foregroundColor, style, smoothingType);
 
             if (!Lightning.Renderer.ContainsRenderable(font.Name)) NCError.ShowErrorBox($"Please load font (Name={font.Name}, Size={font.FontSize}) before trying to use it!", 
-                81, "TextManager::GetTextSize - Font parameter null or font not in font list!", NCErrorSeverity.FatalError);
+                81, NCErrorSeverity.FatalError);
 
             Vector2 fontSize = new();
 
@@ -64,8 +63,8 @@
 
             if (curFont == null)
             {
-                NCError.ShowErrorBox($"GetTextSize was provided an invalid font, so (0,0) will be returned", 190,
-                    "The Font parameter to FontManager::GetTextSize did not correspond to a loaded font", NCErrorSeverity.Warning, null, true);
+                NCError.ShowErrorBox($"GetTextSize was provided an invalid font, " +
+                    $"so (0,0) will be returned! The text will not be drawn!", 190, NCErrorSeverity.Warning, null, true);
                 return default;
             }
 
@@ -87,13 +86,12 @@
             // check it's a real font
             if (font == null)
             {
-                NCError.ShowErrorBox($"Tried to pass null to FontManager::GetLargestTextSize!", 183,
-                "TextManager::GetTextSize - Font parameter null!", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox($"Tried to pass null to FontManager::GetLargestTextSize!", 183, NCErrorSeverity.FatalError);
                 return default; 
             }
 
-            if (!Lightning.Renderer.ContainsRenderable(font.Name)) NCError.ShowErrorBox($"Please load font (Name={font.Name}, Size={font.FontSize}) before trying to use it!", 82, 
-                "TextManager::GetTextSize - Font not in FontManager::Assets!", NCErrorSeverity.FatalError);
+            if (!Lightning.Renderer.ContainsRenderable(font.Name)) NCError.ShowErrorBox($"Please load font (Name={font.Name}, " +
+                $"Size={font.FontSize}) before trying to use it!", 82, NCErrorSeverity.FatalError);
 
             string[] lines = text.Split('\n');
 
@@ -127,8 +125,7 @@
             }
             else
             {
-                NCError.ShowErrorBox($"GetLargestTextSize was provided an invalid font, so (0,0) will be returned", 189,
-                    "The Font parameter to FontManager::GetLargestTextSize did not correspond to a loaded font", NCErrorSeverity.Warning, null, true);
+                NCError.ShowErrorBox($"GetLargestTextSize was provided an invalid font, so (0,0) will be returned", 189, NCErrorSeverity.Warning, null, true);
                 return default;
             }
         }

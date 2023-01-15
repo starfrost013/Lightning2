@@ -6,19 +6,19 @@
     /// Copyright © 2023 starfrost.
     /// Development started     October 26, 2022
     /// </summary>
-    public class LNetClient
+    public class NetworkClient
     {
-        public LNetSessionManager SessionManager { get; set; }
+        internal LNetSessionManager SessionManager { get; set; }
 
-        public string? ServerIP { get; set; }
+        private IPEndPoint ServerIP { get; set; }
 
-        public ushort ServerPort { get; set; }
+        public ushort Port { get; set; }
 
         /// <summary>
         /// The IP Address of this client so the server knows where to send client messages.
         /// This is actually currently only stored by the server.
         /// </summary>
-        public string? IP { get; internal set; }
+        private string? ClientIP { get; set; }
 
         /// <summary>
         /// Name of this client.
@@ -27,39 +27,41 @@
 
         internal bool Connected { get; set; }
 
-        public LNetClient(string name)
+        public NetworkClient(string name)
         {
             SessionManager = new LNetSessionManager();
-            ServerPort = GlobalSettings.NetworkDefaultPort;
+            Port = GlobalSettings.NetworkDefaultPort;
             Name = name;
+            ServerIP = new IPEndPoint(0, 0);
         }
         
-        public void Connect()
+        public void Connect(string ipAddress)
         {
-            IPAddress? serverIp = default;
-
-            if (!IPAddress.TryParse(ServerIP, out serverIp))
+            if (!IPAddress.TryParse(ipAddress, out var serverIp))
             {
                 // do not connect
-                NCError.ShowErrorBox($"Invalid server IP address {ServerIP}", 183, "LNetClient::Connect tried to connect to invalid server IP", NCErrorSeverity.Warning,
+                NCError.ShowErrorBox($"Invalid server IP address {ipAddress}", 183, NCErrorSeverity.Warning,
                     null, false);
                 return;
             }
 
+            ServerIP = new(serverIp, Port);
+
             // Connect
-            SessionManager.UdpClient.Connect(serverIp, Convert.ToInt32(ServerPort));
+            SessionManager.UdpClient.Connect(serverIp, Convert.ToInt32(Port));
 
             // send a Client Hello
-
         }
 
-        public virtual void SendPacketToServer(LNetCommand lnc)
+        public virtual void SendPacketToServer(LNetCommand command)
         {
 
         }
 
         internal void Main()
         {
+            var ipEndpoint = ServerIP;
+
             SessionManager.UdpClient.BeginReceive
             (
                 new AsyncCallback(OnReceivePacket),
@@ -72,7 +74,10 @@
         /// </summary>
         private void OnReceivePacket(IAsyncResult result)
         {
-            
+            IPEndPoint? ip = ServerIP;
+
+            SessionManager.UdpClient.EndReceive(result, ref ip);
+            Main(); // begin receive again
         }
     }
 }

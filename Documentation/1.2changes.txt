@@ -236,10 +236,13 @@ Everything that matters to the api has to go here
 	+ GlobalSettings::StrikeoutThickness
 * Strikeout and underline text.
 
+2023.01.15:
+* NuCore now nullable-enabled
+* Remove stupid duplicate error cause.
+
 * todo:
 	- overridable default values
 	- simplify line api?
-	- fix memory leak lmao
 	- setting load order
 	- DEATH to DUPLICATE CODE
 	- defaults on load failure

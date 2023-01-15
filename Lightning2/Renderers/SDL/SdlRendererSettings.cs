@@ -62,8 +62,7 @@ namespace LightningGL
                        || _position.Y < 0
                        || _position.X > SystemInfo.ScreenResolutionX
                        || _position.Y > SystemInfo.ScreenResolutionY) NCError.ShowErrorBox($"Attempted to change window to illegal position ({_position.X},{_position.Y}!)." +
-                       $" Range is 0,0 to {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY}", 118,
-                       "Set accessor of SdlRendererSettings::Size detected an attempt to resize to an invalid window position!", NCErrorSeverity.FatalError);
+                       $" Range is 0,0 to {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY}", 118, NCErrorSeverity.FatalError);
 
                 if (WindowHandle != default)
                 {

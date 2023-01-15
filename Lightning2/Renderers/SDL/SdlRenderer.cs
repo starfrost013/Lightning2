@@ -40,16 +40,14 @@ namespace LightningGL
             base.Start();
 
             NCLogging.Log("Initialising SDL_image...");
-            if (IMG_Init(IMG_InitFlags.IMG_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2_image: {SDL_GetError()}", 201,
-                "Failed to initialise SDL2_image during SdlRenderer::Init", NCErrorSeverity.FatalError);
+            if (IMG_Init(IMG_InitFlags.IMG_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2_image: {SDL_GetError()}", 201, NCErrorSeverity.FatalError);
 
             NCLogging.Log("Initialising SDL_mixer...");
-            if (Mix_Init(MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2_mixer: {SDL_GetError()}", 203,
-                "Failed to initialise SDL2_mixer during SdlRenderer::Init", NCErrorSeverity.FatalError);
+            if (Mix_Init(MIX_InitFlags.MIX_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2_mixer: {SDL_GetError()}", 203, NCErrorSeverity.FatalError);
 
             NCLogging.Log($"Initialising audio device ({GlobalSettings.AudioDeviceHz}Hz, {GlobalSettings.AudioChannels} channels, format {GlobalSettings.AudioFormat}, chunk size {GlobalSettings.AudioChunkSize})...");
             if (Mix_OpenAudio(GlobalSettings.AudioDeviceHz, GlobalSettings.AudioFormat, GlobalSettings.AudioChannels, GlobalSettings.AudioChunkSize) < 0) NCError.ShowErrorBox(
-                $"Error initialising audio device: {SDL_GetError()}", 56, "Failed to initialise audio device during SdlRenderer::Init", NCErrorSeverity.FatalError);
+                $"Error initialising audio device: {SDL_GetError()}", 56, NCErrorSeverity.FatalError);
 
             // localise the window title
             Settings.Title = LocalisationManager.ProcessString(Settings.Title);
@@ -57,14 +55,12 @@ namespace LightningGL
             // Create the window,
             Settings.WindowHandle = SDL_CreateWindow(Settings.Title, (int)Settings.Position.X, (int)Settings.Position.Y, (int)Settings.Size.X, (int)Settings.Size.Y, Settings.WindowFlags);
 
-            if (Settings.WindowHandle == nint.Zero) NCError.ShowErrorBox($"Failed to create Window: {SDL_GetError()}", 8, 
-                "Window::AddWindow - SDL_CreateWindow failed to create window", NCErrorSeverity.FatalError);
+            if (Settings.WindowHandle == nint.Zero) NCError.ShowErrorBox($"Failed to create Window: {SDL_GetError()}", 8, NCErrorSeverity.FatalError);
 
             // Create the renderer.
             Settings.RendererHandle = SDL_CreateRenderer(Settings.WindowHandle, -1, Settings.RenderFlags);
 
-            if (Settings.RendererHandle == nint.Zero) NCError.ShowErrorBox($"Failed to create Renderer: {SDL_GetError()}", 9, 
-                "Window::AddWindow - SDL_CreateRenderer failed to create renderer", NCErrorSeverity.FatalError);
+            if (Settings.RendererHandle == nint.Zero) NCError.ShowErrorBox($"Failed to create Renderer: {SDL_GetError()}", 9, NCErrorSeverity.FatalError);
 
             // Initialise the Light Manager.
             LightManager.Init();
@@ -216,8 +212,7 @@ namespace LightningGL
             
             if (result != 0)
             {
-                NCError.ShowErrorBox($"An error occurred while drawing a pixel in SDL", 213, $"An error occurred in SdlRenderer::DrawPixel - error code {result}. " +
-                    $"The pixel will not be drawn!", NCErrorSeverity.Warning, null, true);
+                NCError.ShowErrorBox($"An error occurred while drawing a pixel in SDL", 213, NCErrorSeverity.Warning, null, true);
             }
         }
 
@@ -266,8 +261,7 @@ namespace LightningGL
 
                 if (result != 0)
                 {
-                    NCError.ShowErrorBox($"An error occurred while drawing a line in SDL", 233, $"An error occurred in SdlRenderer::DrawLine - error code {result}. " +
-                        $"The pixel will not be drawn!", NCErrorSeverity.Warning, null, true);
+                    NCError.ShowErrorBox($"An error occurred while drawing a line in SDL. The pixel will not be drawn!", 233, NCErrorSeverity.Warning, null, true);
                 }
             
         }
@@ -695,8 +689,7 @@ namespace LightningGL
 
             if (result > 0)
             {
-                NCError.ShowErrorBox($"An error occurred while drawing a line in SDL", 215, $"An error occurred in SdlRenderer::DrawRectangle - error code {result}. " +
-                $"The rectangle will not be drawn!", NCErrorSeverity.Warning, null, true);
+                NCError.ShowErrorBox($"An error occurred while drawing a rectangle in SDL. he rectangle will not be drawn!", 215,NCErrorSeverity.Warning, null, true);
             }
         }
 
@@ -713,8 +706,7 @@ namespace LightningGL
 
             if (handle == nint.Zero)
             {
-                NCError.ShowErrorBox($"Somehow failed to create a texture (call to SdlRenderer::CreateTexture failed): {SDL.SDL_GetError()}", 274,
-                    "The call to SDL_CreateTexture in SdlRenderer::CreateTexture failed", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox($"Somehow failed to create a texture (call to SdlRenderer::CreateTexture failed): {SDL.SDL_GetError()}", 274, NCErrorSeverity.FatalError);
                 // fatal and would return a nullptr in all cases
             }
 
@@ -729,7 +721,7 @@ namespace LightningGL
 
             // probably not the best to allocate formats like this (once for each texture)
             if (handle == nint.Zero) NCError.ShowErrorBox($"Error allocating texture format for texture: {SDL_GetError()}",
-                13, "An SDL error occurred in SdlRenderer::AllocFormat", NCErrorSeverity.FatalError);
+                13, NCErrorSeverity.FatalError);
 
             return handle;
         }
@@ -743,8 +735,7 @@ namespace LightningGL
             if (handle == nint.Zero)
             {
                 // Print an error message and load a 'default' texture (see MissingTexture) as of 12/31/22
-                NCError.ShowErrorBox($"Failed to load texture at {path} - {SDL_GetError()}", 10, 
-                    "An error occurred in SdlRenderer::LoadTexture!", NCErrorSeverity.Error, null, true);
+                NCError.ShowErrorBox($"Failed to load texture at {path} - {SDL_GetError()}", 10, NCErrorSeverity.Error, null, true);
 
                 fixed (byte* missingTexturePtr = MissingTexture.Data)
                 {
@@ -757,8 +748,8 @@ namespace LightningGL
                 // we have to check again to see if the missing texture texture failed to load
                 if (handle == nint.Zero)
                 {
-                    NCError.ShowErrorBox($"Failed to load texture at {path} - {SDL_GetError()} AND failed to load missing texture. THIS IS AN ENGINE BUG", 271,
-                    "Failed to load missing texture texture - call to IMG_LoadTexture_RW failed. This is an engine bug.", NCErrorSeverity.FatalError);
+                    NCError.ShowErrorBox($"Failed to load texture at {path} - {SDL_GetError()} AND failed to load the missing texture texture. " +
+                        $"THIS IS AN ENGINE BUG", 271, NCErrorSeverity.FatalError);
                 }
             }
 
@@ -769,8 +760,7 @@ namespace LightningGL
         {
             if (!texture.Loaded)
             {
-                NCError.ShowErrorBox($"Passed an unloaded texture to SdlRenderer::TextureFromFreeTypeBitmap", 256, 
-                    "An error occurred in SdlRenderer::LoadTexture!", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox($"Passed an unloaded texture to SdlRenderer::TextureFromFreeTypeBitmap", 256, NCErrorSeverity.FatalError);
                 return null;
             }
 
@@ -811,7 +801,7 @@ namespace LightningGL
         {
             if (handle == nint.Zero)
             {
-                NCError.ShowErrorBox("Attempted to lock an invalid texture!", 226, "SdlRenderer::LockTexture's HANDLE parameter was NULL", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox("Attempted to lock an invalid texture!", 226, NCErrorSeverity.FatalError);
                 pixels = default;
                 pitch = 0;
             }
@@ -821,7 +811,7 @@ namespace LightningGL
                 
                 if (SDL_LockTexture(handle, ref rect, out pixels, out pitch) != 0)
                 {
-                    NCError.ShowErrorBox("Failed to lock texture!", 228, $"An SDL error occurred while locking a texture in SdlRenderer::DrawTexture: {SDL_GetError()}", NCErrorSeverity.FatalError);
+                    NCError.ShowErrorBox("Failed to lock texture!", 228, NCErrorSeverity.FatalError);
                     pixels = default;
                     pitch = 0;
                 }
@@ -832,7 +822,7 @@ namespace LightningGL
         {
             if (handle == nint.Zero)
             {
-                NCError.ShowErrorBox("Attempted to unlock an invalid texture!", 227, "SdlRenderer::UnlockTexture's HANDLE parameter was NULL", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox("Attempted to unlock an invalid texture!", 227, NCErrorSeverity.FatalError);
             }
             else
             {
@@ -861,8 +851,7 @@ namespace LightningGL
                 || args[5] is not Vector2)
             {
                 NCError.ShowErrorBox($"CODE IS BORKED! Incorrect parameter types or invalid number of parameters to SdlRenderer::DrawTexture!\n\n" +
-                    $"THIS IS AN ENGINE BUG PLEASE FILE A BUG REPORT!",  229, "Invalid number of parameters, or incorrect parameter types, in call to " +
-                    "SdlRenderer::DrawTexture\n\nI REPEAT THIS IS AN ENGINE BUG!", NCErrorSeverity.FatalError);
+                    $"THIS IS AN ENGINE BUG PLEASE FILE A BUG REPORT!", 229, NCErrorSeverity.FatalError);
                 return;
             }
 
@@ -942,8 +931,8 @@ namespace LightningGL
                 || args[0] is not nint
                 || args[1] is not SDL_BlendMode)
             {
-                NCError.ShowErrorBox($"CODE IS BORKED! Incorrect parameter types or invalid number of parameters to SdlRenderer::SetTextureBlendMode!\n\nTHIS IS AN ENGINE BUG PLEASE FILE A BUG REPORT!",
-                    230, "Invalid number of parameters, or incorrect parameter types, in call to SdlRenderer::SetTextureBlendMode\n\nI REPEAT THIS IS AN ENGINE BUG!", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox($"CODE IS BORKED! Incorrect parameter types or invalid number of parameters to SdlRenderer::SetTextureBlendMode!\n\n" +
+                    $"THIS IS AN ENGINE BUG PLEASE FILE A BUG REPORT!", 230, NCErrorSeverity.FatalError);
                 return;
             }
 
@@ -952,8 +941,7 @@ namespace LightningGL
 
             if (SDL_SetTextureBlendMode(handle, blendMode) != 0)
             {
-                NCError.ShowErrorBox("Failed to set texture blend mode!", 231, "An SDL error occurred while setting" +
-                    " a texture's blend mode in SdlRenderer::SetTextureBlendMode", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox("Failed to set texture blend mode!", 231, NCErrorSeverity.FatalError);
             }
         }
 

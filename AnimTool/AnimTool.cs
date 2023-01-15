@@ -71,7 +71,7 @@ namespace AnimTool
                     isValid = bool.TryParse(propertyValue, out _);
                     break;
                 case AnimationPropertyType.Vector2:
-                    Vector2Converter vector2Converter = new Vector2Converter();
+                    Vector2Converter vector2Converter = new();
                     isValid = (vector2Converter.ConvertFromInvariantString(propertyValue) != null);
                     break;
             }

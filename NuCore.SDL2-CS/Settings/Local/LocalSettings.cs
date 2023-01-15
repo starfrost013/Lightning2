@@ -50,8 +50,7 @@ namespace LightningBase
             // we already create it if it does not exist
             if (LocalSettingsFile == null)
             {
-                NCError.ShowErrorBox($"Tried to save LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 170, 
-                    "LocalSettings::Save called when LocalSettings::LocalSettingsFile == NULL!", NCErrorSeverity.Warning);
+                NCError.ShowErrorBox($"Tried to save LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 170, NCErrorSeverity.Warning);
                 return;
             }
 
@@ -68,8 +67,7 @@ namespace LightningBase
             // we already create it if it does not exist
             if (LocalSettingsFile == null)
             {
-                NCError.ShowErrorBox($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 171,
-                    "LocalSettings::AddSection called when LocalSettings::LocalSettingsFile == NULL!", NCErrorSeverity.Warning);
+                NCError.ShowErrorBox($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 171, NCErrorSeverity.Warning);
                 return;
             }
 
@@ -82,8 +80,7 @@ namespace LightningBase
             // we already create it if it does not exist
             if (LocalSettingsFile == null)
             {
-                NCError.ShowErrorBox($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 172,
-                    "LocalSettings::DeleteSection called when LocalSettings::LocalSettingsFile == NULL!", NCErrorSeverity.Warning);
+                NCError.ShowErrorBox($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 172, NCErrorSeverity.Warning);
                 return;
             }
 
@@ -102,8 +99,7 @@ namespace LightningBase
             // we already create it if it does not exist
             if (LocalSettingsFile == null)
             {
-                NCError.ShowErrorBox($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 173,
-                    "LocalSettings::AddValue called when LocalSettings::LocalSettingsFile == NULL!", NCErrorSeverity.Warning);
+                NCError.ShowErrorBox($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 173, NCErrorSeverity.Warning);
                 return;
             }
 
@@ -118,8 +114,7 @@ namespace LightningBase
             // we already create it if it does not exist
             if (LocalSettingsFile == null)
             {
-                NCError.ShowErrorBox($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 174,
-                    "LocalSettings::SetValue called when LocalSettings::LocalSettingsFile == NULL!", NCErrorSeverity.Warning);
+                NCError.ShowErrorBox($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 174, NCErrorSeverity.Warning);
                 return;
             }
 
@@ -134,8 +129,7 @@ namespace LightningBase
             // we already create it if it does not exist
             if (LocalSettingsFile == null)
             {
-                NCError.ShowErrorBox($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 175,
-                    "LocalSettings::DeleteKey called when LocalSettings::LocalSettingsFile == NULL!", NCErrorSeverity.Warning);
+                NCError.ShowErrorBox($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 175, NCErrorSeverity.Warning);
                 return;
             }
 

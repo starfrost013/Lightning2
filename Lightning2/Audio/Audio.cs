@@ -61,21 +61,20 @@
         public override void Create()
         {
             AudioHandle = Mix_LoadWAV(Path);
-
-            if (AudioHandle == nint.Zero) NCError.ShowErrorBox($"Error loading audio file at {Path}: {Mix_GetError()}", 51, "An SDL_mixer error occurred in AudioFile::Load", NCErrorSeverity.Error);
+                
+            if (AudioHandle == nint.Zero) NCError.ShowErrorBox($"Error loading audio file at {Path}: {Mix_GetError()}", 51, NCErrorSeverity.Error);
 
             RealVolume = DEFAULT_REAL_VOLUME; // make sure there is always a value
 
             if (!File.Exists(Path))
             {
-                NCError.ShowErrorBox($"Error loading audio file: The path {Path} does not exist!", 52, "AudioManager::Load path parameter does not exist!", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox($"Error loading audio file: The path {Path} does not exist!", 52, NCErrorSeverity.FatalError);
                 return;
             }
 
             if (Path.Contains(".mod", StringComparison.InvariantCultureIgnoreCase))
             {
-                NCError.ShowErrorBox(".mod file loading is completely broken in SDL_mixer 2.6.2 and causes memory leaks. Sorry, not my code.", 167,
-                    "AudioAssetManager::LoadFile path parameter has a .mod extension", NCErrorSeverity.Error);
+                NCError.ShowErrorBox(".mod file loading is completely broken in SDL_mixer 2.6.2 and causes memory leaks. Sorry, not my code.", 167, NCErrorSeverity.Error);
                 return;
             }
 

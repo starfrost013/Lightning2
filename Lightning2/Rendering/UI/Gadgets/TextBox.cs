@@ -207,8 +207,7 @@
             }
             else
             {
-                NCError.ShowErrorBox($"Tried to draw a textbox with text that is null, empty, or only whitespace. Ignoring", 280, 
-                    "string.IsNullOrWhiteSpace(Text) returned TRUE in call to TextBox::Render", NCErrorSeverity.Warning, null, true);
+                NCError.ShowErrorBox($"Tried to draw a textbox with text that is null, empty, or only whitespace. Ignoring", 280, NCErrorSeverity.Warning, null, true);
             }
         }
     }

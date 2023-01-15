@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace NuCore.Utilities
+﻿namespace NuCore.Utilities
 {
     /// <summary>
     /// NCIniFileSection
@@ -22,24 +20,20 @@ namespace NuCore.Utilities
         public string Name { get; set; }
 
         /// <summary>
-        /// Constructor for <see cref="NCINIFileSection"/> with no parameters.
-        /// </summary>
-        public NCINIFileSection()
-        {
-            Values = new Dictionary<string, string>();
-        }
-
-        /// <summary>
         /// Constructor for <see cref="NCINIFileSection"/> with a parameter for the section name.
         /// </summary>
-        public NCINIFileSection(string name) : this() { Name = name; }
+        public NCINIFileSection(string name)
+        {
+            Name = name;
+            Values = new();
+        }
 
         /// <summary>
         /// Gets the value with the key <see cref="key"/>
         /// </summary>
         /// <param name="key">The INI key contained within the section.</param>
         /// <returns>A string containing the value corresponding to the key <paramref name="key"/>.</returns>
-        public string GetValue(string key)
+        public string? GetValue(string key)
         {
             key = key.ToLowerInvariant();
 

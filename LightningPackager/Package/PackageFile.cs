@@ -49,7 +49,7 @@ namespace LightningPackager
         {
             NCLogging.Log($"Loading WAD from {path}, extracting to {outDir}...");
 
-            if (!File.Exists(path)) NCError.ShowErrorBox($"The file at {path} does not exist!", 98, "PackageFile::Read path parameter is a non-existent file!", NCErrorSeverity.FatalError, null, true);
+            if (!File.Exists(path)) NCError.ShowErrorBox($"The file at {path} does not exist!", 98, NCErrorSeverity.FatalError, null, true);
 
             byte[] fileBytes = File.ReadAllBytes(path);
 
@@ -65,7 +65,7 @@ namespace LightningPackager
             }
             else if (magic.FastEqual(PackageFileHeader.ObfuscatedMagicOld))
             {
-                NCLogging.Log($"Tried to load an obfuscated Lightning 1.x (WADv2.2) WAD file - this is not supported!", ConsoleColor.Red);
+                NCError.ShowErrorBox($"Tried to load an obfuscated Lightning 1.x (WADv2.2) WAD file - this is not supported!", 300, NCErrorSeverity.Error, null, false);
                 return false;
             }
 
@@ -74,7 +74,7 @@ namespace LightningPackager
 
             PackageFileHeader header = PackageFileHeader.Read(reader);
 
-            if (header == null) NCError.ShowErrorBox($"{path} is invalid: Package header is invalid", 105, "PackageFileHeader::Read returned null", NCErrorSeverity.FatalError, null, true);
+            if (header == null) NCError.ShowErrorBox($"{path} is invalid: Package header is invalid", 105, NCErrorSeverity.FatalError, null, true);
 
             PackageFile file = new(header.Metadata);
 

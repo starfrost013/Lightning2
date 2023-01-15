@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace NuCore.Utilities
 {
@@ -31,8 +28,8 @@ namespace NuCore.Utilities
 
         public static byte[] ToByteArrayWithLength(this string input)
         {
-            if (input.Length > 255) NCError.ShowErrorBox("String must be max 255 Chars for NCStringExtensions::ToByteArrayWithLength", 184,
-                "input parameter to NCStringExtensions::ToByteArrayWithLength had a Length parameter larger than 255", NCErrorSeverity.FatalError);
+            if (input.Length > byte.MaxValue) NCError.ShowErrorBox("The length of the input parameter to NCStringExtensions::ToByteArrayWithLength must be max 255 chars!", 184,
+                NCErrorSeverity.FatalError);
             byte[] finalArray = new byte[input.Length + 1];
             finalArray[0] = Convert.ToByte(input.Length);
             Buffer.BlockCopy(input.ToArray(), 1, finalArray, 1, input.Length);

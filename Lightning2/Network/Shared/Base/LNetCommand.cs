@@ -17,22 +17,23 @@ namespace LightningGL
         /// </summary>
         public abstract byte Type { get; }
 
-        private int Length => Header.ToByteArray().Length + sizeof(byte);
+        public byte[] Data { get; set; }
 
         public virtual bool ReadCommandData(byte[] cmdData)
         {
             // no command data so ignore all data after packet info
+            Data = cmdData;
             return true;
         }
 
         public virtual byte[] CommandDataToByteArray()
         {
-            return new byte[0];
+            return Array.Empty<byte>(); 
         }
 
-        public abstract void OnReceiveAsServer(LNetServer server, LNetClient sendingClient);
+        public abstract void OnReceiveAsServer(NetworkServer server, NetworkClient sendingClient);
 
-        public abstract void OnReceiveAsClient(LNetClient client);
+        public abstract void OnReceiveAsClient(NetworkClient client);
 
         private byte[] HeaderToByteArray()
         {
@@ -53,6 +54,7 @@ namespace LightningGL
         public LNetCommand()
         {
             Header = new LNetCommandHeader(); 
+            Data = Array.Empty<byte>();
         }
 
     }

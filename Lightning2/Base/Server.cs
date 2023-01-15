@@ -8,7 +8,7 @@
     public class Server : LightningBase
     {
         public bool Running { get; set; }
-        public LNetServer NetworkServer { get; set; }
+        public NetworkServer NetworkServer { get; set; }
 
         public Server() : base()
         {

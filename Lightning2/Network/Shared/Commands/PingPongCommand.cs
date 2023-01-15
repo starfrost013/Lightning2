@@ -6,12 +6,12 @@
 
         public override byte Type => (byte)LNetCommandTypes.PingPong;
 
-        public override void OnReceiveAsServer(LNetServer server, LNetClient sendingClient)
+        public override void OnReceiveAsServer(NetworkServer server, NetworkClient sendingClient)
         {
             NCLogging.Log("Server Pong!");
         }
 
-        public override void OnReceiveAsClient(LNetClient client)
+        public override void OnReceiveAsClient(NetworkClient client)
         {
             NCLogging.Log("Client Pong!");
         }

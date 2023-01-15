@@ -11,26 +11,34 @@
 
         public override bool ReadCommandData(byte[] cmdData)
         {
-            return base.ReadCommandData(cmdData);
+            return true; 
         }
 
         public override byte[] CommandDataToByteArray()
         {
+            // just whitespace check because we already checked ip
+            if (string.IsNullOrWhiteSpace(ClientName)
+                || (string.IsNullOrWhiteSpace(ClientIp)))
+            {
+                return Array.Empty<byte>(); 
+            }
+
             byte[] nameArray = ClientName.ToByteArrayWithLength();
             byte[] ipArray = ClientIp.ToByteArrayWithLength();
 
             return NCArray.Combine(nameArray, ipArray);
         }
 
-        public override void OnReceiveAsClient(LNetClient client)
+        public override void OnReceiveAsClient(NetworkClient client)
         {
             // This command can't be received as client only as server
             throw new NotImplementedException();
         }
 
-        public override void OnReceiveAsServer(LNetServer server, LNetClient sendingClient)
+        public override void OnReceiveAsServer(NetworkServer server, NetworkClient sendingClient)
         {
             // get client information here WAOW
+            NCLogging.Log($"Client connected");
             
         }
     }

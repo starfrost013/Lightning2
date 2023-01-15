@@ -1,7 +1,4 @@
-﻿using System;
-using System.Reflection;
-
-namespace NuCore.Utilities
+﻿namespace NuCore.Utilities
 {
     /// <summary>
     /// NCAssembly
@@ -18,11 +15,11 @@ namespace NuCore.Utilities
         /// <summary>
         /// NuCore.Utilities.Lightning assembly.
         /// </summary>
-        internal static Assembly NCLightningAssembly { get; private set; }
+        internal static Assembly? NCLightningAssembly { get; private set; }
 
         internal static bool NCLightningExists => (NCLightningAssembly != null);
 
-        internal static void Init()
+        static NCAssembly()
         {
             try
             {

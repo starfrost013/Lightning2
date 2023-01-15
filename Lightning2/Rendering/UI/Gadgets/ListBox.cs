@@ -32,7 +32,8 @@
             set
             {
                 if (value < 0
-                    || value > Children.Count - 1) NCError.ShowErrorBox("Attempted to set an invalid SelectedIndex for this ListBox!", 83, "ListBox::SelectedIndex > ListBox::Items::Count - 1!", NCErrorSeverity.FatalError);
+                    || value > Children.Count - 1) NCError.ShowErrorBox("Attempted to set an invalid SelectedIndex for this ListBox!", 83,
+                        NCErrorSeverity.FatalError);
 
                 _selectedindex = value;
             }
@@ -97,7 +98,7 @@
             if (Font == null)
             {
                 NCError.ShowErrorBox($"Tried to add an item to a ListBox with an invalid font", 185,
-                    "ListBox::Font property did not correspond to an actual font during call to ListBox::AddItem", NCErrorSeverity.FatalError);
+                    NCErrorSeverity.FatalError);
                 return;
             }
 
@@ -106,7 +107,7 @@
             if (itemFont == null)
             {
                 NCError.ShowErrorBox($"Tried to add an item to a ListBox with an invalid font", 187,
-                    "ListBox::Font property did not correspond to an actual font during call to ListBox::AddItem", NCErrorSeverity.FatalError);
+                   NCErrorSeverity.FatalError);
                 return;
             }
 
@@ -166,23 +167,15 @@
             // set the default background color if it's not set. a hack...
             if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
 
-#pragma warning disable CS8602 // not applicable because this cannot be null (as a method that cannot return null is called) and it asserts if it is
-            Rectangle.Color = CurBackgroundColor;
-#pragma warning restore CS8602
+            Debug.Assert(Rectangle != null);
 
-            if (Font == null)
-            {
-                NCError.ShowErrorBox($"Tried to add an item to a ListBox with an invalid font", 188,
-                    "ListBox::Font property did not correspond to an actual font during call to ListBox::Render", NCErrorSeverity.FatalError);
-                return;
-            }
+            Rectangle.Color = CurBackgroundColor;
 
             Font? curFont = (Font?)Lightning.Renderer.GetRenderableByName(Font);
 
             if (curFont == null)
             {
-                NCError.ShowErrorBox($"Tried to add an item to a ListBox with an invalid font", 186,
-                    "ListBox::Font property did not correspond to an actual font during call to ListBox::Render", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox($"Tried to add an item to a ListBox with an invalid font", 186, NCErrorSeverity.FatalError);
                 return;
             }
 

@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace NuCore.Utilities
+﻿namespace NuCore.Utilities
 {
     /// <summary>
     /// NCFile
-    /// 
-    /// August 11, 2022
     /// 
     /// File utilities.
     /// </summary>
     public static class NCFile
     {
+        private readonly static List<string> defaultExcludedPatterns = new()
+        { ".tmp", "~$", ".g.cs", ".cache", ".editorconfig", ".props", ".targets", ".vsidx", ".lock", ".v1", ".v2", ".v5.1", 
+          "dgspec", "AssemblyAttributes", ".AssemblyInfo", "assets.json", ".suo", ".pdb", ".log", "test.wad", ".tlog", ".FileListAbsolute.txt", "BuildWithSkipAnalyzers",
+          ".0\\apphost.exe" };
+
         /// <summary>
         /// Recursively copies files from one directory to another.
         /// </summary>
@@ -20,14 +19,10 @@ namespace NuCore.Utilities
         /// <param name="destinationDir">The destination directory to copy from.</param>
         /// <param name="originalDir">Internal: The original directory</param>
         /// <param name="excludedPatterns">Patterns that are excluded</param>
-        public static void RecursiveCopy(string sourceDir, string destinationDir = null, List<string> excludedPatterns = null)
+        public static void RecursiveCopy(string sourceDir, string destinationDir = ".", List<string>? excludedPatterns = null)
         {
-            if (destinationDir == null) destinationDir = ".";
             // default exclude VS build artifacts
-            if (excludedPatterns == null) excludedPatterns = new List<string> { ".tmp", "~$", ".g.cs", ".cache",
-                ".editorconfig", ".props", ".targets", ".vsidx", ".lock", ".v1", ".v2", ".v5.1", "dgspec", "AssemblyAttributes",
-                ".AssemblyInfo", "assets.json", ".suo", ".pdb", ".log", "test.wad", ".tlog", ".FileListAbsolute.txt", "BuildWithSkipAnalyzers",
-                ".0\\apphost.exe" };
+            if (excludedPatterns == null) excludedPatterns = defaultExcludedPatterns;
 
             foreach (string fileName in Directory.EnumerateFiles(sourceDir, "*", SearchOption.AllDirectories))
             {

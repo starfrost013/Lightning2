@@ -1,8 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using System.Text;
+﻿using System.Text;
 
 namespace NuCore.Utilities
 {
@@ -18,7 +14,7 @@ namespace NuCore.Utilities
         /// <summary>
         /// Private: Holds stream used for logging
         /// </summary>
-        public static StreamWriter LogStream { get; private set; }
+        public static StreamWriter? LogStream { get; private set; }
 
         /// <summary>
         /// The settings for the NuCore logger.
@@ -31,30 +27,18 @@ namespace NuCore.Utilities
         public static bool Initialised { get; set; }
 
         /// <summary>
-        /// The date string to use when creating log files.
-        /// </summary>
-        public static string DateString { get; set; }
-
-        /// <summary>
-        /// A constant default value for <see cref="DateString"/>
-        /// </summary>
-        private const string DEFAULT_DATE_STRING = "yyyyMMdd_HHmmss";
-
-        /// <summary>
         /// Static constructor for initialising the NuCore logging system
         /// </summary>
         static NCLogging()
         {
-            Settings = new NCLoggingSettings();
-            DateString = DEFAULT_DATE_STRING;
+            Settings = new();
+            Settings.LogFileName = string.Empty;
             AppDomain.CurrentDomain.ProcessExit += Exit;
         }
 
         public static void Init()
         {
-            NCAssembly.Init();
-
-            if (Settings.LogFileName == null) Settings.LogFileName = $"NuCore_{DateTime.Now.ToString(DateString)}.log";
+            if (string.IsNullOrWhiteSpace(Settings.LogFileName)) Settings.LogFileName = $"NuCore_{DateTime.Now.ToString(Settings.DateString)}.log";
 
             // delete all old log files
             if (!Settings.KeepOldLogs)
@@ -68,8 +52,12 @@ namespace NuCore.Utilities
 
             if (Settings.WriteToLog)
             {
-                if (Settings.LogFileName == null) NCError.ShowErrorBox("Passed null file name to NCLogging::Init!", 6, 
-                    "NCLogging::Init passed with Settings.LogFileName = NULL", NCErrorSeverity.FatalError);
+                if (Settings.LogFileName == null)
+                {
+                    NCError.ShowErrorBox("Passed null file name to NCLogging::Init!", 6,
+                    NCErrorSeverity.FatalError);
+                    return;
+                }
 
                 if (File.Exists(Settings.LogFileName)) File.Delete(Settings.LogFileName);
 
@@ -126,7 +114,24 @@ namespace NuCore.Utilities
                 // get the last called method
                 // stack frame 1 is the previously executing method (before Log was called)
 
-                MethodBase method = stackTrace.GetFrame(1).GetMethod();
+                StackFrame? stackFrame = stackTrace.GetFrame(1);
+
+                // as far as i know this shouldn't happen but ignore if it does
+                if (stackFrame == null)
+                {
+                    NCError.ShowErrorBox("Failed to get stack frame for logging, ignoring", 302, NCErrorSeverity.Error, null, true);
+                    return; 
+                }
+
+                MethodBase? method = stackFrame.GetMethod();
+
+                // as far as i know this shouldn't happen but ignore if it does
+                if (method == null
+                    || method.ReflectedType == null)
+                {
+                    NCError.ShowErrorBox("Failed to get stack frame for logging, ignoring", 303, NCErrorSeverity.Error, null, true);
+                    return;
+                }
 
                 string methodName = method.Name;
                 string className = method.ReflectedType.Name;
@@ -139,28 +144,35 @@ namespace NuCore.Utilities
 
             string finalLogText = stringBuilder.ToString();
 
-            if (Settings.WriteToLog 
-                && logToFile) LogStream.Write(finalLogText);
+            if (Settings.WriteToLog
+                && logToFile)
+            {
+                Debug.Assert(LogStream != null);
+                LogStream.Write(finalLogText);
+            }
 #if !FINAL // final build turns off all non-error and server console logging
 
-            NCConsole.ForegroundColor = color;
+            Console.ForegroundColor = color;
 
-            NCConsole.Write(finalLogText);
+            Console.Write(finalLogText);
 
-            NCConsole.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.White;
 #endif
         }
 
         public static void Log(string information, string prefix, ConsoleColor color = ConsoleColor.White, bool printMetadata = true, bool logToFile = true)
         {
-            Log($"[{prefix}] {information}", color, printMetadata, logToFile);
+            Log($"[{prefix}]: {information}", color, printMetadata, logToFile);
         }
 
-
-        public static void Exit(object Sender, EventArgs e)
+        public static void Exit(object? Sender, EventArgs e)
         {
-            if (Settings.WriteToLog 
-                && Initialised) LogStream.Close();
+            if (Settings.WriteToLog
+                && Initialised)
+            {
+                Debug.Assert(LogStream != null);
+                LogStream.Close();
+            }
         }
     }
 }

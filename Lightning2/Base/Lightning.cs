@@ -100,11 +100,7 @@
             // Set culture to invariant so things like different decimal symbols don't crash
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
 
-            NCLogging.Settings = new NCLoggingSettings
-            {
-                WriteToLog = true,
-            };
-
+            NCLogging.Settings.WriteToLog = true; 
             NCLogging.Init();
         }
 
@@ -117,7 +113,7 @@
             catch (Exception err)
             {
                 NCError.ShowErrorBox($"An unknown fatal error occurred during client initialisation. The installation may be corrupted!", 
-                    0x0000DEAD, "A fatal error occurred in LightningGL::Init!", NCErrorSeverity.FatalError, err);
+                    0x0000DEAD, NCErrorSeverity.FatalError, err);
             }
         }
 
@@ -130,7 +126,7 @@
             catch (Exception err)
             {
                 NCError.ShowErrorBox($"An unknown fatal error occurred during server initialisation. The installation may be corrupted!",
-                    0x0001DEAD, "A fatal error occurred in LightningGL::Init!", NCErrorSeverity.FatalError, err);
+                    0x0001DEAD, NCErrorSeverity.FatalError, err);
             }
         }
 

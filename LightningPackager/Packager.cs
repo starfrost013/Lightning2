@@ -24,7 +24,7 @@ namespace LightningPackager
                 // delete any existing package
                 if (!File.Exists(path))
                 {
-                    NCError.ShowErrorBox($"Error: {path} does not exist, cannot load package!", 100, "Packager::LoadPackage path parameter does not exist!", NCErrorSeverity.Error, null, true);
+                    NCError.ShowErrorBox($"Error: Package path {path} does not exist, cannot load package!", 100, NCErrorSeverity.Error, null, true);
                     return false;
                 }
 
@@ -41,8 +41,7 @@ namespace LightningPackager
             }
             catch (Exception ex)
             {
-                NCError.ShowErrorBox($"Error: An exception occurred during extraction. Exception information:\n\n{ex}", 198, 
-                    "An exception occured in Packager::LoadPackage", NCErrorSeverity.FatalError);
+                NCError.ShowErrorBox($"Error: An exception occurred during extraction. Exception information:\n\n{ex}", 198, NCErrorSeverity.FatalError);
                 return false;
             }
             
@@ -89,8 +88,7 @@ namespace LightningPackager
             }
             catch (Exception ex)
             {
-                NCError.ShowErrorBox($"An error occurred cleaning up the game content directory.\n\n{ex}", 109, 
-                    $"An exception occurred in Packager::Shutdown with deleteAll = {deleteAll}", NCErrorSeverity.Warning);
+                NCError.ShowErrorBox($"An error occurred cleaning up the game content directory.\n\n{ex}", 109, NCErrorSeverity.Warning);
             }
         }
     }
