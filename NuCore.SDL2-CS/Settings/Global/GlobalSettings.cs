@@ -190,6 +190,17 @@ namespace LightningBase
         /// The angle applied to italic text.
         /// </summary>
         public static int GraphicsItalicAngle { get; internal set; }
+
+        /// <summary>
+        /// The underline line thickness.
+        /// </summary>
+        public static int GraphicsUnderlineThickness { get; internal set; }
+
+        /// <summary>
+        /// The strikeout line thickness.
+        /// </summary>
+        public static int GraphicsStrikeoutThickness { get; internal set; }
+
         #endregion
 
         #region System requirements
@@ -318,6 +329,10 @@ namespace LightningBase
 
         private const int DEFAULT_ITALIC_ANGLE_DEGREES = 12;
 
+        private const int DEFAULT_UNDERLINE_THICKNESS = 2;
+
+        private const int DEFAULT_STRIKEOUT_THICKNESS = 2;
+
         #endregion
 
         #region GlobalSettings methods
@@ -405,6 +420,8 @@ namespace LightningBase
                 _ = int.TryParse(graphicsSection.GetValue("BoldFactorX"), out var graphicsBoldFactorXValue);
                 _ = int.TryParse(graphicsSection.GetValue("BoldFactorY"), out var graphicsBoldFactorYValue);
                 _ = int.TryParse(graphicsSection.GetValue("ItalicAngle"), out var graphicsItalicAngleValue);
+                _ = int.TryParse(graphicsSection.GetValue("UnderlineThickness"), out var graphicsUnderlineThicknessValue);
+                _ = int.TryParse(graphicsSection.GetValue("StrikeoutThickness"), out var graphicsStrikeoutThicknessValue);
                 GraphicsWindowTitle = graphicsSection.GetValue("WindowTitle");
 
                 if (graphicsMaxFpsValue <= 0) graphicsMaxFpsValue = DEFAULT_MAX_FPS;
@@ -422,6 +439,8 @@ namespace LightningBase
                 if (graphicsBoldFactorYValue <= 0) graphicsBoldFactorYValue = DEFAULT_BOLD_FACTOR_Y;
                 if (graphicsItalicAngleValue <= 0
                     || graphicsItalicAngleValue >= 360) graphicsItalicAngleValue = DEFAULT_ITALIC_ANGLE_DEGREES;
+                if (graphicsUnderlineThicknessValue <= 0) graphicsUnderlineThicknessValue = DEFAULT_UNDERLINE_THICKNESS;
+                if (graphicsStrikeoutThicknessValue <= 0) graphicsStrikeoutThicknessValue = DEFAULT_STRIKEOUT_THICKNESS;
 
                 // Set the actual GlobalSettings values.
                 GraphicsMaxFPS = graphicsMaxFpsValue;
@@ -437,6 +456,8 @@ namespace LightningBase
                 GraphicsBoldFactorX = graphicsBoldFactorXValue;
                 GraphicsBoldFactorY = graphicsBoldFactorYValue;
                 GraphicsItalicAngle = graphicsItalicAngleValue;
+                GraphicsUnderlineThickness = graphicsUnderlineThicknessValue;
+                GraphicsStrikeoutThickness = graphicsStrikeoutThicknessValue;
 
                 // why the fuck do these have to be here???? this is fucked up
                 // (because it uses other globalsettings like resolution so you need to load it after resolution. THIS IS A DESIGN PROBLEM, FIX IT)
@@ -497,7 +518,6 @@ namespace LightningBase
             // Load the network settings, if they are present
             if (networkSection != null)
             {
-
                 string networkMasterServer = networkSection.GetValue("MasterServer");
                 string networkDefaultPort = networkSection.GetValue("Port");
                 string networkKeepAliveMs = networkSection.GetValue("KeepAliveMs");

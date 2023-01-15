@@ -223,13 +223,24 @@ Everything that matters to the api has to go here
 * Add new GlobalSettings
 	+ GlobalSettings::BoldFactorX
 	+ GlobalSettings::BoldFactorY
-	+ GlobalSettings::ItalicAngleDegrees
+	+ GlobalSettings::ItalicAngle
 * RenderOffscreenRenderables -> DontCullRenderables
-* Reimplement bold text
+
+2023.01.10:
+* FIx glyph corruption
+* Remove bold for now
+
+2023.01.14:
+* Add new globalsettings
+	+ GlobalSettings::UnderlineThickness
+	+ GlobalSettings::StrikeoutThickness
+* Strikeout and underline text.
 
 * todo:
 	- overridable default values
+	- simplify line api?
 	- fix memory leak lmao
+	- setting load order
 	- DEATH to DUPLICATE CODE
 	- defaults on load failure
 	- a lot more configurable

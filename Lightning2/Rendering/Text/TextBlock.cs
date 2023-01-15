@@ -103,17 +103,20 @@ namespace LightningGL
         /// <summary>
         /// Line used for rendering underline.
         /// </summary>
-        private Line? UnderlineLine { get; set; }
+        private Rectangle? UnderlineLine { get; set; }
 
         /// <summary>
         /// Line used for rendering strikeout.
         /// </summary>
-        private Line? StrikeoutLine { get; set; }
+        private Rectangle? StrikeoutLine { get; set; }
 
         public TextBlock(string name, string text, string font) : base(name)
         {
             Text = text;
             Font = font;
+
+            // default values for localise are true so set localisation
+            Localise = true;
         }
 
         public TextBlock(string name, string text, string font, Vector2 position, Color foregroundColor) : base(name)
@@ -121,7 +124,10 @@ namespace LightningGL
             Text = text;
             Font = font;
             Position = position;
-            ForegroundColor = foregroundColor; 
+            ForegroundColor = foregroundColor;
+
+            // default values for localise are true so set localisation
+            Localise = true;
         }
 
         public TextBlock(string name, string text, string font, Vector2 position, Color foregroundColor, Color backgroundColor = default,
@@ -195,6 +201,11 @@ namespace LightningGL
             {
                 // reset line length
                 int lineLength = 0;
+                // offset from first y position for drawing underline/strikethrough line. start at 1 pixel below lin
+                int maxVerticalLineSize = 1;
+
+                // first character position
+                Vector2 firstCharPosition = new();
 
                 foreach (char character in line)
                 {
@@ -215,8 +226,12 @@ namespace LightningGL
                         // ignore negative values
                         if (pushRight < 0) pushRight = 0;
 
-                        lineLength += (int)glyph.Advance.X;
+                        // maxverticallinesize
+                        if (glyph.Size.Y > maxVerticalLineSize) maxVerticalLineSize = (int)glyph.Size.Y;
 
+                        // change line length
+                        lineLength += (int)(glyph.Advance.X);
+                        
                         // syntax note: new() does not work here!!! you must provide a type name
                         switch (Orientation)
                         {
@@ -229,7 +244,7 @@ namespace LightningGL
                                 break;
                             case Orientation.RightToLeft:
                                 currentPosition += new Vector2(-glyph.Advance.X, 0);
-                                glyph.Position = new(currentPosition.X + glyph.Offset.X - pushRight,
+                                glyph.Position = new(currentPosition.X - glyph.Offset.X - pushRight,
                                     currentPosition.Y - glyph.Offset.Y);
                                 break;
                             // use X here so the horizontal spacing is used vertically for these reading orders
@@ -245,6 +260,9 @@ namespace LightningGL
                                 break;
                         }
 
+                        //if the line length is zero set the first character position
+                        //*****STUPID HACK*****
+                        if (lineLength == glyph.Advance.X) firstCharPosition = currentPosition; 
 
                         // the glyph is empty so just push forward by the size of the glyph
                         // (tabs, spaces, etc)
@@ -254,6 +272,36 @@ namespace LightningGL
 
                 int lineSpacing = (int)(font.FontSize * GlobalSettings.GraphicsLineSpacing);
 
+                // line is done, draw underline or strikeout
+                if (Style.HasFlag(FontStyle.Underline))
+                {
+                    // create the underline line
+                    UnderlineLine ??= Lightning.Renderer.AddRenderable(new Rectangle("TextUnderlineLine",
+                        default, default, ForegroundColor, true), this);
+
+                    if (UnderlineLine != null)
+                    {
+                        UnderlineLine.Position = new(firstCharPosition.X, firstCharPosition.Y + maxVerticalLineSize);
+                        UnderlineLine.Size = new(lineLength, GlobalSettings.GraphicsUnderlineThickness);
+                        UnderlineLine.Color = ForegroundColor; // update colour
+                    }
+                }
+
+                if (Style.HasFlag(FontStyle.Strikeout))
+                {
+                    // create the strikeout line
+                    StrikeoutLine ??= Lightning.Renderer.AddRenderable(new Rectangle("TextStrikeoutLine",
+                        default, default, ForegroundColor, true), this);
+
+                    if (StrikeoutLine != null)
+                    {
+                        StrikeoutLine.Position = new(firstCharPosition.X, firstCharPosition.Y + (maxVerticalLineSize / 2) + 1);
+                        StrikeoutLine.Size = new(lineLength, GlobalSettings.GraphicsStrikeoutThickness);
+                        StrikeoutLine.Color = ForegroundColor; // update colour
+                    }
+                }
+
+                // line is done
                 // move down a line
                 switch (Orientation)
                 {
@@ -269,19 +317,6 @@ namespace LightningGL
                         break;
                 }
             }
-
-            if (Style.HasFlag(FontStyle.Underline))
-            {
-                UnderlineLine ??= Lightning.Renderer.AddRenderable(new Line("TextUnderlineLine", 
-                    new(Position.X, Position.Y), new(Position.X, Position.Y)), this);
-            }
-
-            if (Style.HasFlag(FontStyle.Strikeout))
-            {
-                StrikeoutLine ??= Lightning.Renderer.AddRenderable(new Line("TextStrikeoutLine",
-                    new(Position.X, Position.Y), new(Position.X, Position.Y)), this);
-            }
-
         }
     }
 }

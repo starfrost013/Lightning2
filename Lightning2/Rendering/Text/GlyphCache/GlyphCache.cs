@@ -87,21 +87,13 @@ namespace LightningGL
                 || bitmap.rows == 0);
 
             // create a blank bitmap for a space or similar
+            // FreeType uses 16.16 fixed point multipliers so we have to shift right by 6 bits in order to get the actual value
             Vector2 advance = new(font.Handle.FaceRec->glyph->advance.x >> 6,
                 font.Handle.FaceRec->glyph->advance.y >> 6);
 
-            // FreeType uses 16.16 fixed point multipliers so we have to shift right by 6 bits in order to get the actual value
             // todo: get rid of this code, it's dumb.
-            if (bitmap.width == 0) bitmap.width = (uint)(font.FontSize * GlobalSettings.GraphicsWordSpacing);
-            if (bitmap.rows == 0) bitmap.rows = bitmap.width; // create a square for now
-
-            /*
-             this actually just does "corrupt glyph bitmap", apparently randomly
-            if (style.HasFlag(FontStyle.Bold))
-            {
-                font.Handle.EmboldenGlyphBitmap(GlobalSettings.GraphicsBoldFactorX << 6, GlobalSettings.GraphicsBoldFactorY << 6);
-            }
-            */
+            if (bitmap.width == 0) bitmap.width = 1;
+            if (bitmap.rows == 0) bitmap.rows = 1; // create a square for now
 
             Glyph? glyph = new("Glyph", (int)bitmap.width, (int)bitmap.rows)
             {
@@ -122,6 +114,7 @@ namespace LightningGL
                 glyph = (Glyph?)Lightning.Renderer.TextureFromFreetypeBitmap(bitmap, glyph, foregroundColor);
             }
 
+            Debug.Assert(glyph != null);
             Glyphs.Add(glyph);
         }
 

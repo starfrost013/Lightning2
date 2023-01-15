@@ -189,8 +189,8 @@
                             (CursorBlinkFrequency / Lightning.Renderer.DeltaTime));
                     }
 
-                    Cursor.Start = cursorPosition;
-                    Cursor.End = new(cursorPosition.X, cursorPosition.Y + Size.Y);
+                    Cursor.Position = cursorPosition;
+                    Cursor.Size = new(cursorPosition.X, cursorPosition.Y + Size.Y) ;
 
                     // if it's active, draw the line
                     if (IsActive)

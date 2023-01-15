@@ -59,15 +59,16 @@
 
             if (Checked)
             {
+                // inherited from earlier code
                 Vector2 line1Start = new(Position.X, Position.Y + (Size.Y / 2));
                 Vector2 line1End = new(Position.X + (Size.X / 3), Position.Y + Size.Y);
                 Vector2 line2Start = line1End;
                 Vector2 line2End = new(Position.X + Size.X, Position.Y);
 
-                CheckBoxLine1.Start = line1Start;
-                CheckBoxLine1.End = line1End;
-                CheckBoxLine2.Start = line2Start;
-                CheckBoxLine2.End = line2End;
+                CheckBoxLine1.Position = line1Start;
+                CheckBoxLine1.Size = line1End - line1Start;
+                CheckBoxLine2.Position = line2Start;
+                CheckBoxLine2.Size = line2End - line2Start;
             }
         }
 

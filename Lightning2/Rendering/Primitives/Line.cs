@@ -2,15 +2,10 @@
 {
     public class Line : Primitive
     {
-        public Vector2 Start { get; set; }
-
-        public Vector2 End { get; set; }
 
         public Line(string name, Vector2 start, Vector2 end, Color color, bool snapToScreen = false) : base(name)
         {
             Color = color;
-            Start = start;
-            End = end;
             Position = start; // set the position to the start of the line
             Size = end - start; // size to the start
             SnapToScreen = snapToScreen;
