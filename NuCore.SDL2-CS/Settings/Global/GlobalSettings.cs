@@ -329,9 +329,9 @@ namespace LightningBase
 
         private const int DEFAULT_ITALIC_ANGLE_DEGREES = 12;
 
-        private const int DEFAULT_UNDERLINE_THICKNESS = 2;
+        private const int DEFAULT_UNDERLINE_THICKNESS = 1;
 
-        private const int DEFAULT_STRIKEOUT_THICKNESS = 2;
+        private const int DEFAULT_STRIKEOUT_THICKNESS = 1;
 
         #endregion
 
