@@ -240,17 +240,17 @@ Everything that matters to the api has to go here
 * NuCore now nullable-enabled
 * Remove stupid duplicate error cause.
 
+
 * todo:
 	- overridable default values
-	- simplify line api?
 	- setting load order
 	- DEATH to DUPLICATE CODE
+	- NO MORE ISEMPTY
 	- defaults on load failure
 	- a lot more configurable
 	- renderer independent blend mode!!!!!!!!!!!
 	- remaining freetype features
 	- FIX BUSTED AND SHIT HORRIBLE VERY BAD UI SYSTEM!!!!!!
-	- global usings everywhere
 	- unit testing
 	- make scene events events
 	- get rid of TERRIBLE HACK in LightningGL.Test!!!!

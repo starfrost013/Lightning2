@@ -266,8 +266,8 @@ namespace LightningGL
 
                     if (UnderlineLine != null)
                     {
-                        UnderlineLine.Position = new(Position.X + (font.FontSize / 2), Position.YY);
-                        UnderlineLine.Size = new(lineLength, GlobalSettings.GraphicsUnderlineThickness);
+                        UnderlineLine.Position = new(Position.X + (font.FontSize / 2), Position.Y);
+                        UnderlineLine.Size = new(lineLength + (font.FontSize / 2), GlobalSettings.GraphicsUnderlineThickness);
                         UnderlineLine.Color = ForegroundColor; // update colour
                     }
                 }
