@@ -103,7 +103,7 @@ namespace LightningGL
                 Font = font.Name,
                 Character = character,
                 IsEmpty = isEmpty,
-                Offset = new(font.Handle.FaceRec->glyph->bitmap_left,
+                Offset = new(font.Handle.FaceRec->glyph->linearHoriAdvance >> 16,
                 font.Handle.FaceRec->glyph->bitmap_top),
                 Advance = advance,
                 Style = style,
