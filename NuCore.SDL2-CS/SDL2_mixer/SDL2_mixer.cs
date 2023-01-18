@@ -34,9 +34,6 @@
 #endregion
 
 #region Using Statements
-using System;
-using System.Runtime.InteropServices;
-using static LightningBase.SDL;
 using static LightningBase.Utf8Marshaling;
 #endregion
 

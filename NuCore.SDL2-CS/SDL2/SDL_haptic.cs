@@ -34,8 +34,6 @@
 #endregion
 
 #region Using Statements
-using System;
-using System.Runtime.InteropServices;
 using static LightningBase.Utf8Marshaling;
 #endregion
 
@@ -195,7 +193,7 @@ namespace LightningBase
             public ushort period;
             public ushort samples;
             public nint data; // Uint16*
-                                // Envelope
+                              // Envelope
             public ushort attack_length;
             public ushort attack_level;
             public ushort fade_length;

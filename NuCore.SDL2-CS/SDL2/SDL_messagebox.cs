@@ -34,8 +34,6 @@
 #endregion
 
 #region Using Statements
-using System;
-using System.Runtime.InteropServices;
 using static LightningBase.Utf8Marshaling;
 #endregion
 namespace LightningBase
@@ -157,7 +155,7 @@ namespace LightningBase
                 return nint.Zero;
             }
             byte[] bytes = System.Text.Encoding.UTF8.GetBytes(str + '\0');
-            nint mem = SDL.SDL_malloc((nint)bytes.Length);
+            nint mem = SDL.SDL_malloc(bytes.Length);
             Marshal.Copy(bytes, 0, mem, bytes.Length);
             return mem;
         }

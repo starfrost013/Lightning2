@@ -32,6 +32,9 @@ Lightning 2.5 feature set:
 - Video API
 - Linux ????
 - New Lighting Engine using Raycasting (possibly 3.0)
+- LightningInternal for internal renderables to fix searches 
+- Maybe referents
+- Scene Transitions? / FX Engine? (possibly 3.0)
 
 Lightning 3.0 feature set:
 - OpenGL 3.3 renderer
@@ -41,6 +44,7 @@ Lightning 3.0 feature set:
 - Animated Skybox API (everything inherently animatable)
 - Post-processing Engine
 - New settings api for an arbitrary number of settings using a binary dictionary or JSON for high speed
+- WADv4: Compressed WAD
 
 At some point:
 - Bytecode Engine (LightningBytecode.dll) - not sure what language yet
@@ -48,6 +52,7 @@ At some point:
 - Multithreading
 - Lightning Build Environment - build setup and everything every single build
 - Vulkan Renderer?
+- Asset Manager
 
 Far future:
 - Lightning 3D

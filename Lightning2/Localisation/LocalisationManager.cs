@@ -107,8 +107,9 @@
 
                         if (localisationString == null)
                         {
-                            NCError.ShowErrorBox($"Invalid localisation string - cannot find localised string {localisationTextId}! The string will not be displayed.", 35, NCErrorSeverity.Warning);
-                            stringProcess = $"Unlocalised string {localisationTextId}";
+                            NCError.ShowErrorBox($"Invalid localisation string - cannot find localised string {localisationTextId}! The string will not be displayed.", 
+                                35, NCErrorSeverity.Warning, null, true);
+                            stringProcess = $"Unlocalised string {localisationTextId}!";
                         }
                         else
                         {

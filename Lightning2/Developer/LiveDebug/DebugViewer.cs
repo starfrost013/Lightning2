@@ -9,10 +9,25 @@
     {
         internal DebugViews CurrentDebugView { get; private set; }
 
+        private bool _enabled;
+
         /// <summary>
-        /// Private: Determines if the debug menu is enabled.
+        /// Determines if this console is enabled.
         /// </summary>
-        private bool Enabled { get; set; }
+        private bool Enabled
+        {
+            get
+            {
+                return _enabled;
+            }
+            set
+            {
+                Debug.Assert(DebugText != null);
+
+                _enabled = value;
+                DebugText.IsNotRendering = !value;
+            }
+        }
 
         /// <summary>
         /// <inheritdoc/>
@@ -84,7 +99,8 @@
                 new(0, (float)GlobalSettings.DebugPositionY), DebugForeground, DebugBackground));
             DebugText.SnapToScreen = true;
             DebugText.Localise = false; // dont localise
-            DebugText.IsNotRendering = !Enabled; 
+            DebugText.ZIndex = ZIndex;
+            Enabled = false; // explicitly set to turn off localise text
         }
 
         public override void Draw()
@@ -252,11 +268,7 @@
             string keyString = key.ToString();
 
             // case has to be a compile time constant so we do thos
-            if (keyString == GlobalSettings.DebugKey)
-            {
-                Enabled = !Enabled;
-                DebugText.IsNotRendering = !Enabled; 
-            }
+            if (keyString == GlobalSettings.DebugKey) Enabled = !Enabled;
 
             switch (keyString)
             {

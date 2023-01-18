@@ -1,9 +1,5 @@
-﻿using System;
-using System.Runtime.InteropServices;
-
-namespace LightningBase
+﻿namespace LightningBase
 {
-#pragma warning disable 1591
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct FT_Bitmap
     {
@@ -16,5 +12,4 @@ namespace LightningBase
         public Byte palette_mode;
         public nint palette;
     }
-#pragma warning restore 1591
 }

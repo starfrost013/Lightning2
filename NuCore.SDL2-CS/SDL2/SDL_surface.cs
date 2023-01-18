@@ -31,8 +31,6 @@
 #endregion
 
 #region Using Statements
-using System;
-using System.Runtime.InteropServices;
 #endregion
 
 namespace LightningBase

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace LightningBase
 {
@@ -70,7 +68,7 @@ namespace LightningBase
         /// </summary>
         /// <param name="c">The character to evaluate.</param>
         /// <returns>The specified character, if it is defined by this face; otherwise, <see langword="null"/>.</returns>
-        public char? GetCharIfDefined(Char c) { return FreeTypeApi.FT_Get_Char_Index(_Face, c) > 0 ? c : (char?)null; }
+        public char? GetCharIfDefined(Char c) { return FreeTypeApi.FT_Get_Char_Index(_Face, c) > 0 ? c : null; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private int GetFixedSizeInPixels(FT_FaceRec* face, int ix)
@@ -112,7 +110,7 @@ namespace LightningBase
 
         public bool EmboldenGlyphBitmap(int xStrength, int yStrength)
         {
-            var err = FreeTypeApi.FT_Bitmap_Embolden(_Library, (nint)(GlyphBitmapPtr), (nint)xStrength, (nint)yStrength);
+            var err = FreeTypeApi.FT_Bitmap_Embolden(_Library, (nint)(GlyphBitmapPtr), xStrength, yStrength);
             if (err != FT_Error.FT_Err_Ok)
                 return false;
 

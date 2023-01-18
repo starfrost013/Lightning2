@@ -1,11 +1,4 @@
-﻿using static LightningBase.SDL;
-using static LightningBase.SDL_mixer;
-using NuCore.Utilities;
-using System;
-using System.IO;
-using System.Diagnostics;
-
-namespace LightningBase
+﻿namespace LightningBase
 {
     /// <summary>
     /// GlobalSettings
@@ -35,7 +28,7 @@ namespace LightningBase
         /// <summary>
         /// The localisation folder to use 
         /// </summary>
-        public static string GeneralLocalisationFolder { get; internal set; } 
+        public static string GeneralLocalisationFolder { get; internal set; }
 
         /// <summary>
         /// Determines whether the performance profiler will be loaded or not.
@@ -90,7 +83,7 @@ namespace LightningBase
         /// Determines if the DebugViewer can be enabled by pressing a key.
         /// It is recommended to turn this OFF in release builds of your game!!
         /// </summary>
-        public static bool DebugDisabled { get; internal set; }
+        public static DebugState DebugState { get; internal set; }
 
         /// <summary>
         /// The key to press to enable debug mode. The default value is F9.
@@ -98,20 +91,39 @@ namespace LightningBase
         public static string DebugKey { get; internal set; }
 
         /// <summary>
-        /// The font size of debug.
+        /// The font size for debug text.
         /// </summary>
         public static int DebugFontSize { get; internal set; }
 
         /// <summary>
-        /// The default debug position X.
+        /// The font size for debug text.
+        /// </summary>
+        public static int DebugFontSizeLarge { get; internal set; }
+
+        /// <summary>
+        /// The default horizontal position of the debug position.
         /// </summary>
         public static float DebugPositionX { get; internal set; }
 
         /// <summary>
-        /// The default debug position Y.
+        /// The default vertical position of the debug position Y.
         /// </summary>
         public static float DebugPositionY { get; internal set; }
 
+        /// <summary>
+        /// The default key to be pressed for the debug console.
+        /// </summary>
+        public static string DebugConsoleKey { get; internal set; }
+
+        /// <summary>
+        /// The default horizontal position of the debug console.
+        /// </summary>
+        public static float DebugConsoleSizeX { get; internal set; }
+
+        /// <summary>
+        /// The default vertical position of the debug console.
+        /// </summary>
+        public static float DebugConsoleSizeY { get; internal set; }
         #endregion
 
         #region Graphics settings
@@ -313,15 +325,17 @@ namespace LightningBase
 
         private const string DEFAULT_DEBUG_KEY = "F9";
 
+        private const DebugState DEFAULT_DEBUG_STATE = DebugState.Both;
+
         private const float DEFAULT_DEBUG_POSITION_X = 0;
 
         private const float DEFAULT_DEBUG_POSITION_Y = 12;
 
-        private const int DEFAULT_DEBUG_FONT_SIZE = 11; 
+        private const int DEFAULT_DEBUG_FONT_SIZE = 11;
+
+        private const int DEFAULT_DEBUG_FONT_SIZE_LARGE = 36;
 
         private const bool DEFAULT_SHOW_ABOUT_SCREEN_ON_SHIFT_F9 = true;
-
-        private const double DEFAULT_MINIMUM_CHARACTER_SPACING = (5d / 11d); // 5 pixels for font size 11, just base it on that
 
         private const double DEFAULT_LINE_SPACING = 1.2d;
 
@@ -334,6 +348,10 @@ namespace LightningBase
         private const int DEFAULT_UNDERLINE_THICKNESS = 1;
 
         private const int DEFAULT_STRIKEOUT_THICKNESS = 1;
+
+        private const string DEFAULT_DEBUG_CONSOLE_KEY = "F10";
+        private static int DEFAULT_DEBUG_CONSOLE_SIZE_X => DEFAULT_GRAPHICS_RESOLUTION_X;
+        private static int DEFAULT_DEBUG_CONSOLE_SIZE_Y => (int)(DEFAULT_GRAPHICS_RESOLUTION_Y / 2.5);
 
         #endregion
 
@@ -394,7 +412,7 @@ namespace LightningBase
                 if (!Directory.Exists(localisationFolder)) NCError.ShowErrorBox("LocalisationFolder does not exist", 157, NCErrorSeverity.FatalError);
                 GeneralLanguage = @$"{localisationFolder}\{language}.ini";
             }
-           
+
             if (!File.Exists(GeneralLanguage)) NCError.ShowErrorBox("Engine.ini's Localisation section must have a valid Language value!", 30, NCErrorSeverity.FatalError);
 
             // Load the Graphics section, if it is present.
@@ -411,7 +429,6 @@ namespace LightningBase
                 _ = int.TryParse(graphicsSection.GetValue("PositionX"), out var graphicsPositionXValue);
                 _ = int.TryParse(graphicsSection.GetValue("PositionY"), out var graphicsPositionYValue);
                 _ = Enum.TryParse(typeof(Renderers), graphicsSection.GetValue("Renderer"), true, out var graphicsRendererValue);
-                _ = double.TryParse(graphicsSection.GetValue("MinimumCharacterSpacing"), out var graphicsMinimumCharacterSpacingValue);
                 _ = double.TryParse(graphicsSection.GetValue("LineSpacing"), out var graphicsLineSpacingValue);
                 _ = int.TryParse(graphicsSection.GetValue("BoldFactorX"), out var graphicsBoldFactorXValue);
                 _ = int.TryParse(graphicsSection.GetValue("BoldFactorY"), out var graphicsBoldFactorYValue);
@@ -428,7 +445,6 @@ namespace LightningBase
                 if (graphicsTickSpeedValue <= 0) graphicsTickSpeedValue = DEFAULT_GRAPHICS_TICK_SPEED;
 
                 // set minimum spacing values
-                if (graphicsMinimumCharacterSpacingValue <= 0) graphicsMinimumCharacterSpacingValue = DEFAULT_MINIMUM_CHARACTER_SPACING;
                 if (graphicsLineSpacingValue <= 0) graphicsLineSpacingValue = DEFAULT_LINE_SPACING;
                 if (graphicsBoldFactorXValue <= 0) graphicsBoldFactorXValue = DEFAULT_BOLD_FACTOR_X;
                 if (graphicsBoldFactorYValue <= 0) graphicsBoldFactorYValue = DEFAULT_BOLD_FACTOR_Y;
@@ -492,7 +508,7 @@ namespace LightningBase
                 _ = int.TryParse(audioSection.GetValue("DeviceHz"), out var audioDeviceHzValue);
                 _ = int.TryParse(audioSection.GetValue("Channels"), out var audioChannelsValue);
                 _ = Enum.TryParse(typeof(Mix_AudioFormat), audioSection.GetValue("Format"), true, out var audioFormatValue);
-                _ = int.TryParse(audioSection.GetValue("ChunkSize"), out var audioChunkSizeValue);  
+                _ = int.TryParse(audioSection.GetValue("ChunkSize"), out var audioChunkSizeValue);
 
                 AudioDeviceHz = audioDeviceHzValue;
                 AudioChannels = audioChannelsValue;
@@ -519,7 +535,7 @@ namespace LightningBase
 
                 // don't block http or dns
                 _ = ushort.TryParse(networkDefaultPort, out var networkDefaultPortValue);
-                
+
                 NetworkDefaultPort = networkDefaultPortValue;
                 _ = int.TryParse(networkKeepAliveMs, out var networkKeepAliveMsValue);
                 NetworkKeepAliveMs = networkKeepAliveMsValue;
@@ -542,21 +558,32 @@ namespace LightningBase
             {
                 DebugKey = sceneSection.GetValue("DebugKey");
 
-                _ = bool.TryParse(sceneSection.GetValue("DebugDisabled"), out var debugDisabledValue);
+                DebugState = (DebugState)Enum.Parse(typeof(DebugState), sceneSection.GetValue("DebugDisabled"));
                 _ = int.TryParse(sceneSection.GetValue("DebugFontSize"), out var debugFontSizeValue);
+                _ = int.TryParse(sceneSection.GetValue("DebugFontSizeLarge"), out var debugFontSizeLargeValue);
                 _ = float.TryParse(sceneSection.GetValue("DebugPositionX"), out var debugPositionXValue);
                 _ = float.TryParse(sceneSection.GetValue("DebugPositionY"), out var debugPositionYValue);
+                DebugConsoleKey = sceneSection.GetValue("DebugConsoleKey");
+                _ = float.TryParse(sceneSection.GetValue("DebugConsoleSizeX"), out var debugConsoleSizeXValue);
+                _ = float.TryParse(sceneSection.GetValue("DebugConsoleSizeY"), out var debugConsoleSizeYValue);
 
-                DebugDisabled = debugDisabledValue;
                 DebugFontSize = debugFontSizeValue;
+                DebugFontSizeLarge = debugFontSizeLargeValue;
                 DebugPositionX = debugPositionXValue;
                 DebugPositionY = debugPositionYValue;
+                DebugConsoleSizeX = debugConsoleSizeXValue;
+                DebugConsoleSizeY = debugConsoleSizeYValue;
             }
 
             if (string.IsNullOrWhiteSpace(DebugKey)) DebugKey = DEFAULT_DEBUG_KEY;
             if (DebugFontSize <= 0) DebugFontSize = DEFAULT_DEBUG_FONT_SIZE;
+            if (DebugFontSizeLarge <= 0) DebugFontSizeLarge = DEFAULT_DEBUG_FONT_SIZE_LARGE;
             if (DebugPositionX <= 0) DebugPositionX = DEFAULT_DEBUG_POSITION_X;
             if (DebugPositionY <= 0) DebugPositionY = DEFAULT_DEBUG_POSITION_Y;
+            if (string.IsNullOrWhiteSpace(DebugConsoleKey)) DebugConsoleKey = DEFAULT_DEBUG_CONSOLE_KEY;
+            if (DebugConsoleSizeX <= 0) DebugConsoleSizeX = DEFAULT_DEBUG_CONSOLE_SIZE_X;
+            if (DebugConsoleSizeY <= 0) DebugConsoleSizeY = DEFAULT_DEBUG_CONSOLE_SIZE_Y;
+            if (DebugState == DebugState.NotLoaded) DebugState = DEFAULT_DEBUG_STATE;
         }
 
         /// <summary>

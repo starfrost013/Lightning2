@@ -1,7 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using System.Text;
-using static LightningBase.SDL;
+﻿using System.Text;
 
 namespace LightningBase
 {

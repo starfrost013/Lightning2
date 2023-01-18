@@ -1,7 +1,4 @@
-﻿using System;
-using LightningBase;
-
-namespace LightningBase
+﻿namespace LightningBase
 {
     /// <summary>
     /// Represents an exception thrown as a result of a FreeType2 API error.

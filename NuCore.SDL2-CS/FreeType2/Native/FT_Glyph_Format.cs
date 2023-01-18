@@ -1,8 +1,5 @@
-﻿using System;
-
-namespace LightningBase
+﻿namespace LightningBase
 {
-#pragma warning disable 1591
     public enum FT_Glyph_Format : uint
     {
         FT_GLYPH_FORMAT_NONE = 0,
@@ -12,5 +9,4 @@ namespace LightningBase
         FT_GLYPH_FORMAT_OUTLINE = ((UInt32)'o' << 24) | ((UInt32)'u' << 16) | ((UInt32)'t' << 8) | 'l',
         FT_GLYPH_FORMAT_PLOTTER = ((UInt32)'p' << 24) | ((UInt32)'l' << 16) | ((UInt32)'o' << 8) | 't',
     }
-#pragma warning restore 1591
 }

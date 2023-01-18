@@ -1,7 +1,4 @@
-using System;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using NuCore.Utilities;
 
 namespace LightningBase
 {
@@ -195,7 +192,7 @@ namespace LightningBase
             {
                 NCError.ShowErrorBox("FreeType Internal Error - Error selecting fixed font size", 253, NCErrorSeverity.Error, default, true);
             }
-                
+
         }
 
         /// <summary>
@@ -260,7 +257,7 @@ namespace LightningBase
                 return null;
             }
 
-            return FreeTypeApi.FT_Get_Char_Index(_Face, c) > 0 ? c : (char?)null;
+            return FreeTypeApi.FT_Get_Char_Index(_Face, c) > 0 ? c : null;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -293,10 +290,10 @@ namespace LightningBase
 
             if (numFixedSizes == 0)
             {
-                NCError.ShowErrorBox("FreeType Internal Error - tried to find a nearest matching ixed size on a proportional font!", 239,  NCErrorSeverity.Error, default, true);
+                NCError.ShowErrorBox("FreeType Internal Error - tried to find a nearest matching ixed size on a proportional font!", 239, NCErrorSeverity.Error, default, true);
                 return sizeInPixels;
             }
-               
+
             var bestMatchIx = 0;
             var bestMatchDiff = Math.Abs(GetFixedSizeInPixels(_FaceRec, 0) - sizeInPixels);
 
@@ -328,7 +325,7 @@ namespace LightningBase
             }
 
             // 26.6 format
-            var err = FreeTypeApi.FT_Bitmap_Embolden(_Library.Native, (nint)(GlyphBitmapPtr), (nint)(xStrength << 6), (nint)(yStrength << 6));
+            var err = FreeTypeApi.FT_Bitmap_Embolden(_Library.Native, (nint)(GlyphBitmapPtr), xStrength << 6, yStrength << 6);
 
             if (err != FT_Error.FT_Err_Ok)
             {
@@ -362,7 +359,7 @@ namespace LightningBase
                 NCError.ShowErrorBox($"FreeType Internal Error - Error unloading font {unloadError}", 254,
                      NCErrorSeverity.Error, default, true);
 
-                return false; 
+                return false;
             }
 
             Initialised = false;

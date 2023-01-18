@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LightningBase
+﻿namespace LightningBase
 {
     /// <summary>
     /// Contains utility methods for converting FreeType2 data types to CLR data types, and vice versa.

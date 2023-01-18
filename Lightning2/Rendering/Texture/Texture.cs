@@ -212,7 +212,7 @@
                     $"min (0,0). max ({Size.X},{Size.Y}) ", 15, NCErrorSeverity.FatalError);
 
             int pixelToGet = (y * (int)Size.X) + x;
-            int maxPixelId = Pitch / 4 * Pitch;
+            int maxPixelId = (int)((Size.X * 4) * Size.Y); 
 
             if (pixelToGet > maxPixelId) NCError.ShowErrorBox($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), " +
                 $"min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {pixelToGet} > {maxPixelId}!)", 16, NCErrorSeverity.FatalError);

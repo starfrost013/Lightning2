@@ -1,7 +1,4 @@
-﻿using NuCore.Utilities;
-using System.IO;
-
-namespace LightningBase
+﻿namespace LightningBase
 {
     /// <summary>
     /// LocalSettings

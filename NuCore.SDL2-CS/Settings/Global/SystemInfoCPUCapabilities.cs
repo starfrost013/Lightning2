@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LightningBase
+﻿namespace LightningBase
 {
     [Flags]
     /// <summary>

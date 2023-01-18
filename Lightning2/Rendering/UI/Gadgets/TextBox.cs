@@ -88,6 +88,26 @@
             NumberOfFramesUntilNextBlink = DEFAULT_NUMBER_OF_FRAMES_UNTIL_NEXT_BLINK;
         }
 
+        public TextBox(string name, int capacity, string font, Vector2 position, Vector2 size, Color foregroundColor,
+            Color borderColor, Vector2 borderSize, bool filled, bool snapToScreen) : base(name, font)
+        { 
+            Capacity = capacity;
+            OnKeyPressed += KeyPressed;
+            Position = position;
+            Size = size;
+            ForegroundColor = foregroundColor;
+            Filled = filled;
+            BorderColor = borderColor;
+            BorderSize = borderSize;
+            SnapToScreen = snapToScreen;
+
+            if (CursorBlinkFrequency <= 0) CursorBlinkFrequency = DEFAULT_CURSOR_BLINK_FREQUENCY;
+            if (ForegroundColor == default) ForegroundColor = DEFAULT_FOREGROUND_COLOR;
+            if (CursorBlinkLength <= 0) CursorBlinkLength = DEFAULT_CURSOR_BLINK_LENGTH;
+
+            NumberOfFramesUntilNextBlink = DEFAULT_NUMBER_OF_FRAMES_UNTIL_NEXT_BLINK;
+        }
+
         public override void Create()
         {
             Text ??= string.Empty;

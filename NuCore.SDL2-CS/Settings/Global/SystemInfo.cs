@@ -1,9 +1,4 @@
-﻿using static LightningBase.SDL;
-using NuCore.Utilities;
-using System;
-using System.Runtime.InteropServices;
-
-namespace LightningBase
+﻿namespace LightningBase
 {
     /// <summary>
     /// SystemInfo

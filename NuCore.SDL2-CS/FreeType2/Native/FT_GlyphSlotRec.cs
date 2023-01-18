@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using FT_Fixed = System.IntPtr;
+﻿using FT_Fixed = System.IntPtr;
 using FT_Pos = System.IntPtr;
 
 namespace LightningBase

@@ -1,7 +1,4 @@
-﻿using System;
-using LightningBase;
-
-namespace LightningBase
+﻿namespace LightningBase
 {
     /// <summary>
     /// Encapsulates the native FreeType2 library object.

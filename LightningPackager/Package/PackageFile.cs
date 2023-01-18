@@ -33,9 +33,12 @@ namespace LightningPackager
         public static string InFolder { get; set; }
 
         /// <summary>
-        /// The amount to increment by after deobfuscating.
+        /// Modifier for obfuscated data.
+        /// 
+        /// Decrement when obfuscating,
+        /// increment while deobfuscating
         /// </summary>
-        private byte INCREMENT_AMOUNT = 7;
+        private byte MODIFIER_AMOUNT = 7;
 
         public PackageFile(PackageFileMetadata metadata)
         {
@@ -111,7 +114,7 @@ namespace LightningPackager
 
         private void Obfuscate(string path)
         {
-            NCLogging.Log("Obfuscating (Key=no)...");
+            NCLogging.Log("Obfuscating...");
 
             byte[] allBytes = File.ReadAllBytes(path);
 
@@ -126,7 +129,7 @@ namespace LightningPackager
                 byte xorByte = Convert.ToByte(curByte ^ key[curByteNumber % key.Length]);
 
                 // decrement by 7 and enforce wraparound
-                xorByte -= INCREMENT_AMOUNT;
+                xorByte -= MODIFIER_AMOUNT;
 
                 xorBytes.Add(xorByte);
             }
@@ -145,7 +148,7 @@ namespace LightningPackager
             {
                 byte curByte = byteArray[curByteNumber];
 
-                curByte += INCREMENT_AMOUNT; // we have to increment first because we did it after xoring in the obfuscation step
+                curByte += MODIFIER_AMOUNT; // we have to increment first because we did it after xoring in the obfuscation step
 
                 byte deobfuscatedByte = (byte)(curByte ^ key[curByteNumber % key.Length]);
 
@@ -163,7 +166,7 @@ namespace LightningPackager
         /// </summary>
         /// <param name="key">The key to deobfuscate.</param>
         /// <returns>A byte array containing the deobfuscated key</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] // duplicate the code in multiple places
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
         private byte[] DeobfuscateKey(byte[] key)
         {
             for (int keyByte = 0; keyByte < key.Length; keyByte++)

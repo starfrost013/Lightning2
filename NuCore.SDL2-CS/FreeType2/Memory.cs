@@ -1,7 +1,3 @@
-using System;
-using System.Runtime.InteropServices;
-using LightningBase;
-
 namespace LightningBase
 {
     /// <summary>
@@ -131,11 +127,11 @@ namespace LightningBase
         /// <returns>The length of the used data in output.</returns>
         public unsafe int GzipUncompress(byte[] input, byte[] output)
         {
-            nint len = (nint)output.Length;
+            nint len = output.Length;
 
             fixed (byte* inPtr = input, outPtr = output)
             {
-                FT_Error err = FreeTypeApi.FT_Gzip_Uncompress(Reference, (nint)outPtr, ref len, (nint)inPtr, (nint)input.Length);
+                FT_Error err = FreeTypeApi.FT_Gzip_Uncompress(Reference, (nint)outPtr, ref len, (nint)inPtr, input.Length);
 
                 if (err != FT_Error.FT_Err_Ok)
                     throw new FreeTypeException(err);

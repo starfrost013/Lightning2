@@ -1,8 +1,5 @@
-﻿using System;
-
-namespace LightningBase
+﻿namespace LightningBase
 {
-#pragma warning disable 1591
     public enum FT_Encoding : uint
     {
         FT_ENCODING_NONE = 0,
@@ -32,5 +29,4 @@ namespace LightningBase
 
         FT_ENCODING_APPLE_ROMAN = ((UInt32)'a' << 24) | ((UInt32)'r' << 16) | ((UInt32)'m' << 8) | 'n',
     }
-#pragma warning restore 1591
 }
