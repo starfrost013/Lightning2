@@ -194,7 +194,7 @@ if (!noTimeBuild)
 {
     stopwatch.Stop();
     double instSeconds = (double)stopwatch.ElapsedMilliseconds / 1000;
-    NCLogging.Log($"Build and install took {instSeconds:F1} sec (run setup={runSetup}, looud setup={noQuiet})");
+    NCLogging.Log($"Build and install took {instSeconds:F1} sec (run setup={runSetup}, loud setup={noQuiet})");
 }
 
 NCLogging.Log("Done!", ConsoleColor.Green);
