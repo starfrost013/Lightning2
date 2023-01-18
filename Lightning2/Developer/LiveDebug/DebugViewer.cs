@@ -128,14 +128,14 @@
 
             DebugText.Text += debugText;
 
-            DebugText.Text += $"Current scene: {CurrentScene.Name}";
+            DebugText.Text += $"Current scene: {CurrentScene.Name}\n";
 
             int maxFps = (GlobalSettings.GraphicsMaxFPS == 0) ? 60 : GlobalSettings.GraphicsMaxFPS;
 
             // draw indicator that we are under 60fps always under it
             if (Lightning.Renderer.CurFPS < maxFps)
             {
-                DebugText.Text += "Running under target FPS ({maxFps})!\n";
+                DebugText.Text += $"Running under target FPS ({maxFps})!\n";
             }
         }
 
@@ -224,6 +224,8 @@
 
         private void DrawGlobalSettingsView()
         {
+            Debug.Assert(DebugText != null);
+
             // this file must exist
             string[] lines = File.ReadAllLines(GlobalSettings.GLOBALSETTINGS_PATH);
 
