@@ -31,7 +31,7 @@ namespace LightningGL
             Commands = new Stack<LNetCommand>(); 
         }
         
-        public void OnReceivePacket(byte[] data)
+        public void OnReadPacket(byte[] data)
         {
             LNetCommand? latestCommand = ReadPacket(data);
             
@@ -41,13 +41,7 @@ namespace LightningGL
             }
         }
 
-        public void HandleAnyRemainingPackets()
-        {
-            while (PacketsLeft)
-            {
-                LNetCommand command = Commands.Pop();
-            }
-        }
+        public LNetCommand GetMostRecentPacket() => Commands.Pop();
 
         private LNetCommand? ReadPacket(byte[] data)
         {
@@ -89,16 +83,16 @@ namespace LightningGL
                 // pass a zero byte array to ReceiveCommandData. 
                 // This is a special value indicating there is no command data. So hopefully every command will detect this and try and parse it.
                 netCommand.ReadCommandData(Array.Empty<byte>());
-                return netCommand;
             }
             else
             {
                 byte[] cmdData = new byte[numOfCommandBytes];
                 Buffer.BlockCopy(data, curPointWithinPacket, cmdData, 0, numOfCommandBytes);
                 netCommand.ReadCommandData(cmdData);
-                return netCommand;
             }
 
+
+            return netCommand;
         }
 
         public virtual LNetCommand? PacketIdToCommand(byte packetId)

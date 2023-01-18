@@ -79,7 +79,7 @@ for (int argId = 0; argId < args.Length; argId++)
 if (!noTimeBuild) stopwatch.Start();
 
 FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
-NCLogging.Log($"Lightning SDK Builder version {fvi.FileMajorPart}.{fvi.FileMinorPart}");
+NCLogging.Log($"Lightning SDK Builder version {fvi.FileMajorPart}.{fvi.FileMinorPart}.{fvi.FileBuildPart}");
 
 // delete sdk dir if it exists
 if (Directory.Exists("SDK"))
@@ -183,10 +183,7 @@ else
 
             while (!sdkSetup.HasExited) { }; 
 
-            if (sdkSetup.ExitCode > 0)
-            {
-                NCLogging.Log($"Error: Failed to install SDK (exit code {sdkSetup.ExitCode})!", ConsoleColor.Red);
-            }
+            if (sdkSetup.ExitCode > 0) NCLogging.Log($"Error: Failed to install SDK (exit code {sdkSetup.ExitCode})!", ConsoleColor.Red);
         }
 
     }

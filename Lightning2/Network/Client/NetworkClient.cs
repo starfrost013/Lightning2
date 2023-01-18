@@ -55,7 +55,7 @@
 
         public virtual void SendPacketToServer(LNetCommand command)
         {
-
+            
         }
 
         internal void Main()
@@ -76,7 +76,10 @@
         {
             IPEndPoint? ip = ServerIP;
 
-            SessionManager.UdpClient.EndReceive(result, ref ip);
+
+            byte[] commandData = SessionManager.UdpClient.EndReceive(result, ref ip);
+
+            SessionManager.OnReadPacket(commandData);
             Main(); // begin receive again
         }
     }
