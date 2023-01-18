@@ -41,8 +41,16 @@
         public override int ZIndex => 2147483647;
 
         // maybe make configurable?
+        /// <summary>
+        /// The default foreground colour for the debug screen.
+        /// Maybe make configurable?
+        /// </summary>
         private readonly Color DebugForeground = Color.Blue;
 
+        /// <summary>
+        /// The default background colour for the debug screen.
+        /// Maybe make configurable?
+        /// </summary>
         private readonly Color DebugBackground = Color.FromArgb(0, Color.White);
 
         /// <summary>
@@ -73,7 +81,7 @@
             Lightning.Renderer.AddRenderable(new Font("Arial.ttf", GlobalSettings.DebugFontSize, "DebugFont"));
 
             DebugText = Lightning.Renderer.AddRenderable(new TextBlock("DebugText", "(PLACEHOLDER)", "DebugFont",
-                new(0, (float)GlobalSettings.GraphicsLineSpacing * 3), DebugForeground, DebugBackground));
+                new(0, (float)GlobalSettings.DebugPositionY), DebugForeground, DebugBackground));
             DebugText.SnapToScreen = true;
             DebugText.Localise = false; // dont localise
             DebugText.IsNotRendering = !Enabled; 
@@ -231,7 +239,10 @@
             // this file must exist
             string[] lines = File.ReadAllLines(GlobalSettings.GLOBALSETTINGS_PATH);
 
-            DebugText.Text += lines;
+            foreach (string line in lines)
+            {
+                DebugText.Text += $"{line}\n";
+            }
         }
 
         private void KeyPressed(Key key)

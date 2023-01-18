@@ -232,14 +232,26 @@ Everything that matters to the api has to go here
 
 2023.01.14:
 * Add new globalsettings
-	+ GlobalSettings::UnderlineThickness
-	+ GlobalSettings::StrikeoutThickness
+	+ GlobalSettings::GraphicsUnderlineThickness
+	+ GlobalSettings::GraphicsStrikeoutThickness
 * Strikeout and underline text.
 
 2023.01.15:
 * NuCore now nullable-enabled
 * Remove stupid duplicate error cause.
 
+2023.01.17:
+* Work on client connection code
+
+2023.01.18:
+* Fix debug display rendering.
+* Fix text rendering (need to add bold/italic still) by correctly using hor_advance
+* Remove globalsettings:
+	- GlobalSettings::GraphicsWordSpacing
+* Add globalsettings
+	- GlobalSettings::DebugPositionX
+	- GlobalSettings::DebugPositionY
+* Allow you to move around the debugvewer
 
 * todo:
 	- overridable default values

@@ -102,6 +102,16 @@ namespace LightningBase
         /// </summary>
         public static int DebugFontSize { get; internal set; }
 
+        /// <summary>
+        /// The default debug position X.
+        /// </summary>
+        public static float DebugPositionX { get; internal set; }
+
+        /// <summary>
+        /// The default debug position Y.
+        /// </summary>
+        public static float DebugPositionY { get; internal set; }
+
         #endregion
 
         #region Graphics settings
@@ -160,11 +170,6 @@ namespace LightningBase
         /// The renderer that will be used
         /// </summary>
         public static Renderers GraphicsRenderer { get; internal set; }
-
-        /// <summary>
-        /// The spacing between words. A multiplier of the font size.
-        /// </summary>
-        public static double GraphicsWordSpacing { get; internal set; }
 
         /// <summary>
         /// The spacing between linse. A multiplier of the font size.
@@ -308,6 +313,10 @@ namespace LightningBase
 
         private const string DEFAULT_DEBUG_KEY = "F9";
 
+        private const float DEFAULT_DEBUG_POSITION_X = 0;
+
+        private const float DEFAULT_DEBUG_POSITION_Y = 12;
+
         private const int DEFAULT_DEBUG_FONT_SIZE = 11; 
 
         private const bool DEFAULT_SHOW_ABOUT_SCREEN_ON_SHIFT_F9 = true;
@@ -403,7 +412,6 @@ namespace LightningBase
                 _ = int.TryParse(graphicsSection.GetValue("PositionY"), out var graphicsPositionYValue);
                 _ = Enum.TryParse(typeof(Renderers), graphicsSection.GetValue("Renderer"), true, out var graphicsRendererValue);
                 _ = double.TryParse(graphicsSection.GetValue("MinimumCharacterSpacing"), out var graphicsMinimumCharacterSpacingValue);
-                _ = double.TryParse(graphicsSection.GetValue("WordSpacing"), out var graphicsWordSpacingValue);
                 _ = double.TryParse(graphicsSection.GetValue("LineSpacing"), out var graphicsLineSpacingValue);
                 _ = int.TryParse(graphicsSection.GetValue("BoldFactorX"), out var graphicsBoldFactorXValue);
                 _ = int.TryParse(graphicsSection.GetValue("BoldFactorY"), out var graphicsBoldFactorYValue);
@@ -421,7 +429,6 @@ namespace LightningBase
 
                 // set minimum spacing values
                 if (graphicsMinimumCharacterSpacingValue <= 0) graphicsMinimumCharacterSpacingValue = DEFAULT_MINIMUM_CHARACTER_SPACING;
-                if (graphicsWordSpacingValue <= 0) graphicsWordSpacingValue = DEFAULT_WORD_SPACING;
                 if (graphicsLineSpacingValue <= 0) graphicsLineSpacingValue = DEFAULT_LINE_SPACING;
                 if (graphicsBoldFactorXValue <= 0) graphicsBoldFactorXValue = DEFAULT_BOLD_FACTOR_X;
                 if (graphicsBoldFactorYValue <= 0) graphicsBoldFactorYValue = DEFAULT_BOLD_FACTOR_Y;
@@ -438,7 +445,6 @@ namespace LightningBase
                 if (graphicsRenderFlagsValue != null) GraphicsRenderFlags = (SDL_RendererFlags)graphicsRenderFlagsValue;
                 GraphicsDontCullRenderables = graphicsDontCullRenderablesValue;
                 if (graphicsRendererValue != null) GraphicsRenderer = (Renderers)graphicsRendererValue;
-                GraphicsWordSpacing = graphicsWordSpacingValue;
                 GraphicsLineSpacing = graphicsLineSpacingValue;
                 GraphicsBoldFactorX = graphicsBoldFactorXValue;
                 GraphicsBoldFactorY = graphicsBoldFactorYValue;
@@ -512,16 +518,23 @@ namespace LightningBase
                 if (!string.IsNullOrWhiteSpace(networkMasterServer)) NetworkMasterServer = networkMasterServer;
 
                 // don't block http or dns
-                if (ushort.TryParse(networkDefaultPort, out var networkDefaultPortValue)
-                    && networkDefaultPortValue != 53
-                    && networkDefaultPortValue != 80
-                    && networkDefaultPortValue != 443) NetworkDefaultPort = networkDefaultPortValue;
-                if (int.TryParse(networkKeepAliveMs, out var networkKeepAliveMsValue)
-                    && networkKeepAliveMsValue > 0) NetworkKeepAliveMs = networkKeepAliveMsValue;
+                _ = ushort.TryParse(networkDefaultPort, out var networkDefaultPortValue);
+                
+                NetworkDefaultPort = networkDefaultPortValue;
+                _ = int.TryParse(networkKeepAliveMs, out var networkKeepAliveMsValue);
+                NetworkKeepAliveMs = networkKeepAliveMsValue;
             }
 
-            DebugKey = DEFAULT_DEBUG_KEY;
-            DebugFontSize = DEFAULT_DEBUG_FONT_SIZE;
+            if (string.IsNullOrWhiteSpace(NetworkMasterServer)) NetworkMasterServer = DEFAULT_NETWORK_MASTER_SERVER;
+
+            if (NetworkDefaultPort <= 0 // don't allow some common ports
+                    || NetworkDefaultPort != 53
+                    || NetworkDefaultPort != 80
+                    || NetworkDefaultPort != 443) NetworkDefaultPort = DEFAULT_NETWORK_PORT;
+
+            if (NetworkKeepAliveMs < 0) NetworkKeepAliveMs = DEFAULT_NETWORK_KEEP_ALIVE_MS;
+
+
             // debugdisabled = false
 
             // Load the debug settings, if they are present
@@ -531,15 +544,19 @@ namespace LightningBase
 
                 _ = bool.TryParse(sceneSection.GetValue("DebugDisabled"), out var debugDisabledValue);
                 _ = int.TryParse(sceneSection.GetValue("DebugFontSize"), out var debugFontSizeValue);
-
-                if (string.IsNullOrWhiteSpace(DebugKey)) DebugKey = DEFAULT_DEBUG_KEY;
-                if (debugFontSizeValue <= 0) debugFontSizeValue = DEFAULT_DEBUG_FONT_SIZE;
+                _ = float.TryParse(sceneSection.GetValue("DebugPositionX"), out var debugPositionXValue);
+                _ = float.TryParse(sceneSection.GetValue("DebugPositionY"), out var debugPositionYValue);
 
                 DebugDisabled = debugDisabledValue;
                 DebugFontSize = debugFontSizeValue;
-
-                if (DebugFontSize <= 0) DebugFontSize = DEFAULT_DEBUG_FONT_SIZE;
+                DebugPositionX = debugPositionXValue;
+                DebugPositionY = debugPositionYValue;
             }
+
+            if (string.IsNullOrWhiteSpace(DebugKey)) DebugKey = DEFAULT_DEBUG_KEY;
+            if (DebugFontSize <= 0) DebugFontSize = DEFAULT_DEBUG_FONT_SIZE;
+            if (DebugPositionX <= 0) DebugPositionX = DEFAULT_DEBUG_POSITION_X;
+            if (DebugPositionY <= 0) DebugPositionY = DEFAULT_DEBUG_POSITION_Y;
         }
 
         /// <summary>
