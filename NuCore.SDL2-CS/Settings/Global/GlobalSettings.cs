@@ -162,11 +162,6 @@ namespace LightningBase
         public static Renderers GraphicsRenderer { get; internal set; }
 
         /// <summary>
-        /// The default multiplier of the font size that is the minimum allowed value for spacing between characters
-        /// </summary>
-        public static double GraphicsMinimumCharacterSpacing { get; internal set; }
-
-        /// <summary>
         /// The spacing between words. A multiplier of the font size.
         /// </summary>
         public static double GraphicsWordSpacing { get; internal set; }
@@ -445,7 +440,6 @@ namespace LightningBase
                 if (graphicsRenderFlagsValue != null) GraphicsRenderFlags = (SDL_RendererFlags)graphicsRenderFlagsValue;
                 GraphicsDontCullRenderables = graphicsDontCullRenderablesValue;
                 if (graphicsRendererValue != null) GraphicsRenderer = (Renderers)graphicsRendererValue;
-                GraphicsMinimumCharacterSpacing = graphicsMinimumCharacterSpacingValue;
                 GraphicsWordSpacing = graphicsWordSpacingValue;
                 GraphicsLineSpacing = graphicsLineSpacingValue;
                 GraphicsBoldFactorX = graphicsBoldFactorXValue;

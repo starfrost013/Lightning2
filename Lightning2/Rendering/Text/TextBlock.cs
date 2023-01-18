@@ -204,17 +204,6 @@ namespace LightningGL
                     {
                         glyph.UsedThisFrame = true;
 
-                        // this just prettifies the text a bit
-                        // some font characters are a bit too small so freetype's advance isn't long enough to give them a proper amount of spacing, so they look weird
-                        // this is only a problem in the X direction
-                        // we just fix that here
-                        double minimumSpacing = (font.FontSize * GlobalSettings.GraphicsMinimumCharacterSpacing);
-
-                        int pushRight = (int)(minimumSpacing - glyph.Advance.X) + 1;
-
-                        // ignore negative values
-                        if (pushRight < 0) pushRight = 0;
-
                         // maxverticallinesize
                         if (glyph.Size.Y > maxVerticalLineSize) maxVerticalLineSize = (int)glyph.Size.Y;
 
@@ -228,24 +217,24 @@ namespace LightningGL
                                 currentPosition += new Vector2(glyph.Advance.X, 0);
                                 // just grab the texture and draw it again
                                 // these should definitely be in the hierarchy...hmm...
-                                glyph.Position = new(currentPosition.X + glyph.Offset.X + pushRight,
+                                glyph.Position = new(currentPosition.X - glyph.Offset.X,
                                     currentPosition.Y - glyph.Offset.Y);
                                 break;
                             case Orientation.RightToLeft:
                                 currentPosition += new Vector2(-glyph.Advance.X, 0);
-                                glyph.Position = new(currentPosition.X - glyph.Offset.X - pushRight,
+                                glyph.Position = new(currentPosition.X + glyph.Offset.X,
                                     currentPosition.Y - glyph.Offset.Y);
                                 break;
                             // use X here so the horizontal spacing is used vertically for these reading orders
                             case Orientation.TopToBottom:
                                 currentPosition += new Vector2(0, glyph.Advance.X);
-                                glyph.Position = new(currentPosition.X + glyph.Offset.X,
-                                    currentPosition.Y - glyph.Offset.Y + pushRight);
+                                glyph.Position = new(currentPosition.X - glyph.Offset.X,
+                                    currentPosition.Y - glyph.Offset.Y);
                                 break;
                             case Orientation.BottomToTop:
                                 currentPosition += new Vector2(0, -glyph.Advance.X);
                                 glyph.Position = new(currentPosition.X + glyph.Offset.X,
-                                    currentPosition.Y - glyph.Offset.Y - pushRight);
+                                    currentPosition.Y - glyph.Offset.Y);
                                 break;
                         }
 

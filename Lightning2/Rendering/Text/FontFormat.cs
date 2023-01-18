@@ -1,5 +1,5 @@
 ﻿
-namespace LightningGL.Rendering.TextFT
+namespace LightningGL
 {
     /// <summary>
     /// Enumerates valid font formats.

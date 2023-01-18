@@ -1,6 +1,4 @@
-﻿using LightningGL.Rendering.TextFT;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// Font
