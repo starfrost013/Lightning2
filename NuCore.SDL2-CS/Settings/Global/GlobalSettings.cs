@@ -314,8 +314,6 @@ namespace LightningBase
 
         private const double DEFAULT_MINIMUM_CHARACTER_SPACING = (5d / 11d); // 5 pixels for font size 11, just base it on that
 
-        private const double DEFAULT_WORD_SPACING = 0.55d;
-
         private const double DEFAULT_LINE_SPACING = 1.2d;
 
         private const int DEFAULT_BOLD_FACTOR_X = 4;

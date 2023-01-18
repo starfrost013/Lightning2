@@ -73,8 +73,10 @@
             Lightning.Renderer.AddRenderable(new Font("Arial.ttf", GlobalSettings.DebugFontSize, "DebugFont"));
 
             DebugText = Lightning.Renderer.AddRenderable(new TextBlock("DebugText", "(PLACEHOLDER)", "DebugFont",
-                new(0, 0), DebugForeground, DebugBackground));
-            DebugText.SnapToScreen = true; 
+                new(0, (float)GlobalSettings.GraphicsLineSpacing * 3), DebugForeground, DebugBackground));
+            DebugText.SnapToScreen = true;
+            DebugText.Localise = false; // dont localise
+            DebugText.IsNotRendering = !Enabled; 
         }
 
         public override void Draw()
@@ -171,7 +173,7 @@
             {
                 string initialString = $"{renderable.Name} ({renderable.GetType().Name}): position {renderable.Position}, " +
                     $"size: {renderable.Size}, render position: {renderable.RenderPosition}, on screen: {renderable.IsOnScreen}, z-index: {renderable.ZIndex}, " +
-                    $"is animating now: {renderable.IsAnimating} - parent {parent.Name}";
+                    $"is animating now: {renderable.IsAnimating} - parent {parent.Name}\n";
 
                 // string::format requires constants so we need to pad to the left
                 initialString = initialString.PadLeft(initialString.Length + (DEFAULT_PAD_LEFT * depth)); // todo: make this a setting with a defauilt value
@@ -209,7 +211,7 @@
             }
             else
             {
-                string debugText = $"FPS: {Lightning.Renderer.CurFPS:F1)} ({Lightning.Renderer.DeltaTime:F2}ms)\n" +
+                string debugText = $"FPS: {Lightning.Renderer.CurFPS.ToString("F1")} ({Lightning.Renderer.DeltaTime:F2}ms)\n" +
                     $"0.1% High: {PerformanceProfiler.Current999thPercentile}\n" +
                     $"1% High: {PerformanceProfiler.Current99thPercentile}\n" +
                     $"5% High: {PerformanceProfiler.Current95thPercentile}\n" +
