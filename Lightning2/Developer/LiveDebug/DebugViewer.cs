@@ -1,6 +1,4 @@
-﻿using LightningBase;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// DebugView
@@ -38,26 +36,29 @@ namespace LightningGL
         public override bool NotCullable => true;
 
         /// <summary>
-        /// <inheritdoc/>
+        /// <inheritdoc/>. For DebugViewer, force to top.
         /// </summary>
         public override int ZIndex => 2147483647;
-
-        /// <summary>
-        /// Current Y for drawing
-        /// </summary>
-        private float CurrentY { get; set; }
 
         // maybe make configurable?
         private readonly Color DebugForeground = Color.Blue;
 
         private readonly Color DebugBackground = Color.FromArgb(0, Color.White);
 
-        private int LineSpacing => (int)(GlobalSettings.DebugFontSize * GlobalSettings.GraphicsLineSpacing);
+        /// <summary>
+        /// The debug text block.
+        /// </summary>
+        private TextBlock? DebugText { get; set; }
 
         /// <summary>
         /// Maximum number of renderables for the renderables view.
         /// </summary>
         private const int MAX_RENDERABLES = 5000;
+
+        /// <summary>
+        /// Default padding for child renderables.
+        /// </summary>
+        private const int DEFAULT_PAD_LEFT = 8;
 
         public DebugViewer(string name) : base(name)
         {
@@ -68,29 +69,28 @@ namespace LightningGL
         {
             NCLogging.Log("Loading debug font...");
             // Load the debug font.
-            // My lazy cleaning up hack makes me not put the debug font as a child of the debug viewer.
+            // My lazy cleaning up hack makes me not put the debug font as a logical child of the debug viewer.
             Lightning.Renderer.AddRenderable(new Font("Arial.ttf", GlobalSettings.DebugFontSize, "DebugFont"));
+
+            DebugText = Lightning.Renderer.AddRenderable(new TextBlock("DebugText", "(PLACEHOLDER)", "DebugFont",
+                new(0, 0), DebugForeground, DebugBackground));
+            DebugText.SnapToScreen = true; 
         }
 
         public override void Draw()
         {
             if (!Enabled) return;
 
-            // lazy hack to get over the fact i cant be bothered to rewrite this to use the new text APIs
-            Lightning.Renderer.RemoveAllChildren(this);
+            Debug.Assert(DebugText != null);
 
             // reset drawing
             // TODO: configurable colours
 
-            CurrentY = 0;
-
             int currentPage = (int)CurrentDebugView + 1;
             int maxPage = (int)DebugViews.MaxPage + 1;
 
-            Lightning.Renderer.AddRenderable(new TextBlock("DebugText1", $"Lightning Debug v{LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING} (Debug page {currentPage}/{maxPage} - {CurrentDebugView})", 
-                "DebugFont", new(0, CurrentY), DebugForeground, DebugBackground, FontStyle.Normal, -1, FontSmoothingType.Default, true), this);
-
-            CurrentY += LineSpacing;
+            DebugText.Text = $"Lightning Debug v{LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING} " +
+                $"(Debug page {currentPage}/{maxPage} - {CurrentDebugView})\n";
 
             switch (CurrentDebugView)
             {
@@ -110,75 +110,53 @@ namespace LightningGL
                     DrawGlobalSettingsView();
                     break;
             }
-
-
         }
 
         private void DrawBigPictureView()
         {
-            Debug.Assert(CurrentScene != null);
+            Debug.Assert(CurrentScene != null
+                && DebugText != null);
 
-            string[] debugText =
-            {
-                $"FPS: {Lightning.Renderer.CurFPS:F1} ({Lightning.Renderer.DeltaTime:F2}ms)",
-                $"Renderer: {Lightning.Renderer.GetType().Name}",
-                $"Frame #{Lightning.Renderer.FrameNumber}",
-                $"Number of renderables: {Lightning.Renderer.CountRenderables()}", // uses recursion so we have to call a method
-                $"Number of renderables on screen: {Lightning.Renderer.RenderedLastFrame}",
-                $"Delta time: {Lightning.Renderer.DeltaTime}",
-                $"Camera position: {Lightning.Renderer.Settings.Camera.Position}",
-            };
+            string debugText =
+                $"FPS: {Lightning.Renderer.CurFPS:F1} ({Lightning.Renderer.DeltaTime:F2}ms)\n" +
+                $"Renderer: {Lightning.Renderer.GetType().Name}\n" + 
+                $"Frame #{Lightning.Renderer.FrameNumber}\n" +
+                $"Number of renderables: {Lightning.Renderer.CountRenderables()}\n" + // uses recursion so we have to call a method
+                $"Number of renderables on screen: {Lightning.Renderer.RenderedLastFrame}\n" +
+                $"Delta time: {Lightning.Renderer.DeltaTime}\n" +
+                $"Camera position: {Lightning.Renderer.Settings.Camera.Position}\n";
 
-            foreach (string line in debugText)
-            {
-                Lightning.Renderer.AddRenderable(new TextBlock("DebugText2", line, "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, FontStyle.Normal, 
-                    -1, FontSmoothingType.Default, true), this);
-                CurrentY += LineSpacing;
-            }
+            DebugText.Text += debugText;
 
-            Lightning.Renderer.AddRenderable(new TextBlock("DebugText3", $"Current scene: {CurrentScene.Name}", "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, 
-                FontStyle.Normal, -1, FontSmoothingType.Default, true), this);
+            DebugText.Text += $"Current scene: {CurrentScene.Name}";
 
-            CurrentY += LineSpacing;
+            int maxFps = (GlobalSettings.GraphicsMaxFPS == 0) ? 60 : GlobalSettings.GraphicsMaxFPS;
 
             // draw indicator that we are under 60fps always under it
-            if (Lightning.Renderer.CurFPS < GlobalSettings.GraphicsMaxFPS)
+            if (Lightning.Renderer.CurFPS < maxFps)
             {
-                CurrentY += LineSpacing;
-
-                int maxFps = GlobalSettings.GraphicsMaxFPS;
-
-                if (maxFps == 0) maxFps = 60;
-
-                Lightning.Renderer.AddRenderable(new TextBlock("DebugText4", $"Running under target FPS ({maxFps})!", "DebugFont", new Vector2(0, CurrentY), 
-                    DebugForeground, DebugBackground, FontStyle.Bold, -1, FontSmoothingType.Default, true), this);
-                CurrentY += LineSpacing;
+                DebugText.Text += "Running under target FPS ({maxFps})!\n";
             }
-
         }
 
         private void DrawRenderableDetailsView()
         {
+            Debug.Assert(DebugText != null);
+
             // bail too many renderables
             if (Lightning.Renderer.Renderables.Count > MAX_RENDERABLES)
             {
-                Lightning.Renderer.AddRenderable(new TextBlock("DebugText5", $"Something went wrong, renderable vomiting in progress (>5000 renderables in scene!!!!)", "DebugFont", new(0, CurrentY),
-                    DebugForeground, DebugBackground, FontStyle.Bold, -1, FontSmoothingType.Default, true), this);
-                CurrentY += LineSpacing;
+                DebugText.Text += "Something went wrong, renderable vomiting in progress (>5000 renderables in scene!!!!)\n";
             }
             else
             {
-                Lightning.Renderer.AddRenderable(new TextBlock("DebugText6", $"Camera Position: {Lightning.Renderer.Settings.Camera.Position}", "DebugFont", new Vector2(0, CurrentY), DebugForeground, 
-                    DebugBackground, FontStyle.Normal, -1, FontSmoothingType.Default, true), this);
-                CurrentY += LineSpacing;
-
+                DebugText.Text += $"Camera Position: {Lightning.Renderer.Settings.Camera.Position}\n";
+        
                 for (int renderableId = 0; renderableId < Lightning.Renderer.Renderables.Count; renderableId++)
                 {
                     Renderable renderable = Lightning.Renderer.Renderables[renderableId];
-                    Lightning.Renderer.AddRenderable(new TextBlock("DebugText7", $"{renderable.Name} ({renderable.GetType().Name}): position {renderable.Position}, " + $"size: {renderable.Size}, " +
-                        $"render position: {renderable.RenderPosition}, on screen: {renderable.IsOnScreen}, z-index: {renderable.ZIndex}, " + $"is animating now: {renderable.IsAnimating}", 
-                        "DebugFont", new(0, CurrentY), DebugForeground, DebugBackground, FontStyle.Normal, -1, FontSmoothingType.Default, true), this);
-                    CurrentY += LineSpacing;
+                    DebugText.Text += $"{renderable.Name} ({renderable.GetType().Name}): position {renderable.Position}, " + $"size: {renderable.Size}, " +
+                        $"render position: {renderable.RenderPosition}, on screen: {renderable.IsOnScreen}, z-index: {renderable.ZIndex}, " + $"is animating now: {renderable.IsAnimating}\n";
 
                     if (renderable.Children.Count > 0) DrawRenderableChildren(renderable);
                 }
@@ -187,6 +165,8 @@ namespace LightningGL
 
         private void DrawRenderableChildren(Renderable parent, int depth = 1)
         {
+            Debug.Assert(DebugText != null);
+
             foreach (Renderable renderable in parent.Children)
             {
                 string initialString = $"{renderable.Name} ({renderable.GetType().Name}): position {renderable.Position}, " +
@@ -194,12 +174,9 @@ namespace LightningGL
                     $"is animating now: {renderable.IsAnimating} - parent {parent.Name}";
 
                 // string::format requires constants so we need to pad to the left
-                initialString = initialString.PadLeft(initialString.Length + (8 * depth)); // todo: make this a setting with a defauilt value
+                initialString = initialString.PadLeft(initialString.Length + (DEFAULT_PAD_LEFT * depth)); // todo: make this a setting with a defauilt value
 
-                // this is not a child of this because i cant be bothered to fix this very bad debugviewer
-                Lightning.Renderer.AddRenderable(new TextBlock("DebugText8", initialString, "DebugFont", new(0, CurrentY),
-                    DebugForeground, DebugBackground, FontStyle.Normal, -1, FontSmoothingType.Default, true));
-                CurrentY += LineSpacing;
+                DebugText.Text += initialString; 
                 
                 if (renderable.Children.Count > 0) DrawRenderableChildren(renderable, depth++);
             }
@@ -207,55 +184,41 @@ namespace LightningGL
 
         private void DrawSystemInformationView()
         {
-            string[] debugText =
-            {
-                $"Resolution: {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY} (window size: {GlobalSettings.GraphicsResolutionX},{GlobalSettings.GraphicsResolutionY} " +
-                $"Window flags: {GlobalSettings.GraphicsWindowFlags}, render flags: {GlobalSettings.GraphicsRenderFlags})",
-                $"SDL {SDL_EXPECTED_MAJOR_VERSION}.{SDL_EXPECTED_MINOR_VERSION}.{SDL_EXPECTED_PATCHLEVEL}",
-                $"SDL_image {SDL_IMAGE_EXPECTED_MAJOR_VERSION}.{SDL_IMAGE_EXPECTED_MINOR_VERSION}.{SDL_IMAGE_EXPECTED_PATCHLEVEL}",
-                $"SDL_mixer {SDL_MIXER_EXPECTED_MAJOR_VERSION}.{SDL_MIXER_EXPECTED_MINOR_VERSION}.{SDL_MIXER_EXPECTED_PATCHLEVEL}",
-                $"{SystemInfo.Cpu.ProcessArchitecture} Lightning on {SystemInfo.Cpu.SystemArchitecture} {SystemInfo.CurOperatingSystem}",
-                $"CPU Capabilities: {SystemInfo.Cpu.Capabilities}",
-                $"Hardware Threads (NOT cores!): {SystemInfo.Cpu.Threads}",
-                $"Total System RAM: {SystemInfo.SystemRam}MiB",
-            };
+            Debug.Assert(DebugText != null);
 
-            foreach (string line in debugText)
-            {
-                Lightning.Renderer.AddRenderable(new TextBlock("DebugText9", line, "DebugFont", new Vector2(0, CurrentY), DebugForeground, 
-                    DebugBackground, FontStyle.Normal, -1, FontSmoothingType.Default, true), this);
-                CurrentY += LineSpacing;
-            }
+            string debugText = $"Resolution: {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY} (window size: {GlobalSettings.GraphicsResolutionX},{GlobalSettings.GraphicsResolutionY}\n" +
+                $"Window flags: {GlobalSettings.GraphicsWindowFlags}, render flags: {GlobalSettings.GraphicsRenderFlags})\n" +
+                $"SDL {SDL_EXPECTED_MAJOR_VERSION}.{SDL_EXPECTED_MINOR_VERSION}.{SDL_EXPECTED_PATCHLEVEL}\n" +
+                $"SDL_image {SDL_IMAGE_EXPECTED_MAJOR_VERSION}.{SDL_IMAGE_EXPECTED_MINOR_VERSION}.{SDL_IMAGE_EXPECTED_PATCHLEVEL}\n" +
+                $"SDL_mixer {SDL_MIXER_EXPECTED_MAJOR_VERSION}.{SDL_MIXER_EXPECTED_MINOR_VERSION}.{SDL_MIXER_EXPECTED_PATCHLEVEL}\n" +
+                $"{SystemInfo.Cpu.ProcessArchitecture} Lightning on {SystemInfo.Cpu.SystemArchitecture} {SystemInfo.CurOperatingSystem}\n" +
+                $"CPU Capabilities: {SystemInfo.Cpu.Capabilities}\n" +
+                $"Hardware Threads (NOT cores!): {SystemInfo.Cpu.Threads}\n" +
+                $"Total System RAM: {SystemInfo.SystemRam}MiB\n";
+
+            DebugText.Text += debugText;
         }
 
         private void DrawPerformanceView()
         {
+            Debug.Assert(DebugText != null);
+
             if (!GlobalSettings.GeneralProfilePerformance)
             {
-                Lightning.Renderer.AddRenderable(new TextBlock("DebugText10", "This page is disabled as the Performance Profiler is not enabled!", "DebugFont", new Vector2(0, CurrentY),
-                    DebugForeground, DebugBackground, FontStyle.Bold, -1, FontSmoothingType.Default, true, false), this);
-                CurrentY += LineSpacing;
+                DebugText.Text += "This page is disabled as the Performance Profiler is not enabled!\n";
             }
             else
             {
-                string[] debugText =
-                {
-                    $"FPS: {Lightning.Renderer.CurFPS:F1)} ({Lightning.Renderer.DeltaTime:F2}ms)",
-                    $"0.1% High: {PerformanceProfiler.Current999thPercentile}",
-                    $"1% High: {PerformanceProfiler.Current99thPercentile}",
-                    $"5% High: {PerformanceProfiler.Current95thPercentile}",
-                    $"Average: {PerformanceProfiler.CurrentAverage}",
-                    $"5% Low: {PerformanceProfiler.Current5thPercentile}",
-                    $"1% Low: {PerformanceProfiler.Current1stPercentile}",
-                    $"0.1% Low: {PerformanceProfiler.Current01thPercentile}",
-                };
+                string debugText = $"FPS: {Lightning.Renderer.CurFPS:F1)} ({Lightning.Renderer.DeltaTime:F2}ms)\n" +
+                    $"0.1% High: {PerformanceProfiler.Current999thPercentile}\n" +
+                    $"1% High: {PerformanceProfiler.Current99thPercentile}\n" +
+                    $"5% High: {PerformanceProfiler.Current95thPercentile}\n" +
+                    $"Average: {PerformanceProfiler.CurrentAverage}\n" +
+                    $"5% Low: {PerformanceProfiler.Current5thPercentile}\n" +
+                    $"1% Low: {PerformanceProfiler.Current1stPercentile}\n" +
+                    $"0.1% Low: {PerformanceProfiler.Current01thPercentile}\n";
 
-                foreach (string line in debugText)
-                {
-                    Lightning.Renderer.AddRenderable(new TextBlock("DebugText11", line, "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, 
-                        FontStyle.Normal, -1, FontSmoothingType.Default, true), this);
-                    CurrentY += LineSpacing;
-                }
+                DebugText.Text += debugText;
             }
         }
 
@@ -264,20 +227,21 @@ namespace LightningGL
             // this file must exist
             string[] lines = File.ReadAllLines(GlobalSettings.GLOBALSETTINGS_PATH);
 
-            foreach (string line in lines)
-            {
-                Lightning.Renderer.AddRenderable(new TextBlock("DebugText12", line, "DebugFont", new Vector2(0, CurrentY), DebugForeground, DebugBackground, FontStyle.Normal, 
-                    -1, FontSmoothingType.Default, true, false), this);
-                CurrentY += LineSpacing;
-            }
+            DebugText.Text += lines;
         }
 
         private void KeyPressed(Key key)
         {
+            Debug.Assert(DebugText != null);
+
             string keyString = key.ToString();
 
             // case has to be a compile time constant so we do thos
-            if (keyString == GlobalSettings.DebugKey) Enabled = !Enabled;
+            if (keyString == GlobalSettings.DebugKey)
+            {
+                Enabled = !Enabled;
+                DebugText.IsNotRendering = !Enabled; 
+            }
 
             switch (keyString)
             {
