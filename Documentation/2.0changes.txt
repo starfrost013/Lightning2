@@ -251,7 +251,12 @@ Everything that matters to the api has to go here
 * Add globalsettings
 	- GlobalSettings::DebugPositionX
 	- GlobalSettings::DebugPositionY
+	- GlobalSettings::DebugConsoleKey
+	- GlobalSettings::DebugConsoleSizeX
+	- GlobalSettings::DebugConsoleSizeY
+	- GlobalSettings::Debug
 * Allow you to move around the debugvewer
+* Began working on debugconsole
 
 * todo:
 	- overridable default values
