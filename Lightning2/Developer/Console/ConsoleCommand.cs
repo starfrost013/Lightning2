@@ -20,6 +20,6 @@
         /// <summary>
         /// Executes the console command.
         /// </summary>
-        public abstract void Execute(params object[] parameters);
+        public abstract void Execute(params string[] parameters);
     }
 }

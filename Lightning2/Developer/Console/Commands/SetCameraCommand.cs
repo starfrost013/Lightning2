@@ -4,7 +4,7 @@ namespace LightningGL
     internal class SetCameraCommand : ConsoleCommand
     {
         public override string Name => "setcamera";
-        public override void Execute(params object[] parameters)
+        public override void Execute(params string[] parameters)
         {
             if (parameters.Length < 1)
             {

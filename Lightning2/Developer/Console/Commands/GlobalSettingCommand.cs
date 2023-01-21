@@ -4,7 +4,7 @@ namespace LightningGL
     internal class GlobalSettingCommand : ConsoleCommand
     {
         public override string Name => "setgvar";
-        public override void Execute(params object[] parameters)
+        public override void Execute(params string[] parameters)
         {
             
         }

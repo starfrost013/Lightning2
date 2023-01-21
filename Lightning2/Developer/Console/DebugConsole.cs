@@ -107,8 +107,6 @@
             Enabled = false;
 
             TextBox.OnKeyPressed += ConsoleBoxKeyPressed;
-
-
         }
 
         public void ConsoleBoxKeyPressed(Key key)
