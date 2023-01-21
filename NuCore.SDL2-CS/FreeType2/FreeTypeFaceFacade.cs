@@ -145,8 +145,8 @@ namespace LightningBase
         {
             if (!Initialised)
             {
-                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 248,
-                    NCErrorSeverity.Warning);
+                NCLogging.LogError("FreeType Internal Error - Font not initialised", 248,
+                    NCLoggingSeverity.Warning);
                 return false;
             }
 
@@ -163,7 +163,7 @@ namespace LightningBase
         {
             if (!Initialised)
             {
-                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 247, NCErrorSeverity.Warning);
+                NCLogging.LogError("FreeType Internal Error - Font not initialised", 247, NCLoggingSeverity.Warning);
                 return;
             }
 
@@ -171,7 +171,7 @@ namespace LightningBase
             var err = FreeTypeApi.FT_Set_Char_Size(_Face, size, size, dpiX, dpiY);
             if (err != FT_Error.FT_Err_Ok)
             {
-                NCError.ShowErrorBox($"FreeType Internal Error - Failed to set character size ({err})", 250, NCErrorSeverity.Warning);
+                NCLogging.LogError($"FreeType Internal Error - Failed to set character size ({err})", 250, NCLoggingSeverity.Warning);
             }
         }
 
@@ -183,14 +183,14 @@ namespace LightningBase
         {
             if (!Initialised)
             {
-                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 246, NCErrorSeverity.Warning);
+                NCLogging.LogError("FreeType Internal Error - Font not initialised", 246, NCLoggingSeverity.Warning);
                 return;
             }
 
             var err = FreeTypeApi.FT_Select_Size(_Face, ix);
             if (err != FT_Error.FT_Err_Ok)
             {
-                NCError.ShowErrorBox("FreeType Internal Error - Error selecting fixed font size", 253, NCErrorSeverity.Error, default, true);
+                NCLogging.LogError("FreeType Internal Error - Error selecting fixed font size", 253, NCLoggingSeverity.Error, default, true);
             }
 
         }
@@ -204,7 +204,7 @@ namespace LightningBase
         {
             if (!Initialised)
             {
-                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 242, NCErrorSeverity.FatalError);
+                NCLogging.LogError("FreeType Internal Error - Font not initialised", 242, NCLoggingSeverity.FatalError);
                 return 90000000; // fatal error but obvious nonsense value
             }
 
@@ -219,7 +219,7 @@ namespace LightningBase
         {
             if (!Initialised)
             {
-                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 243, NCErrorSeverity.FatalError);
+                NCLogging.LogError("FreeType Internal Error - Font not initialised", 243, NCLoggingSeverity.FatalError);
 
                 return string.Empty;
             }
@@ -235,7 +235,7 @@ namespace LightningBase
         {
             if (!Initialised)
             {
-                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 244, NCErrorSeverity.FatalError);
+                NCLogging.LogError("FreeType Internal Error - Font not initialised", 244, NCLoggingSeverity.FatalError);
 
                 return string.Empty;
             }
@@ -252,7 +252,7 @@ namespace LightningBase
         {
             if (!Initialised)
             {
-                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 245, NCErrorSeverity.Warning);
+                NCLogging.LogError("FreeType Internal Error - Font not initialised", 245, NCLoggingSeverity.Warning);
 
                 return null;
             }
@@ -265,7 +265,7 @@ namespace LightningBase
         {
             if (!Initialised)
             {
-                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 241, NCErrorSeverity.FatalError);
+                NCLogging.LogError("FreeType Internal Error - Font not initialised", 241, NCLoggingSeverity.FatalError);
                 return 0;
             }
 
@@ -282,7 +282,7 @@ namespace LightningBase
         {
             if (!Initialised)
             {
-                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 239, NCErrorSeverity.Error, default, true);
+                NCLogging.LogError("FreeType Internal Error - Font not initialised", 239, NCLoggingSeverity.Error, default, true);
                 return sizeInPixels;
             }
 
@@ -290,7 +290,7 @@ namespace LightningBase
 
             if (numFixedSizes == 0)
             {
-                NCError.ShowErrorBox("FreeType Internal Error - tried to find a nearest matching ixed size on a proportional font!", 239, NCErrorSeverity.Error, default, true);
+                NCLogging.LogError("FreeType Internal Error - tried to find a nearest matching ixed size on a proportional font!", 239, NCLoggingSeverity.Error, default, true);
                 return sizeInPixels;
             }
 
@@ -310,7 +310,7 @@ namespace LightningBase
 
             if (bestMatchDiff != 0 && requireExactMatch)
             {
-                NCError.ShowErrorBox("FreeType Internal Error - could not find matching pixel size", 251, NCErrorSeverity.Error, default, true);
+                NCLogging.LogError("FreeType Internal Error - could not find matching pixel size", 251, NCLoggingSeverity.Error, default, true);
                 return sizeInPixels;
             }
 
@@ -321,7 +321,7 @@ namespace LightningBase
         {
             if (!Initialised)
             {
-                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 240, NCErrorSeverity.FatalError);
+                NCLogging.LogError("FreeType Internal Error - Font not initialised", 240, NCLoggingSeverity.FatalError);
             }
 
             // 26.6 format
@@ -329,7 +329,7 @@ namespace LightningBase
 
             if (err != FT_Error.FT_Err_Ok)
             {
-                NCError.ShowErrorBox("FreeType Internal Error - Failed to embolden font", 249, NCErrorSeverity.Warning, default, true);
+                NCLogging.LogError("FreeType Internal Error - Failed to embolden font", 249, NCLoggingSeverity.Warning, default, true);
                 return false;
             }
 
@@ -356,8 +356,8 @@ namespace LightningBase
 
             if (unloadError != FT_Error.FT_Err_Ok)
             {
-                NCError.ShowErrorBox($"FreeType Internal Error - Error unloading font {unloadError}", 254,
-                     NCErrorSeverity.Error, default, true);
+                NCLogging.LogError($"FreeType Internal Error - Error unloading font {unloadError}", 254,
+                     NCLoggingSeverity.Error, default, true);
 
                 return false;
             }
@@ -374,7 +374,7 @@ namespace LightningBase
         {
             if (!Initialised)
             {
-                NCError.ShowErrorBox("FreeType Internal Error - Font not initialised", 255, NCErrorSeverity.FatalError);
+                NCLogging.LogError("FreeType Internal Error - Font not initialised", 255, NCLoggingSeverity.FatalError);
             }
 
             return _FaceRec->glyph->bitmap.pixel_mode switch

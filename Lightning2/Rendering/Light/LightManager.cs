@@ -53,7 +53,7 @@
         {
             Debug.Assert(ScreenSpaceMap != null);
 
-            if (ScreenSpaceMap.Handle == nint.Zero) NCError.ShowErrorBox("The Light Manager must be initialised before using it!", 124, NCErrorSeverity.FatalError);
+            if (ScreenSpaceMap.Handle == nint.Zero) NCLogging.LogError("The Light Manager must be initialised before using it!", 124, NCLoggingSeverity.FatalError);
             EnvironmentalLight = color;
 
             if (EnvironmentalLight == default(Color)) EnvironmentalLight = Color.FromArgb(255, 255, 255, 255);
@@ -70,8 +70,8 @@
         {
             Debug.Assert(ScreenSpaceMap != null);
 
-            if (ScreenSpaceMap.Handle == nint.Zero) NCError.ShowErrorBox("The Light Manager must be initialised before using it!", 
-                125, NCErrorSeverity.FatalError);
+            if (ScreenSpaceMap.Handle == nint.Zero) NCLogging.LogError("The Light Manager must be initialised before using it!", 
+                125, NCLoggingSeverity.FatalError);
             SDL_SetTextureBlendMode(ScreenSpaceMap.Handle, blendMode);
         }
 
@@ -83,8 +83,8 @@
         {
             Debug.Assert(ScreenSpaceMap != null);
 
-            if (ScreenSpaceMap.Handle == nint.Zero) NCError.ShowErrorBox("The Light Manager must be initialised before using it!",
-                62, NCErrorSeverity.FatalError);
+            if (ScreenSpaceMap.Handle == nint.Zero) NCLogging.LogError("The Light Manager must be initialised before using it!",
+                62, NCLoggingSeverity.FatalError);
             ScreenSpaceMap.Draw();
         }
 

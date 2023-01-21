@@ -53,8 +53,8 @@ namespace LightningGL
 
             if (protocolVersion != LNetProtocol.LNET_PROTOCOL_VERSION)
             {
-                NCError.ShowErrorBox($"Received packet with invalid network  protocol version {protocolVersion}, expected {LNetProtocol.LNET_PROTOCOL_VERSION}", 181, 
-                    NCErrorSeverity.Warning, default, false);
+                NCLogging.LogError($"Received packet with invalid network  protocol version {protocolVersion}, expected {LNetProtocol.LNET_PROTOCOL_VERSION}", 181, 
+                    NCLoggingSeverity.Warning, default, false);
             }
 
             int packetId = BitConverter.ToInt32(data, curPointWithinPacket);
@@ -68,8 +68,8 @@ namespace LightningGL
 
             if (netCommand == null)
             {
-                NCError.ShowErrorBox($"Received invalid packet type {packetType}, maximum is {LNetCommandTypes.MaximumValidCommand}", 182,
-                    NCErrorSeverity.Warning, null, false);
+                NCLogging.LogError($"Received invalid packet type {packetType}, maximum is {LNetCommandTypes.MaximumValidCommand}", 182,
+                    NCLoggingSeverity.Warning, null, false);
                 return null;
             }
 
@@ -102,8 +102,8 @@ namespace LightningGL
                 case 0x00:
                     return new PingPongCommand();
                 default:
-                    NCError.ShowErrorBox($"Tried to parse invalid packet ID {packetId}", 180,
-                        NCErrorSeverity.Warning, null, false);
+                    NCLogging.LogError($"Tried to parse invalid packet ID {packetId}", 180,
+                        NCLoggingSeverity.Warning, null, false);
                     return null;
             }
             

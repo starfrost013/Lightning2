@@ -21,15 +21,15 @@
 
             if (font == null)
             {
-                NCError.ShowErrorBox($"Passed a null font parameter to FontManager::GetTextSize!", 81, NCErrorSeverity.FatalError);
+                NCLogging.LogError($"Passed a null font parameter to FontManager::GetTextSize!", 81, NCLoggingSeverity.FatalError);
                 return default;
             }
 
             // call the multiline text function
             if (text.Contains('\n', StringComparison.InvariantCultureIgnoreCase)) return GetLargestTextSize(font, text, foregroundColor, style, smoothingType);
 
-            if (!Lightning.Renderer.ContainsRenderable(font.Name)) NCError.ShowErrorBox($"Please load font (Name={font.Name}, Size={font.FontSize}) before trying to use it!", 
-                81, NCErrorSeverity.FatalError);
+            if (!Lightning.Renderer.ContainsRenderable(font.Name)) NCLogging.LogError($"Please load font (Name={font.Name}, Size={font.FontSize}) before trying to use it!", 
+                81, NCLoggingSeverity.FatalError);
 
             Vector2 fontSize = new();
 
@@ -63,8 +63,8 @@
 
             if (curFont == null)
             {
-                NCError.ShowErrorBox($"GetTextSize was provided an invalid font, " +
-                    $"so (0,0) will be returned! The text will not be drawn!", 190, NCErrorSeverity.Warning, null, true);
+                NCLogging.LogError($"GetTextSize was provided an invalid font, " +
+                    $"so (0,0) will be returned! The text will not be drawn!", 190, NCLoggingSeverity.Warning, null, true);
                 return default;
             }
 
@@ -86,12 +86,12 @@
             // check it's a real font
             if (font == null)
             {
-                NCError.ShowErrorBox($"Tried to pass null to FontManager::GetLargestTextSize!", 183, NCErrorSeverity.FatalError);
+                NCLogging.LogError($"Tried to pass null to FontManager::GetLargestTextSize!", 183, NCLoggingSeverity.FatalError);
                 return default; 
             }
 
-            if (!Lightning.Renderer.ContainsRenderable(font.Name)) NCError.ShowErrorBox($"Please load font (Name={font.Name}, " +
-                $"Size={font.FontSize}) before trying to use it!", 82, NCErrorSeverity.FatalError);
+            if (!Lightning.Renderer.ContainsRenderable(font.Name)) NCLogging.LogError($"Please load font (Name={font.Name}, " +
+                $"Size={font.FontSize}) before trying to use it!", 82, NCLoggingSeverity.FatalError);
 
             string[] lines = text.Split('\n');
 
@@ -125,7 +125,7 @@
             }
             else
             {
-                NCError.ShowErrorBox($"GetLargestTextSize was provided an invalid font, so (0,0) will be returned", 189, NCErrorSeverity.Warning, null, true);
+                NCLogging.LogError($"GetLargestTextSize was provided an invalid font, so (0,0) will be returned", 189, NCLoggingSeverity.Warning, null, true);
                 return default;
             }
         }

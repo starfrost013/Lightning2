@@ -85,7 +85,7 @@ namespace NuCore.Utilities
             // Show the message box
             if (SDL_ShowMessageBox(ref mbData, out var buttonId) < 0)
             {
-                NCError.ShowErrorBox($"Error creating messagebox - {SDL_GetError()}", 19, NCErrorSeverity.Error);
+                NCLogging.LogError($"Error creating messagebox - {SDL_GetError()}", 19, NCLoggingSeverity.Error);
                 return null;
             }
 

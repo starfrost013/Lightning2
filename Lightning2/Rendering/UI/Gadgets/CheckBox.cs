@@ -37,6 +37,24 @@
             OnMousePressed += CheckBoxMousePressed;
         }
 
+        public CheckBox(string name, string font, bool isChecked) : base(name, font)
+        {
+            Checked = isChecked;
+        }
+
+        public CheckBox(string name, string font, Vector2 position, Vector2 size, Color foregroundColor, bool filled = false, Color borderColor = default, 
+            Vector2 borderSize = default, bool snapToScreen = false, bool isChecked = false) : base(name, font)
+        {
+            Position = position;
+            Size = size;
+            ForegroundColor = foregroundColor;
+            Filled = filled;
+            BorderColor = borderColor;
+            BorderSize = borderSize;
+            SnapToScreen = snapToScreen;
+            Checked = isChecked;
+        }
+
         public override void Create()
         {
             // issue: won't update if you modify it again later

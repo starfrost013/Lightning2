@@ -32,8 +32,8 @@
             set
             {
                 if (value < 0
-                    || value > Children.Count - 1) NCError.ShowErrorBox("Attempted to set an invalid SelectedIndex for this ListBox!", 83,
-                        NCErrorSeverity.FatalError);
+                    || value > Children.Count - 1) NCLogging.LogError("Attempted to set an invalid SelectedIndex for a ListBox!", 83,
+                        NCLoggingSeverity.FatalError);
 
                 _selectedindex = value;
             }
@@ -79,9 +79,17 @@
 
             AlternateItemColorsAmount = 30;
         }
+        
+        public ListBox(string name, string font, List<ListBoxItem> items) : base(name, font)
+        {
+            foreach (ListBoxItem item in items) AddItem(item);
+        }
 
         public override void Create()
         {
+            // set the default background color
+            if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
+
             // HACK: Don't make this a child of this so that it does not break everything
             // Make this hack go away in the future
             Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("ListBoxRectangle", Position, BoxSize, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen));
@@ -97,8 +105,8 @@
 
             if (Font == null)
             {
-                NCError.ShowErrorBox($"Tried to add an item to a ListBox with an invalid font", 185,
-                    NCErrorSeverity.FatalError);
+                NCLogging.LogError($"Tried to add an item to a ListBox with an invalid font", 185,
+                    NCLoggingSeverity.FatalError);
                 return;
             }
 
@@ -106,8 +114,8 @@
 
             if (itemFont == null)
             {
-                NCError.ShowErrorBox($"Tried to add an item to a ListBox with an invalid font", 187,
-                   NCErrorSeverity.FatalError);
+                NCLogging.LogError($"Tried to add an item to a ListBox with an invalid font", 187,
+                   NCLoggingSeverity.FatalError);
                 return;
             }
 
@@ -175,7 +183,7 @@
 
             if (curFont == null)
             {
-                NCError.ShowErrorBox($"Tried to add an item to a ListBox with an invalid font", 186, NCErrorSeverity.FatalError);
+                NCLogging.LogError($"Tried to add an item to a ListBox with an invalid font", 186, NCLoggingSeverity.FatalError);
                 return;
             }
 

@@ -90,8 +90,8 @@
             catch (Exception ex)
             {
                 Initialised = false;
-                NCError.ShowErrorBox("An error occurred initialising performance profiler. Profiling will not occur.", 70,
-                    NCErrorSeverity.Warning, ex, true);
+                NCLogging.LogError("An error occurred initialising performance profiler. Profiling will not occur.", 70,
+                    NCLoggingSeverity.Warning, ex, true);
             }
 
             return;

@@ -1,12 +1,13 @@
 ﻿
 namespace LightningGL
 {
-    internal class GlobalSettingCommand : ConsoleCommand
+    internal class SetGlobalSettingCommand : ConsoleCommand
     {
         public override string Name => "setgvar";
-        public override void Execute(params string[] parameters)
+        public override bool Execute(params string[] parameters)
         {
-            
+            NCLogging.Log("SetGlobalSettingCommand NOT YET IMPLEMENTED");
+            return true; 
         }
 
         public override string Description => "Sets a global setting.\nParameters: Setting (string). The name of the global setting to use";

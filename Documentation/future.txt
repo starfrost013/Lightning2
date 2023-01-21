@@ -30,11 +30,12 @@ Lightning 2.5 feature set:
 - Attach ParticleEffects to Renderables
 - Layered Rendering (z-index also)
 - Video API
-- Linux ????
+
 - New Lighting Engine using Raycasting (possibly 3.0)
 - LightningInternal for internal renderables to fix searches 
 - Maybe referents
 - Scene Transitions? / FX Engine? (possibly 3.0)
+- Ticks not deltatime
 
 Lightning 3.0 feature set:
 - OpenGL 3.3 renderer
@@ -43,13 +44,17 @@ Lightning 3.0 feature set:
 - macOS Port
 - Animated Skybox API (everything inherently animatable)
 - Post-processing Engine
+- Shader Manager
 - New settings api for an arbitrary number of settings using a binary dictionary or JSON for high speed
 - WADv4: Compressed WAD
+- Full Linux Port
 
 At some point:
 - Bytecode Engine (LightningBytecode.dll) - not sure what language yet
 - Native parallax scrolling with N layers
 - Multithreading
+- Actual physics engine
+- Dynamic transitions
 - Lightning Build Environment - build setup and everything every single build
 - Vulkan Renderer?
 - Asset Manager
@@ -57,3 +62,5 @@ At some point:
 Far future:
 - Lightning 3D
 - Console ports (will cost a lot of $$$$)
+- IDE
+- 

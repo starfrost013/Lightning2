@@ -47,7 +47,6 @@
                 TextBox.IsNotRendering = !value;
                 ConsoleHeader.IsNotRendering = !value;
                 ConsoleText.IsNotRendering = !value;
-
             }
         }
 
@@ -60,6 +59,11 @@
         /// Maybe make configurable?
         /// </summary>
         private readonly Color DebugForeground = Color.Black;
+
+        /// <summary>
+        /// The default background colour for the text box of the console.
+        /// </summary>
+        private readonly Color DebugTextBoxBackground = Color.LightBlue;
 
         /// <summary>
         /// The default border colour for the debug screen.
@@ -88,20 +92,22 @@
 
             Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("ConsoleRectangle", new(0, 0), new(GlobalSettings.DebugConsoleSizeX, GlobalSettings.DebugConsoleSizeY),
                 DebugForeground, true, DebugBorder, DEFAULT_DEBUG_BORDER_SIZE, true), this);
-            TextBox = Lightning.Renderer.AddRenderable(new TextBox("ConsoleTextBox", 300, "DebugFont", new(0, GlobalSettings.DebugConsoleSizeY - DEFAULT_CONSOLE_TEXTBOX_SIZE.Y), DEFAULT_CONSOLE_TEXTBOX_SIZE,
-                DebugTextColor, Color.Black, DEFAULT_DEBUG_BORDER_SIZE, false, true), this);
+            TextBox = Lightning.Renderer.AddRenderable(new TextBox("ConsoleTextBox", 300, "DebugFont", new(0, GlobalSettings.DebugConsoleSizeY - DEFAULT_CONSOLE_TEXTBOX_SIZE.Y), 
+                DEFAULT_CONSOLE_TEXTBOX_SIZE, DebugTextColor, DebugTextBoxBackground, true, DebugBorder, DEFAULT_DEBUG_BORDER_SIZE), this);
             ConsoleHeader = Lightning.Renderer.AddRenderable(new TextBlock("ConsoleHeader", "Console", "DebugFontLarge", DEFAULT_CONSOLE_HEADER_POSITION,
                 DebugTextColor, Color.Transparent), this);
             ConsoleText = Lightning.Renderer.AddRenderable(new TextBlock("ConsoleText", "(PLACEHOLDER)", "DebugFont", DEFAULT_CONSOLE_TEXT_POSITION,
-                DebugTextColor, Color.Transparent), this);
+                DebugTextColor), this);
 
             ConsoleHeader.SnapToScreen = true;
             ConsoleText.SnapToScreen = true;
+            TextBox.SnapToScreen = true;
+            ConsoleHeader.SnapToScreen = true;
 
-            Rectangle.ZIndex = ZIndex;
-            TextBox.ZIndex = ZIndex;
-            ConsoleHeader.ZIndex = ZIndex;
-            ConsoleText.ZIndex = ZIndex;
+            Rectangle.ZIndex = ZIndex + 1;
+            TextBox.ZIndex = ZIndex + 1;
+            ConsoleHeader.ZIndex = ZIndex + 1;
+            ConsoleText.ZIndex = ZIndex + 1;
 
             // explicitly set to update ui state
             Enabled = false;
@@ -116,7 +122,7 @@
             if (!Enabled) return;
 
             // go to base
-            TextBox.KeyPressed(key); 
+            //TextBox.KeyPressed(key); 
 
             switch (key.KeySym.scancode)
             {
@@ -130,7 +136,39 @@
 
         private void ProcessCommand()
         {
+            Debug.Assert(TextBox != null);
+            string? textBoxText = TextBox.Text;
 
+            // clear textbox text
+            TextBox.Text = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(textBoxText))
+            {
+                NCLogging.LogError("Temporary ERROR - PLEASE ENTER A FUCKING COMMAND!", 303, NCLoggingSeverity.Warning, null, true);
+                return;
+            }
+
+            string[] commandComponents = textBoxText.Split(" ");
+
+            // we already check for a length implicitly (with string.IsNullOrWhiteSpace, which also checks for empty)
+            string commandType = commandComponents[0];
+
+            ConsoleCommands commandId = default;
+
+            bool succeeded = Enum.TryParse(commandType, true, out commandId);
+
+            if (!succeeded)
+            {
+                NCLogging.Log($"Console command {commandType} not found!");
+                return;
+            }
+
+            ConsoleCommand? command = ConsoleCommandFactory.GetCommand(commandId);
+
+            // should not happen
+            Debug.Assert(command != null);
+
+            if (!command.Execute()) NCLogging.Log("Command failed to execute");
         }
 
         private void KeyPressed(Key key)

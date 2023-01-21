@@ -47,7 +47,7 @@
             // we already create it if it does not exist
             if (LocalSettingsFile == null)
             {
-                NCError.ShowErrorBox($"Tried to save LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 170, NCErrorSeverity.Warning);
+                NCLogging.LogError($"Tried to save LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 170, NCLoggingSeverity.Warning);
                 return;
             }
 
@@ -64,7 +64,7 @@
             // we already create it if it does not exist
             if (LocalSettingsFile == null)
             {
-                NCError.ShowErrorBox($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 171, NCErrorSeverity.Warning);
+                NCLogging.LogError($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 171, NCLoggingSeverity.Warning);
                 return;
             }
 
@@ -77,7 +77,7 @@
             // we already create it if it does not exist
             if (LocalSettingsFile == null)
             {
-                NCError.ShowErrorBox($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 172, NCErrorSeverity.Warning);
+                NCLogging.LogError($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 172, NCLoggingSeverity.Warning);
                 return;
             }
 
@@ -96,7 +96,7 @@
             // we already create it if it does not exist
             if (LocalSettingsFile == null)
             {
-                NCError.ShowErrorBox($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 173, NCErrorSeverity.Warning);
+                NCLogging.LogError($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 173, NCLoggingSeverity.Warning);
                 return;
             }
 
@@ -111,7 +111,7 @@
             // we already create it if it does not exist
             if (LocalSettingsFile == null)
             {
-                NCError.ShowErrorBox($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 174, NCErrorSeverity.Warning);
+                NCLogging.LogError($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 174, NCLoggingSeverity.Warning);
                 return;
             }
 
@@ -126,7 +126,7 @@
             // we already create it if it does not exist
             if (LocalSettingsFile == null)
             {
-                NCError.ShowErrorBox($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 175, NCErrorSeverity.Warning);
+                NCLogging.LogError($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 175, NCLoggingSeverity.Warning);
                 return;
             }
 

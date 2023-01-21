@@ -24,7 +24,7 @@ namespace LightningPackager
                 // delete any existing package
                 if (!File.Exists(path))
                 {
-                    NCError.ShowErrorBox($"Error: Package path {path} does not exist, cannot load package!", 100, NCErrorSeverity.Error, null, true);
+                    NCLogging.LogError($"Error: Package path {path} does not exist, cannot load package!", 100, NCLoggingSeverity.Error, null, true);
                     return false;
                 }
 
@@ -41,7 +41,7 @@ namespace LightningPackager
             }
             catch (Exception ex)
             {
-                NCError.ShowErrorBox($"Error: An exception occurred during extraction. Exception information:\n\n{ex}", 198, NCErrorSeverity.FatalError);
+                NCLogging.LogError($"Error: An exception occurred during extraction. Exception information:\n\n{ex}", 198, NCLoggingSeverity.FatalError);
                 return false;
             }
             
@@ -88,7 +88,7 @@ namespace LightningPackager
             }
             catch (Exception ex)
             {
-                NCError.ShowErrorBox($"An error occurred cleaning up the game content directory.\n\n{ex}", 109, NCErrorSeverity.Warning);
+                NCLogging.LogError($"An error occurred cleaning up the game content directory.\n\n{ex}", 109, NCLoggingSeverity.Warning);
             }
         }
     }

@@ -88,14 +88,15 @@
             NumberOfFramesUntilNextBlink = DEFAULT_NUMBER_OF_FRAMES_UNTIL_NEXT_BLINK;
         }
 
-        public TextBox(string name, int capacity, string font, Vector2 position, Vector2 size, Color foregroundColor,
-            Color borderColor, Vector2 borderSize, bool filled, bool snapToScreen) : base(name, font)
+        public TextBox(string name, int capacity, string font, Vector2 position, Vector2 size, Color foregroundColor, Color backgroundColor = default,
+             bool filled = false, Color borderColor = default, Vector2 borderSize = default, bool snapToScreen = false) : base(name, font)
         { 
             Capacity = capacity;
             OnKeyPressed += KeyPressed;
             Position = position;
             Size = size;
             ForegroundColor = foregroundColor;
+            BackgroundColor = backgroundColor;  
             Filled = filled;
             BorderColor = borderColor;
             BorderSize = borderSize;
@@ -110,10 +111,14 @@
 
         public override void Create()
         {
+            if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
+
             Text ??= string.Empty;
             Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("TextBoxRectangle", Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen), this);
-            Cursor = Lightning.Renderer.AddRenderable(new Line("TextBoxLine", default, default, ForegroundColor), this);
-            TextBoxText = Lightning.Renderer.AddRenderable(new TextBlock("TextBoxText", Text, Font, Position, ForegroundColor), this);
+            Cursor = Lightning.Renderer.AddRenderable(new Line("TextBoxLine", default, default, ForegroundColor, SnapToScreen), this);
+            TextBoxText = Lightning.Renderer.AddRenderable(new TextBlock("TextBoxText", Text, Font, Position, ForegroundColor, default, Style), this);
+            TextBoxText.SnapToScreen = SnapToScreen;    
+            Cursor.SnapToScreen = SnapToScreen;
         }
 
         /// <summary>
@@ -193,9 +198,6 @@
 
                 Rectangle.Color = CurBackgroundColor;
 
-                // slight hack
-                if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
-
                 if (!HideCursor)
                 {
                     Vector2 fontSize = FontManager.GetLargestTextSize(Font, Text, ForegroundColor, Style, TextBoxText.SmoothingType);
@@ -224,10 +226,6 @@
 
                     NumberOfFramesUntilNextBlink--;
                 }
-            }
-            else
-            {
-                NCError.ShowErrorBox($"Tried to draw a textbox with text that is null, empty, or only whitespace. Ignoring", 280, NCErrorSeverity.Warning, null, true);
             }
         }
     }

@@ -109,7 +109,7 @@
             if (Texture == null
                 || !Texture.Loaded)
             {
-                NCError.ShowErrorBox("Attempted to draw a particle effect without loading it!", 120, NCErrorSeverity.FatalError);
+                NCLogging.LogError("Attempted to draw a particle effect without loading it!", 120, NCLoggingSeverity.FatalError);
                 return;
             }
 

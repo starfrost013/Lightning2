@@ -30,7 +30,7 @@
 
             if (localisationIni == null)
             {
-                NCError.ShowErrorBox($"Error in localisation INI {GlobalSettings.GeneralLanguage}!", 31, NCErrorSeverity.FatalError);
+                NCLogging.LogError($"Error in localisation INI {GlobalSettings.GeneralLanguage}!", 31, NCLoggingSeverity.FatalError);
                 return;
             }
 
@@ -40,13 +40,13 @@
 
             if (metadataSection == null)
             {
-                NCError.ShowErrorBox($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No metadata section!", 32, NCErrorSeverity.FatalError);
+                NCLogging.LogError($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No metadata section!", 32, NCLoggingSeverity.FatalError);
                 return;
             }
 
             if (stringsSection == null)
             {
-                NCError.ShowErrorBox($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No strings section!", 33, NCErrorSeverity.FatalError);
+                NCLogging.LogError($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No strings section!", 33, NCLoggingSeverity.FatalError);
                 return;
             }
 
@@ -107,8 +107,8 @@
 
                         if (localisationString == null)
                         {
-                            NCError.ShowErrorBox($"Invalid localisation string - cannot find localised string {localisationTextId}! The string will not be displayed.", 
-                                35, NCErrorSeverity.Warning, null, true);
+                            NCLogging.LogError($"Invalid localisation string - cannot find localised string {localisationTextId}! The string will not be displayed.", 
+                                35, NCLoggingSeverity.Warning, null, true);
                             stringProcess = $"Unlocalised string {localisationTextId}!";
                         }
                         else

@@ -92,8 +92,8 @@ NCLogging.Log("Copying build files from Lightning build directory...");
 
 if (!Directory.Exists(buildPath))
 {
-    NCError.ShowErrorBox($"Build directory not found ({buildPath})!. Please build Lightning in the specified configuration (provide -release for Release, otherwise Debug)", 1402,
-        NCErrorSeverity.FatalError);
+    NCLogging.LogError($"Build directory not found ({buildPath})!. Please build Lightning in the specified configuration (provide -release for Release, otherwise Debug)", 1402,
+        NCLoggingSeverity.FatalError);
     Environment.Exit(1);
 }
 
@@ -125,7 +125,7 @@ NCFile.RecursiveCopy(buildPath, "SDK");
 // TODO: VSIX Installation
 NCLogging.Log("Building documentation...");
 
-if (!Directory.Exists(docPath)) NCError.ShowErrorBox($"Documentation directory not found ({docPath}!", 1401, NCErrorSeverity.Warning);
+if (!Directory.Exists(docPath)) NCLogging.LogError($"Documentation directory not found ({docPath}!", 1401, NCLoggingSeverity.Warning);
 
 Directory.CreateDirectory(@"SDK\Documentation");
 
@@ -135,7 +135,7 @@ NCLogging.Log("Building examples...");
 
 Directory.CreateDirectory(@"SDK\Examples");
 
-if (!Directory.Exists(examplePath)) NCError.ShowErrorBox($"Examples directory not found ({examplePath}!", 1403, NCErrorSeverity.Warning);
+if (!Directory.Exists(examplePath)) NCLogging.LogError($"Examples directory not found ({examplePath}!", 1403, NCLoggingSeverity.Warning);
 
 NCFile.RecursiveCopy(examplePath, @"SDK\Examples");
 

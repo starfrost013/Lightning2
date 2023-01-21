@@ -112,8 +112,8 @@
             }
             catch (Exception err)
             {
-                NCError.ShowErrorBox($"An unknown fatal error occurred during client initialisation. The installation may be corrupted!", 
-                    0x0000DEAD, NCErrorSeverity.FatalError, err);
+                NCLogging.LogError($"An unknown fatal error occurred during client initialisation. The installation may be corrupted!", 
+                    0x0000DEAD, NCLoggingSeverity.FatalError, err);
             }
         }
 
@@ -125,8 +125,8 @@
             }
             catch (Exception err)
             {
-                NCError.ShowErrorBox($"An unknown fatal error occurred during server initialisation. The installation may be corrupted!",
-                    0x0001DEAD, NCErrorSeverity.FatalError, err);
+                NCLogging.LogError($"An unknown fatal error occurred during server initialisation. The installation may be corrupted!",
+                    0x0001DEAD, NCLoggingSeverity.FatalError, err);
             }
         }
 

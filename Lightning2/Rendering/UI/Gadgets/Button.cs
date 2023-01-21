@@ -20,14 +20,37 @@
 
         public Button(string name, string font) : base(name, font) { }
 
+        public Button(string name, string font, string text) : base(name, font)
+        {
+            Text = text;
+        }
+
+        public Button(string name, string font, string text, Vector2 position, Vector2 size, Color foregroundColor, Color backgroundColor = default, 
+            bool filled = true, Color borderColor = default, Vector2 borderSize = default, bool snapToScreen = false) : base(name, font)
+        {
+            Text = text;
+            Position = position;
+            Size = size;
+            ForegroundColor = foregroundColor;
+            BackgroundColor = backgroundColor;
+            Filled = filled;
+            BorderColor = borderColor;
+            BorderSize = borderSize;
+            SnapToScreen = snapToScreen;
+        }
+
         public override void Create()
         {
-            Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("ButtonRectangle", RenderPosition, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen), this);
+            // This is a bit of a hack, but it works for now
+            if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
+
+            Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("ButtonRectangle", Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen), this);
 
             // hack for now
             Text ??= string.Empty;
 
             TextBlock = Lightning.Renderer.AddRenderable(new TextBlock("ButtonText", Text, Font, Position, ForegroundColor, default, Style), this);
+            TextBlock.SnapToScreen = SnapToScreen;
 
             Debug.Assert(Rectangle != null);
         }
@@ -41,12 +64,9 @@
                 && TextBlock != null);
             if (string.IsNullOrWhiteSpace(Text))
             {
-                NCError.ShowErrorBox("Tried to draw a button with null, empty, or only whitespace text. Ignoring...", 283, NCErrorSeverity.Warning, null, true);
+                NCLogging.LogError("Tried to draw a button with null, empty, or only whitespace text. Ignoring...", 283, NCLoggingSeverity.Warning, null, true);
                 return;
             }
-
-            // This is a bit of a hack, but it works for now
-            if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
 
             Rectangle.Color = CurBackgroundColor;
             Rectangle.BorderColor = BorderColor;

@@ -37,8 +37,8 @@
         /// <exception cref="NCError">An error occurred during the INI parsing. Extended error information is present in the <see cref="NCError.Description"/> property.</exception>
         public static NCINIFile? Parse(string path)
         {
-            if (!File.Exists(path)) NCError.ShowErrorBox($"INI parsing error: Cannot parse INI file at {path}: File not found!", 21,
-                NCErrorSeverity.Error);
+            if (!File.Exists(path)) NCLogging.LogError($"INI parsing error: Cannot parse INI file at {path}: File not found!", 21,
+                NCLoggingSeverity.Error);
 
             NCINIFile iniFile = new();
 
@@ -84,7 +84,7 @@
 
                                     if (beginning > end)
                                     {
-                                        NCError.ShowErrorBox("INI parsing error: Invalid section entry - ] before [!", 25, NCErrorSeverity.Error);
+                                        NCLogging.LogError("INI parsing error: Invalid section entry - ] before [!", 25, NCLoggingSeverity.Error);
                                         return null;
                                     }
 
@@ -100,7 +100,7 @@
                                 }
                                 else
                                 {
-                                    NCError.ShowErrorBox("INI parsing error: Section name must terminate with ]!", 24, NCErrorSeverity.Error);
+                                    NCLogging.LogError("INI parsing error: Section name must terminate with ]!", 24, NCLoggingSeverity.Error);
                                     return null;
                                 }
                                 continue;
@@ -111,7 +111,7 @@
                                 {
                                     if (iniFile.CurSection == null)
                                     {
-                                        NCError.ShowErrorBox("INI parsing error: Values must be within a section!", 26, NCErrorSeverity.Error);
+                                        NCLogging.LogError("INI parsing error: Values must be within a section!", 26, NCLoggingSeverity.Error);
                                         return null;
                                     }
 
@@ -135,7 +135,7 @@
                                 }
                                 else
                                 {
-                                    NCError.ShowErrorBox("INI parsing error: An INI item with no value was found!", 23, NCErrorSeverity.Error);
+                                    NCLogging.LogError("INI parsing error: An INI item with no value was found!", 23, NCLoggingSeverity.Error);
                                     return null;
                                 }
                                 continue;
@@ -151,7 +151,7 @@
             }
             catch (Exception ex)
             {
-                NCError.ShowErrorBox($"INI parsing error: Cannot parse INI file at {path}: \n\n{ex}", 22, NCErrorSeverity.Error);
+                NCLogging.LogError($"INI parsing error: Cannot parse INI file at {path}: \n\n{ex}", 22, NCLoggingSeverity.Error);
                 return null;
             }
         }
@@ -186,7 +186,7 @@
             }
             catch (Exception ex)
             {
-                NCError.ShowErrorBox($"Error writing to INI: {ex.Message}", 110, NCErrorSeverity.Error);
+                NCLogging.LogError($"Error writing to INI: {ex.Message}", 110, NCLoggingSeverity.Error);
                 return false;
             }
         }

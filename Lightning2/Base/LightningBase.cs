@@ -68,7 +68,7 @@ namespace LightningGL
 
                 // we use sdl for non-rendering tasks in all cases
                 NCLogging.Log("Initialising SDL...");
-                if (SDL_Init(SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) NCError.ShowErrorBox($"Error initialising SDL2: {SDL_GetError()}", 200, NCErrorSeverity.FatalError);
+                if (SDL_Init(SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) NCLogging.LogError($"Error initialising SDL2: {SDL_GetError()}", 200, NCLoggingSeverity.FatalError);
 
                 // this should always be the earliest step
                 NCLogging.Log("Obtaining system information...");
@@ -91,8 +91,8 @@ namespace LightningGL
 
                     // set default content folder
                     GlobalSettings.GeneralContentFolder ??= "Content";
-                    if (!Packager.LoadPackage(GlobalSettings.GeneralPackageFile, GlobalSettings.GeneralContentFolder)) NCError.ShowErrorBox($"An error occurred loading " +
-                        $"{GlobalSettings.GeneralPackageFile}. The game cannot be loaded.", 12, NCErrorSeverity.FatalError);
+                    if (!Packager.LoadPackage(GlobalSettings.GeneralPackageFile, GlobalSettings.GeneralContentFolder)) NCLogging.LogError($"An error occurred loading " +
+                        $"{GlobalSettings.GeneralPackageFile}. The game cannot be loaded.", 12, NCLoggingSeverity.FatalError);
                 }
 
                 // Load LocalSettings
@@ -104,13 +104,13 @@ namespace LightningGL
             }
             catch (Exception err)
             {
-                NCError.ShowErrorBox($"An unknown fatal error occurred. The engine installation may be corrupted!", 0x0000DEAD, NCErrorSeverity.FatalError, err);
+                NCLogging.LogError($"An unknown fatal error occurred. The engine installation may be corrupted!", 0x0000DEAD, NCLoggingSeverity.FatalError, err);
             }
         }
 
         public virtual void Shutdown()
         {
-            if (!Initialised) NCError.ShowErrorBox("Attempted to shutdown without starting! Please call Client::Init or Server::Init!", 95, NCErrorSeverity.FatalError);
+            if (!Initialised) NCLogging.LogError("Attempted to shutdown without starting! Please call Client::Init or Server::Init!", 95, NCLoggingSeverity.FatalError);
 
             if (GlobalSettings.GeneralProfilePerformance)
             {
@@ -180,16 +180,16 @@ namespace LightningGL
                     }
                     else
                     {
-                        NCError.ShowErrorBox($"Error initialising SceneManager: Failed to create scene instance!", 130, NCErrorSeverity.FatalError);
+                        NCLogging.LogError($"Error initialising SceneManager: Failed to create scene instance!", 130, NCLoggingSeverity.FatalError);
                     }
 
                 }
             }
 
-            if (Scenes.Count == 0) NCError.ShowErrorBox($"There are no scenes defined.\n\nIf you tried to initialise Lightning without the Scene Manager," +
-                $" this is no longer supported as of Lightning 1.2.0!", 131, NCErrorSeverity.FatalError);
+            if (Scenes.Count == 0) NCLogging.LogError($"There are no scenes defined.\n\nIf you tried to initialise Lightning without the Scene Manager," +
+                $" this is no longer supported as of Lightning 1.2.0!", 131, NCLoggingSeverity.FatalError);
 
-            if (CurrentScene == null) NCError.ShowErrorBox($"Invalid startup scene {GlobalSettings.SceneStartupScene}", 132, NCErrorSeverity.FatalError);
+            if (CurrentScene == null) NCLogging.LogError($"Invalid startup scene {GlobalSettings.SceneStartupScene}", 132, NCLoggingSeverity.FatalError);
 
             Initialised = true;
         }
@@ -250,7 +250,7 @@ namespace LightningGL
 
             if (scene == null)
             {
-                NCError.ShowErrorBox($"Tried to set invalid scene {name}!", 133, NCErrorSeverity.FatalError);
+                NCLogging.LogError($"Tried to set invalid scene {name}!", 133, NCLoggingSeverity.FatalError);
                 return;
             }
 

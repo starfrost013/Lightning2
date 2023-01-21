@@ -157,7 +157,7 @@ namespace AnimTool
             }
             catch
             {
-                NCError.ShowErrorBox("An error occurred while loading the JSON file.", 176, NCErrorSeverity.Error);
+                NCLogging.LogError("An error occurred while loading the JSON file.", 176, NCLoggingSeverity.Error);
                 AnimTool.CurAnimation = null;
                 AnimTool.CurProperty = null;
                 FullUpdateTabContent();
@@ -189,7 +189,7 @@ namespace AnimTool
             }
             catch
             {
-                NCError.ShowErrorBox("An error occurred while saving the JSON file.", 177, NCErrorSeverity.Error);
+                NCLogging.LogError("An error occurred while saving the JSON file.", 177, NCLoggingSeverity.Error);
                 return;
             }
         }

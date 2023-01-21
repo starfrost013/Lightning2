@@ -221,7 +221,7 @@
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    NCError.ShowErrorBox("A Renderable must have a name!", 189, NCErrorSeverity.FatalError);
+                    NCLogging.LogError("A Renderable must have a name!", 189, NCLoggingSeverity.FatalError);
                 }
                 else
                 {
@@ -262,7 +262,7 @@
             if (animation == null
                 || !animation.Loaded)
             {
-                NCError.ShowErrorBox("You must load an animation before attaching it to a renderable! The animation will not be set.", 149, NCErrorSeverity.Error);
+                NCLogging.LogError("You must load an animation before attaching it to a renderable! The animation will not be set.", 149, NCLoggingSeverity.Error);
                 return;
             }
 
@@ -274,7 +274,7 @@
             if (CurrentAnimation == null
                 || !CurrentAnimation.Loaded)
             {
-                NCError.ShowErrorBox("You must load an animation before playing it! The animation will not be set.", 151, NCErrorSeverity.Error);
+                NCLogging.LogError("You must load an animation before playing it! The animation will not be set.", 151, NCLoggingSeverity.Error);
                 return;
             }
 
@@ -333,7 +333,7 @@
         {
             if (Children.Count == 0)
             {
-                NCError.ShowErrorBox($"Tried to call Renderable::GetFirstChild on a renderable with no children!", 301, NCErrorSeverity.Warning, null, true);
+                NCLogging.LogError($"Tried to call Renderable::GetFirstChild on a renderable with no children!", 301, NCLoggingSeverity.Warning, null, true);
                 return null;
             }
 
@@ -344,7 +344,7 @@
         {
             if (Children.Count == 0)
             {
-                NCError.ShowErrorBox($"Tried to call Renderable::GetLastChild on a renderable with no children!", 192, NCErrorSeverity.Warning, null, true);
+                NCLogging.LogError($"Tried to call Renderable::GetLastChild on a renderable with no children!", 192, NCLoggingSeverity.Warning, null, true);
                 return null;
             }
 

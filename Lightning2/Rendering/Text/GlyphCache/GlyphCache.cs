@@ -33,15 +33,15 @@ namespace LightningGL
 
             if (font == null)
             {
-                NCError.ShowErrorBox("Passed an unloaded font to GlyphCache::CacheCharacter!",
-                    256, NCErrorSeverity.FatalError);
+                NCLogging.LogError("Passed an unloaded font to GlyphCache::CacheCharacter!",
+                    256, NCLoggingSeverity.FatalError);
                 return;
             }
 
             if (font.Handle == default)
             {
-                NCError.ShowErrorBox("Font failed to load while trying to cache a character. This is an engine bug! THIS IS MY BUSTED ASS CODE, NOT YOURS! REPORT THIS ERROR!",
-                    251, NCErrorSeverity.FatalError);
+                NCLogging.LogError("Font failed to load while trying to cache a character. This is an engine bug! THIS IS MY BUSTED ASS CODE, NOT YOURS! REPORT THIS ERROR!",
+                    251, NCLoggingSeverity.FatalError);
                 return;
             }
 
@@ -52,8 +52,8 @@ namespace LightningGL
             if (font.Handle.GetCharIfDefined(character) == null)
             {
                 // hack warning
-                NCError.ShowErrorBox($"Tried to cache character {character} not defined in font! The character will not be cached!",
-                    252, NCErrorSeverity.Warning, null, true);
+                NCLogging.LogError($"Tried to cache character {character} not defined in font! The character will not be cached!",
+                    252, NCLoggingSeverity.Warning, null, true);
 
                 // create an empty glyph such that we don't try and cache this character again
                 Glyph emptyGlyph = new("UndefinedCharGlyph", 1, 1)
@@ -73,8 +73,8 @@ namespace LightningGL
 
             if (error != FT_Error.FT_Err_Ok)
             {
-                NCError.ShowErrorBox($"Error loading character {character} - FreeType failed to load and render the glyph",
-                    253, NCErrorSeverity.FatalError);
+                NCLogging.LogError($"Error loading character {character} - FreeType failed to load and render the glyph",
+                    253, NCLoggingSeverity.FatalError);
                 return;
             }
 
@@ -166,7 +166,7 @@ namespace LightningGL
                 }
             }
 
-            NCError.ShowErrorBox($"Tried to remove non-cached {character} for font {font}, color {foregroundColor} smoothing type {smoothingType}", 261, NCErrorSeverity.Error);
+            NCLogging.LogError($"Tried to remove non-cached {character} for font {font}, color {foregroundColor} smoothing type {smoothingType}", 261, NCLoggingSeverity.Error);
         }
 
         internal static void PurgeUnusedEntries()

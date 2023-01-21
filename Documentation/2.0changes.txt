@@ -258,6 +258,17 @@ Everything that matters to the api has to go here
 * Allow you to move around the debugvewer
 * Began working on debugconsole
 
+2023.01.20:
+* Added SetCameraCommand
+
+2023.01.21:
+* Fixed positioning issues in UI gadgets
+* Added utility constructors that allow you to set more properties for all UI gadgets.
+* Fixed backgrounds in UI gadgets
+* Added console command handling code
+* NCError::ShowErrorBox -> NCLogging::LogError
+* NCErrorSeverity -> NCLoggingSeverity
+
 * todo:
 	- overridable default values
 	- setting load order

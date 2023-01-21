@@ -4,21 +4,21 @@ namespace LightningGL
     internal class SetCameraCommand : ConsoleCommand
     {
         public override string Name => "setcamera";
-        public override void Execute(params string[] parameters)
+        public override bool Execute(params string[] parameters)
         {
             if (parameters.Length < 1)
             {
                 //todo: error handling
-                return;
+                return false;
             }
 
-            CameraType? camType = (CameraType?)Enum.Parse(typeof(CameraType), (string)parameters[0]);
+            CameraType? camType = (CameraType?)Enum.Parse(typeof(CameraType), parameters[0]);
             
             switch (camType)
             {
                 default:
                     // todo: logging
-                    return;
+                    return false;
                 case CameraType.Follow:
                 case CameraType.Chase:
                 case CameraType.Floor:
@@ -26,6 +26,8 @@ namespace LightningGL
                     break;
 
             }
+
+            return true; 
         }
 
         public override string Description => "Sets a global setting.\nParameters: Setting (string). The name of the global setting to use";

@@ -109,8 +109,8 @@
             {
                 if (!Loaded)
                 {
-                    NCError.ShowErrorBox("Attempted to set the opacity of an unloaded Texture - please load it first!. \n" +
-                        "The Opacity will not be changed until you load the texture.", 161, NCErrorSeverity.Warning, null, false);
+                    NCLogging.LogError("Attempted to set the opacity of an unloaded Texture - please load it first!. \n" +
+                        "The Opacity will not be changed until you load the texture.", 161, NCLoggingSeverity.Warning, null, false);
                     return;
                 }
 
@@ -140,7 +140,7 @@
 
             IsTarget = isTarget;
 
-            if (Size == default) NCError.ShowErrorBox($"Error creating texture: Must have a size!", 20, NCErrorSeverity.FatalError);
+            if (Size == default) NCLogging.LogError($"Error creating texture: Must have a size!", 20, NCLoggingSeverity.FatalError);
 
             Handle = Lightning.Renderer.CreateTexture((int)sizeX, (int)sizeY, isTarget);
             FormatHandle = Lightning.Renderer.AllocTextureFormat();
@@ -179,14 +179,14 @@
             if (!Locked) Lock();
 
             if (x < 0 || y < 0
-                || x > Size.X || y > Size.Y) NCError.ShowErrorBox($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y})," +
-                    $" min (0,0). max ({Size.X},{Size.Y})!", 12, NCErrorSeverity.FatalError);
+                || x > Size.X || y > Size.Y) NCLogging.LogError($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y})," +
+                    $" min (0,0). max ({Size.X},{Size.Y})!", 12, NCLoggingSeverity.FatalError);
 
             int pixelToGet = y * (int)Size.X + x;
             int maxPixelID = Pitch / 4 * Pitch;
 
-            if (pixelToGet > maxPixelID) NCError.ShowErrorBox($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), " +
-                $"min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {pixelToGet} > {maxPixelID}!)", 14, NCErrorSeverity.FatalError);
+            if (pixelToGet > maxPixelID) NCLogging.LogError($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), " +
+                $"min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {pixelToGet} > {maxPixelID}!)", 14, NCLoggingSeverity.FatalError);
 
             int pixel = Pixels[pixelToGet];
 
@@ -208,14 +208,14 @@
             if (!Locked) Lock();
 
             if (x < 0 || y < 0
-                || x >= Size.X || y >= Size.Y) NCError.ShowErrorBox($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), " +
-                    $"min (0,0). max ({Size.X},{Size.Y}) ", 15, NCErrorSeverity.FatalError);
+                || x >= Size.X || y >= Size.Y) NCLogging.LogError($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), " +
+                    $"min (0,0). max ({Size.X},{Size.Y}) ", 15, NCLoggingSeverity.FatalError);
 
             int pixelToGet = (y * (int)Size.X) + x;
             int maxPixelId = (int)((Size.X * 4) * Size.Y); 
 
-            if (pixelToGet > maxPixelId) NCError.ShowErrorBox($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), " +
-                $"min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {pixelToGet} > {maxPixelId}!)", 16, NCErrorSeverity.FatalError);
+            if (pixelToGet > maxPixelId) NCLogging.LogError($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), " +
+                $"min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {pixelToGet} > {maxPixelId}!)", 16, NCLoggingSeverity.FatalError);
 
             // use pixeltoget to twiddle the pixel that we need using the number we calculated before
             Pixels[pixelToGet] = color.ToArgb();
@@ -266,8 +266,8 @@
         public override void Draw()
         {
             if (!Loaded
-                && _path != null) NCError.ShowErrorBox($"Texture {Path} being drawn without being loaded, you will see a black box!", 94, 
-                    NCErrorSeverity.Warning, null, true); // don't show a message box
+                && _path != null) NCLogging.LogError($"Texture {Path} being drawn without being loaded, you will see a black box!", 94, 
+                    NCLoggingSeverity.Warning, null, true); // don't show a message box
 
             Unlock();
 

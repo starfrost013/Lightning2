@@ -28,6 +28,9 @@
 
         public override void Create()
         {
+            // set the default background color
+            if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
+
             Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("ListBoxItemRectangle", Position, Size, CurBackgroundColor, Filled, 
                 BorderColor, BorderSize, SnapToScreen), this);
 
@@ -43,9 +46,6 @@
         {
             Debug.Assert(Rectangle != null
                 && TextBlock != null);
-
-            // set the default background color
-            if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
 
             Rectangle.Color = CurBackgroundColor;
 

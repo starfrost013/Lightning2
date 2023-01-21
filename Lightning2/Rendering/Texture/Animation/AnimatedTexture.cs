@@ -72,13 +72,13 @@
         {
             if (Size == default)
             {
-                NCError.ShowErrorBox("Cannot load an animated texture with no texture size", 44, NCErrorSeverity.FatalError);
+                NCLogging.LogError("Cannot load an animated texture with no texture size", 44, NCLoggingSeverity.FatalError);
                 return;
             }
             
             if (Cycle == null)
             {
-                NCError.ShowErrorBox("AnimatedTextures must have a valid Cycle property", 54, NCErrorSeverity.FatalError);
+                NCLogging.LogError("AnimatedTextures must have a valid Cycle property", 54, NCLoggingSeverity.FatalError);
                 return;
             }
 
@@ -172,7 +172,7 @@
         {
             if (CurrentTexture == null)
             {
-                NCError.ShowErrorBox("Attempted to call GetPixel on a NULL texture!", 184, NCErrorSeverity.Warning, null, true);
+                NCLogging.LogError("Attempted to call GetPixel on a NULL texture!", 184, NCLoggingSeverity.Warning, null, true);
                 return default;
             }
 
@@ -190,7 +190,7 @@
         {
             if (CurrentTexture == null)
             {
-                NCError.ShowErrorBox("Attempted to call GetPixel on a NULL texture!", 185, NCErrorSeverity.Warning, null, true);
+                NCLogging.LogError("Attempted to call GetPixel on a NULL texture!", 185, NCLoggingSeverity.Warning, null, true);
                 return;
             }
 
