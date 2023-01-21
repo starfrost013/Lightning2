@@ -7,7 +7,7 @@
     /// 
     /// Defines a list of exception severities for NC2.
     /// </summary>
-    public enum NCErrorSeverity
+    public enum NCLoggingSeverity
     {
         /// <summary>
         /// Defines a message

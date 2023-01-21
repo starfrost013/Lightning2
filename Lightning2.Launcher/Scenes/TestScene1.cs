@@ -238,11 +238,11 @@ namespace LightningGL
 
             // you must load a listbox before adding it
             // note this in docs
-            listBox1.AddItem(new("Item1", "test 1", "Arial.11pt"));
-            listBox1.AddItem(new("Item2", "test 2", "Arial.11pt"));
-            listBox1.AddItem(new("Item3", "dfsdfsdfsdfsdfsdf", "Arial.11pt"));
-            listBox1.AddItem(new("Item4", "zxczxzxzx", "Arial.11pt"));
-            listBox1.AddItem(new("Item5", "qasqsdfwqer", "Arial.11pt"));
+            listBox1.AddItem(new("Item1", "Arial.11pt", "test 1"));
+            listBox1.AddItem(new("Item2", "Arial.11pt", "test 2"));
+            listBox1.AddItem(new("Item3", "Arial.11pt", "dfsdfsdfsdfsdfsdf"));
+            listBox1.AddItem(new("Item4", "Arial.11pt", "zxczxzxzx"));
+            listBox1.AddItem(new("Item5", "Arial.11pt", "qasqsdfwqer"));
 
             Lightning.Renderer.AddRenderable(Texture1);
             Lightning.Renderer.AddRenderable(missingTextureTest);
@@ -377,8 +377,8 @@ namespace LightningGL
                 }
             }
 
-           
-            if (TextureAtlas1 == null) throw new NullReferenceException();
+
+            Debug.Assert(TextureAtlas1 != null);
 
             TextureAtlas1.Index = 5;
             TextureAtlas1.Position = new(264, 0);

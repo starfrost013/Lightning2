@@ -1,12 +1,12 @@
 ﻿namespace LightningGL
 {
     /// <summary>
-    /// TextureAtlas
-    /// 
-    /// March 19, 2022 (modified July 2, 2022: huge refactor)
+    /// TextureAtlas 
     /// 
     /// Defines an animated texture loaded from a texture atlas. 
     /// A texture atlas is a single image containing multiple images designed to represent different frames or textures.
+    /// 
+    /// This API is terrible and will be redesigned in 2.5.
     /// </summary>
     public class TextureAtlas : Texture
     {
@@ -39,7 +39,7 @@
                 || TextureCount.Y < 1) NCLogging.LogError($"A texture atlas must have at least one frame, set to {TextureCount.X},{TextureCount.Y}!", 
                     46, NCLoggingSeverity.FatalError);
 
-            NCLogging.Log($"Loading atlas texture at path {Path}...");
+            NCLogging.Log($"Loading texture atlas at path {Path}...");
 
             base.Create();
         }
@@ -59,6 +59,7 @@
 
             int row = (int)(Index / TextureCount.Y);
 
+
             // set the viewport
             float startX = FrameSize.X * (Index % TextureCount.X);
             float startY = FrameSize.Y * row;
@@ -67,6 +68,19 @@
 
             ViewportStart = new Vector2(startX, startY);
             ViewportEnd = new Vector2(endX, endY);
+
+            // Horrendous special case code
+            // TODO: REDESIGN THIS ENTIRE API
+            //
+            // This is horrendously hacky code and will almost certainly break again, but this API will be killed as soon as 2.5 starts,
+            // so i don't care
+            Camera camera = Lightning.Renderer.Settings.Camera;
+
+            RenderPosition = new(Position.X - camera.Position.X,
+                    Position.Y - camera.Position.Y);
+
+            // END HACK 
+            // WHY DOES THIS EVEN WORK
 
             base.Draw();
         }

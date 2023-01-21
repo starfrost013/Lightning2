@@ -19,9 +19,28 @@
         /// </summary>
         private Rectangle? Rectangle { get; set; }
 
-        private TextBlock? TextBlock { get; set; }  
+        /// <summary>
+        /// UI text used for drawing this <see cref="ListBoxItem"/>
+        /// </summary>
+        private TextBlock? TextBlock { get; set; }
 
-        public ListBoxItem(string name, string text, string font) : base(name, font)
+        public override bool IsNotRendering 
+        {
+            get => base.IsNotRendering; 
+            set
+            {
+                base.IsNotRendering = value;
+                if (Rectangle != null) Rectangle.IsNotRendering = value;
+                if (TextBlock != null) TextBlock.IsNotRendering = value;
+            }
+        }
+
+        public ListBoxItem(string name, string font) : base(name, font)
+        {
+            Text = string.Empty; 
+        }
+
+        public ListBoxItem(string name, string font, string text) : base(name, font)
         {
             Text = text;
         }

@@ -77,6 +77,22 @@
         /// </summary>
         private const int DEFAULT_NUMBER_OF_FRAMES_UNTIL_NEXT_BLINK = DEFAULT_CURSOR_BLINK_FREQUENCY; // reasonable default
 
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override bool IsNotRendering
+        { 
+            get => base.IsNotRendering; 
+            set
+            {
+                base.IsNotRendering = value;
+                if (Rectangle != null) Rectangle.IsNotRendering = value;
+                if (Cursor != null) Cursor.IsNotRendering = value;
+                if (TextBoxText != null) TextBoxText.IsNotRendering = value;
+            }
+        }
+
         public TextBox(string name, int capacity, string font) : base(name, font)
         {
             Capacity = capacity;

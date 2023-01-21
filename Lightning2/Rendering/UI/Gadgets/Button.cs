@@ -18,6 +18,17 @@
 
         private TextBlock? TextBlock { get; set; }
 
+        //hack
+        public override bool IsNotRendering
+        {
+            get => base.IsNotRendering;
+            set
+            {
+                base.IsNotRendering = value;
+                if (Rectangle != null) Rectangle.IsNotRendering = true;
+                if (TextBlock != null) TextBlock.IsNotRendering = true;
+            }
+        }
         public Button(string name, string font) : base(name, font) { }
 
         public Button(string name, string font, string text) : base(name, font)

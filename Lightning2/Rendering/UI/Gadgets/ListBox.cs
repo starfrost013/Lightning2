@@ -65,6 +65,18 @@
         /// </summary>
         private Rectangle? Rectangle { get; set; }
 
+        public override bool IsNotRendering 
+        { 
+            get => base.IsNotRendering;
+            set
+            {
+                base.IsNotRendering = value;
+                if (Rectangle != null) Rectangle.IsNotRendering = value; 
+
+                // in this SPECIFIC case
+                foreach (Renderable renderable in Children) renderable.IsNotRendering = value;
+            }
+        }
 
         /// <summary>
         /// Static listbox constructor.
@@ -193,7 +205,7 @@
             //if (Children.Count > 0) Lightning.Renderer.AddRenderable(new TextBlock("ListBoxItemText", SelectedItem.Text, Font, Position, ForegroundColor));
 
             // draw the items if they are open
-            foreach (ListBoxItem item in Children) item.IsNotRendering = !Open; // this is never null (set in constructor) so we do not need to check if it is.
+            foreach (Renderable item in Children) item.IsNotRendering = !Open; // this is never null (set in constructor) so we do not need to check if it is.
         }
 
         /// <summary>
@@ -268,7 +280,7 @@
             {
                 // check if the item is intersecting and if so pass the event on
                 // and don't close it
-                foreach (ListBoxItem item in Children)
+                foreach (Renderable item in Children)
                 {
                     if (AABB.Intersects(item, button.Position))
                     {
@@ -317,11 +329,7 @@
 
             // pass the event on
             // and don't close it
-            foreach (ListBoxItem item in Children)
-            {
-                // don't check for intersection as that's done here.
-                item.OnMouseMove?.Invoke(button);
-            }
+            foreach (Renderable item in Children) item.OnMouseMove?.Invoke(button);
         }
     }
 }

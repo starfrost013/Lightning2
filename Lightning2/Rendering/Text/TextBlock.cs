@@ -151,24 +151,14 @@ namespace LightningGL
         {
             if (string.IsNullOrWhiteSpace(Font))
             {
-                NCLogging.LogError($"Tried to draw a text with no font!", 256, NCLoggingSeverity.FatalError);
+                NCLogging.LogError($"Tried to draw a text with no font! The text will not be drawn.", 256, NCLoggingSeverity.Error, null, true);
                 return;
             }
 
             // variable to store localised text
             string? text = Text;
 
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                NCLogging.LogError($"Tried to draw text that is null, empty, or pure whitespace. Ignoring", 274, NCLoggingSeverity.Warning, null, true);
-                return; 
-            }
-
-            if (Font == null)
-            {
-                NCLogging.LogError($"Tried to draw a text with no font!", 256, NCLoggingSeverity.FatalError);
-                return;
-            }
+            if (string.IsNullOrWhiteSpace(text)) return;
 
             // Localise the string using Localisation Manager.
             if (Localise) text = LocalisationManager.ProcessString(text);

@@ -196,7 +196,7 @@
         /// Determines if this Renderable is being rendered.
         /// This will always cull the renderable if it is set to <c>true</c>.
         /// </summary>
-        public bool IsNotRendering { get; set; }
+        public virtual bool IsNotRendering { get; set; }
 
         /// <summary>
         /// The Z-Index (priority) of this renderable.

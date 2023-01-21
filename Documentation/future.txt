@@ -30,7 +30,6 @@ Lightning 2.5 feature set:
 - Attach ParticleEffects to Renderables
 - Layered Rendering (z-index also)
 - Video API
-
 - New Lighting Engine using Raycasting (possibly 3.0)
 - LightningInternal for internal renderables to fix searches 
 - Maybe referents
@@ -58,9 +57,9 @@ At some point:
 - Lightning Build Environment - build setup and everything every single build
 - Vulkan Renderer?
 - Asset Manager
+- Inheritable Properties
 
 Far future:
 - Lightning 3D
 - Console ports (will cost a lot of $$$$)
 - IDE
-- 

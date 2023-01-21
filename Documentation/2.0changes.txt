@@ -268,6 +268,7 @@ Everything that matters to the api has to go here
 * Added console command handling code
 * NCError::ShowErrorBox -> NCLogging::LogError
 * NCErrorSeverity -> NCLoggingSeverity
+* IsNotRendering set for all sub-UI elements of gadges
 
 * todo:
 	- overridable default values

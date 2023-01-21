@@ -52,6 +52,14 @@
         /// </summary>
         internal int RenderedLastFrame { get; set; }
 
+        /// <summary>
+        /// Determine if events will be run.
+        /// </summary>
+        protected bool EventsRunning { get; set; }
+
+        /// <summary>
+        /// The library used for freetype.
+        /// </summary>
         internal FreeTypeLibrary? FreeTypeLibrary { get; set; }
 
         public Renderer()
@@ -130,6 +138,8 @@
         {
             NCLogging.Log("Renderer destruction requested. Calling shutdown events...");
             NotifyShutdown();
+
+            EventsRunning = false;
 
             NCLogging.Log("Destroying all renderables...");
 

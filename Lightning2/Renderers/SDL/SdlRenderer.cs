@@ -68,6 +68,8 @@ namespace LightningGL
             // maybe move this somewhere else
             if (GlobalSettings.DebugState.HasFlag(DebugState.DebugViewer)) AddRenderable(new DebugViewer("DebugViewer"));
             if (GlobalSettings.DebugState.HasFlag(DebugState.DebugConsole)) AddRenderable(new DebugConsole("DebugConsole"));
+
+            EventsRunning = true;
         }
 
 
@@ -87,7 +89,8 @@ namespace LightningGL
             EventWaiting = (SDL_PollEvent(out var currentEvent) > 0);
 
             // default mainloop
-            if (EventWaiting)
+            if (EventWaiting
+                && EventsRunning)
             {
                 LastEvent = currentEvent;
 
