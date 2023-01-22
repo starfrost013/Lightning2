@@ -269,6 +269,8 @@ Everything that matters to the api has to go here
 * NCError::ShowErrorBox -> NCLogging::LogError
 * NCErrorSeverity -> NCLoggingSeverity
 * IsNotRendering set for all sub-UI elements of gadges
+* Swap text/font in TextBlock constructor
+* horrendous hack to fix textureatlas
 
 * todo:
 	- overridable default values

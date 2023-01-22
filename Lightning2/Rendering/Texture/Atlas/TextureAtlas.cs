@@ -31,6 +31,13 @@
             TextureCount = textureCount;
         }
 
+        public TextureAtlas(string name, Vector2 frameSize, Vector2 textureCount, string path) : base(name, (frameSize.X * textureCount.X) + 1, frameSize.Y * textureCount.Y + 1) // + 1 so that we do not set an out of bounds viewport
+        {
+            FrameSize = frameSize;
+            TextureCount = textureCount;
+            Path = path; 
+        }
+
         public override void Create()
         {
             if (FrameSize == default) NCLogging.LogError("Cannot load a texture with no texture frame size!", 45, NCLoggingSeverity.FatalError);
