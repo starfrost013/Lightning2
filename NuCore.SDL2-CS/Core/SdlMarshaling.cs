@@ -3,8 +3,6 @@ namespace LightningBase
 {
     internal static class SdlMarshaling
     {
-        #region Marshaling
-
         internal static T PtrToStructure<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] T>
             (IntPtr ptr)
         {

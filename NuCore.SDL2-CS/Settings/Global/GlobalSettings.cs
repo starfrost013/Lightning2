@@ -272,6 +272,12 @@
         /// <para>The default value is 2048.</para>
         /// </summary>
         public static int AudioChunkSize { get; set; }
+
+        /// <summary>
+        /// The number of simultaneous audio files that can be played.
+        /// </summary>
+        public static int NumSimultaneousAudioFiles { get; set; }
+
         #endregion
 
         #region Network settings (to be moved to LightningServer.ini later)

@@ -61,7 +61,7 @@ namespace LightningBase
 		 * We're not going to allow this in SDL2#, since the value of this
 		 * variable is persistent and not dependent on preprocessor ordering.
 		 */
-        public const int MIX_CHANNELS = 8;
+        public static int MIX_CHANNELS { get; private set; }
 
         public static readonly int MIX_DEFAULT_FREQUENCY = 44100;
         public static readonly ushort MIX_DEFAULT_FORMAT =
@@ -214,10 +214,16 @@ namespace LightningBase
             int chunksize
         );
 
-        public static int Mix_OpenAudio(int Frequency, Mix_AudioFormat Format, int Channels, int ChunkSize) => INTERNAL_Mix_OpenAudio(Frequency, (ushort)Format, Channels, ChunkSize);
+        public static int Mix_OpenAudio(int frequency, Mix_AudioFormat format, int channels, int chunksize) => INTERNAL_Mix_OpenAudio(frequency, (ushort)format, channels, chunksize);
 
-        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int Mix_AllocateChannels(int numchans);
+        [DllImport(nativeLibName, EntryPoint = "Mix_AllocateChannels", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int INTERNAL_Mix_AllocateChannels(int numchans);
+
+        public static int Mix_AllocateChannels(int numchans)
+        {
+            MIX_CHANNELS = INTERNAL_Mix_AllocateChannels((ushort)numchans);
+            return MIX_CHANNELS;
+        }
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Mix_QuerySpec(
@@ -752,6 +758,7 @@ namespace LightningBase
         public static void Mix_SetError(string fmtAndArglist) => SDL_SetError(fmtAndArglist);
 
         public static void Mix_ClearError() => SDL_ClearError();
+
 
         #endregion
     }
