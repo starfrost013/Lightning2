@@ -272,8 +272,11 @@ Everything that matters to the api has to go here
 * Swap text/font in TextBlock constructor
 * horrendous hack to fix textureatlas
 
+2023.01.23:
+* Fix text sizing
+
+2023.01.24
 * todo:
-	- overridable default values
 	- setting load order
 	- DEATH to DUPLICATE CODE
 	- NO MORE ISEMPTY
@@ -291,13 +294,10 @@ Everything that matters to the api has to go here
 	- can we get rid of renderposition?
 	- console
 	- scene switcher (debug)
-	- consider moving scenemanager to be under renderer?
-	- button background not working
 	- change guide for start/switchto - INITALISATION ONLY NOT DRAWING, prevent scene mixing
 	- TOTAL RENDERABLE (no funny lists like particlemanager)
 	- percentage util
 	- events for everything
-	- remove ALL non-assetmanager apis
 	- split api ref into individual chapters to make it more manageable
 	- features in future.txt
     - // issue: won't update if you modify it again later

@@ -11,6 +11,7 @@
 	<TransformOutOfDateOnly>false</TransformOutOfDateOnly>
 	<OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
 	<Configurations>Debug;Release;Final</Configurations>
+	  <PublishAot>true</PublishAot>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Final|AnyCPU'">

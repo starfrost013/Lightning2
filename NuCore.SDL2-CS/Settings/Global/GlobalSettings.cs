@@ -276,7 +276,7 @@
         /// <summary>
         /// The number of simultaneous audio files that can be played.
         /// </summary>
-        public static int NumSimultaneousAudioFiles { get; set; }
+        public static int AudioMaxSimultaneousAudioFiles { get; set; }
 
         #endregion
 
@@ -358,6 +358,8 @@
         private const string DEFAULT_DEBUG_CONSOLE_KEY = "F10";
         private static int DEFAULT_DEBUG_CONSOLE_SIZE_X => DEFAULT_GRAPHICS_RESOLUTION_X;
         private static int DEFAULT_DEBUG_CONSOLE_SIZE_Y => (int)(DEFAULT_GRAPHICS_RESOLUTION_Y / 2.5);
+
+        private static int DEFAULT_MAX_SIMULTANEOUS_AUDIO_FILES = 16;
 
         #endregion
 
@@ -506,7 +508,11 @@
             if (SceneStartupScene == null) NCLogging.LogError("DontUseSceneManager not specified, but StartupScene not present in the [Scene] section of Engine.ini!", 164,
                 NCLoggingSeverity.FatalError);
 
+            AudioDeviceHz = DEFAULT_AUDIO_DEVICE_HZ;
+            AudioChunkSize = DEFAULT_AUDIO_CHUNK_SIZE;
             AudioFormat = DEFAULT_AUDIO_FORMAT;
+            AudioChannels = DEFAULT_AUDIO_CHANNELS;
+            AudioMaxSimultaneousAudioFiles = DEFAULT_MAX_SIMULTANEOUS_AUDIO_FILES;
 
             // Load the audio settings, if it is present
             if (audioSection != null)
@@ -515,20 +521,19 @@
                 _ = int.TryParse(audioSection.GetValue("Channels"), out var audioChannelsValue);
                 _ = Enum.TryParse(typeof(Mix_AudioFormat), audioSection.GetValue("Format"), true, out var audioFormatValue);
                 _ = int.TryParse(audioSection.GetValue("ChunkSize"), out var audioChunkSizeValue);
+                _ = int.TryParse(audioSection.GetValue("MaxSimultaneousAudioFiles"), out var audioMaxSimultaneousAudioFilesValue);
 
-                AudioDeviceHz = audioDeviceHzValue;
-                AudioChannels = audioChannelsValue;
+                if (audioDeviceHzValue > 0) AudioDeviceHz = audioDeviceHzValue;
+                if (audioChannelsValue > 0) AudioChannels = audioChannelsValue;
                 if (audioFormatValue != null) AudioFormat = (Mix_AudioFormat)audioFormatValue;
-                AudioChunkSize = audioChunkSizeValue;
-
-                if (AudioDeviceHz <= 0) AudioDeviceHz = DEFAULT_AUDIO_DEVICE_HZ;
-                if (AudioChannels <= 0) AudioChannels = DEFAULT_AUDIO_CHANNELS;
-                if (AudioChunkSize <= 0) AudioChunkSize = DEFAULT_AUDIO_CHUNK_SIZE;
+                if (audioChunkSizeValue > 0) AudioChunkSize = audioChunkSizeValue;
+                if (audioMaxSimultaneousAudioFilesValue > 0) AudioMaxSimultaneousAudioFiles = audioMaxSimultaneousAudioFilesValue;
             }
 
             NetworkMasterServer = DEFAULT_NETWORK_MASTER_SERVER;
             NetworkDefaultPort = DEFAULT_NETWORK_PORT;
             NetworkKeepAliveMs = DEFAULT_NETWORK_KEEP_ALIVE_MS;
+            NetworkDefaultPort = DEFAULT_NETWORK_PORT;
 
             // Load the network settings, if they are present
             if (networkSection != null)
@@ -542,23 +547,18 @@
                 // don't block http or dns
                 _ = ushort.TryParse(networkDefaultPort, out var networkDefaultPortValue);
 
-                NetworkDefaultPort = networkDefaultPortValue;
+                // don't allow some common ports
+                if (networkDefaultPortValue > 0 
+                    && networkDefaultPortValue != 53
+                    && networkDefaultPortValue != 80
+                    && networkDefaultPortValue != 443) NetworkDefaultPort = networkDefaultPortValue;
+
                 _ = int.TryParse(networkKeepAliveMs, out var networkKeepAliveMsValue);
-                NetworkKeepAliveMs = networkKeepAliveMsValue;
+                if (networkKeepAliveMsValue > 0) NetworkKeepAliveMs = networkKeepAliveMsValue;
+
             }
 
-            if (string.IsNullOrWhiteSpace(NetworkMasterServer)) NetworkMasterServer = DEFAULT_NETWORK_MASTER_SERVER;
-
-            if (NetworkDefaultPort <= 0 // don't allow some common ports
-                    || NetworkDefaultPort != 53
-                    || NetworkDefaultPort != 80
-                    || NetworkDefaultPort != 443) NetworkDefaultPort = DEFAULT_NETWORK_PORT;
-
-            if (NetworkKeepAliveMs < 0) NetworkKeepAliveMs = DEFAULT_NETWORK_KEEP_ALIVE_MS;
-
-
             // debugdisabled = false
-
             // Load the debug settings, if they are present
             if (debugSection != null)
             {
@@ -573,7 +573,8 @@
                 _ = float.TryParse(sceneSection.GetValue("DebugConsoleSizeX"), out var debugConsoleSizeXValue);
                 _ = float.TryParse(sceneSection.GetValue("DebugConsoleSizeY"), out var debugConsoleSizeYValue);
 
-                DebugFontSize = debugFontSizeValue;
+                if (debugFontSizeValue > 0) DebugFontSize = debugFontSizeValue;
+
                 DebugFontSizeLarge = debugFontSizeLargeValue;
                 DebugPositionX = debugPositionXValue;
                 DebugPositionY = debugPositionYValue;
@@ -612,14 +613,9 @@
             bool failedOsCheck = false;
 
             // test windows compat
-            if (SystemInfo.CurOperatingSystem < SystemInfoOperatingSystem.MacOS1013
+            if ((SystemInfo.CurOperatingSystem < SystemInfoOperatingSystem.MacOS1013
                 && RequirementsMinimumOperatingSystem < SystemInfoOperatingSystem.MacOS1013)
-            {
-                if (RequirementsMinimumOperatingSystem > SystemInfo.CurOperatingSystem) failedOsCheck = true;
-            }
-            // test macos compat
-            else if (SystemInfo.CurOperatingSystem < SystemInfoOperatingSystem.Linux
-                && RequirementsMinimumOperatingSystem < SystemInfoOperatingSystem.Linux)
+                || SystemInfo.CurOperatingSystem != SystemInfoOperatingSystem.Linux)
             {
                 if (RequirementsMinimumOperatingSystem > SystemInfo.CurOperatingSystem) failedOsCheck = true;
             }

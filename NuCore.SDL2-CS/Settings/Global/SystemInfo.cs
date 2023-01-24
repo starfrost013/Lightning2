@@ -80,14 +80,14 @@
                 if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 19044, 0)) CurOperatingSystem = SystemInfoOperatingSystem.Win1021H2;
                 if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 19045, 0)) CurOperatingSystem = SystemInfoOperatingSystem.Win1022H2;
                 // special case - was never released (but probably at least 1 person using it) so we use first compiled build (19480), 19480-19645 are valid
-                if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 19480, 0)) CurOperatingSystem = SystemInfoOperatingSystem.Manganese;
-                if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 20348, 0)) CurOperatingSystem = SystemInfoOperatingSystem.Iron;
+                if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 19480, 0)) CurOperatingSystem = SystemInfoOperatingSystem.WinManganese;
+                if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 20348, 0)) CurOperatingSystem = SystemInfoOperatingSystem.WinIron;
                 // earliest publicly available version
                 if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 21996, 0)) CurOperatingSystem = SystemInfoOperatingSystem.Win11;
-                if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22621, 0)) CurOperatingSystem = SystemInfoOperatingSystem.Nickel;
+                if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22621, 0)) CurOperatingSystem = SystemInfoOperatingSystem.Win1122H2;
                 // moving target so use earliest known build
-                if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 25054, 0)) CurOperatingSystem = SystemInfoOperatingSystem.Copper;
-                if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 25240, 0)) CurOperatingSystem = SystemInfoOperatingSystem.Zinc;
+                if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 25054, 0)) CurOperatingSystem = SystemInfoOperatingSystem.WinCopper;
+                if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 25240, 0)) CurOperatingSystem = SystemInfoOperatingSystem.WinZinc;
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {

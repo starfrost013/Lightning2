@@ -10,6 +10,7 @@
 	<TransformOnBuild>true</TransformOnBuild>
 	<TransformOutOfDateOnly>false</TransformOutOfDateOnly>
 	<OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
+	  <PublishAot>true</PublishAot>
   </PropertyGroup>
 
 	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />

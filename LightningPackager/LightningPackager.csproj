@@ -9,6 +9,7 @@
 	<TransformOutOfDateOnly>false</TransformOutOfDateOnly>
 	<OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
 	<Configurations>Debug;Release;Debug.Arm64;Release.Arm64;Final</Configurations>
+	  <PublishAot>true</PublishAot>
 	<PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 

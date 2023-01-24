@@ -49,6 +49,9 @@ namespace LightningGL
             if (Mix_OpenAudio(GlobalSettings.AudioDeviceHz, GlobalSettings.AudioFormat, GlobalSettings.AudioChannels, GlobalSettings.AudioChunkSize) < 0) NCLogging.LogError(
                 $"Error initialising audio device: {SDL_GetError()}", 56, NCLoggingSeverity.FatalError);
 
+            NCLogging.Log($"Allocating {GlobalSettings.AudioMaxSimultaneousAudioFiles} audio tracks");
+            Mix_AllocateChannels(GlobalSettings.AudioMaxSimultaneousAudioFiles);
+
             // localise the window title
             Settings.Title = LocalisationManager.ProcessString(Settings.Title);
 
@@ -71,7 +74,6 @@ namespace LightningGL
 
             EventsRunning = true;
         }
-
 
         /// <summary>
         /// Runs the main loop at the start of each frame.

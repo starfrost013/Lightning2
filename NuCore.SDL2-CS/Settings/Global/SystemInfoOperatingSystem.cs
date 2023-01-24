@@ -95,12 +95,12 @@
         /// <summary>
         /// Manganese (Windows Dev Channel 2019)
         /// </summary>
-        Manganese = 20,
+        WinManganese = 20,
 
         /// <summary>
         /// Windows Server 2022 (Iron)
         /// </summary>
-        Iron = 21,
+        WinIron = 21,
 
         /// <summary>
         /// Windows 11 (Cobalt)
@@ -110,17 +110,17 @@
         /// <summary>
         /// Windows 11, version 22H2 (Nickel)
         /// </summary>
-        Nickel = 23,
+        Win1122H2 = 23,
 
         /// <summary>
         /// Copper (Windows Dev Channel 2022-23)
         /// </summary>
-        Copper = 24,
+        WinCopper = 24,
 
         /// <summary>
         /// Zinc (Windows Dev Channel 2023)
         /// </summary>
-        Zinc = 25,
+        WinZinc = 25,
 
         /// <summary>
         /// OSX 10.13 (High Sierra)
@@ -153,7 +153,7 @@
         MacOS13 = 55,
 
         /// <summary>
-        /// Don't bother doing Linux kernel detection until we can figure out how osversion behaves
+        /// Don't bother doing Linux kernel detection until we can figure out how osversion behaves on linux
         /// </summary>
         Linux = 100,
     }
