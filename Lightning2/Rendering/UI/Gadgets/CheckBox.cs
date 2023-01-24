@@ -9,10 +9,21 @@
     /// </summary>
     public class CheckBox : Gadget
     {
+        private bool _checked;
+
         /// <summary>
         /// Determines if this check box is checked.
         /// </summary>
-        public bool Checked { get; set; }
+        public bool Checked
+        {
+            get => _checked;
+            set
+            {
+                _checked = value;
+                if (CheckBoxLine1 != null) CheckBoxLine1.IsNotRendering = !value;
+                if (CheckBoxLine2 != null) CheckBoxLine2.IsNotRendering = !value;
+            }
+        }
 
         /// <summary>
         /// UI rectangle used for drawing this textbox.
