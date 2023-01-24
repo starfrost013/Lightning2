@@ -89,11 +89,9 @@
 
             // calculate the initial text position
             Vector2 textSize = FontManager.GetTextSize(curFont, Text, ForegroundColor, Style, TextBlock.SmoothingType);
-            Vector2 textPos = (RenderPosition + Size);
-            textPos.X = textPos.X - (Size.X / 2) - (textSize.X / 2);
-            textPos.Y = textPos.Y - (Size.Y / 2) - (textSize.Y / 2);
-
-            TextBlock.Position = textPos;
+            Rectangle.Position = Position;
+            TextBlock.Position = new(Position.X + ((Size.X / 2) - (textSize.X / 2)),
+                Position.Y + ((Size.Y / 2) - (textSize.Y / 2)));
         }
     }
 }

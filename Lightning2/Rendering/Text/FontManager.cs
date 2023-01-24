@@ -43,7 +43,8 @@
                 // is it still null? then ignore it (there should already be an error here) 
                 if (glyph != null)
                 {
-                    fontSize += glyph.Size;
+                    fontSize.X += glyph.Size.X;
+                    if (glyph.Size.Y > fontSize.Y) fontSize.Y += glyph.Size.Y;
                 }
             }
 

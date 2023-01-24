@@ -186,7 +186,7 @@ namespace LightningGL
 
             Button btn1 = new("Button1", "Arial.11pt")
             {
-                Position = new(150, 150),
+                Position = new(50, 50),
                 Size = new(44, 44),
                 Text = "button",
                 BackgroundColor = Color.PaleGoldenrod,
