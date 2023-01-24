@@ -34,8 +34,10 @@
 #endregion
 
 #region Using Statements
+using static LightningBase.SdlMarshaling;
 using static LightningBase.Utf8Marshaling;
 #endregion
+
 namespace LightningBase
 {
     public static partial class SDL
@@ -184,7 +186,7 @@ namespace LightningBase
 
             if (messageboxdata.colorScheme != null)
             {
-                data.colorScheme = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(SDL_MessageBoxColorScheme)));
+                data.colorScheme = Marshal.AllocHGlobal(SizeOf<SDL_MessageBoxColorScheme>());
                 Marshal.StructureToPtr(messageboxdata.colorScheme.Value, data.colorScheme, false);
             }
 

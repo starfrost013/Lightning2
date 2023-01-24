@@ -31,6 +31,7 @@
 #endregion
 
 #region Using Statements
+using static LightningBase.SdlMarshaling;
 #endregion
 
 namespace LightningBase
@@ -65,10 +66,9 @@ namespace LightningBase
         public static bool SDL_MUSTLOCK(nint surface)
         {
             SDL_Surface sur;
-            sur = (SDL_Surface)Marshal.PtrToStructure(
-                surface,
-                typeof(SDL_Surface)
-            );
+            sur = PtrToStructure<SDL_Surface>(
+                    surface
+                );
             return (sur.flags & SDL_RLEACCEL) != 0;
         }
 

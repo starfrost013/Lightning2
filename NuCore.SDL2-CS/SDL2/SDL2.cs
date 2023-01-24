@@ -33,8 +33,6 @@
  */
 #endregion
 
-#region Using Statements
-#endregion
 
 namespace LightningBase
 {

@@ -5,9 +5,11 @@
 global using NuCore.Utilities;
 global using System;
 global using System.Diagnostics;
+global using System.Diagnostics.CodeAnalysis;
 global using System.IO;
 global using System.Reflection;
 global using System.Runtime.InteropServices;
+global using System.Text;
 global using static LightningBase.SDL;
 global using static LightningBase.SDL_mixer;
 #endregion

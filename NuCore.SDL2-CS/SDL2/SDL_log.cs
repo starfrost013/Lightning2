@@ -34,8 +34,10 @@
 #endregion
 
 #region Using Statements
+using static LightningBase.SdlMarshaling;
 using static LightningBase.Utf8Marshaling;
 #endregion
+
 namespace LightningBase
 {
     public static partial class SDL
@@ -326,9 +328,8 @@ namespace LightningBase
             );
             if (result != nint.Zero)
             {
-                callback = (SDL_LogOutputFunction)Marshal.GetDelegateForFunctionPointer(
-                    result,
-                    typeof(SDL_LogOutputFunction)
+                callback = GetDelegateForFunctionPointer<SDL_LogOutputFunction>(
+					result
                 );
             }
             else

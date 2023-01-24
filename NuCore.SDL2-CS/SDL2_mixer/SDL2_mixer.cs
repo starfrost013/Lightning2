@@ -34,6 +34,7 @@
 #endregion
 
 #region Using Statements
+using static LightningBase.SdlMarshaling;
 using static LightningBase.Utf8Marshaling;
 #endregion
 
@@ -171,10 +172,9 @@ namespace LightningBase
         {
             SDL_version result;
             nint result_ptr = INTERNAL_Mix_Linked_Version();
-            result = (SDL_version)Marshal.PtrToStructure(
-                result_ptr,
-                typeof(SDL_version)
-            );
+            result = PtrToStructure<SDL.SDL_version>(
+                    result_ptr
+                );
             return result;
         }
 

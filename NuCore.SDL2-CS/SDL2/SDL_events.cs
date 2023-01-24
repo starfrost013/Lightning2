@@ -34,6 +34,7 @@
 #endregion
 
 #region Using Statements
+using static LightningBase.SdlMarshaling;
 #endregion
 
 namespace LightningBase
@@ -750,10 +751,9 @@ namespace LightningBase
             SDL_bool retval = SDL_GetEventFilter(out result, out userdata);
             if (result != nint.Zero)
             {
-                filter = (SDL_EventFilter)Marshal.GetDelegateForFunctionPointer(
-                    result,
-                    typeof(SDL_EventFilter)
-                );
+                filter = GetDelegateForFunctionPointer<SDL_EventFilter>(
+                        result
+                    );
             }
             else
             {
