@@ -254,7 +254,7 @@ Everything that matters to the api has to go here
 	- GlobalSettings::DebugConsoleKey
 	- GlobalSettings::DebugConsoleSizeX
 	- GlobalSettings::DebugConsoleSizeY
-	- GlobalSettings::Debug
+
 * Allow you to move around the debugvewer
 * Began working on debugconsole
 
@@ -275,7 +275,11 @@ Everything that matters to the api has to go here
 2023.01.23:
 * Fix text sizing
 
-2023.01.24
+2023.01.24:
+* Fix checkboxes
+* Mostly fix button positioning
+
+
 * todo:
 	- setting load order
 	- DEATH to DUPLICATE CODE

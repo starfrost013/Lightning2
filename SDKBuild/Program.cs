@@ -78,7 +78,10 @@ for (int argId = 0; argId < args.Length; argId++)
 
 if (!noTimeBuild) stopwatch.Start();
 
+#pragma warning disable IL3000 // in this case it's never embedded in a single file app (THIS REASONING WILL TURN OUT TO BE WRONG! YAY!)
 FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
+#pragma warning restore IL3000
+
 NCLogging.Log($"Lightning SDK Builder version {fvi.FileMajorPart}.{fvi.FileMinorPart}.{fvi.FileBuildPart}");
 
 // delete sdk dir if it exists

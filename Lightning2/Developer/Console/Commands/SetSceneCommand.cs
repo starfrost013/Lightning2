@@ -6,6 +6,9 @@ namespace LightningGL
         public override string Name => "setscene";
         public override bool Execute(params string[] parameters)
         {
+            string sceneName = parameters[0];
+
+            Lightning.SetCurrentScene(sceneName);
             return true; 
         }
 

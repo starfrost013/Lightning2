@@ -13,10 +13,7 @@
 	  <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
 	  <ApplicationIcon>AnimTool.ico</ApplicationIcon>
 	  <Configurations>Debug;Release;Final</Configurations>
-	  <PublishAot>true</PublishAot>
   </PropertyGroup>
-
-	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
 
 	<ItemGroup>
 	  <Content Include="AnimTool.ico" />

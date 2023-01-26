@@ -10,11 +10,8 @@
 	<TransformOnBuild>true</TransformOnBuild>
 	<TransformOutOfDateOnly>false</TransformOutOfDateOnly>
 	<OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
-	  <PublishAot>true</PublishAot>
   </PropertyGroup>
 
-	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
-	
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<PlatformTarget>x64</PlatformTarget>
 		<DefineConstants>DEBUG;TRACE;WINDOWS,X64</DefineConstants>

@@ -14,8 +14,6 @@
 	  <PublishAot>true</PublishAot>
   </PropertyGroup>
 	
-<!-- Import text templating -->
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DefineConstants>DEBUG;TRACE;WINDOWS,X64</DefineConstants>

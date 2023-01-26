@@ -100,7 +100,7 @@
             // Set culture to invariant so things like different decimal symbols don't crash
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
 
-            NCLogging.Settings.WriteToLog = true; 
+            NCLogging.Settings.WriteToLog = true;
             NCLogging.Init();
         }
 
@@ -112,7 +112,7 @@
             }
             catch (Exception err)
             {
-                NCLogging.LogError($"An unknown fatal error occurred during client initialisation. The installation may be corrupted!", 
+                NCLogging.LogError($"An unknown fatal error occurred during client initialisation. The installation may be corrupted!",
                     0x0000DEAD, NCLoggingSeverity.FatalError, err);
             }
         }
@@ -139,6 +139,30 @@
             else
             {
                 Server.Shutdown();
+            }
+        }
+
+        public static void SetCurrentScene(string sceneName)
+        {
+            if (Client.Initialised)
+            {
+                Client.SetCurrentScene(sceneName);
+            }
+            else
+            {
+                Server.SetCurrentScene(sceneName);
+            }
+        }
+
+        public static void SetCurrentScene(Scene scene)
+        {
+            if (Client.Initialised)
+            {
+                Client.SetCurrentScene(scene);
+            }
+            else
+            {
+                Server.SetCurrentScene(scene);
             }
         }
     }
