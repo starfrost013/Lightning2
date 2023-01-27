@@ -3,8 +3,6 @@
     /// <summary>
     /// ListBox
     /// 
-    /// June 15, 2022
-    /// 
     /// Defines a list box gadget. A list box is a list of options that can be selected by the user.
     /// This is a horrible hack and it needs to be rewritten.
     /// </summary>
@@ -65,6 +63,9 @@
         /// </summary>
         private Rectangle? Rectangle { get; set; }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override bool IsNotRendering 
         { 
             get => base.IsNotRendering;
@@ -75,6 +76,19 @@
 
                 // in this SPECIFIC case
                 foreach (Renderable renderable in Children) renderable.IsNotRendering = value;
+            }
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override bool SnapToScreen 
+        { 
+            get => base.SnapToScreen; 
+            set
+            {
+                base.SnapToScreen = value;
+                foreach (Renderable renderable in Children) renderable.SnapToScreen = value;
             }
         }
 
@@ -199,11 +213,6 @@
                 return;
             }
 
-            // draw the currently selected item using the Font Managher
-            // if the font is invalid throw an error
-
-            //if (Children.Count > 0) Lightning.Renderer.AddRenderable(new TextBlock("ListBoxItemText", SelectedItem.Text, Font, Position, ForegroundColor));
-
             // draw the items if they are open
             foreach (Renderable item in Children) item.IsNotRendering = !Open; // this is never null (set in constructor) so we do not need to check if it is.
         }
@@ -236,8 +245,6 @@
                             item.OnMousePressed?.Invoke(button);
                         }
                     }
-
-
                 }
 
                 // change the open state of the listbox

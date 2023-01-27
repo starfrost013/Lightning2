@@ -77,6 +77,17 @@
         /// </summary>
         private const int DEFAULT_NUMBER_OF_FRAMES_UNTIL_NEXT_BLINK = DEFAULT_CURSOR_BLINK_FREQUENCY; // reasonable default
 
+        public override bool SnapToScreen
+        { 
+            get => base.SnapToScreen; 
+            set
+            {
+                base.SnapToScreen = value;
+                if (TextBoxText != null) TextBoxText.SnapToScreen = value;
+                if (Cursor != null) Cursor.SnapToScreen = value;
+                if (Rectangle != null) Rectangle.SnapToScreen = value;
+            }
+        }
 
         /// <summary>
         /// <inheritdoc/>

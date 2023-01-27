@@ -52,24 +52,24 @@
 
         // maybe make configurable?
 
-        private readonly Color DebugTextColor = Color.White; 
+        private readonly Color DEFAULT_DEBUG_TEXT_COLOR = Color.Black; 
 
         /// <summary>
         /// The default foreground colour for the debug screen.
         /// Maybe make configurable?
         /// </summary>
-        private readonly Color DebugForeground = Color.Black;
+        private readonly Color DEFAULT_DEBUG_FOREGROUND_COLOR = Color.Black;
 
         /// <summary>
         /// The default background colour for the text box of the console.
         /// </summary>
-        private readonly Color DebugTextBoxBackground = Color.LightBlue;
+        private readonly Color DEFAULT_DEBUG_TEXT_BOX_BACKGROUND = Color.LightBlue;
 
         /// <summary>
         /// The default border colour for the debug screen.
         /// Maybe make configurable?
         /// </summary>
-        private readonly Color DebugBorder = Color.FromArgb(0, Color.White);
+        private readonly Color DEFAULT_DEBUG_BORDER = Color.FromArgb(0, Color.White);
 
         // todo: make these configurable AFTER GLOBALSETTINGS REWRITE
 
@@ -81,6 +81,11 @@
 
         private readonly Vector2 DEFAULT_CONSOLE_TEXT_POSITION = new(0, 64);
 
+        private readonly Vector2 DEFAULT_RECTANGLE_POSITION = new(0, 0);
+
+        private Vector2 DEFAULT_TEXTBOX_POSITION => new(0, GlobalSettings.DebugConsoleSizeY - DEFAULT_CONSOLE_TEXTBOX_SIZE.Y);
+        private Vector2 DEFAULT_TEXTBOX_SIZE => new(0, GlobalSettings.DebugConsoleSizeY - DEFAULT_CONSOLE_TEXTBOX_SIZE.Y);
+
         public DebugConsole(string name) : base(name) 
         {
             OnKeyPressed += KeyPressed;
@@ -91,13 +96,13 @@
             Lightning.Renderer.AddRenderable(new Font("Arial.ttf", GlobalSettings.DebugFontSizeLarge, "DebugFontLarge"));
 
             Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("ConsoleRectangle", new(0, 0), new(GlobalSettings.DebugConsoleSizeX, GlobalSettings.DebugConsoleSizeY),
-                DebugForeground, true, DebugBorder, DEFAULT_DEBUG_BORDER_SIZE, true), this);
-            TextBox = Lightning.Renderer.AddRenderable(new TextBox("ConsoleTextBox", 300, "DebugFont", new(0, GlobalSettings.DebugConsoleSizeY - DEFAULT_CONSOLE_TEXTBOX_SIZE.Y), 
-                DEFAULT_CONSOLE_TEXTBOX_SIZE, DebugTextColor, DebugTextBoxBackground, true, DebugBorder, DEFAULT_DEBUG_BORDER_SIZE), this);
+                DEFAULT_DEBUG_FOREGROUND_COLOR, true, DEFAULT_DEBUG_BORDER, DEFAULT_DEBUG_BORDER_SIZE, true), this);
+            TextBox = Lightning.Renderer.AddRenderable(new TextBox("ConsoleTextBox", 300, "DebugFont", DEFAULT_TEXTBOX_POSITION, 
+                DEFAULT_CONSOLE_TEXTBOX_SIZE, DEFAULT_DEBUG_TEXT_COLOR, DEFAULT_DEBUG_TEXT_BOX_BACKGROUND, true, DEFAULT_DEBUG_BORDER, DEFAULT_DEBUG_BORDER_SIZE), this);
             ConsoleHeader = Lightning.Renderer.AddRenderable(new TextBlock("ConsoleHeader", "Console", "DebugFontLarge", DEFAULT_CONSOLE_HEADER_POSITION,
-                DebugTextColor, Color.Transparent), this);
+                DEFAULT_DEBUG_TEXT_COLOR, Color.Transparent), this);
             ConsoleText = Lightning.Renderer.AddRenderable(new TextBlock("ConsoleText", "(PLACEHOLDER)", "DebugFont", DEFAULT_CONSOLE_TEXT_POSITION,
-                DebugTextColor), this);
+                DEFAULT_DEBUG_TEXT_COLOR), this);
 
             ConsoleHeader.SnapToScreen = true;
             ConsoleText.SnapToScreen = true;
@@ -113,6 +118,19 @@
             Enabled = false;
 
             TextBox.OnKeyPressed += ConsoleBoxKeyPressed;
+        }
+
+        public override void Draw()
+        {
+            Debug.Assert(TextBox != null
+                && Rectangle != null
+                && ConsoleHeader != null
+                && ConsoleText != null);
+
+            TextBox.Position = DEFAULT_TEXTBOX_SIZE;
+            Rectangle.Position = DEFAULT_RECTANGLE_POSITION;
+            ConsoleHeader.Position = DEFAULT_CONSOLE_HEADER_POSITION;
+            ConsoleText.Position = DEFAULT_CONSOLE_TEXT_POSITION;
         }
 
         public void ConsoleBoxKeyPressed(Key key)

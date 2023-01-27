@@ -41,6 +41,23 @@
         private Line? CheckBoxLine2 { get; set; }
 
         /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override bool SnapToScreen 
+        { 
+            get => base.SnapToScreen; 
+            set
+            {
+                base.SnapToScreen = value;
+                if (Rectangle != null) Rectangle.SnapToScreen = value;
+                if (CheckBoxLine1 != null) CheckBoxLine1.SnapToScreen = value;
+                if (CheckBoxLine2 != null) CheckBoxLine2.SnapToScreen = value;  1
+            }
+        
+        }
+
+        public override bool IsNotRendering { get => base.IsNotRendering; set => base.IsNotRendering = value; }
+        /// <summary>
         /// Constructor for the CheckBox class.
         /// </summary>
         public CheckBox(string name, string font) : base(name, font)

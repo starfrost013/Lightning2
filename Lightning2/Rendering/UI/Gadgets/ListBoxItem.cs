@@ -35,6 +35,17 @@
             }
         }
 
+        public override bool SnapToScreen 
+        { 
+            get => base.SnapToScreen; 
+            set
+            {
+                base.SnapToScreen = value;
+                if (Rectangle != null) Rectangle.SnapToScreen = value;
+                if (TextBlock != null) TextBlock.SnapToScreen = value;
+            }
+        }
+
         public ListBoxItem(string name, string font) : base(name, font)
         {
             Text = string.Empty; 
