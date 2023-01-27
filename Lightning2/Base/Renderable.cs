@@ -110,7 +110,7 @@
         /// <summary>
         /// Event handler for when a new animation stops playing.
         /// </summary>
-        public GenericEvent? OnAnimationEnd { get; set; }
+        public GenericEvent? OnAnimationStop { get; set; }
 
         [JsonIgnore]
         /// <summary>
