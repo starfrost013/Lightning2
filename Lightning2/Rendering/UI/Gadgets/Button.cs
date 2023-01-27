@@ -29,6 +29,8 @@
                 if (TextBlock != null) TextBlock.IsNotRendering = true;
             }
         }
+
+
         public Button(string name, string font) : base(name, font) { }
 
         public Button(string name, string font, string text) : base(name, font)

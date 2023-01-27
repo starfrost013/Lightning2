@@ -51,12 +51,21 @@
                 base.SnapToScreen = value;
                 if (Rectangle != null) Rectangle.SnapToScreen = value;
                 if (CheckBoxLine1 != null) CheckBoxLine1.SnapToScreen = value;
-                if (CheckBoxLine2 != null) CheckBoxLine2.SnapToScreen = value;  1
+                if (CheckBoxLine2 != null) CheckBoxLine2.SnapToScreen = value;  
             }
         
         }
+        public override bool IsNotRendering 
+        { 
+            get => base.IsNotRendering; 
+            set
+            {
+                if (Rectangle != null) Rectangle.IsNotRendering = value;
+                if (CheckBoxLine1 != null) CheckBoxLine1.IsNotRendering = value;
+                if (CheckBoxLine2 != null) CheckBoxLine2.IsNotRendering = value;
+            }
+        }
 
-        public override bool IsNotRendering { get => base.IsNotRendering; set => base.IsNotRendering = value; }
         /// <summary>
         /// Constructor for the CheckBox class.
         /// </summary>

@@ -77,6 +77,9 @@
         /// </summary>
         private const int DEFAULT_NUMBER_OF_FRAMES_UNTIL_NEXT_BLINK = DEFAULT_CURSOR_BLINK_FREQUENCY; // reasonable default
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override bool SnapToScreen
         { 
             get => base.SnapToScreen; 

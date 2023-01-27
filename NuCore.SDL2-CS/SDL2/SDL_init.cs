@@ -68,7 +68,7 @@ namespace LightningBase
             // verify a sufficient SDL version (as we dynamically link) - get the real version of SDL2.dll to do this
             SDL_GetVersion(out var realVersion);
 
-            bool versionIsCompatible = SDL_VERSION_ATLEAST(SDL_EXPECTED_MAJOR_VERSION, SDL_EXPECTED_MINOR_VERSION, SDL_EXPECTED_PATCHLEVEL);
+            bool versionIsCompatible = SDL_VERSION_ATLEAST(realVersion.major, realVersion.minor, realVersion.patch);
 
             // if SDL is too load
             if (!versionIsCompatible)

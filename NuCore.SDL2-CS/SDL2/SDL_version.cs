@@ -86,7 +86,6 @@ namespace LightningBase
             return UTF8_ToManaged(INTERNAL_SDL_GetRevision());
         }
 
-        [Obsolete("Removed in SDL 3.0")]
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_GetRevisionNumber();
 

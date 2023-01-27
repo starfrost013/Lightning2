@@ -24,6 +24,9 @@
         /// </summary>
         private TextBlock? TextBlock { get; set; }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override bool IsNotRendering 
         {
             get => base.IsNotRendering; 
@@ -35,6 +38,9 @@
             }
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override bool SnapToScreen 
         { 
             get => base.SnapToScreen; 
