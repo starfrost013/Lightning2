@@ -8,7 +8,6 @@
     /// Defines a LightningGL keypress event.
     /// </summary>
     /// <param name="key">The <see cref="Key"/> on the keyboard that has been pressed.</param>
-    /// <param name="Repeat">If true, the key is currently being repeated - this is noNOT the same as held down!</param>
     public delegate void KeyEvent
     (
         Key key

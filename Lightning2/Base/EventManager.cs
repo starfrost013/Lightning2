@@ -225,5 +225,37 @@ namespace LightningGL
                 }
             }
         }
+
+        internal static void FireOnAnimationStart(Renderable? parent = null)
+        {
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
+
+            foreach (Renderable renderable in renderables)
+            {
+                // check if the UI element is focused.
+                if (renderable.Focused)
+                {
+                    renderable.OnAnimationStart?.Invoke();
+                    if (renderable.Children.Count > 0) FireOnAnimationStart(renderable);
+                }
+            }
+        }
+
+        internal static void FireOnAnimationEnd(Renderable? parent = null)
+        {
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
+
+            foreach (Renderable renderable in renderables)
+            {
+                // check if the UI element is focused.
+                if (renderable.Focused)
+                {
+                    renderable.OnAnimationStart?.Invoke();
+                    if (renderable.Children.Count > 0) FireOnAnimationEnd(renderable);
+                }
+            }
+        }
     }
 }

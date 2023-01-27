@@ -187,13 +187,18 @@ namespace LightningGL
             return true;
         }
 
-        internal void StartAnimationFor(Renderable renderable) => renderable.AnimationTimer.Restart();
+        internal void StartAnimationFor(Renderable renderable)
+        {
+            renderable.AnimationTimer.Restart();
+            EventManager.FireOnAnimationStart(renderable);
+        }
 
         internal void StopAnimationFor(Renderable renderable)
         {
             if (!renderable.AnimationTimer.IsRunning) return;
 
             renderable.AnimationTimer.Stop();
+            EventManager.FireOnAnimationEnd(renderable);
         }
 
         internal void UpdateAnimationFor(Renderable renderable)

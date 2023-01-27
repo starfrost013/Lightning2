@@ -20,19 +20,19 @@
 
         [JsonIgnore]
         /// <summary>
-        /// Event handler for the <see cref="KeyReleasedEvent"/> event.
+        /// Event handler fired when a key is released.
         /// </summary>
         public KeyEvent? OnKeyReleased { get; set; }
 
         [JsonIgnore]
         /// <summary>
-        /// Event handler for the <see cref="MousePressedEvent"/> event.
+        /// Event handler fired when the mouse is pressed.
         /// </summary>
         public MouseEvent? OnMousePressed { get; set; }
 
         [JsonIgnore]
         /// <summary>
-        /// Event handler for the <see cref="MouseReleasedEvent"/> event.
+        /// Event handler fired when the mouse is released.
         /// </summary>
         public MouseEvent? OnMouseReleased { get; set; }
 
@@ -62,10 +62,13 @@
 
         [JsonIgnore]
         /// <summary>
-        /// Event handler fo
+        /// Event handler for switching from a scene.
         /// </summary>
         public SceneEvent? OnSwitchFromScene { get; set; }
 
+        /// <summary>
+        /// Event handler for switching to a scene./
+        /// </summary>
         [JsonIgnore]
         public SceneEvent? OnSwitchToScene { get; set; } 
 
@@ -99,11 +102,21 @@
         /// </summary>
         public GenericEvent OnUpdate { get; set; }
 
+        /// <summary>
+        /// Event handler for when a new animation starts playing.
+        /// </summary>
+        public GenericEvent? OnAnimationStart { get; set; }
+
+        /// <summary>
+        /// Event handler for when a new animation stops playing.
+        /// </summary>
+        public GenericEvent? OnAnimationEnd { get; set; }
+
         [JsonIgnore]
         /// <summary>
         /// Event handler for <see cref="ShutdownEvent"/> event.
         /// </summary>
-        public ShutdownEvent? OnShutdown { get; set; }
+        public GenericEvent? OnShutdown { get; set; }
 
         #endregion
 

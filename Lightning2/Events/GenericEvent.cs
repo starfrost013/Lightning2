@@ -10,5 +10,6 @@
     /// </summary>
     public delegate void GenericEvent
     (
+
     );
 }
