@@ -279,6 +279,13 @@ Everything that matters to the api has to go here
 * Fix checkboxes
 * Mostly fix button positioning
 
+2023.01.26:
+* Add set scene command code
+
+2023.01.27:
+* Fix snaptoscreen for UI elements
+* Fix button positioning
+* Update to SDL 2.26.2 
 
 * todo:
 	- setting load order
