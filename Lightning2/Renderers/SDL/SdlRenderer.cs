@@ -115,6 +115,9 @@ namespace LightningGL
                     case SDL_EventType.SDL_MOUSEMOTION: // Mouse move event
                         EventManager.FireMouseMove((MouseButton)currentEvent.motion);
                         break;
+                    case SDL_EventType.SDL_MOUSEWHEEL:
+                        EventManager.FireMouseWheel((MouseButton)currentEvent.wheel);
+                        break;
                     case SDL_EventType.SDL_WINDOWEVENT: // Window Event - check subtypes
                         switch (currentEvent.window.windowEvent)
                         {

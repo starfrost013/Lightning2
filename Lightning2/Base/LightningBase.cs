@@ -162,6 +162,8 @@ namespace LightningGL
 
             Debug.Assert(assembly != null); // this should not happen
 
+            Scene? startupScene = null;
+
             foreach (Type t in assembly.GetTypes())
             {
                 if (t.IsSubclassOf(typeof(Scene)))
@@ -176,7 +178,7 @@ namespace LightningGL
 
                         scene.Start();
 
-                        if (GlobalSettings.SceneStartupScene == t.Name) CurrentScene = scene;
+                        if (GlobalSettings.SceneStartupScene == t.Name) startupScene = scene;
                     }
                     else
                     {
@@ -186,11 +188,21 @@ namespace LightningGL
                 }
             }
 
-            if (Scenes.Count == 0) NCLogging.LogError($"There are no scenes defined.\n\nIf you tried to initialise Lightning without the Scene Manager," +
-                $" this is no longer supported as of Lightning 1.2.0!", 131, NCLoggingSeverity.FatalError);
+            if (Scenes.Count == 0)
+            {
+                NCLogging.LogError($"There are no scenes defined.\n\nIf you tried to initialise Lightning without the Scene Manager," +
+                $" this is no longer supported as of Lightning 2.0.0!", 131, NCLoggingSeverity.FatalError);
+                return;
+            }
 
-            if (CurrentScene == null) NCLogging.LogError($"Invalid startup scene {GlobalSettings.SceneStartupScene}", 132, NCLoggingSeverity.FatalError);
+            if (startupScene == null)
+            {
+                NCLogging.LogError($"Invalid startup scene {GlobalSettings.SceneStartupScene}", 132, NCLoggingSeverity.FatalError);
+                return;
+            }
 
+            SetCurrentScene(startupScene);
+            
             Initialised = true;
         }
 

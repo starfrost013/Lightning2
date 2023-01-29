@@ -286,6 +286,13 @@ Everything that matters to the api has to go here
 * Fix snaptoscreen for UI elements
 * Fix button positioning
 * Update to SDL 2.26.2 
+* Add new events:
+	- OnAnimationStart
+	- OnAnimationEnd
+	- OnMouseWheel
+
+2023.01.28:
+* Begin porting example project to 2.0
 
 * todo:
 	- setting load order

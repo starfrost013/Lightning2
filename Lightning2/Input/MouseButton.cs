@@ -57,5 +57,17 @@
                 Velocity = new Vector2(mouseButton.xrel, mouseButton.yrel),
             };
         }
+
+        /// <summary>
+        /// Converts a SDL mouse motion event (see <see cref="SDL_MouseWheelEvent"/> to a <see cref="MouseButton"/>
+        /// </summary>
+        /// <param name="mouseButton">The <see cref="SDL_MouseWheelEvent"/> to convert.</param>
+        public static explicit operator MouseButton(SDL_MouseWheelEvent mouseButton)
+        {
+            return new MouseButton
+            {
+                Position = new Vector2(mouseButton.preciseX, mouseButton.preciseY),
+            };
+        }
     }
 }

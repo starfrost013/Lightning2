@@ -231,7 +231,8 @@
                 if (!HideCursor)
                 {
                     Vector2 fontSize = FontManager.GetLargestTextSize(Font, Text, ForegroundColor, Style, TextBoxText.SmoothingType);
-                    Vector2 cursorPosition = new(Position.X + fontSize.X, Position.Y);
+                    Cursor.Position = new(Position.X + fontSize.X, Position.Y);
+                    Cursor.Size = new(1, fontSize.Y); //1px for now
 
                     // actually blink it
                     if (NumberOfFramesUntilNextBlink == 0)
@@ -241,8 +242,6 @@
                             (CursorBlinkFrequency / Lightning.Renderer.DeltaTime));
                     }
 
-                    Cursor.Position = cursorPosition;
-                    Cursor.Size = new(cursorPosition.X, cursorPosition.Y + Size.Y) ;
 
                     // if it's active, draw the line
                     if (IsActive)

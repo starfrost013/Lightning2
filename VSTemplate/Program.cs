@@ -1,7 +1,7 @@
-﻿//Lightning 1.1 Visual Studio template
-//©2022 starfrost, October 21, 2022
-// Use this to get started with Lightnng
+﻿// Lightning 2.0 Visual Studio template, January 29, 2023
+//
+// © 2022-2023 starfrost. All rights reserved.
 
-// Initialise Lightning, this will run MainScene
-// this is in the LightningGL::Lightning class (included via a static global using)
-Init(args);
+// Initialise the client for this example, this will run MainScene
+// this is in the LightningGL::Client class (included via a static global using)
+Lightning.InitClient();

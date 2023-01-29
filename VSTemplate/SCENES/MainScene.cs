@@ -22,17 +22,17 @@ namespace basic
 
         public override void SwitchTo(Scene oldScene)
         {
-
+            Lightning.Renderer.AddRenderable(new TextBlock("TextBlock1", "Hello World!", "DebugFont", new Vector2(300, 300), Color.Red));
         }
 
-        public override void SwitchAway(Scene newScene)
+        public override void SwitchFrom(Scene newScene)
         {
 
         }
 
-        public override void Render(Renderer cWindow)
+        public override void Render()
         {
-            PrimitiveRenderer.DrawText(cWindow, "Hello World!", new Vector2(300, 300), Color.Red);
+
         }
     }
 }

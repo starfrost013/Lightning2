@@ -74,9 +74,15 @@
 
         [JsonIgnore]
         /// <summary>
-        /// Event handler for the <see cref="MouseEvent"/> event.
+        /// Event handler for the mouse move event.
         /// </summary>
         public MouseEvent? OnMouseMove { get; set; }
+
+        [JsonIgnore]
+        /// <summary>
+        /// Event handler for the mouse wheel event.
+        /// </summary>
+        public MouseEvent? OnMouseWheel { get; set; }
 
         [JsonIgnore]
         /// <summary>

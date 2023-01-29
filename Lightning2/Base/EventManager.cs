@@ -108,27 +108,15 @@ namespace LightningGL
             }
         }
 
-        internal static void FireFocusGained(Renderable? parent = null)
+        internal static void FireMouseWheel(MouseButton button, Renderable? parent = null)
         {
             // render all children 
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
 
             foreach (Renderable renderable in renderables)
             {
-                renderable.OnFocusGained?.Invoke();
-                if (renderable.Children.Count > 0) FireFocusGained(renderable);
-            }
-        }
-
-        internal static void FireFocusLost(Renderable? parent = null)
-        {
-            // render all children 
-            List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
-
-            foreach (Renderable renderable in renderables)
-            {
-                renderable.OnFocusLost?.Invoke();
-                if (renderable.Children.Count > 0) FireFocusLost(renderable);
+                renderable.OnMouseWheel?.Invoke(button);
+                if (renderable.Children.Count > 0) FireMouseWheel(button, renderable);
             }
         }
 
@@ -157,6 +145,34 @@ namespace LightningGL
                 if (renderable.Children.Count > 0) FireMouseMove(mouseButton, renderable);
             }
         }
+
+
+
+        internal static void FireFocusGained(Renderable? parent = null)
+        {
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
+
+            foreach (Renderable renderable in renderables)
+            {
+                renderable.OnFocusGained?.Invoke();
+                if (renderable.Children.Count > 0) FireFocusGained(renderable);
+            }
+        }
+
+        internal static void FireFocusLost(Renderable? parent = null)
+        {
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
+
+            foreach (Renderable renderable in renderables)
+            {
+                renderable.OnFocusLost?.Invoke();
+                if (renderable.Children.Count > 0) FireFocusLost(renderable);
+            }
+        }
+
+
 
         internal static void FireKeyPressed(Key key, Renderable? parent = null)
         {
