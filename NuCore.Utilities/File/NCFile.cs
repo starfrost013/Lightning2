@@ -38,11 +38,15 @@
 
                 if (!IsValidPath(fileName)) performCopy = false;
 
-                string finalPath = $"{destinationDir}\\{relativeDestinationPath}";
-                string finalDirectory = finalPath[..finalPath.LastIndexOf(Path.DirectorySeparatorChar)];
+                if (performCopy)
+                {
+                    string finalPath = $"{destinationDir}\\{relativeDestinationPath}";
+                    string finalDirectory = finalPath[..finalPath.LastIndexOf(Path.DirectorySeparatorChar)];
 
-                if (!Directory.Exists(finalDirectory)) Directory.CreateDirectory(finalDirectory);
-                if (performCopy) File.Copy(fileName, finalPath, true);
+                    if (!Directory.Exists(finalDirectory)) Directory.CreateDirectory(finalDirectory);
+                    File.Copy(fileName, finalPath, true);
+                }
+
             }
         }
 

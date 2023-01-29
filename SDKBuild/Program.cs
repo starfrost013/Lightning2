@@ -32,6 +32,9 @@ string docPath = $@"..\..\..\..\Documentation";
 string examplePath = $@"..\..\..\..\Examples";
 string vsTemplatePath = $@"..\..\..\..\VSTemplate";
 string innoInstallDir = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)}\Inno Setup 6";
+string innoIssPath = @"..\..\..\..\Setup\Setup.iss";
+string vsProjectTemplatePath = @"SDK\VSTemplate\Lightning Game Project.zip";
+string vsSceneTemplatePath = @"SDK\VSTemplate\Lightning Scene Template.zip";
 string finalSdkSetupPath = @"SDK\Setup\SDKSetup.exe";
 string finalSdkSetupArgsAllUsers = @"/VERYSILENT /FORCECLOSEAPPLICATIONS /RESTARTAPPLICATIONS /SP-";
 string finalSdkSetupArgsCurrentUser = @"/VERYSILENT /FORCECLOSEAPPLICATIONS /RESTARTAPPLICATIONS /SP- /CURRENTUSER";
@@ -147,7 +150,9 @@ NCLogging.Log("Building VS templates...");
 // copy the zip file
 Directory.CreateDirectory(@"SDK\VSTemplate");
 
-File.Copy(@$"{vsTemplatePath}\Lightning Game Project.zip", @"SDK\VSTemplate\Lightning Game Project.zip", true);
+File.Copy(@$"{vsTemplatePath}\Lightning Game Project.zip", vsProjectTemplatePath, true);
+File.Copy(@$"{vsTemplatePath}\Lightning Scene Template.zip", vsSceneTemplatePath, true);
+
 
 if (!Directory.Exists(innoInstallDir))
 {
@@ -157,7 +162,7 @@ else
 {
     NCLogging.Log("SDK built! Generating installer...", ConsoleColor.Green);
 
-    Process innoSetup = Process.Start($@"{innoInstallDir}\ISCC.exe", @"..\..\..\..\Setup\Setup.iss");
+    Process innoSetup = Process.Start($@"{innoInstallDir}\ISCC.exe", innoIssPath);
 
     // wait for inno to complete
     while (!innoSetup.HasExited) { };
@@ -184,6 +189,7 @@ else
                 sdkSetup = Process.Start(finalSdkSetupPath, finalSdkSetupArgs);
             }
 
+            // wait for SDKSetup to exit.
             while (!sdkSetup.HasExited) { }; 
 
             if (sdkSetup.ExitCode > 0) NCLogging.Log($"Error: Failed to install SDK (exit code {sdkSetup.ExitCode})!", ConsoleColor.Red);
