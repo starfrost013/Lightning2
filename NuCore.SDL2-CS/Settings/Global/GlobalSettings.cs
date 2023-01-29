@@ -71,9 +71,9 @@
         public static bool GeneralShowDebugInfo { get; internal set; }
 
         /// <summary>
-        /// Enable the console. 
+        /// Determines if old performance profiler CSVs will be kept.
         /// </summary>
-        public static bool GeneralEnableConsole { get; internal set; }
+        public static bool GeneralKeepOldPerformanceProfilerCsvs { get; internal set; }
 
         #endregion
 
@@ -361,6 +361,8 @@
 
         private static int DEFAULT_MAX_SIMULTANEOUS_AUDIO_FILES = 16;
 
+        private static bool DEFAULT_KEEP_OLD_PERFORMANCE_PROFILER_CSVS = false;
+
         #endregion
 
         #region GlobalSettings methods
@@ -384,9 +386,29 @@
             NCINIFileSection networkSection = iniFile.GetSection("Network");
             NCINIFileSection debugSection = iniFile.GetSection("Debug");
 
-            if (generalSection == null) NCLogging.LogError("Engine.ini must have a General section!", 41, NCLoggingSeverity.FatalError);
-            if (locSection == null) NCLogging.LogError("Engine.ini must have a Localisation section!", 29, NCLoggingSeverity.FatalError);
-            if (sceneSection == null) NCLogging.LogError("Engine.ini must have a Scene section!", 121, NCLoggingSeverity.FatalError);
+            if (generalSection == null)
+            {
+                NCLogging.LogError("Engine.ini must have a General section!", 41, NCLoggingSeverity.FatalError);
+                return;
+            }
+
+            if (locSection == null)
+            {
+                NCLogging.LogError("Engine.ini must have a Localisation section!", 29, NCLoggingSeverity.FatalError);
+                return;
+            }
+
+            if (sceneSection == null)
+            {
+                NCLogging.LogError("Engine.ini must have a Scene section!", 121, NCLoggingSeverity.FatalError);
+                return; 
+            }
+
+            if (graphicsSection == null)
+            {
+                NCLogging.LogError("Engine.ini must have a Graphics section!", 310, NCLoggingSeverity.FatalError);
+                return;
+            }
 
             // Load the General section.
 
@@ -400,12 +422,14 @@
             if (!bool.TryParse(generalSection.GetValue("EngineAboutScreenOnShiftF9"), out var generalAboutScreenOnF9Value)) generalAboutScreenOnF9Value = DEFAULT_SHOW_ABOUT_SCREEN_ON_SHIFT_F9; // force the default value, true for now
             _ = bool.TryParse(generalSection.GetValue("DeleteUnpackedFilesOnExit"), out var generalDeleteUnpackedFilesOnExitValue);
             _ = bool.TryParse(generalSection.GetValue("DontSaveLocalSettingsOnShutdown"), out var generalDontSaveLocalSettingsOnShutdownValue);
+            _ = bool.TryParse(graphicsSection.GetValue("KeepOldPerformanceProfilerCsvs"), out var generalKeepOldPerformanceProfilerCsvsValue);
 
             GeneralShowDebugInfo = generalShowDebugInfoValue;
             GeneralProfilePerformance = generalProfilePerfValue;
             GeneralEngineAboutScreenOnShiftF9 = generalAboutScreenOnF9Value;
             GeneralDeleteUnpackedFilesOnExit = generalDeleteUnpackedFilesOnExitValue;
             GeneralDontSaveLocalSettingsOnShutdown = generalDontSaveLocalSettingsOnShutdownValue;
+            GeneralKeepOldPerformanceProfilerCsvs = generalKeepOldPerformanceProfilerCsvsValue;
 
             // Load the Localisation section.
             string language = locSection.GetValue("Language");

@@ -65,6 +65,11 @@
         public static double Current01thPercentile { get; private set; }
 
         /// <summary>
+        /// Default filename prefix for performance profiling.
+        /// </summary>
+        private const string FILENAME_PREFIX = "Lightning-Perf";
+
+        /// <summary>
         /// Constructor for the performance profiler.
         /// </summary>
         static PerformanceProfiler()
@@ -79,7 +84,17 @@
         internal static void Start()
         {
             DateTime now = DateTime.Now;
-            FileName = $"Lightning-Perf-{now:yyyyMMdd_HHmmss}.csv";
+            FileName = $"{FILENAME_PREFIX}-{now:yyyyMMdd_HHmmss}.csv";
+
+            // delete all csv files in the current directory if the relevant globalsetting is set
+            if (!GlobalSettings.GeneralKeepOldPerformanceProfilerCsvs)
+            {
+                foreach (string fileName in Directory.GetFiles(Directory.GetCurrentDirectory()))
+                {
+                    if (fileName.Contains(FILENAME_PREFIX)
+                        && fileName.Contains(".csv")) File.Delete(fileName);
+                }
+            }
 
             try
             {

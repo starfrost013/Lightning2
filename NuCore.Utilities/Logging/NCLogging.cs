@@ -54,8 +54,7 @@ namespace NuCore.Utilities
             {
                 if (Settings.LogFileName == null)
                 {
-                    NCLogging.LogError("Passed null file name to NCLogging::Init!", 6,
-                    NCLoggingSeverity.FatalError);
+                    NCLogging.LogError("Passed null file name to NCLogging::Init!", 6, NCLoggingSeverity.FatalError);
                     return;
                 }
 
