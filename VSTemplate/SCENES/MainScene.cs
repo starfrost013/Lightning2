@@ -20,7 +20,7 @@ namespace basic
 
         }
 
-        public override void SwitchTo(Scene oldScene)
+        public override void SwitchTo(Scene? oldScene)
         {
             Lightning.Renderer.AddRenderable(new TextBlock("TextBlock1", "Hello World!", "DebugFont", new Vector2(300, 300), Color.Red));
         }

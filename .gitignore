@@ -361,3 +361,20 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# MS Office lock files
+~$*.doc*
+~$*.dot*
+~$*.xla*
+~$*.xlm*
+~$*.xls*
+~$*.xlt*
+~$*.xlw*
+~$*.xps*
+~$*.csv*
+~$*.pot*
+~$*.ppa*
+~$*.pps*
+~$*.ppt*
+~$*.mdb*
+~$*.accdb*

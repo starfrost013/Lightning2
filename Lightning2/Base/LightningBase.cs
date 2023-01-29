@@ -254,7 +254,6 @@ namespace LightningGL
                 EventManager.FireOnSwitchToScene(null, newScene);
             }
 
-
             CurrentScene = newScene;
         }
 

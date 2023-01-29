@@ -55,7 +55,7 @@ namespace LightningGL
 
             Lightning.Renderer.AddRenderable(TextureAtlas1);
 
-            AnimatedTexture animatedTexture1 = new AnimatedTexture("AnimatedTexture1", 256, 256, new(0, 3, 1000));
+            AnimatedTexture animatedTexture1 = new("AnimatedTexture1", 256, 256, new(0, 3, 1000));
             animatedTexture1.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF0.png");
             animatedTexture1.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF1.png");
             animatedTexture1.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF2.png");
