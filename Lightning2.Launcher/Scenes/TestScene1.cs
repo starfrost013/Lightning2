@@ -331,7 +331,7 @@ namespace LightningGL
 
         }
 
-        public override void SwitchTo(Scene oldScene)
+        public override void SwitchTo(Scene? oldScene)
         {
 
         }

@@ -8,7 +8,7 @@ namespace LightningGL
     /// </summary>
     public delegate void SceneEvent
     (
-        Scene oldScene,
+        Scene? oldScene,
         Scene newScene
     );
 }

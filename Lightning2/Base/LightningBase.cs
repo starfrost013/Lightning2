@@ -240,15 +240,21 @@ namespace LightningGL
         /// <param name="newScene">The new <see cref="Scene"/> to set to be the current scene.</param>
         public virtual void SetCurrentScene(Scene newScene)
         {
-            Debug.Assert(CurrentScene != null); 
+            NCLogging.Log($"Switching to scene {newScene.Name}...");
 
-            NCLogging.Log($"Setting scene to {newScene.Name}...");
+            if (CurrentScene != null)
+            {
+                CurrentScene.SwitchFrom(newScene);
+                EventManager.FireOnSwitchFromScene(CurrentScene, newScene);
+                newScene.SwitchTo(CurrentScene);
+            }
+            else // startup scene, so no scene to switch from
+            {
+                newScene.SwitchTo(null);
+                EventManager.FireOnSwitchToScene(null, newScene);
+            }
 
-            // TODO: make these actually events
-            CurrentScene.SwitchFrom(newScene);
-            EventManager.FireOnSwitchFromScene(CurrentScene, newScene);
-            newScene.SwitchTo(CurrentScene);
-            EventManager.FireOnSwitchToScene(CurrentScene, newScene);
+
             CurrentScene = newScene;
         }
 

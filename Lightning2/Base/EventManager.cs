@@ -225,7 +225,7 @@ namespace LightningGL
             }
         }
 
-        internal static void FireOnSwitchToScene(Scene oldScene, Scene newScene, Renderable? parent = null)
+        internal static void FireOnSwitchToScene(Scene? oldScene, Scene newScene, Renderable? parent = null)
         {
             // render all children 
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;

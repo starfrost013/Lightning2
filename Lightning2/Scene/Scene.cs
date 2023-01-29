@@ -50,7 +50,7 @@
         /// Run when this scene is about to be switched to.
         /// </summary>
         /// <param name="oldScene">The last scene that has been run.</param>
-        public abstract void SwitchTo(Scene oldScene);
+        public abstract void SwitchTo(Scene? oldScene);
 
         /// <summary>
         /// Run when this scene is about to be switched away from.
