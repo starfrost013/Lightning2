@@ -361,8 +361,6 @@
 
         private static int DEFAULT_MAX_SIMULTANEOUS_AUDIO_FILES = 16;
 
-        private static bool DEFAULT_KEEP_OLD_PERFORMANCE_PROFILER_CSVS = false;
-
         #endregion
 
         #region GlobalSettings methods

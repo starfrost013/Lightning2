@@ -65,12 +65,12 @@ namespace LightningGL
 
             Lightning.Renderer.AddRenderable(animatedTexture1);
 
-            LightManager.SetEnvironmentalLight(Color.FromArgb(0, 0, 0, 0));
+            LightManager.SetEnvironmentalLight(Color.FromArgb(255, 0, 0, 0));
 
             // todo: particleeffectsettings?
 
             Texture testEffectTexture = new("testEffectTexture", 16, 16, false, @"Content\Sparkles.png");
-            Texture missingTextureTest = new("DONOTCREATETHISTEXTURE", 128, 128, false, "asdjasdjasjdhasjhsahjasdhjashjasdhsa");
+            Texture missingTextureTest = new("DONOTCREATETHISTEXTUREFILE", 128, 128, false, "asdjasdjasjdhasjhsahjasdhjashjasdhsa");
 
             testEffectTexture.Path = @"Content\Sparkles.png";
 
@@ -142,16 +142,25 @@ namespace LightningGL
             });
 
             Lightning.Renderer.AddRenderable(new Light("Light9")
+            {
+                Position = new(175, 0),
+                Range = 4,
+                LightColor = Color.FromArgb(255, 0, 0, 255),
+                Brightness = 255
+            });
+
+            Lightning.Renderer.AddRenderable(new Light("Light9")
             { 
-                Position = new(0, 0), 
-                Range = 4, 
+                Position = new(150, 100), 
+                Range = 4,
+                LightColor = Color.FromArgb(255, 255, 0, 0),
                 Brightness = 255 
             });
 
             Lightning.Renderer.AddRenderable(new Light("Light10")
             {
-                Position = new(200, 0),
-                LightColor = Color.FromArgb(255, 255, 217, 0),
+                Position = new(200, 100),
+                LightColor = Color.FromArgb(255, 0, 0, 255),
                 Range = 4,
                 Brightness = 200,
             });

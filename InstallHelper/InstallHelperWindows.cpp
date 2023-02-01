@@ -20,7 +20,7 @@ _declspec(dllexport) bool IsNet7Installed()
 
 	if (!SHGetSpecialFolderPath(NULL, pszPath, CSIDL_PROGRAM_FILES, FALSE))
 	{
-		MessageBox(NULL, L"InstallHelper Fatal Error [THIS IS A BUG] - Cannot find program files??? The installation is now going to fail sorry", 
+		MessageBox(NULL, L"InstallHelper Fatal Error [THIS IS A BUG] - SHGetSpecialFolderPath for Program Files failed. The installation is now going to fail sorry", 
 			L"Sorry", MB_ICONWARNING | MB_OK);
 		return FALSE;
 	}
@@ -32,7 +32,7 @@ _declspec(dllexport) bool IsNet7Installed()
 	WIN32_FIND_DATA findFileData;
 	HANDLE fileHandle;
 
-	memset(pszNetSdkVersion, 0x00, sizeof(WCHAR) * MAX_PATH);
+	memset(&pszNetSdkVersion, 0x00, sizeof(WCHAR) * MAX_PATH);
 	memset(&findFileData, 0x00, sizeof(WIN32_FIND_DATA));
 
 	fileHandle = FindFirstFileW(pszNetSdkVersion, &findFileData);

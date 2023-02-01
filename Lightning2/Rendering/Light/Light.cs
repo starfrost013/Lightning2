@@ -67,6 +67,8 @@
             // Code nicked and modified from
             // https://stackoverflow.com/questions/10878209/midpoint-circle-algorithm-for-filled-circles
 
+            Debug.Assert(LightManager.ScreenSpaceMap != null);
+
             // lights always act as if snaptoscreen is false
             int x = (int)Position.X;
             int y = (int)Position.Y;
@@ -74,15 +76,15 @@
             float maxSizeX = Lightning.Renderer.Settings.Size.X;
             float maxSizeY = Lightning.Renderer.Settings.Size.Y;
 
-            Color transparentBaseColor;
+            Color finalColor;
 
             if (LightColor == default)
             {
-                transparentBaseColor = Color.FromArgb(0, LightManager.EnvironmentalLight.R, LightManager.EnvironmentalLight.G, LightManager.EnvironmentalLight.B);
+                finalColor = Color.FromArgb(0, LightManager.EnvironmentalLight.R, LightManager.EnvironmentalLight.G, LightManager.EnvironmentalLight.B);
             }
             else
             {
-                transparentBaseColor = Color.FromArgb(0, LightColor.R, LightColor.G, LightColor.B);
+                finalColor = Color.FromArgb(0, LightColor.R, LightColor.G, LightColor.B);
             }
 
             // calculate magnitude of vector so that the alpha can be calculated
@@ -103,49 +105,49 @@
 
                         double newDistance = Vector2.Distance(initialPos, final);
 
-                        double opaqueness = 0;
+                        double opacity = 0;
 
                         if (LightColor == default)
                         {
                             // calculate alpha for white lights
-                            if (newDistance > 0) opaqueness = (double)(newDistance * (10 / Range));
+                            if (newDistance > 0) opacity = (double)(newDistance * (10 / Range));
 
-                            if (opaqueness > LightManager.EnvironmentalLight.A) opaqueness = LightManager.EnvironmentalLight.A;
+                            if (opacity > LightManager.EnvironmentalLight.A) opacity = LightManager.EnvironmentalLight.A;
 
-                            if (opaqueness < (255 - Brightness)) opaqueness = (255 - Brightness);
+                            if (opacity < (255 - Brightness)) opacity = (255 - Brightness);
                         }
                         else
                         {
                             if (newDistance > 0)
                             {
-                                opaqueness = (newDistance * (10d / Range));
+                                opacity = (newDistance * (10d / Range));
 
                                 // set per-pixel opaqueness
                                 // this "inverts" the normal algorithm for masking out of a screenspace lightmap
-                                if (opaqueness < 255) opaqueness = 255 - opaqueness;
+                                if (opacity < 255) opacity = 255 - opacity;
                             }
                         }
 
                         // optimisation: don't bother setting pixels we don't need to set
-                        if (opaqueness < LightManager.EnvironmentalLight.A)
+                        if (opacity < LightManager.EnvironmentalLight.A)
                         {
                             // math.clamp has aggressive inlining and is therefore a bit faster
-                            opaqueness = Math.Clamp(opaqueness, 0, LightManager.EnvironmentalLight.A);
+                            opacity = Math.Clamp(opacity, 0, LightManager.EnvironmentalLight.A);
 
                             if (LightColor == default)
                             {
-                                transparentBaseColor = Color.FromArgb((byte)opaqueness, 
-                                    transparentBaseColor.R, 
-                                    transparentBaseColor.G, 
-                                    transparentBaseColor.B);
+                                finalColor = Color.FromArgb((byte)opacity, 
+                                    finalColor.R, 
+                                    finalColor.G, 
+                                    finalColor.B);
                             }
                             else
                             {
                                 // always use 255
-                                double finalA = 255 * ((double)(255 - opaqueness) / 255);
-                                double finalR = LightColor.R * ((double)opaqueness / 255);
-                                double finalG = LightColor.G * ((double)opaqueness / 255);
-                                double finalB = LightColor.B * ((double)opaqueness / 255);
+                                double finalA = 255 * ((double)(255 - opacity) / 255);
+                                double finalR = LightColor.R * ((double)opacity / 255);
+                                double finalG = LightColor.G * ((double)opacity / 255);
+                                double finalB = LightColor.B * ((double)opacity / 255);
 
                                 // adjust for brightness
                                 // increase alpha/opaqueness and multiply RGB
@@ -155,13 +157,44 @@
                                 finalB *= ((double)Brightness / 255);
                                 if (finalA > 255) finalA = 255;
 
-                                transparentBaseColor = Color.FromArgb((byte)finalA,
+                                finalColor = Color.FromArgb((byte)finalA,
                                     (byte)finalR,
                                     (byte)finalG,
                                     (byte)finalB);
                             }
 
-                            LightManager.ScreenSpaceMap.SetPixel(curX, curY, transparentBaseColor);
+                            // now we calculated the final colour.
+                            // we simply add it on if there is already a pixel there
+
+                            Color pixelColour = LightManager.ScreenSpaceMap.GetPixel(curX, curY);
+
+                            // pixel colour is not opaque and we have colored lighting
+                            if (LightColor != default
+                                && pixelColour != LightManager.EnvironmentalLight) 
+                            {
+                                int additiveFinalA = pixelColour.A + finalColor.A;
+                                int additiveFinalR = pixelColour.R + finalColor.R;
+                                int additiveFinalG = pixelColour.G + finalColor.G;
+                                int additiveFinalB = pixelColour.B + finalColor.B;
+
+                                // cap at 255
+                                if (additiveFinalA > 255) additiveFinalA = 255;
+                                if (additiveFinalR > 255) additiveFinalR = 255;
+                                if (additiveFinalG > 255) additiveFinalG = 255;
+                                if (additiveFinalB > 255) additiveFinalB = 255;
+
+                                finalColor = Color.FromArgb(additiveFinalA,
+                                    (byte)additiveFinalR,
+                                    (byte)additiveFinalG, 
+                                    (byte)additiveFinalB);
+
+                                LightManager.ScreenSpaceMap.SetPixel(curX, curY, finalColor);
+                            }
+                            else
+                            {
+                                LightManager.ScreenSpaceMap.SetPixel(curX, curY, finalColor);
+                            }
+                            
                         }
                     }
                 }
@@ -174,6 +207,8 @@
 
         internal void RemoveFromTexture()
         {
+            Debug.Assert(LightManager.ScreenSpaceMap != null);
+
             // Code nicked and modified from
             // https://stackoverflow.com/questions/10878209/midpoint-circle-algorithm-for-filled-circles
 

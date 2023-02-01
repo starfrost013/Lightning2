@@ -268,7 +268,7 @@ Everything that matters to the api has to go here
 * Added console command handling code
 * NCError::ShowErrorBox -> NCLogging::LogError
 * NCErrorSeverity -> NCLoggingSeverity
-* IsNotRendering set for all sub-UI elements of gadges
+* IsNotRendering set for all sub-UI elements of gadgets
 * Swap text/font in TextBlock constructor
 * horrendous hack to fix textureatlas
 
@@ -281,6 +281,7 @@ Everything that matters to the api has to go here
 
 2023.01.26:
 * Add set scene command code
+* Allow changing the number of maximum simultaneous audio files
 
 2023.01.27:
 * Fix snaptoscreen for UI elements
@@ -294,6 +295,16 @@ Everything that matters to the api has to go here
 2023.01.28:
 * Begin porting example project to 2.0
 
+2023.01.29:
+* Installer work: Begin detecting .NET 7 with InstallHelper
+* 2.0 Example project
+* 2.0 Scene template
+* Automatically delete old CSV files unless globalsettings said so
+* Add new globalsettings:
+	+ KeepOldPerformanceProfilerCsvs
+* Globalsettings Graphics section now required
+* Begin light blending work
+
 * todo:
 	- setting load order
 	- DEATH to DUPLICATE CODE
@@ -304,10 +315,8 @@ Everything that matters to the api has to go here
 	- remaining freetype features
 	- FIX BUSTED AND SHIT HORRIBLE VERY BAD UI SYSTEM!!!!!!
 	- unit testing
-	- make scene events events
 	- get rid of TERRIBLE HACK in LightningGL.Test!!!!
 	- NativeAOT Publish
-	- VS Item Template for Scenes
 	- Moveable Cursor?
 	- can we get rid of renderposition?
 	- console

@@ -3,8 +3,6 @@
     /// <summary>
     /// LightManager
     /// 
-    /// April 8, 2022 (modified September 4, 2022)
-    /// 
     /// Static class that manages lights and generates a screen-space lightmap.
     /// </summary>
     public class LightAssetManager : AssetManager<Light>
@@ -24,11 +22,14 @@
         /// </summary>
         internal bool Initialised { get; private set; }
 
+        /// <summary>
+        /// Do we need to reblend lights?
+        /// </summary>
+        private bool BlendingOutdated { get; set; }
 
         /// <summary>
         /// Initialises the Light Manager.
         /// </summary>
-        /// <param name="Lightning.Renderer"></param>
         internal void Init()
         {
             if (Initialised) return; // don't initialise twice
@@ -72,13 +73,13 @@
 
             if (ScreenSpaceMap.Handle == nint.Zero) NCLogging.LogError("The Light Manager must be initialised before using it!", 
                 125, NCLoggingSeverity.FatalError);
-            SDL_SetTextureBlendMode(ScreenSpaceMap.Handle, blendMode);
+
+            Lightning.Renderer.SetTextureBlendMode(ScreenSpaceMap.Handle, blendMode);
         }
 
         /// <summary>
         /// Internal: Renders the current screen-space lightmap.
         /// </summary>
-        /// <param name="Lightning.Renderer">The window to render the current screen-space light map to.</param>
         internal override void Update()
         {
             Debug.Assert(ScreenSpaceMap != null);
@@ -86,6 +87,12 @@
             if (ScreenSpaceMap.Handle == nint.Zero) NCLogging.LogError("The Light Manager must be initialised before using it!",
                 62, NCLoggingSeverity.FatalError);
             ScreenSpaceMap.Draw();
+        }
+
+        private void UpdateBlending()
+        {
+            NCLogging.Log("Light blending out of date, rebuilding...");
+            BlendingOutdated = false; 
         }
 
         /// <summary>

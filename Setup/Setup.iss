@@ -10,6 +10,7 @@
 ; Updated December 3, 2022 for .NET 7.0
 ; Updated December 17, 2022 for Lightning 2.0 file locations
 ; Updated January 2, 2023 for no more SDL_ttf/gfx
+; Updated January 29, 2023 for installing prereqs
 
 #define MyAppName "Lightning Software Development Kit"                                                     
 #define MyAppVersion "2.0.0-alpha"
@@ -97,4 +98,10 @@ Name: "{group}\Lightning Animation Editor"; Filename: "{app}\AnimTool.exe";
 
 ;Name: "{group}\Get Started"; Filename:"explorer {app}\Examples";
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
+
+[Code]
+{why would you choose pascal as a scripting language}
+function IsNet7Installed() : Boolean;
+external 'IsNet7Installed@files:InstallHelper.dll';
+end
 
