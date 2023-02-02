@@ -23,16 +23,11 @@
         internal bool Initialised { get; private set; }
 
         /// <summary>
-        /// Do we need to reblend lights?
-        /// </summary>
-        private bool BlendingOutdated { get; set; }
-
-        /// <summary>
         /// Initialises the Light Manager.
         /// </summary>
         internal void Init()
         {
-            if (Initialised) return; // don't initialise twice
+            if (Initialised) return; // don't initialise if we already initalised
 
             // move this if it is slower
             ScreenSpaceMap = new("ScreenSpaceMap", Lightning.Renderer.Settings.Size.X, Lightning.Renderer.Settings.Size.Y)
@@ -86,13 +81,8 @@
 
             if (ScreenSpaceMap.Handle == nint.Zero) NCLogging.LogError("The Light Manager must be initialised before using it!",
                 62, NCLoggingSeverity.FatalError);
-            ScreenSpaceMap.Draw();
-        }
 
-        private void UpdateBlending()
-        {
-            NCLogging.Log("Light blending out of date, rebuilding...");
-            BlendingOutdated = false; 
+            ScreenSpaceMap.Draw();
         }
 
         /// <summary>

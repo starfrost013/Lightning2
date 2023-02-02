@@ -12,7 +12,7 @@
         /// <summary>
         /// The Brightness of this light.
         /// </summary>
-        public uint Brightness { get; set; }
+        public int Brightness { get; set; }
 
         /// <summary>
         /// The Range of this light.
@@ -76,15 +76,19 @@
             float maxSizeX = Lightning.Renderer.Settings.Size.X;
             float maxSizeY = Lightning.Renderer.Settings.Size.Y;
 
-            Color finalColor;
+            Color finalColour;
 
             if (LightColor == default)
             {
-                finalColor = Color.FromArgb(0, LightManager.EnvironmentalLight.R, LightManager.EnvironmentalLight.G, LightManager.EnvironmentalLight.B);
+                finalColour = Color.FromArgb(0, LightManager.EnvironmentalLight.R, LightManager.EnvironmentalLight.G, LightManager.EnvironmentalLight.B);
             }
             else
             {
-                finalColor = Color.FromArgb(0, LightColor.R, LightColor.G, LightColor.B);
+                finalColour = Color.FromArgb(0, LightColor.R, LightColor.G, LightColor.B);
+                // this code is horrendous and is going to be removed
+                // hack
+                if (Brightness > 128) Brightness = 128;
+                // end hack
             }
 
             // calculate magnitude of vector so that the alpha can be calculated
@@ -107,18 +111,19 @@
 
                         double opacity = 0;
 
-                        if (LightColor == default)
+                        // if there is a positive distance to actually draw
+                        if (newDistance > 0)
                         {
-                            // calculate alpha for white lights
-                            if (newDistance > 0) opacity = (double)(newDistance * (10 / Range));
+                            if (LightColor == default)
+                            {
+                                // calculate alpha for white lights
+                                opacity = (double)(newDistance * (10 / Range));
 
-                            if (opacity > LightManager.EnvironmentalLight.A) opacity = LightManager.EnvironmentalLight.A;
+                                if (opacity > LightManager.EnvironmentalLight.A) opacity = LightManager.EnvironmentalLight.A;
 
-                            if (opacity < (255 - Brightness)) opacity = (255 - Brightness);
-                        }
-                        else
-                        {
-                            if (newDistance > 0)
+                                if (opacity < (255 - Brightness)) opacity = (255 - Brightness);
+                            }
+                            else
                             {
                                 opacity = (newDistance * (10d / Range));
 
@@ -136,65 +141,51 @@
 
                             if (LightColor == default)
                             {
-                                finalColor = Color.FromArgb((byte)opacity, 
-                                    finalColor.R, 
-                                    finalColor.G, 
-                                    finalColor.B);
+                                finalColour = Color.FromArgb((byte)opacity,
+                                    finalColour.R,
+                                    finalColour.G,
+                                    finalColour.B);
                             }
                             else
                             {
                                 // always use 255
-                                double finalA = 255 * ((double)(255 - opacity) / 255);
-                                double finalR = LightColor.R * ((double)opacity / 255);
-                                double finalG = LightColor.G * ((double)opacity / 255);
-                                double finalB = LightColor.B * ((double)opacity / 255);
+                                double finalA = byte.MaxValue * ((double)(byte.MaxValue - opacity) / byte.MaxValue) + (byte.MaxValue - Brightness);
+                                double finalR = LightColor.R * ((double)opacity / byte.MaxValue);
+                                double finalG = LightColor.G * ((double)opacity / byte.MaxValue);
+                                double finalB = LightColor.B * ((double)opacity / byte.MaxValue);
+                                if (finalA > byte.MaxValue) finalA = byte.MaxValue;
 
-                                // adjust for brightness
-                                // increase alpha/opaqueness and multiply RGB
-                                finalA += (255 - Brightness);
-                                finalR *= ((double)Brightness / 255);
-                                finalG *= ((double)Brightness / 255);
-                                finalB *= ((double)Brightness / 255);
-                                if (finalA > 255) finalA = 255;
-
-                                finalColor = Color.FromArgb((byte)finalA,
+                                finalColour = Color.FromArgb((byte)finalA,
                                     (byte)finalR,
                                     (byte)finalG,
                                     (byte)finalB);
                             }
 
                             // now we calculated the final colour.
-                            // we simply add it on if there is already a pixel there
-
                             Color pixelColour = LightManager.ScreenSpaceMap.GetPixel(curX, curY);
 
                             // pixel colour is not opaque and we have colored lighting
-                            if (LightColor != default
-                                && pixelColour != LightManager.EnvironmentalLight) 
+                            // do some basic additive blending
+                            if (pixelColour != LightManager.EnvironmentalLight)
                             {
-                                int additiveFinalA = pixelColour.A + finalColor.A;
-                                int additiveFinalR = pixelColour.R + finalColor.R;
-                                int additiveFinalG = pixelColour.G + finalColor.G;
-                                int additiveFinalB = pixelColour.B + finalColor.B;
+                                int additiveFinalA = pixelColour.A + finalColour.A;
+                                int additiveFinalR = pixelColour.R + finalColour.R;
+                                int additiveFinalG = pixelColour.G + finalColour.G;
+                                int additiveFinalB = pixelColour.B + finalColour.B;
 
                                 // cap at 255
-                                if (additiveFinalA > 255) additiveFinalA = 255;
-                                if (additiveFinalR > 255) additiveFinalR = 255;
-                                if (additiveFinalG > 255) additiveFinalG = 255;
-                                if (additiveFinalB > 255) additiveFinalB = 255;
+                                if (additiveFinalA > byte.MaxValue) additiveFinalA = byte.MaxValue;
+                                if (additiveFinalR > byte.MaxValue) additiveFinalR = byte.MaxValue;
+                                if (additiveFinalG > byte.MaxValue) additiveFinalG = byte.MaxValue;
+                                if (additiveFinalB > byte.MaxValue) additiveFinalB = byte.MaxValue;
 
-                                finalColor = Color.FromArgb(additiveFinalA,
+                                finalColour = Color.FromArgb(additiveFinalA,
                                     (byte)additiveFinalR,
-                                    (byte)additiveFinalG, 
+                                    (byte)additiveFinalG,
                                     (byte)additiveFinalB);
+                            }
 
-                                LightManager.ScreenSpaceMap.SetPixel(curX, curY, finalColor);
-                            }
-                            else
-                            {
-                                LightManager.ScreenSpaceMap.SetPixel(curX, curY, finalColor);
-                            }
-                            
+                            LightManager.ScreenSpaceMap.SetPixel(curX, curY, finalColour);
                         }
                     }
                 }

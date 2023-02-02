@@ -65,7 +65,7 @@ namespace LightningGL
 
             Lightning.Renderer.AddRenderable(animatedTexture1);
 
-            LightManager.SetEnvironmentalLight(Color.FromArgb(255, 0, 0, 0));
+            LightManager.SetEnvironmentalLight(Color.FromArgb(0, 0, 0, 0));
 
             // todo: particleeffectsettings?
 
@@ -87,6 +87,7 @@ namespace LightningGL
 
             Lightning.Renderer.AddRenderable(testEffect);
 
+            /*
             Lightning.Renderer.AddRenderable(new Light("Light1")
             {
                 Position = new(50, 375),
@@ -126,43 +127,36 @@ namespace LightningGL
                 Range = 4, 
                 Brightness = 255 
             });
-
+            */
             Lightning.Renderer.AddRenderable(new Light("Light7")
             { 
                 Position = new(850, 475), 
                 Range = 4, 
-                Brightness = 255 
-            });
-
-            Lightning.Renderer.AddRenderable(new Light("Light8")
-            { 
-                Position = new(850, 675),
-                Range = 4, 
-                Brightness = 255 
+                Brightness = 127
             });
 
             Lightning.Renderer.AddRenderable(new Light("Light9")
             {
-                Position = new(175, 0),
+                Position = new(300, 300),
                 Range = 4,
-                LightColor = Color.FromArgb(255, 0, 0, 255),
-                Brightness = 255
+                LightColor = Color.FromArgb(255, 255, 0, 0),
+                Brightness = 127
             });
 
             Lightning.Renderer.AddRenderable(new Light("Light9")
             { 
-                Position = new(150, 100), 
+                Position = new(350, 300), 
                 Range = 4,
-                LightColor = Color.FromArgb(255, 255, 0, 0),
-                Brightness = 255 
+                LightColor = Color.FromArgb(255, 0, 255, 0),
+                Brightness = 127
             });
 
             Lightning.Renderer.AddRenderable(new Light("Light10")
             {
-                Position = new(200, 100),
+                Position = new(325, 350),
                 LightColor = Color.FromArgb(255, 0, 0, 255),
                 Range = 4,
-                Brightness = 200,
+                Brightness = 255,
             });
 
             Lightning.Renderer.AddRenderable(new Audio("xm_boot", @"Content\xm_boot.mp3"));
