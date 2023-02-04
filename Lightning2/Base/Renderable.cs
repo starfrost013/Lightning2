@@ -367,7 +367,7 @@
                 return null;
             }
 
-            return Children[Children.Count - 1];
+            return Children[^1];
         }
     }
 }

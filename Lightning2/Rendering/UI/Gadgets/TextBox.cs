@@ -155,7 +155,7 @@
         /// Keypress handler for TextBoxes.
         /// </summary>
         /// <param name="key">The key that has been pressed.</param>
-        public void KeyPressed(Keyboard key)
+        public void KeyPressed(Key key)
         {
             // reject if text is not set or text is longer than capacity
             if (Text == null

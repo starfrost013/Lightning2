@@ -19,7 +19,7 @@ namespace LightningGL
                 || (KnownControllerProductIds)ProductID == KnownControllerProductIds.DualShock4WirelessAdaptor) // wireless
                 )
             {
-                NCLogging.Log("Detected DualShock 4");
+                NCLogging.Log("Detected DualShock 4!", "Device Detection");
                 return true;
             }
 

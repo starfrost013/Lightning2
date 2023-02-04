@@ -72,7 +72,7 @@ namespace LightningGL
             NCLogging.Log($"Name = {Name}");
 
             VendorID = SDL_GameControllerGetVendor(_handle);
-
+            ProductID = SDL_GameControllerGetProduct(_handle);
 
             return true;
         }

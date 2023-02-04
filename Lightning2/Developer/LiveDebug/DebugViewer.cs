@@ -235,7 +235,7 @@
             }
             else
             {
-                string debugText = $"FPS: {Lightning.Renderer.CurFPS.ToString("F1")} ({Lightning.Renderer.DeltaTime:F2}ms)\n" +
+                string debugText = $"FPS: {Lightning.Renderer.CurFPS:F1} ({Lightning.Renderer.DeltaTime:F2}ms)\n" +
                     $"0.1% High: {PerformanceProfiler.Current999thPercentile}\n" +
                     $"1% High: {PerformanceProfiler.Current99thPercentile}\n" +
                     $"5% High: {PerformanceProfiler.Current95thPercentile}\n" +
@@ -261,7 +261,7 @@
             }
         }
 
-        private void KeyPressed(Keyboard key)
+        private void KeyPressed(Key key)
         {
             Debug.Assert(DebugText != null);
 

@@ -73,9 +73,5 @@ namespace LightningGL
             NCLogging.Log("Detecting keyboard...", "Device Detection");
             return true;
         }
-
-
-
-
     }
 }

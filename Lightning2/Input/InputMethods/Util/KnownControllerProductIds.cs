@@ -12,7 +12,7 @@ namespace LightningGL
         #region Sony official controllers
 
         DualShock3 = 0x0268,
->
+
         DualShock4Gen1 = 0x05C4,
 
         DualShock4Gen2 = 0x09CC,

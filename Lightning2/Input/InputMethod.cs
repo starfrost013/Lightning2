@@ -19,10 +19,5 @@ namespace LightningGL
         {
             return false;
         }
-
-        protected virtual bool IsBindingValid()
-        {
-
-        }
     }
 }

@@ -3,10 +3,10 @@ namespace LightningGL
 {
     internal class Mouse : InputMethod
     {
-        protected override bool IsBindingValid()
+        internal override bool DetectPresence()
         {
-            // SDX 
-            return true;
+            // SDL has no mouse detection code, no point writing it.
+            return true; 
         }
     }
 }

@@ -71,6 +71,8 @@ namespace LightningGL
 
         RumbleTriggers = 0x20000000,
 
-        Sensor = 0x40000000,
+        Accelerometer = 0x40000000,
+    
+        Gyroscope = 0x80000000,
     }
 }
