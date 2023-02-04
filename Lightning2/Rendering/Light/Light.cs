@@ -85,10 +85,6 @@
             else
             {
                 finalColour = Color.FromArgb(0, LightColor.R, LightColor.G, LightColor.B);
-                // this code is horrendous and is going to be removed
-                // hack
-                if (Brightness > 128) Brightness = 128;
-                // end hack
             }
 
             // calculate magnitude of vector so that the alpha can be calculated

@@ -353,7 +353,7 @@ namespace LightningGL
                 switch (curEvent.type)
                 {
                     case SDL.SDL_EventType.SDL_KEYDOWN: // Key is held down.
-                        Key key = (Key)curEvent.key;
+                        Keyboard key = (Keyboard)curEvent.key;
 
                         string keyString = key.ToString();
 

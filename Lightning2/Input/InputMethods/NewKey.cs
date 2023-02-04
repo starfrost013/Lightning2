@@ -1,7 +1,13 @@
-﻿namespace LightningGL
+﻿
+
+namespace LightningGL
 {
-    public class Key
+    /// <summary>
+    /// Input method for the keyboard.
+    /// </summary>
+    internal class NewKey : InputMethod
     {
+
         /// <summary>
         /// The <see cref="SDL_Keysym"/> of the keyboard that has been pressed.
         /// </summary>
@@ -22,9 +28,9 @@
         /// </summary>
         /// <param name="nKeySym">The <see cref="SDL_KeyboardEvent"/> to convert to <see cref="NewKey"/></param>
 
-        public static explicit operator Key(SDL_KeyboardEvent nKeySym)
+        public static explicit operator NewKey(SDL_KeyboardEvent nKeySym)
         {
-            return new Key
+            return new NewKey
             {
                 KeySym = nKeySym.keysym,
                 Modifiers = SDL_GetModState(),
@@ -42,24 +48,34 @@
         /// Determines if either SHIFT key is pressed. Do not use <see cref="SDL_Keymod.KMOD_SHIFT"/> for this as it checks BOTH shift keys!
         /// </summary>
         /// <returns></returns>
-        public bool EitherShiftPressed() => (Modifiers.HasFlag(SDL_Keymod.KMOD_LSHIFT) || Modifiers.HasFlag(SDL_Keymod.KMOD_RSHIFT));
+        public bool EitherShiftPressed() =>Modifiers.HasFlag(SDL_Keymod.KMOD_LSHIFT) || Modifiers.HasFlag(SDL_Keymod.KMOD_RSHIFT);
 
         /// <summary>
         /// Determines if either ALT key is pressed. Do not use <see cref="SDL_Keymod.KMOD_ALT"/> for this as it checks BOTH ALT keys!
         /// </summary>
         /// <returns></returns>
-        public bool EitherAltPressed() => (Modifiers.HasFlag(SDL_Keymod.KMOD_LALT) || Modifiers.HasFlag(SDL_Keymod.KMOD_RALT));
+        public bool EitherAltPressed() => Modifiers.HasFlag(SDL_Keymod.KMOD_LALT) || Modifiers.HasFlag(SDL_Keymod.KMOD_RALT);
 
         /// <summary>
         /// Determines if either CTRL key is pressed. Do not use <see cref="SDL_Keymod.KMOD_CTRL"/> for this as it checks BOTH CTRL keys!
         /// </summary>
         /// <returns></returns>
-        public bool EitherCtrlPressed() => (Modifiers.HasFlag(SDL_Keymod.KMOD_LCTRL) || Modifiers.HasFlag(SDL_Keymod.KMOD_RCTRL));
+        public bool EitherCtrlPressed() => Modifiers.HasFlag(SDL_Keymod.KMOD_LCTRL) || Modifiers.HasFlag(SDL_Keymod.KMOD_RCTRL);
 
         /// <summary>
         /// Determines if either GUI/Apple/Windows key is pressed. Do not use <see cref="SDL_Keymod.KMOD_GUI"/> for this as it checks BOTH GUI keys!
         /// </summary>
         /// <returns></returns>
-        public bool EitherGuiPressed() => (Modifiers.HasFlag(SDL_Keymod.KMOD_LGUI) || Modifiers.HasFlag(SDL_Keymod.KMOD_RGUI));
+        public bool EitherGuiPressed() => Modifiers.HasFlag(SDL_Keymod.KMOD_LGUI) || Modifiers.HasFlag(SDL_Keymod.KMOD_RGUI);
+
+        internal override bool DetectPresence()
+        {
+            NCLogging.Log("Detecting keyboard...", "Device Detection");
+            return true;
+        }
+
+
+
+
     }
 }

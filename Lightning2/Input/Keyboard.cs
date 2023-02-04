@@ -5,7 +5,7 @@
     /// 
     /// September 25, 2022
     /// 
-    /// Static class providing APIs for the current keyboard state. See <see cref="Key"/> for information on the key press event api.
+    /// Static class providing APIs for the current keyboard state. See <see cref="NewKey"/> for information on the key press event api.
     /// </summary>
     public static class Keyboard
     {

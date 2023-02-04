@@ -261,7 +261,7 @@
             }
         }
 
-        private void KeyPressed(Key key)
+        private void KeyPressed(Keyboard key)
         {
             Debug.Assert(DebugText != null);
 

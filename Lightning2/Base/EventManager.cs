@@ -174,7 +174,7 @@ namespace LightningGL
 
 
 
-        internal static void FireKeyPressed(Key key, Renderable? parent = null)
+        internal static void FireKeyPressed(Keyboard key, Renderable? parent = null)
         {
             // render all children 
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
@@ -191,7 +191,7 @@ namespace LightningGL
             }
         }
 
-        internal static void FireKeyReleased(Key key, Renderable? parent = null)
+        internal static void FireKeyReleased(Keyboard key, Renderable? parent = null)
         {
             // render all children 
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;

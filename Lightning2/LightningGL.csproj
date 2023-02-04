@@ -143,6 +143,7 @@
 
   <ItemGroup>
     <Folder Include="Content\Fonts\" />
+    <Folder Include="Input\InputMethods\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 

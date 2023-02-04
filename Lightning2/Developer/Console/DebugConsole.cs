@@ -133,7 +133,7 @@
             ConsoleText.Position = DEFAULT_CONSOLE_TEXT_POSITION;
         }
 
-        public void ConsoleBoxKeyPressed(Key key)
+        public void ConsoleBoxKeyPressed(Keyboard key)
         {
             Debug.Assert(TextBox != null);
 
@@ -189,7 +189,7 @@
             if (!command.Execute()) NCLogging.Log("Command failed to execute");
         }
 
-        private void KeyPressed(Key key)
+        private void KeyPressed(Keyboard key)
         {
             string keyString = key.ToString();
 

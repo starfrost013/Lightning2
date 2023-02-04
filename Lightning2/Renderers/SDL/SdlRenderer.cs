@@ -101,10 +101,10 @@ namespace LightningGL
                 switch (currentEvent.type)
                 {
                     case SDL_EventType.SDL_KEYDOWN:
-                        EventManager.FireKeyPressed((Key)currentEvent.key);
+                        EventManager.FireKeyPressed((Keyboard)currentEvent.key);
                         break;
                     case SDL_EventType.SDL_KEYUP:
-                        EventManager.FireKeyReleased((Key)currentEvent.key);
+                        EventManager.FireKeyReleased((Keyboard)currentEvent.key);
                         break;
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN: // Mouse down event
                         EventManager.FireMousePressed((MouseButton)currentEvent.button);
