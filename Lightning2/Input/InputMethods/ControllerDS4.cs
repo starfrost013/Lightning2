@@ -10,11 +10,11 @@ namespace LightningGL
         internal override bool DetectPresence()
         {
 
-            NCLogging.Log("Detecting DualShock 4...", "Device Detection");
+            NCLogging.Log("Detecting DualShock 4...");
 
             if (!base.DetectPresence())
             {
-                NCLogging.Log("DualShock 4 not present", "Device Detection");
+                NCLogging.Log("DualShock 4 not present");
                 return false;
             }
 
@@ -24,7 +24,7 @@ namespace LightningGL
                 || (KnownControllerProductIds)ProductID == KnownControllerProductIds.DualShock4WirelessAdaptor) // wireless
                 )
             {
-                NCLogging.Log("Detected DualShock 4!", "Device Detection");
+                NCLogging.Log("Detected DualShock 4!");
                 return true;
             }
 

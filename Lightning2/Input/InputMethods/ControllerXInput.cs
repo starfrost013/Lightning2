@@ -19,17 +19,17 @@ namespace LightningGL
 
         internal override bool DetectPresence()
         {
-            NCLogging.Log("Detecting game controller...", "Device Detection");
+            NCLogging.Log("Detecting game controller...");
             _handle = SDL_GameControllerOpen(0); // hardcode first controller for now
 
             if (_handle == IntPtr.Zero)
             {
-                NCLogging.Log("Game controller not connected!", "Device Detection");
+                NCLogging.Log("Game controller not connected!");
                 return false;
             }
 
             // feature detection
-            NCLogging.Log("Detecting features...", "Device Detection");
+            NCLogging.Log("Detecting features...");
             // buttons
             if (SDL_GameControllerHasButton(_handle, SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_A) == SDL_bool.SDL_TRUE) Features |= ControllerFeatures.AButton;
             if (SDL_GameControllerHasButton(_handle, SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_B) == SDL_bool.SDL_TRUE) Features |= ControllerFeatures.BButton;
@@ -70,9 +70,11 @@ namespace LightningGL
 
             Name = SDL_GameControllerName(_handle);
             NCLogging.Log($"Name = {Name}");
+            NCLogging.Log($"Features = {Features}");
 
             VendorID = SDL_GameControllerGetVendor(_handle);
             ProductID = SDL_GameControllerGetProduct(_handle);
+            NCLogging.Log($"Vendor & Product ID = {(KnownControllerVendorIds)VendorID:X}:{(KnownControllerProductIds)ProductID:X}");
 
             return true;
         }
