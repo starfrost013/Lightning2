@@ -9,9 +9,14 @@ namespace LightningGL
     {
         internal override bool DetectPresence()
         {
-            if (!base.DetectPresence()) return false;
 
             NCLogging.Log("Detecting DualShock 4...", "Device Detection");
+
+            if (!base.DetectPresence())
+            {
+                NCLogging.Log("DualShock 4 not present", "Device Detection");
+                return false;
+            }
 
             if ((KnownControllerVendorIds)VendorID == KnownControllerVendorIds.Sony 
                 && ((KnownControllerProductIds)ProductID == KnownControllerProductIds.DualShock4Gen1

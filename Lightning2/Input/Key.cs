@@ -20,7 +20,7 @@
         /// <summary>
         /// Key cast operator from SDL_KeyboardEvent
         /// </summary>
-        /// <param name="nKeySym">The <see cref="SDL_KeyboardEvent"/> to convert to <see cref="NewKey"/></param>
+        /// <param name="nKeySym">The <see cref="SDL_KeyboardEvent"/> to convert to <see cref="ControllerKeyboard"/></param>
 
         public static explicit operator Key(SDL_KeyboardEvent nKeySym)
         {

@@ -114,7 +114,6 @@ namespace NuCore.Utilities
                 // stack frame 1 is the previously executing method (before Log was called)
 
                 StackFrame? stackFrame = stackTrace.GetFrame(1);
-
                 // as far as i know this shouldn't happen but ignore if it does
                 if (stackFrame == null)
                 {
@@ -132,8 +131,35 @@ namespace NuCore.Utilities
                     return;
                 }
 
+                // go back by one to get the real method if we called this throug the prefix override for example
+                if (method.Name == "Log")
+                {
+                    // get past cs8602 warning
+                    StackFrame originalStackFrame = stackFrame;
+
+                    stackFrame = stackTrace.GetFrame(2);
+
+                    // fail gracefully (revert to original)
+                    stackFrame ??= originalStackFrame;
+
+                    if (stackFrame != null)
+                    {
+                        // gracefully fail
+                        MethodBase originalMethod = method;
+
+                        method = stackFrame.GetMethod();
+
+                        if (method == null) method = originalMethod;
+                    }
+
+                }
+
                 string methodName = method.Name;
-                string className = method.ReflectedType.Name;
+
+                Type? methodType = method.ReflectedType;
+
+                string className = (methodType == null) ? "<Unknown Class>" : methodType.Name;
+
                 stringBuilder.Append($"{className}::{methodName}");
 
                 stringBuilder.Append("]: ");

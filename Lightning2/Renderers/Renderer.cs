@@ -82,6 +82,9 @@
                     "renderer settings!", 7, NCLoggingSeverity.FatalError);
                 return;
             }
+
+            NCLogging.Log("Performing device detection for available input methods...");
+            InputMethodManager.Init();
         }
 
         internal virtual bool Run()

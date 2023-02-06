@@ -3,7 +3,7 @@
 namespace LightningGL
 {
     /// <summary>
-    /// 
+    /// XInput controller detection code.
     /// </summary>
     public class ControllerXinput : InputMethod
     {
