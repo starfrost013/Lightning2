@@ -314,7 +314,7 @@ Everything that matters to the api has to go here
 2023.02.08:
 * Add new GlobalSettings
 	+ DefaultInputMethod
-* Device disconnection handling
+* Device disconnection handling. Revert to default input method, and keyboard/mouse if that is not available.
 
 * todo:
 	- setting load order

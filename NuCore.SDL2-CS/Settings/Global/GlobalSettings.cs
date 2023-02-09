@@ -429,7 +429,6 @@
             _ = bool.TryParse(graphicsSection.GetValue("KeepOldPerformanceProfilerCsvs"), out var generalKeepOldPerformanceProfilerCsvsValue);
             if (!Enum.TryParse(typeof(InputMethods), graphicsSection.GetValue("DefaultInputMethod"), true, out var generalDefaultInputMethodValue)) generalDefaultInputMethodValue = DEFAULT_INPUT_METHOD;
 
-
             GeneralShowDebugInfo = generalShowDebugInfoValue;
             GeneralProfilePerformance = generalProfilePerfValue;
             GeneralEngineAboutScreenOnShiftF9 = generalAboutScreenOnF9Value;

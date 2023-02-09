@@ -39,9 +39,10 @@ namespace LightningGL
             }
         }
 
-        internal static void Disconnected()
+        internal static void OnDisconnect()
         {
-
+            // reset to default for now
+            CurrentMethod = InputMethodFactory.GetInputMethod(GlobalSettings.GeneralDefaultInputMethod);
         }
     }
 }

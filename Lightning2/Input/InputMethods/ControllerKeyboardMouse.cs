@@ -5,7 +5,7 @@ namespace LightningGL
     /// <summary>
     /// Input method for the keyboard.
     /// </summary>
-    internal class ControllerKeyboard : InputMethod
+    internal class ControllerKeyboardMouse : InputMethod
     {
 
         /// <summary>
@@ -26,11 +26,11 @@ namespace LightningGL
         /// <summary>
         /// Key cast operator from SDL_KeyboardEvent
         /// </summary>
-        /// <param name="nKeySym">The <see cref="SDL_KeyboardEvent"/> to convert to <see cref="ControllerKeyboard"/></param>
+        /// <param name="nKeySym">The <see cref="SDL_KeyboardEvent"/> to convert to <see cref="ControllerKeyboardMouse"/></param>
 
-        public static explicit operator ControllerKeyboard(SDL_KeyboardEvent nKeySym)
+        public static explicit operator ControllerKeyboardMouse(SDL_KeyboardEvent nKeySym)
         {
-            return new ControllerKeyboard
+            return new ControllerKeyboardMouse
             {
                 KeySym = nKeySym.keysym,
                 Modifiers = SDL_GetModState(),
