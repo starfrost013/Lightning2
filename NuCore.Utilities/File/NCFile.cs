@@ -17,7 +17,6 @@
         /// </summary>
         /// <param name="sourceDir">The source directory to copy from.</param>
         /// <param name="destinationDir">The destination directory to copy from.</param>
-        /// <param name="originalDir">Internal: The original directory</param>
         /// <param name="excludedPatterns">Patterns that are excluded</param>
         public static void RecursiveCopy(string sourceDir, string destinationDir = ".", List<string>? excludedPatterns = null)
         {
@@ -36,8 +35,6 @@
                     if (fileName.Contains(excludedPattern, StringComparison.InvariantCultureIgnoreCase)) performCopy = false;
                 }
 
-                if (!IsValidPath(fileName)) performCopy = false;
-
                 if (performCopy)
                 {
                     string finalPath = $"{destinationDir}\\{relativeDestinationPath}";
@@ -48,12 +45,6 @@
                 }
 
             }
-        }
-
-        public static bool IsValidPath(this string str)
-        {
-            return (str.IndexOfAny(Path.GetInvalidFileNameChars()) == -1)
-                && (str.IndexOfAny(Path.GetInvalidPathChars()) == -1);
         }
     }
 }

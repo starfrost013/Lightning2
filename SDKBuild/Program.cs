@@ -103,6 +103,8 @@ if (!Directory.Exists(buildPath))
     Environment.Exit(1);
 }
 
+NCFile.RecursiveCopy(buildPath, "SDK");
+
 // build makepackage and animtool first because they may be compiled against older versions of lightning
 // so we overwrite old versions if they happen to be there
 NCLogging.Log("Copying MakePackage build files...");
