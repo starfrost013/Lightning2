@@ -12,7 +12,6 @@ namespace LightningGL
 
             NCLogging.Log("Detecting DualShock 4...");
 
-            if (SDL_IsPS4RemapperRunning())
             if (!base.DetectPresence())
             {
                 NCLogging.Log("DualShock 4 not present");

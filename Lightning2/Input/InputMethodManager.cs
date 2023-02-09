@@ -20,10 +20,17 @@ namespace LightningGL
             if (keyboard.DetectPresence()) AvailableMethods.Add(keyboard);
             ControllerMouse mouse = new();
             if (mouse.DetectPresence()) AvailableMethods.Add(mouse);
-            ControllerXinput xinput = new();
-            if (xinput.DetectPresence()) AvailableMethods.Add(xinput);
             ControllerDS4 ds4 = new();
             if (ds4.DetectPresence()) AvailableMethods.Add(ds4);
+
+            // try generic xinput controller 
+            if (!AvailableMethods.Contains(ds4))
+            {
+                ControllerXinput xinput = new();
+                if (xinput.DetectPresence()) AvailableMethods.Add(xinput);
+            }
+
+
         }
     }
 }
