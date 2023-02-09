@@ -12,12 +12,13 @@ namespace LightningGL
 
             NCLogging.Log("Detecting DualShock 4...");
 
+            if (SDL_IsPS4RemapperRunning())
             if (!base.DetectPresence())
             {
                 NCLogging.Log("DualShock 4 not present");
                 return false;
             }
-
+            
             if ((KnownControllerVendorIds)VendorID == KnownControllerVendorIds.Sony 
                 && ((KnownControllerProductIds)ProductID == KnownControllerProductIds.DualShock4Gen1
                 || (KnownControllerProductIds)ProductID == KnownControllerProductIds.DualShock4Gen2
@@ -27,6 +28,7 @@ namespace LightningGL
                 NCLogging.Log("Detected DualShock 4!");
                 return true;
             }
+
 
             return false;
         }

@@ -305,6 +305,12 @@ Everything that matters to the api has to go here
 * Globalsettings Graphics section now required
 * Begin light blending work
 
+2020.02.05:
+* Complete light blending
+
+2020.02.07:
+* Device Detection code for input mehod api
+
 * todo:
 	- setting load order
 	- DEATH to DUPLICATE CODE

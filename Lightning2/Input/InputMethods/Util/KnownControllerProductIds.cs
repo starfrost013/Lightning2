@@ -23,9 +23,11 @@ namespace LightningGL
 
         DualSense = 0x0CE6,
 
-        //todo: DualSense Edge
+        DualSenseEdge = 0x0DF2,
+
         #endregion
 
+        #region MS official controllers 
         XboxDukeController = 0x0202,
 
         XboxSControllerGen1 = 0x0285,
@@ -77,6 +79,7 @@ namespace LightningGL
         XboxOneControllerEliteGen2 = 0x0B00,
 
         XboxOneControllerWirelessGen2 = 0x0B12,
+        #endregion
     }
 }
 
