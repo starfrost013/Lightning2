@@ -75,6 +75,10 @@
         /// </summary>
         public static bool GeneralKeepOldPerformanceProfilerCsvs { get; internal set; }
 
+        /// <summary>
+        /// The default input method to use.
+        /// </summary>
+        public static InputMethods GeneralDefaultInputMethod { get; internal set; }
         #endregion
 
         #region Debug settings
@@ -361,6 +365,8 @@
 
         private static int DEFAULT_MAX_SIMULTANEOUS_AUDIO_FILES = 16;
 
+        private static InputMethods DEFAULT_INPUT_METHOD = InputMethods.KeyboardMouse;
+
         #endregion
 
         #region GlobalSettings methods
@@ -421,6 +427,8 @@
             _ = bool.TryParse(generalSection.GetValue("DeleteUnpackedFilesOnExit"), out var generalDeleteUnpackedFilesOnExitValue);
             _ = bool.TryParse(generalSection.GetValue("DontSaveLocalSettingsOnShutdown"), out var generalDontSaveLocalSettingsOnShutdownValue);
             _ = bool.TryParse(graphicsSection.GetValue("KeepOldPerformanceProfilerCsvs"), out var generalKeepOldPerformanceProfilerCsvsValue);
+            if (!Enum.TryParse(typeof(InputMethods), graphicsSection.GetValue("DefaultInputMethod"), true, out var generalDefaultInputMethodValue)) generalDefaultInputMethodValue = DEFAULT_INPUT_METHOD;
+
 
             GeneralShowDebugInfo = generalShowDebugInfoValue;
             GeneralProfilePerformance = generalProfilePerfValue;
@@ -428,6 +436,7 @@
             GeneralDeleteUnpackedFilesOnExit = generalDeleteUnpackedFilesOnExitValue;
             GeneralDontSaveLocalSettingsOnShutdown = generalDontSaveLocalSettingsOnShutdownValue;
             GeneralKeepOldPerformanceProfilerCsvs = generalKeepOldPerformanceProfilerCsvsValue;
+            GeneralDefaultInputMethod = (InputMethods)generalDefaultInputMethodValue;
 
             // Load the Localisation section.
             string language = locSection.GetValue("Language");

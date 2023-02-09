@@ -7,7 +7,7 @@
     /// 
     /// Defines a LightningGL keypress event.
     /// </summary>
-    /// <param name="key">The <see cref="ControllerKeyboard"/> on the keyboard that has been pressed.</param>
+    /// <param name="key">The <see cref="ControllerKeyboardMouse"/> on the keyboard that has been pressed.</param>
     public delegate void KeyEvent
     (
         Key key

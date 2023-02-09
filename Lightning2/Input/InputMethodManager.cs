@@ -16,20 +16,31 @@ namespace LightningGL
         {
             NCLogging.Log("Detecting input methods...");
 
-            ControllerKeyboard keyboard = new();
-            if (keyboard.DetectPresence()) AvailableMethods.Add(keyboard);
-            ControllerMouse mouse = new();
-            if (mouse.DetectPresence()) AvailableMethods.Add(mouse);
+            ControllerKeyboardMouse keyboard = new();
+            if (keyboard.DetectPresence())
+            {
+                AvailableMethods.Add(keyboard);
+                CurrentMethod = keyboard;
+            }
             ControllerDS4 ds4 = new();
-            if (ds4.DetectPresence()) AvailableMethods.Add(ds4);
+
+            if (ds4.DetectPresence())
+            {
+                AvailableMethods.Add(ds4);
+                CurrentMethod = ds4;
+            }
 
             // try generic xinput controller 
-            if (!AvailableMethods.Contains(ds4))
+            if (CurrentMethod != ds4)
             {
                 ControllerXinput xinput = new();
                 if (xinput.DetectPresence()) AvailableMethods.Add(xinput);
+                CurrentMethod = xinput;
             }
+        }
 
+        internal static void Disconnected()
+        {
 
         }
     }

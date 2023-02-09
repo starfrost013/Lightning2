@@ -305,11 +305,16 @@ Everything that matters to the api has to go here
 * Globalsettings Graphics section now required
 * Begin light blending work
 
-2020.02.05:
+2023.02.05:
 * Complete light blending
 
-2020.02.07:
-* Device Detection code for input mehod api
+2023.02.07:
+* Device Detection code for input method api
+
+2023.02.08:
+* Add new GlobalSettings
+	+ DefaultInputMethod
+* Device disconnection handling
 
 * todo:
 	- setting load order
