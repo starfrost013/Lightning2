@@ -15,6 +15,11 @@
         public static readonly string GLOBALSETTINGS_PATH = @"Content\Engine.ini";
 
         /// <summary>
+        /// Contains the path to the input bindings INI file.
+        /// </summary>
+        public static readonly string INPUTBINDINGS_PATH = @"Content\InputBindings.ini";
+
+        /// <summary>
         /// The INI file object containing the Global Settings.
         /// </summary>
         internal static NCINIFile IniFile { get; private set; }

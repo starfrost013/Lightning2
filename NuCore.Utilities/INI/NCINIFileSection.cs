@@ -31,20 +31,23 @@
         /// <summary>
         /// Gets the value with the key <see cref="key"/>
         /// </summary>
-        /// <param name="key">The INI key contained within the section.</param>
-        /// <returns>A string containing the value corresponding to the key <paramref name="key"/>.</returns>
-        public string? GetValue(string key)
+        /// <param name="valueName">The INI key contained within the section.</param>
+        /// <returns>A string containing the value corresponding to the key <paramref name="valueName"/>.</returns>
+        public string? GetValue(string valueName, bool caseSensitive = false)
         {
-            key = key.ToLowerInvariant();
+            valueName = valueName.ToLowerInvariant();
 
             foreach (var kvp in Values)
             {
-                string caseInsensitiveKey = kvp.Key.ToLowerInvariant();
+                string currentValueName = kvp.Key;
 
-                if (caseInsensitiveKey == key)
+                if (!caseSensitive)
                 {
-                    return kvp.Value;
+                    currentValueName = kvp.Key.ToLowerInvariant();
+                    valueName = valueName.ToLowerInvariant();
                 }
+
+                if (currentValueName == valueName) return kvp.Value;
             }
 
             return null;

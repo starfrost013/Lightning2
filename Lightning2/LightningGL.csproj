@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <None Remove="Content\Engine.ini" />
+    <None Remove="Content\InputBindings.ini" />
     <None Remove="Content\Localisation\en-GB-test.ini" />
     <None Remove="Content\Localisation\pseudo.ini" />
     <None Remove="..\Libraries\libFLAC-8.dll" />
@@ -52,6 +53,9 @@
 
   <ItemGroup>
     <Content Include="Content\Engine.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\InputBindings.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Localisation\en-GB-test.ini">

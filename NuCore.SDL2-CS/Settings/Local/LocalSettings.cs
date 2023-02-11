@@ -29,8 +29,7 @@
         /// </summary>
         public static void Load()
         {
-            if (!File.Exists(Path)
-                && Path.IsValidPath())
+            if (!File.Exists(Path))
             {
                 NCLogging.Log($"LocalSettingsPath set but Local Settings INI file does not exist. Creating it...");
                 File.Create(Path).Close(); // close it to prevent potential conflicts

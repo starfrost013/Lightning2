@@ -1,7 +1,7 @@
 ﻿namespace NuCore.Utilities
 {
     /// <summary>
-    /// NCIniFile
+    /// NCINIFile
     /// 
     /// NuCore INI parser
     /// Pretty simple - simply uses the first character to determine token type
@@ -10,7 +10,8 @@
     /// <para>Updated July 2, 2022 in order to handle comments on the same line as values, handle newlines and rename variables to camelCase</para>
     /// <para>Updated August 2, 2022 to fix a bug with INI comments on the same line as values in non-section lines, as well as to make searches case-insensitive.</para>
     /// <para>Updated August 9, 2022 to add serialisation to file.</para>
-    /// <para>Updated January 15, 2023 to add nullable support</para>
+    /// <para>Updated January 15, 2023 to add nullable support,</para>
+    /// <para>Updated February 11, 2023 to fix case insensitivity consistency and add optional case insensitivity while searching for sections or values.</para>
     /// </summary>
     public class NCINIFile
     {
@@ -196,14 +197,18 @@
         /// </summary>
         /// <param name="name">The name of the INI file section you wish to obtain.</param>
         /// <returns>A <see cref="NCINIFileSection"/> instance representing the INI file with section <see cref="Name"/> if the section could be found, otherwise null.</returns>
-        public NCINIFileSection? GetSection(string name)
+        public NCINIFileSection? GetSection(string name, bool caseSensitive = false)
         {
             foreach (NCINIFileSection iniSection in Sections)
             {
-                if (iniSection.Name == name)
+                // this ensures case-insensitive comparison while using less code than string.Equals();
+                if (!caseSensitive)
                 {
-                    return iniSection;
+                    iniSection.Name = iniSection.Name.ToLowerInvariant();
+                    name = name.ToLowerInvariant();
                 }
+
+                if (iniSection.Name == name) return iniSection;
             }
 
             return null;

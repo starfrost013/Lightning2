@@ -16,9 +16,12 @@
 #define MyAppName "Lightning Software Development Kit"                                                     
 #define MyAppVersion "2.0.0-alpha"
 #define MyAppPublisher "starfrost"
-#define MyAppURL "https://lightning.starfrost.net"
+#define MyAppURL "https://lightningpowered.net"
 #define BuildConfig "Debug"
 #define FrameworkVersion "net7.0"
+
+; Workaround for the inno download installer not actually adding itself to ISPPBuiltins on inno6
+#include ReadReg(HKLM, 'Software\WOW6432Node\Mitrich Software\Inno Download Plugin', 'InstallDir') + '\idp.iss'
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -115,7 +118,7 @@ DotNetSDKFailedOther=The .NET SDK installer exited with an unexpected status cod
 {code stolen from https://engy.us/blog/2021/02/28/installing-net-5-runtime-automatically-with-inno-setup/}
 function IsNet7Installed() : Boolean;
 external 'IsNet7Installed@files:InstallHelper.dll';
-end
+
 
 var
   requiresRestart: boolean;
