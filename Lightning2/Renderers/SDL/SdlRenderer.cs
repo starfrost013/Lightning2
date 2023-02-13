@@ -118,6 +118,10 @@ namespace LightningGL
                     case SDL_EventType.SDL_MOUSEWHEEL:
                         EventManager.FireMouseWheel((MouseButton)currentEvent.wheel);
                         break;
+                    case SDL_EventType.SDL_CONTROLLERBUTTONDOWN:
+                    case SDL_EventType.SDL_CONTROLLERBUTTONUP:
+                        NCLogging.Log($"Joystick button event {currentEvent.cbutton.button}");
+                        break;
                     case SDL_EventType.SDL_WINDOWEVENT: // Window Event - check subtypes
                         switch (currentEvent.window.windowEvent)
                         {
@@ -941,7 +945,7 @@ namespace LightningGL
                 || args[1] is not SDL_BlendMode)
             {
                 NCLogging.LogError($"CODE IS BORKED! Incorrect parameter types or invalid number of parameters to SdlRenderer::SetTextureBlendMode!\n\n" +
-                    $"THIS IS AN ENGINE BUG PLEASE FILE A BUG REPORT!", 230, NCLoggingSeverity.FatalError);
+                    $"THIS IS AN ENGINE BUG, PLEASE FILE A BUG REPORT!", 230, NCLoggingSeverity.FatalError);
                 return;
             }
 

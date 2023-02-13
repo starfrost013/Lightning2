@@ -273,5 +273,9 @@ namespace LightningGL
                 }
             }
         }
+
+        private static void HandleBindingEvent()
+        {
+        }
     }
 }

@@ -254,9 +254,12 @@
         /// </summary>
         public Renderable? Parent { get; internal set; } 
 
+        /// <summary>
+        /// The childre of this Renderable.
+        /// </summary>
         public List<Renderable> Children { get; init; }
 
-        public Renderable(string name)
+        internal Renderable(string name)
         {
             AnimationTimer = new Stopwatch();
 
