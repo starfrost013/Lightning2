@@ -19,5 +19,7 @@ namespace LightningGL
         {
             return false;
         }
+
+        internal abstract void HandleEvents(EventType eventType);
     }
 }

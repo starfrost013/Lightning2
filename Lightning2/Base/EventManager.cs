@@ -274,8 +274,16 @@ namespace LightningGL
             }
         }
 
-        private static void HandleBindingEvent()
+        internal static void HandleEvents(EventType eventType)
         {
+            // input-specific events
+            InputMethodManager.CurrentMethod?.HandleEvents(eventType);
+
+            // non-input specific events
+            switch (eventType)
+            {
+
+            }
         }
     }
 }

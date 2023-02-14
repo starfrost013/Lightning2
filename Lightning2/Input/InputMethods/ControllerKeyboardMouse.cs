@@ -73,5 +73,13 @@ namespace LightningGL
             NCLogging.Log("Detecting keyboard...");
             return true;
         }
+
+        internal override void HandleEvents(EventType eventType)
+        {
+            switch (eventType)
+            {
+
+            }
+        }
     }
 }
