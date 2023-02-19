@@ -28,13 +28,13 @@
         /// <summary>
         /// Event handler fired when the mouse is pressed.
         /// </summary>
-        public MouseEvent? OnMousePressed { get; set; }
+        public BindingMouseEvent? OnMousePressed { get; set; }
 
         [JsonIgnore]
         /// <summary>
         /// Event handler fired when the mouse is released.
         /// </summary>
-        public MouseEvent? OnMouseReleased { get; set; }
+        public BindingMouseEvent? OnMouseReleased { get; set; }
 
         [JsonIgnore]
         /// <summary>
@@ -76,13 +76,13 @@
         /// <summary>
         /// Event handler for the mouse move event.
         /// </summary>
-        public MouseEvent? OnMouseMove { get; set; }
+        public BindingMouseEvent? OnMouseMove { get; set; }
 
         [JsonIgnore]
         /// <summary>
         /// Event handler for the mouse wheel event.
         /// </summary>
-        public MouseEvent? OnMouseWheel { get; set; }
+        public BindingMouseEvent? OnMouseWheel { get; set; }
 
         [JsonIgnore]
         /// <summary>

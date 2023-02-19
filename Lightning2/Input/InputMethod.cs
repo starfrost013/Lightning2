@@ -8,11 +8,11 @@ namespace LightningGL
     /// </summary>
     public abstract class InputMethod
     {
-        public List<InputMethodBinding> Bindings { get; private set; }
+        public List<InputBinding> Bindings { get; private set; }
 
         public InputMethod()
         {
-            Bindings = new List<InputMethodBinding>();
+            Bindings = new List<InputBinding>();
         }
 
         internal virtual bool DetectPresence()
@@ -20,9 +20,9 @@ namespace LightningGL
             return false;
         }
 
-        internal InputMethodBinding? GetBindingByBind(string bind)
+        internal InputBinding? GetBindingByBind(string bind)
         {
-            foreach (InputMethodBinding binding in Bindings)
+            foreach (InputBinding binding in Bindings)
             {
                 if (binding.Bind == bind) return binding;
             }
