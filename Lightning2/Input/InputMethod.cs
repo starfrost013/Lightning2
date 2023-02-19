@@ -20,6 +20,14 @@ namespace LightningGL
             return false;
         }
 
-        internal abstract void HandleEvents(EventType eventType);
+        internal InputMethodBinding? GetBindingByBind(string bind)
+        {
+            foreach (InputMethodBinding binding in Bindings)
+            {
+                if (binding.Bind == bind) return binding;
+            }
+
+            return null;
+        }
     }
 }

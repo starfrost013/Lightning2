@@ -101,22 +101,22 @@ namespace LightningGL
                 switch (currentEvent.type)
                 {
                     case SDL_EventType.SDL_KEYDOWN:
-                        EventManager.FireKeyPressed((Key)currentEvent.key);
+                        EventManager.FireOnKeyPressed((Key)currentEvent.key);
                         break;
                     case SDL_EventType.SDL_KEYUP:
-                        EventManager.FireKeyReleased((Key)currentEvent.key);
+                        EventManager.FireOnKeyReleased((Key)currentEvent.key);
                         break;
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN: // Mouse down event
-                        EventManager.FireMousePressed((MouseButton)currentEvent.button);
+                        EventManager.FireOnMousePressed((MouseButton)currentEvent.button);
                         break;
                     case SDL_EventType.SDL_MOUSEBUTTONUP: // Mouse up event
-                        EventManager.FireMouseReleased((MouseButton)currentEvent.button);
+                        EventManager.FireOnMouseReleased((MouseButton)currentEvent.button);
                         break;
                     case SDL_EventType.SDL_MOUSEMOTION: // Mouse move event
-                        EventManager.FireMouseMove((MouseButton)currentEvent.motion);
+                        EventManager.FireOnMouseMove((MouseButton)currentEvent.motion);
                         break;
                     case SDL_EventType.SDL_MOUSEWHEEL:
-                        EventManager.FireMouseWheel((MouseButton)currentEvent.wheel);
+                        EventManager.FireOnMouseWheel((MouseButton)currentEvent.wheel);
                         break;
                     case SDL_EventType.SDL_CONTROLLERBUTTONDOWN:
                     case SDL_EventType.SDL_CONTROLLERBUTTONUP:
@@ -126,16 +126,16 @@ namespace LightningGL
                         switch (currentEvent.window.windowEvent)
                         {
                             case SDL_WindowEventID.SDL_WINDOWEVENT_ENTER:
-                                EventManager.FireMouseEnter();
+                                EventManager.FireOnMouseEnter();
                                 break;
                             case SDL_WindowEventID.SDL_WINDOWEVENT_LEAVE:
-                                EventManager.FireMouseLeave();
+                                EventManager.FireOnMouseLeave();
                                 break;
                             case SDL_WindowEventID.SDL_WINDOWEVENT_FOCUS_GAINED:
-                                EventManager.FireFocusGained();
+                                EventManager.FireOnFocusGained();
                                 break;
                             case SDL_WindowEventID.SDL_WINDOWEVENT_FOCUS_LOST:
-                                EventManager.FireFocusLost();
+                                EventManager.FireOnFocusLost();
                                 break;
                         }
 

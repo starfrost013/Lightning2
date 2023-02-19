@@ -11,7 +11,7 @@ namespace LightningGL
     /// </summary>
     internal static class EventManager
     {
-        internal static void FireMousePressed(MouseButton mouseButton, Renderable? parent = null)
+        internal static void FireOnMousePressed(MouseButton mouseButton, Renderable? parent = null)
         {
             // render all children 
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
@@ -30,6 +30,8 @@ namespace LightningGL
                     cameraPosition.Y + mouseButton.Position.Y); 
             }
 
+            InputMethodBinding? binding = InputMethodManager.CurrentMethod.GetBindingByBind(mouseButton.ToString());
+
             foreach (Renderable renderable in renderables)
             {
                 bool intersects = AABB.Intersects(renderable, mouseButton.Position);
@@ -43,11 +45,11 @@ namespace LightningGL
                     renderable.OnMousePressed?.Invoke(mouseButton);
                 }
 
-                if (renderable.Children.Count > 0) FireMousePressed(mouseButton, renderable);
+                if (renderable.Children.Count > 0) FireOnMousePressed(mouseButton, renderable);
             }
         }
 
-        internal static void FireMouseReleased(MouseButton mouseButton, Renderable? parent = null)
+        internal static void FireOnMouseReleased(MouseButton mouseButton, Renderable? parent = null)
         {
             // render all children 
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
@@ -80,11 +82,11 @@ namespace LightningGL
                 }
 
                 // children
-                if (renderable.Children.Count > 0) FireMouseReleased(mouseButton, renderable);
+                if (renderable.Children.Count > 0) FireOnMouseReleased(mouseButton, renderable);
             }
         }
 
-        internal static void FireMouseEnter(Renderable? parent = null)
+        internal static void FireOnMouseEnter(Renderable? parent = null)
         {
             // render all children 
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
@@ -92,11 +94,11 @@ namespace LightningGL
             foreach (Renderable renderable in renderables)
             {
                 renderable.OnMouseEnter?.Invoke();
-                if (renderable.Children.Count > 0) FireMouseEnter(renderable);
+                if (renderable.Children.Count > 0) FireOnMouseEnter(renderable);
             }
         }
 
-        internal static void FireMouseLeave(Renderable? parent = null)
+        internal static void FireOnMouseLeave(Renderable? parent = null)
         {
             // render all children 
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
@@ -104,11 +106,11 @@ namespace LightningGL
             foreach (Renderable renderable in renderables)
             {
                 renderable.OnMouseLeave?.Invoke();
-                if (renderable.Children.Count > 0) FireMouseLeave(renderable);
+                if (renderable.Children.Count > 0) FireOnMouseLeave(renderable);
             }
         }
 
-        internal static void FireMouseWheel(MouseButton button, Renderable? parent = null)
+        internal static void FireOnMouseWheel(MouseButton button, Renderable? parent = null)
         {
             // render all children 
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
@@ -116,11 +118,11 @@ namespace LightningGL
             foreach (Renderable renderable in renderables)
             {
                 renderable.OnMouseWheel?.Invoke(button);
-                if (renderable.Children.Count > 0) FireMouseWheel(button, renderable);
+                if (renderable.Children.Count > 0) FireOnMouseWheel(button, renderable);
             }
         }
 
-        internal static void FireMouseMove(MouseButton mouseButton, Renderable? parent = null)
+        internal static void FireOnMouseMove(MouseButton mouseButton, Renderable? parent = null)
         {
             // render all children 
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
@@ -142,13 +144,11 @@ namespace LightningGL
             foreach (Renderable renderable in renderables)
             {
                 renderable.OnMouseMove?.Invoke(mouseButton);
-                if (renderable.Children.Count > 0) FireMouseMove(mouseButton, renderable);
+                if (renderable.Children.Count > 0) FireOnMouseMove(mouseButton, renderable);
             }
         }
 
-
-
-        internal static void FireFocusGained(Renderable? parent = null)
+        internal static void FireOnFocusGained(Renderable? parent = null)
         {
             // render all children 
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
@@ -156,11 +156,11 @@ namespace LightningGL
             foreach (Renderable renderable in renderables)
             {
                 renderable.OnFocusGained?.Invoke();
-                if (renderable.Children.Count > 0) FireFocusGained(renderable);
+                if (renderable.Children.Count > 0) FireOnFocusGained(renderable);
             }
         }
 
-        internal static void FireFocusLost(Renderable? parent = null)
+        internal static void FireOnFocusLost(Renderable? parent = null)
         {
             // render all children 
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
@@ -168,13 +168,12 @@ namespace LightningGL
             foreach (Renderable renderable in renderables)
             {
                 renderable.OnFocusLost?.Invoke();
-                if (renderable.Children.Count > 0) FireFocusLost(renderable);
+                if (renderable.Children.Count > 0) FireOnFocusLost(renderable);
             }
         }
 
 
-
-        internal static void FireKeyPressed(Key key, Renderable? parent = null)
+        internal static void FireOnKeyPressed(Key key, Renderable? parent = null)
         {
             // render all children 
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
@@ -186,12 +185,12 @@ namespace LightningGL
                     || renderable.CanReceiveEventsWhileUnfocused))
                 {
                     renderable.OnKeyPressed?.Invoke(key);
-                    if (renderable.Children.Count > 0) FireKeyPressed(key, renderable);
+                    if (renderable.Children.Count > 0) FireOnKeyPressed(key, renderable);
                 }
             }
         }
 
-        internal static void FireKeyReleased(Key key, Renderable? parent = null)
+        internal static void FireOnKeyReleased(Key key, Renderable? parent = null)
         {
             // render all children 
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
@@ -203,7 +202,7 @@ namespace LightningGL
                     || renderable.CanReceiveEventsWhileUnfocused))
                 {
                     renderable.OnKeyReleased?.Invoke(key);
-                    if (renderable.Children.Count > 0) FireKeyReleased(key, renderable);
+                    if (renderable.Children.Count > 0) FireOnKeyReleased(key, renderable);
                 }
             }
         }
@@ -274,16 +273,14 @@ namespace LightningGL
             }
         }
 
-        internal static void HandleEvents(EventType eventType)
+        internal static void FireOnControllerButtonDown(Renderable? parent = null)
         {
-            // input-specific events
-            InputMethodManager.CurrentMethod?.HandleEvents(eventType);
 
-            // non-input specific events
-            switch (eventType)
-            {
+        }
 
-            }
+        internal static void FireOnControllerButtonUp(Renderable? parent = null)
+        {
+
         }
     }
 }

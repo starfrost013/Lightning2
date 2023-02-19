@@ -69,5 +69,10 @@
                 Position = new Vector2(mouseButton.preciseX, mouseButton.preciseY),
             };
         }
+
+        public override string ToString()
+        {
+            return $"MOUSE{(int)Button}";
+        }
     }
 }

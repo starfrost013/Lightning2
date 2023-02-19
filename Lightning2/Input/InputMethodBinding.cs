@@ -13,6 +13,7 @@ namespace LightningGL
         /// </summary>
         public string Bind { get; set; }
 
+
         public InputMethodBinding(string name, string bind)
         {
             Name = name;

@@ -14,15 +14,15 @@
 
         [JsonIgnore]
         /// <summary>
-        /// Event handler for <see cref="KeyEvent"/> event.
+        /// Event handler for <see cref="BindingEvent"/> event.
         /// </summary>
-        public KeyEvent? OnKeyPressed { get; set; }
+        public BindingEvent? OnKeyPressed { get; set; }
 
         [JsonIgnore]
         /// <summary>
         /// Event handler fired when a key is released.
         /// </summary>
-        public KeyEvent? OnKeyReleased { get; set; }
+        public BindingEvent? OnKeyReleased { get; set; }
 
         [JsonIgnore]
         /// <summary>
@@ -258,6 +258,7 @@
         /// The childre of this Renderable.
         /// </summary>
         public List<Renderable> Children { get; init; }
+
 
         internal Renderable(string name)
         {
