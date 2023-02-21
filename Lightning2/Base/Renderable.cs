@@ -14,27 +14,27 @@
 
         [JsonIgnore]
         /// <summary>
-        /// Event handler for <see cref="BindingEvent"/> event.
+        /// Event handler for <see cref="BindingKeyboardEvent"/> event.
         /// </summary>
-        public BindingEvent? OnKeyPressed { get; set; }
+        public BindingKeyboardEvent? OnKeyDown { get; set; }
 
         [JsonIgnore]
         /// <summary>
         /// Event handler fired when a key is released.
         /// </summary>
-        public BindingEvent? OnKeyReleased { get; set; }
+        public BindingKeyboardEvent? OnKeyUp { get; set; }
 
         [JsonIgnore]
         /// <summary>
         /// Event handler fired when the mouse is pressed.
         /// </summary>
-        public BindingMouseEvent? OnMousePressed { get; set; }
+        public BindingMouseEvent? OnMouseDown { get; set; }
 
         [JsonIgnore]
         /// <summary>
         /// Event handler fired when the mouse is released.
         /// </summary>
-        public BindingMouseEvent? OnMouseReleased { get; set; }
+        public BindingMouseEvent? OnMouseUp { get; set; }
 
         [JsonIgnore]
         /// <summary>
@@ -123,6 +123,16 @@
         /// Event handler for <see cref="ShutdownEvent"/> event.
         /// </summary>
         public GenericEvent? OnShutdown { get; set; }
+
+        /// <summary>
+        /// Event handler for when a controller button starts being pressed.
+        /// </summary>
+        public BindingControllerEvent? OnControllerButtonDown { get; set; }
+
+        /// <summary>
+        /// Event handler for when a controller button stops being pressed.
+        /// </summary>
+        public BindingControllerEvent? OnControllerButtonUp { get; set; }
 
         #endregion
 

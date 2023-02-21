@@ -5,11 +5,10 @@ namespace LightningGL
     /// <summary>
     /// Detection code for the Sony PS4 DualShock 4 controller.
     /// </summary>
-    internal class ControllerDS4 : ControllerXinput
+    internal class InputMethodDS4 : InputMethodXinput
     {
         internal override bool DetectPresence()
         {
-
             NCLogging.Log("Detecting DualShock 4...");
 
             if (!base.DetectPresence())

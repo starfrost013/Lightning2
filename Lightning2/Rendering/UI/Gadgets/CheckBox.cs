@@ -71,7 +71,7 @@
         /// </summary>
         public CheckBox(string name, string font) : base(name, font)
         {
-            OnMousePressed += CheckBoxMousePressed;
+            OnMouseDown += CheckBoxMousePressed;
         }
 
         public CheckBox(string name, string font, bool isChecked) : base(name, font)
@@ -131,9 +131,9 @@
         /// The default mouse pressed event handler for CheckBoxes.
         /// </summary>
         /// <param name="button">The <see cref="MouseButton"/> that has been pressed.</param>
-        public void CheckBoxMousePressed(MouseButton button)
+        public void CheckBoxMousePressed(InputBinding binding, MouseButton button)
         {
-            base.MousePressed(button);
+            base.MousePressed(binding, button);
             Checked = !Checked;
         }
     }

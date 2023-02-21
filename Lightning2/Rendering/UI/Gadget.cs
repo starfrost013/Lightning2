@@ -68,8 +68,8 @@
         /// </summary>
         public Gadget(string name, string font) : base(name)
         {
-            OnMousePressed += MousePressed;
-            OnMouseReleased += MouseReleased;
+            OnMouseDown += MousePressed;
+            OnMouseUp += MouseReleased;
             OnMouseMove += MouseMove;
             Font = font; 
         }
@@ -81,7 +81,7 @@
         /// </summary>
         /// <param name="button">The mouse button that has been pressed.</param>
         /// <param name="position">The position of that mouse button.</param>
-        public virtual void MousePressed(MouseButton button)
+        public virtual void MousePressed(InputBinding binding, MouseButton button)
         {
             CurBackgroundColor = PressedColor;
             Pressed = true;
@@ -92,7 +92,7 @@
         /// </summary>
         /// <param name="button">The mouse button that has been pressed.</param>
         /// <param name="position">The position of that mouse button.</param>
-        public virtual void MouseReleased(MouseButton button)
+        public virtual void MouseReleased(InputBinding binding, MouseButton button)
         {
             // this changes from pressed to hover color
             if (AABB.Intersects(this, button.Position))
@@ -114,7 +114,7 @@
         /// <param name="button">The mouse button that has been pressed.</param>
         /// <param name="position">The position of that mouse button.</param>
         /// <param name="velocity">The movement of the button.</param>
-        public virtual void MouseMove(MouseButton button)
+        public virtual void MouseMove(InputBinding binding, MouseButton button)
         {
             if (AABB.Intersects(this, button.Position))
             {

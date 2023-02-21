@@ -9,11 +9,11 @@ namespace LightningGL
             switch (method)
             {
                 case InputMethods.KeyboardMouse:
-                    return new ControllerKeyboardMouse();
+                    return new InputMethodKeyboardMouse();
                 case InputMethods.DS4:
-                    return new ControllerDS4();
+                    return new InputMethodDS4();
                 case InputMethods.Xinput:
-                    return new ControllerXinput();
+                    return new InputMethodXinput();
             }
             return null;
 

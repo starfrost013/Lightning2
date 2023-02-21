@@ -352,6 +352,8 @@ namespace LightningGL
             {
                 switch (curEvent.type)
                 {
+                    // HIGHLY DEPRECATED METHOD !!!!!!!!!!!!!!!!!!!!!
+                    // DO NOT PERFORM THIS ACTION !!!!!!!!!!!!!!!!!!!!!!!
                     case SDL.SDL_EventType.SDL_KEYDOWN: // Key is held down.
                         Key key = (Key)curEvent.key;
 

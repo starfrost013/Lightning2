@@ -198,7 +198,7 @@ namespace LightningGL
             if (!renderable.AnimationTimer.IsRunning) return;
 
             renderable.AnimationTimer.Stop();
-            EventManager.FireOnAnimationEnd(renderable);
+            EventManager.FireOnAnimationStop(renderable);
         }
 
         internal void UpdateAnimationFor(Renderable renderable)

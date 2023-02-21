@@ -1,7 +1,7 @@
 ﻿
 namespace LightningGL
 {
-    public class InputMethodBinding
+    public class InputBinding
     {
         /// <summary>
         /// The name of the binding.
@@ -14,7 +14,7 @@ namespace LightningGL
         public string Bind { get; set; }
 
         
-        public InputMethodBinding(string name, string bind)
+        public InputBinding(string name, string bind)
         {
             Name = name;
             Bind = bind;

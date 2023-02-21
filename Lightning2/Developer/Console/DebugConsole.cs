@@ -73,22 +73,49 @@
 
         // todo: make these configurable AFTER GLOBALSETTINGS REWRITE
 
+        /// <summary>
+        /// The default size of the debug console textbox border.
+        /// </summary>
         private readonly Vector2 DEFAULT_DEBUG_BORDER_SIZE = new(5, 5);
 
+        /// <summary>
+        /// The default size of the debug console textbox.
+        /// </summary>
         private readonly Vector2 DEFAULT_CONSOLE_TEXTBOX_SIZE = new(GlobalSettings.DebugConsoleSizeX, 30);
 
+        /// <summary>
+        /// The default position of the debug console header text.
+        /// </summary>
         private readonly Vector2 DEFAULT_CONSOLE_HEADER_POSITION = new(0, 28);
 
+        /// <summary>
+        /// The default position of the console command history text/
+        /// </summary>
         private readonly Vector2 DEFAULT_CONSOLE_TEXT_POSITION = new(0, 64);
 
+        /// <summary>
+        /// The default position of the console rectangle.
+        /// </summary>
         private readonly Vector2 DEFAULT_RECTANGLE_POSITION = new(0, 0);
 
+        /// <summary>
+        /// The default position of the console textbox.
+        /// </summary>
         private Vector2 DEFAULT_TEXTBOX_POSITION => new(0, GlobalSettings.DebugConsoleSizeY - DEFAULT_CONSOLE_TEXTBOX_SIZE.Y);
+
+        /// <summary>
+        /// The default size of the console textbox.
+        /// </summary>
         private Vector2 DEFAULT_TEXTBOX_SIZE => new(0, GlobalSettings.DebugConsoleSizeY - DEFAULT_CONSOLE_TEXTBOX_SIZE.Y);
+
+        /// <summary>
+        /// The default name of the input binding used for triggering the console.
+        /// </summary>
+        private const string BINDING_NAME = "TriggerDebugConsole";
 
         public DebugConsole(string name) : base(name) 
         {
-            OnKeyPressed += KeyPressed;
+            OnKeyDown += KeyPressed;
         }
 
         public override void Create()
@@ -117,7 +144,7 @@
             // explicitly set to update ui state
             Enabled = false;
 
-            TextBox.OnKeyPressed += ConsoleBoxKeyPressed;
+            TextBox.OnKeyDown += ConsoleBoxKeyPressed;
         }
 
         public override void Draw()
@@ -133,7 +160,7 @@
             ConsoleText.Position = DEFAULT_CONSOLE_TEXT_POSITION;
         }
 
-        public void ConsoleBoxKeyPressed(Key key)
+        public void ConsoleBoxKeyPressed(InputBinding binding, Key key)
         {
             Debug.Assert(TextBox != null);
 
@@ -162,7 +189,7 @@
 
             if (string.IsNullOrWhiteSpace(textBoxText))
             {
-                NCLogging.LogError("Temporary ERROR - PLEASE ENTER A FUCKING COMMAND!", 303, NCLoggingSeverity.Warning, null, true);
+                NCLogging.LogError("Invalid console command entered (temporary)", 303, NCLoggingSeverity.Warning, null, true);
                 return;
             }
 
@@ -171,9 +198,7 @@
             // we already check for a length implicitly (with string.IsNullOrWhiteSpace, which also checks for empty)
             string commandType = commandComponents[0];
 
-            ConsoleCommands commandId = default;
-
-            bool succeeded = Enum.TryParse(commandType, true, out commandId);
+            bool succeeded = Enum.TryParse(commandType, true, out ConsoleCommands commandId);
 
             if (!succeeded)
             {
@@ -186,15 +211,13 @@
             // should not happen
             Debug.Assert(command != null);
 
-            if (!command.Execute()) NCLogging.Log("Command failed to execute");
+            if (!command.Execute()) NCLogging.LogError("Command failed to execute!", 310, NCLoggingSeverity.Warning);
         }
 
-        private void KeyPressed(Key key)
+        private void KeyPressed(InputBinding binding, Key key)
         {
-            string keyString = key.ToString();
-
             // case has to be a compile time constant so we do thos
-            if (keyString == GlobalSettings.DebugConsoleKey) Enabled = !Enabled;
+            if (binding.Name == BINDING_NAME) Enabled = !Enabled;
         }
     }
 }

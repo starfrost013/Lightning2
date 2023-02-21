@@ -99,8 +99,8 @@
         {
             // if you override the method it calls it twice (because it's defined for both classes)
             // so simply use a different method
-            OnMousePressed += ListBoxMousePressed;
-            OnMouseReleased += ListBoxMouseReleased;
+            OnMouseDown += ListBoxMousePressed;
+            OnMouseUp += ListBoxMouseReleased;
             OnMouseMove += ListBoxMouseMove;
 
             AlternateItemColorsAmount = 30;
@@ -221,12 +221,12 @@
         /// Default mouse press event handler for listbox.
         /// </summary>
         /// <param name="button">The <see cref="MouseButton"/> that triggered the event.</param>
-        public void ListBoxMousePressed(MouseButton button)
+        public void ListBoxMousePressed(InputBinding binding, MouseButton button)
         {
             if (Open)
             {
                 // call the default handler
-                base.MousePressed(button);
+                base.MousePressed(binding, button);
 
                 // check if the item is intersecting and if so pass the event on
                 // and don't close it
@@ -242,7 +242,7 @@
                             SelectedIndex = curItem;
 
                             // allow the user to override positions
-                            item.OnMousePressed?.Invoke(button);
+                            item.OnMouseDown?.Invoke(binding, button);
                         }
                     }
                 }
@@ -254,7 +254,7 @@
             {
                 if (BoxIntersects(button.Position))
                 {
-                    base.MousePressed(button);
+                    base.MousePressed(binding, button);
                     Open = !Open;
                 }
             }
@@ -279,9 +279,9 @@
         /// Default mouse release event handler for listbox.
         /// </summary>
         /// <param name="button">The <see cref="MouseButton"/> that triggered the event.</param>
-        public void ListBoxMouseReleased(MouseButton button)
+        public void ListBoxMouseReleased(InputBinding binding, MouseButton button)
         {
-            base.MouseReleased(button);
+            base.MouseReleased(binding, button);
 
             if (Open)
             {
@@ -292,7 +292,7 @@
                     if (AABB.Intersects(item, button.Position))
                     {
                         // allow the user to override positions
-                        item.OnMouseReleased?.Invoke(button);
+                        item.OnMouseUp?.Invoke(binding, button);
                     }
                 }
             }
@@ -316,11 +316,11 @@
         /// Default mouse move event handler for listbox.
         /// </summary>
         /// <param name="button">The <see cref="MouseButton"/> that triggered the event.</param>
-        public virtual void ListBoxMouseMove(MouseButton button)
+        public virtual void ListBoxMouseMove(InputBinding binding, MouseButton button)
         {
             if (Open)
             {
-                base.MouseMove(button);
+                base.MouseMove(binding, button);
             }
             else
             {
@@ -336,7 +336,7 @@
 
             // pass the event on
             // and don't close it
-            foreach (Renderable item in Children) item.OnMouseMove?.Invoke(button);
+            foreach (Renderable item in Children) item.OnMouseMove?.Invoke(binding, button);
         }
     }
 }

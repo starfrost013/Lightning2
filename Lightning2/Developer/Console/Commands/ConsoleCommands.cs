@@ -16,6 +16,10 @@ namespace LightningGL
 
         Shutdown = 4,
 
+        Bind = 5,
+
+        Unbind = 6,
+
         // add more later
     }
 }

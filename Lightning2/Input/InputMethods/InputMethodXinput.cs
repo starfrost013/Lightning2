@@ -5,7 +5,7 @@ namespace LightningGL
     /// <summary>
     /// XInput controller detection code.
     /// </summary>
-    public class ControllerXinput : InputMethod
+    public class InputMethodXinput : InputMethod
     {
         private nint _handle;
 

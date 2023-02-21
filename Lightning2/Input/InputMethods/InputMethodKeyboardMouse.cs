@@ -5,7 +5,7 @@ namespace LightningGL
     /// <summary>
     /// Input method for the keyboard.
     /// </summary>
-    internal class ControllerKeyboardMouse : InputMethod
+    internal class InputMethodKeyboardMouse : InputMethod
     {
         internal override bool DetectPresence()
         {

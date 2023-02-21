@@ -32,7 +32,7 @@ namespace LightningGL
                     cameraPosition.Y + mouseButton.Position.Y); 
             }
 
-            InputMethodBinding? binding = InputMethodManager.CurrentMethod.GetBindingByBind(mouseButton.ToString());
+            InputBinding? binding = InputMethodManager.CurrentMethod.GetBindingByBind(mouseButton.ToString());
 
             if (binding == null) return; 
 
@@ -46,7 +46,7 @@ namespace LightningGL
                 if ((intersects
                     || renderable.CanReceiveEventsWhileUnfocused))
                 {
-                    renderable.OnMousePressed?.Invoke(binding, mouseButton);
+                    renderable.OnMouseDown?.Invoke(binding, mouseButton);
                 }
 
                 if (renderable.Children.Count > 0) FireOnMousePressed(mouseButton, renderable);
@@ -74,7 +74,7 @@ namespace LightningGL
                     cameraPosition.Y + mouseButton.Position.Y);
             }
 
-            InputMethodBinding? binding = InputMethodManager.CurrentMethod.GetBindingByBind(mouseButton.ToString());
+            InputBinding? binding = InputMethodManager.CurrentMethod.GetBindingByBind(mouseButton.ToString());
 
             if (binding == null) return;
 
@@ -88,7 +88,7 @@ namespace LightningGL
                 if ((intersects
                     || renderable.CanReceiveEventsWhileUnfocused))
                 {
-                    renderable.OnMouseReleased?.Invoke(binding, mouseButton);
+                    renderable.OnMouseUp?.Invoke(binding, mouseButton);
                 }
 
                 // children
@@ -190,13 +190,16 @@ namespace LightningGL
             }
         }
 
-
-        internal static void FireOnKeyPressed(Key key, Renderable? parent = null)
+        internal static void FireOnKeyDown(Key key, Renderable? parent = null)
         {
             Debug.Assert(InputMethodManager.CurrentMethod != null);
 
             // render all children 
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
+
+            InputBinding? binding = InputMethodManager.CurrentMethod.GetBindingByBind(key.ToString());
+
+            if (binding == null) return;
 
             foreach (Renderable renderable in renderables)
             {
@@ -204,18 +207,22 @@ namespace LightningGL
                 if ((renderable.Focused
                     || renderable.CanReceiveEventsWhileUnfocused))
                 {
-                    renderable.OnKeyPressed?.Invoke(key);
-                    if (renderable.Children.Count > 0) FireOnKeyPressed(key, renderable);
+                    renderable.OnKeyDown?.Invoke(binding, key);
+                    if (renderable.Children.Count > 0) FireOnKeyDown(key, renderable);
                 }
             }
         }
 
-        internal static void FireOnKeyReleased(Key key, Renderable? parent = null)
+        internal static void FireOnKeyUp(Key key, Renderable? parent = null)
         {
             Debug.Assert(InputMethodManager.CurrentMethod != null);
 
             // render all children 
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
+
+            InputBinding? binding = InputMethodManager.CurrentMethod.GetBindingByBind(key.ToString());
+
+            if (binding == null) return;
 
             foreach (Renderable renderable in renderables)
             {
@@ -223,8 +230,8 @@ namespace LightningGL
                 if ((renderable.Focused
                     || renderable.CanReceiveEventsWhileUnfocused))
                 {
-                    renderable.OnKeyReleased?.Invoke(key);
-                    if (renderable.Children.Count > 0) FireOnKeyReleased(key, renderable);
+                    renderable.OnKeyUp?.Invoke(binding, key);
+                    if (renderable.Children.Count > 0) FireOnKeyUp(key, renderable);
                 }
             }
         }
@@ -270,41 +277,57 @@ namespace LightningGL
 
             foreach (Renderable renderable in renderables)
             {
-                // check if the UI element is focused.
-                if (renderable.Focused)
-                {
-                    renderable.OnAnimationStart?.Invoke();
-                    if (renderable.Children.Count > 0) FireOnAnimationStart(renderable);
-                }
+                renderable.OnAnimationStart?.Invoke();
+                if (renderable.Children.Count > 0) FireOnAnimationStart(renderable);
             }
         }
 
-        internal static void FireOnAnimationEnd(Renderable? parent = null)
+        internal static void FireOnAnimationStop(Renderable? parent = null)
         {
             // render all children 
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
 
             foreach (Renderable renderable in renderables)
             {
-                // check if the UI element is focused.
-                if (renderable.Focused)
-                {
-                    renderable.OnAnimationStart?.Invoke();
-                    if (renderable.Children.Count > 0) FireOnAnimationEnd(renderable);
-                }
+                renderable.OnAnimationStop?.Invoke();
+                if (renderable.Children.Count > 0) FireOnAnimationStop(renderable);
             }
         }
 
-        internal static void FireOnControllerButtonDown(Renderable? parent = null)
+        internal static void FireOnControllerButtonDown(ControllerButton button, Renderable? parent = null)
         {
             Debug.Assert(InputMethodManager.CurrentMethod != null);
 
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
+
+            InputBinding? binding = InputMethodManager.CurrentMethod.GetBindingByBind(button.Features.ToString());
+
+            if (binding == null) return;
+
+            foreach (Renderable renderable in renderables)
+            {
+                renderable.OnControllerButtonDown?.Invoke(binding, button);
+                if (renderable.Children.Count > 0) FireOnControllerButtonDown(button, parent);
+            }
         }
 
-        internal static void FireOnControllerButtonUp(Renderable? parent = null)
+        internal static void FireOnControllerButtonUp(ControllerButton button, Renderable? parent = null)
         {
             Debug.Assert(InputMethodManager.CurrentMethod != null);
 
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
+
+            InputBinding? binding = InputMethodManager.CurrentMethod.GetBindingByBind(button.Features.ToString());
+
+            if (binding == null) return;
+
+            foreach (Renderable renderable in renderables)
+            {
+                renderable.OnControllerButtonUp?.Invoke(binding, button);
+                if (renderable.Children.Count > 0) FireOnControllerButtonUp(button, parent);
+            }
         }
     }
 }

@@ -110,7 +110,7 @@
         public TextBox(string name, int capacity, string font) : base(name, font)
         {
             Capacity = capacity;
-            OnKeyPressed += KeyPressed;
+            OnKeyDown += KeyDown;
             if (CursorBlinkFrequency <= 0) CursorBlinkFrequency = DEFAULT_CURSOR_BLINK_FREQUENCY;
             if (ForegroundColor == default) ForegroundColor = DEFAULT_FOREGROUND_COLOR;
             if (CursorBlinkLength <= 0) CursorBlinkLength = DEFAULT_CURSOR_BLINK_LENGTH;
@@ -122,7 +122,7 @@
              bool filled = false, Color borderColor = default, Vector2 borderSize = default, bool snapToScreen = false) : base(name, font)
         { 
             Capacity = capacity;
-            OnKeyPressed += KeyPressed;
+            OnKeyDown += KeyDown;
             Position = position;
             Size = size;
             ForegroundColor = foregroundColor;
@@ -155,7 +155,7 @@
         /// Keypress handler for TextBoxes.
         /// </summary>
         /// <param name="key">The key that has been pressed.</param>
-        public void KeyPressed(Key key)
+        public void KeyDown(InputBinding binding, Key key)
         {
             // reject if text is not set or text is longer than capacity
             if (Text == null

@@ -83,9 +83,14 @@
         /// </summary>
         private const int DEFAULT_PAD_LEFT = 8;
 
+        /// <summary>
+        /// Default name for input binding to toggle the command viewer.
+        /// </summary>
+        private const string BINDING_NAME = "TriggerDebugDisplay";
+
         public DebugViewer(string name) : base(name)
         {
-            OnKeyPressed += KeyPressed;
+            OnKeyDown += KeyDown;
         }
 
         public override void Create()
@@ -261,14 +266,14 @@
             }
         }
 
-        private void KeyPressed(Key key)
+        private void KeyDown(InputBinding binding, Key key)
         {
             Debug.Assert(DebugText != null);
 
             string keyString = key.ToString();
 
             // case has to be a compile time constant so we do thos
-            if (keyString == GlobalSettings.DebugKey) Enabled = !Enabled;
+            if (binding.Name == BINDING_NAME) Enabled = !Enabled;
 
             switch (keyString)
             {

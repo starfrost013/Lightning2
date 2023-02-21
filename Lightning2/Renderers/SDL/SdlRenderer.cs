@@ -7,6 +7,7 @@ namespace LightningGL
     /// </summary>
     public class SdlRenderer : Renderer
     {
+        [Obsolete("Use Lightning events instead, this property will be removed in Version 2.5.0")]
         /// <summary>
         /// The last processed SDL event. Only valid if .Update() is called.
         /// </summary>
@@ -101,10 +102,10 @@ namespace LightningGL
                 switch (currentEvent.type)
                 {
                     case SDL_EventType.SDL_KEYDOWN:
-                        EventManager.FireOnKeyPressed((Key)currentEvent.key);
+                        EventManager.FireOnKeyDown((Key)currentEvent.key);
                         break;
                     case SDL_EventType.SDL_KEYUP:
-                        EventManager.FireOnKeyReleased((Key)currentEvent.key);
+                        EventManager.FireOnKeyUp((Key)currentEvent.key);
                         break;
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN: // Mouse down event
                         EventManager.FireOnMousePressed((MouseButton)currentEvent.button);
@@ -119,8 +120,18 @@ namespace LightningGL
                         EventManager.FireOnMouseWheel((MouseButton)currentEvent.wheel);
                         break;
                     case SDL_EventType.SDL_CONTROLLERBUTTONDOWN:
+                        EventManager.FireOnControllerButtonDown((ControllerButton)currentEvent.cbutton);
+                        break;
                     case SDL_EventType.SDL_CONTROLLERBUTTONUP:
-                        NCLogging.Log($"Joystick button event {currentEvent.cbutton.button}");
+                        EventManager.FireOnControllerButtonUp((ControllerButton)currentEvent.cbutton);
+                        break;
+                    case SDL_EventType.SDL_CONTROLLERAXISMOTION:
+                        EventManager.FireOnControllerButtonDown((ControllerButton)currentEvent.caxis);
+                        break;
+                    case SDL_EventType.SDL_CONTROLLERDEVICEADDED:
+                    case SDL_EventType.SDL_CONTROLLERDEVICEREMOVED:
+                        NCLogging.Log($"Controller device changed, rescanning input methods");
+                        InputMethodManager.ScanAvailableInputMethods();
                         break;
                     case SDL_EventType.SDL_WINDOWEVENT: // Window Event - check subtypes
                         switch (currentEvent.window.windowEvent)

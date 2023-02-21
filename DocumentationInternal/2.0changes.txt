@@ -319,6 +319,21 @@ Everything that matters to the api has to go here
 2023.02.11:
 * Input bindings loading from InputBindings.ini
 
+2023.02.12-2023.02.20:
+* BindingControllerEvent, BindingKeyboardEvent, and BindingMouseEvent
+* Events now use input bindings
+
+2023.02.21:
+* Rename Controller* classes to InputMethod*
+* Event changes: 
+	* OnKeyPressed -> OnKeyDown
+	* OnKeyReleased -> OnKeyUp
+	* OnMousePressed -> OnMouseDown
+	* OnMouseReleased -> OnMouseUp
+	* Input-bindings now required for key/controller/mouse events
+* Fix nAnimationEnd#
+
+
 * todo:
 	- setting load order
 	- DEATH to DUPLICATE CODE

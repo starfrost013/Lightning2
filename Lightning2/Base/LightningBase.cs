@@ -78,8 +78,8 @@ namespace LightningGL
                 NCLogging.Log("Loading global settings from Engine.ini...");
                 GlobalSettings.Load();
 
-                NCLogging.Log("Performing device detection for available input methods and loading input bindings from InputBindings.ini...");
-                InputMethodManager.Init();
+                NCLogging.Log("Performing device detection for available input methods...");
+                InputMethodManager.ScanAvailableInputMethods(true);
 
                 NCLogging.Log("Validating system requirements...");
                 GlobalSettings.Validate();
