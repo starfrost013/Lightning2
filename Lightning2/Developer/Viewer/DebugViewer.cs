@@ -84,9 +84,20 @@
         private const int DEFAULT_PAD_LEFT = 8;
 
         /// <summary>
-        /// Default name for input binding to toggle the command viewer.
+        /// Default name for input binding to toggle the debug viewer.
         /// </summary>
-        private const string BINDING_NAME = "TriggerDebugDisplay";
+        private const string BINDING_TRIGGER_NAME = "DebugDisplayTrigger";
+
+        /// <summary>
+        /// Default name for input binding to go up one page in the debug viewer.
+        /// </summary>
+        private const string BINDING_PAGE_UP_NAME = "DebugDisplayPageUp";
+
+        /// <summary>
+        /// Default name for input binding to go down one page in the debug viewer.
+        /// </summary>
+        private const string BINDING_PAGE_DOWN_NAME = "DebugDisplayPageDown";
+
 
         public DebugViewer(string name) : base(name)
         {
@@ -270,12 +281,10 @@
         {
             Debug.Assert(DebugText != null);
 
-            string keyString = key.ToString();
-
             // case has to be a compile time constant so we do thos
-            if (binding.Name == BINDING_NAME) Enabled = !Enabled;
+            if (binding.Name == BINDING_TRIGGER_NAME) Enabled = !Enabled;
 
-            switch (keyString)
+            switch (binding.Name)
             {
                 case "PAGEUP":
                     CurrentDebugView--;
