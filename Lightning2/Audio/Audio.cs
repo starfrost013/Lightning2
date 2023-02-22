@@ -62,26 +62,26 @@
         {
             AudioHandle = Mix_LoadWAV(Path);
                 
-            if (AudioHandle == nint.Zero) NCLogging.LogError($"Error loading audio file at {Path}: {Mix_GetError()}", 51, NCLoggingSeverity.Error);
+            if (AudioHandle == nint.Zero) Logger.LogError($"Error loading audio file at {Path}: {Mix_GetError()}", 51, LoggerSeverity.Error);
 
             RealVolume = DEFAULT_REAL_VOLUME; // make sure there is always a value
 
             if (!File.Exists(Path))
             {
-                NCLogging.LogError($"Error loading audio file: The path {Path} does not exist!", 52, NCLoggingSeverity.FatalError);
+                Logger.LogError($"Error loading audio file: The path {Path} does not exist!", 52, LoggerSeverity.FatalError);
                 return;
             }
 
             if (Path.Contains(".mod", StringComparison.InvariantCultureIgnoreCase))
             {
-                NCLogging.LogError(".mod file loading is completely broken in SDL_mixer 2.6.2 and causes memory leaks. Sorry, not my code.", 167, NCLoggingSeverity.Error);
+                Logger.LogError(".mod file loading is completely broken in SDL_mixer 2.6.2 and causes memory leaks. Sorry, not my code.", 167, LoggerSeverity.Error);
                 return;
             }
 
             Channel = AudioManager.LastChannelId;
             AudioManager.LastChannelId++;
 
-            NCLogging.Log($"Loaded audio file at {Path} to channel {Channel}");
+            Logger.Log($"Loaded audio file at {Path} to channel {Channel}");
             Loaded = true;
         }
 

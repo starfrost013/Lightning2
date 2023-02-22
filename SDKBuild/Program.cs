@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 // SDKBuild 2.2 for Lightning 2.0
 // Very quick and dirty tool to build a Lightning SDK setup file.
-NCLogging.Init(); // init NCLogging
+Logger.Init(); // init NCLogging
 
 #region Variables
 
@@ -53,23 +53,23 @@ for (int argId = 0; argId < args.Length; argId++)
     switch (arg)
     {
         case "-release":
-            NCLogging.Log("Specified Release config (instead of debug)", ConsoleColor.Blue);
+            Logger.Log("Specified Release config (instead of debug)", ConsoleColor.Blue);
             config = "Release";
             break;
         case "-norunsetup":
-            NCLogging.Log("Specified that setup will not be run", ConsoleColor.Blue);
+            Logger.Log("Specified that setup will not be run", ConsoleColor.Blue);
             runSetup = false;
             break;
         case "-noquiet":
-            NCLogging.Log("Specified that setup will be run loudly", ConsoleColor.Blue);
+            Logger.Log("Specified that setup will be run loudly", ConsoleColor.Blue);
             noQuiet = true;
             break;
         case "-notimebuild":
-            NCLogging.Log("Not measuring time to run SDKBuild", ConsoleColor.Blue);
+            Logger.Log("Not measuring time to run SDKBuild", ConsoleColor.Blue);
             noTimeBuild = true;
             break;
         case "-currentuser":
-            NCLogging.Log("Specified install as quiet user", ConsoleColor.Blue);
+            Logger.Log("Specified install as quiet user", ConsoleColor.Blue);
             finalSdkSetupArgs = finalSdkSetupArgsCurrentUser;
             break;
     }
@@ -85,69 +85,69 @@ if (!noTimeBuild) stopwatch.Start();
 FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
 #pragma warning restore IL3000
 
-NCLogging.Log($"Lightning SDK Builder version {fvi.FileMajorPart}.{fvi.FileMinorPart}.{fvi.FileBuildPart}");
+Logger.Log($"Lightning SDK Builder version {fvi.FileMajorPart}.{fvi.FileMinorPart}.{fvi.FileBuildPart}");
 
 // delete sdk dir if it exists
 if (Directory.Exists("SDK"))
 {
-    NCLogging.Log("Deleting pre-existing SDK...");
+    Logger.Log("Deleting pre-existing SDK...");
     Directory.Delete("SDK", true);
 }
 
-NCLogging.Log("Copying build files from Lightning build directory...");
+Logger.Log("Copying build files from Lightning build directory...");
 
 if (!Directory.Exists(buildPath))
 {
-    NCLogging.LogError($"Build directory not found ({buildPath})!. Please build Lightning in the specified configuration (provide -release for Release, otherwise Debug)", 1402,
-        NCLoggingSeverity.FatalError);
+    Logger.LogError($"Build directory not found ({buildPath})!. Please build Lightning in the specified configuration (provide -release for Release, otherwise Debug)", 1402,
+        LoggerSeverity.FatalError);
     Environment.Exit(1);
 }
 
-NCFile.RecursiveCopy(buildPath, "SDK");
+FileUtils.RecursiveCopy(buildPath, "SDK");
 
 // build makepackage and animtool first because they may be compiled against older versions of lightning
 // so we overwrite old versions if they happen to be there
-NCLogging.Log("Copying MakePackage build files...");
+Logger.Log("Copying MakePackage build files...");
 
-NCFile.RecursiveCopy(makePackagePath, "SDK");
+FileUtils.RecursiveCopy(makePackagePath, "SDK");
 
 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 {
-    NCLogging.Log("Copying AnimTool build files...");
+    Logger.Log("Copying AnimTool build files...");
 
-    NCFile.RecursiveCopy(animToolPath, "SDK");
+    FileUtils.RecursiveCopy(animToolPath, "SDK");
 }
 else
 {
-    NCLogging.Log("Not running on windows, skipping AnimTool (remove when MAUI AnimTool is a thing)");
+    Logger.Log("Not running on windows, skipping AnimTool (remove when MAUI AnimTool is a thing)");
 }
 
 FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo($@"{buildPath}\LightningBase.dll");
-NCLogging.Log($"Building SDK, release {versionInfo.ProductVersion} ({config})");
+Logger.Log($"Building SDK, release {versionInfo.ProductVersion} ({config})");
 
 Directory.CreateDirectory("SDK");
 
 /// top-level statements ???? wtf is it doing here this is the same namespace and class
-NCFile.RecursiveCopy(buildPath, "SDK");
+FileUtils.RecursiveCopy(buildPath, "SDK");
 
 // TODO: VSIX Installation
-NCLogging.Log("Building documentation...");
+Logger.Log("Building documentation...");
 
-if (!Directory.Exists(docPath)) NCLogging.LogError($"Documentation directory not found ({docPath}!", 1401, NCLoggingSeverity.Warning);
+if (!Directory.Exists(docPath)) Logger.LogError($"Documentation directory not found ({docPath}!", 1401, LoggerSeverity.Warning);
 
 Directory.CreateDirectory(@"SDK\Documentation");
 
-NCFile.RecursiveCopy(docPath, @"SDK\Documentation");
+FileUtils.RecursiveCopy(docPath, @"SDK\Documentation");
 
-NCLogging.Log("Building examples...");
+Logger.Log("Building examples...");
 
 Directory.CreateDirectory(@"SDK\Examples");
 
-if (!Directory.Exists(examplePath)) NCLogging.LogError($"Examples directory not found ({examplePath}!", 1403, NCLoggingSeverity.Warning);
+if (!Directory.Exists(examplePath)) Logger.LogError($"Examples directory not found ({examplePath}!", 1403, LoggerSeverity.Warning);
 
-NCFile.RecursiveCopy(examplePath, @"SDK\Examples");
+FileUtils.RecursiveCopy(examplePath, @"SDK\Examples");
 
-NCLogging.Log("Building VS templates...");
+Logger.Log("Building VS templates...");
 
 // copy the zip file
 Directory.CreateDirectory(@"SDK\VSTemplate");
@@ -158,11 +158,11 @@ File.Copy(@$"{vsTemplatePath}\Lightning Scene Template.zip", vsSceneTemplatePath
 
 if (!Directory.Exists(innoInstallDir))
 {
-    NCLogging.Log("Inno Setup not installed, skipping installer generation phase...");
+    Logger.Log("Inno Setup not installed, skipping installer generation phase...");
 }
 else
 {
-    NCLogging.Log("SDK built! Generating installer...", ConsoleColor.Green);
+    Logger.Log("SDK built! Generating installer...", ConsoleColor.Green);
 
     Process innoSetup = Process.Start($@"{innoInstallDir}\ISCC.exe", innoIssPath);
 
@@ -171,13 +171,13 @@ else
 
     if (innoSetup.ExitCode > 0)
     {
-        NCLogging.Log($"Error: Inno Setup failed to generate the SDK installer (exit code {innoSetup.ExitCode})!", ConsoleColor.Red);
+        Logger.Log($"Error: Inno Setup failed to generate the SDK installer (exit code {innoSetup.ExitCode})!", ConsoleColor.Red);
     }
     else
     {
         if (runSetup)
         {
-            NCLogging.Log("Running generated SDKSetup.exe (You will receive an admin prompt and any applications may be force-closed and restarted)...");
+            Logger.Log("Running generated SDKSetup.exe (You will receive an admin prompt and any applications may be force-closed and restarted)...");
 
             Process sdkSetup;
 
@@ -194,7 +194,7 @@ else
             // wait for SDKSetup to exit.
             while (!sdkSetup.HasExited) { }; 
 
-            if (sdkSetup.ExitCode > 0) NCLogging.Log($"Error: Failed to install SDK (exit code {sdkSetup.ExitCode})!", ConsoleColor.Red);
+            if (sdkSetup.ExitCode > 0) Logger.Log($"Error: Failed to install SDK (exit code {sdkSetup.ExitCode})!", ConsoleColor.Red);
         }
 
     }
@@ -205,9 +205,9 @@ if (!noTimeBuild)
 {
     stopwatch.Stop();
     double instSeconds = (double)stopwatch.ElapsedMilliseconds / 1000;
-    NCLogging.Log($"Build and install took {instSeconds:F1} sec (run setup={runSetup}, loud setup={noQuiet})");
+    Logger.Log($"Build and install took {instSeconds:F1} sec (run setup={runSetup}, loud setup={noQuiet})");
 }
 
-NCLogging.Log("Done!", ConsoleColor.Green);
+Logger.Log("Done!", ConsoleColor.Green);
 
 #endregion

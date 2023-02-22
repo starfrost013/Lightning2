@@ -250,7 +250,7 @@
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    NCLogging.LogError("A Renderable must have a name!", 189, NCLoggingSeverity.FatalError);
+                    Logger.LogError("A Renderable must have a name!", 189, LoggerSeverity.FatalError);
                 }
                 else
                 {
@@ -295,7 +295,7 @@
             if (animation == null
                 || !animation.Loaded)
             {
-                NCLogging.LogError("You must load an animation before attaching it to a renderable! The animation will not be set.", 149, NCLoggingSeverity.Error);
+                Logger.LogError("You must load an animation before attaching it to a renderable! The animation will not be set.", 149, LoggerSeverity.Error);
                 return;
             }
 
@@ -307,7 +307,7 @@
             if (CurrentAnimation == null
                 || !CurrentAnimation.Loaded)
             {
-                NCLogging.LogError("You must load an animation before playing it! The animation will not be set.", 151, NCLoggingSeverity.Error);
+                Logger.LogError("You must load an animation before playing it! The animation will not be set.", 151, LoggerSeverity.Error);
                 return;
             }
 
@@ -366,7 +366,7 @@
         {
             if (Children.Count == 0)
             {
-                NCLogging.LogError($"Tried to call Renderable::GetFirstChild on a renderable with no children!", 301, NCLoggingSeverity.Warning, null, true);
+                Logger.LogError($"Tried to call Renderable::GetFirstChild on a renderable with no children!", 301, LoggerSeverity.Warning, null, true);
                 return null;
             }
 
@@ -377,7 +377,7 @@
         {
             if (Children.Count == 0)
             {
-                NCLogging.LogError($"Tried to call Renderable::GetLastChild on a renderable with no children!", 192, NCLoggingSeverity.Warning, null, true);
+                Logger.LogError($"Tried to call Renderable::GetLastChild on a renderable with no children!", 192, LoggerSeverity.Warning, null, true);
                 return null;
             }
 

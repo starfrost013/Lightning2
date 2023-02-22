@@ -6,7 +6,7 @@ namespace LightningGL
         public override string Name => "setgvar";
         public override bool Execute(params string[] parameters)
         {
-            NCLogging.Log("SetGlobalSettingCommand NOT YET IMPLEMENTED");
+            Logger.Log("SetGlobalSettingCommand NOT YET IMPLEMENTED");
             return true; 
         }
 

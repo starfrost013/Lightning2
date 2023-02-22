@@ -527,20 +527,20 @@
             {
                 _ = int.TryParse(requirementsSection.GetValue("MinimumSystemRam"), out var minRamValue);
                 _ = int.TryParse(requirementsSection.GetValue("MinimumLogicalProcessors"), out var minLogicalProcessorsValue);
-                _ = Enum.TryParse(typeof(SystemInfoCPUCapabilities), requirementsSection.GetValue("MinimumCpuCapabilities"), true, out var minimumCpuCapabilitiesValue);
-                _ = Enum.TryParse(typeof(SystemInfoOperatingSystem), requirementsSection.GetValue("MinimumOperatingSystem"), true, out var minimumOperatingSystemValue);
+                _ = Enum.TryParse(requirementsSection.GetValue("MinimumCpuCapabilities"), true, out SystemInfoCPUCapabilities minimumCpuCapabilitiesValue);
+                _ = Enum.TryParse(requirementsSection.GetValue("MinimumOperatingSystem"), true, out SystemInfoOperatingSystem minimumOperatingSystemValue);
 
                 RequirementsMinimumSystemRam = minRamValue;
                 RequirementsMinimumLogicalProcessors = minLogicalProcessorsValue;
-                if (minimumCpuCapabilitiesValue != null) RequirementsMinimumCpuCapabilities = (SystemInfoCPUCapabilities)minimumCpuCapabilitiesValue;
-                if (minimumOperatingSystemValue != null) RequirementsMinimumOperatingSystem = (SystemInfoOperatingSystem)minimumOperatingSystemValue;
+                if (minimumCpuCapabilitiesValue != default) RequirementsMinimumCpuCapabilities = minimumCpuCapabilitiesValue;
+                if (minimumOperatingSystemValue != default) RequirementsMinimumOperatingSystem = minimumOperatingSystemValue;
             }
 
             // load the scene section (we checked for its presence earlier)
 
             SceneStartupScene = sceneSection.GetValue("StartupScene");
 
-            if (SceneStartupScene == null) NCLogging.LogError("DontUseSceneManager not specified, but StartupScene not present in the [Scene] section of Engine.ini!", 164,
+            if (SceneStartupScene == null) NCLogging.LogError("StartupScene not present in the [Scene] section of Engine.ini!", 164,
                 NCLoggingSeverity.FatalError);
 
             AudioDeviceHz = DEFAULT_AUDIO_DEVICE_HZ;
@@ -590,7 +590,6 @@
 
                 _ = int.TryParse(networkKeepAliveMs, out var networkKeepAliveMsValue);
                 if (networkKeepAliveMsValue > 0) NetworkKeepAliveMs = networkKeepAliveMsValue;
-
             }
 
             // debugdisabled = false
@@ -660,7 +659,7 @@
                 $"{SystemInfo.CurOperatingSystem}!", 114, NCLoggingSeverity.FatalError);
         }
 
-        public static void Write() => IniFile.Write(GLOBALSETTINGS_PATH);
+        public static void Write() => IniFile.Save(GLOBALSETTINGS_PATH);
         #endregion
     }
 }

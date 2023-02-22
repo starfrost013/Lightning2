@@ -18,7 +18,7 @@ namespace MakePackage
             {
                 if (!Directory.Exists(CommandLine.InFolder))
                 {
-                    NCLogging.Log($"Error: The directory {CommandLine.InFolder} does not exist!", ConsoleColor.Red, false, false);
+                    Logger.Log($"Error: The directory {CommandLine.InFolder} does not exist!", ConsoleColor.Red, false, false);
                     return false;
                 }
 
@@ -56,7 +56,7 @@ namespace MakePackage
             {
                 if (!File.Exists(CommandLine.InFile))
                 {
-                    NCLogging.Log($"Error: The file {CommandLine.InFile} does not exist!", ConsoleColor.Red, false, false);
+                    Logger.Log($"Error: The file {CommandLine.InFile} does not exist!", ConsoleColor.Red, false, false);
                     return false;
                 }
 

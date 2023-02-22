@@ -14,14 +14,9 @@ namespace LightningBase
         KeyboardMouse = 0,
 
         /// <summary>
-        /// Sony Dualshock 4 (PS4 Controller)
-        /// </summary>
-        DS4 = 1,
-
-        /// <summary>
         /// Generic XInput Controller
         /// </summary>
-        Xinput = 2,
+        Xinput = 1,
 
     }
 }

@@ -8,12 +8,12 @@
 
         public override void OnReceiveAsServer(NetworkServer server, NetworkClient sendingClient)
         {
-            NCLogging.Log("Server Pong!");
+            Logger.Log("Server Pong!");
         }
 
         public override void OnReceiveAsClient(NetworkClient client)
         {
-            NCLogging.Log("Client Pong!");
+            Logger.Log("Client Pong!");
         }
     }
 }

@@ -15,9 +15,9 @@
         public static string Path => GlobalSettings.GeneralLocalSettingsPath;
 
         /// <summary>
-        /// The local settings file - see <see cref="NCINIFile"/>.
+        /// The local settings file - see <see cref="IniFile"/>.
         /// </summary>
-        public static NCINIFile LocalSettingsFile { get; private set; }
+        public static IniFile LocalSettingsFile { get; private set; }
 
         /// <summary>
         /// Determines if the local settings were changed.
@@ -31,11 +31,11 @@
         {
             if (!File.Exists(Path))
             {
-                NCLogging.Log($"LocalSettingsPath set but Local Settings INI file does not exist. Creating it...");
+                Logger.Log($"LocalSettingsPath set but Local Settings INI file does not exist. Creating it...");
                 File.Create(Path).Close(); // close it to prevent potential conflicts
             }
 
-            LocalSettingsFile = NCINIFile.Parse(Path);
+            LocalSettingsFile = IniFile.Parse(Path);
         }
 
         /// <summary>
@@ -46,11 +46,11 @@
             // we already create it if it does not exist
             if (LocalSettingsFile == null)
             {
-                NCLogging.LogError($"Tried to save LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 170, NCLoggingSeverity.Warning);
+                Logger.LogError($"Tried to save LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 170, LoggerSeverity.Warning);
                 return;
             }
 
-            LocalSettingsFile.Write(Path);
+            LocalSettingsFile.Save(Path);
             WasChanged = false; // don't save it automatically again
         }
 
@@ -63,11 +63,11 @@
             // we already create it if it does not exist
             if (LocalSettingsFile == null)
             {
-                NCLogging.LogError($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 171, NCLoggingSeverity.Warning);
+                Logger.LogError($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 171, LoggerSeverity.Warning);
                 return;
             }
 
-            LocalSettingsFile.Sections.Add(new NCINIFileSection(sectionName));
+            LocalSettingsFile.Sections.Add(new IniSection(sectionName));
             WasChanged = true;
         }
 
@@ -76,7 +76,7 @@
             // we already create it if it does not exist
             if (LocalSettingsFile == null)
             {
-                NCLogging.LogError($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 172, NCLoggingSeverity.Warning);
+                Logger.LogError($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 172, LoggerSeverity.Warning);
                 return;
             }
 
@@ -95,11 +95,11 @@
             // we already create it if it does not exist
             if (LocalSettingsFile == null)
             {
-                NCLogging.LogError($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 173, NCLoggingSeverity.Warning);
+                Logger.LogError($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 173, LoggerSeverity.Warning);
                 return;
             }
 
-            NCINIFileSection section = LocalSettingsFile.GetSection(sectionName);
+            IniSection section = LocalSettingsFile.GetSection(sectionName);
 
             section.Values.Add(key, value);
             WasChanged = true;
@@ -110,11 +110,11 @@
             // we already create it if it does not exist
             if (LocalSettingsFile == null)
             {
-                NCLogging.LogError($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 174, NCLoggingSeverity.Warning);
+                Logger.LogError($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 174, LoggerSeverity.Warning);
                 return;
             }
 
-            NCINIFileSection section = LocalSettingsFile.GetSection(sectionName);
+            IniSection section = LocalSettingsFile.GetSection(sectionName);
 
             section.Values[key] = value;
             WasChanged = true;
@@ -125,11 +125,11 @@
             // we already create it if it does not exist
             if (LocalSettingsFile == null)
             {
-                NCLogging.LogError($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 175, NCLoggingSeverity.Warning);
+                Logger.LogError($"Tried to edit LocalSettings without creating it - set the LocalSettingsPath GlobalSettings first!", 175, LoggerSeverity.Warning);
                 return;
             }
 
-            NCINIFileSection section = LocalSettingsFile.GetSection(sectionName);
+            IniSection section = LocalSettingsFile.GetSection(sectionName);
             section.Values.Remove(key);
             WasChanged = true;
         }

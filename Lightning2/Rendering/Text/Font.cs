@@ -59,7 +59,7 @@
 
             if (!File.Exists(Path))
             {
-                NCLogging.LogError($"Error loading font: Attempted to load nonexistent font at {Path}", 34, NCLoggingSeverity.Error);
+                Logger.LogError($"Error loading font: Attempted to load nonexistent font at {Path}", 34, LoggerSeverity.Error);
                 return;
             }
 
@@ -78,7 +78,7 @@
            
             if (!isValidFontType)
             {
-                NCLogging.LogError($"Error loading font: Attempted to load an invalid font format. The supported font formats are:\n\n" +
+                Logger.LogError($"Error loading font: Attempted to load an invalid font format. The supported font formats are:\n\n" +
                     $"- TrueType and TrueType collections (.ttf/ttc)\n" +
                     $"- OpenType and OpenType collections (.otf/otc)\n" +
                     $"- OpenType CFF\n" +
@@ -91,19 +91,19 @@
                     $"- BDF\n" +
                     $"- PFR\n" +
                     $"- PostScript Type 42 (limited support)" +
-                    $"- ", 36, NCLoggingSeverity.Error);
+                    $"- ", 36, LoggerSeverity.Error);
                 return;
             }
 
-            if (FontSize < 1) NCLogging.LogError($"Error loading font: Invalid font size {Size}, must be at least 1!", 37, 
-                 NCLoggingSeverity.Error);
+            if (FontSize < 1) Logger.LogError($"Error loading font: Invalid font size {Size}, must be at least 1!", 37, 
+                 LoggerSeverity.Error);
 
             FT_Error error = FT_New_Face(Lightning.Renderer.FreeTypeLibrary.Native, Path, Index, out var newHandle);
 
             if (error != FT_Error.FT_Err_Ok)
             {
-                NCLogging.LogError($"A fatal FreeType error occurred loading the font: {error}", 236, 
-                    NCLoggingSeverity.Error);
+                Logger.LogError($"A fatal FreeType error occurred loading the font: {error}", 236, 
+                    LoggerSeverity.Error);
                 return;
             }
 
@@ -117,11 +117,11 @@
             }
             catch
             {
-                NCLogging.LogError($"A fatal FreeType error occurred setting the font size: {error}", 236, NCLoggingSeverity.Error);
+                Logger.LogError($"A fatal FreeType error occurred setting the font size: {error}", 236, LoggerSeverity.Error);
                 return;
             }
 
-            NCLogging.Log($"Loaded font {Name}, size {FontSize} at {Path}");
+            Logger.Log($"Loaded font {Name}, size {FontSize} at {Path}");
             
             Loaded = true;
         }
@@ -131,7 +131,7 @@
             Handle?.Unload();
             Handle = null;
             Loaded = false; 
-            NCLogging.Log($"Unloaded font {Name}, size {FontSize}");
+            Logger.Log($"Unloaded font {Name}, size {FontSize}");
         }
     }
 }

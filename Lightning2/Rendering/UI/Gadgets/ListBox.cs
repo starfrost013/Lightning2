@@ -30,8 +30,8 @@
             set
             {
                 if (value < 0
-                    || value > Children.Count - 1) NCLogging.LogError("Attempted to set an invalid SelectedIndex for a ListBox!", 83,
-                        NCLoggingSeverity.FatalError);
+                    || value > Children.Count - 1) Logger.LogError("Attempted to set an invalid SelectedIndex for a ListBox!", 83,
+                        LoggerSeverity.FatalError);
 
                 _selectedindex = value;
             }
@@ -131,8 +131,8 @@
 
             if (Font == null)
             {
-                NCLogging.LogError($"Tried to add an item to a ListBox with an invalid font", 185,
-                    NCLoggingSeverity.FatalError);
+                Logger.LogError($"Tried to add an item to a ListBox with an invalid font", 185,
+                    LoggerSeverity.FatalError);
                 return;
             }
 
@@ -140,8 +140,8 @@
 
             if (itemFont == null)
             {
-                NCLogging.LogError($"Tried to add an item to a ListBox with an invalid font", 187,
-                   NCLoggingSeverity.FatalError);
+                Logger.LogError($"Tried to add an item to a ListBox with an invalid font", 187,
+                   LoggerSeverity.FatalError);
                 return;
             }
 
@@ -209,7 +209,7 @@
 
             if (curFont == null)
             {
-                NCLogging.LogError($"Tried to add an item to a ListBox with an invalid font", 186, NCLoggingSeverity.FatalError);
+                Logger.LogError($"Tried to add an item to a ListBox with an invalid font", 186, LoggerSeverity.FatalError);
                 return;
             }
 

@@ -151,7 +151,7 @@ namespace LightningGL
         {
             if (string.IsNullOrWhiteSpace(Font))
             {
-                NCLogging.LogError($"Tried to draw a text with no font! The text will not be drawn.", 256, NCLoggingSeverity.Error, null, true);
+                Logger.LogError($"Tried to draw a text with no font! The text will not be drawn.", 256, LoggerSeverity.Error, null, true);
                 return;
             }
 
@@ -170,7 +170,7 @@ namespace LightningGL
             if (font == null
                 || font.Handle == default)
             {
-                NCLogging.LogError($"Attempted to acquire invalid font with name {Font}", 39, NCLoggingSeverity.FatalError);
+                Logger.LogError($"Attempted to acquire invalid font with name {Font}", 39, LoggerSeverity.FatalError);
                 return;
             }
 

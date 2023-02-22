@@ -9,7 +9,7 @@ namespace LightningGL
     {
         internal override bool DetectPresence()
         {
-            NCLogging.Log("Detecting keyboard...");
+            Logger.Log("Detecting keyboard...");
             return true;
         }
 

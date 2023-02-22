@@ -100,8 +100,8 @@
             // Set culture to invariant so things like different decimal symbols don't crash
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
 
-            NCLogging.Settings.WriteToLog = true;
-            NCLogging.Init();
+            Logger.Settings.WriteToLog = true;
+            Logger.Init();
         }
 
         public static void InitClient()
@@ -112,8 +112,8 @@
             }
             catch (Exception err)
             {
-                NCLogging.LogError($"An unknown fatal error occurred during client initialisation. The installation may be corrupted!",
-                    0x0000DEAD, NCLoggingSeverity.FatalError, err);
+                Logger.LogError($"An unknown fatal error occurred during client initialisation. The installation may be corrupted!",
+                    0x0000DEAD, LoggerSeverity.FatalError, err);
             }
         }
 
@@ -125,8 +125,8 @@
             }
             catch (Exception err)
             {
-                NCLogging.LogError($"An unknown fatal error occurred during server initialisation. The installation may be corrupted!",
-                    0x0001DEAD, NCLoggingSeverity.FatalError, err);
+                Logger.LogError($"An unknown fatal error occurred during server initialisation. The installation may be corrupted!",
+                    0x0001DEAD, LoggerSeverity.FatalError, err);
             }
         }
 

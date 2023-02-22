@@ -16,7 +16,7 @@ namespace LightningGL
             }
 
             // default to SDL if we use an invalid renderer
-            NCLogging.Log($"Tried to specify invalid renderer, falling back to SDL2!");
+            Logger.Log($"Tried to specify invalid renderer, falling back to SDL2!");
             return new SdlRenderer();
         }
     }

@@ -26,7 +26,7 @@ namespace AnimTool
         static AnimTool()
         {
             CurAnimation = new Animation("AnimToolAnim", "Untitled Animation");
-            NCLogging.Init();
+            Logger.Init();
         }
 
         internal static void Load()

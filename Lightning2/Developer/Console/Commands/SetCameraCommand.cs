@@ -22,7 +22,7 @@ namespace LightningGL
                 case CameraType.Follow:
                 case CameraType.Chase:
                 case CameraType.Floor:
-                    NCLogging.Log("The command was accepted [placeholder]");
+                    Logger.Log("The command was accepted [placeholder]");
                     break;
 
             }

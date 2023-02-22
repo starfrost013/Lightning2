@@ -52,14 +52,14 @@ namespace LightningGL
         {
             try
             {
-                NCLogging.Log("Initialising core engine...");
+                Logger.Log("Initialising core engine...");
                 
                 // Log the sign-on message
-                NCLogging.Log("Lightning Game Engine", ConsoleColor.Blue);
-                NCLogging.Log($"Version {LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING}", ConsoleColor.Blue);
+                Logger.Log("Lightning Game Engine", ConsoleColor.Blue);
+                Logger.Log($"Version {LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING}", ConsoleColor.Blue);
 
 #if DEBUG
-                NCLogging.Log("Debug build (Pre-release - do not distribute!)", ConsoleColor.Yellow);
+                Logger.Log("Debug build (Pre-release - do not distribute!)", ConsoleColor.Yellow);
 #elif RELEASE
                 NCLogging.Log("Release build (Pre-release - do not distribute!)", ConsoleColor.Yellow);
 #elif FINAL
@@ -67,71 +67,71 @@ namespace LightningGL
 #endif
 
                 // we use sdl for non-rendering tasks in all cases
-                NCLogging.Log("Initialising SDL...");
-                if (SDL_Init(SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) NCLogging.LogError($"Error initialising SDL2: {SDL_GetError()}", 200, NCLoggingSeverity.FatalError);
+                Logger.Log("Initialising SDL...");
+                if (SDL_Init(SDL_InitFlags.SDL_INIT_EVERYTHING) < 0) Logger.LogError($"Error initialising SDL2: {SDL_GetError()}", 200, LoggerSeverity.FatalError);
 
                 // this should always be the earliest step
-                NCLogging.Log("Obtaining system information...");
+                Logger.Log("Obtaining system information...");
                 SystemInfo.Load();
 
                 // this should always be the second earliest step
-                NCLogging.Log("Loading global settings from Engine.ini...");
+                Logger.Log("Loading global settings from Engine.ini...");
                 GlobalSettings.Load();
 
-                NCLogging.Log("Performing device detection for available input methods...");
+                Logger.Log("Performing device detection for available input methods...");
                 InputMethodManager.ScanAvailableInputMethods(true);
 
-                NCLogging.Log("Validating system requirements...");
+                Logger.Log("Validating system requirements...");
                 GlobalSettings.Validate();
 
-                NCLogging.Log("Initialising LocalisationManager...");
+                Logger.Log("Initialising LocalisationManager...");
                 LocalisationManager.Load();
 
                 // load global settings package file if init settings one was not specified
                 if (GlobalSettings.GeneralPackageFile != null)
                 {
-                    NCLogging.Log($"User specified package file {GlobalSettings.GeneralPackageFile} to load, loading it...");
+                    Logger.Log($"User specified package file {GlobalSettings.GeneralPackageFile} to load, loading it...");
 
                     // set default content folder
                     GlobalSettings.GeneralContentFolder ??= "Content";
-                    if (!Packager.LoadPackage(GlobalSettings.GeneralPackageFile, GlobalSettings.GeneralContentFolder)) NCLogging.LogError($"An error occurred loading " +
-                        $"{GlobalSettings.GeneralPackageFile}. The game cannot be loaded.", 12, NCLoggingSeverity.FatalError);
+                    if (!Packager.LoadPackage(GlobalSettings.GeneralPackageFile, GlobalSettings.GeneralContentFolder)) Logger.LogError($"An error occurred loading " +
+                        $"{GlobalSettings.GeneralPackageFile}. The game cannot be loaded.", 12, LoggerSeverity.FatalError);
                 }
 
                 // Load LocalSettings
                 if (GlobalSettings.GeneralLocalSettingsPath != null)
                 {
-                    NCLogging.Log($"Loading local settings from {GlobalSettings.GeneralLocalSettingsPath}...");
+                    Logger.Log($"Loading local settings from {GlobalSettings.GeneralLocalSettingsPath}...");
                     LocalSettings.Load();
                 }
             }
             catch (Exception err)
             {
-                NCLogging.LogError($"An unknown fatal error occurred. The engine installation may be corrupted!", 0x0000DEAD, NCLoggingSeverity.FatalError, err);
+                Logger.LogError($"An unknown fatal error occurred. The engine installation may be corrupted!", 0x0000DEAD, LoggerSeverity.FatalError, err);
             }
         }
 
         public virtual void Shutdown()
         {
-            if (!Initialised) NCLogging.LogError("Attempted to shutdown without starting! Please call Client::Init or Server::Init!", 95, NCLoggingSeverity.FatalError);
+            if (!Initialised) Logger.LogError("Attempted to shutdown without starting! Please call Client::Init or Server::Init!", 95, LoggerSeverity.FatalError);
 
             if (GlobalSettings.GeneralProfilePerformance)
             {
-                NCLogging.Log("Stopping performance profiling...");
+                Logger.Log("Stopping performance profiling...");
                 PerformanceProfiler.Shutdown();
             }
 
-            NCLogging.Log("Shutting down the Scene Manager...");
+            Logger.Log("Shutting down the Scene Manager...");
             ShutdownAll();
 
-            NCLogging.Log("Freeing GlyphCache glyphs (Text Manager)...");
+            Logger.Log("Freeing GlyphCache glyphs (Text Manager)...");
             GlyphCache.Shutdown();
 
-            NCLogging.Log("Shutting down renderer...");
+            Logger.Log("Shutting down renderer...");
             Renderer.Shutdown();
 
             // Shut down the light manager if it has been started.
-            NCLogging.Log("Shutting down the Light Manager...");
+            Logger.Log("Shutting down the Light Manager...");
             if (LightManager.Initialised) LightManager.Shutdown();
 
             // Clear up any unpacked package data if Engine.ini specifies to
@@ -141,11 +141,11 @@ namespace LightningGL
             if (!GlobalSettings.GeneralDontSaveLocalSettingsOnShutdown
                 && LocalSettings.WasChanged)
             {
-                NCLogging.Log("Saving local settings as they were changed...");
+                Logger.Log("Saving local settings as they were changed...");
                 LocalSettings.Save();
             }
 
-            NCLogging.Log("Shutting down SDL...");
+            Logger.Log("Shutting down SDL...");
             SDL_Quit();
         }
 
@@ -156,7 +156,7 @@ namespace LightningGL
         /// <exception cref="NCError">An error occurred initialising the Scene Manager.</exception>
         internal virtual void InitSceneManager(RendererSettings windowSettings)
         {
-            NCLogging.Log("Initialising renderer...");
+            Logger.Log("Initialising renderer...");
             Renderer.Settings = windowSettings;
             Renderer.Start();
 
@@ -177,7 +177,7 @@ namespace LightningGL
                     {
                         Scenes.Add(scene);
 
-                        NCLogging.Log($"Initialising scene {scene.Name}...");
+                        Logger.Log($"Initialising scene {scene.Name}...");
 
                         scene.Start();
 
@@ -185,7 +185,7 @@ namespace LightningGL
                     }
                     else
                     {
-                        NCLogging.LogError($"Error initialising SceneManager: Failed to create scene instance!", 130, NCLoggingSeverity.FatalError);
+                        Logger.LogError($"Error initialising SceneManager: Failed to create scene instance!", 130, LoggerSeverity.FatalError);
                     }
 
                 }
@@ -193,14 +193,14 @@ namespace LightningGL
 
             if (Scenes.Count == 0)
             {
-                NCLogging.LogError($"There are no scenes defined.\n\nIf you tried to initialise Lightning without the Scene Manager," +
-                $" this is no longer supported as of Lightning 2.0.0!", 131, NCLoggingSeverity.FatalError);
+                Logger.LogError($"There are no scenes defined.\n\nIf you tried to initialise Lightning without the Scene Manager," +
+                $" this is no longer supported as of Lightning 2.0.0!", 131, LoggerSeverity.FatalError);
                 return;
             }
 
             if (startupScene == null)
             {
-                NCLogging.LogError($"Invalid startup scene {GlobalSettings.SceneStartupScene}", 132, NCLoggingSeverity.FatalError);
+                Logger.LogError($"Invalid startup scene {GlobalSettings.SceneStartupScene}", 132, LoggerSeverity.FatalError);
                 return;
             }
 
@@ -228,11 +228,11 @@ namespace LightningGL
 
         internal virtual void ShutdownAll()
         {
-            NCLogging.Log("Shutting down all scenes...");
+            Logger.Log("Shutting down all scenes...");
             foreach (Scene scene in Scenes)
             {
                 // shutdown every scene
-                NCLogging.Log($"Shutting down scene {scene.Name}...");
+                Logger.Log($"Shutting down scene {scene.Name}...");
                 scene.Shutdown();
             }
         }
@@ -243,7 +243,7 @@ namespace LightningGL
         /// <param name="newScene">The new <see cref="Scene"/> to set to be the current scene.</param>
         public virtual void SetCurrentScene(Scene newScene)
         {
-            NCLogging.Log($"Switching to scene {newScene.Name}...");
+            Logger.Log($"Switching to scene {newScene.Name}...");
 
             if (CurrentScene != null)
             {
@@ -270,7 +270,7 @@ namespace LightningGL
 
             if (scene == null)
             {
-                NCLogging.LogError($"Tried to set invalid scene {name}!", 133, NCLoggingSeverity.FatalError);
+                Logger.LogError($"Tried to set invalid scene {name}!", 133, LoggerSeverity.FatalError);
                 return;
             }
 

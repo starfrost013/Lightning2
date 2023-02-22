@@ -40,13 +40,13 @@
 
         public override void Create()
         {
-            if (FrameSize == default) NCLogging.LogError("Cannot load a texture with no texture frame size!", 45, NCLoggingSeverity.FatalError);
+            if (FrameSize == default) Logger.LogError("Cannot load a texture with no texture frame size!", 45, LoggerSeverity.FatalError);
 
             if (TextureCount.X < 1 
-                || TextureCount.Y < 1) NCLogging.LogError($"A texture atlas must have at least one frame, set to {TextureCount.X},{TextureCount.Y}!", 
-                    46, NCLoggingSeverity.FatalError);
+                || TextureCount.Y < 1) Logger.LogError($"A texture atlas must have at least one frame, set to {TextureCount.X},{TextureCount.Y}!", 
+                    46, LoggerSeverity.FatalError);
 
-            NCLogging.Log($"Loading texture atlas at path {Path}...");
+            Logger.Log($"Loading texture atlas at path {Path}...");
 
             base.Create();
         }
@@ -59,8 +59,8 @@
             if (Index < 0
                 || Index > maxIndex)
             {
-                NCLogging.LogError($"Cannot draw invalid TextureAtlas ({Name}, {Path}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)",
-                    47, NCLoggingSeverity.Error, null, false);
+                Logger.LogError($"Cannot draw invalid TextureAtlas ({Name}, {Path}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)",
+                    47, LoggerSeverity.Error, null, false);
                 return;
             }
 

@@ -77,7 +77,7 @@
                 && TextBlock != null);
             if (string.IsNullOrWhiteSpace(Text))
             {
-                NCLogging.LogError("Tried to draw a button with null, empty, or only whitespace text. Ignoring...", 283, NCLoggingSeverity.Warning, null, true);
+                Logger.LogError("Tried to draw a button with null, empty, or only whitespace text. Ignoring...", 283, LoggerSeverity.Warning, null, true);
                 return;
             }
 

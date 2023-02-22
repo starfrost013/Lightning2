@@ -10,6 +10,8 @@
         public bool Running { get; set; }
         public NetworkServer NetworkServer { get; set; }
 
+        private const string LOGGING_PREFIX = "Server";
+
         public Server() : base()
         {
             NetworkServer = new();
@@ -27,13 +29,13 @@
 
             NCLogging.Log("Lightning Server starting...");
             
-            NCLogging.Log($"Server starting on port: {GlobalSettings.NetworkDefaultPort}", "Server");
+            NCLogging.Log(LOGGING_PREFIX, $"Server starting on port: {GlobalSettings.NetworkDefaultPort}");
             NetworkServer.Init();
 
             Running = true;
 
             Initialised = true;
-            NCLogging.Log("Server initialisation successful!", ConsoleColor.Green);
+            NCLogging.Log(LOGGING_PREFIX, "Server initialisation successful!", ConsoleColor.Green);
             Main();
         }
 

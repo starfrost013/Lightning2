@@ -19,16 +19,16 @@ namespace LightningGL
         {
             base.Init();
 
-            NCLogging.Log("Lightning Client initialising...");
+            Logger.Log("Lightning Client initialising...");
 
-            NCLogging.Log("Initialising renderer...");
+            Logger.Log("Initialising renderer...");
             Renderer = RendererFactory.GetRenderer(GlobalSettings.GraphicsRenderer);
             Debug.Assert(Renderer != null);
-            NCLogging.Log($"Using renderer {Renderer.GetType().Name}");
+            Logger.Log($"Using renderer {Renderer.GetType().Name}");
 
             if (GlobalSettings.GeneralProfilePerformance)
             {
-                NCLogging.Log("Performance Profiler enabled, initialising profiler...");
+                Logger.Log("Performance Profiler enabled, initialising profiler...");
                 PerformanceProfiler.Start();
             }
 
@@ -49,7 +49,7 @@ namespace LightningGL
             // if scenemanager started successfully, run its main loop
             if (Initialised)
             {
-                NCLogging.Log("Client initialisation successful!", ConsoleColor.Green);
+                Logger.Log("Client initialisation successful!", ConsoleColor.Green);
                 Initialised = true;
                 Main();
             }

@@ -15,7 +15,7 @@ namespace LightningPackager
 
         internal void AddEntry(PackageFileCatalogEntry entry)
         {
-            NCLogging.Log($"Adding WAD catalog entry for filename {entry.FilePath}...");
+            Logger.Log($"Adding WAD catalog entry for filename {entry.FilePath}...");
             Entries.Add(entry);
         }
 
@@ -30,7 +30,7 @@ namespace LightningPackager
 
             if (magic != Magic)
             {
-                NCLogging.LogError($"Invalid magic for file catalog - expected {magic}, got {Magic}!", 102, NCLoggingSeverity.Error, null, true);
+                Logger.LogError($"Invalid magic for file catalog - expected {magic}, got {Magic}!", 102, LoggerSeverity.Error, null, true);
                 return null;
             }
 
@@ -39,13 +39,13 @@ namespace LightningPackager
             // read the number of entries.
             int numberOfEntries = reader.ReadInt32();
 
-            NCLogging.Log($"Number of entries = {numberOfEntries}");
+            Logger.Log($"Number of entries = {numberOfEntries}");
 
             for (int entryId = 0; entryId < numberOfEntries; entryId++)
             {
                 PackageFileCatalogEntry entry = PackageFileCatalogEntry.Read(reader);
 
-                NCLogging.Log($"Read Entry {entryId + 1}/{numberOfEntries}\n" +
+                Logger.Log($"Read Entry {entryId + 1}/{numberOfEntries}\n" +
                     $"Path: {entry.FilePath}\n" +
                     $"Timestamp: {entry.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss")}\n" +
                     $"Crc32: 0x{entry.Crc32.ToString("X")}\n" +
@@ -85,7 +85,7 @@ namespace LightningPackager
             // write each entry in the catalog 
             foreach (PackageFileCatalogEntry entry in Entries) entry.Write(writer);
 
-            NCLogging.Log("Written catalog entries, writing file data...");
+            Logger.Log("Written catalog entries, writing file data...");
 
             long entryPosition = headerSize + (Magic.Length + 1) + 4;
 
@@ -95,7 +95,7 @@ namespace LightningPackager
                 PackageFileCatalogEntry entry = Entries[curEntry];
                 entryPosition += entry.Length;
 
-                NCLogging.Log($"Writing file {entry.FilePath} to WAD...");
+                Logger.Log($"Writing file {entry.FilePath} to WAD...");
 
                 // Read the file that this entry corresponds to.
                 byte[] fileData = File.ReadAllBytes(entry.FilePath);

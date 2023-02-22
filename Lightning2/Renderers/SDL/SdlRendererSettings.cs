@@ -61,8 +61,8 @@ namespace LightningGL
                 if (_position.X < 0
                        || _position.Y < 0
                        || _position.X > SystemInfo.ScreenResolutionX
-                       || _position.Y > SystemInfo.ScreenResolutionY) NCLogging.LogError($"Attempted to change window to illegal position ({_position.X},{_position.Y}!)." +
-                       $" Range is 0,0 to {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY}", 118, NCLoggingSeverity.FatalError);
+                       || _position.Y > SystemInfo.ScreenResolutionY) Logger.LogError($"Attempted to change window to illegal position ({_position.X},{_position.Y}!)." +
+                       $" Range is 0,0 to {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY}", 118, LoggerSeverity.FatalError);
 
                 if (WindowHandle != default)
                 {

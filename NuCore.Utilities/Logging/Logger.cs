@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Microsoft.VisualBasic;
+using System.Text;
 
 namespace NuCore.Utilities
 {
@@ -185,17 +186,16 @@ namespace NuCore.Utilities
 #endif
         }
 
-        public static void Log(string information, string prefix, ConsoleColor color = ConsoleColor.White, bool printMetadata = true, bool logToFile = true)
+        public static void Log(string prefix, string information, ConsoleColor color = ConsoleColor.White, bool printMetadata = true, bool logToFile = true)
         {
             Log($"[{prefix}]: {information}", color, printMetadata, logToFile);
         }
 
         /// <summary>
-        /// Display an error box.
+        /// Log and display an error message.
         /// </summary>
         /// <param name="description">A description of the error.</param>
         /// <param name="id">The ID of the error.</param>
-        /// <param name="cause">An optional more detailed error cause - usually the code condition that caused it</param>
         /// <param name="exceptionSeverity">The severity of the exception - see <see cref="NCLoggingSeverity"/></param>
         /// <param name="baseException">The .NET exception that caused the error, if present.</param>
         /// <param name="dontShowMessageBox">Determines if a message box was shown or not</param>
@@ -259,6 +259,21 @@ namespace NuCore.Utilities
             }
 
             if (exceptionSeverity == NCLoggingSeverity.FatalError) Environment.Exit(id);
+        }
+
+        /// <summary>
+        /// Log and display an error message.
+        /// </summary>
+        /// <param name="description">A description of the error.</param>
+        /// <param name="prefix">A prefix to display before the error message determining the erroring component.</param>
+        /// <param name="id">The ID of the error.</param>
+        /// <param name="exceptionSeverity">The severity of the exception - see <see cref="NCLoggingSeverity"/></param>
+        /// <param name="baseException">The .NET exception that caused the error, if present.</param>
+        /// <param name="dontShowMessageBox">Determines if a message box was shown or not</param>
+        public static void LogError(string description, string prefix, int id, NCLoggingSeverity exceptionSeverity = NCLoggingSeverity.Message,
+            Exception? baseException = null, bool dontShowMessageBox = false)
+        {
+            LogError($"[{prefix}]: {description}", id, exceptionSeverity, baseException, dontShowMessageBox);
         }
 
         public static void Exit(object? Sender, EventArgs e)

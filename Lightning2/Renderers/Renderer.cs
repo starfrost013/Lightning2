@@ -72,14 +72,14 @@
         internal virtual void Start()
         {
             // Check that we provided RendererSettings
-            NCLogging.Log("Initialising FreeType...");
+            Logger.Log("Initialising FreeType...");
 
             FreeTypeLibrary = new FreeTypeLibrary();
 
             if (Settings == null)
             {
-                NCLogging.LogError("Tried to run Renderer::Start without specifying RendererSettings! Please use the Settings property of Renderer to specify " +
-                    "renderer settings!", 7, NCLoggingSeverity.FatalError);
+                Logger.LogError("Tried to run Renderer::Start without specifying RendererSettings! Please use the Settings property of Renderer to specify " +
+                    "renderer settings!", 7, LoggerSeverity.FatalError);
                 return;
             }
 
@@ -137,12 +137,12 @@
         /// </summary>
         internal virtual void Shutdown()
         {
-            NCLogging.Log("Renderer destruction requested. Calling shutdown events...");
+            Logger.Log("Renderer destruction requested. Calling shutdown events...");
             NotifyShutdown();
 
             EventsRunning = false;
 
-            NCLogging.Log("Destroying all renderables...");
+            Logger.Log("Destroying all renderables...");
 
             for (int renderableId = 0; renderableId < Renderables.Count; renderableId++)
             {
@@ -151,7 +151,7 @@
                 renderableId--;
             }
 
-            NCLogging.Log("Shutting down FreeType...");
+            Logger.Log("Shutting down FreeType...");
             FreeTypeLibrary?.Dispose();
         }
 
@@ -170,7 +170,7 @@
         {
             string parentName = (parent == null) ? "Root" : parent.Name;
 
-            NCLogging.Log($"Adding renderable of type {renderable.GetType().Name} ({renderable.Name}) - parent {parentName}");
+            Logger.Log($"Adding renderable of type {renderable.GetType().Name} ({renderable.Name}) - parent {parentName}");
 
             if (parent == null)
             {
@@ -182,8 +182,8 @@
             else
             {
                 // check that it contains the renderable
-                if (!ContainsRenderable(parent.Name)) NCLogging.LogError($"Tried to add a renderable with a parent " +
-                    $"that is not in the object hierarchy!", 194, NCLoggingSeverity.FatalError);
+                if (!ContainsRenderable(parent.Name)) Logger.LogError($"Tried to add a renderable with a parent " +
+                    $"that is not in the object hierarchy!", 194, LoggerSeverity.FatalError);
 
                 renderable.Parent = parent;
 
@@ -203,7 +203,7 @@
         {
             string parentName = (parent == null) ? "Root" : parent.Name;
 
-            NCLogging.Log($"Removing renderable of type {renderable.GetType().Name} ({renderable.Name}) - parent {parentName}");
+            Logger.Log($"Removing renderable of type {renderable.GetType().Name} ({renderable.Name}) - parent {parentName}");
 
             for (int childId = 0; childId < renderable.Children.Count; childId++)
             {
@@ -234,7 +234,7 @@
 
         public virtual void RemoveAllChildren(Renderable renderable)
         {
-            NCLogging.Log($"Removing all children of renderable of type {renderable.GetType().Name} ({renderable.Name})");
+            Logger.Log($"Removing all children of renderable of type {renderable.GetType().Name} ({renderable.Name})");
 
             for (int renderableId = 0; renderableId < renderable.Children.Count; renderableId++)
             {
@@ -271,7 +271,7 @@
 
             if (renderable == null)
             {
-                NCLogging.LogError($"Tried to remove nonexistent renderable name {name}", 190, NCLoggingSeverity.FatalError);
+                Logger.LogError($"Tried to remove nonexistent renderable name {name}", 190, LoggerSeverity.FatalError);
                 return;
             }
 
@@ -390,22 +390,22 @@
 
         internal virtual void DrawPixel(int x, int y, byte r, byte g, byte b, byte a)
         {
-            NCLogging.LogError($"DrawPixel not implemented for renderer {GetType().Name!}", 205, NCLoggingSeverity.FatalError);
+            Logger.LogError($"DrawPixel not implemented for renderer {GetType().Name!}", 205, LoggerSeverity.FatalError);
         }
 
         internal virtual void DrawLine(int x1, int y1, int x2, int y2, byte r, byte g, byte b, byte a)
         {
-            NCLogging.LogError($"DrawLine not implemented for renderer {GetType().Name!}", 206, NCLoggingSeverity.FatalError);
+            Logger.LogError($"DrawLine not implemented for renderer {GetType().Name!}", 206, LoggerSeverity.FatalError);
         }
 
         internal virtual void DrawEllipse(int x, int y, int rx, int ry, byte r, byte g, byte b, byte a, bool filled)
         {
-            NCLogging.LogError($"DrawCircle not implemented for renderer {GetType().Name!}", 208, NCLoggingSeverity.FatalError);
+            Logger.LogError($"DrawCircle not implemented for renderer {GetType().Name!}", 208, LoggerSeverity.FatalError);
         }
 
         internal virtual void DrawRectangle(Vector2 position, Vector2 size, byte r, byte g, byte b, byte a, bool filled = false)
         {
-            NCLogging.LogError($"DrawRectangle not implemented for renderer {GetType().Name!}", 209, NCLoggingSeverity.FatalError);
+            Logger.LogError($"DrawRectangle not implemented for renderer {GetType().Name!}", 209, LoggerSeverity.FatalError);
         }
 
         #endregion
@@ -414,53 +414,53 @@
 
         internal virtual nint CreateTexture(int sizeX, int sizeY, bool isTarget = false)
         {
-            NCLogging.LogError($"AllocTexture not implemented for renderer {GetType().Name!}", 223, NCLoggingSeverity.FatalError);
+            Logger.LogError($"AllocTexture not implemented for renderer {GetType().Name!}", 223, LoggerSeverity.FatalError);
             return default;
         }
 
         internal virtual Texture? TextureFromFreetypeBitmap(FT_Bitmap bitmap, Texture texture, Color foregroundColor)
         {
-            NCLogging.LogError($"TextureFromFreeTypeBitmap not implemented for renderer {GetType().Name!}", 254, NCLoggingSeverity.FatalError);
+            Logger.LogError($"TextureFromFreeTypeBitmap not implemented for renderer {GetType().Name!}", 254, LoggerSeverity.FatalError);
             return default;
         }
 
         internal virtual nint LoadTexture(string path)
         {
-            NCLogging.LogError($"LoadTexture not implemented for renderer {GetType().Name!}", 220, NCLoggingSeverity.FatalError);
+            Logger.LogError($"LoadTexture not implemented for renderer {GetType().Name!}", 220, LoggerSeverity.FatalError);
             return default;
         }
 
         internal virtual nint AllocTextureFormat() // probably SDL only
         {
-            NCLogging.LogError($"AllocTextureFormat not implemented for renderer {GetType().Name!}", 221, NCLoggingSeverity.FatalError);
+            Logger.LogError($"AllocTextureFormat not implemented for renderer {GetType().Name!}", 221, LoggerSeverity.FatalError);
             return default;
         }
 
         internal virtual void LockTexture(nint handle, Vector2 start, Vector2 size, out nint pixels, out int pitch) // probably SDL only
         {
-            NCLogging.LogError($"LockTexture not implemented for renderer {GetType().Name!}", 224, NCLoggingSeverity.FatalError);
+            Logger.LogError($"LockTexture not implemented for renderer {GetType().Name!}", 224, LoggerSeverity.FatalError);
             pixels = default;
             pitch = 0;
         }
 
         internal virtual void UnlockTexture(nint handle) // probably SDL only
         {
-            NCLogging.LogError($"UnlockTexture not implemented for renderer {GetType().Name!}", 225, NCLoggingSeverity.FatalError);
+            Logger.LogError($"UnlockTexture not implemented for renderer {GetType().Name!}", 225, LoggerSeverity.FatalError);
         }
 
         internal virtual void DrawTexture(params object[] args)
         {
-            NCLogging.LogError($"DrawTexture not implemented for renderer {GetType().Name!}", 222, NCLoggingSeverity.FatalError);
+            Logger.LogError($"DrawTexture not implemented for renderer {GetType().Name!}", 222, LoggerSeverity.FatalError);
         }
 
         internal virtual void SetTextureBlendMode(params object[] args) // probably SDL only 
         {
-            NCLogging.LogError($"SetTextureBlendMode not implemented for renderer {GetType().Name!}", 230, NCLoggingSeverity.FatalError);
+            Logger.LogError($"SetTextureBlendMode not implemented for renderer {GetType().Name!}", 230, LoggerSeverity.FatalError);
         }
 
         internal  virtual nint DestroyTexture(nint handle)
         {
-            NCLogging.LogError($"DestroyTexture not implemented for renderer {GetType().Name!}", 232, NCLoggingSeverity.FatalError);
+            Logger.LogError($"DestroyTexture not implemented for renderer {GetType().Name!}", 232, LoggerSeverity.FatalError);
             return default; 
         }
 

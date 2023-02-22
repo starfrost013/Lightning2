@@ -95,7 +95,7 @@
 
         public override void Create()
         {
-            NCLogging.Log($"Loading particle effect at path {Texture.Path}...");
+            Logger.Log($"Loading particle effect at path {Texture.Path}...");
             // don't load it multiple times
             Texture.SnapToScreen = SnapToScreen;
             if (MaxNumberCreatedEachFrame <= 0) MaxNumberCreatedEachFrame = Amount / DEFAULT_MAX_CREATED_EACH_FRAME_DIVISOR;
@@ -109,7 +109,7 @@
             if (Texture == null
                 || !Texture.Loaded)
             {
-                NCLogging.LogError("Attempted to draw a particle effect without loading it!", 120, NCLoggingSeverity.FatalError);
+                Logger.LogError("Attempted to draw a particle effect without loading it!", 120, LoggerSeverity.FatalError);
                 return;
             }
 

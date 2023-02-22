@@ -1,16 +1,12 @@
-﻿using System;
-
-namespace NuCore.Utilities
+﻿namespace NuCore.Utilities
 {
     /// <summary>
-    /// NCNoise
+    /// NoiseBasic
     /// 
-    /// April 15, 2022
-    /// 
-    /// A basic noise algorithm.
+    /// A very basic noise algorithm.
     /// This is probably versatile enough to generate a biome map later on. 
     /// </summary>
-    public static class NCNoise
+    public static class NoiseBasic
     {
         /// <summary>
         /// Total factor - The amplitude of the terrain you wish to generate.

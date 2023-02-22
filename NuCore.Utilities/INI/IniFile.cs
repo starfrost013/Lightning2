@@ -11,7 +11,8 @@
     /// <para>Updated August 2, 2022 to fix a bug with INI comments on the same line as values in non-section lines, as well as to make searches case-insensitive.</para>
     /// <para>Updated August 9, 2022 to add serialisation to file.</para>
     /// <para>Updated January 15, 2023 to add nullable support,</para>
-    /// <para>Updated February 11, 2023 to fix case insensitivity consistency and add optional case insensitivity while searching for sections or values.</para>
+    /// <para>Updated February 11, 2023 to fix case insensitivity consistency between different methods, and to add optional case insensitivity while searching for sections or values.</para>
+    /// <para>Updated February 22, 2023 to rename Write to Save and to rename some variables, as well as removing the "NC" prefix from the classes.</para>
     /// </summary>
     public class NCINIFile
     {
@@ -59,13 +60,13 @@
 
                     if (iniLine.Length > 0)
                     {
-                        char iniLineChar0 = iniLine[0];
+                        char firstCharOfLine = iniLine[0];
 
                         // Handle comments on the same line after the value
                         string[] iniLineComments = iniLine.Split(';');
 
                         // if there ARE comments...
-                        if (iniLineChar0 != ';'
+                        if (firstCharOfLine != ';'
                             && iniLineComments.Length > 1)
                         {
                             // if the line starts with a ; we will have already ignored it earlier
@@ -75,7 +76,7 @@
                         }
 
                         // Check potential starts of a line to determine what type of INI content we are referencing
-                        switch (iniLineChar0)
+                        switch (firstCharOfLine)
                         {
                             case '[': // Section
                                 if (iniLine.Contains(']', StringComparison.InvariantCultureIgnoreCase))
@@ -130,7 +131,6 @@
                                     iniValueKey = iniValueKey.Trim();
                                     iniValueValue = iniValueValue.Trim();
 
-
                                     // add it to the values
                                     iniFile.CurSection.Values.Add(iniValueKey, iniValueValue);
                                 }
@@ -162,7 +162,7 @@
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public bool Write(string path)
+        public bool Save(string path)
         {
             List<string> iniLines = new List<string>();
 

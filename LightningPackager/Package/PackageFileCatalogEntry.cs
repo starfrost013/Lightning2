@@ -71,7 +71,7 @@ namespace LightningPackager
 
             if (!extract)
             {
-                if (!File.Exists(FilePath)) NCLogging.LogError($"Attempted to add a non-existent file ({path}) to a PackageFileCatalog!", 96, NCLoggingSeverity.FatalError, null, true);
+                if (!File.Exists(FilePath)) Logger.LogError($"Attempted to add a non-existent file ({path}) to a PackageFileCatalog!", 96, LoggerSeverity.FatalError, null, true);
 
                 FileInfo fileInfo = new(FilePath);
                 Size = fileInfo.Length;
@@ -138,9 +138,9 @@ namespace LightningPackager
                 CRC32.NextBytes(fileData);
                 uint realCrc32 = CRC32.Result;
                 string validationString = $"CRC32 of original file = 0x{Crc32:X}, CRC32 of extracted file = 0x{realCrc32:X}";
-                NCLogging.Log(validationString);
+                Logger.Log(validationString);
 
-                if (Crc32 != realCrc32) NCLogging.LogError($"File {RealPath} is corrupt: {validationString}!", 116, NCLoggingSeverity.FatalError);
+                if (Crc32 != realCrc32) Logger.LogError($"File {RealPath} is corrupt: {validationString}!", 116, LoggerSeverity.FatalError);
             }
         }
 

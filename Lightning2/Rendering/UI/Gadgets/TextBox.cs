@@ -222,7 +222,7 @@
 
                 if (Font == null)
                 {
-                    NCLogging.Log($"Cannot draw a TextBox when the value of its Font property is null!", ConsoleColor.Yellow);
+                    Logger.Log($"Cannot draw a TextBox when the value of its Font property is null!", ConsoleColor.Yellow);
                     return;
                 }
 

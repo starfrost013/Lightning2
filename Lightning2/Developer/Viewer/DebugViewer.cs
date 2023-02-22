@@ -106,7 +106,7 @@
 
         public override void Create()
         {
-            NCLogging.Log("Loading debug font...");
+            Logger.Log("Loading debug font...");
             // Load the debug font.
             // My lazy cleaning up hack makes me not put the debug font as a logical child of the debug viewer.
             Lightning.Renderer.AddRenderable(new Font("Arial.ttf", GlobalSettings.DebugFontSize, "DebugFont"));

@@ -40,7 +40,7 @@ namespace LightningGL
             byte[] array1 = Header.ToByteArray();
             byte[] array2 = new byte[1] { Type };
 
-            return NCArray.Combine(array1, array2);
+            return ArrayUtils.Combine(array1, array2);
         }
 
         public virtual byte[] PacketToByteArray(LNetCommand packet)
@@ -48,7 +48,7 @@ namespace LightningGL
             byte[] array1 = HeaderToByteArray();
             byte[] array2 = packet.CommandDataToByteArray();
 
-            return NCArray.Combine(array1, array2);
+            return ArrayUtils.Combine(array1, array2);
         }
 
         public LNetCommand()

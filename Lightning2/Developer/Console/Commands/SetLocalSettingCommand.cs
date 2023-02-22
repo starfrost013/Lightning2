@@ -6,7 +6,7 @@ namespace LightningGL
         public override string Name => "setlvar";
         public override bool Execute(params string[] parameters)
         {
-            NCLogging.Log("SetLocalSettingCommand NOT YET IMPLEMENTED");
+            Logger.Log("SetLocalSettingCommand NOT YET IMPLEMENTED");
             return true; 
         }
 

@@ -50,9 +50,9 @@ namespace LightningPackager
 
         internal bool Extract(string path, string outDir)
         {
-            NCLogging.Log($"Loading WAD from {path}, extracting to {outDir}...");
+            Logger.Log($"Loading WAD from {path}, extracting to {outDir}...");
 
-            if (!File.Exists(path)) NCLogging.LogError($"The file at {path} does not exist!", 98, NCLoggingSeverity.FatalError, null, true);
+            if (!File.Exists(path)) Logger.LogError($"The file at {path} does not exist!", 98, LoggerSeverity.FatalError, null, true);
 
             byte[] fileBytes = File.ReadAllBytes(path);
 
@@ -61,14 +61,14 @@ namespace LightningPackager
 
             if (magic.FastEqual(PackageFileHeader.ObfuscatedMagic))
             {
-                NCLogging.Log($"File is obfuscated, deobfuscating...");
+                Logger.Log($"File is obfuscated, deobfuscating...");
 
                 // deobfuscate
                 Deobfuscate(fileBytes);
             }
             else if (magic.FastEqual(PackageFileHeader.ObfuscatedMagicOld))
             {
-                NCLogging.LogError($"Tried to load an obfuscated Lightning 1.x (WADv2.2) WAD file - this is not supported!", 300, NCLoggingSeverity.Error, null, false);
+                Logger.LogError($"Tried to load an obfuscated Lightning 1.x (WADv2.2) WAD file - this is not supported!", 300, LoggerSeverity.Error, null, false);
                 return false;
             }
 
@@ -77,7 +77,7 @@ namespace LightningPackager
 
             PackageFileHeader header = PackageFileHeader.Read(reader);
 
-            if (header == null) NCLogging.LogError($"{path} is invalid: Package header is invalid", 105, NCLoggingSeverity.FatalError, null, true);
+            if (header == null) Logger.LogError($"{path} is invalid: Package header is invalid", 105, LoggerSeverity.FatalError, null, true);
 
             PackageFile file = new(header.Metadata);
 
@@ -97,14 +97,14 @@ namespace LightningPackager
 
         internal void Write(string path)
         {
-            NCLogging.Log($"Generating WAD file and writing it to {path}...");
+            Logger.Log($"Generating WAD file and writing it to {path}...");
 
             using (BinaryWriter stream = new (new FileStream(path, FileMode.Create)))
             {
-                NCLogging.Log("Writing header...");
+                Logger.Log("Writing header...");
                 Header.Write(stream);
 
-                NCLogging.Log("Writing file catalog...");
+                Logger.Log("Writing file catalog...");
                 Catalog.Write(stream, Header.HeaderSize);
             }
 
@@ -114,7 +114,7 @@ namespace LightningPackager
 
         private void Obfuscate(string path)
         {
-            NCLogging.Log("Obfuscating...");
+            Logger.Log("Obfuscating...");
 
             byte[] allBytes = File.ReadAllBytes(path);
 

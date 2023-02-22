@@ -6,17 +6,12 @@ namespace LightningGL
     {
         internal static InputMethod? GetInputMethod(InputMethods method)
         {
-            switch (method)
+            return method switch
             {
-                case InputMethods.KeyboardMouse:
-                    return new InputMethodKeyboardMouse();
-                case InputMethods.DS4:
-                    return new InputMethodDS4();
-                case InputMethods.Xinput:
-                    return new InputMethodXinput();
-            }
-            return null;
-
+                InputMethods.KeyboardMouse => new InputMethodKeyboardMouse(),
+                InputMethods.Xinput => new InputMethodXinput(),
+                _ => null,
+            };
         }
     }
 }

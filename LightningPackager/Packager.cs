@@ -19,12 +19,12 @@ namespace LightningPackager
         {
             try
             {
-                NCLogging.Log($"Loading WAD file from {path}...");
+                Logger.Log($"Loading WAD file from {path}...");
 
                 // delete any existing package
                 if (!File.Exists(path))
                 {
-                    NCLogging.LogError($"Error: Package path {path} does not exist, cannot load package!", 100, NCLoggingSeverity.Error, null, true);
+                    Logger.LogError($"Error: Package path {path} does not exist, cannot load package!", 100, LoggerSeverity.Error, null, true);
                     return false;
                 }
 
@@ -41,7 +41,7 @@ namespace LightningPackager
             }
             catch (Exception ex)
             {
-                NCLogging.LogError($"Error: An exception occurred during extraction. Exception information:\n\n{ex}", 198, NCLoggingSeverity.FatalError);
+                Logger.LogError($"Error: An exception occurred during extraction. Exception information:\n\n{ex}", 198, LoggerSeverity.FatalError);
                 return false;
             }
             
@@ -50,7 +50,7 @@ namespace LightningPackager
 
         public static bool GeneratePackage(PackageFile packageFile, string inFolder, string path)
         {
-            NCLogging.Log("Generating WAD file...");
+            Logger.Log("Generating WAD file...");
 
             // delete any files that may exist at our path
             if (File.Exists(path)) File.Delete(path);
@@ -63,7 +63,7 @@ namespace LightningPackager
             }
             catch (Exception err)
             {
-                NCLogging.Log($"A fatal error occurred while generating a package: \n\n{err}");
+                Logger.Log($"A fatal error occurred while generating a package: \n\n{err}");
                 return false;
             }
         }
@@ -75,7 +75,7 @@ namespace LightningPackager
                 // delete the content directory recursively
                 if (deleteAll)
                 {
-                    NCLogging.Log("Cleaning up game content directory...");
+                    Logger.Log("Cleaning up game content directory...");
 
                     foreach (string fileName in Directory.EnumerateFiles(ContentDirectory, "*", SearchOption.AllDirectories))
                     {
@@ -88,7 +88,7 @@ namespace LightningPackager
             }
             catch (Exception ex)
             {
-                NCLogging.LogError($"An error occurred cleaning up the game content directory.\n\n{ex}", 109, NCLoggingSeverity.Warning);
+                Logger.LogError($"An error occurred cleaning up the game content directory.\n\n{ex}", 109, LoggerSeverity.Warning);
             }
         }
     }

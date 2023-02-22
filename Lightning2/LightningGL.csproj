@@ -137,8 +137,8 @@
   <ItemGroup>
     <ProjectReference Include="..\LightningPackager\LightningPackager.csproj" />
     <ProjectReference Include="..\NuCore.SDL2-CS\LightningBase.csproj" />
-    <ProjectReference Include="..\NuCore.Utilities.Lightning\NuCore.Utilities.Lightning.csproj" />
-    <ProjectReference Include="..\NuCore.Utilities\NuCore.Utilities.csproj" />
+    <ProjectReference Include="..\NuCore.Utilities.Lightning\LightningUtilSdl.csproj" />
+    <ProjectReference Include="..\NuCore.Utilities\LightningUtil.csproj" />
   </ItemGroup>
 
   <ItemGroup>

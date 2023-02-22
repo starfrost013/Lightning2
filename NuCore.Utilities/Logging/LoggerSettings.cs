@@ -7,7 +7,7 @@
     /// 
     /// Defines NuCore logging settings
     /// </summary>
-    public class NCLoggingSettings
+    public class LoggerSettings
     {
         public ConsoleColor Foreground => Console.ForegroundColor;
 
@@ -38,7 +38,7 @@
         /// </summary>
         private const string DEFAULT_DATE_STRING = "yyyyMMdd_HHmmss";
 
-        public NCLoggingSettings()
+        public LoggerSettings()
         {
             DateString = DEFAULT_DATE_STRING;
         }

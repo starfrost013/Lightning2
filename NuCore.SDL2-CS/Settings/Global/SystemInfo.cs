@@ -52,11 +52,11 @@
             ScreenResolutionX = displayMode.w;
             ScreenResolutionY = displayMode.h;
 
-            NCLogging.Log($"Screen resolution of the primary monitor = {ScreenResolutionX}x{ScreenResolutionY}");
+            Logger.Log($"Screen resolution of the primary monitor = {ScreenResolutionX}x{ScreenResolutionY}");
 
             SystemRam = SDL_GetSystemRAM();
 
-            NCLogging.Log($"Total system RAM (MiB) = {SystemRam}");
+            Logger.Log($"Total system RAM (MiB) = {SystemRam}");
 
             // detect various windows versions
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -104,7 +104,7 @@
                 CurOperatingSystem = SystemInfoOperatingSystem.Linux;
             }
 
-            NCLogging.Log($"Operating system = {CurOperatingSystem}");
+            Logger.Log($"Operating system = {CurOperatingSystem}");
         }
     }
 }

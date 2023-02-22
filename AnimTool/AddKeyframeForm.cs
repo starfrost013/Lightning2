@@ -27,7 +27,7 @@ namespace AnimTool
 
                 if (!AnimTool.IsPropertyValid(propertyType, propertyValue))
                 {
-                    NCLogging.LogError($"Invalid value for AnimationKeyframe type {propertyType}", 162, NCLoggingSeverity.Warning);
+                    Logger.LogError($"Invalid value for AnimationKeyframe type {propertyType}", 162, LoggerSeverity.Warning);
                     return;
                 }
 

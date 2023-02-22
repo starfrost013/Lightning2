@@ -26,7 +26,7 @@
             byte[] nameArray = ClientName.ToByteArrayWithLength();
             byte[] ipArray = ClientIp.ToByteArrayWithLength();
 
-            return NCArray.Combine(nameArray, ipArray);
+            return ArrayUtils.Combine(nameArray, ipArray);
         }
 
         public override void OnReceiveAsClient(NetworkClient client)
@@ -38,7 +38,7 @@
         public override void OnReceiveAsServer(NetworkServer server, NetworkClient sendingClient)
         {
             // get client information here WAOW
-            NCLogging.Log($"Client connected");
+            Logger.Log($"Client connected");
             
         }
     }

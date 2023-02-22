@@ -7,7 +7,7 @@
     /// 
     /// Defines an MC INI file section.
     /// </summary>
-    public class NCINIFileSection
+    public class IniSection
     {
         /// <summary>
         /// The values of this section.
@@ -20,9 +20,9 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Constructor for <see cref="NCINIFileSection"/> with a parameter for the section name.
+        /// Constructor for <see cref="IniSection"/> with a parameter for the section name.
         /// </summary>
-        public NCINIFileSection(string name)
+        public IniSection(string name)
         {
             Name = name;
             Values = new();

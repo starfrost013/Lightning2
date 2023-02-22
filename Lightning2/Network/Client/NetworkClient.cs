@@ -40,7 +40,7 @@
             if (!IPAddress.TryParse(ipAddress, out var serverIp))
             {
                 // do not connect
-                NCLogging.LogError($"Invalid server IP address {ipAddress}", 183, NCLoggingSeverity.Warning,
+                Logger.LogError($"Invalid server IP address {ipAddress}", 183, LoggerSeverity.Warning,
                     null, false);
                 return;
             }

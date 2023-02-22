@@ -6,7 +6,7 @@
 
         internal static List<InputMethod> AvailableMethods { get; private set; }       
 
-        private static NCINIFile? InputIni { get; set; }
+        internal static IniFile? InputIni { get; set; }
 
         static InputMethodManager()
         {
@@ -19,7 +19,7 @@
             if (AvailableMethods.Count > 0) AvailableMethods.Clear();
             if (CurrentMethod != null) CurrentMethod = null; 
 
-            NCLogging.Log("Detecting input methods...");
+            Logger.Log("Detecting input methods...");
 
             InputMethodKeyboardMouse keyboardMouse = new();
 
@@ -28,47 +28,66 @@
                 AvailableMethods.Add(keyboardMouse);
                 CurrentMethod = keyboardMouse;
             }
-            
-            InputMethodDS4 ds4 = new();
-
-            if (ds4.DetectPresence())
-            {
-                AvailableMethods.Add(ds4);
-                CurrentMethod = ds4;
-            }
 
             InputMethodXinput xinput = new();
 
             if (xinput.DetectPresence())
             {
                 AvailableMethods.Add(xinput);
-
-                // don't 'overwrite' a DS4 controller with a generic xinput controller
-                // (for now - we will fix this when we add more controllers) - or maybe just merge ds4 and xinput tbh
-                if (CurrentMethod != ds4) CurrentMethod = xinput;
+                CurrentMethod = xinput;
             }
 
             if (reloadBindings)
             {
-                NCLogging.Log("Loading input bindings from InputBindings.ini...");
+                Logger.Log("Loading input bindings from InputBindings.ini...");
 
                 // need a better trimming-compatible solution for this as we add more
-                InputIni = NCINIFile.Parse(GlobalSettings.INPUTBINDINGS_PATH);
+                InputIni = IniFile.Parse(GlobalSettings.INPUTBINDINGS_PATH);
 
                 if (InputIni == null)
                 {
-                    NCLogging.LogError("Cannot find InputBindings.ini!", 305, NCLoggingSeverity.Warning, null, true);
+                    Logger.LogError("Cannot find InputBindings.ini!", 305, LoggerSeverity.Warning, null, true);
                     return;
                 }
 
-                NCINIFileSection? sectionDs4 = InputIni.GetSection("DS4");
-                NCINIFileSection? sectionXinput = InputIni.GetSection("Xinput");
-                NCINIFileSection? sectionKeyboardMouse = InputIni.GetSection("KeyboardMouse");
+                IniSection? sectionDs4 = InputIni.GetSection("DS4");
+                IniSection? sectionXinput = InputIni.GetSection("Xinput");
+                IniSection? sectionKeyboardMouse = InputIni.GetSection("KeyboardMouse");
 
                 if (sectionDs4 != null) foreach (var value in sectionDs4.Values) ds4.Bindings.Add(new(value.Key, value.Value));
                 if (sectionXinput != null) foreach (var value in sectionXinput.Values) xinput.Bindings.Add(new(value.Key, value.Value));
                 if (sectionKeyboardMouse != null) foreach (var value in sectionKeyboardMouse.Values) keyboardMouse.Bindings.Add(new(value.Key, value.Value));
             }
+        }
+
+        internal static void AddBinding(InputMethods section, string binding, string bind)
+        {
+            // should never be null, user can theoretically do this so not an assert
+            
+            if (InputIni == null)
+            {
+                Logger.LogError("InputMethodManager::AddBinding called before InputMethodManager::ScanForAvailableMethods!", 322, LoggerSeverity.FatalError);
+                return;
+            }
+
+            IniSection? iniSection = InputIni.GetSection(section.ToString());
+
+            // case insensitive search so should never be null considering previous checks
+            Debug.Assert(iniSection != null);
+
+            // add to the local state
+
+
+            // add to the ini state
+            iniSection.Values.Add(binding, bind);
+
+            // save the INI (maybe move this to shutdown!!)
+            InputIni.Save(GlobalSettings.INPUTBINDINGS_PATH);
+        }
+
+        internal static void ModifyBinding(InputMethods section, string binding, string newBind)
+        {
+
         }
     }
 }

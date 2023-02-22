@@ -28,8 +28,8 @@ namespace NuCore.Utilities
 
         public static byte[] ToByteArrayWithLength(this string input)
         {
-            if (input.Length > byte.MaxValue) NCLogging.LogError("The length of the input parameter to NCStringExtensions::ToByteArrayWithLength must be max 255 chars!", 184,
-                NCLoggingSeverity.FatalError);
+            if (input.Length > byte.MaxValue) Logger.LogError("The length of the input parameter to NCStringExtensions::ToByteArrayWithLength must be max 255 chars!", 184,
+                LoggerSeverity.FatalError);
             byte[] finalArray = new byte[input.Length + 1];
             finalArray[0] = Convert.ToByte(input.Length);
             Buffer.BlockCopy(input.ToArray(), 1, finalArray, 1, input.Length);

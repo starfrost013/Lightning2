@@ -87,11 +87,11 @@ namespace LightningGL
         {
             if (!File.Exists(Path))
             {
-                NCLogging.LogError("Attempted to load a nonexistent animation file.", 138, NCLoggingSeverity.FatalError);
+                Logger.LogError("Attempted to load a nonexistent animation file.", 138, LoggerSeverity.FatalError);
                 return;
             }
 
-            NCLogging.Log($"Deserialising animation JSON from {Path}...");
+            Logger.Log($"Deserialising animation JSON from {Path}...");
 
             // try to deserialise
             try
@@ -100,7 +100,7 @@ namespace LightningGL
 
                 if (tempAnimation == null)
                 {
-                    NCLogging.LogError($"A fatal error occurred while deserialising an animation JSON.", 140, NCLoggingSeverity.FatalError);
+                    Logger.LogError($"A fatal error occurred while deserialising an animation JSON.", 140, LoggerSeverity.FatalError);
                     return;
                 }
 
@@ -110,14 +110,14 @@ namespace LightningGL
                 Repeat = tempAnimation.Repeat;
                 Reverse = tempAnimation.Reverse;
 
-                NCLogging.Log($"Validating animation JSON from {Path}...");
+                Logger.Log($"Validating animation JSON from {Path}...");
 
                 // Validate
                 Loaded = Validate(); 
             }
             catch (Exception err)
             {
-                NCLogging.LogError($"A fatal error occurred while deserialising an animation JSON. See base exception information for further information.", 139, NCLoggingSeverity.FatalError, err);
+                Logger.LogError($"A fatal error occurred while deserialising an animation JSON. See base exception information for further information.", 139, LoggerSeverity.FatalError, err);
                 return;
             }
         }
@@ -129,8 +129,8 @@ namespace LightningGL
         {
             if (Length <= 0)
             {
-                NCLogging.LogError($"An animation must have a length of at least 1 millisecond (value = {Length})",
-                    142, NCLoggingSeverity.Error);
+                Logger.LogError($"An animation must have a length of at least 1 millisecond (value = {Length})",
+                    142, LoggerSeverity.Error);
                 return false; 
             }
 
@@ -147,8 +147,8 @@ namespace LightningGL
             {
                 if (string.IsNullOrWhiteSpace(property.Name))
                 {
-                    NCLogging.LogError($"All properties in an Animation JSON must have a name!",
-                        144, NCLoggingSeverity.Error);
+                    Logger.LogError($"All properties in an Animation JSON must have a name!",
+                        144, LoggerSeverity.Error);
                     return false; 
                 }
 
@@ -156,15 +156,15 @@ namespace LightningGL
 
                 if (!isRealType)
                 {
-                    NCLogging.LogError($"Tried to use an AnimationProperty {property.Name}, type {property.Type} which is not loaded in the current AppDomain",
-                        141, NCLoggingSeverity.Error);
+                    Logger.LogError($"Tried to use an AnimationProperty {property.Name}, type {property.Type} which is not loaded in the current AppDomain",
+                        141, LoggerSeverity.Error);
                     return false;
                 }
 
                 if (property.Keyframes.Count == 0)
                 {
-                    NCLogging.LogError($"The property {property.Name} has no keyframes!",
-                        145, NCLoggingSeverity.Error);
+                    Logger.LogError($"The property {property.Name} has no keyframes!",
+                        145, LoggerSeverity.Error);
                     return false; 
                 }
 
@@ -176,8 +176,8 @@ namespace LightningGL
                     if (keyframe.Position < 0
                         || keyframe.Position > Length)
                     {
-                        NCLogging.LogError($"Keyframe {keyframe.Id} for property {property.Name} is not within the animation." +
-                            $" The value is {keyframe.Position}, range is (0,{Length})!", 143, NCLoggingSeverity.Error);
+                        Logger.LogError($"Keyframe {keyframe.Id} for property {property.Name} is not within the animation." +
+                            $" The value is {keyframe.Position}, range is (0,{Length})!", 143, LoggerSeverity.Error);
                         return false; 
                     }
                     
@@ -243,7 +243,7 @@ namespace LightningGL
                                 if (thisKeyframe.GetType()
                                     != nextKeyframe.GetType())
                                 {
-                                    NCLogging.LogError($"All Keyframes of an animation property must be of the same type!", 146, NCLoggingSeverity.FatalError);
+                                    Logger.LogError($"All Keyframes of an animation property must be of the same type!", 146, LoggerSeverity.FatalError);
                                 }
 
                                 long max = nextKeyframe.Position - thisKeyframe.Position;
@@ -281,8 +281,8 @@ namespace LightningGL
                                         if (vector2Value1 == null
                                             || vector2Value2 == null)
                                         {
-                                            NCLogging.LogError("Attempted to convert invalid Vector2 animation...", 182, 
-                                                NCLoggingSeverity.FatalError);
+                                            Logger.LogError("Attempted to convert invalid Vector2 animation...", 182, 
+                                                LoggerSeverity.FatalError);
                                             break;
                                         }
                                         else
@@ -301,8 +301,8 @@ namespace LightningGL
 
                                         break;
                                     default:
-                                        NCLogging.LogError($"Invalid animation property type. Only int, float, double, boolean, and Vector2 are supported!", 148,
-                                        NCLoggingSeverity.FatalError);
+                                        Logger.LogError($"Invalid animation property type. Only int, float, double, boolean, and Vector2 are supported!", 148,
+                                        LoggerSeverity.FatalError);
                                         break;
                                 }
 
@@ -312,8 +312,8 @@ namespace LightningGL
 
                                 if (propertyInfo == null)
                                 {
-                                    NCLogging.LogError($"Attempted to set value of invalid animation property {property.Name}", 152,
-                                       NCLoggingSeverity.FatalError);
+                                    Logger.LogError($"Attempted to set value of invalid animation property {property.Name}", 152,
+                                       LoggerSeverity.FatalError);
                                     return;
                                 }
 
@@ -322,8 +322,8 @@ namespace LightningGL
                             }
                             catch (Exception ex)
                             {
-                                NCLogging.LogError($"Error: An error occurred converting an animation property of {property.Type}, value {thisKeyframe.Value}: \n\n{ex}", 147,
-                                    NCLoggingSeverity.FatalError);
+                                Logger.LogError($"Error: An error occurred converting an animation property of {property.Type}, value {thisKeyframe.Value}: \n\n{ex}", 147,
+                                    LoggerSeverity.FatalError);
                             }
                         }
                     }

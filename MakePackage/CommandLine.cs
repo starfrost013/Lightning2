@@ -125,15 +125,15 @@ namespace MakePackage
                     if (InFolder == null
                         || OutFile == null)
                     {
-                        NCLogging.Log("Error: If -infolder is specified, -outfile must be specified!", ConsoleColor.Red, false, false);
+                        Logger.Log("Error: If -infolder is specified, -outfile must be specified!", ConsoleColor.Red, false, false);
                         return false;
                     }
 
-                    if (!OutFile.Contains(".wad", StringComparison.InvariantCultureIgnoreCase)) NCLogging.Log("Warning: By convention, the package file for your game should have a .wad extension!", ConsoleColor.Yellow, false, false);
+                    if (!OutFile.Contains(".wad", StringComparison.InvariantCultureIgnoreCase)) Logger.Log("Warning: By convention, the package file for your game should have a .wad extension!", ConsoleColor.Yellow, false, false);
                 }
                 else
                 {
-                    if (!InFile.Contains(".wad", StringComparison.InvariantCultureIgnoreCase)) NCLogging.Log("Warning: By convention, the package file for your game should have a .wad extension!", ConsoleColor.Yellow, false, false);
+                    if (!InFile.Contains(".wad", StringComparison.InvariantCultureIgnoreCase)) Logger.Log("Warning: By convention, the package file for your game should have a .wad extension!", ConsoleColor.Yellow, false, false);
 
                     if (OutFolder == null) OutFolder = ".";
 
@@ -146,14 +146,14 @@ namespace MakePackage
             }
             catch (Exception err)
             {
-                NCLogging.Log($"An error occurred while parsing arguments: {err.Message}");
+                Logger.Log($"An error occurred while parsing arguments: {err.Message}");
                 return false;
             }
         }
 
         public static void ShowHelp()
         {
-            NCLogging.Log("MakePackage -infolder [input folder] -outfile [output folder] [args...]\n" +
+            Logger.Log("MakePackage -infolder [input folder] -outfile [output folder] [args...]\n" +
                 "MakePackage -infile [file] -outfolder [output folder]\n" +
                 "Makes a Lightning package (WAD) file.\n\n" +
                 "Required arguments:\n\n" +

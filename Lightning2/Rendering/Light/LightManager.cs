@@ -49,7 +49,7 @@
         {
             Debug.Assert(ScreenSpaceMap != null);
 
-            if (ScreenSpaceMap.Handle == nint.Zero) NCLogging.LogError("The Light Manager must be initialised before using it!", 124, NCLoggingSeverity.FatalError);
+            if (ScreenSpaceMap.Handle == nint.Zero) Logger.LogError("The Light Manager must be initialised before using it!", 124, LoggerSeverity.FatalError);
             EnvironmentalLight = color;
 
             if (EnvironmentalLight == default(Color)) EnvironmentalLight = Color.FromArgb(255, 255, 255, 255);
@@ -66,8 +66,8 @@
         {
             Debug.Assert(ScreenSpaceMap != null);
 
-            if (ScreenSpaceMap.Handle == nint.Zero) NCLogging.LogError("The Light Manager must be initialised before using it!", 
-                125, NCLoggingSeverity.FatalError);
+            if (ScreenSpaceMap.Handle == nint.Zero) Logger.LogError("The Light Manager must be initialised before using it!", 
+                125, LoggerSeverity.FatalError);
 
             Lightning.Renderer.SetTextureBlendMode(ScreenSpaceMap.Handle, blendMode);
         }
@@ -79,8 +79,8 @@
         {
             Debug.Assert(ScreenSpaceMap != null);
 
-            if (ScreenSpaceMap.Handle == nint.Zero) NCLogging.LogError("The Light Manager must be initialised before using it!",
-                62, NCLoggingSeverity.FatalError);
+            if (ScreenSpaceMap.Handle == nint.Zero) Logger.LogError("The Light Manager must be initialised before using it!",
+                62, LoggerSeverity.FatalError);
 
             ScreenSpaceMap.Draw();
         }

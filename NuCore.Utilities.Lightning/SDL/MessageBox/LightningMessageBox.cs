@@ -10,7 +10,7 @@ namespace NuCore.Utilities
     /// 
     /// Platform-independent API for message boxes
     /// </summary>
-    public class NCMessageBox
+    public class LightningMessageBox
     {
         /// <summary>
         /// Icon of the message box.
@@ -30,14 +30,14 @@ namespace NuCore.Utilities
         /// <summary>
         /// The buttons that are to be used in this message box.
         /// </summary>
-        private List<NCMessageBoxButton> Buttons { get; set; }
+        private List<LightningMessageBoxButton> Buttons { get; set; }
 
         /// <summary>
-        /// Constructor for <see cref="NCMessageBox"/>
+        /// Constructor for <see cref="LightningMessageBox"/>
         /// </summary>
-        public NCMessageBox()
+        public LightningMessageBox()
         {
-            Buttons = new List<NCMessageBoxButton>();
+            Buttons = new List<LightningMessageBoxButton>();
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace NuCore.Utilities
         /// <param name="flags">The flags - see <see cref="SDL.SDL_MessageBoxButtonFlags"/>.</param>
         public void AddButton(string text, SDL_MessageBoxButtonFlags flags = 0)
         {
-            Buttons.Add(new NCMessageBoxButton
+            Buttons.Add(new LightningMessageBoxButton
             {
                 Flags = flags,
                 ID = Buttons.Count,
@@ -59,12 +59,12 @@ namespace NuCore.Utilities
         /// Shows this message box.
         /// </summary>
         /// <returns>A value indicating if this message box was returned or not.</returns>
-        public NCMessageBoxButton? Show()
+        public LightningMessageBoxButton? Show()
         {
             // Create a new list of button data.
             List<SDL_MessageBoxButtonData> buttonData = new();
 
-            foreach (NCMessageBoxButton button in Buttons)
+            foreach (LightningMessageBoxButton button in Buttons)
             {
                 // use the explicit operator to convert
                 buttonData.Add((SDL_MessageBoxButtonData)button);
@@ -85,7 +85,7 @@ namespace NuCore.Utilities
             // Show the message box
             if (SDL_ShowMessageBox(ref mbData, out var buttonId) < 0)
             {
-                NCLogging.LogError($"Error creating messagebox - {SDL_GetError()}", 19, NCLoggingSeverity.Error);
+                Logger.LogError($"Error creating messagebox - {SDL_GetError()}", 19, LoggerSeverity.Error);
                 return null;
             }
 

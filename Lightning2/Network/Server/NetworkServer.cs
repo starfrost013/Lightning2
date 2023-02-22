@@ -27,7 +27,7 @@
 
         internal void BeginReceive()
         {
-            NCLogging.Log("Preparing to receive data...");
+            Logger.Log("Preparing to receive data...");
             SessionManager.UdpClient.BeginReceive
             (
                 new AsyncCallback(OnReceivePacket),
@@ -37,7 +37,7 @@
 
         internal void SendPacket()
         {
-            NCLogging.Log("Sending network commands is not implemented, please remind me to implement it");
+            Logger.Log("Sending network commands is not implemented, please remind me to implement it");
         }
 
         private void OnReceivePacket(IAsyncResult result)
@@ -52,7 +52,7 @@
             byte[] receivedData = SessionManager.UdpClient.EndReceive(result, ref endPoint);
 
             // TEST - DEBUG - VERSION
-            NCLogging.Log($"CLIENT IP: {udpState.Ip} - DATA: {receivedData}");
+            Logger.Log($"CLIENT IP: {udpState.Ip} - DATA: {receivedData}");
 
             //todo: packet handling
             

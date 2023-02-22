@@ -189,7 +189,7 @@
 
             if (string.IsNullOrWhiteSpace(textBoxText))
             {
-                NCLogging.LogError("Invalid console command entered (temporary)", 303, NCLoggingSeverity.Warning, null, true);
+                Logger.LogError("Invalid console command entered (temporary)", 303, LoggerSeverity.Warning, null, true);
                 return;
             }
 
@@ -202,7 +202,7 @@
 
             if (!succeeded)
             {
-                NCLogging.Log($"Console command {commandType} not found!");
+                Logger.Log($"Console command {commandType} not found!");
                 return;
             }
 
@@ -211,7 +211,7 @@
             // should not happen
             Debug.Assert(command != null);
 
-            if (!command.Execute()) NCLogging.LogError("Command failed to execute!", 310, NCLoggingSeverity.Warning);
+            if (!command.Execute()) Logger.LogError("Command failed to execute!", 310, LoggerSeverity.Warning);
         }
 
         private void KeyPressed(InputBinding binding, Key key)

@@ -26,27 +26,27 @@
         internal static void Load()
         {
             // globalsettings loader checks for valid file
-            NCINIFile? localisationIni = NCINIFile.Parse(GlobalSettings.GeneralLanguage);
+            IniFile? localisationIni = IniFile.Parse(GlobalSettings.GeneralLanguage);
 
             if (localisationIni == null)
             {
-                NCLogging.LogError($"Error in localisation INI {GlobalSettings.GeneralLanguage}!", 31, NCLoggingSeverity.FatalError);
+                Logger.LogError($"Error in localisation INI {GlobalSettings.GeneralLanguage}!", 31, LoggerSeverity.FatalError);
                 return;
             }
 
-            NCINIFileSection? metadataSection = localisationIni.GetSection("Metadata");
+            IniSection? metadataSection = localisationIni.GetSection("Metadata");
 
-            NCINIFileSection? stringsSection = localisationIni.GetSection("Strings");
+            IniSection? stringsSection = localisationIni.GetSection("Strings");
 
             if (metadataSection == null)
             {
-                NCLogging.LogError($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No metadata section!", 32, NCLoggingSeverity.FatalError);
+                Logger.LogError($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No metadata section!", 32, LoggerSeverity.FatalError);
                 return;
             }
 
             if (stringsSection == null)
             {
-                NCLogging.LogError($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No strings section!", 33, NCLoggingSeverity.FatalError);
+                Logger.LogError($"Error in localisation INI {GlobalSettings.GeneralLanguage}: No strings section!", 33, LoggerSeverity.FatalError);
                 return;
             }
 
@@ -60,7 +60,7 @@
                 Strings.Add(value.Key, value.Value);
             }
 
-            NCLogging.Log($"Loaded language: {Metadata.Description} (version {Metadata.Version})");
+            Logger.Log($"Loaded language: {Metadata.Description} (version {Metadata.Version})");
         }
 
         public static string? GetString(string Key)
@@ -107,8 +107,8 @@
 
                         if (localisationString == null)
                         {
-                            NCLogging.LogError($"Invalid localisation string - cannot find localised string {localisationTextId}! The string will not be displayed.", 
-                                35, NCLoggingSeverity.Warning, null, true);
+                            Logger.LogError($"Invalid localisation string - cannot find localised string {localisationTextId}! The string will not be displayed.", 
+                                35, LoggerSeverity.Warning, null, true);
                             stringProcess = $"Unlocalised string {localisationTextId}!";
                         }
                         else

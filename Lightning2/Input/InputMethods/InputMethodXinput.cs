@@ -19,17 +19,17 @@ namespace LightningGL
 
         internal override bool DetectPresence()
         {
-            NCLogging.Log("Detecting game controller...");
+            Logger.Log("Detecting game controller...");
             _handle = SDL_GameControllerOpen(0); // hardcode first controller for now
 
             if (_handle == IntPtr.Zero)
             {
-                NCLogging.Log("Game controller not connected!");
+                Logger.Log("Game controller not connected!");
                 return false;
             }
 
             // feature detection
-            NCLogging.Log("Detecting features...");
+            Logger.Log("Detecting features...");
             // buttons
             if (SDL_GameControllerHasButton(_handle, SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_A) == SDL_bool.SDL_TRUE) Features |= ControllerFeatures.AButton;
             if (SDL_GameControllerHasButton(_handle, SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_B) == SDL_bool.SDL_TRUE) Features |= ControllerFeatures.BButton;
@@ -69,12 +69,12 @@ namespace LightningGL
             if (SDL_GameControllerHasSensor(_handle, SDL_SensorType.SDL_SENSOR_GYRO) == SDL_bool.SDL_TRUE) Features |= ControllerFeatures.Gyroscope;
 
             Name = SDL_GameControllerName(_handle);
-            NCLogging.Log($"Name = {Name}");
-            NCLogging.Log($"Features = {Features}");
+            Logger.Log($"Name = {Name}");
+            Logger.Log($"Features = {Features}");
 
             VendorID = SDL_GameControllerGetVendor(_handle);
             ProductID = SDL_GameControllerGetProduct(_handle);
-            NCLogging.Log($"Vendor & Product ID = {(KnownControllerVendorIds)VendorID:X}:{(KnownControllerProductIds)ProductID:X}");
+            Logger.Log($"Vendor & Product ID = {(KnownControllerVendorIds)VendorID:X}:{(KnownControllerProductIds)ProductID:X}");
 
             return true;
         }

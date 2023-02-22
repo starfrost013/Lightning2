@@ -28,14 +28,14 @@
 
                 string[] commaSeparatedValues = initialValue.Split(',');
 
-                if (commaSeparatedValues.Length != 2) NCLogging.LogError("Attempted to convert a non-Vector2 to a Vector2!", 151,
-                    NCLoggingSeverity.FatalError);
+                if (commaSeparatedValues.Length != 2) Logger.LogError("Attempted to convert a non-Vector2 to a Vector2!", 151,
+                    LoggerSeverity.FatalError);
 
                 float x = -1, y = -1;
 
                 if (!float.TryParse(commaSeparatedValues[0], out x)
-                    || !float.TryParse(commaSeparatedValues[1], out y)) NCLogging.LogError("Attempted to convert a non-Vector2 to a Vector2!", 152,
-                    NCLoggingSeverity.FatalError);
+                    || !float.TryParse(commaSeparatedValues[1], out y)) Logger.LogError("Attempted to convert a non-Vector2 to a Vector2!", 152,
+                    LoggerSeverity.FatalError);
 
                 return new Vector2(x, y);
 
