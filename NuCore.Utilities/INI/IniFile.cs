@@ -164,7 +164,7 @@
         /// <returns></returns>
         public bool Save(string path)
         {
-            List<string> iniLines = new List<string>();
+            List<string> iniLines = new();
 
             foreach (IniSection section in Sections)
             {

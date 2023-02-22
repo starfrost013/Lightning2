@@ -27,24 +27,22 @@
                 && InputMethodManager.InputIni != null);
 
             ref string bindingName = ref parameters[1];
+            ref string bind = ref parameters[2];
 
             foreach (InputBinding inputBindings in inputMethodInstance.Bindings)
             {
                 // the binding already exists
                 if (inputBindings.Name == bindingName)
                 {
+                    Logger.Log($"Modifying input binding {inputBindings.Name} in section {inputMethod} (old value: {inputBindings.Name}, new value: {inputBindings.Bind}");
 
+                    return InputMethodManager.ModifyBinding(inputMethod, bindingName, bind);
                 }
-
             }
-
-            string bind = parameters[2];
-
             Logger.Log($"Creating binding {bindingName} ({bind}), section: {inputMethod}...");
-            // case: binding doesn't exist, create it
-            InputMethodManager.AddBinding(inputMethod, bindingName, bind);
 
-            return true; 
+            // case: binding doesn't exist, create it
+            return InputMethodManager.AddBinding(inputMethod, bindingName, bind);
         }
 
         public override string Description => "bind [type] [binding] [bind]\n" +

@@ -49,6 +49,7 @@
     <None Remove="..\Libraries\SDL2_mixer-x64.dll" />
     <None Remove="..\Libraries\SDL2_ttf-v2.0.18-x64.dll" />
     <None Remove="..\Libraries\zlib1.dll" />
+    <None Remove="Input\InputMethods\kmgo0kun.avf~" />
   </ItemGroup>
 
   <ItemGroup>

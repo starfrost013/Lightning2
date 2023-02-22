@@ -58,14 +58,14 @@
             }
         }
 
-        internal static void AddBinding(InputMethods section, string binding, string bind)
+        internal static bool AddBinding(InputMethods section, string binding, string bind)
         {
             // should never be null, user can theoretically do this so not an assert
             
             if (InputIni == null)
             {
                 Logger.LogError("InputMethodManager::AddBinding called before InputMethodManager::ScanForAvailableMethods!", 322, LoggerSeverity.FatalError);
-                return;
+                return false;
             }
 
             IniSection? iniSection = InputIni.GetSection(section.ToString());
@@ -81,11 +81,13 @@
 
             // save the INI (maybe move this to shutdown!!)
             InputIni.Save(GlobalSettings.INPUTBINDINGS_PATH);
+
+            return true;
         }
 
-        internal static void ModifyBinding(InputMethods section, string binding, string newBind)
+        internal static bool ModifyBinding(InputMethods section, string binding, string newBind)
         {
-
+            return true; 
         }
     }
 }

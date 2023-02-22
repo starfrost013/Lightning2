@@ -1,4 +1,5 @@
-﻿using NuCore.Utilities;
+﻿using LightningBase;
+using NuCore.Utilities;
 
 namespace LightningPackager
 {
@@ -44,8 +45,6 @@ namespace LightningPackager
                 Logger.LogError($"Error: An exception occurred during extraction. Exception information:\n\n{ex}", 198, LoggerSeverity.FatalError);
                 return false;
             }
-            
-
         }
 
         public static bool GeneratePackage(PackageFile packageFile, string inFolder, string path)
@@ -79,7 +78,7 @@ namespace LightningPackager
 
                     foreach (string fileName in Directory.EnumerateFiles(ContentDirectory, "*", SearchOption.AllDirectories))
                     {
-                        if (!fileName.Contains("engine.ini", StringComparison.InvariantCultureIgnoreCase))
+                        if (!fileName.Contains(GlobalSettings.GLOBALSETTINGS_PATH, StringComparison.InvariantCultureIgnoreCase))
                         {
                             File.Delete(fileName);
                         }

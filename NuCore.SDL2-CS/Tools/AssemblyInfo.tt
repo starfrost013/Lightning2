@@ -8,12 +8,10 @@
 // This file defines the version information - generated using the AssemblyInfo.tt T4 template in LightningBase.
 // Automatically generated file - do not modify
 
-using System.Reflection;
-
 [assembly: AssemblyVersion("<#= LIGHTNING_VERSION_MAJOR #>.<#= LIGHTNING_VERSION_MINOR #>.<#= LIGHTNING_VERSION_REVISION #>.<#= LIGHTNING_VERSION_BUILD #>")]
 [assembly: AssemblyFileVersion("<#= LIGHTNING_VERSION_MAJOR #>.<#= LIGHTNING_VERSION_MINOR #>.<#= LIGHTNING_VERSION_REVISION #>.<#= LIGHTNING_VERSION_BUILD #>")]
 [assembly: AssemblyInformationalVersion("<#= LIGHTNING_VERSION_EXTENDED_STRING #>")]
-[assembly: AssemblyTitle("Lightning Base")]
+[assembly: AssemblyTitle("The Lightning Game Engine")]
 
 namespace LightningBase
 {

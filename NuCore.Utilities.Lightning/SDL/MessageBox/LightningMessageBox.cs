@@ -73,7 +73,7 @@ namespace NuCore.Utilities
             // build the message box data
             SDL_MessageBoxButtonData[] buttonArray = buttonData.ToArray();
 
-            SDL_MessageBoxData mbData = new SDL_MessageBoxData();
+            SDL_MessageBoxData mbData = new();
 
             // parent window currently not supported
             mbData.buttons = buttonArray;
