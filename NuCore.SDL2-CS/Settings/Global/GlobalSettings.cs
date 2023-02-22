@@ -465,13 +465,13 @@
                 _ = int.TryParse(graphicsSection.GetValue("MaxFPS"), out var graphicsMaxFpsValue);
                 _ = int.TryParse(graphicsSection.GetValue("ResolutionX"), out var graphicsResolutionXValue);
                 _ = int.TryParse(graphicsSection.GetValue("ResolutionY"), out var graphicsResolutionYValue);
-                _ = Enum.TryParse(typeof(SDL_WindowFlags), graphicsSection.GetValue("WindowFlags"), true, out var graphicsWindowFlagsValue);
-                _ = Enum.TryParse(typeof(SDL_RendererFlags), graphicsSection.GetValue("RenderFlags"), true, out var graphicsRenderFlagsValue);
+                _ = Enum.TryParse(graphicsSection.GetValue("WindowFlags"), true, out SDL_WindowFlags graphicsWindowFlagsValue);
+                _ = Enum.TryParse(graphicsSection.GetValue("RenderFlags"), true, out SDL_RendererFlags graphicsRenderFlagsValue);
                 _ = int.TryParse(graphicsSection.GetValue("TickSpeed"), out var graphicsTickSpeedValue);
                 _ = bool.TryParse(graphicsSection.GetValue("DontCullRenderables"), out var graphicsDontCullRenderablesValue);
                 _ = int.TryParse(graphicsSection.GetValue("PositionX"), out var graphicsPositionXValue);
                 _ = int.TryParse(graphicsSection.GetValue("PositionY"), out var graphicsPositionYValue);
-                _ = Enum.TryParse(typeof(Renderers), graphicsSection.GetValue("Renderer"), true, out var graphicsRendererValue);
+                _ = Enum.TryParse(graphicsSection.GetValue("Renderer"), true, out Renderers graphicsRendererValue);
                 _ = double.TryParse(graphicsSection.GetValue("LineSpacing"), out var graphicsLineSpacingValue);
                 _ = int.TryParse(graphicsSection.GetValue("BoldFactorX"), out var graphicsBoldFactorXValue);
                 _ = int.TryParse(graphicsSection.GetValue("BoldFactorY"), out var graphicsBoldFactorYValue);
@@ -500,10 +500,10 @@
                 GraphicsMaxFPS = graphicsMaxFpsValue;
                 GraphicsResolutionX = graphicsResolutionXValue;
                 GraphicsResolutionY = graphicsResolutionYValue;
-                if (graphicsWindowFlagsValue != null) GraphicsWindowFlags = (SDL_WindowFlags)graphicsWindowFlagsValue;
-                if (graphicsRenderFlagsValue != null) GraphicsRenderFlags = (SDL_RendererFlags)graphicsRenderFlagsValue;
+                if (graphicsWindowFlagsValue != default) GraphicsWindowFlags = graphicsWindowFlagsValue;
+                if (graphicsRenderFlagsValue != default) GraphicsRenderFlags = graphicsRenderFlagsValue;
                 GraphicsDontCullRenderables = graphicsDontCullRenderablesValue;
-                if (graphicsRendererValue != null) GraphicsRenderer = (Renderers)graphicsRendererValue;
+                if (graphicsRendererValue != default) GraphicsRenderer = graphicsRendererValue;
                 GraphicsLineSpacing = graphicsLineSpacingValue;
                 GraphicsBoldFactorX = graphicsBoldFactorXValue;
                 GraphicsBoldFactorY = graphicsBoldFactorYValue;
@@ -554,13 +554,13 @@
             {
                 _ = int.TryParse(audioSection.GetValue("DeviceHz"), out var audioDeviceHzValue);
                 _ = int.TryParse(audioSection.GetValue("Channels"), out var audioChannelsValue);
-                _ = Enum.TryParse(typeof(Mix_AudioFormat), audioSection.GetValue("Format"), true, out var audioFormatValue);
+                _ = Enum.TryParse(audioSection.GetValue("Format"), true, out Mix_AudioFormat audioFormatValue);
                 _ = int.TryParse(audioSection.GetValue("ChunkSize"), out var audioChunkSizeValue);
                 _ = int.TryParse(audioSection.GetValue("MaxSimultaneousAudioFiles"), out var audioMaxSimultaneousAudioFilesValue);
 
                 if (audioDeviceHzValue > 0) AudioDeviceHz = audioDeviceHzValue;
                 if (audioChannelsValue > 0) AudioChannels = audioChannelsValue;
-                if (audioFormatValue != null) AudioFormat = (Mix_AudioFormat)audioFormatValue;
+                if (audioFormatValue != default) AudioFormat = audioFormatValue;
                 if (audioChunkSizeValue > 0) AudioChunkSize = audioChunkSizeValue;
                 if (audioMaxSimultaneousAudioFilesValue > 0) AudioMaxSimultaneousAudioFiles = audioMaxSimultaneousAudioFilesValue;
             }

@@ -111,7 +111,7 @@
         /// <summary>
         /// The default name of the input binding used for triggering the console.
         /// </summary>
-        private const string BINDING_TRIGGER_NAME = "TriggerDebugConsole";
+        private const string BINDING_TRIGGER_NAME = "DebugConsoleTrigger";
 
         public DebugConsole(string name) : base(name) 
         {

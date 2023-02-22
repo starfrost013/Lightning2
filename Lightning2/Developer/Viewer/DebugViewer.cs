@@ -286,10 +286,10 @@
 
             switch (binding.Name)
             {
-                case "PAGEUP":
+                case BINDING_PAGE_UP_NAME:
                     CurrentDebugView--;
                     break;
-                case "PAGEDOWN":
+                case BINDING_PAGE_DOWN_NAME:
                     CurrentDebugView++;
                     break;
             }

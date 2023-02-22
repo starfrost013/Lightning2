@@ -13,7 +13,7 @@ namespace LightningGL
 
         public static explicit operator ControllerButton(SDL_ControllerButtonEvent buttonEvent)
         {
-            return new ControllerButton
+            return new ControllerButtonInputBinding
             {
                 Features = (ControllerFeatures)(1 >> buttonEvent.button),
             };
