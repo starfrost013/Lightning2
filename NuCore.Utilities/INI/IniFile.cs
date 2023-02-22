@@ -14,21 +14,21 @@
     /// <para>Updated February 11, 2023 to fix case insensitivity consistency between different methods, and to add optional case insensitivity while searching for sections or values.</para>
     /// <para>Updated February 22, 2023 to rename Write to Save and to rename some variables, as well as removing the "NC" prefix from the classes.</para>
     /// </summary>
-    public class NCINIFile
+    public class IniFile
     {
         /// <summary>
         /// The sections of this INI file. 
         /// </summary>
-        public List<NCINIFileSection> Sections { get; set; }
+        public List<IniSection> Sections { get; set; }
 
         /// <summary>
         /// Parser private: used for parsing the current section.
         /// </summary>
-        private NCINIFileSection? CurSection { get; set; }
+        private IniSection? CurSection { get; set; }
 
-        public NCINIFile()
+        public IniFile()
         {
-            Sections = new List<NCINIFileSection>();
+            Sections = new List<IniSection>();
         }
 
         /// <summary>
@@ -37,12 +37,12 @@
         /// <param name="path">The path of the INI file that is to be parsed.</param>
         /// <returns></returns>
         /// <exception cref="NCError">An error occurred during the INI parsing. Extended error information is present in the <see cref="NCError.Description"/> property.</exception>
-        public static NCINIFile? Parse(string path)
+        public static IniFile? Parse(string path)
         {
-            if (!File.Exists(path)) NCLogging.LogError($"INI parsing error: Cannot parse INI file at {path}: File not found!", 21,
-                NCLoggingSeverity.Error);
+            if (!File.Exists(path)) Logger.LogError($"INI parsing error: Cannot parse INI file at {path}: File not found!", 21,
+                LoggerSeverity.Error);
 
-            NCINIFile iniFile = new();
+            IniFile iniFile = new();
 
             try
             {
@@ -86,7 +86,7 @@
 
                                     if (beginning > end)
                                     {
-                                        NCLogging.LogError("INI parsing error: Invalid section entry - ] before [!", 25, NCLoggingSeverity.Error);
+                                        Logger.LogError("INI parsing error: Invalid section entry - ] before [!", 25, LoggerSeverity.Error);
                                         return null;
                                     }
 
@@ -95,14 +95,14 @@
                                     string sectionName = iniLine.Substring(beginning + 1, iniLine.Length - (iniLine.Length - end) - 1);
                                     sectionName = sectionName.Trim();
                                     
-                                    NCINIFileSection iniSection = new(sectionName);
+                                    IniSection iniSection = new(sectionName);
 
                                     iniFile.Sections.Add(iniSection);
                                     iniFile.CurSection = iniSection;
                                 }
                                 else
                                 {
-                                    NCLogging.LogError("INI parsing error: Section name must terminate with ]!", 24, NCLoggingSeverity.Error);
+                                    Logger.LogError("INI parsing error: Section name must terminate with ]!", 24, LoggerSeverity.Error);
                                     return null;
                                 }
                                 continue;
@@ -113,7 +113,7 @@
                                 {
                                     if (iniFile.CurSection == null)
                                     {
-                                        NCLogging.LogError("INI parsing error: Values must be within a section!", 26, NCLoggingSeverity.Error);
+                                        Logger.LogError("INI parsing error: Values must be within a section!", 26, LoggerSeverity.Error);
                                         return null;
                                     }
 
@@ -136,7 +136,7 @@
                                 }
                                 else
                                 {
-                                    NCLogging.LogError("INI parsing error: An INI item with no value was found!", 23, NCLoggingSeverity.Error);
+                                    Logger.LogError("INI parsing error: An INI item with no value was found!", 23, LoggerSeverity.Error);
                                     return null;
                                 }
                                 continue;
@@ -152,13 +152,13 @@
             }
             catch (Exception ex)
             {
-                NCLogging.LogError($"INI parsing error: Cannot parse INI file at {path}: \n\n{ex}", 22, NCLoggingSeverity.Error);
+                Logger.LogError($"INI parsing error: Cannot parse INI file at {path}: \n\n{ex}", 22, LoggerSeverity.Error);
                 return null;
             }
         }
 
         /// <summary>
-        /// Writes the content of this <see cref="NCINIFile"/> to a physical .ini file.
+        /// Writes the content of this <see cref="IniFile"/> to a physical .ini file.
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -166,7 +166,7 @@
         {
             List<string> iniLines = new List<string>();
 
-            foreach (NCINIFileSection section in Sections)
+            foreach (IniSection section in Sections)
             {
                 iniLines.Add($"[{section.Name}]");
 
@@ -187,7 +187,7 @@
             }
             catch (Exception ex)
             {
-                NCLogging.LogError($"Error writing to INI: {ex.Message}", 110, NCLoggingSeverity.Error);
+                Logger.LogError($"Error writing to INI: {ex.Message}", 110, LoggerSeverity.Error);
                 return false;
             }
         }
@@ -196,10 +196,10 @@
         /// Acquires the INI file section with the name <paramref name="name"/>
         /// </summary>
         /// <param name="name">The name of the INI file section you wish to obtain.</param>
-        /// <returns>A <see cref="NCINIFileSection"/> instance representing the INI file with section <see cref="Name"/> if the section could be found, otherwise null.</returns>
-        public NCINIFileSection? GetSection(string name, bool caseSensitive = false)
+        /// <returns>A <see cref="IniSection"/> instance representing the INI file with section <see cref="Name"/> if the section could be found, otherwise null.</returns>
+        public IniSection? GetSection(string name, bool caseSensitive = false)
         {
-            foreach (NCINIFileSection iniSection in Sections)
+            foreach (IniSection iniSection in Sections)
             {
                 // this ensures case-insensitive comparison while using less code than string.Equals();
                 if (!caseSensitive)

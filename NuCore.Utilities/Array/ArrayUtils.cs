@@ -1,6 +1,6 @@
 ﻿namespace NuCore.Utilities
 {
-    public static class NCArray
+    public static class ArrayUtils
     {
         public static byte[] Combine(byte[] array1, byte[] array2)
         {

@@ -38,8 +38,12 @@
 
             }
 
+            string bind = parameters[2];
+
+            Logger.Log($"Creating binding {bindingName} ({bind}), section: {inputMethod}...");
             // case: binding doesn't exist, create it
-            InputMethodManager.AddBinding(inputMethod, bindingName, parameters[2]);
+            InputMethodManager.AddBinding(inputMethod, bindingName, bind);
+
             return true; 
         }
 

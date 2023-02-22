@@ -10,7 +10,7 @@ namespace NuCore.Utilities
     /// 
     /// Provides NuCore logging capabilities
     /// </summary>
-    public static class NCLogging
+    public static class Logger
     {
         /// <summary>
         /// Private: Holds stream used for logging
@@ -20,7 +20,7 @@ namespace NuCore.Utilities
         /// <summary>
         /// The settings for the NuCore logger.
         /// </summary>
-        public static NCLoggingSettings Settings { get; set; }
+        public static LoggerSettings Settings { get; set; }
 
         /// <summary>
         /// Determines if logging is initialised.
@@ -30,7 +30,7 @@ namespace NuCore.Utilities
         /// <summary>
         /// Static constructor for initialising the NuCore logging system
         /// </summary>
-        static NCLogging()
+        static Logger()
         {
             Settings = new();
             Settings.LogFileName = string.Empty;
@@ -55,7 +55,7 @@ namespace NuCore.Utilities
             {
                 if (Settings.LogFileName == null)
                 {
-                    NCLogging.LogError("Passed null file name to NCLogging::Init!", 6, NCLoggingSeverity.FatalError);
+                    Logger.LogError("Passed null file name to NCLogging::Init!", 6, LoggerSeverity.FatalError);
                     return;
                 }
 
@@ -68,24 +68,24 @@ namespace NuCore.Utilities
 
         }
 
-        internal static void Log(string information, NCLoggingSeverity severity, bool printMetadata = true, bool logToFile = true)
+        internal static void Log(string information, LoggerSeverity severity, bool printMetadata = true, bool logToFile = true)
         {
             if (!Initialised) return;
 
             switch (severity)
             {
 #if !FINAL
-                case NCLoggingSeverity.Message:
+                case LoggerSeverity.Message:
                     Log(information, ConsoleColor.White, logToFile, printMetadata);
                     return;
 #endif
-                case NCLoggingSeverity.Warning:
+                case LoggerSeverity.Warning:
                     Log(information, ConsoleColor.Yellow, logToFile, printMetadata);
                     return;
-                case NCLoggingSeverity.Error:
+                case LoggerSeverity.Error:
                     Log(information, ConsoleColor.Red, logToFile, printMetadata);
                     return;
-                case NCLoggingSeverity.FatalError:
+                case LoggerSeverity.FatalError:
                     Log(information, ConsoleColor.DarkRed, logToFile, printMetadata);
                     return;
             }
@@ -118,7 +118,7 @@ namespace NuCore.Utilities
                 // as far as i know this shouldn't happen but ignore if it does
                 if (stackFrame == null)
                 {
-                    NCLogging.LogError("Failed to get stack frame for logging, ignoring", 302, NCLoggingSeverity.Error, null, true);
+                    Logger.LogError("Failed to get stack frame for logging, ignoring", 302, LoggerSeverity.Error, null, true);
                     return; 
                 }
 
@@ -128,7 +128,7 @@ namespace NuCore.Utilities
                 if (method == null
                     || method.ReflectedType == null)
                 {
-                    NCLogging.LogError("Failed to get stack frame for logging, ignoring", 303, NCLoggingSeverity.Error, null, true);
+                    Logger.LogError("Failed to get stack frame for logging, ignoring", 303, LoggerSeverity.Error, null, true);
                     return;
                 }
 
@@ -196,33 +196,33 @@ namespace NuCore.Utilities
         /// </summary>
         /// <param name="description">A description of the error.</param>
         /// <param name="id">The ID of the error.</param>
-        /// <param name="exceptionSeverity">The severity of the exception - see <see cref="NCLoggingSeverity"/></param>
+        /// <param name="exceptionSeverity">The severity of the exception - see <see cref="LoggerSeverity"/></param>
         /// <param name="baseException">The .NET exception that caused the error, if present.</param>
         /// <param name="dontShowMessageBox">Determines if a message box was shown or not</param>
-        public static void LogError(string description, int id, NCLoggingSeverity exceptionSeverity = NCLoggingSeverity.Message,
+        public static void LogError(string description, int id, LoggerSeverity exceptionSeverity = LoggerSeverity.Message,
             Exception? baseException = null, bool dontShowMessageBox = false)
         {
             StringBuilder stringBuilder = new();
 
             if (description != null) stringBuilder.Append($"{description}");
-            if (exceptionSeverity > NCLoggingSeverity.Message) stringBuilder.Append($" [{id}]");
+            if (exceptionSeverity > LoggerSeverity.Message) stringBuilder.Append($" [{id}]");
 
             if (baseException != null) stringBuilder.Append($"\n\nError Information:\n{baseException}");
 
             string errorString = stringBuilder.ToString();
 
-            NCLogging.Log($"{exceptionSeverity}:\n{errorString}", exceptionSeverity);
+            Logger.Log($"{exceptionSeverity}:\n{errorString}", exceptionSeverity);
 
             // display message box
-            if (NCAssembly.NCLightningExists
+            if (AssemblyUtils.NCLightningExists
                 && !dontShowMessageBox)
             {
-                Debug.Assert(NCAssembly.NCLightningAssembly != null);
-                Type? lightningUtilName = NCAssembly.NCLightningAssembly.GetType(NCAssembly.LIGHTNING_UTILITIES_PRESET_NAME, false, true);
+                Debug.Assert(AssemblyUtils.NCLightningAssembly != null);
+                Type? lightningUtilName = AssemblyUtils.NCLightningAssembly.GetType(AssemblyUtils.LIGHTNING_UTILITIES_PRESET_NAME, false, true);
 
                 if (lightningUtilName == null)
                 {
-                    NCLogging.Log("Failed to load NCMessageBox type through reflection (ignoring)", ConsoleColor.Yellow);
+                    Logger.Log("Failed to load NCMessageBox type through reflection (ignoring)", ConsoleColor.Yellow);
                     return;
                 }
 
@@ -230,25 +230,25 @@ namespace NuCore.Utilities
 
                 if (msgBoxOk == null)
                 {
-                    NCLogging.Log("Failed to display error box (ignoring)", ConsoleColor.Yellow);
+                    Logger.Log("Failed to display error box (ignoring)", ConsoleColor.Yellow);
                     return;
                 }
 
                 switch (exceptionSeverity)
                 {
-                    case NCLoggingSeverity.Message:
+                    case LoggerSeverity.Message:
                         msgBoxOk.Invoke(null, new object[]
                         { "Information", errorString, SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION });
                         break;
-                    case NCLoggingSeverity.Warning:
+                    case LoggerSeverity.Warning:
                         msgBoxOk.Invoke(null, new object[]
                         { "Warning", errorString, SDL_MessageBoxFlags.SDL_MESSAGEBOX_WARNING });
                         break;
-                    case NCLoggingSeverity.Error:
+                    case LoggerSeverity.Error:
                         msgBoxOk.Invoke(null, new object[]
                         { "Error", errorString, SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR });
                         break;
-                    case NCLoggingSeverity.FatalError:
+                    case LoggerSeverity.FatalError:
                         msgBoxOk.Invoke(null, new object[]
                             { "Fatal Error", $"A fatal error has occurred:\n\n{errorString}\n\n" +
                                 $"The Lightning Game Engine-based application you are running must exit. We are sorry for the inconvenience.",
@@ -258,7 +258,7 @@ namespace NuCore.Utilities
                 }
             }
 
-            if (exceptionSeverity == NCLoggingSeverity.FatalError) Environment.Exit(id);
+            if (exceptionSeverity == LoggerSeverity.FatalError) Environment.Exit(id);
         }
 
         /// <summary>
@@ -267,10 +267,10 @@ namespace NuCore.Utilities
         /// <param name="description">A description of the error.</param>
         /// <param name="prefix">A prefix to display before the error message determining the erroring component.</param>
         /// <param name="id">The ID of the error.</param>
-        /// <param name="exceptionSeverity">The severity of the exception - see <see cref="NCLoggingSeverity"/></param>
+        /// <param name="exceptionSeverity">The severity of the exception - see <see cref="LoggerSeverity"/></param>
         /// <param name="baseException">The .NET exception that caused the error, if present.</param>
         /// <param name="dontShowMessageBox">Determines if a message box was shown or not</param>
-        public static void LogError(string description, string prefix, int id, NCLoggingSeverity exceptionSeverity = NCLoggingSeverity.Message,
+        public static void LogError(string description, string prefix, int id, LoggerSeverity exceptionSeverity = LoggerSeverity.Message,
             Exception? baseException = null, bool dontShowMessageBox = false)
         {
             LogError($"[{prefix}]: {description}", id, exceptionSeverity, baseException, dontShowMessageBox);

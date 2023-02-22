@@ -27,15 +27,15 @@
         {
             base.Init();
 
-            NCLogging.Log("Lightning Server starting...");
+            Logger.Log("Lightning Server starting...");
             
-            NCLogging.Log(LOGGING_PREFIX, $"Server starting on port: {GlobalSettings.NetworkDefaultPort}");
+            Logger.Log(LOGGING_PREFIX, $"Server starting on port: {GlobalSettings.NetworkDefaultPort}");
             NetworkServer.Init();
 
             Running = true;
 
             Initialised = true;
-            NCLogging.Log(LOGGING_PREFIX, "Server initialisation successful!", ConsoleColor.Green);
+            Logger.Log(LOGGING_PREFIX, "Server initialisation successful!", ConsoleColor.Green);
             Main();
         }
 
@@ -44,7 +44,7 @@
             while (Running)
             {
                 // server is still alive
-                NCLogging.Log("The server is still alive!!!");
+                Logger.Log("The server is still alive!!!");
             }
         }
 

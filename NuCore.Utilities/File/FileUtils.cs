@@ -5,7 +5,7 @@
     /// 
     /// File utilities.
     /// </summary>
-    public static class NCFile
+    public static class FileUtils
     {
         private readonly static List<string> defaultExcludedPatterns = new()
         { ".tmp", "~$", ".g.cs", ".cache", ".editorconfig", ".props", ".targets", ".vsidx", ".lock", ".v1", ".v2", ".v5.", 

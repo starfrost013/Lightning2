@@ -50,11 +50,9 @@
                     return;
                 }
 
-                IniSection? sectionDs4 = InputIni.GetSection("DS4");
                 IniSection? sectionXinput = InputIni.GetSection("Xinput");
                 IniSection? sectionKeyboardMouse = InputIni.GetSection("KeyboardMouse");
 
-                if (sectionDs4 != null) foreach (var value in sectionDs4.Values) ds4.Bindings.Add(new(value.Key, value.Value));
                 if (sectionXinput != null) foreach (var value in sectionXinput.Values) xinput.Bindings.Add(new(value.Key, value.Value));
                 if (sectionKeyboardMouse != null) foreach (var value in sectionKeyboardMouse.Values) keyboardMouse.Bindings.Add(new(value.Key, value.Value));
             }

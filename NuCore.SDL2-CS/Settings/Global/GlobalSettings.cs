@@ -22,7 +22,7 @@
         /// <summary>
         /// The INI file object containing the Global Settings.
         /// </summary>
-        internal static NCINIFile IniFile { get; private set; }
+        internal static IniFile IniFile { get; private set; }
 
         #region General settings
         /// <summary>
@@ -382,40 +382,40 @@
         {
             // Possible todo: Serialise these to properties and get rid of the loader/sections
             // Consider this
-            NCINIFile iniFile = NCINIFile.Parse(GLOBALSETTINGS_PATH);
+            IniFile iniFile = IniFile.Parse(GLOBALSETTINGS_PATH);
 
-            if (iniFile == null) NCLogging.LogError("Failed to load Engine.ini!", 28, NCLoggingSeverity.FatalError);
+            if (iniFile == null) Logger.LogError("Failed to load Engine.ini!", 28, LoggerSeverity.FatalError);
 
-            NCINIFileSection generalSection = iniFile.GetSection("General");
-            NCINIFileSection graphicsSection = iniFile.GetSection("Graphics");
-            NCINIFileSection locSection = iniFile.GetSection("Localisation");
-            NCINIFileSection requirementsSection = iniFile.GetSection("Requirements");
-            NCINIFileSection sceneSection = iniFile.GetSection("Scene");
-            NCINIFileSection audioSection = iniFile.GetSection("Audio");
-            NCINIFileSection networkSection = iniFile.GetSection("Network");
-            NCINIFileSection debugSection = iniFile.GetSection("Debug");
+            IniSection generalSection = iniFile.GetSection("General");
+            IniSection graphicsSection = iniFile.GetSection("Graphics");
+            IniSection locSection = iniFile.GetSection("Localisation");
+            IniSection requirementsSection = iniFile.GetSection("Requirements");
+            IniSection sceneSection = iniFile.GetSection("Scene");
+            IniSection audioSection = iniFile.GetSection("Audio");
+            IniSection networkSection = iniFile.GetSection("Network");
+            IniSection debugSection = iniFile.GetSection("Debug");
 
             if (generalSection == null)
             {
-                NCLogging.LogError("Engine.ini must have a General section!", 41, NCLoggingSeverity.FatalError);
+                Logger.LogError("Engine.ini must have a General section!", 41, LoggerSeverity.FatalError);
                 return;
             }
 
             if (locSection == null)
             {
-                NCLogging.LogError("Engine.ini must have a Localisation section!", 29, NCLoggingSeverity.FatalError);
+                Logger.LogError("Engine.ini must have a Localisation section!", 29, LoggerSeverity.FatalError);
                 return;
             }
 
             if (sceneSection == null)
             {
-                NCLogging.LogError("Engine.ini must have a Scene section!", 121, NCLoggingSeverity.FatalError);
+                Logger.LogError("Engine.ini must have a Scene section!", 121, LoggerSeverity.FatalError);
                 return; 
             }
 
             if (graphicsSection == null)
             {
-                NCLogging.LogError("Engine.ini must have a Graphics section!", 310, NCLoggingSeverity.FatalError);
+                Logger.LogError("Engine.ini must have a Graphics section!", 310, LoggerSeverity.FatalError);
                 return;
             }
 
@@ -452,11 +452,11 @@
             }
             else
             {
-                if (!Directory.Exists(localisationFolder)) NCLogging.LogError("LocalisationFolder does not exist", 157, NCLoggingSeverity.FatalError);
+                if (!Directory.Exists(localisationFolder)) Logger.LogError("LocalisationFolder does not exist", 157, LoggerSeverity.FatalError);
                 GeneralLanguage = @$"{localisationFolder}\{language}.ini";
             }
 
-            if (!File.Exists(GeneralLanguage)) NCLogging.LogError("Engine.ini's Localisation section must have a valid Language value!", 30, NCLoggingSeverity.FatalError);
+            if (!File.Exists(GeneralLanguage)) Logger.LogError("Engine.ini's Localisation section must have a valid Language value!", 30, LoggerSeverity.FatalError);
 
             // Load the Graphics section, if it is present.
             if (graphicsSection != null)
@@ -540,8 +540,8 @@
 
             SceneStartupScene = sceneSection.GetValue("StartupScene");
 
-            if (SceneStartupScene == null) NCLogging.LogError("StartupScene not present in the [Scene] section of Engine.ini!", 164,
-                NCLoggingSeverity.FatalError);
+            if (SceneStartupScene == null) Logger.LogError("StartupScene not present in the [Scene] section of Engine.ini!", 164,
+                LoggerSeverity.FatalError);
 
             AudioDeviceHz = DEFAULT_AUDIO_DEVICE_HZ;
             AudioChunkSize = DEFAULT_AUDIO_CHUNK_SIZE;
@@ -633,16 +633,16 @@
         public static void Validate()
         {
             // test system ram
-            if (RequirementsMinimumSystemRam > SystemInfo.SystemRam) NCLogging.LogError($"Insufficient RAM to run game. " +
-                $"{RequirementsMinimumSystemRam}MB required, you have {SystemInfo.SystemRam}MB!", 111, NCLoggingSeverity.FatalError);
+            if (RequirementsMinimumSystemRam > SystemInfo.SystemRam) Logger.LogError($"Insufficient RAM to run game. " +
+                $"{RequirementsMinimumSystemRam}MB required, you have {SystemInfo.SystemRam}MB!", 111, LoggerSeverity.FatalError);
 
             // test threads
-            if (RequirementsMinimumLogicalProcessors > SystemInfo.Cpu.Threads) NCLogging.LogError($"Insufficient logical processors to run game. " +
-                $"{RequirementsMinimumLogicalProcessors} threads required, you have {SystemInfo.Cpu.Threads}!", 112, NCLoggingSeverity.FatalError);
+            if (RequirementsMinimumLogicalProcessors > SystemInfo.Cpu.Threads) Logger.LogError($"Insufficient logical processors to run game. " +
+                $"{RequirementsMinimumLogicalProcessors} threads required, you have {SystemInfo.Cpu.Threads}!", 112, LoggerSeverity.FatalError);
 
             // test cpu functionality
-            if (RequirementsMinimumCpuCapabilities > SystemInfo.Cpu.Capabilities) NCLogging.LogError($"Insufficient CPU capabilities to run game. " +
-                $"{RequirementsMinimumCpuCapabilities} capabilities required, you have {SystemInfo.Cpu.Capabilities}!", 113, NCLoggingSeverity.FatalError);
+            if (RequirementsMinimumCpuCapabilities > SystemInfo.Cpu.Capabilities) Logger.LogError($"Insufficient CPU capabilities to run game. " +
+                $"{RequirementsMinimumCpuCapabilities} capabilities required, you have {SystemInfo.Cpu.Capabilities}!", 113, LoggerSeverity.FatalError);
 
             bool failedOsCheck = false;
 
@@ -655,8 +655,8 @@
             }
 
             // test OS version
-            if (failedOsCheck) NCLogging.LogError($"Insufficient OS version to run game. {RequirementsMinimumOperatingSystem} must be used, you have " +
-                $"{SystemInfo.CurOperatingSystem}!", 114, NCLoggingSeverity.FatalError);
+            if (failedOsCheck) Logger.LogError($"Insufficient OS version to run game. {RequirementsMinimumOperatingSystem} must be used, you have " +
+                $"{SystemInfo.CurOperatingSystem}!", 114, LoggerSeverity.FatalError);
         }
 
         public static void Write() => IniFile.Save(GLOBALSETTINGS_PATH);

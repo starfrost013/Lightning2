@@ -13,7 +13,7 @@ namespace LightningGL
         public override string Description => "unbind [type] [binding]" +
             "Unbinds a control.\n" +
             "Parameters:\n" +
-            "type (InputMethods): DS4, Xinput, or KeyboardMouse: The type of binding to unbind\n" +
-            "binding: The name of the binding to unbind.\n" +
+            "type (InputMethods): Xinput or KeyboardMouse: The type of binding to unbind\n" +
+            "binding: The name of the binding to unbind.\n";
     }
 }

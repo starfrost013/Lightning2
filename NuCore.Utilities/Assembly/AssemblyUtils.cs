@@ -5,7 +5,7 @@
     /// 
     /// NuCore Assembly utilities.
     /// </summary>
-    public static class NCAssembly
+    public static class AssemblyUtils
     {
         #region class and namespace names for NCException
         internal static string LIGHTNING_UTILITIES_NAME = "NuCore.Utilities.Lightning";
@@ -19,7 +19,7 @@
 
         internal static bool NCLightningExists => (NCLightningAssembly != null);
 
-        static NCAssembly()
+        static AssemblyUtils()
         {
             try
             {
