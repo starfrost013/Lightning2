@@ -217,7 +217,7 @@
         private void KeyPressed(InputBinding binding, Key key)
         {
             // case has to be a compile time constant so we do thos
-            if (binding.Name == BINDING_NAME) Enabled = !Enabled;
+            if (binding.Name == BINDING_TRIGGER_NAME) Enabled = !Enabled;
         }
     }
 }
