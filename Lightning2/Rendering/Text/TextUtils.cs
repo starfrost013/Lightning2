@@ -5,7 +5,7 @@
     /// 
     /// Provides functions for managing fonts and drawing text.
     /// </summary>
-    public class FontAssetManager : AssetManager<Font>
+    public static class TextUtils
     {
         /// <summary>
         /// <para>Gets the text size for the text <paramref name="text"/> using <paramref name="font"/>. </para>
@@ -14,7 +14,7 @@
         /// <param name="font">The font used for <paramref name="text"/></param>
         /// <param name="text">The text to get the font size for</param>
         /// <returns>A <see cref="Vector2"/> containing the size of <paramref name="text"/> in pixels.</returns>
-        public Vector2 GetTextSize(Font font, string text, Color foregroundColor, FontStyle style, FontSmoothingType smoothingType)
+        public static Vector2 GetTextSize(Font font, string text, Color foregroundColor, FontStyle style, FontSmoothingType smoothingType)
         {
             // check the string is not empty
             if (string.IsNullOrWhiteSpace(text)) return default;
@@ -58,7 +58,7 @@
         /// <param name="font">The font used for <paramref name="text"/></param>
         /// <param name="text">The text to get the font size for</param>
         /// <returns>A <see cref="Vector2"/> containing the size of <paramref name="text"/> in pixels.</returns>
-        public Vector2 GetTextSize(string font, string text, Color foregroundColor, FontStyle style, FontSmoothingType smoothingType)
+        public static Vector2 GetTextSize(string font, string text, Color foregroundColor, FontStyle style, FontSmoothingType smoothingType)
         {
             Font? curFont = (Font?)Lightning.Renderer.GetRenderableByName(font);
 
@@ -79,7 +79,7 @@
         /// <param name="font">The font used for <paramref name="text"/></param>
         /// <param name="text">The text to get the font size for</param>
         /// <returns>A <see cref="Vector2"/> containing the size of <paramref name="text"/> in pixels.</returns>
-        internal Vector2 GetLargestTextSize(Font font, string text, Color foregroundColor, FontStyle style, FontSmoothingType smoothingType)
+        internal static Vector2 GetLargestTextSize(Font font, string text, Color foregroundColor, FontStyle style, FontSmoothingType smoothingType)
         {
             // check the string is not empty
             if (string.IsNullOrWhiteSpace(text)) return default;
@@ -116,7 +116,7 @@
         /// <param name="font">The font used for <paramref name="text"/></param>
         /// <param name="text">The text to get the font size for</param>
         /// <returns>A <see cref="Vector2"/> containing the size of <paramref name="text"/> in pixels.</returns>
-        internal Vector2 GetLargestTextSize(string font, string text, Color foregroundColor, FontStyle style, FontSmoothingType smoothingType)
+        internal static Vector2 GetLargestTextSize(string font, string text, Color foregroundColor, FontStyle style, FontSmoothingType smoothingType)
         {
             Font? curFont = (Font?)Lightning.Renderer.GetRenderableByName(font);
 

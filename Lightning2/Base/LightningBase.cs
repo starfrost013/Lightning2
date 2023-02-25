@@ -36,14 +36,14 @@ namespace LightningGL
 
             // Initialise all asset managers
             TextureManager = new TextureAssetManager();
-            FontManager = new FontAssetManager();
+            FontManager = new TextUtils();
             LightManager = new LightAssetManager();
         }
 
         #region Asset managers
         public static TextureAssetManager TextureManager { get; private set; } // init not valid on static members
 
-        public static FontAssetManager FontManager { get; private set; }
+        public static TextUtils FontManager { get; private set; }
         public static LightAssetManager LightManager { get; private set; }
 
         #endregion

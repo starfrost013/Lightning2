@@ -149,7 +149,6 @@ namespace LightningGL
 
             // don't try and cache a third time if we already tried once
             return null;
-
         }
 
         internal static void DeleteEntry(string font, char character, Color foregroundColor, FontSmoothingType smoothingType = FontSmoothingType.Default)

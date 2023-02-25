@@ -60,7 +60,7 @@
             }
         }
 
-        public static FontAssetManager FontManager
+        public static TextUtils FontManager
         {
             get
             {
