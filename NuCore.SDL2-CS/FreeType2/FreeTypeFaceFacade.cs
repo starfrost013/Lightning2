@@ -322,10 +322,10 @@ namespace LightningBase
             if (!Initialised)
             {
                 Logger.LogError("FreeType Internal Error - Font not initialised", 240, LoggerSeverity.FatalError);
+                return false;
             }
 
-            // 26.6 format
-            var err = FreeTypeApi.FT_Bitmap_Embolden(_Library.Native, (nint)(GlyphBitmapPtr), xStrength << 6, yStrength << 6);
+            var err = FreeTypeApi.FT_Bitmap_Embolden(_Library.Native, (nint)(GlyphBitmapPtr), xStrength, yStrength);
 
             if (err != FT_Error.FT_Err_Ok)
             {

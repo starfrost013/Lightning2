@@ -192,6 +192,9 @@ namespace LightningGL
 
                     if (glyph != null)
                     {
+                        // this is stupid and slow, i should do this in caching stage
+                        // but i can't be fucked
+
                         glyph.UsedThisFrame = true;
 
                         // maxverticallinesize
@@ -199,7 +202,9 @@ namespace LightningGL
 
                         // change line length
                         lineLength += (int)glyph.Advance.X;
-                        
+
+                        int numberOfTimesToDraw = glyph.Style.HasFlag(FontStyle.Bold) ? 2 : 1;
+
                         // syntax note: new() does not work here!!! you must provide a type name
                         switch (Orientation)
                         {
@@ -223,14 +228,13 @@ namespace LightningGL
                                 break;
                             case Orientation.BottomToTop:
                                 currentPosition += new Vector2(0, -glyph.Advance.X);
-                                glyph.Position = new(currentPosition.X + glyph.Offset.X,
+                                glyph.Position = new(currentPosition.X  + glyph.Offset.X,
                                     currentPosition.Y - glyph.Offset.Y);
                                 break;
                         }
 
-                        // the glyph is empty so just push forward by the size of the glyph
-                        // (tabs, spaces, etc)
                         if (!glyph.IsEmpty) glyph.Draw();
+
                     }
                 }
 

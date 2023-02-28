@@ -109,12 +109,17 @@ namespace LightningGL
                 Style = style,
             };
 
-            if (!glyph.IsEmpty)
+
+            if (!isEmpty)
             {
-                glyph = (Glyph?)Lightning.Renderer.TextureFromFreetypeBitmap(bitmap, glyph, foregroundColor);
+                // embolden the glyph (skip the last character)
+                glyph = (Glyph?)Lightning.Renderer.TextureFromFreetypeBitmap(bitmap, glyph, foregroundColor, style);
+
+                Debug.Assert(glyph != null);
+
+                glyph.Unlock();
             }
 
-            Debug.Assert(glyph != null);
             Glyphs.Add(glyph);
         }
 

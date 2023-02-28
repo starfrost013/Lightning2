@@ -230,7 +230,7 @@
 
                 if (!HideCursor)
                 {
-                    Vector2 fontSize = FontManager.GetLargestTextSize(Font, Text, ForegroundColor, Style, TextBoxText.SmoothingType);
+                    Vector2 fontSize = TextUtils.GetLargestTextSize(Font, Text, ForegroundColor, Style, TextBoxText.SmoothingType);
                     Cursor.Position = new(Position.X + fontSize.X, Position.Y);
                     Cursor.Size = new(1, fontSize.Y); //1px for now
 

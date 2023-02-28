@@ -418,7 +418,7 @@
             return default;
         }
 
-        internal virtual Texture? TextureFromFreetypeBitmap(FT_Bitmap bitmap, Texture texture, Color foregroundColor)
+        internal virtual Texture? TextureFromFreetypeBitmap(FT_Bitmap bitmap, Texture texture, Color foregroundColor, FontStyle style)
         {
             Logger.LogError($"TextureFromFreeTypeBitmap not implemented for renderer {GetType().Name!}", 254, LoggerSeverity.FatalError);
             return default;

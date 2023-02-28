@@ -780,7 +780,7 @@ namespace LightningGL
             return handle;
         }
 
-        internal unsafe override Texture? TextureFromFreetypeBitmap(FT_Bitmap bitmap, Texture texture, Color foregroundColor)
+        internal unsafe override Texture? TextureFromFreetypeBitmap(FT_Bitmap bitmap, Texture texture, Color foregroundColor, FontStyle style)
         {
             if (!texture.Loaded)
             {
@@ -811,8 +811,12 @@ namespace LightningGL
                 for (int x = 0; x < texture.Size.X; x++)
                 {
                     pixelId = (bitmap.pitch * y) + x;
+                    // get the alpha
                     byte alpha = bufferPtr[pixelId];
+
+                    // use the font colour
                     texture.SetPixel(x, y, Color.FromArgb(alpha, foregroundColor.R, foregroundColor.G, foregroundColor.B));
+
                 }
 
             }
@@ -923,7 +927,7 @@ namespace LightningGL
             }
             else
             {
-                SDL_FRect newRect = new SDL_FRect(destinationRect.x, destinationRect.y, destinationRect.w, destinationRect.h);
+                SDL_FRect newRect = new(destinationRect.x, destinationRect.y, destinationRect.w, destinationRect.h);
 
                 // Draws a tiled texture.
                 for (int y = 0; y < repeat.Y; y++)

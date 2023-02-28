@@ -331,8 +331,15 @@ Everything that matters to the api has to go here
 	* OnMousePressed -> OnMouseDown
 	* OnMouseReleased -> OnMouseUp
 	* Input-bindings now required for key/controller/mouse events
-* Fix nAnimationEnd#
+* Fix nAnimationEnd
 
+2023.02.22:
+* Remove ps4-specific bindings
+* Add AssembblyInfo and static version 2.0 to non-LightningBase
+* Fix debug console page up and down
+
+2023.02.25:
+* FontManager -> static TextUtils
 
 * todo:
 	- setting load order

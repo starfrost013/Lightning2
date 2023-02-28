@@ -147,7 +147,7 @@
 
             item.Font = Font;
 
-            Vector2 itemFontSize = FontManager.GetTextSize(itemFont, item.Text, item.ForegroundColor, item.Style, FontSmoothingType.Default);
+            Vector2 itemFontSize = TextUtils.GetTextSize(itemFont, item.Text, item.ForegroundColor, item.Style, FontSmoothingType.Default);
 
             // size it to the size of the text in the Y dimension
             BoxSize = new(Size.X, (itemFontSize.Y * 1.25f));

@@ -56,6 +56,13 @@
         public static bool GeneralDontSaveLocalSettingsOnShutdown { get; internal set; }
 
         /// <summary>
+        /// <para>Save the <see cref="GlobalSettings"/> on engine shutdown.</para>
+        /// <para>This is done regardless of if the global settings have been changed because until the 2.5 rewrite of GlobalSettings there is no easy way to determine</para> 
+        /// <para>if they have been changed.</para>
+        /// </summary>
+        public static bool GeneralDontSaveGlobalSettingsOnShutdown { get; internal set; }
+
+        /// <summary>
         /// Path to the LocalSettings.ini file.
         /// </summary>
         public static string GeneralLocalSettingsPath { get; internal set; }
@@ -431,6 +438,7 @@
             if (!bool.TryParse(generalSection.GetValue("EngineAboutScreenOnShiftF9"), out var generalAboutScreenOnF9Value)) generalAboutScreenOnF9Value = DEFAULT_SHOW_ABOUT_SCREEN_ON_SHIFT_F9; // force the default value, true for now
             _ = bool.TryParse(generalSection.GetValue("DeleteUnpackedFilesOnExit"), out var generalDeleteUnpackedFilesOnExitValue);
             _ = bool.TryParse(generalSection.GetValue("DontSaveLocalSettingsOnShutdown"), out var generalDontSaveLocalSettingsOnShutdownValue);
+            _ = bool.TryParse(generalSection.GetValue("DontSaveGlobalSettingsOnShutdown"), out var generalDontSaveGlobalSettingsOnShutdownValue);
             _ = bool.TryParse(graphicsSection.GetValue("KeepOldPerformanceProfilerCsvs"), out var generalKeepOldPerformanceProfilerCsvsValue);
             if (!Enum.TryParse(typeof(InputMethods), graphicsSection.GetValue("DefaultInputMethod"), true, out var generalDefaultInputMethodValue)) generalDefaultInputMethodValue = DEFAULT_INPUT_METHOD;
 
@@ -439,6 +447,7 @@
             GeneralEngineAboutScreenOnShiftF9 = generalAboutScreenOnF9Value;
             GeneralDeleteUnpackedFilesOnExit = generalDeleteUnpackedFilesOnExitValue;
             GeneralDontSaveLocalSettingsOnShutdown = generalDontSaveLocalSettingsOnShutdownValue;
+            GeneralDontSaveGlobalSettingsOnShutdown = generalDontSaveGlobalSettingsOnShutdownValue;
             GeneralKeepOldPerformanceProfilerCsvs = generalKeepOldPerformanceProfilerCsvsValue;
             GeneralDefaultInputMethod = (InputMethods)generalDefaultInputMethodValue;
 
@@ -659,7 +668,7 @@
                 $"{SystemInfo.CurOperatingSystem}!", 114, LoggerSeverity.FatalError);
         }
 
-        public static void Write() => IniFile.Save(GLOBALSETTINGS_PATH);
+        public static void Save() => IniFile.Save(GLOBALSETTINGS_PATH);
         #endregion
     }
 }

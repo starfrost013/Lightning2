@@ -60,21 +60,6 @@
             }
         }
 
-        public static TextUtils FontManager
-        {
-            get
-            {
-                if (Client.Initialised)
-                {
-                    return Client.FontManager;
-                }
-                else
-                {
-                    return Server.FontManager;
-                }
-            }
-        }
-
         public static LightAssetManager LightManager
         {
             get
