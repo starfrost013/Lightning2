@@ -70,9 +70,6 @@
             };
         }
 
-        public override string ToString()
-        {
-            return $"MOUSE{(int)Button}";
-        }
+        public override string ToString() => $"MOUSE{(int)Button}";
     }
 }

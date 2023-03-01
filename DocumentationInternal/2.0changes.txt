@@ -335,11 +335,21 @@ Everything that matters to the api has to go here
 
 2023.02.22:
 * Remove ps4-specific bindings
-* Add AssembblyInfo and static version 2.0 to non-LightningBase
+* Add AssemblyInfo and static version 2.0 to non-LightningBase
 * Fix debug console page up and down
 
 2023.02.25:
 * FontManager -> static TextUtils
+
+2023.02.28:
+* Automatically save global settings on exit.
+* Add new GlobalSettings:
+	+ AutomaticallySaveGlobalSettingsOnExit
+
+2023.03.01:
+* Fix particle effect culling
+* Fix inbuilt UI click
+* Case-insensitive binding names
 
 * todo:
 	- setting load order

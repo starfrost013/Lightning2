@@ -11,7 +11,7 @@ namespace LightningGL
     /// </summary>
     internal static class EventManager
     {
-        internal static void FireOnMousePressed(MouseButton mouseButton, Renderable? parent = null)
+        internal static void FireOnMousePressed(MouseButton mouseButton, Renderable? parent = null, bool isRootOfCurrentCall = true)
         {
             Debug.Assert(InputMethodManager.CurrentMethod != null);
 
@@ -23,7 +23,8 @@ namespace LightningGL
 
             Vector2 cameraPosition = currentCamera.Position;
 
-            if (currentCamera != null)
+            if (currentCamera != null
+                && !isRootOfCurrentCall)
             {
                 // get the real position that we are checking
                 // here we have to ADD the current position to the camera position (top left)
@@ -49,11 +50,11 @@ namespace LightningGL
                     renderable.OnMouseDown?.Invoke(binding, mouseButton);
                 }
 
-                if (renderable.Children.Count > 0) FireOnMousePressed(mouseButton, renderable);
+                if (renderable.Children.Count > 0) FireOnMousePressed(mouseButton, renderable, false);
             }
         }
 
-        internal static void FireOnMouseReleased(MouseButton mouseButton, Renderable? parent = null)
+        internal static void FireOnMouseReleased(MouseButton mouseButton, Renderable? parent = null, bool isRootOfCurrentCall = true)
         {
             Debug.Assert(InputMethodManager.CurrentMethod != null);
 
@@ -65,7 +66,8 @@ namespace LightningGL
 
             Vector2 cameraPosition = currentCamera.Position;
 
-            if (currentCamera != null)
+            if (currentCamera != null
+                && isRootOfCurrentCall)
             {
                 // get the real position that we are checking
                 // here we have to ADD the current position to the camera position (top left)
@@ -85,14 +87,14 @@ namespace LightningGL
                 // check if it is focused...
                 renderable.Focused = intersects;
 
-                if ((intersects
-                    || renderable.CanReceiveEventsWhileUnfocused))
+                if (intersects
+                    || renderable.CanReceiveEventsWhileUnfocused)
                 {
                     renderable.OnMouseUp?.Invoke(binding, mouseButton);
                 }
 
                 // children
-                if (renderable.Children.Count > 0) FireOnMouseReleased(mouseButton, renderable);
+                if (renderable.Children.Count > 0) FireOnMouseReleased(mouseButton, renderable, false);
             }
         }
 
@@ -124,21 +126,7 @@ namespace LightningGL
             }
         }
 
-        internal static void FireOnMouseWheel(MouseButton button, Renderable? parent = null)
-        {
-            Debug.Assert(InputMethodManager.CurrentMethod != null);
-
-            // render all children 
-            List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
-
-            foreach (Renderable renderable in renderables)
-            {
-                renderable.OnMouseWheel?.Invoke(new("MOUSEWHEEL", ""), button);
-                if (renderable.Children.Count > 0) FireOnMouseWheel(button, renderable);
-            }
-        }
-
-        internal static void FireOnMouseMove(MouseButton mouseButton, Renderable? parent = null)
+        internal static void FireOnMouseWheel(MouseButton button, Renderable? parent = null, bool isRootOfCurrentCall = true)
         {
             Debug.Assert(InputMethodManager.CurrentMethod != null);
 
@@ -150,19 +138,49 @@ namespace LightningGL
 
             Vector2 cameraPosition = currentCamera.Position;
 
-            if (currentCamera != null)
+            if (currentCamera != null
+                && isRootOfCurrentCall)
             {
                 // get the real position that we are checking
                 // here we have to ADD the current position to the camera position (top left)
-                mouseButton.Position = new Vector2
-                    (cameraPosition.X + mouseButton.Position.X,
-                    cameraPosition.Y + mouseButton.Position.Y);
+                button.Position = new Vector2
+                    (cameraPosition.X + button.Position.X,
+                    cameraPosition.Y + button.Position.Y);
             }
 
             foreach (Renderable renderable in renderables)
             {
-                renderable.OnMouseMove?.Invoke(new("MOUSEMOVE", ""), mouseButton);
-                if (renderable.Children.Count > 0) FireOnMouseMove(mouseButton, renderable);
+                renderable.OnMouseWheel?.Invoke(new("MOUSEWHEEL", ""), button);
+                if (renderable.Children.Count > 0) FireOnMouseWheel(button, renderable, false);
+            }
+        }
+
+        internal static void FireOnMouseMove(MouseButton button, Renderable? parent = null, bool isRootOfCurrentCall = true)
+        {
+            Debug.Assert(InputMethodManager.CurrentMethod != null);
+
+            // render all children 
+            List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
+
+            // Check for a set camera and move relative to the position of that camera if it is set.
+            Camera currentCamera = Lightning.Renderer.Settings.Camera;
+
+            Vector2 cameraPosition = currentCamera.Position;
+
+            if (currentCamera != null
+                && isRootOfCurrentCall)
+            {
+                // get the real position that we are checking
+                // here we have to ADD the current position to the camera position (top left)
+                button.Position = new Vector2
+                    (cameraPosition.X + button.Position.X,
+                    cameraPosition.Y + button.Position.Y);
+            }
+
+            foreach (Renderable renderable in renderables)
+            {
+                renderable.OnMouseMove?.Invoke(new("MOUSEMOVE", ""), button);
+                if (renderable.Children.Count > 0) FireOnMouseMove(button, renderable, false);
             }
         }
 

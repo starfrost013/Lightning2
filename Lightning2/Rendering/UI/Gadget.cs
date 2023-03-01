@@ -79,19 +79,24 @@
         /// <summary>
         /// Default gadget event handler for mouse pressed events.
         /// </summary>
+        /// <param name="binding">The input binding relating to the button that has been pressed.</param>
         /// <param name="button">The mouse button that has been pressed.</param>
-        /// <param name="position">The position of that mouse button.</param>
         public virtual void MousePressed(InputBinding binding, MouseButton button)
         {
-            CurBackgroundColor = PressedColor;
-            Pressed = true;
+            switch (binding.Name)
+            {
+                case "MOUSE1":
+                    CurBackgroundColor = PressedColor;
+                    Pressed = true;
+                    break;
+            }
         }
 
         /// <summary>
         /// Default gadget event handler for mouse released events.
         /// </summary>
+        /// <param name="binding">The input binding relating to the button that has been pressed.</param>
         /// <param name="button">The mouse button that has been pressed.</param>
-        /// <param name="position">The position of that mouse button.</param>
         public virtual void MouseReleased(InputBinding binding, MouseButton button)
         {
             // this changes from pressed to hover color
@@ -111,9 +116,8 @@
         /// <summary>
         /// Default gadget event handler for mouse move events.
         /// </summary>
+        /// <param name="binding">The input binding relating to the button that has been pressed.</param>
         /// <param name="button">The mouse button that has been pressed.</param>
-        /// <param name="position">The position of that mouse button.</param>
-        /// <param name="velocity">The movement of the button.</param>
         public virtual void MouseMove(InputBinding binding, MouseButton button)
         {
             if (AABB.Intersects(this, button.Position))

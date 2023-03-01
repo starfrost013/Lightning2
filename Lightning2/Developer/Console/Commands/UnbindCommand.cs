@@ -4,8 +4,16 @@ namespace LightningGL
     internal class UnbindCommand : ConsoleCommand
     {
         public override string Name => "unbind";
+
+        private const string LOGGING_PREFIX = "Command: unbind";
+
         public override bool Execute(params string[] parameters)
         {
+            if (parameters.Length != 2)
+            {
+                Logger.Log(LOGGING_PREFIX, "Incorrect number of parameters");
+                return false; 
+            }
 
             return true; 
         }

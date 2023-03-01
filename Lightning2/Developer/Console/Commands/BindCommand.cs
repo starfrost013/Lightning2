@@ -16,7 +16,7 @@
 
             if (!Enum.TryParse(parameters[0], true, out InputMethods inputMethod))
             {
-                Logger.Log(LOGGING_PREFIX, "Invalid input method! (valid methods: KeyboardMouse, DS4, Xinput)");
+                Logger.Log(LOGGING_PREFIX, "Invalid input method! (valid methods: KeyboardMouse, Xinput)");
                 return false;
             }
 

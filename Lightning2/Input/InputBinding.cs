@@ -10,9 +10,9 @@ namespace LightningGL
 
         /// <summary>
         /// The binding value.
+        /// This is internal to prevent bad programming practices by game developers.
         /// </summary>
-        public string Bind { get; set; }
-
+        internal string Bind { get; set; }
         
         public InputBinding(string name, string bind)
         {

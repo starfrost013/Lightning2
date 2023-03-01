@@ -24,7 +24,7 @@ namespace LightningGL
         {
             foreach (InputBinding binding in Bindings)
             {
-                if (binding.Bind == bind) return binding;
+                if (string.Equals(binding.Bind, bind, StringComparison.InvariantCultureIgnoreCase)) return binding;
             }
 
             return null;
