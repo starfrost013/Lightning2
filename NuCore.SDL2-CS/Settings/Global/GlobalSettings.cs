@@ -389,18 +389,22 @@
         {
             // Possible todo: Serialise these to properties and get rid of the loader/sections
             // Consider this
-            IniFile iniFile = IniFile.Parse(GLOBALSETTINGS_PATH);
+            IniFile = IniFile.Parse(GLOBALSETTINGS_PATH);
 
-            if (iniFile == null) Logger.LogError("Failed to load Engine.ini!", 28, LoggerSeverity.FatalError);
+            if (IniFile == null)
+            {
+                Logger.LogError("Failed to load Engine.ini!", 28, LoggerSeverity.FatalError);
+                return;
+            }
 
-            IniSection generalSection = iniFile.GetSection("General");
-            IniSection graphicsSection = iniFile.GetSection("Graphics");
-            IniSection locSection = iniFile.GetSection("Localisation");
-            IniSection requirementsSection = iniFile.GetSection("Requirements");
-            IniSection sceneSection = iniFile.GetSection("Scene");
-            IniSection audioSection = iniFile.GetSection("Audio");
-            IniSection networkSection = iniFile.GetSection("Network");
-            IniSection debugSection = iniFile.GetSection("Debug");
+            IniSection generalSection = IniFile.GetSection("General");
+            IniSection graphicsSection = IniFile.GetSection("Graphics");
+            IniSection locSection = IniFile.GetSection("Localisation");
+            IniSection requirementsSection = IniFile.GetSection("Requirements");
+            IniSection sceneSection = IniFile.GetSection("Scene");
+            IniSection audioSection = IniFile.GetSection("Audio");
+            IniSection networkSection = IniFile.GetSection("Network");
+            IniSection debugSection = IniFile.GetSection("Debug");
 
             if (generalSection == null)
             {

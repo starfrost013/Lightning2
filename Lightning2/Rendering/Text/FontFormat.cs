@@ -7,7 +7,7 @@ namespace LightningGL
     /// </summary>
     internal enum FontFormat
     {
-        /// <summary>
+        /// <summary> 
         /// TrueType
         /// </summary>
         TTF = 0,
