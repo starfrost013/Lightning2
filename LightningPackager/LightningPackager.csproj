@@ -30,7 +30,7 @@
 	
   <ItemGroup>
     <ProjectReference Include="..\NuCore.SDL2-CS\LightningBase.csproj" />
-    <ProjectReference Include="..\LightningUtil\LightningUtil.csproj" />
+    <ProjectReference Include="..\NuCore.Utilities\LightningUtil.csproj" />
   </ItemGroup>
 	
   <ItemGroup>
