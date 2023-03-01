@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualBasic;
 using System.Text;
 
-namespace NuCore.Utilities
+namespace LightningUtil
 {
     /// <summary>
     /// NCLogging

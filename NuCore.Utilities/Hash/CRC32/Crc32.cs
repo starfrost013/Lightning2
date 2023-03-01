@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Intrinsics.Arm;
 
-namespace NuCore.Utilities
+namespace LightningUtil
 {
     /// <summary>
     /// CRC32

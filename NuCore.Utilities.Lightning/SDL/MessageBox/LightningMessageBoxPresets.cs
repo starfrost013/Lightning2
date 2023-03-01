@@ -1,6 +1,6 @@
 ﻿using LightningBase;
 
-namespace NuCore.Utilities
+namespace LightningUtil
 {
     /// <summary>
     /// NCMessageBoxPresets

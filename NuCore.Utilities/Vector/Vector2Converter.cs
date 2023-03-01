@@ -1,4 +1,4 @@
-﻿namespace NuCore.Utilities
+﻿namespace LightningUtil
 {
     /// <summary>
     /// There are no string-to-Vector2 converters in the framework,

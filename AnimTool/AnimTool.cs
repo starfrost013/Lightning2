@@ -1,6 +1,6 @@
 ﻿using LightningGL;
 using Newtonsoft.Json;
-using NuCore.Utilities;
+using LightningUtil;
 using System;
 using System.DirectoryServices.ActiveDirectory;
 using System.Reflection;

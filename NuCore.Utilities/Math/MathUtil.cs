@@ -1,5 +1,5 @@
 ﻿
-namespace NuCore.Utilities
+namespace LightningUtil
 {
     /// <summary>
     /// Public domain code from https://github.com/Xpktro/simplexnoise/blob/master/SimplexNoise/Noise.cs

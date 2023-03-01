@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using static LightningBase.SDL;
 
-namespace NuCore.Utilities
+namespace LightningUtil
 {
     /// <summary>
     /// NCMessageBox

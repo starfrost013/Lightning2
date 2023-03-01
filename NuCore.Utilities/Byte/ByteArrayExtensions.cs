@@ -1,5 +1,5 @@
 ﻿
-namespace NuCore.Utilities
+namespace LightningUtil
 {
     /// <summary>
     /// ByteArrayExtensions

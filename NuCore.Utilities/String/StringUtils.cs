@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace NuCore.Utilities
+namespace LightningUtil
 {
     /// <summary>
     /// StringExtensions

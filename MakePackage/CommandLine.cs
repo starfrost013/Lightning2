@@ -1,6 +1,6 @@
 ﻿using LightningBase;
 using LightningPackager;
-using NuCore.Utilities;
+using LightningUtil;
 
 namespace MakePackage
 {

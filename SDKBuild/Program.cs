@@ -1,5 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using NuCore.Utilities;
+using LightningUtil;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;

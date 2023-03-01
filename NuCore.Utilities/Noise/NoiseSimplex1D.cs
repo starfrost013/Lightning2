@@ -1,6 +1,6 @@
-﻿using static NuCore.Utilities.MathUtil;
+﻿using static LightningUtil.MathUtil;
 
-namespace NuCore.Utilities
+namespace LightningUtil
 {
     /// <summary>
     /// 1D simplex noise code

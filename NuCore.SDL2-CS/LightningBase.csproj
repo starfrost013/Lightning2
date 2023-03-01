@@ -34,7 +34,7 @@
   </PropertyGroup>
 	
   <ItemGroup>
-    <ProjectReference Include="..\NuCore.Utilities\LightningUtil.csproj" />
+    <ProjectReference Include="..\LightningUtil\LightningUtil.csproj" />
   </ItemGroup>
 
   <ItemGroup>

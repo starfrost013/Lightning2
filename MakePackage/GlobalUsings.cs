@@ -2,7 +2,7 @@
 // Don't put any usings in individual source files, put any you need to use in here.
 
 #region Global using statements
-global using NuCore.Utilities;
+global using LightningUtil;
 global using System;
 global using System.Diagnostics;
 global using System.Diagnostics.CodeAnalysis;

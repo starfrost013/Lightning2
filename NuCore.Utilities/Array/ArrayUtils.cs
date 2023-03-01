@@ -1,4 +1,4 @@
-﻿namespace NuCore.Utilities
+﻿namespace LightningUtil
 {
     public static class ArrayUtils
     {

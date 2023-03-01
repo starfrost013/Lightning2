@@ -1,6 +1,6 @@
 ﻿using static LightningBase.SDL;
 
-namespace NuCore.Utilities
+namespace LightningUtil
 {
     /// <summary>
     /// NCMessageBoxButton

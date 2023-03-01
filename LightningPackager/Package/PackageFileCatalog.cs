@@ -1,4 +1,4 @@
-﻿using NuCore.Utilities;
+﻿using LightningUtil;
 
 namespace LightningPackager
 {
