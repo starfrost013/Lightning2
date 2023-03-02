@@ -350,6 +350,7 @@ Everything that matters to the api has to go here
 * Fix particle effect culling
 * Fix inbuilt UI click
 * Case-insensitive binding names
+* Fix event mouse button locations
 
 * todo:
 	- setting load order
