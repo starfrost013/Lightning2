@@ -837,9 +837,7 @@ namespace LightningGL
 
                     // use the font colour
                     texture.SetPixel(x, y, Color.FromArgb(alpha, foregroundColor.R, foregroundColor.G, foregroundColor.B));
-
                 }
-
             }
 
             texture.Unlock();

@@ -1,6 +1,4 @@
-﻿using System.Reflection.PortableExecutable;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// TextBlock
@@ -72,10 +70,6 @@ namespace LightningGL
             }
         }
 
-        /// <summary>
-        /// The text orientation (reading order) of this text.
-        /// </summary>
-        public Orientation Orientation { get; set; }
 
         /// <summary>
         /// The relative zindex value for this text.
@@ -194,45 +188,19 @@ namespace LightningGL
                         // maxverticallinesize
                         if (glyph.Size.Y > maxVerticalLineSize) maxVerticalLineSize = (int)glyph.Size.Y;
 
+                        // just grab the texture and draw it again
+                        // these should definitely be in the hierarchy...hmm...
+                        glyph.Position = new(currentPosition.X + glyph.Offset.X,
+                            currentPosition.Y - glyph.Offset.Y + font.FontSizePixels);
+
                         // change line length
                         lineLength += (int)glyph.Advance.X;
 
-                        int numberOfTimesToDraw = glyph.Style.HasFlag(FontStyle.Bold) ? 2 : 1;
-
-                        // syntax note: new() does not work here!!! you must provide a type name
-                        switch (Orientation)
-                        {
-                            case Orientation.LeftToRight:
-                                currentPosition += new Vector2(glyph.Advance.X, 0);
-                                // just grab the texture and draw it again
-                                // these should definitely be in the hierarchy...hmm...
-                                glyph.Position = new(currentPosition.X - glyph.Offset.X,
-                                    currentPosition.Y - glyph.Offset.Y);
-                                break;
-                            case Orientation.RightToLeft:
-                                currentPosition += new Vector2(-glyph.Advance.X, 0);
-                                glyph.Position = new(currentPosition.X + glyph.Offset.X,
-                                    currentPosition.Y - glyph.Offset.Y);
-                                break;
-                            // use X here so the horizontal spacing is used vertically for these reading orders
-                            case Orientation.TopToBottom:
-                                currentPosition += new Vector2(0, glyph.Advance.X);
-                                glyph.Position = new(currentPosition.X - glyph.Offset.X,
-                                    currentPosition.Y - glyph.Offset.Y);
-                                break;
-                            case Orientation.BottomToTop:
-                                currentPosition += new Vector2(0, -glyph.Advance.X);
-                                glyph.Position = new(currentPosition.X  + glyph.Offset.X,
-                                    currentPosition.Y - glyph.Offset.Y);
-                                break;
-                        }
+                        currentPosition.X += glyph.Advance.X;
 
                         if (!glyph.IsEmpty) glyph.Draw();
-
                     }
                 }
-
-                int lineSpacing = (int)(font.FontSize * GlobalSettings.GraphicsLineSpacing);
 
                 // line is done, draw underline or strikeout
                 if (Style.HasFlag(FontStyle.Underline))
@@ -266,19 +234,9 @@ namespace LightningGL
 
                 // line is done
                 // move down a line
-                switch (Orientation)
-                {
-                    case Orientation.LeftToRight:
-                    case Orientation.RightToLeft:
-                        currentPosition += new Vector2(-lineLength, lineSpacing);
-                        break;
-                    case Orientation.TopToBottom:
-                        currentPosition += new Vector2(lineSpacing, -lineLength);
-                        break;
-                    case Orientation.BottomToTop:
-                        currentPosition += new Vector2(lineSpacing, lineLength);
-                        break;
-                }
+
+                currentPosition += new Vector2(-lineLength, font.LineGap);
+
             }
         }
     }

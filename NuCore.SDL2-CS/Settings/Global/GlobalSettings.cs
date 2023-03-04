@@ -200,11 +200,6 @@
         public static Renderers GraphicsRenderer { get; internal set; }
 
         /// <summary>
-        /// The spacing between linse. A multiplier of the font size.
-        /// </summary>
-        public static double GraphicsLineSpacing { get; internal set; }
-
-        /// <summary>
         /// How much the bold font style horizontally emboldens font bitmaps.
         /// </summary>
         public static int GraphicsBoldFactorX { get; internal set; }
@@ -359,8 +354,6 @@
 
         private const bool DEFAULT_SHOW_ABOUT_SCREEN_ON_SHIFT_F9 = true;
 
-        private const double DEFAULT_LINE_SPACING = 1.2d;
-
         private const int DEFAULT_BOLD_FACTOR_X = 4;
 
         private const int DEFAULT_BOLD_FACTOR_Y = 4;
@@ -485,7 +478,6 @@
                 _ = int.TryParse(graphicsSection.GetValue("PositionX"), out var graphicsPositionXValue);
                 _ = int.TryParse(graphicsSection.GetValue("PositionY"), out var graphicsPositionYValue);
                 _ = Enum.TryParse(graphicsSection.GetValue("Renderer"), true, out Renderers graphicsRendererValue);
-                _ = double.TryParse(graphicsSection.GetValue("LineSpacing"), out var graphicsLineSpacingValue);
                 _ = int.TryParse(graphicsSection.GetValue("BoldFactorX"), out var graphicsBoldFactorXValue);
                 _ = int.TryParse(graphicsSection.GetValue("BoldFactorY"), out var graphicsBoldFactorYValue);
                 _ = int.TryParse(graphicsSection.GetValue("ItalicAngle"), out var graphicsItalicAngleValue);
@@ -500,8 +492,7 @@
                 // set the default tick speed value
                 if (graphicsTickSpeedValue <= 0) graphicsTickSpeedValue = DEFAULT_GRAPHICS_TICK_SPEED;
 
-                // set minimum spacing values
-                if (graphicsLineSpacingValue <= 0) graphicsLineSpacingValue = DEFAULT_LINE_SPACING;
+                // set minimum values
                 if (graphicsBoldFactorXValue <= 0) graphicsBoldFactorXValue = DEFAULT_BOLD_FACTOR_X;
                 if (graphicsBoldFactorYValue <= 0) graphicsBoldFactorYValue = DEFAULT_BOLD_FACTOR_Y;
                 if (graphicsItalicAngleValue <= 0
@@ -517,7 +508,6 @@
                 if (graphicsRenderFlagsValue != default) GraphicsRenderFlags = graphicsRenderFlagsValue;
                 GraphicsDontCullRenderables = graphicsDontCullRenderablesValue;
                 if (graphicsRendererValue != default) GraphicsRenderer = graphicsRendererValue;
-                GraphicsLineSpacing = graphicsLineSpacingValue;
                 GraphicsBoldFactorX = graphicsBoldFactorXValue;
                 GraphicsBoldFactorY = graphicsBoldFactorYValue;
                 GraphicsItalicAngle = graphicsItalicAngleValue;

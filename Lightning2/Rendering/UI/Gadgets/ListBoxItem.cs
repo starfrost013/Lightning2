@@ -87,6 +87,7 @@
 
             // stupid hack to ensure it changes
             TextBlock.Text = Text;
+            
         }
     }
 }

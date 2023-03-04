@@ -12,6 +12,22 @@
         /// </summary>
         public int FontSize { get; set; }
 
+        public int FontSizePixels
+        {
+            get
+            {
+                // SDL is allowed outside of SDL Renderer
+                float ddpi;
+
+                if (SDL_GetDisplayDPI(0, out ddpi, out _, out _) != 0)
+                {
+                    Logger.LogError($"Failed to get display DPI!: {SDL_GetError()}", 333, LoggerSeverity.FatalError);
+                }
+
+                return (int)(FontSize * (ddpi / 72));
+            }
+
+        }
         /// <summary>
         /// Private: Pointer to the unmanaged TTF_Font containing this font.
         /// </summary>
@@ -33,6 +49,11 @@
         /// </summary>
         public int Index { get; internal set; }
 
+        /// <summary>
+        /// The line gap used for this font.
+        /// </summary>
+        public int LineGap { get; internal set; }
+
         public Font(string name, int size, string friendlyName, string? path = null, int index = 0) : base(friendlyName)
         {
             FontName = name;
@@ -53,7 +74,7 @@
         /// <summary>
         /// Internal: Loads this font.
         /// </summary>
-        public override void Create()
+        public unsafe override void Create()
         {
             Debug.Assert(Lightning.Renderer.FreeTypeLibrary != null);
 
@@ -121,6 +142,9 @@
                 return;
             }
 
+            LineGap = (int)(Handle.FaceRec->size->metrics.height >> 6);
+
+            
             Logger.Log($"Loaded font {Name}, size {FontSize} at {Path}");
             
             Loaded = true;

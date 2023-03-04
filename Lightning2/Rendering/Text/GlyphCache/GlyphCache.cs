@@ -102,7 +102,7 @@ namespace LightningGL
                 Font = font.Name,
                 Character = character,
                 IsEmpty = isEmpty,
-                Offset = new(font.Handle.FaceRec->glyph->linearHoriAdvance >> 16,
+                Offset = new(font.Handle.FaceRec->glyph->bitmap_left,
                 font.Handle.FaceRec->glyph->bitmap_top),
                 Advance = advance,
                 Style = style,
@@ -111,7 +111,6 @@ namespace LightningGL
 
             if (!isEmpty)
             {
-                // embolden the glyph (skip the last character)
                 glyph = (Glyph?)Lightning.Renderer.TextureFromFreetypeBitmap(bitmap, glyph, foregroundColor, style);
 
                 Debug.Assert(glyph != null);
