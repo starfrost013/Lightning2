@@ -29,16 +29,15 @@
             ref string bindingName = ref parameters[1];
             ref string bind = ref parameters[2];
 
-            foreach (InputBinding inputBindings in inputMethodInstance.Bindings)
-            {
-                // the binding already exists
-                if (inputBindings.Name == bindingName)
-                {
-                    Logger.Log($"Modifying input binding {inputBindings.Name} in section {inputMethod} (old value: {inputBindings.Name}, new value: {inputBindings.Bind}");
+            InputBinding? alreadyExtantBinding = inputMethodInstance.GetBindingByName(bindingName);
 
-                    return InputMethodManager.ModifyBinding(inputMethod, bindingName, bind);
-                }
+            if (alreadyExtantBinding != null)
+            {
+                Logger.Log($"Modifying input binding {alreadyExtantBinding.Name} in section {inputMethod} (old value: {alreadyExtantBinding.Name}, new value: {alreadyExtantBinding.Bind}");
+
+                return InputMethodManager.ModifyBinding(inputMethod, bindingName, bind);
             }
+
             Logger.Log($"Creating binding {bindingName} ({bind}), section: {inputMethod}...");
 
             // case: binding doesn't exist, create it

@@ -20,6 +20,16 @@ namespace LightningGL
             return false;
         }
 
+        internal InputBinding? GetBindingByName(string name)
+        {
+            foreach (InputBinding binding in Bindings)
+            {
+                if (string.Equals(binding.Name, name, StringComparison.InvariantCultureIgnoreCase)) return binding;
+            }
+
+            return null;
+        }
+
         internal InputBinding? GetBindingByBind(string bind)
         {
             foreach (InputBinding binding in Bindings)

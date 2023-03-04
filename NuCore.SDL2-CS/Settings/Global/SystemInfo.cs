@@ -46,7 +46,11 @@
             // get the resolution of the first monitor as most people have one monitor. 
             // this is pre-window initialisation so we can't query the monitor the window is on because there's no window yet, there is no other way SDL provides this
 
-            SDL_GetCurrentDisplayMode(0, out var displayMode);
+            if (SDL_GetCurrentDisplayMode(0, out var displayMode) != 0)
+            {
+                Logger.LogError($"Error obtaining current display mode!", 311, LoggerSeverity.FatalError);
+                return;
+            }
 
             // store the screen resolution
             ScreenResolutionX = displayMode.w;

@@ -86,7 +86,7 @@
             Rectangle.Color = CurBackgroundColor;
 
             // stupid hack to ensure it changes
-            TextBlock.Text = Text; 
+            TextBlock.Text = Text;
         }
     }
 }

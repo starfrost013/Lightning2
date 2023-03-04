@@ -42,13 +42,6 @@ namespace LightningGL
         internal FT_GlyphSlotRec* GlyphRec { get; set; }
 
         /// <summary>
-        /// The smoothing type of this font.
-        /// 
-        /// See <see cref="FontSmoothingType"/>.
-        /// </summary>
-        internal FontSmoothingType SmoothingType { get; set; }
-
-        /// <summary>
         /// The style of this font.
         /// </summary>
         internal FontStyle Style { get; set; }

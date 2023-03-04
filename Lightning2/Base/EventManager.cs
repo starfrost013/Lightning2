@@ -35,7 +35,7 @@ namespace LightningGL
 
             InputBinding? binding = InputMethodManager.CurrentMethod.GetBindingByBind(mouseButton.ToString());
 
-            if (binding == null) return; 
+            if (binding == null) return;
 
             foreach (Renderable renderable in renderables)
             {

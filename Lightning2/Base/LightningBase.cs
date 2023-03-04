@@ -58,9 +58,11 @@ namespace LightningGL
 #if DEBUG
                 Logger.Log("Debug build (Pre-release - do not distribute!)", ConsoleColor.Yellow);
 #elif RELEASE
-                NCLogging.Log("Release build (Pre-release - do not distribute!)", ConsoleColor.Yellow);
+                Logger.Log("Release build (Pre-release - do not distribute!)", ConsoleColor.Yellow);
+#elif PROFILING
+                Logger.Log("Release build with Enhanced Profiling (Pre-release - do not distribute!)", ConsoleColor.Magenta);
 #elif FINAL
-                NCLogging.Log("Final build!", ConsoleColor.Green);
+                Logger.Log("Final build!", ConsoleColor.Green);
 #endif
 
                 // we use sdl for non-rendering tasks in all cases
@@ -156,7 +158,6 @@ namespace LightningGL
         /// Initialises the Scene Manager.
         /// </summary>
         /// <param name="windowSettings">The window settings to use for the Scene Manager.</param>
-        /// <exception cref="NCError">An error occurred initialising the Scene Manager.</exception>
         internal virtual void InitSceneManager(RendererSettings windowSettings)
         {
             Logger.Log("Initialising renderer...");

@@ -9,6 +9,9 @@
     /// </summary>
     public class DebugConsole : Renderable
     {
+        /// <summary>
+        /// Rectangle UI used as part of the console.
+        /// </summary>
         private Rectangle? Rectangle { get; set; }
 
         private TextBox? TextBox { get; set; }
@@ -111,7 +114,7 @@
         /// <summary>
         /// The default name of the input binding used for triggering the console.
         /// </summary>
-        private const string BINDING_TRIGGER_NAME = "DebugConsoleTrigger";
+        private const string BINDING_TRIGGER_NAME = "DEBUGCONSOLETRIGGER";
 
         public DebugConsole(string name) : base(name) 
         {

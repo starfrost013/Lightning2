@@ -15,6 +15,25 @@ namespace LightningGL
                 return false; 
             }
 
+            if (!Enum.TryParse(parameters[0], true, out InputMethods inputMethod))
+            {
+                Logger.Log(LOGGING_PREFIX, "Invalid input method! (valid methods: KeyboardMouse, Xinput)");
+                return false;
+            }
+
+            InputMethod? inputMethodInstance = InputMethodFactory.GetInputMethod(inputMethod);
+
+            // this should never be null, considering previous checks
+            Debug.Assert(inputMethodInstance != null
+                && InputMethodManager.InputIni != null);
+
+            ref string bindingName = ref parameters[1];
+
+            Logger.Log($"Removing binding {bindingName}, section: {inputMethod}...");
+
+            // case: binding doesn't exist, create it
+            return InputMethodManager.AddBinding(inputMethod, bindingName, bind);
+
             return true; 
         }
 

@@ -25,10 +25,7 @@ namespace LightningGL
 
         public SdlRenderer() : base()
         {
-            FrameTimer = new Stopwatch();
-            // Start the delta timer.
-            FrameTimer.Start();
-            ThisTime = 0;
+
             Settings = new SdlRendererSettings();
         }
 
@@ -82,10 +79,17 @@ namespace LightningGL
         /// <returns>A boolean determining if the window is to keep running or close.</returns>
         internal override bool Run()
         {
+#if PROFILING
+            ProfilingTimers.Clear.Start();
+#endif
             // clear the renderet
             FrameTimer.Restart();
             SDL_RenderClear(Settings.RendererHandle);
 
+#if PROFILING
+            ProfilingTimers.Clear.Stop();
+            ProfilingTimers.EventHandling.Start();
+#endif
             // Reset rendered this frame count
             RenderedLastFrame = 0;
 
@@ -157,6 +161,10 @@ namespace LightningGL
                 }
             }
 
+#if PROFILING
+            ProfilingTimers.EventHandling.Stop();
+            ProfilingTimers.RunScene.Start();
+#endif
             return true;
         }
 
@@ -165,11 +173,19 @@ namespace LightningGL
         /// </summary>
         internal override void Render()
         {
+#if PROFILING
+            ProfilingTimers.RunScene.Stop();
+            ProfilingTimers.Order.Start();
+#endif
             // only render if we have a scene
             Debug.Assert(CurrentScene != null);
 
             base.Render();
 
+#if PROFILING
+            ProfilingTimers.UpdateCamera.Stop();
+            ProfilingTimers.Present.Start();
+#endif
             // Correctly draw the background
             SDL_SetRenderDrawColor(Settings.RendererHandle, Settings.BackgroundColor.R, Settings.BackgroundColor.G, Settings.BackgroundColor.B, Settings.BackgroundColor.A);
 
@@ -190,6 +206,11 @@ namespace LightningGL
 
             // Update the internal FPS values.
             UpdateFps();
+
+#if PROFILING
+            ProfilingTimers.Present.Stop();
+            ProfilingTimers.EndOfFrame();
+#endif
         }
 
         /// <summary>

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Numerics;
 using static LightningGL.Lightning;
 using System.Diagnostics;
+using LightningUtil;
 
 namespace LightningGL
 {
@@ -316,27 +317,26 @@ namespace LightningGL
             Lightning.Renderer.AddRenderable(new TextBlock("text11", "Test8", "Arial.11pt", new(700, 150), Color.FromArgb(255, 255, 255, 255),
                 Color.FromArgb(255, 255, 0, 0), FontStyle.Bold, -1));
             Lightning.Renderer.AddRenderable(new TextBlock("text12", "Test9", "Arial.11pt", new(700, 190), Color.FromArgb(255, 255, 255, 255), 
-                Color.FromArgb(255, 255, 0, 0), FontStyle.Bold, -1, FontSmoothingType.Solid));
+                Color.FromArgb(255, 255, 0, 0), FontStyle.Bold, -1));
             Lightning.Renderer.AddRenderable(new TextBlock("text13", "Test10", "Arial.11pt", new(700, 210), Color.FromArgb(255, 255, 255, 255), 
                 Color.FromArgb(255, 255, 0, 0), FontStyle.Bold | FontStyle.Italic | FontStyle.Underline));
             Lightning.Renderer.AddRenderable(new TextBlock("text14", "#[STRING_TEST]\nMulti-line text test\nTest3", "Arial.11pt", new(700, 230), 
                 Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), FontStyle.Bold | FontStyle.Italic | FontStyle.Underline | FontStyle.Strikeout));
-
         }
 
         public override void Shutdown()
         {
-
+            Logger.Log("Scene Shutdown event works!");
         }
 
         public override void SwitchFrom(Scene newScene)
         {
-
+            Logger.Log("Scene SwitchFrom event works!");
         }
 
         public override void SwitchTo(Scene? oldScene)
         {
-
+            Logger.Log("Scene SwitchTo event works!");
         }
 
         public override void Render()

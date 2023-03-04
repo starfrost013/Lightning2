@@ -25,7 +25,7 @@ namespace LightningGL
         /// </summary>
         /// <param name="character">The character to cache.</param>
         internal static unsafe void CacheCharacter(string fontName, char character, Color foregroundColor,
-            FontStyle style = FontStyle.Default, FontSmoothingType smoothingType = FontSmoothingType.Default)
+            FontStyle style = FontStyle.Default)
         {
             // always a child of a font
 
@@ -99,7 +99,6 @@ namespace LightningGL
             {
                 GlyphRec = font.Handle.FaceRec->glyph,
                 ForegroundColor = foregroundColor,
-                SmoothingType = smoothingType,
                 Font = font.Name,
                 Character = character,
                 IsEmpty = isEmpty,
@@ -124,7 +123,7 @@ namespace LightningGL
         }
 
         internal static Glyph? QueryCache(string font, char character, Color foregroundColor, FontStyle style,
-            FontSmoothingType smoothingType = FontSmoothingType.Default, bool failNow = false)
+            bool failNow = false)
         {
             // because utf16
             int hexChar = Convert.ToInt32(character);
@@ -134,43 +133,41 @@ namespace LightningGL
                 if (glyph.Font == font
                     && glyph.Character == character
                     && glyph.ForegroundColor == foregroundColor 
-                    && glyph.Style == style
-                    && glyph.SmoothingType == smoothingType)
+                    && glyph.Style == style)
                 {
                     return glyph;
                 }
             }
 
-            Logger.Log($"Glyph cache miss (font: {font}), character {character} (0x{hexChar:X}), style {style}, smoothing type {smoothingType}). Caching for next time...");
+            Logger.Log($"Glyph cache miss (font: {font}), character {character} (0x{hexChar:X}), style {style}. Caching for next time...");
 
             // prevent a stack overflow it will only try and cache it once
             if (!failNow)
             {
-                CacheCharacter(font, character, foregroundColor, style, smoothingType);
+                CacheCharacter(font, character, foregroundColor, style);
 
                 // try and query the cache again
-                return QueryCache(font, character, foregroundColor, style, smoothingType, true);
+                return QueryCache(font, character, foregroundColor, style, true);
             }
 
             // don't try and cache a third time if we already tried once
             return null;
         }
 
-        internal static void DeleteEntry(string font, char character, Color foregroundColor, FontSmoothingType smoothingType = FontSmoothingType.Default)
+        internal static void DeleteEntry(string font, char character, Color foregroundColor)
         {
             foreach (Glyph glyph in Glyphs)
             {
                 if (glyph.Font == font
                     && glyph.Character == character
-                    && glyph.ForegroundColor == foregroundColor
-                    && glyph.SmoothingType == smoothingType)
+                    && glyph.ForegroundColor == foregroundColor)
                 {
                     Glyphs.Remove(glyph);
                     return;
                 }
             }
 
-            Logger.LogError($"Tried to remove non-cached {character} for font {font}, color {foregroundColor} smoothing type {smoothingType}", 261, LoggerSeverity.Error);
+            Logger.LogError($"Tried to remove non-cached {character} for font {font}, color {foregroundColor}", 261, LoggerSeverity.Error);
         }
 
         internal static void PurgeUnusedEntries()

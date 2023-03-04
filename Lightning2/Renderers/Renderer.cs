@@ -30,7 +30,7 @@
         /// <summary>
         /// Private: Frame-timer used for measuring frametime.
         /// </summary>
-        protected Stopwatch FrameTimer { get; init; }
+        internal Stopwatch FrameTimer { get; init; }
 
         /// <summary>
         /// Internal: The current rate of frames rendered per second.
@@ -65,8 +65,12 @@
         public Renderer()
         {
             Settings = new();
-            FrameTimer = new();   
             Renderables = new List<Renderable>();
+
+            FrameTimer = new();
+            // Start the delta/frame timer.
+            FrameTimer.Start();
+            ThisTime = 0;
         }
 
         internal virtual void Start()
@@ -95,19 +99,39 @@
             // this is actually fine for performance as it turns out (probably not a very big LINQ call)
             Renderables = Renderables.OrderBy(x => x.ZIndex).ToList();
 
+#if PROFILING
+            ProfilingTimers.Order.Stop();
+            ProfilingTimers.Cull.Start();
+#endif
             // Build a list of renderables to render from all asset managers.
             // Other stuff can be added "outside" so we simply remove and add to the list (todo: this isn't great)
             Cull();
 
+#if PROFILING
+            ProfilingTimers.Cull.Stop();
+            ProfilingTimers.UpdateRenderables.Start();
+#endif
             // Draw every object.
             RenderAll();
 
+#if PROFILING
+            ProfilingTimers.UpdateRenderables.Stop();
+            ProfilingTimers.UpdateLightmap.Start();
+#endif
             // Render the lightmap.
             LightManager.Update();
 
+#if PROFILING
+            ProfilingTimers.UpdateLightmap.Stop();
+            ProfilingTimers.Purge.Start();
+#endif
             // purge the text manager glyph cache
             GlyphCache.PurgeUnusedEntries();
 
+#if PROFILING
+            ProfilingTimers.Purge.Stop();
+            ProfilingTimers.UpdateCamera.Start();
+#endif
             // Update camera (if it's not null)
             Settings.Camera?.Update();
         }
@@ -376,7 +400,7 @@
             // Set the current frame time.
             ThisTime = FrameTimer.ElapsedTicks;
 
-            CurFPS = 10000000 / ThisTime;
+            CurFPS = Stopwatch.Frequency / ThisTime;
 
             DeltaTime = ((double)ThisTime / 10000);
 

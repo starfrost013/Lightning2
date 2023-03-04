@@ -352,6 +352,15 @@ Everything that matters to the api has to go here
 * Case-insensitive binding names
 * Fix event mouse button locations
 
+2023.03.02:
+* Implement Profiling build
+
+2023.03.03
+* Automatically convert input bindings to uppercase
+* Fix pressed colour
+* Remove FontSmoothingType (unused)
+* Finish binding removal/addition console commands and code
+
 * todo:
 	- setting load order
 	- DEATH to DUPLICATE CODE

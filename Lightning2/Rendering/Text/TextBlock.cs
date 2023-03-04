@@ -40,11 +40,6 @@ namespace LightningGL
         public int OutlineSize { get; set; }
 
         /// <summary>
-        /// The smoothing type of this font - see <see cref="FontSmoothingType"/>,
-        /// </summary>
-        public FontSmoothingType SmoothingType { get; set; }
-
-        /// <summary>
         /// Determines if this text will be localised.
         /// </summary>
         public bool Localise { get; set; }
@@ -131,7 +126,7 @@ namespace LightningGL
         }
 
         public TextBlock(string name, string text, string font, Vector2 position, Color foregroundColor, Color backgroundColor = default,
-            FontStyle style = default, int outlineSize = 0, FontSmoothingType smoothingType = FontSmoothingType.Default, bool snapToScreen = false, bool localise = true, 
+            FontStyle style = default, int outlineSize = 0, bool snapToScreen = false, bool localise = true, 
             int relativeZIndex = DEFAULT_RELATIVE_Z_INDEX) : base(name)
         {
             Text = text;
@@ -141,7 +136,6 @@ namespace LightningGL
             BackgroundColor = backgroundColor;
             Style = style;
             OutlineSize = outlineSize;
-            SmoothingType = smoothingType;
             SnapToScreen = snapToScreen;
             Localise = localise;
             RelativeZIndex = relativeZIndex;
@@ -188,7 +182,7 @@ namespace LightningGL
 
                 foreach (char character in line)
                 {
-                    Glyph? glyph = GlyphCache.QueryCache(Font, character, ForegroundColor, Style, SmoothingType);
+                    Glyph? glyph = GlyphCache.QueryCache(Font, character, ForegroundColor, Style);
 
                     if (glyph != null)
                     {

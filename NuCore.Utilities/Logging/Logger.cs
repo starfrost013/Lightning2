@@ -176,7 +176,7 @@ namespace LightningUtil
                 Debug.Assert(LogStream != null);
                 LogStream.Write(finalLogText);
             }
-#if !FINAL // final build turns off all non-error and server console logging
+#if !FINAL && !PROFILING // final build turns off all non-error and server console logging
 
             Console.ForegroundColor = color;
 

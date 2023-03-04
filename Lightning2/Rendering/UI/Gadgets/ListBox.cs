@@ -64,6 +64,16 @@
         private Rectangle? Rectangle { get; set; }
 
         /// <summary>
+        /// Minimum item rectangle spacing factor.
+        /// </summary>
+        private const float ITEM_RECTANGLE_SPACING_FACTOR = 1.25f;
+
+        /// <summary>
+        /// Minimum item rectangle size (Y).
+        /// </summary>
+        private const int ITEM_RECTANGLE_SIZE_Y_MINIMUM = 10;
+
+        /// <summary>
         /// <inheritdoc/>
         /// </summary>
         public override bool IsNotRendering 
@@ -147,15 +157,19 @@
 
             item.Font = Font;
 
-            Vector2 itemFontSize = TextUtils.GetTextSize(itemFont, item.Text, item.ForegroundColor, item.Style, FontSmoothingType.Default);
+            Vector2 itemFontSize = TextUtils.GetTextSize(itemFont, item.Text, item.ForegroundColor, item.Style);
 
             // size it to the size of the text in the Y dimension
-            BoxSize = new(Size.X, (itemFontSize.Y * 1.25f));
+            BoxSize = new(Size.X, (itemFontSize.Y * ITEM_RECTANGLE_SPACING_FACTOR));
+
+            if (BoxSize.Y < ITEM_RECTANGLE_SIZE_Y_MINIMUM) BoxSize = new(BoxSize.X, ITEM_RECTANGLE_SIZE_Y_MINIMUM);
+
             item.Size = BoxSize;
             Rectangle.Size = BoxSize;
             
             // move the item so that it gets drawn in the right place
-            item.Position = new(Position.X, Position.Y + ((itemFontSize.Y * 1.25f) * (Children.Count + 1)));
+            // worst code ever written, frankly
+            item.Position = new(Position.X, Position.Y + (Rectangle.Size.Y * (Children.Count + 1)));
             if (item.BackgroundColor == default) item.BackgroundColor = BackgroundColor;
             if (item.ForegroundColor == default) item.ForegroundColor = ForegroundColor;
             if (item.BorderColor == default) item.BorderColor = BorderColor;
@@ -189,7 +203,7 @@
             item.Filled = true; // set for now
 
             // resize the listbox 
-            Size = new Vector2(Size.X, Size.Y + (BoxSize.Y));
+            Size = new(Size.X, Size.Y + (BoxSize.Y));
             Lightning.Renderer.AddRenderable(item, this);
         }
 

@@ -86,17 +86,17 @@
         /// <summary>
         /// Default name for input binding to toggle the debug viewer.
         /// </summary>
-        private const string BINDING_TRIGGER_NAME = "DebugDisplayTrigger";
+        private const string BINDING_TRIGGER_NAME = "DEBUGDISPLAYTRIGGER";
 
         /// <summary>
         /// Default name for input binding to go up one page in the debug viewer.
         /// </summary>
-        private const string BINDING_PAGE_UP_NAME = "DebugDisplayPageUp";
+        private const string BINDING_PAGE_UP_NAME = "DEBUGDISPLAYPAGEUP";
 
         /// <summary>
         /// Default name for input binding to go down one page in the debug viewer.
         /// </summary>
-        private const string BINDING_PAGE_DOWN_NAME = "DebugDisplayPageDown";
+        private const string BINDING_PAGE_DOWN_NAME = "DEBUGDISPLAYPAGEDOWN";
 
 
         public DebugViewer(string name) : base(name)

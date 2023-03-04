@@ -12,7 +12,7 @@
 	  <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
 	  <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
 	  <ApplicationIcon>AnimTool.ico</ApplicationIcon>
-	  <Configurations>Debug;Release;Final</Configurations>
+	  <Configurations>Debug;Release;Final;Profiling</Configurations>
   </PropertyGroup>
 
 	<ItemGroup>

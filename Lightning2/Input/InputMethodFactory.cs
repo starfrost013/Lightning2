@@ -8,8 +8,8 @@ namespace LightningGL
         {
             return method switch
             {
-                InputMethods.KeyboardMouse => new InputMethodKeyboardMouse(),
-                InputMethods.Xinput => new InputMethodXinput(),
+                InputMethods.KeyboardMouse => InputMethodManager.KeyboardMouse,
+                InputMethods.Xinput => InputMethodManager.Xinput,
                 _ => null,
             };
         }
