@@ -102,7 +102,8 @@
             // don't load it multiple times
             Texture.SnapToScreen = SnapToScreen;
             if (MaxNumberCreatedEachFrame <= 0) MaxNumberCreatedEachFrame = Amount / DEFAULT_MAX_CREATED_EACH_FRAME_DIVISOR;
-
+            Texture.IsNotRendering = true; // don't draw the texture
+            //todo: fix stupid hack where we need to load this
             // this will load the texture
             Lightning.Renderer.AddRenderable(Texture, this);
         }
