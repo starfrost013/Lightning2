@@ -32,9 +32,7 @@ namespace LightningGL
             Logger.Log($"Removing binding {bindingName}, section: {inputMethod}...");
 
             // case: binding doesn't exist, create it
-            return InputMethodManager.AddBinding(inputMethod, bindingName, bind);
-
-            return true; 
+            return InputMethodManager.RemoveBinding(inputMethod, bindingName);
         }
 
         public override string Description => "unbind [type] [binding]" +
