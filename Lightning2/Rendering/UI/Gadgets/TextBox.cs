@@ -201,6 +201,7 @@
                     string keyStr = key.KeySym.ToString();
 
                     // check if lowercase
+                    // (Key::ToString converts to uppercase by default so we only need to handle one case here)
                     if (!isUppercase) keyStr = keyStr.ToLower();
                     Text = $"{Text}{keyStr}";
                     break;
