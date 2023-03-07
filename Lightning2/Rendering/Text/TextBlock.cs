@@ -7,6 +7,17 @@
     /// </summary>
     public class TextBlock : Renderable
     {
+        public override Vector2 Size
+        {
+            get
+            {
+                // return (0,0) if there is no text...duh
+                if (Font == null
+                    || Text == null) return default;
+
+                return TextUtils.GetLargestTextSize(Font, Text, ForegroundColor, Style);
+            }
+        }
         /// <summary>
         /// The text to draw.
         /// </summary>
@@ -42,6 +53,11 @@
         /// </summary>
         public bool Localise { get; set; }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// 
+        /// <para>In this class: stupid kludge that deserves to die</para>
+        /// </summary>
         public override int ZIndex
         {
             get
@@ -188,11 +204,13 @@
                         // maxverticallinesize
                         if (glyph.Size.Y > maxVerticalLineSize) maxVerticalLineSize = (int)glyph.Size.Y;
 
+                        float oldY = Position.Y;
+
                         // just grab the texture and draw it again
                         // these should definitely be in the hierarchy...hmm...
                         glyph.Position = new(currentPosition.X + glyph.Offset.X,
                             currentPosition.Y - glyph.Offset.Y + font.FontSizePixels);
-
+                       
                         // change line length
                         lineLength += (int)glyph.Advance.X;
 

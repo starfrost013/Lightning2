@@ -322,6 +322,8 @@ namespace LightningGL
                 Color.FromArgb(255, 255, 0, 0), FontStyle.Bold | FontStyle.Italic | FontStyle.Underline));
             Lightning.Renderer.AddRenderable(new TextBlock("text14", "#[STRING_TEST]\nMulti-line text test\nTest3", "Arial.11pt", new(700, 230), 
                 Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), FontStyle.Bold | FontStyle.Italic | FontStyle.Underline | FontStyle.Strikeout));
+
+            Lightning.Renderer.AddRenderable(new TextBlock("text15", "pos_test", "Arial.36pt", new(0, 0), Color.FromArgb(255, 127, 0, 255)));
         }
 
         public override void Shutdown()

@@ -12,19 +12,23 @@
         /// </summary>
         public int FontSize { get; set; }
 
+        /// <summary>
+        /// <para>An approximation of the size in pixels of the largest character in the glyph set of the current <see cref="Font"/> instance
+        /// with the size <see cref="FontSize"/>.</para>
+        /// 
+        /// <para>NOT THE BOUNDING BOX SIZE!</para>
+        /// </summary>
         public int FontSizePixels
         {
             get
             {
-                // SDL is allowed outside of SDL Renderer
-                float ddpi;
+                // You are supposed to use system dpi for this and divide the system DPI by 72.
+                // However, this returns the size of the font's bounding box and not its actual text
+                // which leads to incorrect font positioning.
+                
+                // This seems to work correct for the highest number of fonts
 
-                if (SDL_GetDisplayDPI(0, out ddpi, out _, out _) != 0)
-                {
-                    Logger.LogError($"Failed to get display DPI!: {SDL_GetError()}", 333, LoggerSeverity.FatalError);
-                }
-
-                return (int)(FontSize * (ddpi / 72));
+                return (int)(FontSize * (60d / 72d));
             }
 
         }

@@ -123,7 +123,6 @@
         { 
             Capacity = capacity;
             OnKeyDown += KeyDown;
-            OnMouseDown += MouseDown;
             Position = position;
             Size = size;
             ForegroundColor = foregroundColor;
