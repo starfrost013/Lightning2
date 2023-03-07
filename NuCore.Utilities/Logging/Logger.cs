@@ -1,12 +1,7 @@
-﻿using Microsoft.VisualBasic;
-using System.Text;
-
-namespace LightningUtil
+﻿namespace LightningUtil
 {
     /// <summary>
     /// NCLogging
-    /// 
-    /// February 4, 2022
     /// 
     /// Provides NuCore logging capabilities
     /// </summary>
@@ -33,7 +28,6 @@ namespace LightningUtil
         static Logger()
         {
             Settings = new();
-            Settings.LogFileName = string.Empty;
             AppDomain.CurrentDomain.ProcessExit += Exit;
         }
 
@@ -53,9 +47,9 @@ namespace LightningUtil
 
             if (Settings.WriteToLog)
             {
-                if (Settings.LogFileName == null)
+                if (Settings.LogFileName == string.Empty)
                 {
-                    Logger.LogError("Passed null file name to NCLogging::Init!", 6, LoggerSeverity.FatalError);
+                    Logger.LogError("Passed empty file name to Logger::Init!", 6, LoggerSeverity.FatalError);
                     return;
                 }
 
@@ -93,10 +87,9 @@ namespace LightningUtil
 
         public static void Log(string information, ConsoleColor color = ConsoleColor.White, bool printMetadata = true, bool logToFile = true)
         {
-
             if (!Initialised)
             {
-                Console.WriteLine("NCLogging not initialised, not logging anything!");
+                Console.WriteLine("Logger not initialised, not logging anything!");
                 return;
             }
 
@@ -176,7 +169,7 @@ namespace LightningUtil
                 Debug.Assert(LogStream != null);
                 LogStream.Write(finalLogText);
             }
-#if !FINAL && !PROFILING // final build turns off all non-error and server console logging
+#if !FINAL && !PROFILING // final build turns off all non-error and server console logging, profiling does it for perf
 
             Console.ForegroundColor = color;
 

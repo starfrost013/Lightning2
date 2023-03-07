@@ -163,11 +163,12 @@
             ConsoleText.Position = DEFAULT_CONSOLE_TEXT_POSITION;
         }
 
-        public void ConsoleBoxKeyPressed(InputBinding binding, Key key)
+        public void ConsoleBoxKeyPressed(InputBinding? binding, Key key)
         {
             Debug.Assert(TextBox != null);
 
-            if (!Enabled) return;
+            if (!Enabled
+                || binding == null) return;
 
             // go to base
             //TextBox.KeyPressed(key); 
@@ -217,8 +218,10 @@
             if (!command.Execute()) Logger.LogError("Command failed to execute!", 310, LoggerSeverity.Warning);
         }
 
-        private void KeyPressed(InputBinding binding, Key key)
+        private void KeyPressed(InputBinding? binding, Key key)
         {
+            if (binding == null) return;
+
             // case has to be a compile time constant so we do thos
             if (binding.Name == BINDING_TRIGGER_NAME) Enabled = !Enabled;
         }

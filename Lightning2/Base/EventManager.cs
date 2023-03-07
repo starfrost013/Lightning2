@@ -24,7 +24,7 @@ namespace LightningGL
             Vector2 cameraPosition = currentCamera.Position;
 
             if (currentCamera != null
-                && isRootOfCurrentCall)
+                && !isRootOfCurrentCall)
             {
                 // get the real position that we are checking
                 // here we have to ADD the current position to the camera position (top left)
@@ -34,8 +34,6 @@ namespace LightningGL
             }
 
             InputBinding? binding = InputMethodManager.CurrentMethod.GetBindingByBind(mouseButton.ToString());
-
-            if (binding == null) return;
 
             foreach (Renderable renderable in renderables)
             {
@@ -77,8 +75,6 @@ namespace LightningGL
             }
 
             InputBinding? binding = InputMethodManager.CurrentMethod.GetBindingByBind(mouseButton.ToString());
-
-            if (binding == null) return;
 
             foreach (Renderable renderable in renderables)
             {
@@ -217,8 +213,6 @@ namespace LightningGL
 
             InputBinding? binding = InputMethodManager.CurrentMethod.GetBindingByBind(key.ToString());
 
-            if (binding == null) return;
-
             foreach (Renderable renderable in renderables)
             {
                 // check if the UI element is focused.
@@ -239,8 +233,6 @@ namespace LightningGL
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
 
             InputBinding? binding = InputMethodManager.CurrentMethod.GetBindingByBind(key.ToString());
-
-            if (binding == null) return;
 
             foreach (Renderable renderable in renderables)
             {
@@ -321,8 +313,6 @@ namespace LightningGL
 
             InputBinding? binding = InputMethodManager.CurrentMethod.GetBindingByBind(button.Features.ToString());
 
-            if (binding == null) return;
-
             foreach (Renderable renderable in renderables)
             {
                 renderable.OnControllerButtonDown?.Invoke(binding, button);
@@ -338,8 +328,6 @@ namespace LightningGL
             List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
 
             InputBinding? binding = InputMethodManager.CurrentMethod.GetBindingByBind(button.Features.ToString());
-
-            if (binding == null) return;
 
             foreach (Renderable renderable in renderables)
             {

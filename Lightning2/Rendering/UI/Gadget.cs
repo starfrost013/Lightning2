@@ -81,8 +81,10 @@
         /// </summary>
         /// <param name="binding">The input binding relating to the button that has been pressed.</param>
         /// <param name="button">The mouse button that has been pressed.</param>
-        public virtual void MousePressed(InputBinding binding, MouseButton button)
+        public virtual void MousePressed(InputBinding? binding, MouseButton button)
         {
+            if (binding == null) return;
+
             switch (binding.Name)
             {
                 case "MOUSE1":
@@ -97,8 +99,10 @@
         /// </summary>
         /// <param name="binding">The input binding relating to the button that has been pressed.</param>
         /// <param name="button">The mouse button that has been pressed.</param>
-        public virtual void MouseReleased(InputBinding binding, MouseButton button)
+        public virtual void MouseReleased(InputBinding? binding, MouseButton button)
         {
+            if (binding == null) return;
+
             // this changes from pressed to hover color
             if (AABB.Intersects(this, button.Position))
             {
@@ -118,8 +122,10 @@
         /// </summary>
         /// <param name="binding">The input binding relating to the button that has been pressed.</param>
         /// <param name="button">The mouse button that has been pressed.</param>
-        public virtual void MouseMove(InputBinding binding, MouseButton button)
+        public virtual void MouseMove(InputBinding? binding, MouseButton button)
         {
+            if (binding == null) return;
+
             if (AABB.Intersects(this, button.Position))
             {
                 CurBackgroundColor = HoverColor;

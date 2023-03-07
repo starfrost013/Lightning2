@@ -277,15 +277,17 @@
             }
         }
 
-        private void KeyDown(InputBinding binding, Key key)
+        private void KeyDown(InputBinding? binding, Key key)
         {
             Debug.Assert(DebugText != null);
 
-            // case has to be a compile time constant so we do thos
-            if (binding.Name == BINDING_TRIGGER_NAME) Enabled = !Enabled;
+            if (binding == null) return;
 
             switch (binding.Name)
             {
+                case BINDING_TRIGGER_NAME:
+                    Enabled = !Enabled;
+                    break;
                 case BINDING_PAGE_UP_NAME:
                     CurrentDebugView--;
                     break;

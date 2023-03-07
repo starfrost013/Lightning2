@@ -235,8 +235,10 @@
         /// Default mouse press event handler for listbox.
         /// </summary>
         /// <param name="button">The <see cref="MouseButton"/> that triggered the event.</param>
-        public void ListBoxMousePressed(InputBinding binding, MouseButton button)
+        public void ListBoxMousePressed(InputBinding? binding, MouseButton button)
         {
+            if (binding == null) return;
+
             if (Open)
             {
                 // call the default handler
@@ -293,8 +295,10 @@
         /// Default mouse release event handler for listbox.
         /// </summary>
         /// <param name="button">The <see cref="MouseButton"/> that triggered the event.</param>
-        public void ListBoxMouseReleased(InputBinding binding, MouseButton button)
+        public void ListBoxMouseReleased(InputBinding? binding, MouseButton button)
         {
+            if (binding == null) return;
+
             base.MouseReleased(binding, button);
 
             if (Open)
@@ -330,8 +334,10 @@
         /// Default mouse move event handler for listbox.
         /// </summary>
         /// <param name="button">The <see cref="MouseButton"/> that triggered the event.</param>
-        public virtual void ListBoxMouseMove(InputBinding binding, MouseButton button)
+        public virtual void ListBoxMouseMove(InputBinding? binding, MouseButton button)
         {
+            if (binding == null) return;
+
             if (Open)
             {
                 base.MouseMove(binding, button);

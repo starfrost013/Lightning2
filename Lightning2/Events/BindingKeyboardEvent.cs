@@ -10,7 +10,7 @@
     /// <param name="key">The <see cref="InputMethodKeyboardMouse"/> on the keyboard that has been pressed.</param>
     public delegate void BindingKeyboardEvent
     (
-        InputBinding binding,
+        InputBinding? binding,
         Key key
     );
 }

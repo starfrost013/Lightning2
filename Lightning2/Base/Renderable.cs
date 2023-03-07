@@ -265,10 +265,9 @@
         public Renderable? Parent { get; internal set; } 
 
         /// <summary>
-        /// The childre of this Renderable.
+        /// The children of this Renderable.
         /// </summary>
         public List<Renderable> Children { get; init; }
-
 
         internal Renderable(string name)
         {

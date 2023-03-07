@@ -362,6 +362,16 @@ Everything that matters to the api has to go here
 * Finish binding removal/addition console commands and code
 * Use actual freetype api for line spacing
 * Rewrite text offset handling to function
+* Begin writing tests
+
+2023.03.05:
+* Begin writing demos
+
+2023.03.07:
+* Fix AABB::Intersects
+* Allow null inputbindings to be passed through input events, fixing textboxes + more logical programming model (allows you to do what you want when no inputbinding is matched)
+* Added static Key class methods to get the current CTRL, ALT, and SCROLL state
+* Added Key class methods for caps lock, scroll lock, and num lock (both at time of key class creation and now)
 
 
 * todo:

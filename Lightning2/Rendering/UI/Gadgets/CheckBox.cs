@@ -131,8 +131,10 @@
         /// The default mouse pressed event handler for CheckBoxes.
         /// </summary>
         /// <param name="button">The <see cref="MouseButton"/> that has been pressed.</param>
-        public void CheckBoxMousePressed(InputBinding binding, MouseButton button)
+        public void CheckBoxMousePressed(InputBinding? binding, MouseButton button)
         {
+            if (binding == null) return;
+
             base.MousePressed(binding, button);
             Checked = !Checked;
         }

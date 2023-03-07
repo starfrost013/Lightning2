@@ -8,7 +8,7 @@
     /// <param name="binding">The <see cref="InputBinding"/> on the keyboard that has been pressed.</param>
     public delegate void BindingControllerEvent
     (
-        InputBinding binding,
+        InputBinding? binding,
         ControllerButton button
     );
 }

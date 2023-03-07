@@ -1,18 +1,12 @@
 ﻿namespace LightningUtil
 {
     /// <summary>
-    /// NCLoggingSettings
-    /// 
-    /// February 4, 2022
+    /// LoggerSettings
     /// 
     /// Defines NuCore logging settings
     /// </summary>
     public class LoggerSettings
     {
-        public ConsoleColor Foreground => Console.ForegroundColor;
-
-        public ConsoleColor Background => Console.BackgroundColor;
-
         /// <summary>
         /// The file name of the log.
         /// </summary>
@@ -40,6 +34,7 @@
 
         public LoggerSettings()
         {
+            LogFileName = string.Empty;
             DateString = DEFAULT_DATE_STRING;
         }
     }

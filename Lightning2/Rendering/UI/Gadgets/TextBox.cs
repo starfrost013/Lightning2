@@ -123,6 +123,7 @@
         { 
             Capacity = capacity;
             OnKeyDown += KeyDown;
+            OnMouseDown += MouseDown;
             Position = position;
             Size = size;
             ForegroundColor = foregroundColor;
@@ -155,7 +156,7 @@
         /// Keypress handler for TextBoxes.
         /// </summary>
         /// <param name="key">The key that has been pressed.</param>
-        public void KeyDown(InputBinding binding, Key key)
+        private void KeyDown(InputBinding? binding, Key key)
         {
             // reject if text is not set or text is longer than capacity
             if (Text == null
@@ -167,11 +168,11 @@
             // SDL_EnableUNICODE is not supported and also doesn't translate key release events
             // so let's roll our own...
 
-            bool lowercase = (!keyMod.HasFlag(SDL_Keymod.KMOD_CAPS));
+            bool isUppercase = Key.GetCapsLockCurrentState(); 
 
             // invert case on shift
             if (keyMod.HasFlag(SDL_Keymod.KMOD_LSHIFT) 
-                || keyMod.HasFlag(SDL_Keymod.KMOD_RSHIFT)) lowercase = !lowercase;
+                || keyMod.HasFlag(SDL_Keymod.KMOD_RSHIFT)) isUppercase = !isUppercase;
 
             // switch various selected keys
             switch (keySym)
@@ -200,7 +201,7 @@
                     string keyStr = key.KeySym.ToString();
 
                     // check if lowercase
-                    if (lowercase) keyStr = keyStr.ToLower();
+                    if (!isUppercase) keyStr = keyStr.ToLower();
                     Text = $"{Text}{keyStr}";
                     break;
             }
