@@ -24,7 +24,7 @@ namespace LightningGL
             Vector2 cameraPosition = currentCamera.Position;
 
             if (currentCamera != null
-                && !isRootOfCurrentCall)
+                && isRootOfCurrentCall)
             {
                 // get the real position that we are checking
                 // here we have to ADD the current position to the camera position (top left)

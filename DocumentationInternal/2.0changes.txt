@@ -355,11 +355,14 @@ Everything that matters to the api has to go here
 2023.03.02:
 * Implement Profiling build
 
-2023.03.03
+2023.03.04:
 * Automatically convert input bindings to uppercase
 * Fix pressed colour
 * Remove FontSmoothingType (unused)
 * Finish binding removal/addition console commands and code
+* Use actual freetype api for line spacing
+* Rewrite text offset handling to function
+
 
 * todo:
 	- setting load order

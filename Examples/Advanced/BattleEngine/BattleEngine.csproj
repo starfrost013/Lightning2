@@ -24,6 +24,9 @@
 	<Reference Include="LightningUtilSdl">
 		<HintPath>$(ProgramFiles)/Lightning Software Development Kit/LightningUtilSdl.dll</HintPath>
 	</Reference>
+	<Reference Include="Newtonsoft.Json">
+	  <HintPath>..\..\..\..\..\..\Program Files\Lightning Software Development Kit\Newtonsoft.Json.dll</HintPath>
+	</Reference>
   </ItemGroup>
 
 	<!-- Shared includes for all examples. These are copied individually because they are open source and devs use them as part of the SDK -->
@@ -128,5 +131,12 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<Link>SDL2_mixer.dll</Link>
 		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Content\Animations\" />
+	  <Folder Include="Content\Data\Moves\" />
+	  <Folder Include="Content\Data\Creatures\" />
+	  <Folder Include="Content\Images\" />
 	</ItemGroup>
 </Project>

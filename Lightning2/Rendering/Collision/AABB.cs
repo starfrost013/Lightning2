@@ -39,8 +39,8 @@
         /// <returns>A boolean determining if the two renderables are intersecting or not</returns>
         public static bool Intersects(Renderable render1, Vector2 render2)
         {
-            Vector2 render1Min = render1.RenderPosition;
-            Vector2 render1Max = render1.RenderPosition + render1.Size;
+            Vector2 render1Min = render1.Position;
+            Vector2 render1Max = render1.Position + render1.Size;
 
             return (render1Min.X <= render2.X
                 && render1Min.Y <= render2.Y
