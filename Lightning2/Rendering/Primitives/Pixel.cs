@@ -1,5 +1,10 @@
 ﻿namespace LightningGL
 {
+    /// <summary>
+    /// Pixel
+    /// 
+    /// Defines a pixel primitive.
+    /// </summary>
     public class Pixel : Primitive
     {
         public Pixel(string name, Vector2 position, Color color, bool snapToScreen = false) : base(name)

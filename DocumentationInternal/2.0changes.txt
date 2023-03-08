@@ -373,7 +373,6 @@ Everything that matters to the api has to go here
 * Added static Key class methods to get the current CTRL, ALT, and SCROLL state
 * Added Key class methods for caps lock, scroll lock, and num lock (both at time of key class creation and now)
 
-
 * todo:
 	- setting load order
 	- DEATH to DUPLICATE CODE

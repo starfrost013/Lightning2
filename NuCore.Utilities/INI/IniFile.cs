@@ -1,7 +1,7 @@
 ﻿namespace LightningUtil
 {
     /// <summary>
-    /// NCINIFile
+    /// IniFile
     /// 
     /// NuCore INI parser
     /// Pretty simple - simply uses the first character to determine token type

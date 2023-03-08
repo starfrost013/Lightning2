@@ -13,17 +13,8 @@
 
         public override void Draw()
         {
-            // lineRGBA(); just calls SDL.SDL_RenderDrawLine
-            // thickLine does other stuff. 
-            // therefore call lineRGBA if thickness = 1
-
-            // 2022-02-25: Changed SDL2_gfx in C++
-            // to support 16-bit thickness instead of 8-bit
-
-            // nobody will ever need a line more than 32,767 pixels wide
-            // (he says, regretting this in the future). If we do we can just change to sint32 in c++.
-
-            // before we manually called lineRGBA. this is now done in c++, so we don't need to.
+            // call into the renderer to draw a line
+            // this is backend-independent
 
             if (BorderSize.X > 0
                 && BorderSize.Y > 0)
