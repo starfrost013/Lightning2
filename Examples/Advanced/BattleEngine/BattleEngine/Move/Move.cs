@@ -5,15 +5,15 @@ namespace BattleEngine
     {
         internal string Name { get; set; }
 
-        internal int Power { get; set; }
+        internal int Damage { get; set; }
 
-        internal int MaxPower { get; set; }
+        internal int MaxDamage { get; set; }
 
-        public Move(string name, int power, int maxPower)
+        public Move(string name, int damage, int maxDamage)
         {
             Name = name;
-            Power = power;
-            MaxPower = maxPower;
+            Damage = damage;
+            MaxDamage = maxDamage;
         }
     }
 }

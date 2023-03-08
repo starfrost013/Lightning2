@@ -269,7 +269,7 @@
         /// </summary>
         public List<Renderable> Children { get; init; }
 
-        internal Renderable(string name)
+        public Renderable(string name)
         {
             AnimationTimer = new Stopwatch();
 

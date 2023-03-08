@@ -18,10 +18,6 @@
 	<ItemGroup>
 	  <Content Include="AnimTool.ico" />
 	</ItemGroup>
-	
-  <ItemGroup>
-    <Folder Include="Core\" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Lightning2\LightningGL.csproj" />

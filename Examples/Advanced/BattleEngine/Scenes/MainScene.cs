@@ -13,6 +13,25 @@ namespace BattleEngine
         public override void Start()
         {
 
+            // Write some
+
+            List<Creature> creatureList = new()
+            {
+                new Creature("TEST", 0, "its a test", "none lol", 100)
+            };
+
+            List<Move> moveList = new()
+            {
+                new Move("", 1, 140)
+            };
+
+            string creatureListString = JsonConvert.SerializeObject(creatureList);
+            string moveListString = JsonConvert.SerializeObject(moveList);
+
+            File.WriteAllText(@"Content\Data\Creatures\Creatures.json", creatureListString);
+            File.WriteAllText(@"Content\Data\Move\Moves.json", moveListString);
+
+            GameInstance.Load();
         }
 
         public override void Shutdown()

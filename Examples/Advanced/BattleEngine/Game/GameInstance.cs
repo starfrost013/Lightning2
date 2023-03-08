@@ -14,7 +14,7 @@ namespace BattleEngine
             MoveManager = new MoveManager();
         }
 
-        private static void Load()
+        internal static void Load()
         {
             Logger.Log("Loading...");
             CreatureManager.LoadCreatures();
