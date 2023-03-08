@@ -196,9 +196,7 @@
 
                     if (glyph != null)
                     {
-                        // this is stupid and slow, i should do this in caching stage
-                        // but i can't be fucked
-
+                        // mark it as used so it will not be purged
                         glyph.UsedThisFrame = true;
 
                         // maxverticallinesize

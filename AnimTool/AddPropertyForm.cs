@@ -48,7 +48,7 @@ namespace AnimTool
 
                 foreach (PropertyInfo property in renderableType.GetProperties())
                 {
-                    // fucking hack
+                    // hack
 
                     if (propertiesComboBox.Text.Contains(property.Name, StringComparison.InvariantCultureIgnoreCase))
                     {

@@ -4,7 +4,7 @@ namespace LightningGL
     /// <summary>
     /// Input Method API 
     /// 
-    /// I am going to kill myself™ before this fucking game engine is done
+    /// Handles input 
     /// </summary>
     public abstract class InputMethod
     {

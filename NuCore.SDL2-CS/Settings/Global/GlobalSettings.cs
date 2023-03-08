@@ -514,7 +514,7 @@
                 GraphicsUnderlineThickness = graphicsUnderlineThicknessValue;
                 GraphicsStrikeoutThickness = graphicsStrikeoutThicknessValue;
 
-                // why the fuck do these have to be here???? this is fucked up
+                // this is really bad and has to be set here
                 // (because it uses other globalsettings like resolution so you need to load it after resolution. THIS IS A DESIGN PROBLEM, FIX IT)
                 // failed to load, set default values (middle of screen)
                 if (graphicsPositionXValue <= 0) graphicsPositionXValue = DEFAULT_GRAPHICS_POSITION_X;

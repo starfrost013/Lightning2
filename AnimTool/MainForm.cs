@@ -61,7 +61,7 @@ namespace AnimTool
 
         private void FullUpdateTabContent()
         {
-            // this is so fucking dumb i hate UI programming and have no idea how to do it
+            // this is so dumb i hate UI programming and have no idea how to do it
             // so this code is horrible
 
             propertiesTabControl.TabPages.Clear();    
