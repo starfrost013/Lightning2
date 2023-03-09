@@ -51,7 +51,14 @@
 		<None Remove="$(ProgramFiles)/Lightning Software Development Kit/Libraries/SDL2.dll" />
 		<None Remove="$(ProgramFiles)/Lightning Software Development Kit/Libraries/SDL2_image-x64.dll" />
 		<None Remove="$(ProgramFiles)/Lightning Software Development Kit/Libraries/SDL2_mixer-x64.dll" />
+		<None Remove="Content\Data\Creatures\Creatures.json" />
+		<None Remove="Content\Data\Moves\Moves.json" />
 	</ItemGroup>
+    <ItemGroup>
+      <Content Include="Content\Data\Creatures\Creatures.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
 
 	<ItemGroup>
 		<Content Include="$(ProgramFiles)/Lightning Software Development Kit/libFLAC-8.dll">
@@ -131,12 +138,13 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<Link>SDL2_mixer.dll</Link>
 		</Content>
+		<Content Include="Content\Data\Moves\Moves.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Content\Animations\" />
-	  <Folder Include="Content\Data\Moves\" />
-	  <Folder Include="Content\Data\Creatures\" />
 	  <Folder Include="Content\Images\" />
 	</ItemGroup>
 </Project>

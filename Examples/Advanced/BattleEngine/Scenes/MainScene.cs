@@ -28,8 +28,11 @@ namespace BattleEngine
             string creatureListString = JsonConvert.SerializeObject(creatureList);
             string moveListString = JsonConvert.SerializeObject(moveList);
 
+            if (!Directory.Exists(@"Content\Data\Creatures")) Directory.CreateDirectory(@"Content\Data\Creatures");
+            if (!Directory.Exists(@"Content\Data\Moves")) Directory.CreateDirectory(@"Content\Data\Moves");
+
             File.WriteAllText(@"Content\Data\Creatures\Creatures.json", creatureListString);
-            File.WriteAllText(@"Content\Data\Move\Moves.json", moveListString);
+            File.WriteAllText(@"Content\Data\Moves\Moves.json", moveListString);
 
             GameInstance.Load();
         }

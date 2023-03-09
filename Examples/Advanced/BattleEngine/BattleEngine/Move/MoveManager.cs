@@ -15,10 +15,9 @@
 
         internal bool LoadMoves()
         {
-            if (!Uri.IsWellFormedUriString(MOVE_JSON_FILE, UriKind.RelativeOrAbsolute)
-                || !File.Exists(MOVE_JSON_FILE))
+            if (!File.Exists(MOVE_JSON_FILE))
             {
-                Logger.LogError($"Invalid moves.json location ({MOVE_JSON_FILE}). Please fix!", 1800, LoggerSeverity.FatalError);
+                Logger.LogError($"Invalid Moves.json location ({MOVE_JSON_FILE}). Please fix!", 1800, LoggerSeverity.FatalError);
                 return false;
             }
 

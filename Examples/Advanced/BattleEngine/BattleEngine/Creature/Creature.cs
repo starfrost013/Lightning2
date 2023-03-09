@@ -15,7 +15,7 @@ namespace BattleEngine
 
         public int Health { get; set; }
 
-        public Creature(string name, int id, string description, string mainSprite, int maxHealth) : base()
+        public Creature(string name, int id, string description, string mainSprite, int maxHealth) : base(name) 
         {
             CreatureName = name;
             Id = id;
