@@ -94,6 +94,9 @@
         /// </summary>
         public bool IsTarget { get; set; }
 
+        /// <summary>
+        /// Backing field for <see cref="Opacity"/>
+        /// </summary>
         public byte _opacity;
 
         /// <summary>
@@ -136,7 +139,12 @@
         /// <param name="sizeY">The height of the texture in pixels.</param>
         public Texture(string name, float sizeX, float sizeY, bool isTarget = false, string path = CREATED_TEXTURE_PATH) : base(name)
         {
-            Size = new Vector2(sizeX, sizeY);
+            CreateTexture(name, sizeX, sizeY, isTarget, path);
+        }
+
+        private void CreateTexture(string name, float sizeX, float sizeY, bool isTarget = false, string path = CREATED_TEXTURE_PATH)
+        {
+            Size = new(sizeX, sizeY);
 
             IsTarget = isTarget;
 
