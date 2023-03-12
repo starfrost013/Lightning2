@@ -108,11 +108,13 @@
         /// </summary>
         public GenericEvent OnUpdate { get; set; }
 
+        [JsonIgnore]
         /// <summary>
         /// Event handler for when a new animation starts playing.
         /// </summary>
         public GenericEvent? OnAnimationStart { get; set; }
 
+        [JsonIgnore]
         /// <summary>
         /// Event handler for when a new animation stops playing.
         /// </summary>
@@ -124,11 +126,13 @@
         /// </summary>
         public GenericEvent? OnShutdown { get; set; }
 
+        [JsonIgnore]
         /// <summary>
         /// Event handler for when a controller button starts being pressed.
         /// </summary>
         public BindingControllerEvent? OnControllerButtonDown { get; set; }
 
+        [JsonIgnore]
         /// <summary>
         /// Event handler for when a controller button stops being pressed.
         /// </summary>
