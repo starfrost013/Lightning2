@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basic", "basic\Basic.csproj", "{CA72B019-4E78-4192-A591-C4E1DCCFAB9F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasicScene", "BasicScene\BasicScene.csproj", "{1EA422DE-9499-483A-8512-D3FE94764F26}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrimitiveRendering", "PrimitiveRendering\PrimitiveRendering.csproj", "{9E61C779-FF77-47C8-A6EA-B98F56C41F18}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Texture", "Texture\Texture.csproj", "{4DB1F8B5-C698-4EB8-B0E8-CAFBED8F0245}"
@@ -37,7 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI", "UI\UI.csproj", "{D394
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Settings", "Settings\Settings.csproj", "{1D031D3B-8484-4321-8BEF-5BA6DE8031C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Animation", "Animation\Animation.csproj", "{A0E9C8B7-3C49-4421-AB38-E4947B57A653}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Animation", "Animation\Animation.csproj", "{A0E9C8B7-3C49-4421-AB38-E4947B57A653}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basic", "BasicScene\Basic.csproj", "{9C45B41D-F669-4DDC-8A67-B363181C7E2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,14 +43,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CA72B019-4E78-4192-A591-C4E1DCCFAB9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA72B019-4E78-4192-A591-C4E1DCCFAB9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA72B019-4E78-4192-A591-C4E1DCCFAB9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA72B019-4E78-4192-A591-C4E1DCCFAB9F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1EA422DE-9499-483A-8512-D3FE94764F26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1EA422DE-9499-483A-8512-D3FE94764F26}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1EA422DE-9499-483A-8512-D3FE94764F26}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1EA422DE-9499-483A-8512-D3FE94764F26}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9E61C779-FF77-47C8-A6EA-B98F56C41F18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9E61C779-FF77-47C8-A6EA-B98F56C41F18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E61C779-FF77-47C8-A6EA-B98F56C41F18}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -117,6 +107,10 @@ Global
 		{A0E9C8B7-3C49-4421-AB38-E4947B57A653}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0E9C8B7-3C49-4421-AB38-E4947B57A653}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0E9C8B7-3C49-4421-AB38-E4947B57A653}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C45B41D-F669-4DDC-8A67-B363181C7E2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C45B41D-F669-4DDC-8A67-B363181C7E2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C45B41D-F669-4DDC-8A67-B363181C7E2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C45B41D-F669-4DDC-8A67-B363181C7E2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

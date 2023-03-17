@@ -1,21 +1,12 @@
-﻿using LightningGL; // use lightninggl
-using static LightningGL.Lightning; // in your global usings in the project template
-using static LightningBase.SDL; // import for sdl
-using System.Drawing; // for color
-using System.Numerics;
-
-//Lightning Audio Example (Scene Manager NOT used)
-//©2022 starfrost, August 12, 2022
+﻿
+//Lightning Audio Example for Lightning 2.0; 
+//©2022-2023 starfrost, March 14, 2023 
 
 // Initialise Lightning
-Lightning.Init(args);
+Lightning.InitClient();
 
-Renderer renderer = new Renderer();
-renderer.Start(new RendererSettings()); // use default Renderersettings
-
-// supported formats: flac, ogg, mod, mp3, midi
+// supported formats: flac, ogg, mp3, midi (mods are broken)
 // positional audio and volume controls are also supported
-
 
 AudioManager.LoadFile(renderer, @"Content\deepbluecalm.flac", "deepblue");
 //AudioManager.LoadFile(renderer, @"Content\projectx.mod", "projectx");

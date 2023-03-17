@@ -9,7 +9,6 @@ Lightning 2.0 feature set:
 - FreeType2 Text Manager State Machine
 - Save Global Settings automatically on exit
 - GlobalSettings refactoring (start all property names with the name of their section as a start)
-- Network Services
 - Proper Obsoleting Practice?
 - Linux for Dedicated Server only
 - Multiple Renderer support, RenderingBackend replacement
@@ -22,23 +21,23 @@ AnimTool:
 
 Lightning 2.5 feature set:
 - Ability to pair multiple renderables and have them move with each other in an animation
+- Network Services
 - "Keyframe Everything"; integrate Animation System with everything (Animatable class) 
 - Skybox, Day/night cycle with customisable skyboxes for all regions of the day
 - ParticleEffect system merged with Animation
 - Don't render textures unless they move (adaptive tile refresh)
 - Dynamic Cameras
 - Attach ParticleEffects to Renderables
-- Layered Rendering (z-index also)
 - Video API
-- New Lighting Engine using Raycasting (possibly 3.0)
 - LightningInternal for internal renderables to fix searches 
 - Maybe referents
-- Scene Transitions? / FX Engine? (possibly 3.0)
+- Scene Transitions? / Post-processing Engine
 - Ticks not deltatime
 - How will children be able to tell if they are the original handler of an event? Better event systme for 2.5  / 3.0
 
 Lightning 3.0 feature set:
 - OpenGL 3.3 renderer
+- Raycast API and Raycast Lighting Engine
 - Various other fancy rendering things
 - Scene Transitions
 - macOS Port

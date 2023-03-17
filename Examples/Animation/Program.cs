@@ -1,2 +1,2 @@
-﻿//Animation example for Lightning 1.1+, October 23, 2022
-Init(args);
+﻿//Animation example for Lightning 2.0+, March 14, 2023
+Lightning.InitClient();

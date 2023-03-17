@@ -13,9 +13,9 @@ namespace Animation
         public override void Start()
         {
             // probably shoud not have called the project animation but oh well
-            LightningGL.Animation newAnim = new LightningGL.Animation(@"Content\Anim.json");
-            newAnim = AnimationManager.AddAsset(SceneManager.Renderer, newAnim);
-            Texture texture = new Texture(SceneManager.Renderer, 64, 64, SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING)
+            LightningGL.Animation newAnim = new("Anim1", @"Content\Anim.json");
+            newAnim = Lightning.Renderer.AddRenderable(newAnim);
+            Texture texture = new("CollidingTexture1", 64, 64)
             {
                 Path = @"Content\CollidingTexture1.png",
             };
@@ -24,7 +24,7 @@ namespace Animation
 
             texture.StartCurrentAnimation();
 
-            TextureManager.AddAsset(SceneManager.Renderer, texture); // automatically loads
+            Lightning.Renderer.AddRenderable(texture);
         }
 
         public override void Shutdown()
@@ -32,19 +32,19 @@ namespace Animation
 
         }
 
-        public override void SwitchTo(Scene oldScene)
+        public override void SwitchTo(Scene? oldScene)
+        {
+            Lightning.Renderer.AddRenderable(new TextBlock("Animation", "Lightning Animation Example", "DebugFont", new(300, 300), Color.Aquamarine));
+        }
+
+        public override void SwitchFrom(Scene newScene)
         {
 
         }
 
-        public override void SwitchAway(Scene newScene)
+        public override void Render()
         {
 
-        }
-
-        public override void Render(Renderer cWindow)
-        {
-            PrimitiveRenderer.DrawText(cWindow, "Lightning Animation Example", new Vector2(300, 300), Color.Red);
         }
     }
 }

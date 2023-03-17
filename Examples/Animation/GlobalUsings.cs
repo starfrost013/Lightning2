@@ -12,8 +12,7 @@ global using System.Drawing;
 global using System.Numerics;
 // SDL2 stuff (to make accessing SDL functions less painful)
 global using static LightningBase.SDL;
-global using static LightningBase.SDL_gfx;
 global using static LightningBase.SDL_image;
 global using static LightningBase.SDL_mixer;
-global using static LightningBase.SDL_ttf;
+
 global using static LightningGL.Lightning;

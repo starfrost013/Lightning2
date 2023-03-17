@@ -17,11 +17,11 @@
 		<Reference Include="LightningPackager">
 			<HintPath>$(ProgramFiles)/Lightning Software Development Kit/LightningPackager.dll</HintPath>
 		</Reference>
-		<Reference Include="NuCore.Utilities">
-			<HintPath>$(ProgramFiles)/Lightning Software Development Kit/NuCore.Utilities.dll</HintPath>
+		<Reference Include="LightningUtil">
+			<HintPath>$(ProgramFiles)/Lightning Software Development Kit/LightningUtil.dll</HintPath>
 		</Reference>
-		<Reference Include="NuCore.Utilities.Lightning">
-			<HintPath>$(ProgramFiles)/Lightning Software Development Kit/NuCore.Utilities.Lightning.dll</HintPath>
+		<Reference Include="LightningUtilSdl">
+			<HintPath>$(ProgramFiles)/Lightning Software Development Kit/LightningUtilSdl.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 
@@ -41,14 +41,12 @@
 	  <None Remove="../shared/Content/Localisation/en-GB-test.ini" />
 	  <None Remove="../shared/Content/Localisation/pseudo.ini" />
 	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/libfreetype-6.dll" />
-	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/libjpeg-9.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/libjpeg-5.dll" />
 	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/libtiff-5.dll" />
 	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/libwebp-7.dll" />
 	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2.dll" />
-	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_gfx-x64.dll" />
-	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_image-x64.dll" />
-	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_ttf-v2.0.18-x64.dll" />
-	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_mixer-x64.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_image.dll" />
+	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_mixer.dll" />
 	  <None Remove="Content\ParticleEffect.png" />
   </ItemGroup>
 
@@ -96,6 +94,10 @@
 	  <Content Include="Content/Engine.ini">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
+	  <Content Include="../shared/Content/InputBindings.ini">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <Link>Content/InputBindings.ini</Link>
+	  </Content>
 	  <Content Include="../shared/Content/Localisation/en-GB-test.ini">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		  <Link>Content/Localisation/en-GB-test.ini</Link>
@@ -104,41 +106,33 @@
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		  <Link>Content/Localisation/pseudo.ini</Link>
 	  </Content>
-	  <Content Include="$(ProgramFiles)/Lightning Software Development Kit/Libraries/libfreetype-6.dll">
+	  <Content Include="$(ProgramFiles)/Lightning Software Development Kit/freetype.dll">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <Link>Libraries/libfreetype-6.dll</Link>
+		  <Link>freetype.dll</Link>
 	  </Content>
-	  <Content Include="$(ProgramFiles)/Lightning Software Development Kit/Libraries/libjpeg-9.dll">
+	  <Content Include="$(ProgramFiles)/Lightning Software Development Kit/libjpeg-5.dll">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <Link>Libraries/libjpeg-9.dll</Link>
+		  <Link>libjpeg-5.dll</Link>
 	  </Content>
-	  <Content Include="$(ProgramFiles)/Lightning Software Development Kit/Libraries/libtiff-5.dll">
+	  <Content Include="$(ProgramFiles)/Lightning Software Development Kit/libtiff-5.dll">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <Link>Libraries/libtiff-5.dll</Link>
+		  <Link>libtiff-5.dll</Link>
 	  </Content>
-	  <Content Include="$(ProgramFiles)/Lightning Software Development Kit/Libraries/libwebp-7.dll">
+	  <Content Include="$(ProgramFiles)/Lightning Software Development Kit/libwebp-7.dll">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <Link>Libraries/libwebp-7.dll</Link>
+		  <Link>libwebp-7.dll</Link>
 	  </Content>
-	  <Content Include="$(ProgramFiles)/Lightning Software Development Kit/Libraries/SDL2.dll">
+	  <Content Include="$(ProgramFiles)/Lightning Software Development Kit/SDL2.dll">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <Link>Libraries/SDL2.dll</Link>
+		  <Link>SDL2.dll</Link>
 	  </Content>
-	  <Content Include="$(ProgramFiles)/Lightning Software Development Kit/Libraries/SDL2_gfx-x64.dll">
+	  <Content Include="$(ProgramFiles)/Lightning Software Development Kit/SDL2_image.dll">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <Link>Libraries/SDL2_gfx-x64.dll</Link>
+		  <Link>SDL2_image.dll</Link>
 	  </Content>
-	  <Content Include="$(ProgramFiles)/Lightning Software Development Kit/Libraries/SDL2_image-x64.dll">
+	  <Content Include="$(ProgramFiles)/Lightning Software Development Kit/SDL2_mixer.dll">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <Link>Libraries/SDL2_image-x64.dll</Link>
-	  </Content>
-	  <Content Include="$(ProgramFiles)/Lightning Software Development Kit/Libraries/SDL2_ttf-v2.0.18-x64.dll">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <Link>Libraries/SDL2_ttf-v2.0.18-x64.dll</Link>
-	  </Content>
-	  <Content Include="$(ProgramFiles)/Lightning Software Development Kit/Libraries/SDL2_mixer-x64.dll">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <Link>Libraries/SDL2_mixer-x64.dll</Link>
+		  <Link>SDL2_mixer.dll</Link>
 	  </Content>
 	  <Content Include="Content\ParticleEffect.png">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

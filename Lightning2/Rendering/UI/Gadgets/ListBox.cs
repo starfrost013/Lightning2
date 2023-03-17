@@ -34,6 +34,8 @@
                         LoggerSeverity.FatalError);
 
                 _selectedindex = value;
+
+                if (SelectedItemBlock != null) SelectedItemBlock.Text = SelectedItem.Text;
             }
         }
 
@@ -62,6 +64,11 @@
         /// UI rectangle used for drawing this textbox.
         /// </summary>
         private Rectangle? Rectangle { get; set; }
+
+        /// <summary>
+        /// UI text block used for 
+        /// </summary>
+        private TextBlock? SelectedItemBlock { get; set; }
 
         /// <summary>
         /// Minimum item rectangle spacing factor.
@@ -129,6 +136,19 @@
             // HACK: Don't make this a child of this so that it does not break everything
             // Make this hack go away in the future
             Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("ListBoxRectangle", Position, BoxSize, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen));
+            SelectedItemBlock = Lightning.Renderer.AddRenderable(new TextBlock("SelectedItemBlock", string.Empty, Font, Position, ForegroundColor));
+
+            // check the font is loaded properly
+            Debug.Assert(Font != null);
+
+            Font? itemFont = (Font?)Lightning.Renderer.GetRenderableByName(Font);
+
+            if (itemFont == null)
+            {
+                Logger.LogError($"Tried to create a ListBox with an invalid font", 187,
+                   LoggerSeverity.FatalError);
+                return;
+            }
         }
 
         /// <summary>
@@ -137,23 +157,12 @@
         /// <param name="item">The <see cref="ListBoxItem"/> to add to this ListBox.</param>
         public void AddItem(ListBoxItem item)
         {
-            Debug.Assert(Rectangle != null);
-
-            if (Font == null)
-            {
-                Logger.LogError($"Tried to add an item to a ListBox with an invalid font", 185,
-                    LoggerSeverity.FatalError);
-                return;
-            }
+            Debug.Assert(Rectangle != null
+                && Font != null);
 
             Font? itemFont = (Font?)Lightning.Renderer.GetRenderableByName(Font);
 
-            if (itemFont == null)
-            {
-                Logger.LogError($"Tried to add an item to a ListBox with an invalid font", 187,
-                   LoggerSeverity.FatalError);
-                return;
-            }
+            Debug.Assert(itemFont != null, "Font was changed to invalid font after creation of ListBox!!");
 
             item.Font = Font;
 
@@ -205,6 +214,17 @@
             // resize the listbox 
             Size = new(Size.X, Size.Y + (BoxSize.Y));
             Lightning.Renderer.AddRenderable(item, this);
+
+            // select first item as default, only do this when we add a new item for the first time 
+            if (Children.Count == 1) SelectedIndex = 0; 
+        }
+
+        public void RemoveItem(ListBoxItem item)
+        {
+            Lightning.Renderer.RemoveRenderable(item, this);
+
+            // ensure within range
+            if (SelectedIndex >= Children.Count) SelectedIndex = Children.Count - 1;
         }
 
         /// <summary>

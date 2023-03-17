@@ -18,24 +18,24 @@ namespace BasicScene
             
         }
 
-        public override void SwitchTo(Scene oldScene)
+        public override void SwitchTo(Scene? oldScene)
         {
             
         }
 
-        public override void SwitchAway(Scene newScene)
+        public override void SwitchFrom(Scene newScene)
         {
             
         }
 
         public override void Render()
         {
-            PrimitiveRenderer.DrawText("Hello from MainScene", new Vector2(300, 300), Color.Red);
+            Lightning.Renderer.AddRenderable(new TextBlock("Scene1", "Hello from MainScene", "DebugFont", new Vector2(300, 300), Color.Red));
 
             // change the scene
             if (Lightning.Renderer.EventWaiting)
             {
-                if (Lightning.Renderer.LastEvent.type == SDL_EventType.SDL_KEYDOWN) SceneManager.SetCurrentScene("Scene2");
+                if (Lightning.Renderer..type == SDL_EventType.SDL_KEYDOWN) SetCurrentScene("Scene2");
             }
         }
     }

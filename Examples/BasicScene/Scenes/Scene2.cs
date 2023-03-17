@@ -3,6 +3,7 @@ using LightningGL;
 using static LightningGL.Lightning; // not required for project template
 using System.Drawing;
 using System.Numerics;
+using LightningBase;
 
 namespace BasicScene
 {
@@ -18,24 +19,24 @@ namespace BasicScene
             
         }
 
-        public override void SwitchTo(Scene oldScene)
+        public override void SwitchTo(Scene? oldScene)
+        {
+            Lightning.Renderer.AddRenderable(new TextBlock("Text1", "Hello from Scene2", "DebugFont", new(300, 300), Color.PaleTurquoise));
+        }
+
+        public override void SwitchFrom(Scene newScene)
         {
             
         }
 
-        public override void SwitchAway(Scene newScene)
+        public override void Render()
         {
-            
-        }
 
-        public override void Render(Renderer renderer)
-        {
-            PrimitiveRenderer.DrawText(renderer, "Hello from Scene2", new Vector2(300, 300), Color.PaleTurquoise);
 
             // change the scene
-            if (renderer.EventWaiting)
+            if (Lightning.Renderer.EventWaiting)
             {
-                if (renderer.LastEvent.type == SDL_EventType.SDL_KEYDOWN) SceneManager.SetCurrentScene("MainScene");
+                if (renderer.LastEvent.type == SDL_EventType.SDL_KEYDOWN) Lightning.SetCurrentScene("MainScene");
             }
         }
     }
