@@ -15,7 +15,10 @@
                 if (Font == null
                     || Text == null) return default;
 
-                return TextUtils.GetLargestTextSize(Font, Text, ForegroundColor, Style);
+                // it's too slow to use getlargesttextsize hundreds of times per frame
+                // so let's just approximate it...
+                // if we don't override it doesn't cull right
+                return new(Text.Length * 4); 
             }
         }
         /// <summary>
