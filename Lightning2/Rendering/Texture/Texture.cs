@@ -9,6 +9,9 @@
     /// </summary>
     public unsafe class Texture : Renderable
     {
+        /// <summary>
+        /// Default dummy path for created textures.
+        /// </summary>
         internal const string CREATED_TEXTURE_PATH = "<<<CREATED TEXTURE>>>";
 
         /// <summary>
@@ -65,6 +68,12 @@
         /// Otherwise, will draw the texture from (ViewportStart) to (ViewportEnd)
         /// </summary>
         public Vector2 ViewportStart { get; set; }
+
+        /// <summary>
+        /// Internal size of the unmanaged texture used here.
+        /// Used to allow scaling without crashing.
+        /// </summary>
+        internal Vector2 SizeInternal { get; private set; }
 
         /// <summary>
         /// The viewport of this texture.
