@@ -51,7 +51,7 @@ namespace LightningBase
 		 */
         public const int SDL_IMAGE_EXPECTED_MAJOR_VERSION = 2;
         public const int SDL_IMAGE_EXPECTED_MINOR_VERSION = 6;
-        public const int SDL_IMAGE_EXPECTED_PATCHLEVEL = 2;
+        public const int SDL_IMAGE_EXPECTED_PATCHLEVEL = 3;
 
         [Flags]
         public enum IMG_InitFlags
