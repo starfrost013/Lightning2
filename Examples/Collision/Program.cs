@@ -7,7 +7,7 @@ using System.Numerics;
 //©2022 starfrost, August 13, 2022
 
 // Initialise Lightning
-Init(args);
+InitClient(args);
 
 Renderer renderer = new Renderer();
 renderer.Start(new RendererSettings
