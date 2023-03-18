@@ -55,7 +55,7 @@ namespace LightningBase
 		 */
         public const int SDL_MIXER_EXPECTED_MAJOR_VERSION = 2;
         public const int SDL_MIXER_EXPECTED_MINOR_VERSION = 6;
-        public const int SDL_MIXER_EXPECTED_PATCHLEVEL = 2;
+        public const int SDL_MIXER_EXPECTED_PATCHLEVEL = 3;
 
         /* In C, you can redefine this value before including SDL_mixer.h.
 		 * We're not going to allow this in SDL2#, since the value of this
