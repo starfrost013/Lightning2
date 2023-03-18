@@ -11,6 +11,8 @@
     /// </summary>
     public abstract class Scene
     {
+        public Scene() { }
+
         /// <summary>
         /// Backing field for <see cref="Name"/>
         /// </summary>

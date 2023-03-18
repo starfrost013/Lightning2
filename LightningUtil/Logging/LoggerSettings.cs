@@ -28,7 +28,7 @@
         public string DateString { get; set; }
 
         /// <summary>
-        /// A constant default value for <see cref="DateString"/>
+        /// A constant default value for <see cref="DateString"/>.
         /// </summary>
         private const string DEFAULT_DATE_STRING = "yyyyMMdd_HHmmss";
 
