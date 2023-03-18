@@ -254,6 +254,7 @@
             if (exceptionSeverity == LoggerSeverity.FatalError) Environment.Exit(id);
         }
 
+
         /// <summary>
         /// Log and display an error message.
         /// </summary>
@@ -264,9 +265,9 @@
         /// <param name="baseException">The .NET exception that caused the error, if present.</param>
         /// <param name="dontShowMessageBox">Determines if a message box was shown or not</param>
         public static void LogError(string description, string prefix, int id, LoggerSeverity exceptionSeverity = LoggerSeverity.Message,
-            Exception? baseException = null, bool dontShowMessageBox = false)
+            Exception? baseException = null, bool dontShowMessageBox = false, bool printMetadata = true, bool logToFile = true, bool logToConsole = true)
         {
-            LogError($"[{prefix}]: {description}", id, exceptionSeverity, baseException, dontShowMessageBox);
+            LogError($"[{prefix}]: {description}", id, exceptionSeverity, baseException, dontShowMessageBox, printMetadata, logToFile, logToConsole);
         }
 
         public static void Exit(object? Sender, EventArgs e)
