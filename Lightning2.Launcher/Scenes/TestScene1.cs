@@ -274,7 +274,7 @@ namespace LightningGL
 
             Lightning.Renderer.AddRenderable(animatedTexture1);
 
-            Animation? anim1 = new("anim1", @"Content\Animations\TestAnimation.json");
+            Animation? anim1 = new("anim1", @"Content\Animations\Animation1.json");
             anim1 = Lightning.Renderer.AddRenderable(anim1);
 
             Debug.Assert(anim1 != null);

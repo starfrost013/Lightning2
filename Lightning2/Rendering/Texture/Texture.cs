@@ -190,7 +190,6 @@
         /// <param name="y">The Y coordinate of the pixel to acquire.</param>
         /// <param name="unlockNow">Unlocks the texture immediately - use this if you do not need to draw any more pixels</param>
         /// <returns>A <see cref="Color"/> instance containing the color data of the pixel acquired</returns>
-        /// <exception cref="NCError">An invalid coordinate was supplied or the texture does not have a valid size.</exception>
         public virtual Color GetPixel(int x, int y, bool unlockNow = false)
         {
             // do not lock it if we are already locked
@@ -219,21 +218,21 @@
         /// <param name="x">The X coordinate of the pixel to set.</param>
         /// <param name="y">The Y coordinate of the pixel to set.</param>
         /// <param name="unlockNow">Unlocks the texture immediately - use this if you do not need to draw any more pixels</param>
-        /// <exception cref="NCError">An invalid coordinate was supplied or the texture does not have a valid size.</exception>
         public virtual void SetPixel(int x, int y, Color color, bool unlockNow = false)
         {
             // do not lock it if we are already locked
             if (!Locked) Lock();
 
             if (x < 0 || y < 0
-                || x >= Size.X || y >= Size.Y) Logger.LogError($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), " +
-                    $"min (0,0). max ({Size.X},{Size.Y}) ", 15, LoggerSeverity.FatalError);
+                || x >= SizeInternal.X || y >= SizeInternal.Y)
+            {
+                return;
+            }
 
-            int pixelToGet = (y * (int)Size.X) + x;
-            int maxPixelId = (int)((Size.X * 4) * Size.Y); 
+            int pixelToGet = (y * (int)SizeInternal.X) + x;
+            int maxPixelId = (int)(SizeInternal.X * 4 * SizeInternal.Y);
 
-            if (pixelToGet > maxPixelId) Logger.LogError($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), " +
-                $"min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {pixelToGet} > {maxPixelId}!)", 16, LoggerSeverity.FatalError);
+            if (pixelToGet > maxPixelId) return;
 
             // use pixeltoget to twiddle the pixel that we need using the number we calculated before
             Pixels[pixelToGet] = color.ToArgb();
