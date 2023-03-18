@@ -46,7 +46,7 @@
 	
 	<ItemGroup>
     <ProjectReference Include="..\LightningPackager\LightningPackager.csproj" />
-    <ProjectReference Include="..\NuCore.SDL2-CS\LightningBase.csproj" />
+    <ProjectReference Include="..\LightningBase\LightningBase.csproj" />
   </ItemGroup>
 
 	

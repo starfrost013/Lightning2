@@ -82,7 +82,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lightning2\LightningGL.csproj" />
+    <ProjectReference Include="..\LightningGL\LightningGL.csproj" />
   </ItemGroup>
 
 </Project>

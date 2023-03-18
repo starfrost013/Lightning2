@@ -25,7 +25,7 @@ bool noTimeBuild = false;
 
 // Paths for various parts of Lightning.
 // (make these overridable...eventually)
-string buildPath = $@"..\..\..\..\Lightning2\bin\{config}\net{frameworkVersion}\";
+string buildPath = $@"..\..\..\..\LightningGL\bin\{config}\net{frameworkVersion}\";
 string makePackagePath = $@"..\..\..\..\MakePackage\bin\{config}\net{frameworkVersion}\";
 string animToolPath = $@"..\..\..\..\AnimTool\bin\{config}\net{frameworkVersion}-windows\";
 string docPath = $@"..\..\..\..\Documentation";
