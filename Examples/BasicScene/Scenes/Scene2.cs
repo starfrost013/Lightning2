@@ -31,12 +31,12 @@ namespace BasicScene
 
         public override void Render()
         {
-
-
             // change the scene
             if (Lightning.Renderer.EventWaiting)
             {
-                if (renderer.LastEvent.type == SDL_EventType.SDL_KEYDOWN) Lightning.SetCurrentScene("MainScene");
+                SdlRenderer sdlRenderer = (SdlRenderer)Lightning.Renderer;
+                // DEPRECATED DO NOT USE!
+                if (sdlRenderer.LastEvent.type == SDL_EventType.SDL_KEYDOWN) SetCurrentScene("MainScene");
             }
         }
     }

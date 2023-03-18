@@ -35,7 +35,9 @@ namespace BasicScene
             // change the scene
             if (Lightning.Renderer.EventWaiting)
             {
-                if (Lightning.Renderer..type == SDL_EventType.SDL_KEYDOWN) SetCurrentScene("Scene2");
+                SdlRenderer sdlRenderer = (SdlRenderer)Lightning.Renderer;
+                // DEPRECATED DO NOT USE!
+                if (sdlRenderer.LastEvent.type == SDL_EventType.SDL_KEYDOWN) SetCurrentScene("Scene2");
             }
         }
     }

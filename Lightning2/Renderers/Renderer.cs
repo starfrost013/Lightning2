@@ -229,6 +229,7 @@
 
             Logger.Log($"Removing renderable of type {renderable.GetType().Name} ({renderable.Name}) - parent {parentName}");
 
+
             for (int childId = 0; childId < renderable.Children.Count; childId++)
             {
                 Renderable child = renderable.Children[childId];
@@ -245,6 +246,7 @@
             renderable.OnDestroy();
 
             // if there's no parent...
+            // how do we take into account the case where it's not actually in its parent?
             if (parent == null)
             {
                 Lightning.Renderer.Renderables.Remove(renderable);

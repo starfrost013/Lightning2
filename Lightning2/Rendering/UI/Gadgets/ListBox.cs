@@ -219,12 +219,29 @@
             if (Children.Count == 1) SelectedIndex = 0; 
         }
 
+        /// <summary>
+        /// Removes the item <paramref name="item"/> from this listbox. 
+        /// </summary>
+        /// <param name="item"></param>
         public void RemoveItem(ListBoxItem item)
         {
             Lightning.Renderer.RemoveRenderable(item, this);
 
             // ensure within range
             if (SelectedIndex >= Children.Count) SelectedIndex = Children.Count - 1;
+        }
+
+        /// <summary>
+        /// Removes the <see cref="ListBoxItem"/> at index <paramref name="index"/> from the ListBoxItem 
+        /// </summary>
+        /// <param name="index">The index of the item to remove.</param>
+        public void RemoveItemAtIndex(int index)
+        {
+            if (index > Children.Count - 1
+                || index < 0)
+            {
+                Logger.LogError($"Attempted to remove invalid listbox item index {index} (expected 0-{Children.Count - 1}!", 327, LoggerSeverity.Warning);
+            }
         }
 
         /// <summary>

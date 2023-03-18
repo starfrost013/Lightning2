@@ -49,7 +49,7 @@ namespace LightningBase
 		 */
         public const int SDL_EXPECTED_MAJOR_VERSION = 2;
         public const int SDL_EXPECTED_MINOR_VERSION = 26;
-        public const int SDL_EXPECTED_PATCHLEVEL = 3;
+        public const int SDL_EXPECTED_PATCHLEVEL = 4;
 
         public static readonly int SDL_EXPECTED_COMPILEDVERSION = SDL_VERSIONNUM(
             SDL_EXPECTED_MAJOR_VERSION,
