@@ -5,7 +5,7 @@
     /// 
     /// The Lightning server.
     /// </summary>
-    public class Server : LightningBase
+    public class Server : LightningCore
     {
         public bool Running { get; set; }
         public NetworkServer NetworkServer { get; set; }

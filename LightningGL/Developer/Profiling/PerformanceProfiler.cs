@@ -3,9 +3,7 @@
     /// <summary>
     /// PerformanceProfiler
     /// 
-    /// May 9, 2022
-    /// 
-    /// Defines a lightweight performance profiler for LightningGL.
+    /// Defines a lightweight performance profiler for Lightning.
     /// Dumps FPS information information to a CSV file.
     /// </summary>
     public static class PerformanceProfiler
@@ -33,7 +31,8 @@
         /// <summary>
         /// The current 99.9th percentile FPS value.
         /// </summary>
-        public static double Current999thPercentile { get; private set;  }
+        public static double Current999thPercentile { get; private set; }
+
         /// <summary>
         /// The current 99th percentile FPS value.
         /// </summary>
@@ -162,7 +161,6 @@
         {
             if (!Initialised
                 || FileStream == null) return;
-
 
             if (FPSList.Count > 0)
             {

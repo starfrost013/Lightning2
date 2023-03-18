@@ -1,10 +1,4 @@
-﻿using LightningGL;
-using LightningBase;
-using System.Drawing;
-using System.Numerics;
-using static LightningGL.Lightning;
-using System.Diagnostics;
-using LightningUtil;
+﻿using static LightningGL.Lightning;
 
 namespace LightningGL
 {
@@ -16,6 +10,8 @@ namespace LightningGL
         public TextureAtlas? TextureAtlas1 { get; set; }
 
         public Texture? Texture1 { get; set; }
+
+        public TestScene1() : base() { }
 
         public override void Start()
         {
@@ -274,12 +270,13 @@ namespace LightningGL
 
             Lightning.Renderer.AddRenderable(animatedTexture1);
 
+            Texture1.ZIndex = -9999999;
+
             Animation? anim1 = new("anim1", @"Content\Animations\Animation1.json");
             anim1 = Lightning.Renderer.AddRenderable(anim1);
 
             Debug.Assert(anim1 != null);
 
-            Texture1.ZIndex = -9999999;
             Texture1.SetAnimation(anim1);
 
             Texture1.StartCurrentAnimation();

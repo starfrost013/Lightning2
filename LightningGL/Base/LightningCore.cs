@@ -1,12 +1,11 @@
-﻿
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// LightningBase
     /// 
     /// The base class for the Lightning client and server.
     /// </summary>
-    public class LightningBase
+    public class LightningCore
     {
         /// <summary>
         /// The current scene that is being run.
@@ -28,7 +27,7 @@ namespace LightningGL
         /// </summary>
         public static List<Scene> Scenes { get; protected set; }
 
-        static LightningBase()
+        static LightningCore()
         {
             // Initialise SDL renderer as a default.
             Renderer = new SdlRenderer();
@@ -50,7 +49,7 @@ namespace LightningGL
             try
             {
                 Logger.Log("Initialising core engine...");
-                
+
                 // Log the sign-on message
                 Logger.Log("Lightning Game Engine", ConsoleColor.Blue);
                 Logger.Log($"Version {LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING}", ConsoleColor.Blue);
@@ -154,6 +153,11 @@ namespace LightningGL
             SDL_Quit();
         }
 
+        public static void RegisterScene(Scene scene)
+        {
+            Scenes.Add(scene);
+        }
+
         /// <summary>
         /// Initialises the Scene Manager.
         /// </summary>
@@ -171,28 +175,10 @@ namespace LightningGL
 
             Scene? startupScene = null;
 
-            foreach (Type t in assembly.GetTypes())
+            foreach (Scene scene in Scenes)
             {
-                if (t.IsSubclassOf(typeof(Scene)))
-                {
-                    Scene? scene = (Scene?)Activator.CreateInstance(t);
-
-                    if (scene != null)
-                    {
-                        Scenes.Add(scene);
-
-                        Logger.Log($"Initialising scene {scene.Name}...");
-
-                        scene.Start();
-
-                        if (GlobalSettings.SceneStartupScene == t.Name) startupScene = scene;
-                    }
-                    else
-                    {
-                        Logger.LogError($"Error initialising SceneManager: Failed to create scene instance!", 130, LoggerSeverity.FatalError);
-                    }
-
-                }
+                scene.Start();
+                if (GlobalSettings.SceneStartupScene == scene.Name) startupScene = scene;
             }
 
             if (Scenes.Count == 0)

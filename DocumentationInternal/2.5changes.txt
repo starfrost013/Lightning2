@@ -1,0 +1,8 @@
+Lightning 2.5
+Changes
+
+2023.03.18:
+* Rename every project and solution file
+* Move to scene registration for NativeAOT purposes
+* NativeAOT now mostly works except animations
+* Pass Texture to Renderer::DrawTexture
