@@ -83,21 +83,21 @@
         /// <exception cref="NCError">An error occurred initialising the performance profiler.</exception>
         internal static void Start()
         {
-            DateTime now = DateTime.Now;
-            FileName = $"{FILENAME_PREFIX}-{now:yyyyMMdd_HHmmss}.csv";
-
-            // delete all csv files in the current directory if the relevant globalsetting is set
-            if (!GlobalSettings.GeneralKeepOldPerformanceProfilerCsvs)
-            {
-                foreach (string fileName in Directory.GetFiles(Directory.GetCurrentDirectory()))
-                {
-                    if (fileName.Contains(FILENAME_PREFIX)
-                        && fileName.Contains(".csv")) File.Delete(fileName);
-                }
-            }
-
             try
             {
+                DateTime now = DateTime.Now;
+                FileName = $"{FILENAME_PREFIX}-{now:yyyyMMdd_HHmmss}.csv";
+
+                // delete all csv files in the current directory if the relevant globalsetting is set
+                if (!GlobalSettings.GeneralKeepOldPerformanceProfilerCsvs)
+                {
+                    foreach (string fileName in Directory.GetFiles(Directory.GetCurrentDirectory()))
+                    {
+                        if (fileName.Contains(FILENAME_PREFIX)
+                            && fileName.Contains(".csv")) File.Delete(fileName);
+                    }
+                }
+
                 FileStream = new StreamWriter(new FileStream(FileName, FileMode.OpenOrCreate));
                 FileStream.WriteLine("Frame,FrametimeMs,Fps");
                 Initialised = true;
@@ -105,7 +105,8 @@
             catch (Exception ex)
             {
                 Initialised = false;
-                Logger.LogError("An error occurred initialising performance profiler. Profiling will not occur.", 70,
+                Logger.LogError("An error occurred initialising the performance profiler (usually this occurs when multiple instances are running). " +
+                    "Profiling will not occur.", 70,
                     LoggerSeverity.Warning, ex, true);
             }
 

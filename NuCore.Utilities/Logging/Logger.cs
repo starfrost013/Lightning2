@@ -1,4 +1,6 @@
-﻿namespace LightningUtil
+﻿using System.IO.Pipes;
+
+namespace LightningUtil
 {
     /// <summary>
     /// NCLogging
@@ -33,33 +35,50 @@
 
         public static void Init()
         {
-            if (string.IsNullOrWhiteSpace(Settings.LogFileName)) Settings.LogFileName = $"NuCore_{DateTime.Now.ToString(Settings.DateString)}.log";
-
-            // delete all old log files
-            if (!Settings.KeepOldLogs)
+            try
             {
-                // delete all .log files
-                foreach (string fileName in Directory.GetFiles(Directory.GetCurrentDirectory()))
-                {
-                    if (fileName.Contains(".log")) File.Delete(fileName);
-                }
-            }
+                if (string.IsNullOrWhiteSpace(Settings.LogFileName)) Settings.LogFileName = $"NuCore_{DateTime.Now.ToString(Settings.DateString)}.log";
 
-            if (Settings.WriteToLog)
-            {
-                if (Settings.LogFileName == string.Empty)
+                // delete all old log files
+                if (!Settings.KeepOldLogs)
                 {
-                    Logger.LogError("Passed empty file name to Logger::Init!", 6, LoggerSeverity.FatalError);
-                    return;
+                    // delete all .log files
+                    foreach (string fileName in Directory.GetFiles(Directory.GetCurrentDirectory()))
+                    {
+                        if (fileName.Contains(".log")) File.Delete(fileName);
+                    }
                 }
 
-                if (File.Exists(Settings.LogFileName)) File.Delete(Settings.LogFileName);
+                if (Settings.WriteToLog)
+                {
+                    if (Settings.LogFileName == string.Empty)
+                    {
+                        Logger.LogError("Passed empty file name to Logger::Init!", 6, LoggerSeverity.FatalError);
+                        return;
+                    }
 
-                LogStream = new StreamWriter(new FileStream(Settings.LogFileName, FileMode.OpenOrCreate));
+                    if (File.Exists(Settings.LogFileName)) File.Delete(Settings.LogFileName);
+
+                    LogStream = new StreamWriter(new FileStream(Settings.LogFileName, FileMode.OpenOrCreate));
+                }
+
+
+                Initialised = true;
             }
+            catch (IOException ex)
+            {
+                // to be safe, don't log when multiple instances running.
+                Settings.WriteToLog = false;
+                LogError("Multiple instances of the applicaiton running, or some other error occurred." +
+                    $"during logger initialisation. Not logging to file, only to console (and old logs may not have been deleted)!\n\n{ex}", 370, LoggerSeverity.Warning, null, true);
 
-            Initialised = true;
-
+                Initialised = true;
+            }
+            catch (Exception ex)
+            {
+                LogError($"A fatal error occurred" +
+                    $"during logger initialisation. The application must exit!\n\n{ex}", 371, LoggerSeverity.FatalError, null, true, true, false);
+            }
         }
 
         internal static void Log(string information, LoggerSeverity severity, bool printMetadata = true, bool logToFile = true, bool logToConsole = true)
@@ -253,6 +272,7 @@
 
             if (exceptionSeverity == LoggerSeverity.FatalError) Environment.Exit(id);
         }
+
 
         /// <summary>
         /// Log and display an error message.
