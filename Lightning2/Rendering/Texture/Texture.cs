@@ -148,12 +148,13 @@
         /// <param name="sizeY">The height of the texture in pixels.</param>
         public Texture(string name, float sizeX, float sizeY, bool isTarget = false, string path = CREATED_TEXTURE_PATH) : base(name)
         {
-            CreateTexture(name, sizeX, sizeY, isTarget, path);
+            CreateTexture(sizeX, sizeY, isTarget, path);
         }
 
-        private void CreateTexture(string name, float sizeX, float sizeY, bool isTarget = false, string path = CREATED_TEXTURE_PATH)
+        private void CreateTexture(float sizeX, float sizeY, bool isTarget = false, string path = CREATED_TEXTURE_PATH)
         {
             Size = new(sizeX, sizeY);
+            SizeInternal = Size; 
 
             IsTarget = isTarget;
 
