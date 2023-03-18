@@ -3,7 +3,7 @@
     /// <summary>
     /// LoggerSettings
     /// 
-    /// Defines NuCore logging settings
+    /// Defines logging settings
     /// </summary>
     public class LoggerSettings
     {
@@ -13,12 +13,12 @@
         public string LogFileName { get; set; }
 
         /// <summary>
-        /// Determines if the log is to be written to.
+        /// Determines if the log file is to be written to.
         /// </summary>
         public bool WriteToLog { get; set; }
 
         /// <summary>
-        /// Determines if old logs will be kept or not.
+        /// Determines if old logs fileswill be kept or not.
         /// </summary>
         public bool KeepOldLogs { get; set; }
 
