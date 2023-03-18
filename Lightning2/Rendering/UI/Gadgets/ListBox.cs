@@ -166,7 +166,7 @@
 
             item.Font = Font;
 
-            Vector2 itemFontSize = TextUtils.GetTextSize(itemFont, item.Text, item.ForegroundColor, item.Style);
+            Vector2 itemFontSize = TextUtils.GetTextSize(itemFont, item.Text, item.ForegroundColor);
 
             // size it to the size of the text in the Y dimension
             BoxSize = new(Size.X, (itemFontSize.Y * ITEM_RECTANGLE_SPACING_FACTOR));

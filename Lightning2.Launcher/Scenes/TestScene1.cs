@@ -303,25 +303,25 @@ namespace LightningGL
 
             Lightning.Renderer.AddRenderable(new TextBlock("text4", "Test1", "Arial.11pt", new(700, 10), Color.FromArgb(255, 255, 255, 255)));
             Lightning.Renderer.AddRenderable(new TextBlock("text5", "Test2", "Arial.11pt", new(700, 30), Color.FromArgb(255, 255, 255, 255), 
-                Color.FromArgb(255, 255, 0, 0), FontStyle.Bold));
+                Color.FromArgb(255, 255, 0, 0)));
             Lightning.Renderer.AddRenderable(new TextBlock("text6", "Test3", "Arial.11pt", new(700, 50), Color.FromArgb(255, 255, 255, 0), 
-                Color.FromArgb(255, 255, 0, 0), FontStyle.Italic));
+                Color.FromArgb(255, 255, 0, 0)));
             Lightning.Renderer.AddRenderable(new TextBlock("text7", "Test4", "Arial.11pt", new(700, 70), Color.FromArgb(255, 255, 255, 255), 
-                Color.FromArgb(255, 255, 0, 0), FontStyle.Underline));
+                Color.FromArgb(255, 255, 0, 0)));
             Lightning.Renderer.AddRenderable(new TextBlock("text8", "Test5", "Arial.11pt", new(700, 90), Color.FromArgb(255, 255, 255, 255), 
-                Color.FromArgb(255, 255, 0, 0), FontStyle.Strikeout, 1));
+                Color.FromArgb(255, 255, 0, 0), 1));
             Lightning.Renderer.AddRenderable(new TextBlock("text9", "Test6", "Arial.11pt", new(700, 110), Color.FromArgb(255, 255, 255, 0), 
-                Color.FromArgb(255, 255, 0, 0), FontStyle.Bold, -1));
+                Color.FromArgb(255, 255, 0, 0), -1));
             Lightning.Renderer.AddRenderable(new TextBlock("text10", "Test7", "Arial.11pt", new(700, 130), Color.FromArgb(255, 255, 255, 255), 
-                Color.FromArgb(255, 255, 0, 0), FontStyle.Bold, 15));
+                Color.FromArgb(255, 255, 0, 0), 15));
             Lightning.Renderer.AddRenderable(new TextBlock("text11", "Test8", "Arial.11pt", new(700, 150), Color.FromArgb(255, 255, 255, 255),
-                Color.FromArgb(255, 255, 0, 0), FontStyle.Bold, -1));
+                Color.FromArgb(255, 255, 0, 0), -1));
             Lightning.Renderer.AddRenderable(new TextBlock("text12", "Test9", "Arial.11pt", new(700, 190), Color.FromArgb(255, 255, 255, 255), 
-                Color.FromArgb(255, 255, 0, 0), FontStyle.Bold, -1));
+                Color.FromArgb(255, 255, 0, 0),  -1));
             Lightning.Renderer.AddRenderable(new TextBlock("text13", "Test10", "Arial.11pt", new(700, 210), Color.FromArgb(255, 255, 255, 255), 
-                Color.FromArgb(255, 255, 0, 0), FontStyle.Bold | FontStyle.Italic | FontStyle.Underline));
+                Color.FromArgb(255, 255, 0, 0)));
             Lightning.Renderer.AddRenderable(new TextBlock("text14", "#[STRING_TEST]\nMulti-line text test\nTest3", "Arial.11pt", new(700, 230), 
-                Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0), FontStyle.Bold | FontStyle.Italic | FontStyle.Underline | FontStyle.Strikeout));
+                Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0)));
 
             Lightning.Renderer.AddRenderable(new TextBlock("text15", "pos_test", "Arial.36pt", new(0, 0), Color.FromArgb(255, 127, 0, 255)));
         }

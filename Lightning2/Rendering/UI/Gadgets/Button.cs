@@ -62,7 +62,7 @@
             // hack for now
             Text ??= string.Empty;
 
-            TextBlock = Lightning.Renderer.AddRenderable(new TextBlock("ButtonText", Text, Font, Position, ForegroundColor, default, Style), this);
+            TextBlock = Lightning.Renderer.AddRenderable(new TextBlock("ButtonText", Text, Font, Position, ForegroundColor, default), this);
             TextBlock.SnapToScreen = SnapToScreen;
 
             Debug.Assert(Rectangle != null);
@@ -90,7 +90,7 @@
             Debug.Assert(curFont != null);
 
             // calculate the initial text position
-            Vector2 textSize = TextUtils.GetTextSize(curFont, Text, ForegroundColor, Style);
+            Vector2 textSize = TextUtils.GetTextSize(curFont, Text, ForegroundColor);
             Rectangle.Position = Position;
             TextBlock.Position = new(Position.X + ((Size.X / 2) - (textSize.X / 2)),
                 Position.Y + ((Size.Y / 2) + (textSize.Y / 2)));

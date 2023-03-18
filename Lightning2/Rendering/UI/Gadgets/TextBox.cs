@@ -146,7 +146,7 @@
             Text ??= string.Empty;
             Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("TextBoxRectangle", Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen), this);
             Cursor = Lightning.Renderer.AddRenderable(new Line("TextBoxLine", default, default, ForegroundColor, SnapToScreen), this);
-            TextBoxText = Lightning.Renderer.AddRenderable(new TextBlock("TextBoxText", Text, Font, Position, ForegroundColor, default, Style), this);
+            TextBoxText = Lightning.Renderer.AddRenderable(new TextBlock("TextBoxText", Text, Font, Position, ForegroundColor, default), this);
             TextBoxText.SnapToScreen = SnapToScreen;    
             Cursor.SnapToScreen = SnapToScreen;
         }
@@ -219,7 +219,6 @@
             if (!string.IsNullOrWhiteSpace(Text))
             {
                 TextBoxText.Text = Text; // maybe put this in the getter
-                TextBoxText.Style = Style;
 
                 if (Font == null)
                 {
@@ -231,7 +230,7 @@
 
                 if (!HideCursor)
                 {
-                    Vector2 fontSize = TextUtils.GetLargestTextSize(Font, Text, ForegroundColor, Style);
+                    Vector2 fontSize = TextUtils.GetLargestTextSize(Font, Text, ForegroundColor);
                     Cursor.Position = new(Position.X + fontSize.X, Position.Y);
                     Cursor.Size = new(1, fontSize.Y); //1px for now
 

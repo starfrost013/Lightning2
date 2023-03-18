@@ -24,8 +24,7 @@ namespace LightningGL
         /// Caches a character for this font.
         /// </summary>
         /// <param name="character">The character to cache.</param>
-        internal static unsafe void CacheCharacter(string fontName, char character, Color foregroundColor,
-            FontStyle style = FontStyle.Default)
+        internal static unsafe void CacheCharacter(string fontName, char character, Color foregroundColor)
         {
             // always a child of a font
 
@@ -105,13 +104,11 @@ namespace LightningGL
                 Offset = new(font.Handle.FaceRec->glyph->bitmap_left,
                 font.Handle.FaceRec->glyph->bitmap_top),
                 Advance = advance,
-                Style = style,
             };
-
 
             if (!isEmpty)
             {
-                glyph = (Glyph?)Lightning.Renderer.TextureFromFreetypeBitmap(bitmap, glyph, foregroundColor, style);
+                glyph = (Glyph?)Lightning.Renderer.TextureFromFreetypeBitmap(bitmap, glyph, foregroundColor);
 
                 Debug.Assert(glyph != null);
 
@@ -121,7 +118,7 @@ namespace LightningGL
             Glyphs.Add(glyph);
         }
 
-        internal static Glyph? QueryCache(string font, char character, Color foregroundColor, FontStyle style,
+        internal static Glyph? QueryCache(string font, char character, Color foregroundColor,
             bool failNow = false)
         {
             // because utf16
@@ -131,22 +128,21 @@ namespace LightningGL
             {
                 if (glyph.Font == font
                     && glyph.Character == character
-                    && glyph.ForegroundColor == foregroundColor 
-                    && glyph.Style == style)
+                    && glyph.ForegroundColor == foregroundColor)
                 {
                     return glyph;
                 }
             }
 
-            Logger.Log($"Glyph cache miss (font: {font}), character {character} (0x{hexChar:X}), style {style}. Caching for next time...");
+            Logger.Log($"Glyph cache miss (font: {font}), character {character} (0x{hexChar:X}). Caching for next time...");
 
             // prevent a stack overflow it will only try and cache it once
             if (!failNow)
             {
-                CacheCharacter(font, character, foregroundColor, style);
+                CacheCharacter(font, character, foregroundColor);
 
                 // try and query the cache again
-                return QueryCache(font, character, foregroundColor, style, true);
+                return QueryCache(font, character, foregroundColor, true);
             }
 
             // don't try and cache a third time if we already tried once

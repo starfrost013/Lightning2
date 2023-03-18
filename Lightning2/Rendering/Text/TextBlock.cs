@@ -42,11 +42,6 @@
         public Color BackgroundColor { get; set; }
 
         /// <summary>
-        /// The style of the text to draw - see <see cref="FontStyle"/>
-        /// </summary>
-        public FontStyle Style { get; set; }
-
-        /// <summary>
         /// The size of the text's outline.
         /// </summary>
         public int OutlineSize { get; set; }
@@ -139,7 +134,7 @@
         }
 
         public TextBlock(string name, string text, string font, Vector2 position, Color foregroundColor, Color backgroundColor = default,
-            FontStyle style = default, int outlineSize = 0, bool snapToScreen = false, bool localise = true, 
+            int outlineSize = 0, bool snapToScreen = false, bool localise = true, 
             int relativeZIndex = DEFAULT_RELATIVE_Z_INDEX) : base(name)
         {
             Text = text;
@@ -147,7 +142,6 @@
             Position = position;
             ForegroundColor = foregroundColor;
             BackgroundColor = backgroundColor;
-            Style = style;
             OutlineSize = outlineSize;
             SnapToScreen = snapToScreen;
             Localise = localise;
@@ -195,7 +189,7 @@
 
                 foreach (char character in line)
                 {
-                    Glyph? glyph = GlyphCache.QueryCache(Font, character, ForegroundColor, Style);
+                    Glyph? glyph = GlyphCache.QueryCache(Font, character, ForegroundColor);
 
                     if (glyph != null)
                     {
@@ -219,36 +213,6 @@
 
                         if (!glyph.IsEmpty) glyph.Draw();
                     }
-                }
-
-                // line is done, draw underline or strikeout
-                if (Style.HasFlag(FontStyle.Underline))
-                {
-                    // create the underline line
-                    UnderlineLine ??= Lightning.Renderer.AddRenderable(new Rectangle("TextUnderlineLine",
-                        default, default, ForegroundColor, true), this);
-
-                    if (UnderlineLine != null)
-                    {
-                        UnderlineLine.Position = new(Position.X + (font.FontSize / 2), Position.Y);
-                        UnderlineLine.Size = new(lineLength + (font.FontSize / 2), GlobalSettings.GraphicsUnderlineThickness);
-                        UnderlineLine.Color = ForegroundColor; // update colour
-                    }
-                }
-
-                if (Style.HasFlag(FontStyle.Strikeout))
-                {
-                    // create the strikeout line
-                    StrikeoutLine ??= Lightning.Renderer.AddRenderable(new Rectangle("TextStrikeoutLine",
-                        default, default, ForegroundColor, true), this);
-
-                    if (StrikeoutLine != null)
-                    {
-                        StrikeoutLine.Position = new(Position.X + (font.FontSize / 2), Position.Y - (maxVerticalLineSize / 2));
-                        StrikeoutLine.Size = new(lineLength, GlobalSettings.GraphicsStrikeoutThickness);
-                        StrikeoutLine.Color = ForegroundColor; // update colour
-                    }
-                    
                 }
 
                 // line is done

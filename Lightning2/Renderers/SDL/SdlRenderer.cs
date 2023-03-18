@@ -801,7 +801,7 @@ namespace LightningGL
             return handle;
         }
 
-        internal unsafe override Texture? TextureFromFreetypeBitmap(FT_Bitmap bitmap, Texture texture, Color foregroundColor, FontStyle style)
+        internal unsafe override Texture? TextureFromFreetypeBitmap(FT_Bitmap bitmap, Texture texture, Color foregroundColor)
         {
             if (!texture.Loaded)
             {
