@@ -376,9 +376,15 @@ Everything that matters to the api has to go here
 2023.03.08 - 2023.03.12:
 * Continued stabilisation
 * Fix event mouse handling
+* Public renderable ctors
+* Correct text positioning
+* JsonIgnore all animations
 
 2023.03.16:
-* Fix textbox selected item handling 
+* Fix textbox selected item text drawwing
+
+2023.03.18:
+* Update to SDL 2.26.4
 
 * todo:
 	- setting load order

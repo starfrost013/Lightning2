@@ -474,7 +474,7 @@
             Logger.LogError($"UnlockTexture not implemented for renderer {GetType().Name!}", 225, LoggerSeverity.FatalError);
         }
 
-        internal virtual void DrawTexture(params object[] args)
+        internal virtual void DrawTexture(Texture texture)
         {
             Logger.LogError($"DrawTexture not implemented for renderer {GetType().Name!}", 222, LoggerSeverity.FatalError);
         }

@@ -26,6 +26,9 @@
         /// </summary>
         private IniSection? CurSection { get; set; }
 
+        /// <summary>
+        /// Constructor for <see cref="IniFile"/>
+        /// </summary>
         public IniFile()
         {
             Sections = new List<IniSection>();
@@ -35,8 +38,7 @@
         /// Parses an INI file at <paramref name="path"/>.
         /// </summary>
         /// <param name="path">The path of the INI file that is to be parsed.</param>
-        /// <returns></returns>
-        /// <exception cref="NCError">An error occurred during the INI parsing. Extended error information is present in the <see cref="NCError.Description"/> property.</exception>
+        /// <returns>An <see cref="IniFile"/> instance containing the loaded INI file if successful, <c>null</c> otherwise.</returns>
         public static IniFile? Parse(string path)
         {
             if (!File.Exists(path)) Logger.LogError($"INI parsing error: Cannot parse INI file at {path}: File not found!", 21,

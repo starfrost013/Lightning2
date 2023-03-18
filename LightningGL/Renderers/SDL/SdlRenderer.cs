@@ -877,37 +877,14 @@ namespace LightningGL
             }
         }
 
-        internal override void DrawTexture(params object[] args)
+        internal override void DrawTexture(Texture texture)
         {
-            // Parameters:
-            // Argument 0 - Vector2 - viewport start
-            // Argument 1 - Vector2 - viewport end
-            // Argument 2 - Vector2 - render position
-            // Argument 3 - Vector2 - size
-            // Argument 4 - nint - Handle
-            // Argument 5 - Vector2 - Repeat
-            
-            int numberOfArgs = 6;
-
-            if (args.Length != numberOfArgs
-                || args[0] is not Vector2
-                || args[1] is not Vector2
-                || args[2] is not Vector2
-                || args[3] is not Vector2
-                || args[4] is not nint
-                || args[5] is not Vector2)
-            {
-                Logger.LogError($"CODE IS BORKED! Incorrect parameter types or invalid number of parameters to SdlRenderer::DrawTexture!\n\n" +
-                    $"THIS IS AN ENGINE BUG PLEASE FILE A BUG REPORT!", 229, LoggerSeverity.FatalError);
-                return;
-            }
-
-            Vector2 viewportStart = (Vector2)args[0];
-            Vector2 viewportEnd = (Vector2)args[1];
-            Vector2 renderPosition = (Vector2)args[2];
-            Vector2 size = (Vector2)args[3];
-            nint handle = (nint)args[4];
-            Vector2 repeat = (Vector2)args[5];
+            Vector2 viewportStart = texture.ViewportStart;
+            Vector2 viewportEnd = texture.ViewportEnd;
+            Vector2 renderPosition = texture.RenderPosition;
+            Vector2 size = texture.Size;
+            nint handle = texture.Handle;
+            Vector2 repeat = texture.Repeat; 
 
             SDL_Rect sourceRect = new();
             SDL_FRect destinationRect = new();

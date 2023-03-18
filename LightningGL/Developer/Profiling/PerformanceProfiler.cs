@@ -80,7 +80,6 @@
         /// <summary>
         /// Initialises the performance profiler.
         /// </summary>
-        /// <exception cref="NCError">An error occurred initialising the performance profiler.</exception>
         internal static void Start()
         {
             DateTime now = DateTime.Now;

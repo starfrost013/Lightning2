@@ -62,7 +62,7 @@
 
         }
 
-        internal static void Log(string information, LoggerSeverity severity, bool printMetadata = true, bool logToFile = true)
+        internal static void Log(string information, LoggerSeverity severity, bool printMetadata = true, bool logToFile = true, bool logToConsole = true)
         {
             if (!Initialised) return;
 
@@ -70,22 +70,22 @@
             {
 #if !FINAL
                 case LoggerSeverity.Message:
-                    Log(information, ConsoleColor.White, logToFile, printMetadata);
+                    Log(information, ConsoleColor.White, printMetadata, logToFile, logToConsole);
                     return;
 #endif
                 case LoggerSeverity.Warning:
-                    Log(information, ConsoleColor.Yellow, logToFile, printMetadata);
+                    Log(information, ConsoleColor.Yellow, printMetadata, logToFile, logToConsole);
                     return;
                 case LoggerSeverity.Error:
-                    Log(information, ConsoleColor.Red, logToFile, printMetadata);
+                    Log(information, ConsoleColor.Red, printMetadata, logToFile, logToConsole);
                     return;
                 case LoggerSeverity.FatalError:
-                    Log(information, ConsoleColor.DarkRed, logToFile, printMetadata);
+                    Log(information, ConsoleColor.DarkRed, printMetadata, logToFile, logToConsole);
                     return;
             }
         }
 
-        public static void Log(string information, ConsoleColor color = ConsoleColor.White, bool printMetadata = true, bool logToFile = true)
+        public static void Log(string information, ConsoleColor color = ConsoleColor.White, bool printMetadata = true, bool logToFile = true, bool logToConsole = true)
         {
             if (!Initialised)
             {
@@ -111,7 +111,7 @@
                 // as far as i know this shouldn't happen but ignore if it does
                 if (stackFrame == null)
                 {
-                    Logger.LogError("Failed to get stack frame for logging, ignoring", 302, LoggerSeverity.Error, null, true);
+                    LogError("Failed to get stack frame for logging, ignoring", 302, LoggerSeverity.Error, null, true);
                     return; 
                 }
 
@@ -121,7 +121,7 @@
                 if (method == null
                     || method.ReflectedType == null)
                 {
-                    Logger.LogError("Failed to get stack frame for logging, ignoring", 303, LoggerSeverity.Error, null, true);
+                    LogError("Failed to get stack frame for logging, ignoring", 303, LoggerSeverity.Error, null, true);
                     return;
                 }
 
@@ -173,15 +173,15 @@
 
             Console.ForegroundColor = color;
 
-            Console.Write(finalLogText);
+            if (logToConsole) Console.Write(finalLogText);
 
             Console.ForegroundColor = ConsoleColor.White;
 #endif
         }
 
-        public static void Log(string prefix, string information, ConsoleColor color = ConsoleColor.White, bool printMetadata = true, bool logToFile = true)
+        public static void Log(string prefix, string information, ConsoleColor color = ConsoleColor.White, bool printMetadata = true, bool logToFile = true, bool logToConsole = true)
         {
-            Log($"[{prefix}]: {information}", color, printMetadata, logToFile);
+            Log($"[{prefix}]: {information}", color, printMetadata, logToFile, logToConsole);
         }
 
         /// <summary>
@@ -193,7 +193,7 @@
         /// <param name="baseException">The .NET exception that caused the error, if present.</param>
         /// <param name="dontShowMessageBox">Determines if a message box was shown or not</param>
         public static void LogError(string description, int id, LoggerSeverity exceptionSeverity = LoggerSeverity.Message,
-            Exception? baseException = null, bool dontShowMessageBox = false)
+            Exception? baseException = null, bool dontShowMessageBox = false, bool printMetadata = true, bool logToFile = true, bool logToConsole = true)
         {
             StringBuilder stringBuilder = new();
 
@@ -204,7 +204,7 @@
 
             string errorString = stringBuilder.ToString();
 
-            Logger.Log($"{exceptionSeverity}:\n{errorString}", exceptionSeverity);
+            Log($"{exceptionSeverity}:\n{errorString}", exceptionSeverity, printMetadata, logToFile, logToConsole);
 
             // display message box
             if (AssemblyUtils.NCLightningExists
@@ -215,7 +215,7 @@
 
                 if (lightningUtilName == null)
                 {
-                    Logger.Log("Failed to load NCMessageBox type through reflection (ignoring)", ConsoleColor.Yellow);
+                    Log("Failed to load NCMessageBox type through reflection (ignoring)", ConsoleColor.Yellow, printMetadata, logToFile, logToConsole);
                     return;
                 }
 
@@ -223,7 +223,7 @@
 
                 if (msgBoxOk == null)
                 {
-                    Logger.Log("Failed to display error box (ignoring)", ConsoleColor.Yellow);
+                    Log("Failed to display error box (ignoring)", ConsoleColor.Yellow, printMetadata, logToFile, logToConsole);
                     return;
                 }
 

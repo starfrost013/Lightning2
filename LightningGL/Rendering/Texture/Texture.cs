@@ -2,10 +2,8 @@
 {
     /// <summary>
     /// Texture
-    /// 
-    /// February 11, 2022
-    /// 
-    /// A texture api allowing modification of individual pixels
+    ///  
+    /// A texture API allowing modification of individual pixels
     /// </summary>
     public unsafe class Texture : Renderable
     {
@@ -57,6 +55,12 @@
         /// If NULL or zero, the texture will be drawn only once.
         /// </summary>
         public Vector2 Repeat { get; set; }
+
+        /// <summary>
+        /// Internal size of the unmanaged texture used here.
+        /// Used to allow scaling without crashing.
+        /// </summary>
+        internal Vector2 SizeInternal { get; private set; }
 
         /// <summary>
         /// The start of the viewport of this texture.
@@ -139,24 +143,28 @@
         /// <param name="sizeY">The height of the texture in pixels.</param>
         public Texture(string name, float sizeX, float sizeY, bool isTarget = false, string path = CREATED_TEXTURE_PATH) : base(name)
         {
-            CreateTexture(name, sizeX, sizeY, isTarget, path);
-        }
-
-        private void CreateTexture(string name, float sizeX, float sizeY, bool isTarget = false, string path = CREATED_TEXTURE_PATH)
-        {
             Size = new(sizeX, sizeY);
-
-            IsTarget = isTarget;
 
             if (Size == default) Logger.LogError($"Error creating texture: Must have a size!", 20, LoggerSeverity.FatalError);
 
-            Handle = Lightning.Renderer.CreateTexture((int)sizeX, (int)sizeY, isTarget);
+            SizeInternal = Size;
+            IsTarget = isTarget;
+            Path = path;
+
+            CreateOrRecreateTexture();
+        }
+
+        private void CreateOrRecreateTexture() 
+        {
+            Handle = Lightning.Renderer.CreateTexture((int)Size.X, (int)Size.Y, IsTarget);
             FormatHandle = Lightning.Renderer.AllocTextureFormat();
             Loaded = Handle != nint.Zero
                 && FormatHandle != nint.Zero;
-            Path = path;
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override void Create()
         {
             // not great
@@ -169,7 +177,7 @@
                 // missing texture will be loaded if it fails to load
 
                 Handle = Lightning.Renderer.LoadTexture(Path);
-                Loaded = (Handle != default);
+                Loaded = Handle != default;
             }
         }
 
@@ -180,7 +188,6 @@
         /// <param name="y">The Y coordinate of the pixel to acquire.</param>
         /// <param name="unlockNow">Unlocks the texture immediately - use this if you do not need to draw any more pixels</param>
         /// <returns>A <see cref="Color"/> instance containing the color data of the pixel acquired</returns>
-        /// <exception cref="NCError">An invalid coordinate was supplied or the texture does not have a valid size.</exception>
         public virtual Color GetPixel(int x, int y, bool unlockNow = false)
         {
             // do not lock it if we are already locked
@@ -209,21 +216,21 @@
         /// <param name="x">The X coordinate of the pixel to set.</param>
         /// <param name="y">The Y coordinate of the pixel to set.</param>
         /// <param name="unlockNow">Unlocks the texture immediately - use this if you do not need to draw any more pixels</param>
-        /// <exception cref="NCError">An invalid coordinate was supplied or the texture does not have a valid size.</exception>
         public virtual void SetPixel(int x, int y, Color color, bool unlockNow = false)
         {
             // do not lock it if we are already locked
             if (!Locked) Lock();
 
             if (x < 0 || y < 0
-                || x >= Size.X || y >= Size.Y) Logger.LogError($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), " +
-                    $"min (0,0). max ({Size.X},{Size.Y}) ", 15, LoggerSeverity.FatalError);
+                || x >= SizeInternal.X || y >= SizeInternal.Y)
+            {
+                return;
+            }
 
-            int pixelToGet = (y * (int)Size.X) + x;
-            int maxPixelId = (int)((Size.X * 4) * Size.Y); 
+            int pixelToGet = (y * (int)SizeInternal.X) + x;
+            int maxPixelId = (int)(SizeInternal.X * 4 * SizeInternal.Y);
 
-            if (pixelToGet > maxPixelId) Logger.LogError($"Attempted to acquire invalid pixel coordinate for texture with path {Path} @ ({x},{y}), " +
-                $"min (0,0). max ({Size.X},{Size.Y}) (Pixel ID {pixelToGet} > {maxPixelId}!)", 16, LoggerSeverity.FatalError);
+            if (pixelToGet > maxPixelId) return;
 
             // use pixeltoget to twiddle the pixel that we need using the number we calculated before
             Pixels[pixelToGet] = color.ToArgb();
@@ -235,7 +242,6 @@
         /// <summary>
         /// Locks this texture so that its pixels can be modified.
         /// </summary>
-        /// <exception cref="NCError">An error occurred locking this pixel's texture.</exception>
         public void Lock()
         {
             // do nothing if we are calling this on an already locked texture
@@ -270,7 +276,6 @@
         /// <summary>
         /// Draws this texture instance.
         /// </summary>
-        /// <exception cref="NCError">An error occurred rendering the texture. Extended information is available in <see cref="NCError.Description"/></exception>
         public override void Draw()
         {
             if (!Loaded
@@ -282,7 +287,7 @@
             // failsafe just in case of any weird stuff happening
             if (RenderPosition == default) RenderPosition = Position;
 
-            Lightning.Renderer.DrawTexture(ViewportStart, ViewportEnd, RenderPosition, Size, Handle, Repeat);
+            Lightning.Renderer.DrawTexture(this);
         }
 
         /// <summary>
@@ -320,7 +325,6 @@
             {
                 Lightning.Renderer.SetTextureBlendMode(Handle, blendMode);
             }
-            
         }
 
         /// <summary>

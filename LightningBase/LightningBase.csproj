@@ -60,4 +60,8 @@
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="SDL2_net\" />
+  </ItemGroup>
 </Project>
