@@ -8,12 +8,6 @@ namespace LightningGL
     /// </summary>
     public class Client : LightningBase
     {
-        public NetworkClient NetworkClient { get; set; }
-
-        public Client() : base()
-        {
-            NetworkClient = new NetworkClient($"Test Client {Random.Shared.Next(100000, 999999)}");
-        }
 
         internal override void Init()
         {
@@ -54,17 +48,5 @@ namespace LightningGL
                 Main();
             }
         }
-
-        internal override void Main()
-        {
-            if (NetworkClient.Connected)
-            {
-                NetworkClient.Main();
-            }
-
-            base.Main();
-        }
-
-        internal void Connect(string serverIp) => NetworkClient.Connect(serverIp);
     }
 }

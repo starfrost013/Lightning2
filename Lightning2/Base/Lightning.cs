@@ -11,76 +11,22 @@
     {
         public static Client Client { get; private set; }
 
-        public static Server Server { get; private set; }
 
         #region Asset managers (these are here for compatibility)
 
-        public static Renderer Renderer
-        {
-            get
-            {
-                if (Client.Initialised)
-                {
-                    return Client.Renderer;
-                }
-                else
-                {
-                    return Server.Renderer;
-                }
-            }
-        }
+        public static Renderer Renderer => Client.Renderer;
 
-        public static Scene? CurrentScene
-        {
-            get
-            {
-                if (Client.Initialised)
-                {
-                    return Client.CurrentScene;
-                }
-                else
-                {
-                    return Server.CurrentScene;
-                }
-            }
-        }
+        public static Scene? CurrentScene => Client.CurrentScene;
 
-        public static TextureAssetManager TextureManager
-        {
-            get
-            {
-                if (Client.Initialised)
-                {
-                    return Client.TextureManager;
-                }
-                else
-                {
-                    return Server.TextureManager;
-                }
-            }
-        }
+        public static TextureAssetManager TextureManager => Client.TextureManager;
 
-        public static LightAssetManager LightManager
-        {
-            get
-            {
-                if (Client.Initialised)
-                {
-                    return Client.LightManager;
-                }
-                else
-                {
-                    return Server.LightManager;
-                }
-            }
-        }
+        public static LightAssetManager LightManager => Client.LightManager;
 
         #endregion
 
         static Lightning()
         {
             Client = new Client();
-            Server = new Server();
 
             // Set culture to invariant so things like different decimal symbols don't crash
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
@@ -102,53 +48,10 @@
             }
         }
 
-        public static void InitServer()
-        {
-            try
-            {
-                Server.Init();
-            }
-            catch (Exception err)
-            {
-                Logger.LogError($"An unknown fatal error occurred during server initialisation. The installation may be corrupted!",
-                    0x0001DEAD, LoggerSeverity.FatalError, err);
-            }
-        }
+        public static void Shutdown() => Client.Shutdown();
 
-        public static void Shutdown()
-        {
-            if (Client.Initialised)
-            {
-                Client.Shutdown();
-            }
-            else
-            {
-                Server.Shutdown();
-            }
-        }
+        public static void SetCurrentScene(string sceneName) => Client.SetCurrentScene(sceneName);
 
-        public static void SetCurrentScene(string sceneName)
-        {
-            if (Client.Initialised)
-            {
-                Client.SetCurrentScene(sceneName);
-            }
-            else
-            {
-                Server.SetCurrentScene(sceneName);
-            }
-        }
-
-        public static void SetCurrentScene(Scene scene)
-        {
-            if (Client.Initialised)
-            {
-                Client.SetCurrentScene(scene);
-            }
-            else
-            {
-                Server.SetCurrentScene(scene);
-            }
-        }
+        public static void SetCurrentScene(Scene scene) => Client.SetCurrentScene(scene);
     }
 }

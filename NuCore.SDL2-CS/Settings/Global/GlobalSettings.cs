@@ -41,11 +41,6 @@
         public static bool GeneralProfilePerformance { get; internal set; }
 
         /// <summary>
-        /// Bring up the "About Lightning" messagebox when the Shift-F9 combination is pressed.
-        /// </summary>
-        public static bool GeneralEngineAboutScreenOnShiftF9 { get; internal set; }
-
-        /// <summary>
         /// Delete files that have been uncompressed from the WAD on exit.
         /// </summary>
         public static bool GeneralDeleteUnpackedFilesOnExit { get; internal set; }
@@ -199,31 +194,6 @@
         /// </summary>
         public static Renderers GraphicsRenderer { get; internal set; }
 
-        /// <summary>
-        /// How much the bold font style horizontally emboldens font bitmaps.
-        /// </summary>
-        public static int GraphicsBoldFactorX { get; internal set; }
-
-        /// <summary>
-        /// How much the bold font style vertically emboldens font bitmaps.
-        /// </summary>
-        public static int GraphicsBoldFactorY { get; internal set; }
-
-        /// <summary>
-        /// The angle applied to italic text.
-        /// </summary>
-        public static int GraphicsItalicAngle { get; internal set; }
-
-        /// <summary>
-        /// The underline line thickness.
-        /// </summary>
-        public static int GraphicsUnderlineThickness { get; internal set; }
-
-        /// <summary>
-        /// The strikeout line thickness.
-        /// </summary>
-        public static int GraphicsStrikeoutThickness { get; internal set; }
-
         #endregion
 
         #region System requirements
@@ -288,27 +258,6 @@
         /// The number of simultaneous audio files that can be played.
         /// </summary>
         public static int AudioMaxSimultaneousAudioFiles { get; set; }
-
-        #endregion
-
-        #region Network settings (to be moved to LightningServer.ini later)
-
-        /// <summary>
-        /// <para>The network master server IP address.</para>
-        /// <para>The default value is https://lightningpowered.net:7801 - port 7800 is used for game servers and 7801 for the master server</para>
-        /// </summary>
-        public static string NetworkMasterServer { get; set; }
-
-        /// <summary>
-        /// <para>The network default port.</para>
-        /// <para>The default value is 7800.</para>
-        /// </summary>
-        public static ushort NetworkDefaultPort { get; set; }
-
-        /// <summary>
-        /// <para>The number of milliseconds required before a client will timeout.</para>
-        /// </summary>
-        public static int NetworkKeepAliveMs { get; set; }
 
         #endregion
 
@@ -441,7 +390,6 @@
 
             GeneralShowDebugInfo = generalShowDebugInfoValue;
             GeneralProfilePerformance = generalProfilePerfValue;
-            GeneralEngineAboutScreenOnShiftF9 = generalAboutScreenOnF9Value;
             GeneralDeleteUnpackedFilesOnExit = generalDeleteUnpackedFilesOnExitValue;
             GeneralDontSaveLocalSettingsOnShutdown = generalDontSaveLocalSettingsOnShutdownValue;
             GeneralDontSaveGlobalSettingsOnShutdown = generalDontSaveGlobalSettingsOnShutdownValue;
@@ -478,11 +426,6 @@
                 _ = int.TryParse(graphicsSection.GetValue("PositionX"), out var graphicsPositionXValue);
                 _ = int.TryParse(graphicsSection.GetValue("PositionY"), out var graphicsPositionYValue);
                 _ = Enum.TryParse(graphicsSection.GetValue("Renderer"), true, out Renderers graphicsRendererValue);
-                _ = int.TryParse(graphicsSection.GetValue("BoldFactorX"), out var graphicsBoldFactorXValue);
-                _ = int.TryParse(graphicsSection.GetValue("BoldFactorY"), out var graphicsBoldFactorYValue);
-                _ = int.TryParse(graphicsSection.GetValue("ItalicAngle"), out var graphicsItalicAngleValue);
-                _ = int.TryParse(graphicsSection.GetValue("UnderlineThickness"), out var graphicsUnderlineThicknessValue);
-                _ = int.TryParse(graphicsSection.GetValue("StrikeoutThickness"), out var graphicsStrikeoutThicknessValue);
                 GraphicsWindowTitle = graphicsSection.GetValue("WindowTitle");
 
                 if (graphicsMaxFpsValue <= 0) graphicsMaxFpsValue = DEFAULT_MAX_FPS;
@@ -491,15 +434,6 @@
 
                 // set the default tick speed value
                 if (graphicsTickSpeedValue <= 0) graphicsTickSpeedValue = DEFAULT_GRAPHICS_TICK_SPEED;
-
-                // set minimum values
-                if (graphicsBoldFactorXValue <= 0) graphicsBoldFactorXValue = DEFAULT_BOLD_FACTOR_X;
-                if (graphicsBoldFactorYValue <= 0) graphicsBoldFactorYValue = DEFAULT_BOLD_FACTOR_Y;
-                if (graphicsItalicAngleValue <= 0
-                    || graphicsItalicAngleValue >= 360) graphicsItalicAngleValue = DEFAULT_ITALIC_ANGLE_DEGREES;
-                if (graphicsUnderlineThicknessValue <= 0) graphicsUnderlineThicknessValue = DEFAULT_UNDERLINE_THICKNESS;
-                if (graphicsStrikeoutThicknessValue <= 0) graphicsStrikeoutThicknessValue = DEFAULT_STRIKEOUT_THICKNESS;
-
                 // Set the actual GlobalSettings values.
                 GraphicsMaxFPS = graphicsMaxFpsValue;
                 GraphicsResolutionX = graphicsResolutionXValue;
@@ -508,11 +442,6 @@
                 if (graphicsRenderFlagsValue != default) GraphicsRenderFlags = graphicsRenderFlagsValue;
                 GraphicsDontCullRenderables = graphicsDontCullRenderablesValue;
                 if (graphicsRendererValue != default) GraphicsRenderer = graphicsRendererValue;
-                GraphicsBoldFactorX = graphicsBoldFactorXValue;
-                GraphicsBoldFactorY = graphicsBoldFactorYValue;
-                GraphicsItalicAngle = graphicsItalicAngleValue;
-                GraphicsUnderlineThickness = graphicsUnderlineThicknessValue;
-                GraphicsStrikeoutThickness = graphicsStrikeoutThicknessValue;
 
                 // this is really bad and has to be set here
                 // (because it uses other globalsettings like resolution so you need to load it after resolution. THIS IS A DESIGN PROBLEM, FIX IT)
@@ -566,33 +495,6 @@
                 if (audioFormatValue != default) AudioFormat = audioFormatValue;
                 if (audioChunkSizeValue > 0) AudioChunkSize = audioChunkSizeValue;
                 if (audioMaxSimultaneousAudioFilesValue > 0) AudioMaxSimultaneousAudioFiles = audioMaxSimultaneousAudioFilesValue;
-            }
-
-            NetworkMasterServer = DEFAULT_NETWORK_MASTER_SERVER;
-            NetworkDefaultPort = DEFAULT_NETWORK_PORT;
-            NetworkKeepAliveMs = DEFAULT_NETWORK_KEEP_ALIVE_MS;
-            NetworkDefaultPort = DEFAULT_NETWORK_PORT;
-
-            // Load the network settings, if they are present
-            if (networkSection != null)
-            {
-                string networkMasterServer = networkSection.GetValue("MasterServer");
-                string networkDefaultPort = networkSection.GetValue("Port");
-                string networkKeepAliveMs = networkSection.GetValue("KeepAliveMs");
-
-                if (!string.IsNullOrWhiteSpace(networkMasterServer)) NetworkMasterServer = networkMasterServer;
-
-                // don't block http or dns
-                _ = ushort.TryParse(networkDefaultPort, out var networkDefaultPortValue);
-
-                // don't allow some common ports
-                if (networkDefaultPortValue > 0 
-                    && networkDefaultPortValue != 53
-                    && networkDefaultPortValue != 80
-                    && networkDefaultPortValue != 443) NetworkDefaultPort = networkDefaultPortValue;
-
-                _ = int.TryParse(networkKeepAliveMs, out var networkKeepAliveMsValue);
-                if (networkKeepAliveMsValue > 0) NetworkKeepAliveMs = networkKeepAliveMsValue;
             }
 
             // debugdisabled = false
