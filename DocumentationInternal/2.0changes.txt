@@ -373,6 +373,13 @@ Everything that matters to the api has to go here
 * Added static Key class methods to get the current CTRL, ALT, and SCROLL state
 * Added Key class methods for caps lock, scroll lock, and num lock (both at time of key class creation and now)
 
+2023.03.08 - 2023.03.12:
+* Continued stabilisation
+* Fix event mouse handling
+
+2023.03.16:
+* Fix textbox selected item handling 
+
 * todo:
 	- setting load order
 	- DEATH to DUPLICATE CODE

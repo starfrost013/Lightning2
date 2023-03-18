@@ -143,7 +143,7 @@
   <ItemGroup>
     <ProjectReference Include="..\LightningPackager\LightningPackager.csproj" />
     <ProjectReference Include="..\LightningBase\LightningBase.csproj" />
-    <ProjectReference Include="..\LightningUtil.Lightning\LightningUtilSdl.csproj" />
+    <ProjectReference Include="..\LightningUtilSdl\LightningUtilSdl.csproj" />
     <ProjectReference Include="..\LightningUtil\LightningUtil.csproj" />
   </ItemGroup>
 
