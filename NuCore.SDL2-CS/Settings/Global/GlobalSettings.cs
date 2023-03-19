@@ -283,12 +283,6 @@
 
         private const int DEFAULT_AUDIO_CHUNK_SIZE = 2048;
 
-        private const string DEFAULT_NETWORK_MASTER_SERVER = "https://lightningpowered.net:7801";
-
-        private const int DEFAULT_NETWORK_PORT = 7800;
-
-        private const int DEFAULT_NETWORK_KEEP_ALIVE_MS = 500;
-
         private const string DEFAULT_DEBUG_KEY = "F9";
 
         private const DebugState DEFAULT_DEBUG_STATE = DebugState.Both;
@@ -302,16 +296,6 @@
         private const int DEFAULT_DEBUG_FONT_SIZE_LARGE = 36;
 
         private const bool DEFAULT_SHOW_ABOUT_SCREEN_ON_SHIFT_F9 = true;
-
-        private const int DEFAULT_BOLD_FACTOR_X = 4;
-
-        private const int DEFAULT_BOLD_FACTOR_Y = 4;
-
-        private const int DEFAULT_ITALIC_ANGLE_DEGREES = 12;
-
-        private const int DEFAULT_UNDERLINE_THICKNESS = 1;
-
-        private const int DEFAULT_STRIKEOUT_THICKNESS = 1;
 
         private const string DEFAULT_DEBUG_CONSOLE_KEY = "F10";
         private static int DEFAULT_DEBUG_CONSOLE_SIZE_X => DEFAULT_GRAPHICS_RESOLUTION_X;
@@ -345,7 +329,6 @@
             IniSection requirementsSection = IniFile.GetSection("Requirements");
             IniSection sceneSection = IniFile.GetSection("Scene");
             IniSection audioSection = IniFile.GetSection("Audio");
-            IniSection networkSection = IniFile.GetSection("Network");
             IniSection debugSection = IniFile.GetSection("Debug");
 
             if (generalSection == null)

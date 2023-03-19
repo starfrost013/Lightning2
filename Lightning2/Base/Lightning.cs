@@ -11,7 +11,6 @@
     {
         public static Client Client { get; private set; }
 
-
         #region Asset managers (these are here for compatibility)
 
         public static Renderer Renderer => Client.Renderer;
