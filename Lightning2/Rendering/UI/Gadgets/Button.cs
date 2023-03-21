@@ -94,6 +94,7 @@
             Rectangle.Position = Position;
             TextBlock.Position = new(Position.X + ((Size.X / 2) - (textSize.X / 2)),
                 Position.Y + ((Size.Y / 2) + (textSize.Y / 2)));
+            TextBlock.Text = Text; 
         }
     }
 }

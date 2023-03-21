@@ -1,13 +1,11 @@
-﻿using static LightningBase.SDL; // not required for project template
-using LightningGL;
-using static LightningGL.Lightning; // not required for project template
-using System.Drawing;
-using System.Numerics;
+﻿using LightningUtil;
 
 namespace BasicScene
 {
     public class MainScene : Scene
     {
+        private Button? Button1 { get; set; }
+
         public override void Start()
         {
             
@@ -20,7 +18,28 @@ namespace BasicScene
 
         public override void SwitchTo(Scene? oldScene)
         {
-            
+            Button1 = new Button("Button1", "DebugFont") // 150 char capacirty
+            {
+                Size = new(100, 30),
+                BackgroundColor = Color.White,
+                PressedColor = Color.Gray,
+                HoverColor = Color.LightGray,
+                BorderColor = Color.Yellow,
+                BorderSize = new(3, 3),
+                ForegroundColor = Color.Black,
+                Position = new(100, 300),
+                Text = "Button 1",
+                Filled = true
+            };
+
+            // register event handlers
+            Button1.OnMouseDown += OnMouseDown;
+            Button1.OnMouseUp += OnMouseUp;
+
+            Lightning.Renderer.AddRenderable(Button1);
+
+            Lightning.Renderer.AddRenderable(new TextBlock("Text1", "UI example", "DebugFont", new(100, 100), Color.White)); // no fonts loaded so we use the debug font
+
         }
 
         public override void SwitchFrom(Scene newScene)
@@ -30,7 +49,24 @@ namespace BasicScene
 
         public override void Render()
         {
-            Lightning.Renderer.AddRenderable(new TextBlock("Scene1", "Hello from MainScene", "DebugFont", new Vector2(300, 300), Color.Red));
+
+        }
+
+        void OnMouseDown(InputBinding? binding, MouseButton button)
+        {
+            Debug.Assert(Button1 != null);
+            // call base handler
+            Button1.MousePressed(binding, button);
+            Logger.Log("Button held down");
+        }
+
+        void OnMouseUp(InputBinding? binding, MouseButton button)
+        {
+            Debug.Assert(Button1 != null);
+            // call base handler
+            Button1.MouseReleased(binding, button);
+            Logger.Log("Button no longer held down");
+
         }
     }
 }
