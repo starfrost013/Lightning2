@@ -317,6 +317,9 @@ namespace LightningGL
 
         internal override void DrawEllipse(int x, int y, int rx, int ry, byte r, byte g, byte b, byte a, bool filled)
         {
+            // Honestly, I don't know what this code does, really.
+            // It's some public domain code manually transpiled it from C to C#, it makes about as much sense to me as it does to you.
+
             if (filled)
             {
                 int rxi, ryi;

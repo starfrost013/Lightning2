@@ -2,7 +2,6 @@
 {
     public class Line : Primitive
     {
-
         public Line(string name, Vector2 start, Vector2 end, Color color, bool snapToScreen = false) : base(name)
         {
             Color = color;
@@ -11,6 +10,9 @@
             SnapToScreen = snapToScreen;
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override void Draw()
         {
             // call into the renderer to draw a line
@@ -19,12 +21,12 @@
             if (BorderSize.X > 0
                 && BorderSize.Y > 0)
             {
-                Lightning.Renderer.DrawLine((int)RenderPosition.X - (int)BorderSize.X, (int)RenderPosition.Y - (int)BorderSize.Y, 
-                    (int)RenderPosition.X + (int)Size.X + (int)BorderSize.X, (int)RenderPosition.Y + (int)Size.Y + (int)BorderSize.Y, 
+                Lightning.Renderer.DrawLine((int)RenderPosition.X - ((int)BorderSize.X + 1), (int)RenderPosition.Y - ((int)BorderSize.Y + 1), 
+                    (int)RenderPosition.X + ((int)Size.X - 1) + ((int)BorderSize.X - 1), (int)RenderPosition.Y + ((int)Size.Y - 1) + ((int)BorderSize.Y + 1), 
                     BorderColor.R, BorderColor.G, BorderColor.B, BorderColor.A);
             }
 
-            Lightning.Renderer.DrawLine((int)RenderPosition.X, (int)RenderPosition.Y, (int)RenderPosition.X + (int)Size.X, (int)RenderPosition.Y + (int)Size.Y, 
+            Lightning.Renderer.DrawLine((int)RenderPosition.X, (int)RenderPosition.Y, (int)RenderPosition.X + (int)(Size.X - 1), (int)RenderPosition.Y + (int)(Size.Y - 1), 
                 Color.R, Color.G, Color.B, Color.A);
         }
     }

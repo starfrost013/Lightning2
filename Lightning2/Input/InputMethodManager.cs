@@ -1,14 +1,29 @@
 ﻿namespace LightningGL
 {
+    /// <summary>
+    /// InputMethodManager
+    /// </summary>
     internal static class InputMethodManager
     {
-        internal static InputMethod? CurrentMethod { get; set; }
+        /// <summary>
+        /// The current input method.
+        /// </summary>
+        internal static InputMethod? CurrentMethod { get; private set; }
 
-        internal static InputMethodKeyboardMouse KeyboardMouse { get; set; }
+        /// <summary>
+        /// Static singleton for <see cref="InputMethodKeyboardMouse"/>.
+        /// </summary>
+        internal static InputMethodKeyboardMouse KeyboardMouse { get; private set; }
 
-        internal static InputMethodXinput Xinput { get; set; }    
+        /// <summary>
+        /// Static singleton for <see cref="InputMethodXinput"/>.
+        /// </summary>
+        internal static InputMethodXinput Xinput { get; private set; }    
 
-        internal static IniFile? InputIni { get; set; }
+        /// <summary>
+        /// Input INI file. 
+        /// </summary>
+        internal static IniFile? InputIni { get; private set; }
 
         static InputMethodManager()
         {
@@ -16,6 +31,10 @@
             Xinput = new();
         }
 
+        /// <summary>
+        /// Scans for available input methods.
+        /// </summary>
+        /// <param name="reloadBindings">Determines if bindings should be reloaded.</param>
         internal static void ScanAvailableInputMethods(bool reloadBindings = false)
         {
             if (CurrentMethod != null) CurrentMethod = null; 
