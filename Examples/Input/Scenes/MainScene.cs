@@ -1,13 +1,13 @@
-﻿using static LightningBase.SDL; // not required for project template
-using LightningGL;
-using static LightningGL.Lightning; // not required for project template
-using System.Drawing;
-using System.Numerics;
-
-namespace BasicScene
+﻿namespace BasicScene
 {
     public class MainScene : Scene
     {
+        private TextBlock? PressedText { get; set; }
+
+        private TextBlock? ClickedText { get; set; }
+
+        private TextBlock? MousePosText { get; set; }
+
         public override void Start()
         {
             
@@ -20,7 +20,10 @@ namespace BasicScene
 
         public override void SwitchTo(Scene? oldScene)
         {
-            
+            Lightning.Renderer.AddRenderable(new TextBlock("Text1", "Input example", "DebugFont", new Vector2(100, 100), Color.White)); // no fonts loaded so we use the debug font
+            PressedText = Lightning.Renderer.AddRenderable(new TextBlock("Text2", "Last keypress: ", "DebugFont", new Vector2(100, 120), Color.White)); // no fonts loaded so we use the debug font
+            ClickedText = Lightning.Renderer.AddRenderable(new TextBlock("Text3", "Last mouse click: ", "DebugFont", new Vector2(100, 140), Color.White)); // no fonts loaded so we use the debug font
+            MousePosText = Lightning.Renderer.AddRenderable(new TextBlock("Text4", "Last mouse motion: ", "DebugFont", new Vector2(100, 160), Color.White)); // no fonts loaded so we use the debug font
         }
 
         public override void SwitchFrom(Scene newScene)
@@ -30,7 +33,29 @@ namespace BasicScene
 
         public override void Render()
         {
-            Lightning.Renderer.AddRenderable(new TextBlock("Scene1", "Hello from MainScene", "DebugFont", new Vector2(300, 300), Color.Red));
+            Debug.Assert(PressedText != null
+                && ClickedText != null
+                && MousePosText != null);
+
+            // DEPRECATED DO NOT USE
+            SdlRenderer renderer = (SdlRenderer)Lightning.Renderer;
+
+            // DEPRECATED DO NOT USE
+            if (renderer.LastEvent.type == SDL_EventType.SDL_KEYDOWN)
+            {
+                Key key = (Key)renderer.LastEvent.key;
+                PressedText.Text = $"Last keypress: {key}, modifiers: {key.Modifiers}, repeated: {key.Repeated}";
+            }
+            else if (renderer.LastEvent.type == SDL_EventType.SDL_MOUSEBUTTONDOWN)
+            {
+                MouseButton button = (MouseButton)renderer.LastEvent.button;
+                ClickedText.Text = $"Last mouse click: {button.Button}, position: {button.Position}";
+            }
+            else if (renderer.LastEvent.type == SDL_EventType.SDL_MOUSEMOTION)
+            {
+                MouseButton button = (MouseButton)renderer.LastEvent.motion;
+                MousePosText.Text = $"Last mouse motion: {button.Button}, position: {button.Position}, velocity: {button.Velocity}";
+            }
         }
     }
 }
