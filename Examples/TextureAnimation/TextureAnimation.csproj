@@ -136,6 +136,9 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<Link>SDL2_mixer.dll</Link>
 		</Content>
+		<Content Include="..\shared\Content\InputBindings.ini" Link="Content\InputBindings.ini">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 		<Content Include="Content\AnimTextureTest\AnimTextureTestF0.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>

@@ -1,13 +1,9 @@
-﻿using static LightningBase.SDL; // not required for project template
-using LightningGL;
-using static LightningGL.Lightning; // not required for project template
-using System.Drawing;
-using System.Numerics;
-
-namespace BasicScene
+﻿namespace BasicScene
 {
     public class MainScene : Scene
     {
+        private TextureAtlas? Texture { get; set; }
+
         public override void Start()
         {
             
@@ -20,7 +16,16 @@ namespace BasicScene
 
         public override void SwitchTo(Scene? oldScene)
         {
-            
+            // create a texture atlas
+            Texture = new("TextureAtlas1", new(64, 64), new(4, 4))
+            {
+                Path = "Content/TextureAtlasTest.png",
+                Position = new Vector2(200, 200),
+            };
+
+            Lightning.Renderer.AddRenderable(Texture);
+
+            Lightning.Renderer.AddRenderable(new TextBlock("Text1", "Texture atlas example", "DebugFont", new(200, 364), Color.Green));
         }
 
         public override void SwitchFrom(Scene newScene)
@@ -30,7 +35,14 @@ namespace BasicScene
 
         public override void Render()
         {
-            Lightning.Renderer.AddRenderable(new TextBlock("Scene1", "Hello from MainScene", "DebugFont", new Vector2(300, 300), Color.Red));
+            Debug.Assert(Texture != null);
+
+            Texture.Index = Random.Shared.Next(0, 15);
+            Texture.Position = new(200, 200);
+            Texture.DrawFrame();
+            Texture.Index = Random.Shared.Next(0, 15);
+            Texture.Position = new(200, 264);
+            Texture.DrawFrame();
         }
     }
 }
