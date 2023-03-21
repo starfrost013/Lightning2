@@ -11,6 +11,8 @@ namespace LightningGL
     {
         Microsoft = 0x045E,
 
+        Sony = 0x054C,
+
         Nintendo = 0x057E,
     }
 }
