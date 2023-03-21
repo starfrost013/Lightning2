@@ -49,7 +49,6 @@
 	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_image.dll" />
 	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_mixer.dll" />
 	  <None Remove="Content\deepbluecalm.flac" />
-	  <None Remove="Content\demarco.mp3" />	  
 	  <None Remove="Content\royksopp.mp3" />
   </ItemGroup>
 
@@ -118,7 +117,7 @@
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		  <Link>libtiff-5.dll</Link>
 	  </Content>
-	  <Content Include="$(ProgramFiles)/Lightning Software Development Kit//Libraries/libwebp-7.dll">
+	  <Content Include="$(ProgramFiles)/Lightning Software Development Kit/libwebp-7.dll">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		  <Link>libwebp-7.dll</Link>
 	  </Content>
@@ -128,11 +127,11 @@
 	  </Content>
 	  <Content Include="$(ProgramFiles)/Lightning Software Development Kit/SDL2_image.dll">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <Link>SDL2_image-x64.dll</Link>
+		  <Link>SDL2_image.dll</Link>
 	  </Content>
 	  <Content Include="$(ProgramFiles)/Lightning Software Development Kit/SDL2_mixer.dll">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <Link>SDL2_mixer-x64.dll</Link>
+		  <Link>SDL2_mixer.dll</Link>
 	  </Content>
 	  <Content Include="Content\deepbluecalm.flac">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
