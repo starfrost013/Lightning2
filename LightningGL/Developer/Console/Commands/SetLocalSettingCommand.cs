@@ -1,6 +1,9 @@
 ﻿
 namespace LightningGL
 {
+    /// <summary>
+    /// Command for setting local settings.
+    /// </summary>
     internal class SetLocalSettingCommand : ConsoleCommand
     {
         public override string Name => "setlvar";
@@ -20,10 +23,12 @@ namespace LightningGL
             string value = parameters[2];
 
             LocalSettings.SetValue(sectionName, key, value);
-            Logger.Log("SetLocalSettingCommand NOT YET IMPLEMENTED");
             return true; 
         }
 
-        public override string Description => "setlvar.\nSets a local setting.\nParameters: Setting (string). The name of the global setting to use";
+        public override string Description => "setlvar <section name> <key> <value>\nSets a local setting.\n" +
+            "Parameters: sectionName (string): The name of the section within LocalSettings.ini to set.\n" +
+            "key (string): The name of the setting to set.\n" +
+            "value (string): The value to set the setting referred to by the name parameter to.";
     }
 }

@@ -11,7 +11,7 @@ namespace LightningGL
         {
             if (parameters.Length < 1)
             {
-                Logger.Log($"Not enough parameters")
+                Logger.Log($"Not enough parameters.\n\nUsage: {parameters}");
             }
 
             string sceneName = parameters[0];
