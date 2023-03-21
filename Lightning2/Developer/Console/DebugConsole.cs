@@ -208,7 +208,7 @@
 
             if (string.IsNullOrWhiteSpace(textBoxText))
             {
-                Logger.LogError("Invalid console command entered (temporary)", 303, LoggerSeverity.Warning, null, true);
+                Logger.LogError($"Invalid console command {textBoxText} entered!", 303, LoggerSeverity.Warning);
                 return;
             }
 
@@ -221,7 +221,7 @@
 
             if (!succeeded)
             {
-                Logger.Log($"Console command {commandType} not found!");
+                Logger.LogError($"Console command {commandType} not found!", 397, LoggerSeverity.Warning);
                 return;
             }
 
