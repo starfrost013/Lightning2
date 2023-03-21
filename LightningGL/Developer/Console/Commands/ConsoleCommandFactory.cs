@@ -17,6 +17,10 @@ namespace LightningGL
                     return new SetSceneCommand();
                 case ConsoleCommands.Shutdown:
                     return new ShutdownCommand();
+                case ConsoleCommands.Bind:
+                    return new BindCommand();
+                case ConsoleCommands.Unbind:
+                    return new UnbindCommand(); 
                 default:
                     return null;
             }
