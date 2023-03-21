@@ -10,13 +10,13 @@
         {
             if (parameters.Length != 3)
             {
-                Logger.Log(LOGGING_PREFIX, "Invalid number of parameters!");
+                Logger.Log(LOGGING_PREFIX, $"Invalid number of parameters!\n\nUsage: {Description}");
                 return false;
             }
 
             if (!Enum.TryParse(parameters[0], true, out InputMethods inputMethod))
             {
-                Logger.Log(LOGGING_PREFIX, "Invalid input method! (valid methods: KeyboardMouse, Xinput)");
+                Logger.Log(LOGGING_PREFIX, $"Invalid input method! (valid methods: KeyboardMouse, Xinput)\n\nUsage: {Description}");
                 return false;
             }
 

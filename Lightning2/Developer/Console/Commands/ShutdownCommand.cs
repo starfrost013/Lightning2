@@ -10,6 +10,6 @@ namespace LightningGL
             return true;
         }
 
-        public override string Description => "Shutdown.\nShut down the engine.";
+        public override string Description => "Shutdown.\nShuts down the engine.";
     }
 }

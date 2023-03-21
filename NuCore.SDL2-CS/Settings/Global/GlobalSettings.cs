@@ -22,7 +22,7 @@
         /// <summary>
         /// The INI file object containing the Global Settings.
         /// </summary>
-        internal static IniFile IniFile { get; private set; }
+        public static IniFile IniFile { get; private set; }
 
         #region General settings
         /// <summary>
@@ -298,12 +298,13 @@
         private const bool DEFAULT_SHOW_ABOUT_SCREEN_ON_SHIFT_F9 = true;
 
         private const string DEFAULT_DEBUG_CONSOLE_KEY = "F10";
+
         private static int DEFAULT_DEBUG_CONSOLE_SIZE_X => DEFAULT_GRAPHICS_RESOLUTION_X;
         private static int DEFAULT_DEBUG_CONSOLE_SIZE_Y => (int)(DEFAULT_GRAPHICS_RESOLUTION_Y / 2.5);
 
-        private static int DEFAULT_MAX_SIMULTANEOUS_AUDIO_FILES = 16;
+        private const int DEFAULT_MAX_SIMULTANEOUS_AUDIO_FILES = 16;
 
-        private static InputMethods DEFAULT_INPUT_METHOD = InputMethods.KeyboardMouse;
+        private const InputMethods DEFAULT_INPUT_METHOD = InputMethods.KeyboardMouse;
 
         #endregion
 
