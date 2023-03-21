@@ -1,4 +1,4 @@
-﻿// Lightning Global Using file for Example Project
+﻿// Lightning Global Using file for Example Projects
 // October 21, 2022
 
 // DO NOT MODIFY unless you know what you are doing

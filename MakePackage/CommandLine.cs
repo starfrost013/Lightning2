@@ -165,7 +165,7 @@ namespace MakePackage
                 "Optional arguments:\n\n" +
                 "-gamename [-name]: Optional game name.\n" +
                 "-gameversion: Optional game version.\n" +
-                "-engineversion: Optional engine version.\n" +
+                "-engineversion: Engine version your game uses. Defaults to the current version of the Lightning SDK (e.g. 2.0.0.388).\n" +
                 "-allowbinaries: Allow binaries in the WAD file. The default value is false.\n" +
                 "-compressionmode: Final packaging mode of the WAD file. Valid values are None (for none) and XOR (for XOR obfuscation)", ConsoleColor.White, false, false);
         }

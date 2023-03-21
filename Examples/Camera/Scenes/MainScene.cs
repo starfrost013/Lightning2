@@ -41,7 +41,6 @@ namespace BasicScene
         public override void Render()
         {
 
-
             // DEPRECATED DO NOT USE
             SdlRenderer sdlRenderer = (SdlRenderer)Lightning.Renderer;
 
