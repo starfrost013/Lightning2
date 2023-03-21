@@ -222,7 +222,7 @@
 
                 if (Font == null)
                 {
-                    Logger.Log($"Cannot draw a TextBox when the value of its Font property is null!", ConsoleColor.Yellow);
+                    Logger.LogError($"Cannot draw a TextBox when the value of its Font property is null!", 390, LoggerSeverity.Warning, null, true);
                     return;
                 }
 
@@ -231,7 +231,7 @@
                 if (!HideCursor)
                 {
                     Vector2 fontSize = TextUtils.GetLargestTextSize(Font, Text, ForegroundColor);
-                    Cursor.Position = new(Position.X + fontSize.X, Position.Y);
+                    Cursor.Position = new(Position.X + fontSize.X, Position.Y);390,
                     Cursor.Size = new(1, fontSize.Y); //1px for now
                    
                     // actually blink it
