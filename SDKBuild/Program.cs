@@ -177,7 +177,7 @@ else
     {
         if (runSetup)
         {
-            Logger.Log("Running generated SDKSetup.exe (You will receive an admin prompt and any applications may be force-closed and restarted)...");
+            Logger.Log("Running generated SDKSetup.exe (You will receive a prompt for administrative access - press YES - and any applications may be force-closed and restarted)...");
 
             Process sdkSetup;
 

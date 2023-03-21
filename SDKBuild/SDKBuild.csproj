@@ -10,8 +10,8 @@
 	  <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
 	  <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
 	  <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-	  <AssemblyVersion>2.3.1.0</AssemblyVersion>
-	  <FileVersion>2.3.1.0</FileVersion>
+	  <AssemblyVersion>2.3.2.0</AssemblyVersion>
+	  <FileVersion>2.3.2.0</FileVersion>
 	  <Configurations>Debug;Release;Final;Profiling</Configurations>
   </PropertyGroup>
 

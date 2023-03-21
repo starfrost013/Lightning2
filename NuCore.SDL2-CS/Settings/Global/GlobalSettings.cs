@@ -300,7 +300,8 @@
         private const string DEFAULT_DEBUG_CONSOLE_KEY = "F10";
 
         private static int DEFAULT_DEBUG_CONSOLE_SIZE_X => DEFAULT_GRAPHICS_RESOLUTION_X;
-        private static int DEFAULT_DEBUG_CONSOLE_SIZE_Y => (int)(DEFAULT_GRAPHICS_RESOLUTION_Y / 2.5);
+
+        private static int DEFAULT_DEBUG_CONSOLE_SIZE_Y => (int)(DEFAULT_GRAPHICS_RESOLUTION_Y / 10);
 
         private const int DEFAULT_MAX_SIMULTANEOUS_AUDIO_FILES = 16;
 

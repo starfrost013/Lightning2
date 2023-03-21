@@ -5,7 +5,7 @@ namespace LightningGL
     /// KnownControlerVendorIds
     /// 
     /// Known controller vendor IDs.
-    /// Simply used for cleaner code and detecting specific game controllers.
+    /// Simply used for cleaner code when detecting specific game controllers.
     /// </summary>
     internal enum KnownControllerVendorIds : ushort
     {
