@@ -9,7 +9,7 @@ using System.Numerics;
 // Initialise Lightning
 InitClient();
 
-Renderer renderer = new Renderer();
+
 renderer.Start(new RendererSettings
 {
     Title = "Lightning2 Packaging/WAD Demo"

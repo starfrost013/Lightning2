@@ -8,8 +8,8 @@ using System.Numerics;
 // Initialise Lightning
 Lightning.InitClient();
 
-Renderer Renderer = new Renderer();
-Renderer.Start(new RendererSettings()); // use default Renderersettings
+
+
 
 while (Renderer.Run())
 {

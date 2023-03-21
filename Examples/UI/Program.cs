@@ -8,7 +8,7 @@ using System.Drawing; // for color
 // Initialise Lightning
 InitClient();
 
-Renderer renderer = new Renderer();
+
 renderer.Start(new RendererSettings
 {
     Title = "Lightning UI demonstration"

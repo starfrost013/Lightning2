@@ -9,8 +9,8 @@ using System.Numerics; // for vector2
 // Initialise Lightning
 InitClient();
 
-Renderer renderer = new Renderer();
-renderer.Start(new RendererSettings()); // use default Renderersettings
+
+
 
 Random Random = new Random();
 // create a texture atlas

@@ -9,8 +9,8 @@ using System.Numerics;
 // Initialise Lightning
 InitClient();
 
-Renderer renderer = new Renderer();
-renderer.Start(new RendererSettings()); // use default Renderersettings
+
+
 
 // Load a texture from a file using Texture::Load
 Texture texture = new Texture(renderer, 18, 11) // yes thats the image size blame my lazy cropping

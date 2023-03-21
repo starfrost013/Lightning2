@@ -9,8 +9,8 @@ using System.Numerics;
 // Initialise Lightning
 Lightning.InitClient();
 
-Renderer renderer = new Renderer();
-renderer.Start(new RendererSettings()); // use default RendererSettings
+
+
 
 // create a texture
 Texture texture = new Texture(renderer, 512, 512);
