@@ -1,8 +1,4 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using LightningUtil;
-using System.Diagnostics;
-using System.Reflection;
-using System.Runtime.InteropServices;
 
 // SDKBuild 2.3 for Lightning 2.0
 // Very quick and dirty tool to build a Lightning SDK setup file.

@@ -14,17 +14,16 @@
 
         public override void SwitchTo(Scene? oldScene)
         {
-            
+            Lightning.Renderer.AddRenderable(new TextBlock("Text1", "Hello from MainScene", "DebugFont", new Vector2(300, 300), Color.Red));
         }
 
         public override void SwitchFrom(Scene newScene)
         {
-            
+            Lightning.Renderer.RemoveRenderableByName("Text1");
         }
 
         public override void Render()
         {
-            Lightning.Renderer.AddRenderable(new TextBlock("Scene1", "Hello from MainScene", "DebugFont", new Vector2(300, 300), Color.Red));
 
             // change the scene
             if (Lightning.Renderer.EventWaiting)

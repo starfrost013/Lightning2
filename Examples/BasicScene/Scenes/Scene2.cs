@@ -1,11 +1,4 @@
-﻿using static LightningBase.SDL; // not required for project template
-using LightningGL;
-using static LightningGL.Lightning; // not required for project template
-using System.Drawing;
-using System.Numerics;
-using LightningBase;
-
-namespace BasicScene
+﻿namespace BasicScene
 {
     public class Scene2 : Scene
     {
@@ -21,12 +14,12 @@ namespace BasicScene
 
         public override void SwitchTo(Scene? oldScene)
         {
-            Lightning.Renderer.AddRenderable(new TextBlock("Text1", "Hello from Scene2", "DebugFont", new(300, 300), Color.PaleTurquoise));
+            Lightning.Renderer.AddRenderable(new TextBlock("Text2", "Hello from Scene2", "DebugFont", new(300, 300), Color.PaleTurquoise));
         }
 
         public override void SwitchFrom(Scene newScene)
         {
-            
+            Lightning.Renderer.RemoveRenderableByName("Text2");
         }
 
         public override void Render()

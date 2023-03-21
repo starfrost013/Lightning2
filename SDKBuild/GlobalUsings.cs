@@ -2,6 +2,7 @@
 // Don't put any usings in individual source files, put any you need to use in here.
 
 #region Global using statements
+global using LightningUtil;
 global using System;
 global using System.Collections.Generic;
 global using System.ComponentModel;
