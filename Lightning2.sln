@@ -21,8 +21,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnimTool", "AnimTool\AnimTo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightningUtilSdl", "NuCore.Utilities.Lightning\LightningUtilSdl.csproj", "{DBC2F6F3-1B14-432C-BB0B-47934E431AFB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InstallHelper", "InstallHelper\InstallHelper.vcxproj", "{074EE053-260C-48E2-BADB-E25E0CF2B813}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -255,30 +253,6 @@ Global
 		{DBC2F6F3-1B14-432C-BB0B-47934E431AFB}.Release|x64.Build.0 = Release|Any CPU
 		{DBC2F6F3-1B14-432C-BB0B-47934E431AFB}.Release|x86.ActiveCfg = Release|Any CPU
 		{DBC2F6F3-1B14-432C-BB0B-47934E431AFB}.Release|x86.Build.0 = Release|Any CPU
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Debug|Any CPU.Build.0 = Debug|x64
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Debug|x64.ActiveCfg = Debug|x64
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Debug|x64.Build.0 = Debug|x64
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Debug|x86.ActiveCfg = Debug|Win32
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Debug|x86.Build.0 = Debug|Win32
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Final|Any CPU.ActiveCfg = Final|x64
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Final|Any CPU.Build.0 = Final|x64
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Final|x64.ActiveCfg = Debug|x64
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Final|x64.Build.0 = Debug|x64
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Final|x86.ActiveCfg = Debug|Win32
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Final|x86.Build.0 = Debug|Win32
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Profiling|Any CPU.ActiveCfg = Release|x64
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Profiling|Any CPU.Build.0 = Release|x64
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Profiling|x64.ActiveCfg = Profiling|x64
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Profiling|x64.Build.0 = Profiling|x64
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Profiling|x86.ActiveCfg = Profiling|Win32
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Profiling|x86.Build.0 = Profiling|Win32
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Release|Any CPU.ActiveCfg = Release|x64
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Release|Any CPU.Build.0 = Release|x64
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Release|x64.ActiveCfg = Release|x64
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Release|x64.Build.0 = Release|x64
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Release|x86.ActiveCfg = Release|Win32
-		{074EE053-260C-48E2-BADB-E25E0CF2B813}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
