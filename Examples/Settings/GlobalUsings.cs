@@ -7,6 +7,7 @@
 global using LightningBase;
 global using LightningGL;
 global using LightningPackager; // remove if you don't want the packager
+global using LightningUtil;
 // Core .NET stuff lightning uses a lot
 global using System.Drawing;
 global using System.Numerics;
