@@ -135,7 +135,7 @@ namespace MakePackage
                 {
                     if (!InFile.Contains(".wad", StringComparison.InvariantCultureIgnoreCase)) Logger.Log("Warning: By convention, the package file for your game should have a .wad extension!", ConsoleColor.Yellow, false, false);
 
-                    if (OutFolder == null) OutFolder = ".";
+                    OutFolder ??= ".";
 
                     if (!Directory.Exists(OutFolder)) Directory.CreateDirectory(OutFolder);
                 }
@@ -165,7 +165,7 @@ namespace MakePackage
                 "Optional arguments:\n\n" +
                 "-gamename [-name]: Optional game name.\n" +
                 "-gameversion: Optional game version.\n" +
-                "-engineversion: Optional engine version. Currently not checked by any component of the engine.\n" +
+                "-engineversion: Optional engine version.\n" +
                 "-allowbinaries: Allow binaries in the WAD file. The default value is false.\n" +
                 "-compressionmode: Final packaging mode of the WAD file. Valid values are None (for none) and XOR (for XOR obfuscation)", ConsoleColor.White, false, false);
         }
