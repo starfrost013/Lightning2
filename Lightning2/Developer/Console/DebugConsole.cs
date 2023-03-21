@@ -172,8 +172,7 @@
         {
             Debug.Assert(TextBox != null);
 
-            if (!Enabled
-                || binding == null) return;
+            if (!Enabled) return;
 
             switch (key.KeySym.scancode)
             {
