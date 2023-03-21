@@ -232,7 +232,7 @@
                 {
                     Vector2 fontSize = TextUtils.GetLargestTextSize(Font, Text, ForegroundColor);
                     Cursor.Position = new(Position.X + fontSize.X, Position.Y);
-                    Cursor.Size = new(0, fontSize.Y); //1px for now
+                    Cursor.Size = new(1, fontSize.Y); //1px for now
                    
                     // actually blink it
                     if (NumberOfFramesUntilNextBlink == 0)
