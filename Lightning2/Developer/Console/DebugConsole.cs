@@ -85,6 +85,16 @@
         private readonly Color DEFAULT_DEBUG_TEXT_BOX_BACKGROUND = Color.LightBlue;
 
         /// <summary>
+        /// The default background colour for the text box of the console, when hovered on.
+        /// </summary>
+        private readonly Color DEFAULT_DEBUG_TEXT_BOX_BACKGROUND_HOVER = Color.White;
+
+        /// <summary>
+        /// The default background colour for the text box of the console, when selected.
+        /// </summary>
+        private readonly Color DEFAULT_DEBUG_TEXT_BOX_BACKGROUND_PRESSED = Color.LightGray;
+
+        /// <summary>
         /// The default border colour for the debug screen.
         /// Maybe make configurable?
         /// </summary>
@@ -105,7 +115,7 @@
         /// <summary>
         /// The default position of the debug console header text.
         /// </summary>
-        private readonly Vector2 DEFAULT_CONSOLE_HEADER_POSITION = new(0, 14);
+        private readonly Vector2 DEFAULT_CONSOLE_HEADER_POSITION = new(0, 0);
 
         /// <summary>
         /// The default position of the console rectangle.
@@ -143,6 +153,9 @@
             ConsoleHeader = Lightning.Renderer.AddRenderable(new TextBlock("ConsoleHeader", "Console", "DebugFontLarge", DEFAULT_CONSOLE_HEADER_POSITION,
                  DEFAULT_DEBUG_HEADER_COLOR, Color.Transparent), this);
 
+            TextBox.HoverColor = DEFAULT_DEBUG_TEXT_BOX_BACKGROUND_HOVER;
+            TextBox.PressedColor = DEFAULT_DEBUG_TEXT_BOX_BACKGROUND_PRESSED;
+
             ConsoleHeader.SnapToScreen = true;
             TextBox.SnapToScreen = true;
             ConsoleHeader.SnapToScreen = true;
@@ -179,7 +192,8 @@
                 case SDL_Scancode.SDL_SCANCODE_RETURN:
                 case SDL_Scancode.SDL_SCANCODE_RETURN2:
                 case SDL_Scancode.SDL_SCANCODE_KP_ENTER:
-                    ProcessCommand(); 
+                    ProcessCommand();
+                    TextBox.Text = string.Empty; 
                     break;
             }
         }
