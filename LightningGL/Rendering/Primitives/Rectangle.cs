@@ -18,8 +18,8 @@
         {
             if (BorderColor != default)
             {
-                Lightning.Renderer.DrawRectangle(new((int)RenderPosition.X - (int)BorderSize.X, (int)RenderPosition.Y - (int)BorderSize.Y),
-                new((int)Size.X + ((int)BorderSize.X * 2), (int)Size.Y + ((int)BorderSize.Y * 2)), Color.R, Color.G, Color.B, Color.A);
+                Lightning.Renderer.DrawRectangle(new((int)RenderPosition.X - ((int)BorderSize.X + 1), (int)RenderPosition.Y - ((int)BorderSize.Y) + 1),
+                new((int)Size.X + ((int)BorderSize.X * 2), (int)Size.Y + ((int)BorderSize.Y * 2) - 1), Color.R, Color.G, Color.B, Color.A);
             }
 
             Lightning.Renderer.DrawRectangle(new((int)RenderPosition.X, (int)RenderPosition.Y),
