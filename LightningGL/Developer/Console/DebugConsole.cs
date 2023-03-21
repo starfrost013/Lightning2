@@ -14,12 +14,19 @@
         /// </summary>
         private Rectangle? Rectangle { get; set; }
 
+        /// <summary>
+        /// TextBox UI used as part of the console.
+        /// </summary>
         private TextBox? TextBox { get; set; }
 
+        /// <summary>
+        /// Console header text.
+        /// </summary>
         private TextBlock? ConsoleHeader { get; set; }
 
-        private TextBlock? ConsoleText { get; set; }
-
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override bool CanReceiveEventsWhileUnfocused => true;
 
         /// <summary>
@@ -27,6 +34,9 @@
         /// </summary>
         public override int ZIndex => 2147483646;
 
+        /// <summary>
+        /// Backing field for <see cref="Enabled"/>
+        /// </summary>
         private bool _enabled;
 
         /// <summary>
@@ -42,26 +52,32 @@
             {
                 Debug.Assert(Rectangle != null
                     && TextBox != null
-                    && ConsoleHeader != null
-                    && ConsoleText != null);
+                    && ConsoleHeader != null);
 
                 _enabled = value;
                 Rectangle.IsNotRendering = !value;
                 TextBox.IsNotRendering = !value;
                 ConsoleHeader.IsNotRendering = !value;
-                ConsoleText.IsNotRendering = !value;
             }
         }
 
         // maybe make configurable?
 
-        private readonly Color DEFAULT_DEBUG_TEXT_COLOR = Color.Black; 
+        /// <summary>
+        /// Default debug text colour.
+        /// </summary>
+        private readonly Color DEFAULT_DEBUG_TEXT_COLOR = Color.Black;
 
         /// <summary>
         /// The default foreground colour for the debug screen.
         /// Maybe make configurable?
         /// </summary>
         private readonly Color DEFAULT_DEBUG_FOREGROUND_COLOR = Color.Black;
+
+        /// <summary>
+        /// Default "Console" debug text header colour.
+        /// </summary>
+        private readonly Color DEFAULT_DEBUG_HEADER_COLOR = Color.White;
 
         /// <summary>
         /// The default background colour for the text box of the console.
@@ -89,12 +105,7 @@
         /// <summary>
         /// The default position of the debug console header text.
         /// </summary>
-        private readonly Vector2 DEFAULT_CONSOLE_HEADER_POSITION = new(0, 28);
-
-        /// <summary>
-        /// The default position of the console command history text/
-        /// </summary>
-        private readonly Vector2 DEFAULT_CONSOLE_TEXT_POSITION = new(0, 64);
+        private readonly Vector2 DEFAULT_CONSOLE_HEADER_POSITION = new(0, 14);
 
         /// <summary>
         /// The default position of the console rectangle.
@@ -116,7 +127,7 @@
         /// </summary>
         private const string BINDING_TRIGGER_NAME = "DEBUGCONSOLETRIGGER";
 
-        public DebugConsole(string name) : base(name) 
+        public DebugConsole(string name) : base(name)
         {
             OnKeyDown += KeyPressed;
         }
@@ -127,22 +138,18 @@
 
             Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("ConsoleRectangle", new(0, 0), new(GlobalSettings.DebugConsoleSizeX, GlobalSettings.DebugConsoleSizeY),
                 DEFAULT_DEBUG_FOREGROUND_COLOR, true, DEFAULT_DEBUG_BORDER, DEFAULT_DEBUG_BORDER_SIZE, true), this);
-            TextBox = Lightning.Renderer.AddRenderable(new TextBox("ConsoleTextBox", 300, "DebugFont", DEFAULT_TEXTBOX_POSITION, 
+            TextBox = Lightning.Renderer.AddRenderable(new TextBox("ConsoleTextBox", 300, "DebugFont", DEFAULT_TEXTBOX_POSITION,
                 DEFAULT_CONSOLE_TEXTBOX_SIZE, DEFAULT_DEBUG_TEXT_COLOR, DEFAULT_DEBUG_TEXT_BOX_BACKGROUND, true, DEFAULT_DEBUG_BORDER, DEFAULT_DEBUG_BORDER_SIZE), this);
             ConsoleHeader = Lightning.Renderer.AddRenderable(new TextBlock("ConsoleHeader", "Console", "DebugFontLarge", DEFAULT_CONSOLE_HEADER_POSITION,
-                DEFAULT_DEBUG_TEXT_COLOR, Color.Transparent), this);
-            ConsoleText = Lightning.Renderer.AddRenderable(new TextBlock("ConsoleText", "(PLACEHOLDER)", "DebugFont", DEFAULT_CONSOLE_TEXT_POSITION,
-                DEFAULT_DEBUG_TEXT_COLOR), this);
+                 DEFAULT_DEBUG_HEADER_COLOR, Color.Transparent), this);
 
             ConsoleHeader.SnapToScreen = true;
-            ConsoleText.SnapToScreen = true;
             TextBox.SnapToScreen = true;
             ConsoleHeader.SnapToScreen = true;
 
             Rectangle.ZIndex = ZIndex + 1;
             TextBox.ZIndex = ZIndex + 1;
             ConsoleHeader.ZIndex = ZIndex + 1;
-            ConsoleText.ZIndex = ZIndex + 1;
 
             // explicitly set to update ui state
             Enabled = false;
@@ -154,31 +161,25 @@
         {
             Debug.Assert(TextBox != null
                 && Rectangle != null
-                && ConsoleHeader != null
-                && ConsoleText != null);
+                && ConsoleHeader != null);
 
             TextBox.Position = DEFAULT_TEXTBOX_SIZE;
             Rectangle.Position = DEFAULT_RECTANGLE_POSITION;
             ConsoleHeader.Position = DEFAULT_CONSOLE_HEADER_POSITION;
-            ConsoleText.Position = DEFAULT_CONSOLE_TEXT_POSITION;
         }
 
         public void ConsoleBoxKeyPressed(InputBinding? binding, Key key)
         {
             Debug.Assert(TextBox != null);
 
-            if (!Enabled
-                || binding == null) return;
-
-            // go to base
-            //TextBox.KeyPressed(key); 
+            if (!Enabled) return;
 
             switch (key.KeySym.scancode)
             {
                 case SDL_Scancode.SDL_SCANCODE_RETURN:
                 case SDL_Scancode.SDL_SCANCODE_RETURN2:
                 case SDL_Scancode.SDL_SCANCODE_KP_ENTER:
-                    ProcessCommand(); 
+                    ProcessCommand();
                     break;
             }
         }
