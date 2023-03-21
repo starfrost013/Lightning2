@@ -4,10 +4,10 @@ using System.Drawing; // for color
 using System.Numerics;
 
 //Particle effects example
-//©2022 starfrost, August 12, 2022
+// © 2022-2023 starfrost, March 21, 2023
 
 // Initialise Lightning
-Init(args);
+InitClient();
 
 Renderer renderer = new Renderer();
 renderer.Start(new RendererSettings()); // use default Renderersettings

@@ -3,10 +3,10 @@ using static LightningGL.Lightning;
 using System.Drawing; // for color
 
 //Basic Lightning UI Example 
-//©2022 starfrost, August 13, 2022
+// © 2022-2023 starfrost, March 21, 2023
 
 // Initialise Lightning
-Init(args);
+InitClient();
 
 Renderer renderer = new Renderer();
 renderer.Start(new RendererSettings

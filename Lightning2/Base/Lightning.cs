@@ -11,6 +11,8 @@
     {
         public static Client Client { get; private set; }
 
+        private static bool Initialised { get; set; }
+
         #region Asset managers (these are here for compatibility)
 
         public static Renderer Renderer => Client.Renderer;
@@ -38,7 +40,14 @@
         {
             try
             {
+                if (Initialised)
+                {
+                    Logger.LogError($"Attempted to initialise after initialisation!", 400, LoggerSeverity.Warning, null, true);
+                }
+
                 Client.Init();
+
+                Initialised = true;
             }
             catch (Exception err)
             {

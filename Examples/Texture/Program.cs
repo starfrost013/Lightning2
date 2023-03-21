@@ -3,11 +3,11 @@ using static LightningGL.Lightning;
 using System.Drawing; // for color
 using System.Numerics;
 
-//Texture example (Scene Manager NOT used)
-//©2022 starfrost, August 12, 2022
+//Texture example 
+// © 2022-2023 starfrost, March 21, 2023
 
 // Initialise Lightning
-Lightning.Init(args);
+Lightning.InitClient();
 
 Renderer renderer = new Renderer();
 renderer.Start(new RendererSettings()); // use default RendererSettings
