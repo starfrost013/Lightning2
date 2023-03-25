@@ -19,8 +19,6 @@
 
         public static Scene? CurrentScene => Client.CurrentScene;
 
-        public static TextureAssetManager TextureManager => Client.TextureManager;
-
         public static LightAssetManager LightManager => Client.LightManager;
 
         #endregion

@@ -229,7 +229,7 @@
             if (NeedsManualTrigger
                 && !Playing) return;
 
-            Texture? tempTexture = TextureManager.GetInstanceOfTexture(Texture.Name);
+            Texture? tempTexture = TextureUtils.CloneTexture(Texture);
 
             Debug.Assert(tempTexture != null); // should never be null
 

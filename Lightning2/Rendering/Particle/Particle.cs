@@ -22,6 +22,7 @@
 
         public Particle(string name, int sizeX, int sizeY, bool isTarget = false) : base(name, sizeX, sizeY) { }
 
+        /*
         public override void Destroy()
         {
             // this does nothing
@@ -34,5 +35,6 @@
 
 
         }
+        */
     }
 }

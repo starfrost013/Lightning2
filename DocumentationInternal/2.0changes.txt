@@ -405,6 +405,15 @@ Everything that matters to the api has to go here
 * Purge unused known USB Vendor and Device IDs
 * Rename solution files
 
+2023.03.25:
+* Consistent folder names
+* Fix text box not clearing text
+* Fix bug when entering only number as command in console
+* TextureManager -> TextureUtils
+* Actually add renderable when cloning texture
+* Fix two overrides of GetInstanceToTexture, now called CloneTexture, doing fundamentally different tings
+
+
 * todo:
 	- setting load order
 	- DEATH to DUPLICATE CODE

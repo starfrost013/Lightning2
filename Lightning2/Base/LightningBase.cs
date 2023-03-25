@@ -35,12 +35,11 @@ namespace LightningGL
             Scenes = new List<Scene>();
 
             // Initialise all asset managers
-            TextureManager = new TextureAssetManager();
             LightManager = new LightAssetManager();
         }
 
         #region Asset managers
-        public static TextureAssetManager TextureManager { get; private set; } // init not valid on static members
+
         public static LightAssetManager LightManager { get; private set; }
 
         #endregion

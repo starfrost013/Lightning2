@@ -254,7 +254,7 @@ namespace LightningGL
             missingTextureTest.Position = new(150, 150);
             // bug:
             // as it is the same handle, setpixel changes pixel for every single texture 
-            Texture? texture2 = TextureManager.GetInstanceOfTexture(Texture1);
+            Texture? texture2 = TextureUtils.CloneTexture(Texture1);
 
             Debug.Assert(texture2 != null);
 
