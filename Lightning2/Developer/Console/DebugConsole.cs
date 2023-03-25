@@ -230,6 +230,8 @@
                 return;
             }
 
+            // now absolutely should not happen
+            Debug.Assert(command != null);
 
             if (!command.Execute()) Logger.LogError("Command failed to execute!", 310, LoggerSeverity.Warning);
         }
