@@ -1,11 +1,36 @@
-﻿namespace LightningGL
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace LightningGL
 {
     public class TextBox : Gadget
     {
         /// <summary>
+        /// Backing field for <see cref="Text"/>.
+        /// </summary>
+        private string? _text; 
+
+        /// <summary>
         /// The text of this textbox.
         /// </summary>
-        public string? Text { get; set; }
+        public string? Text
+        {
+            get
+            {
+                return _text; 
+            }
+            set
+            {
+                _text = value;
+
+                if (value != null
+                    && TextBoxText != null)
+                {
+                    TextBoxText.Text = value;
+
+                    RepositionCursor();
+                }
+            }
+        }
 
         /// <summary>
         /// A boolean determining if the cursor is hidden or not.
@@ -218,8 +243,6 @@
 
             if (!string.IsNullOrWhiteSpace(Text))
             {
-                TextBoxText.Text = Text; // maybe put this in the getter
-
                 if (Font == null)
                 {
                     Logger.LogError($"Cannot draw a TextBox when the value of its Font property is null!", 390, LoggerSeverity.Warning, null, true) ;
@@ -228,32 +251,39 @@
 
                 Rectangle.Color = CurBackgroundColor;
 
-                if (!HideCursor)
+                RepositionCursor();
+            }
+        }
+
+        private void RepositionCursor()
+        {
+            if (!HideCursor
+                && Cursor != null
+                && Text != null)
+            {
+                Vector2 fontSize = TextUtils.GetLargestTextSize(Font, Text, ForegroundColor);
+                Cursor.Position = new(Position.X + fontSize.X, Position.Y);
+                Cursor.Size = new(1, fontSize.Y); //1px for now
+
+                // actually blink it
+                if (NumberOfFramesUntilNextBlink == 0)
                 {
-                    Vector2 fontSize = TextUtils.GetLargestTextSize(Font, Text, ForegroundColor);
-                    Cursor.Position = new(Position.X + fontSize.X, Position.Y);
-                    Cursor.Size = new(1, fontSize.Y); //1px for now
-                   
-                    // actually blink it
-                    if (NumberOfFramesUntilNextBlink == 0)
-                    {
-                        IsActive = !IsActive;
-                        if (Lightning.Renderer.DeltaTime > 0) NumberOfFramesUntilNextBlink = Convert.ToInt32(CursorBlinkLength - 1 + 
-                            (CursorBlinkFrequency / Lightning.Renderer.DeltaTime));
-                    }
-
-                    // if it's active, draw the line
-                    if (IsActive)
-                    {
-                        Cursor.Color = Color.FromArgb(0, ForegroundColor);
-                    }
-                    else
-                    {
-                        Cursor.Color = ForegroundColor;
-                    }
-
-                    NumberOfFramesUntilNextBlink--;
+                    IsActive = !IsActive;
+                    if (Lightning.Renderer.DeltaTime > 0) NumberOfFramesUntilNextBlink = Convert.ToInt32(CursorBlinkLength - 1 +
+                        (CursorBlinkFrequency / Lightning.Renderer.DeltaTime));
                 }
+
+                // if it's active, draw the line
+                if (IsActive)
+                {
+                    Cursor.Color = Color.FromArgb(0, ForegroundColor);
+                }
+                else
+                {
+                    Cursor.Color = ForegroundColor;
+                }
+
+                NumberOfFramesUntilNextBlink--;
             }
         }
     }

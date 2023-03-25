@@ -219,16 +219,17 @@
 
             bool succeeded = Enum.TryParse(commandType, true, out ConsoleCommands commandId);
 
+            ConsoleCommand? command = ConsoleCommandFactory.GetCommand(commandId);
+
+            // should not happen
+            succeeded = command != null;
+
             if (!succeeded)
             {
                 Logger.LogError($"Console command {commandType} not found!", 397, LoggerSeverity.Warning);
                 return;
             }
 
-            ConsoleCommand? command = ConsoleCommandFactory.GetCommand(commandId);
-
-            // should not happen
-            Debug.Assert(command != null);
 
             if (!command.Execute()) Logger.LogError("Command failed to execute!", 310, LoggerSeverity.Warning);
         }
