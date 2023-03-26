@@ -86,7 +86,7 @@
         /// <param name="texture">The texture to use for particle effects</param>
         public ParticleEffect(string name, Texture texture) : base(name)
         {
-            Mode = ParticleMode.SinCos;
+            Mode = ParticleMode.Default;
             Texture = texture;
         }
 
@@ -121,7 +121,7 @@
 
             foreach (Renderable renderable in Children)
             {
-                if (renderable is Particle) particles.Add((Particle)renderable);
+                if (renderable is Particle particle) particles.Add(particle);
             }
 
             // create a list of particles to remove
@@ -229,7 +229,7 @@
             if (NeedsManualTrigger
                 && !Playing) return;
 
-            Texture? tempTexture = TextureUtils.CloneTexture(Texture);
+            Texture? tempTexture = TextureUtils.CloneTexture(Texture, false, false);
 
             Debug.Assert(tempTexture != null); // should never be null
 
@@ -243,6 +243,7 @@
                 ViewportStart = tempTexture.ViewportStart,
                 ViewportEnd = tempTexture.ViewportEnd,
             };
+
 
             // easier to use doubles here so we don't use random.nextsingle
             float varX = Random.Shared.NextSingle() * (Variance - -Variance) + -Variance,

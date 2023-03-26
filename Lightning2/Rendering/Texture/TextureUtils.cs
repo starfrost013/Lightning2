@@ -16,7 +16,7 @@ namespace LightningGL
         /// </summary>
         public static bool SnapToScreen { get; set; }
 
-        public static Texture? CloneTexture(string name, bool clone = false)
+        public static Texture? CloneTexture(string name, bool clone = false, bool addToHierarchy = true)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace LightningGL
             }
         }
 
-        public static Texture? CloneTexture(Texture texture, bool clone = false)
+        public static Texture? CloneTexture(Texture texture, bool clone = false, bool addToHierarchy = true)
         {
             // texture ID?
             int rTexture = Random.Shared.Next(10000000, 99999999);
@@ -66,7 +66,7 @@ namespace LightningGL
                 clonedTexture.Path = texture.Path;
             }
 
-            Lightning.Renderer.AddRenderable(clonedTexture, texture.Parent); // this loads it
+            if (addToHierarchy) Lightning.Renderer.AddRenderable(clonedTexture, texture.Parent); // this loads it
             return clonedTexture;
         }
     }
