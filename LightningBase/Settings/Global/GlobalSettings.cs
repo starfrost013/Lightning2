@@ -486,7 +486,6 @@
                 _ = int.TryParse(graphicsSection.GetValue("StrikeoutThickness"), out var graphicsStrikeoutThicknessValue);
                 GraphicsWindowTitle = graphicsSection.GetValue("WindowTitle");
 
-                if (graphicsMaxFpsValue <= 0) graphicsMaxFpsValue = DEFAULT_MAX_FPS;
                 if (graphicsResolutionXValue <= 0) graphicsResolutionXValue = DEFAULT_GRAPHICS_RESOLUTION_X;
                 if (graphicsResolutionYValue <= 0) graphicsResolutionYValue = DEFAULT_GRAPHICS_RESOLUTION_Y;
 
