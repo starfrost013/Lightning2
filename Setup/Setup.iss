@@ -13,9 +13,10 @@
 ; Updated January 29, 2023 for installing prereqs
 ; Updated February 9, 2023 to actually install prereqs
 ; Updated March 21, 2023 to yank out unfinished stuff for 2.0 submission
+; Updated March 28, 2023 to fix scene template installation
 
 #define MyAppName "Lightning Software Development Kit"                                                     
-#define MyAppVersion "2.0.0-beta"
+#define MyAppVersion "2.0.0-rc1"
 #define MyAppPublisher "starfrost"
 #define MyAppURL "https://lightningpowered.net"
 #define BuildConfig "Debug"   ; for sdkbuild
@@ -89,7 +90,9 @@ Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\Content\*"; Dest
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\Documentation\*"; DestDir: "{app}\Documentation"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\Examples\*"; DestDir: "{app}\Examples"; Flags: ignoreversion recursesubdirs createallsubdirs
 
-Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\VSTemplate\*"; DestDir: "{userdocs}\Visual Studio 2022\Templates\ProjectTemplates"; 
+Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\VSTemplate\Lightning Game Project.zip"; DestDir: "{userdocs}\Visual Studio 2022\Templates\ProjectTemplates"; 
+Source: "..\SDKBuild\bin\{#BuildConfig}\{#FrameworkVersion}\SDK\VSTemplate\Lightning Scene Template.zip"; DestDir: "{userdocs}\Visual Studio 2022\Templates\ItemTemplates"; 
+
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
