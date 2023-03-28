@@ -135,7 +135,7 @@
         {
             if (binding == null) return;
 
-            base.MousePressed(binding, button);
+            //base.MousePressed(binding, button);
             Checked = !Checked;
         }
     }

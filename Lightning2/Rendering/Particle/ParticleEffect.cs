@@ -2,9 +2,7 @@
 {
     /// <summary>
     /// ParticleEffect
-    /// 
-    /// April 23, 2022 (modified June 12, 2022: Renderable)
-    /// 
+    ///  
     /// Defines a particle effect.
     /// </summary>
     public class ParticleEffect : Renderable
@@ -15,12 +13,12 @@
         public int Amount { get; set; }
 
         /// <summary>
-        /// The lifetime of each particle in frames.
+        /// The lifetime of each particle in milliseconds.
         /// </summary>
         public int Lifetime { get; set; }
 
         /// <summary>
-        /// The variance on each particle's position in frames
+        /// The maximum variance on each particle's position in the X and Y directions.
         /// </summary>
         public float Variance { get; set; }
 
@@ -131,7 +129,7 @@
             // Check what particles have to be removed
             foreach (Particle particle in particles)
             {
-                particle.Lifetime++;
+                particle.Lifetime += (float)Lightning.Renderer.DeltaTime;
                 if (particle.Lifetime > Lifetime) particlesToRemove.Add(particle);
             }
 
@@ -257,7 +255,7 @@
         }
 
         /// <summary>
-        /// Plays this particle effect. Does nothing if <see cref="NeedsManualTrigger"/> is not set.
+        /// Plays this particle effect. Does nothing if the <see cref="NeedsManualTrigger"/> property is not set to <c>TRUE</c>.
         /// </summary>
         public void Play()
         {
@@ -266,7 +264,7 @@
         }
 
         /// <summary>
-        /// Stops this particle effect. Does nothing if <see cref="NeedsManualTrigger"/> is not set.
+        /// Stops this particle effect. Does nothing if the <see cref="NeedsManualTrigger"/> property is not set to <c>TRUE</c>.
         /// </summary>
         public void Stop(bool forceStop = false)
         {
@@ -281,8 +279,8 @@
         /// </summary>
         public override void Destroy()
         {
-            Stop();
-            Lightning.Renderer.RemoveRenderable(Texture);
+            Stop(); // all children will be removed by the engine
+            Lightning.Renderer.RemoveRenderable(Texture, this);
         }
     }
 }
