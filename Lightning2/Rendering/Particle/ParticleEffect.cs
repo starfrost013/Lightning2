@@ -90,22 +90,23 @@
             Texture = texture;
         }
 
-        public Particle? AddParticle(Particle asset)
-        {
-            Lightning.Renderer.AddRenderable(asset, this);
-            return asset;
-        }
-
         public override void Create()
         {
             Logger.Log($"Loading particle effect at path {Texture.Path}...");
             // don't load it multiple times
             Texture.SnapToScreen = SnapToScreen;
             if (MaxNumberCreatedEachFrame <= 0) MaxNumberCreatedEachFrame = Amount / DEFAULT_MAX_CREATED_EACH_FRAME_DIVISOR;
-            Texture.IsNotRendering = true; // don't draw the texture
+            //Texture.IsNotRendering = true; // don't draw the texture
+
             //todo: fix stupid hack where we need to load this
             // this will load the texture
-            Lightning.Renderer.AddRenderable(Texture, this);
+
+            if (Lightning.Renderer.GetRenderableByName(Texture.Name, this) == null)
+            {
+                Lightning.Renderer.AddRenderable(Texture, this);
+            }
+
+            if (!NeedsManualTrigger) Play();
         }
 
         public override void Draw()
@@ -196,18 +197,21 @@
 
                     if (Mode == ParticleMode.AbsoluteVelocity)
                     {
-                        particle.Position += new Vector2((finalVelocity.X / FINAL_VELOCITY_DIVISOR) * particle.Lifetime,
-                            (finalVelocity.Y / FINAL_VELOCITY_DIVISOR) * particle.Lifetime);
+                        particle.Position += new Vector2(finalVelocity.X / FINAL_VELOCITY_DIVISOR * particle.Lifetime,
+                           finalVelocity.Y / FINAL_VELOCITY_DIVISOR * particle.Lifetime);
                     }
                     else
                     {
-                        particle.Position += new Vector2((finalVelocity.X / FINAL_VELOCITY_DIVISOR), (finalVelocity.Y / FINAL_VELOCITY_DIVISOR));
+                        particle.Position += new Vector2(finalVelocity.X / FINAL_VELOCITY_DIVISOR, finalVelocity.Y / FINAL_VELOCITY_DIVISOR);
                     }
                 }
             
                 // Hack to fix culling
                 Size = new(Variance + (Velocity.X * Lifetime) + Texture.Size.X,
                     Variance + (Velocity.Y * Lifetime) + Texture.Size.Y);
+
+                Texture.RenderPosition = particle.Position;
+                Texture.Draw();
             }
         }
 
@@ -229,41 +233,27 @@
             if (NeedsManualTrigger
                 && !Playing) return;
 
-            Texture? tempTexture = TextureUtils.CloneTexture(Texture, false, false);
-
-            Debug.Assert(tempTexture != null); // should never be null
-
-            // manually convert due to CS0553 (not directly convertable as particle is a derived class
-            Particle particle = new(tempTexture.Name, (int)tempTexture.Size.X, (int)tempTexture.Size.Y, tempTexture.IsTarget) 
-            { 
-                Handle = tempTexture.Handle,
-                FormatHandle = tempTexture.FormatHandle,
-                Repeat = tempTexture.Repeat,
-                SnapToScreen = tempTexture.SnapToScreen,
-                ViewportStart = tempTexture.ViewportStart,
-                ViewportEnd = tempTexture.ViewportEnd,
-            };
-
-
             // easier to use doubles here so we don't use random.nextsingle
             float varX = Random.Shared.NextSingle() * (Variance - -Variance) + -Variance,
                   varY = Random.Shared.NextSingle() * (Variance - -Variance) + -Variance;
 
-            particle.Position = Position + new Vector2(varX, varY);
+            Vector2 particlePosition = Position + new Vector2(varX, varY);
+
+            int particleId = 0; 
 
             if (Mode == ParticleMode.Explode)
             {
-                particle.Id = LastId % 360;
+                particleId = LastId % 360;
                 LastId++;
             }
             else
             {
-                particle.Id = Random.Shared.Next(0, 360);
+                particleId = Random.Shared.Next(0, 360);
             }
 
-            particle.Name = $"Particle{particle.Id}";
+            Particle particle = new($"Particle{particleId}", particlePosition, particleId);
 
-            AddParticle(particle);
+            Lightning.Renderer.AddRenderable(particle, this);
         }
 
         /// <summary>
