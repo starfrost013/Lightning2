@@ -96,7 +96,8 @@ namespace LightningPackager
 
                 // print a warning message on wrong revision
                 if (revision != LightningVersion.LIGHTNING_VERSION_REVISION
-                    || build != LightningVersion.LIGHTNING_VERSION_BUILD)
+                    || build != LightningVersion.LIGHTNING_VERSION_BUILD
+                    && !failedCompatCheck)
                 {
                     Logger.LogError($"Incorrect engine patch version. You may encounter issues with this game not anticipated by the developers! (expected version {LightningVersion.LIGHTNING_VERSION_BUILD_STRING}, got {metadata.EngineVersion}!)", 
                         153,

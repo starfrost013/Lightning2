@@ -74,7 +74,7 @@ namespace LightningGL
             ParticleEffect testEffect = new("testEffect", testEffectTexture)
             {
                 Amount = 100,
-                Lifetime = 70,
+                Lifetime = 500,
                 Variance = 40,
                 Velocity = new(0.04f, -0.04f),
                 Position = new(150, 500),

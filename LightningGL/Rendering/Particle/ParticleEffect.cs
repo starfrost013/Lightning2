@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// ParticleEffect
-    /// 
+    ///  
     /// Defines a particle effect.
     /// </summary>
     public class ParticleEffect : Renderable
@@ -13,12 +13,12 @@
         public int Amount { get; set; }
 
         /// <summary>
-        /// The lifetime of each particle in frames.
+        /// The lifetime of each particle in milliseconds.
         /// </summary>
         public int Lifetime { get; set; }
 
         /// <summary>
-        /// The variance on each particle's position in frames
+        /// The maximum variance on each particle's position in the X and Y directions.
         /// </summary>
         public float Variance { get; set; }
 
@@ -129,12 +129,12 @@
             // Check what particles have to be removed
             foreach (Particle particle in particles)
             {
-                particle.Lifetime++;
+                particle.Lifetime += (float)Lightning.Renderer.DeltaTime;
                 if (particle.Lifetime > Lifetime) particlesToRemove.Add(particle);
             }
 
             // remove all the particles we need to remove.
-            foreach (Particle particleToRemove in particlesToRemove) Lightning.Lightning.Renderer.RemoveRenderable(particleToRemove, this);
+            foreach (Particle particleToRemove in particlesToRemove) Lightning.Renderer.RemoveRenderable(particleToRemove, this);
 
             // determine if a new particle set is to be created. check if under max AND if frame skip
             bool createNewParticleSet = (particles.Count < Amount);
@@ -251,11 +251,11 @@
 
             Particle particle = new($"Particle{particleId}", particlePosition, particleId);
 
-            Lightning.Lightning.Renderer.AddRenderable(particle, this);
+            Lightning.Renderer.AddRenderable(particle, this);
         }
 
         /// <summary>
-        /// Plays this particle effect. Does nothing if <see cref="NeedsManualTrigger"/> is not set.
+        /// Plays this particle effect. Does nothing if the <see cref="NeedsManualTrigger"/> property is not set to <c>TRUE</c>.
         /// </summary>
         public void Play()
         {
@@ -264,14 +264,14 @@
         }
 
         /// <summary>
-        /// Stops this particle effect. Does nothing if <see cref="NeedsManualTrigger"/> is not set.
+        /// Stops this particle effect. Does nothing if the <see cref="NeedsManualTrigger"/> property is not set to <c>TRUE</c>.
         /// </summary>
         public void Stop(bool forceStop = false)
         {
             if (NeedsManualTrigger
                 && Playing) Playing = false;
 
-            if (forceStop) Lightning.Lightning.Renderer.RemoveAllChildren(this);
+            if (forceStop) Lightning.Renderer.RemoveAllChildren(this);
         }
 
         /// <summary>
@@ -279,8 +279,8 @@
         /// </summary>
         public override void Destroy()
         {
-            Stop();
-            Lightning.Lightning.Renderer.RemoveRenderable(Texture);
+            Stop(); // all children will be removed by the engine
+            Lightning.Renderer.RemoveRenderable(Texture, this);
         }
     }
 }
