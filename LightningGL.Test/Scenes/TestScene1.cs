@@ -132,7 +132,7 @@ namespace LightningGL
                 Brightness = 127
             });
 
-            Lightning.Renderer.AddRenderable(new Light("Light9")
+            Lightning.Renderer.AddRenderable(new Light("Light8")
             {
                 Position = new(300, 300),
                 Range = 4,
