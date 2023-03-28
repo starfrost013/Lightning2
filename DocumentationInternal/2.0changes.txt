@@ -413,6 +413,11 @@ Everything that matters to the api has to go here
 * Actually add renderable when cloning texture
 * Fix two overrides of GetInstanceToTexture, now called CloneTexture, doing fundamentally different tings
 
+2023.03.28:
+* Fix various weird code issues with particle effects
+* Particle effects no longer duplicate their texture, instead moving around the same texture
+* Particle effects no longer leak 1 MB of memory every second
+* Particle effect lifetime now measured in milliseconds
 
 * todo:
 	- setting load order
