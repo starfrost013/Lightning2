@@ -48,6 +48,12 @@
 	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2.dll" />
 	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_image.dll" />
 	  <None Remove="$(ProgramFiles)/Lightning Software Development Kit/Content/Libraries/SDL2_mixer.dll" />
+	  <None Remove="Content\Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -134,9 +140,5 @@
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		  <Link>SDL2_mixer.dll</Link>
 	  </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Content\" />
   </ItemGroup>
 </Project>

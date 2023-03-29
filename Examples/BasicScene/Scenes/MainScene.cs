@@ -14,7 +14,8 @@
 
         public override void SwitchTo(Scene? oldScene)
         {
-            Lightning.Renderer.AddRenderable(new TextBlock("Text1", "Hello from MainScene", "DebugFont", new Vector2(300, 300), Color.Red));
+            Lightning.Renderer.AddRenderable(new Texture("ImageTexture", 1920, 1080, false, @"Content\Logo.png"));
+            Lightning.Renderer.AddRenderable(new TextBlock("Text1", "Hello from MainScene - press any key to switch scene", "DebugFont", new Vector2(300, 300), Color.Red));
         }
 
         public override void SwitchFrom(Scene newScene)
