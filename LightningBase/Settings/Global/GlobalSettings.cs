@@ -271,8 +271,6 @@
 
         public static int DEFAULT_GRAPHICS_RESOLUTION_Y => SystemInfo.ScreenResolutionY;
 
-        private const int DEFAULT_MAX_FPS = 60;
-
         private const int DEFAULT_GRAPHICS_TICK_SPEED = 1;
 
         private const int DEFAULT_AUDIO_DEVICE_HZ = 44100;
@@ -289,7 +287,7 @@
 
         private const float DEFAULT_DEBUG_POSITION_X = 0;
 
-        private const float DEFAULT_DEBUG_POSITION_Y = 12;
+        private const float DEFAULT_DEBUG_POSITION_Y = 0;
 
         private const int DEFAULT_DEBUG_FONT_SIZE = 11;
 

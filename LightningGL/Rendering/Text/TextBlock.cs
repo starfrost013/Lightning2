@@ -103,16 +103,6 @@
         /// </summary>
         private const int DEFAULT_RELATIVE_Z_INDEX = 1;
 
-        /// <summary>
-        /// Line used for rendering underline.
-        /// </summary>
-        private Rectangle? UnderlineLine { get; set; }
-
-        /// <summary>
-        /// Line used for rendering strikeout.
-        /// </summary>
-        private Rectangle? StrikeoutLine { get; set; }
-
         public TextBlock(string name, string text, string font) : base(name)
         {
             Text = text;

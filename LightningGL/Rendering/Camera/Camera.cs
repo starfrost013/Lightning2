@@ -10,25 +10,9 @@
     public class Camera
     {
         /// <summary>
-        /// Backing field for <see cref="Position"/>.
-        /// </summary>
-        private Vector2 _position;
-
-        /// <summary>
         /// The position of this <see cref="Camera"/>.
         /// </summary>
-        public Vector2 Position
-        {
-            get
-            {
-                // default(Vector2) is (0,0), so if it has not been set it will add nothing by default, therefore you can do this in one line of code.
-                return _position + FocusDelta;
-            }
-            set
-            {
-                _position = (value - FocusDelta);
-            }
-        }
+        public Vector2 Position { get; set; }
 
         /// <summary>
         /// If the value of <see cref="CameraType"/> is not set to <see cref="CameraType.Follow"/>, the camera will be offset by this amount when object positions are being 

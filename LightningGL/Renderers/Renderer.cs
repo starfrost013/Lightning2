@@ -372,8 +372,8 @@
                         if (curCamera != null
                             && !renderable.SnapToScreen)
                         {
-                            renderable.RenderPosition = new(renderable.Position.X - curCamera.Position.X,
-                                renderable.Position.Y - curCamera.Position.Y);
+                            renderable.RenderPosition = new(renderable.Position.X - curCamera.Position.X + curCamera.FocusDelta.X,
+                                renderable.Position.Y - curCamera.Position.Y + curCamera.FocusDelta.Y);
                         }
 
                         renderable.IsOnScreen = (renderable.NotCullable

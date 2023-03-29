@@ -22,10 +22,12 @@
             }
             set
             {
-                Debug.Assert(DebugText != null);
+                Debug.Assert(DebugText != null
+                    && DebugRectangle != null);
 
                 _enabled = value;
                 DebugText.IsNotRendering = !value;
+                DebugRectangle.IsNotRendering = !value;
             }
         }
 
@@ -60,18 +62,23 @@
         /// The default foreground colour for the debug screen.
         /// Maybe make configurable?
         /// </summary>
-        private readonly Color DebugForeground = Color.Blue;
+        private readonly Color DebugForeground = Color.Black;
 
         /// <summary>
         /// The default background colour for the debug screen.
         /// Maybe make configurable?
         /// </summary>
-        private readonly Color DebugBackground = Color.FromArgb(0, Color.White);
+        private readonly Color DebugBackground = Color.FromArgb(127, Color.White);
 
         /// <summary>
         /// The debug text block.
         /// </summary>
         private TextBlock? DebugText { get; set; }
+
+        /// <summary>
+        /// Used to make the debug text easier to see.
+        /// </summary>
+        private Rectangle? DebugRectangle { get; set; }
 
         /// <summary>
         /// Maximum number of renderables for the renderables view.
@@ -112,10 +119,13 @@
             Lightning.Renderer.AddRenderable(new Font("Arial.ttf", GlobalSettings.DebugFontSize, "DebugFont"));
 
             DebugText = Lightning.Renderer.AddRenderable(new TextBlock("DebugText", "(PLACEHOLDER)", "DebugFont",
-                new(0, (float)GlobalSettings.DebugPositionY), DebugForeground, DebugBackground));
+                new((float)GlobalSettings.DebugPositionX, (float)GlobalSettings.DebugPositionY), DebugForeground));
             DebugText.SnapToScreen = true;
             DebugText.Localise = false; // dont localise
             DebugText.ZIndex = ZIndex;
+            DebugRectangle = Lightning.Renderer.AddRenderable(new Rectangle("DebugRectangle", new((float)GlobalSettings.DebugPositionX, (float)GlobalSettings.DebugPositionY),
+                new(GlobalSettings.GraphicsResolutionX, GlobalSettings.GraphicsResolutionY), DebugBackground, true, default, default, true));
+            DebugRectangle.ZIndex = ZIndex - 1;
             Enabled = false; // explicitly set to turn off localise text
         }
 
@@ -131,8 +141,8 @@
             int currentPage = (int)CurrentDebugView + 1;
             int maxPage = (int)DebugViews.MaxPage + 1;
 
-            DebugText.Text = $"Lightning Debug v{LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING} " +
-                $"(Debug page {currentPage}/{maxPage} - {CurrentDebugView})\n";
+            DebugText.Text = $"[Debug Menu]\nEngine version {LightningVersion.LIGHTNING_VERSION_EXTENDED_STRING} " +
+                $"(Page {currentPage}/{maxPage} - {CurrentDebugView})\n\n";
 
             switch (CurrentDebugView)
             {
@@ -159,20 +169,24 @@
             Debug.Assert(CurrentScene != null
                 && DebugText != null);
 
-            string debugText =
+            string bigPictureText =
                 $"FPS: {Lightning.Renderer.CurFPS:F1} ({Lightning.Renderer.DeltaTime:F2}ms)\n" +
                 $"Renderer: {Lightning.Renderer.GetType().Name}\n" + 
                 $"Frame #{Lightning.Renderer.FrameNumber}\n" +
                 $"Number of renderables: {Lightning.Renderer.CountRenderables()}\n" + // uses recursion so we have to call a method
-                $"Number of renderables on screen: {Lightning.Renderer.RenderedLastFrame}\n" +
+                $"Number of renderables currently being rendered: {Lightning.Renderer.RenderedLastFrame}\n" +
                 $"Delta time: {Lightning.Renderer.DeltaTime}\n" +
-                $"Camera position: {Lightning.Renderer.Settings.Camera.Position}\n";
 
-            DebugText.Text += debugText;
+                // these 3 are same line 
+               $"Current camera: {Lightning.Renderer.Settings.Camera.Type} @ {Lightning.Renderer.Settings.Camera.Position} " +
+                $"(focus delta: {Lightning.Renderer.Settings.Camera.FocusDelta}, shake: {Lightning.Renderer.Settings.Camera.ShakeAmount}" +
+                $"velocity {Lightning.Renderer.Settings.Camera.Velocity}, can move while shaking: {Lightning.Renderer.Settings.Camera.AllowCameraMoveOnShake})\n" +
 
-            DebugText.Text += $"Current scene: {CurrentScene.Name}\n";
+                $"Current scene: {CurrentScene.Name}\n";
 
-            int maxFps = (GlobalSettings.GraphicsMaxFPS == 0) ? 60 : GlobalSettings.GraphicsMaxFPS;
+            DebugText.Text += bigPictureText;
+
+            int maxFps = GlobalSettings.GraphicsMaxFPS;
 
             // draw indicator that we are under 60fps always under it
             if (Lightning.Renderer.CurFPS < maxFps)
@@ -197,8 +211,8 @@
                 for (int renderableId = 0; renderableId < Lightning.Renderer.Renderables.Count; renderableId++)
                 {
                     Renderable renderable = Lightning.Renderer.Renderables[renderableId];
-                    DebugText.Text += $"{renderable.Name} ({renderable.GetType().Name}): position {renderable.Position}, " + $"size: {renderable.Size}, " +
-                        $"render position: {renderable.RenderPosition}, on screen: {renderable.IsOnScreen}, z-index: {renderable.ZIndex}, " + $"is animating now: {renderable.IsAnimating}\n";
+                    DebugText.Text += $"{renderable.Name} ({renderable.GetType().Name}): position {renderable.Position:F2}, " + $"size: {renderable.Size:F2}, " +
+                        $"render position: {renderable.RenderPosition:F2}, on screen: {renderable.IsOnScreen}, z-index: {renderable.ZIndex}, " + $"is animating now: {renderable.IsAnimating}\n";
 
                     if (renderable.Children.Count > 0) DrawRenderableChildren(renderable);
                 }
@@ -228,7 +242,7 @@
         {
             Debug.Assert(DebugText != null);
 
-            string debugText = $"Resolution: {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY} (window size: {GlobalSettings.GraphicsResolutionX},{GlobalSettings.GraphicsResolutionY}\n" +
+            string sysInfoText = $"Resolution: {SystemInfo.ScreenResolutionX},{SystemInfo.ScreenResolutionY} (window size: {GlobalSettings.GraphicsResolutionX},{GlobalSettings.GraphicsResolutionY}\n" +
                 $"Window flags: {GlobalSettings.GraphicsWindowFlags}, render flags: {GlobalSettings.GraphicsRenderFlags})\n" +
                 $"SDL {SDL_EXPECTED_MAJOR_VERSION}.{SDL_EXPECTED_MINOR_VERSION}.{SDL_EXPECTED_PATCHLEVEL}\n" +
                 $"SDL_image {SDL_IMAGE_EXPECTED_MAJOR_VERSION}.{SDL_IMAGE_EXPECTED_MINOR_VERSION}.{SDL_IMAGE_EXPECTED_PATCHLEVEL}\n" +
@@ -238,7 +252,7 @@
                 $"Hardware Threads (NOT cores!): {SystemInfo.Cpu.Threads}\n" +
                 $"Total System RAM: {SystemInfo.SystemRam}MiB\n";
 
-            DebugText.Text += debugText;
+            DebugText.Text += sysInfoText;
         }
 
         private void DrawPerformanceView()
@@ -255,7 +269,7 @@
                     $"0.1% High: {PerformanceProfiler.Current999thPercentile}\n" +
                     $"1% High: {PerformanceProfiler.Current99thPercentile}\n" +
                     $"5% High: {PerformanceProfiler.Current95thPercentile}\n" +
-                    $"Average: {PerformanceProfiler.CurrentAverage}\n" +
+                    $"Average: {PerformanceProfiler.CurrentAverage:F1}\n" +
                     $"5% Low: {PerformanceProfiler.Current5thPercentile}\n" +
                     $"1% Low: {PerformanceProfiler.Current1stPercentile}\n" +
                     $"0.1% Low: {PerformanceProfiler.Current01thPercentile}\n";

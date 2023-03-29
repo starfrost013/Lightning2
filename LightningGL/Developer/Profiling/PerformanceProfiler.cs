@@ -169,7 +169,7 @@
             {
                 // Write some notable values.
                 FileStream.WriteLine("Notable values:\n");
-                FileStream.WriteLine($"Average={CurrentAverage}");
+                FileStream.WriteLine($"Average={CurrentAverage:F1}");
                 FileStream.WriteLine($"99.9th%ile={Current999thPercentile:F1}");
                 FileStream.WriteLine($"99th%ile={Current99thPercentile:F1}");
                 FileStream.WriteLine($"95th%ile={Current95thPercentile:F1}");
