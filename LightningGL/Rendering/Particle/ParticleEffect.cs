@@ -210,11 +210,8 @@
 
                 Texture.Position = particle.Position;
 
-                if (!SnapToScreen)
-                {
-                    Texture.RenderPosition = particle.Position - Lightning.Renderer.Settings.Camera.Position;
-                }
-
+                // stupid hack to fix culling
+                if (!SnapToScreen) Texture.RenderPosition = particle.Position - Lightning.Renderer.Settings.Camera.Position;
 
                 Texture.Draw();
             }
