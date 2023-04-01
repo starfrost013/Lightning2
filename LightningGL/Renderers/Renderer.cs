@@ -404,9 +404,7 @@
 
             CurFPS = Stopwatch.Frequency / ThisTime;
 
-            DeltaTime = ((double)ThisTime / 10000);
-
-            DeltaTime *= GlobalSettings.GraphicsTickSpeed;
+            DeltaTime = (double)ThisTime / 10000 * GlobalSettings.GraphicsTickSpeed;
 
             if (GlobalSettings.GeneralProfilePerformance) PerformanceProfiler.Update(this);
             FrameNumber++;

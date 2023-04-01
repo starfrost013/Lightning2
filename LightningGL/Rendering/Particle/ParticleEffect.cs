@@ -203,12 +203,19 @@
                         particle.Position += new Vector2(finalVelocity.X / FINAL_VELOCITY_DIVISOR, finalVelocity.Y / FINAL_VELOCITY_DIVISOR);
                     }
                 }
-            
+
                 // Hack to fix culling
                 Size = new(Variance + (Velocity.X * Lifetime) + Texture.Size.X,
                     Variance + (Velocity.Y * Lifetime) + Texture.Size.Y);
 
-                Texture.RenderPosition = particle.Position;
+                Texture.Position = particle.Position;
+
+                if (!SnapToScreen)
+                {
+                    Texture.RenderPosition = particle.Position - Lightning.Renderer.Settings.Camera.Position;
+                }
+
+
                 Texture.Draw();
             }
         }

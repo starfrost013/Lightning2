@@ -138,10 +138,6 @@
         #endregion
 
         #region Graphics settings
-        /// <summary>
-        /// The target FPS.
-        /// </summary>
-        public static int GraphicsMaxFPS { get; internal set; }
 
         /// <summary>
         /// See <see cref="RendererSettings.WindowFlags"/>
@@ -399,7 +395,6 @@
             if (graphicsSection != null)
             {
                 // Convert will throw an exception, int.TryParse will return a boolean for simpler error checking
-                _ = int.TryParse(graphicsSection.GetValue("MaxFPS"), out var graphicsMaxFpsValue);
                 _ = int.TryParse(graphicsSection.GetValue("ResolutionX"), out var graphicsResolutionXValue);
                 _ = int.TryParse(graphicsSection.GetValue("ResolutionY"), out var graphicsResolutionYValue);
                 _ = Enum.TryParse(graphicsSection.GetValue("WindowFlags"), true, out SDL_WindowFlags graphicsWindowFlagsValue);
@@ -416,8 +411,6 @@
 
                 // set the default tick speed value
                 if (graphicsTickSpeedValue <= 0) graphicsTickSpeedValue = DEFAULT_GRAPHICS_TICK_SPEED;
-                // Set the actual GlobalSettings values.
-                GraphicsMaxFPS = graphicsMaxFpsValue;
                 GraphicsResolutionX = graphicsResolutionXValue;
                 GraphicsResolutionY = graphicsResolutionYValue;
                 if (graphicsWindowFlagsValue != default) GraphicsWindowFlags = graphicsWindowFlagsValue;

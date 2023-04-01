@@ -418,6 +418,11 @@ Everything that matters to the api has to go here
 * Particle effects no longer duplicate their texture, instead moving around the same texture
 * Particle effects no longer leak 1 MB of memory every second
 * Particle effect lifetime now measured in milliseconds
+* New Debug menu
+
+2023.03.30:
+* Better Basic example
+* Removed GlobalSettings::MaxFPS
 
 * todo:
 	- setting load order

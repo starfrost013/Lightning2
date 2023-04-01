@@ -191,19 +191,6 @@ namespace LightningGL
 
             SDL_RenderPresent(Settings.RendererHandle);
 
-            int maxFps = GlobalSettings.GraphicsMaxFPS;
-
-            // Delay for frame limiter
-            if (maxFps > 0)
-            {
-                double targetFrameTime = 1000 / (double)maxFps;
-                double actualFrameTime = DeltaTime;
-
-                double delayTime = targetFrameTime - actualFrameTime;
-
-                if (delayTime > 0) SDL_Delay((uint)delayTime);
-            }
-
             // Update the internal FPS values.
             UpdateFps();
 

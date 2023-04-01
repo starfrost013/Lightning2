@@ -309,15 +309,15 @@ namespace LightningGL
             Lightning.Renderer.AddRenderable(new TextBlock("text7", "Test4", "Arial.11pt", new(700, 70), Color.FromArgb(255, 255, 255, 255), 
                 Color.FromArgb(255, 255, 0, 0)));
             Lightning.Renderer.AddRenderable(new TextBlock("text8", "Test5", "Arial.11pt", new(700, 90), Color.FromArgb(255, 255, 255, 255), 
-                Color.FromArgb(255, 255, 0, 0), 1));
+                Color.FromArgb(255, 255, 0, 0)));
             Lightning.Renderer.AddRenderable(new TextBlock("text9", "Test6", "Arial.11pt", new(700, 110), Color.FromArgb(255, 255, 255, 0), 
-                Color.FromArgb(255, 255, 0, 0), -1));
+                Color.FromArgb(255, 255, 0, 0)));
             Lightning.Renderer.AddRenderable(new TextBlock("text10", "Test7", "Arial.11pt", new(700, 130), Color.FromArgb(255, 255, 255, 255), 
-                Color.FromArgb(255, 255, 0, 0), 15));
+                Color.FromArgb(255, 255, 0, 0)));
             Lightning.Renderer.AddRenderable(new TextBlock("text11", "Test8", "Arial.11pt", new(700, 150), Color.FromArgb(255, 255, 255, 255),
-                Color.FromArgb(255, 255, 0, 0), -1));
+                Color.FromArgb(255, 255, 0, 0)));
             Lightning.Renderer.AddRenderable(new TextBlock("text12", "Test9", "Arial.11pt", new(700, 190), Color.FromArgb(255, 255, 255, 255), 
-                Color.FromArgb(255, 255, 0, 0),  -1));
+                Color.FromArgb(255, 255, 0, 0)));
             Lightning.Renderer.AddRenderable(new TextBlock("text13", "Test10", "Arial.11pt", new(700, 210), Color.FromArgb(255, 255, 255, 255), 
                 Color.FromArgb(255, 255, 0, 0)));
             Lightning.Renderer.AddRenderable(new TextBlock("text14", "#[STRING_TEST]\nMulti-line text test\nTest3", "Arial.11pt", new(700, 230), 

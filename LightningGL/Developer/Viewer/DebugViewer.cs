@@ -185,14 +185,6 @@
                 $"Current scene: {CurrentScene.Name}\n";
 
             DebugText.Text += bigPictureText;
-
-            int maxFps = GlobalSettings.GraphicsMaxFPS;
-
-            // draw indicator that we are under 60fps always under it
-            if (Lightning.Renderer.CurFPS < maxFps)
-            {
-                DebugText.Text += $"Running under target FPS ({maxFps})!\n";
-            }
         }
 
         private void DrawRenderableDetailsView()

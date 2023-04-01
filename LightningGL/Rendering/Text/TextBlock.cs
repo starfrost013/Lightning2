@@ -42,11 +42,6 @@
         public Color BackgroundColor { get; set; }
 
         /// <summary>
-        /// The size of the text's outline.
-        /// </summary>
-        public int OutlineSize { get; set; }
-
-        /// <summary>
         /// Determines if this text will be localised.
         /// </summary>
         public bool Localise { get; set; }
@@ -99,6 +94,21 @@
         public bool ZIndexNotRelativeToParent { get; set; }
 
         /// <summary>
+        /// Color of the border for the background rectangle.
+        /// </summary>
+        public Color BorderColor { get; set; }
+
+        /// <summary>
+        /// Size of the border for the background rectangle.
+        /// </summary>
+        public Vector2 BorderSize { get; set; }
+
+        /// <summary>
+        /// Determines if the background of this text box will be filled.
+        /// </summary>
+        public bool BackgroundFilled { get; set; }
+
+        /// <summary>
         /// Default value for <see cref="RelativeZIndex"/>..
         /// </summary>
         private const int DEFAULT_RELATIVE_Z_INDEX = 1;
@@ -124,7 +134,7 @@
         }
 
         public TextBlock(string name, string text, string font, Vector2 position, Color foregroundColor, Color backgroundColor = default,
-            int outlineSize = 0, bool snapToScreen = false, bool localise = true, 
+            bool backgroundFilled = true, bool snapToScreen = false, bool localise = true, 
             int relativeZIndex = DEFAULT_RELATIVE_Z_INDEX) : base(name)
         {
             Text = text;
@@ -132,11 +142,12 @@
             Position = position;
             ForegroundColor = foregroundColor;
             BackgroundColor = backgroundColor;
-            OutlineSize = outlineSize;
+            BackgroundFilled = backgroundFilled;
             SnapToScreen = snapToScreen;
             Localise = localise;
             RelativeZIndex = relativeZIndex;
         }
+
 
         public override void Draw()
         {
@@ -209,7 +220,6 @@
                 // move down a line
 
                 currentPosition += new Vector2(-lineLength, font.LineGap);
-
             }
         }
     }
