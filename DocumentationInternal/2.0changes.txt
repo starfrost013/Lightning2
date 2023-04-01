@@ -422,7 +422,10 @@ Everything that matters to the api has to go here
 
 2023.03.30:
 * Better Basic example
-* Removed GlobalSettings::MaxFPS
+* Removed GlobalSettings::MaxFPS and frame limiter
+
+2023.04.01:
+* Fix Particle Effects not obeying Snap to Screen
 
 * todo:
 	- setting load order
