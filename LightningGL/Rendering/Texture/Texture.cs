@@ -333,6 +333,28 @@
         }
 
         /// <summary>
+        /// Sets all pixels of a certain colour in the texture to be transparent.
+        /// </summary>
+        /// <param name="keyColor">The color of the alpha key.</param>
+        public void AlphaKey(Color keyColor, bool unlockNow = false)
+        {
+            for (int y = 0; y < SizeInternal.Y; y++)
+            {
+                for (int x = 0; x < SizeInternal.X; x++)
+                {
+                    Color pixelColor = GetPixel(x, y);
+
+                    if (pixelColor == keyColor)
+                    {
+                        SetPixel(x, y, Color.Transparent);   
+                    }
+                }
+            }
+
+            if (unlockNow) Unlock();
+        }
+
+        /// <summary>
         /// Unloads this texture.
         /// </summary>
         public override void Destroy()

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using static LightningBase.SDL;
+﻿using static LightningBase.SDL;
 
 namespace LightningUtil
 {
@@ -73,19 +72,20 @@ namespace LightningUtil
             // build the message box data
             SDL_MessageBoxButtonData[] buttonArray = buttonData.ToArray();
 
-            SDL_MessageBoxData mbData = new();
-
-            // parent window currently not supported
-            mbData.buttons = buttonArray;
-            mbData.numbuttons = buttonArray.Length;
-            mbData.title = Title;
-            mbData.message = Text;
-            mbData.flags = Icon;
+            SDL_MessageBoxData mbData = new()
+            {
+                // parent window currently not supported
+                buttons = buttonArray,
+                numbuttons = buttonArray.Length,
+                title = Title,
+                message = Text,
+                flags = Icon
+            };
 
             // Show the message box
             if (SDL_ShowMessageBox(ref mbData, out var buttonId) < 0)
             {
-                Logger.LogError($"Error creating messagebox - {SDL_GetError()}", 19, LoggerSeverity.Error);
+                Logger.LogError($"Error creating SDL message box - {SDL_GetError()}", 19, LoggerSeverity.Error);
                 return null;
             }
 
