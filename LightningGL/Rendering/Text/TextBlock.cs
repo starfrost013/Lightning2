@@ -120,6 +120,7 @@
 
             // default values for localise are true so set localisation
             Localise = true;
+            RelativeZIndex = DEFAULT_RELATIVE_Z_INDEX;
         }
 
         public TextBlock(string name, string text, string font, Vector2 position, Color foregroundColor) : base(name)
@@ -131,6 +132,7 @@
 
             // default values for localise are true so set localisation
             Localise = true;
+            RelativeZIndex = DEFAULT_RELATIVE_Z_INDEX;
         }
 
         public TextBlock(string name, string text, string font, Vector2 position, Color foregroundColor, Color backgroundColor = default,

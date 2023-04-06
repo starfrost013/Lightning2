@@ -30,9 +30,9 @@
         public override bool CanReceiveEventsWhileUnfocused => true;
 
         /// <summary>
-        /// <inheritdoc/>. For DebugViewer, force to top EXCEPT for debugviewer.
+        /// <inheritdoc/>. For DebugConsole, force to top EXCEPT for debugviewer.
         /// </summary>
-        public override int ZIndex => 2147483646;
+        public override int ZIndex => int.MaxValue - 2;
 
         /// <summary>
         /// Backing field for <see cref="Enabled"/>
@@ -162,7 +162,7 @@
 
             Rectangle.ZIndex = ZIndex + 1;
             TextBox.ZIndex = ZIndex + 1;
-            ConsoleHeader.ZIndex = ZIndex + 1;
+            ConsoleHeader.ZIndex = ZIndex + 2;
 
             // explicitly set to update ui state
             Enabled = false;
