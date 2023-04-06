@@ -271,7 +271,7 @@
         /// <summary>
         /// The children of this Renderable.
         /// </summary>
-        public List<Renderable> Children { get; init; }
+        public List<Renderable> Children { get; internal set; }
 
         public Renderable(string name)
         {

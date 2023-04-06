@@ -1,11 +1,10 @@
-﻿using System.IO.Pipes;
-
+﻿
 namespace LightningUtil
 {
     /// <summary>
-    /// NCLogging
+    /// Logging
     /// 
-    /// Provides NuCore logging capabilities
+    /// Provides logging capabilities
     /// </summary>
     public static class Logger
     {
@@ -119,10 +118,7 @@ namespace LightningUtil
             // If the method specifies it print the date and time, as well as the currently current method
             if (printMetadata)
             {
-#if !AOT
                 stringBuilder.Append($"[{now} - ");
-
-                // workaround for .NET 7 bug https://github.com/dotnet/runtime/compare/main...release/7.0
 
                 StackTrace stackTrace = new();
 
@@ -179,9 +175,6 @@ namespace LightningUtil
                 stringBuilder.Append($"{className}::{methodName}");
 
                 stringBuilder.Append("]: ");
-#else
-                stringBuilder.Append($"[{now}]: ");
-#endif
             }
 
             stringBuilder.Append($"{information}\n");

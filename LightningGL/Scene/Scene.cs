@@ -39,7 +39,7 @@
         }
 
         /// <summary>
-        /// Run immediately after the scene is initialised, during the initialisation of the Scene Manager after SDL and Lightning2 have been started.
+        /// Run immediately after the scene is initialised, during the initialisation of the Scene Manager after SDL and Lightning core have been started.
         /// </summary>
         public abstract void Start();
 

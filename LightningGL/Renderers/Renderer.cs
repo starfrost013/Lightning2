@@ -97,7 +97,7 @@
         internal virtual void Render()
         {
             // this is actually fine for performance as it turns out (probably not a very big LINQ call)
-            Renderables = Renderables.OrderBy(x => x.ZIndex).ToList();
+            Sort();
 
 #if PROFILING
             ProfilingTimers.Order.Stop();
@@ -134,6 +134,35 @@
 #endif
             // Update camera (if it's not null)
             Settings.Camera?.Update();
+        }
+
+        private void Sort(Renderable? parent = null)
+        {
+            Renderables = Renderables.OrderBy(x => x.ZIndex).ToList();
+
+            if (parent == null)
+            {
+                foreach (Renderable renderable in Lightning.Renderer.Renderables)
+                {
+                    if (renderable.Children.Count > 0)
+                    {
+                        renderable.Children = renderable.Children.OrderBy(x => x.ZIndex).ToList();
+                        Sort(renderable);
+                    }
+                }
+            }
+            else
+            {
+                foreach (Renderable renderable in parent.Children)
+                {
+                    if (renderable.Children.Count > 0)
+                    {
+                        renderable.Children = renderable.Children.OrderBy(x => x.ZIndex).ToList();
+                        Sort(renderable);
+                    }
+                }
+            }
+            
         }
 
         /// <summary>
