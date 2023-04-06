@@ -47,53 +47,6 @@
         public bool Localise { get; set; }
 
         /// <summary>
-        /// <inheritdoc/>
-        /// 
-        /// <para>In this class: stupid kludge that deserves to die</para>
-        /// </summary>
-        public override int ZIndex
-        {
-            get
-            {
-                if (ZIndexNotRelativeToParent
-                    || Parent == null)
-                {
-                    return base.ZIndex;
-                }
-                else
-                {
-                    return base.ZIndex + RelativeZIndex;
-                }
-            }
-            set
-            {
-                if (ZIndexNotRelativeToParent
-                    || Parent == null)
-                {
-                    base.ZIndex = value;
-                }
-                else
-                {
-                    base.ZIndex = Parent.ZIndex + RelativeZIndex;
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// The relative zindex value for this text.
-        /// 
-        /// Ignored if <see cref="ZIndexNotRelativeToParent"/> is set to true.
-        /// </summary>
-        public int RelativeZIndex { get; set; }
-
-        /// <summary>
-        /// Determines if, if this text has a parent,
-        /// if its z-index will be interpreted relative to it using the <see cref="RelativeZIndex"/> property or not.
-        /// </summary>
-        public bool ZIndexNotRelativeToParent { get; set; }
-
-        /// <summary>
         /// Color of the border for the background rectangle.
         /// </summary>
         public Color BorderColor { get; set; }
@@ -120,7 +73,8 @@
 
             // default values for localise are true so set localisation
             Localise = true;
-            RelativeZIndex = DEFAULT_RELATIVE_Z_INDEX;
+
+            if (Parent != null) ZIndex = Parent.ZIndex + 1;
         }
 
         public TextBlock(string name, string text, string font, Vector2 position, Color foregroundColor) : base(name)
@@ -132,12 +86,12 @@
 
             // default values for localise are true so set localisation
             Localise = true;
-            RelativeZIndex = DEFAULT_RELATIVE_Z_INDEX;
+
+            if (Parent != null) ZIndex = Parent.ZIndex + 1;
         }
 
         public TextBlock(string name, string text, string font, Vector2 position, Color foregroundColor, Color backgroundColor = default,
-            bool backgroundFilled = true, bool snapToScreen = false, bool localise = true, 
-            int relativeZIndex = DEFAULT_RELATIVE_Z_INDEX) : base(name)
+            bool backgroundFilled = true, bool snapToScreen = false, bool localise = true) : base(name)
         {
             Text = text;
             Font = font;
@@ -147,7 +101,8 @@
             BackgroundFilled = backgroundFilled;
             SnapToScreen = snapToScreen;
             Localise = localise;
-            RelativeZIndex = relativeZIndex;
+
+            if (Parent != null) ZIndex = Parent.ZIndex + 1;
         }
 
 
