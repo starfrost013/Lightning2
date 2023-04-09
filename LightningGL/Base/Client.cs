@@ -6,7 +6,7 @@ namespace LightningGL
     /// 
     /// The Lightning client.
     /// </summary>
-    public class Client : LightningCore
+    public class Client : LightningShared
     {
 
         internal override void Init()

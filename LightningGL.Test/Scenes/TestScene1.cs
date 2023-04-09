@@ -15,10 +15,10 @@ namespace LightningGL
 
         public override void Start()
         {
-            Lightning.Renderer.AddRenderable(new Font("Arial.ttf", 11, "Arial.11pt"));
-            Lightning.Renderer.AddRenderable(new Font("Arial.ttf", 18, "Arial.18pt"));
-            Lightning.Renderer.AddRenderable(new Font("Arial.ttf", 24, "Arial.24pt"));
-            Lightning.Renderer.AddRenderable(new Font("Arial.ttf", 36, "Arial.36pt"));
+            Lightning.Tree.AddRenderable(new Font("Arial.ttf", 11, "Arial.11pt"));
+            Lightning.Tree.AddRenderable(new Font("Arial.ttf", 18, "Arial.18pt"));
+            Lightning.Tree.AddRenderable(new Font("Arial.ttf", 24, "Arial.24pt"));
+            Lightning.Tree.AddRenderable(new Font("Arial.ttf", 36, "Arial.36pt"));
 
             Lightning.Renderer.Clear(Color.FromArgb(255, 127, 127, 127));
             Texture1 = new("Texture1", 64, 64);
@@ -50,7 +50,7 @@ namespace LightningGL
                 Position = new(256, 256)
             };
 
-            Lightning.Renderer.AddRenderable(TextureAtlas1);
+            Lightning.Tree.AddRenderable(TextureAtlas1);
 
             AnimatedTexture animatedTexture1 = new("AnimatedTexture1", 256, 256, new(0, 3, 1000));
             animatedTexture1.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF0.png");
@@ -60,7 +60,7 @@ namespace LightningGL
 
             animatedTexture1.Position = new(320, 256);
 
-            Lightning.Renderer.AddRenderable(animatedTexture1);
+            Lightning.Tree.AddRenderable(animatedTexture1);
 
             LightManager.SetEnvironmentalLight(Color.FromArgb(0, 0, 0, 0));
 
@@ -82,57 +82,57 @@ namespace LightningGL
                 Mode = ParticleMode.AbsoluteVelocity,
             };
 
-            Lightning.Renderer.AddRenderable(testEffect);
+            Lightning.Tree.AddRenderable(testEffect);
 
             /*
-            Lightning.Renderer.AddRenderable(new Light("Light1")
+            Lightning.Tree.AddRenderable(new Light("Light1")
             {
                 Position = new(50, 375),
                 Range = 4,
                 Brightness = 15,
             });
 
-            Lightning.Renderer.AddRenderable(new Light("Light2")
+            Lightning.Tree.AddRenderable(new Light("Light2")
             {
                 Position = new(250, 300),
                 Range = 4,
                 Brightness = 31,
             });
 
-            Lightning.Renderer.AddRenderable(new Light("Light3")
+            Lightning.Tree.AddRenderable(new Light("Light3")
             { 
                 Position = new(450, 225), 
                 Range = 4, 
                 Brightness = 63 });
 
-            Lightning.Renderer.AddRenderable(new Light("Light4")
+            Lightning.Tree.AddRenderable(new Light("Light4")
             { 
                 Position = new(650, 150), 
                 Range = 4, 
                 Brightness = 127 });
 
-            Lightning.Renderer.AddRenderable(new Light("Light5")
+            Lightning.Tree.AddRenderable(new Light("Light5")
             { 
                 Position = new(850, 75), 
                 Range = 4, 
                 Brightness = 255 
             });
 
-            Lightning.Renderer.AddRenderable(new Light("Light6")
+            Lightning.Tree.AddRenderable(new Light("Light6")
             { 
                 Position = new(850, 275), 
                 Range = 4, 
                 Brightness = 255 
             });
             */
-            Lightning.Renderer.AddRenderable(new Light("Light7")
+            Lightning.Tree.AddRenderable(new Light("Light7")
             { 
                 Position = new(850, 475), 
                 Range = 4, 
                 Brightness = 127
             });
 
-            Lightning.Renderer.AddRenderable(new Light("Light8")
+            Lightning.Tree.AddRenderable(new Light("Light8")
             {
                 Position = new(300, 300),
                 Range = 4,
@@ -140,7 +140,7 @@ namespace LightningGL
                 Brightness = 127
             });
 
-            Lightning.Renderer.AddRenderable(new Light("Light9")
+            Lightning.Tree.AddRenderable(new Light("Light9")
             { 
                 Position = new(350, 300), 
                 Range = 4,
@@ -148,7 +148,7 @@ namespace LightningGL
                 Brightness = 127
             });
 
-            Lightning.Renderer.AddRenderable(new Light("Light10")
+            Lightning.Tree.AddRenderable(new Light("Light10")
             {
                 Position = new(325, 350),
                 LightColor = Color.FromArgb(255, 0, 0, 255),
@@ -156,13 +156,13 @@ namespace LightningGL
                 Brightness = 255,
             });
 
-            Lightning.Renderer.AddRenderable(new Audio("xm_boot", @"Content\xm_boot.mp3"));
-            Lightning.Renderer.AddRenderable(new Audio("xm_boot_ogg", @"Content\xm_boot_ogg.ogg"));
-            Lightning.Renderer.AddRenderable(new Audio("xm_title", @"Content\xm_title.mp3"));
+            Lightning.Tree.AddRenderable(new Audio("xm_boot", @"Content\xm_boot.mp3"));
+            Lightning.Tree.AddRenderable(new Audio("xm_boot_ogg", @"Content\xm_boot_ogg.ogg"));
+            Lightning.Tree.AddRenderable(new Audio("xm_title", @"Content\xm_title.mp3"));
 
-            Audio? xmBoot = (Audio?)Lightning.Renderer.GetRenderableByName("xm_boot");
-            Audio? xmBootOgg = (Audio?)Lightning.Renderer.GetRenderableByName("xm_boot_ogg");
-            Audio? xmTitle = (Audio?)Lightning.Renderer.GetRenderableByName("xm_title");
+            Audio? xmBoot = (Audio?)Lightning.Tree.GetRenderableByName("xm_boot");
+            Audio? xmBootOgg = (Audio?)Lightning.Tree.GetRenderableByName("xm_boot_ogg");
+            Audio? xmTitle = (Audio?)Lightning.Tree.GetRenderableByName("xm_title");
 
             Debug.Assert(xmBoot != null);
             Debug.Assert(xmBootOgg != null);
@@ -231,10 +231,10 @@ namespace LightningGL
             };
 
 
-            Lightning.Renderer.AddRenderable(btn1);
-            Lightning.Renderer.AddRenderable(listBox1);
-            Lightning.Renderer.AddRenderable(textBox1);
-            Lightning.Renderer.AddRenderable(checkBox1);
+            Lightning.Tree.AddRenderable(btn1);
+            Lightning.Tree.AddRenderable(listBox1);
+            Lightning.Tree.AddRenderable(textBox1);
+            Lightning.Tree.AddRenderable(checkBox1);
 
             // you must load a listbox before adding it
             // note this in docs
@@ -244,8 +244,8 @@ namespace LightningGL
             listBox1.AddItem(new("Item4", "Arial.11pt", "zxczxzxzx"));
             listBox1.AddItem(new("Item5", "Arial.11pt", "qasqsdfwqer"));
 
-            Lightning.Renderer.AddRenderable(Texture1);
-            Lightning.Renderer.AddRenderable(missingTextureTest);
+            Lightning.Tree.AddRenderable(Texture1);
+            Lightning.Tree.AddRenderable(missingTextureTest);
 
             missingTextureTest.Position = new(150, 150);
             // bug:
@@ -266,14 +266,14 @@ namespace LightningGL
 
             texture2.Unlock();
             texture2.Position = new(-200, 0);
-            Lightning.Renderer.AddRenderable(texture2);
+            Lightning.Tree.AddRenderable(texture2);
 
-            Lightning.Renderer.AddRenderable(animatedTexture1);
+            Lightning.Tree.AddRenderable(animatedTexture1);
 
             Texture1.ZIndex = -9999999;
 
             Animation? anim1 = new("anim1", @"Content\Animations\Animation1.json");
-            anim1 = Lightning.Renderer.AddRenderable(anim1);
+            anim1 = Lightning.Tree.AddRenderable(anim1);
 
             Debug.Assert(anim1 != null);
 
@@ -281,46 +281,46 @@ namespace LightningGL
 
             Texture1.StartCurrentAnimation();
 
-            Lightning.Renderer.AddRenderable(new Line("Line1", new(500, 300), new(600, 300), Color.FromArgb(255, 255, 255, 255)));
-            Lightning.Renderer.AddRenderable(new Line("Line2", new(500, 270), new(600, 270), Color.FromArgb(255, 255, 255, 255)));
-            Lightning.Renderer.AddRenderable(new Line("Line3", new(500, 240), new(600, 240), Color.FromArgb(255, 255, 255, 255)));
-            Lightning.Renderer.AddRenderable(new Line("Line4", new(500, 210), new(600, 210), Color.FromArgb(255, 255, 255, 255)));
+            Lightning.Tree.AddRenderable(new Line("Line1", new(500, 300), new(600, 300), Color.FromArgb(255, 255, 255, 255)));
+            Lightning.Tree.AddRenderable(new Line("Line2", new(500, 270), new(600, 270), Color.FromArgb(255, 255, 255, 255)));
+            Lightning.Tree.AddRenderable(new Line("Line3", new(500, 240), new(600, 240), Color.FromArgb(255, 255, 255, 255)));
+            Lightning.Tree.AddRenderable(new Line("Line4", new(500, 210), new(600, 210), Color.FromArgb(255, 255, 255, 255)));
 
-            Lightning.Renderer.AddRenderable(new Ellipse("Ellipse1", new(500, 10), new(50, 50), Color.FromArgb(255, 255, 255, 255)));
+            Lightning.Tree.AddRenderable(new Ellipse("Ellipse1", new(500, 10), new(50, 50), Color.FromArgb(255, 255, 255, 255)));
 
-            Lightning.Renderer.AddRenderable(new Ellipse("Ellipse2", new(500, 309), new(50, 50), Color.FromArgb(127, 255, 255, 255)));
+            Lightning.Tree.AddRenderable(new Ellipse("Ellipse2", new(500, 309), new(50, 50), Color.FromArgb(127, 255, 255, 255)));
 
-            Lightning.Renderer.AddRenderable(new Rectangle("Rect1", new(552, 10), new(30, 30), Color.FromArgb(255, 255, 255, 255), false));
-            Lightning.Renderer.AddRenderable(new Rectangle("Rect2", new(584, 10), new(30, 30), Color.FromArgb(33, 0, 0, 255), true));
+            Lightning.Tree.AddRenderable(new Rectangle("Rect1", new(552, 10), new(30, 30), Color.FromArgb(255, 255, 255, 255), false));
+            Lightning.Tree.AddRenderable(new Rectangle("Rect2", new(584, 10), new(30, 30), Color.FromArgb(33, 0, 0, 255), true));
 
-            Lightning.Renderer.AddRenderable(new TextBlock("text1", "#[STRING_TEST]", "DebugFont", new(500, 90), Color.FromArgb(255, 0, 0, 255)));
-            Lightning.Renderer.AddRenderable(new TextBlock("text2", "Loc string test: #[STRING_TEST]", "DebugFont", new(500, 120), Color.FromArgb(255, 0, 0, 255)));
-            Lightning.Renderer.AddRenderable(new TextBlock("text3", "Loc string test: #[STRING_TEST] aaaaaa #[STRING_TEST] #[STRING_TEST] bbbbbb", "DebugFont", 
+            Lightning.Tree.AddRenderable(new TextBlock("text1", "#[STRING_TEST]", "DebugFont", new(500, 90), Color.FromArgb(255, 0, 0, 255)));
+            Lightning.Tree.AddRenderable(new TextBlock("text2", "Loc string test: #[STRING_TEST]", "DebugFont", new(500, 120), Color.FromArgb(255, 0, 0, 255)));
+            Lightning.Tree.AddRenderable(new TextBlock("text3", "Loc string test: #[STRING_TEST] aaaaaa #[STRING_TEST] #[STRING_TEST] bbbbbb", "DebugFont", 
                 new(500, 150), Color.FromArgb(255, 0, 0, 255)));
 
-            Lightning.Renderer.AddRenderable(new TextBlock("text4", "Test1", "Arial.11pt", new(700, 10), Color.FromArgb(255, 255, 255, 255)));
-            Lightning.Renderer.AddRenderable(new TextBlock("text5", "Test2", "Arial.11pt", new(700, 30), Color.FromArgb(255, 255, 255, 255), 
+            Lightning.Tree.AddRenderable(new TextBlock("text4", "Test1", "Arial.11pt", new(700, 10), Color.FromArgb(255, 255, 255, 255)));
+            Lightning.Tree.AddRenderable(new TextBlock("text5", "Test2", "Arial.11pt", new(700, 30), Color.FromArgb(255, 255, 255, 255), 
                 Color.FromArgb(255, 255, 0, 0)));
-            Lightning.Renderer.AddRenderable(new TextBlock("text6", "Test3", "Arial.11pt", new(700, 50), Color.FromArgb(255, 255, 255, 0), 
+            Lightning.Tree.AddRenderable(new TextBlock("text6", "Test3", "Arial.11pt", new(700, 50), Color.FromArgb(255, 255, 255, 0), 
                 Color.FromArgb(255, 255, 0, 0)));
-            Lightning.Renderer.AddRenderable(new TextBlock("text7", "Test4", "Arial.11pt", new(700, 70), Color.FromArgb(255, 255, 255, 255), 
+            Lightning.Tree.AddRenderable(new TextBlock("text7", "Test4", "Arial.11pt", new(700, 70), Color.FromArgb(255, 255, 255, 255), 
                 Color.FromArgb(255, 255, 0, 0)));
-            Lightning.Renderer.AddRenderable(new TextBlock("text8", "Test5", "Arial.11pt", new(700, 90), Color.FromArgb(255, 255, 255, 255), 
+            Lightning.Tree.AddRenderable(new TextBlock("text8", "Test5", "Arial.11pt", new(700, 90), Color.FromArgb(255, 255, 255, 255), 
                 Color.FromArgb(255, 255, 0, 0)));
-            Lightning.Renderer.AddRenderable(new TextBlock("text9", "Test6", "Arial.11pt", new(700, 110), Color.FromArgb(255, 255, 255, 0), 
+            Lightning.Tree.AddRenderable(new TextBlock("text9", "Test6", "Arial.11pt", new(700, 110), Color.FromArgb(255, 255, 255, 0), 
                 Color.FromArgb(255, 255, 0, 0)));
-            Lightning.Renderer.AddRenderable(new TextBlock("text10", "Test7", "Arial.11pt", new(700, 130), Color.FromArgb(255, 255, 255, 255), 
+            Lightning.Tree.AddRenderable(new TextBlock("text10", "Test7", "Arial.11pt", new(700, 130), Color.FromArgb(255, 255, 255, 255), 
                 Color.FromArgb(255, 255, 0, 0)));
-            Lightning.Renderer.AddRenderable(new TextBlock("text11", "Test8", "Arial.11pt", new(700, 150), Color.FromArgb(255, 255, 255, 255),
+            Lightning.Tree.AddRenderable(new TextBlock("text11", "Test8", "Arial.11pt", new(700, 150), Color.FromArgb(255, 255, 255, 255),
                 Color.FromArgb(255, 255, 0, 0)));
-            Lightning.Renderer.AddRenderable(new TextBlock("text12", "Test9", "Arial.11pt", new(700, 190), Color.FromArgb(255, 255, 255, 255), 
+            Lightning.Tree.AddRenderable(new TextBlock("text12", "Test9", "Arial.11pt", new(700, 190), Color.FromArgb(255, 255, 255, 255), 
                 Color.FromArgb(255, 255, 0, 0)));
-            Lightning.Renderer.AddRenderable(new TextBlock("text13", "Test10", "Arial.11pt", new(700, 210), Color.FromArgb(255, 255, 255, 255), 
+            Lightning.Tree.AddRenderable(new TextBlock("text13", "Test10", "Arial.11pt", new(700, 210), Color.FromArgb(255, 255, 255, 255), 
                 Color.FromArgb(255, 255, 0, 0)));
-            Lightning.Renderer.AddRenderable(new TextBlock("text14", "#[STRING_TEST]\nMulti-line text test\nTest3", "Arial.11pt", new(700, 230), 
+            Lightning.Tree.AddRenderable(new TextBlock("text14", "#[STRING_TEST]\nMulti-line text test\nTest3", "Arial.11pt", new(700, 230), 
                 Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 255, 0, 0)));
 
-            Lightning.Renderer.AddRenderable(new TextBlock("text15", "pos_test", "Arial.36pt", new(0, 0), Color.FromArgb(255, 127, 0, 255)));
+            Lightning.Tree.AddRenderable(new TextBlock("text15", "pos_test", "Arial.36pt", new(0, 0), Color.FromArgb(255, 127, 0, 255)));
         }
 
         public override void Shutdown()

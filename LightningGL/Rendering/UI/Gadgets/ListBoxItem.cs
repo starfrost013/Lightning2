@@ -67,10 +67,10 @@
             // set the default background color
             if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
 
-            Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("ListBoxItemRectangle", Position, Size, CurBackgroundColor, Filled, 
+            Rectangle = Lightning.Tree.AddRenderable(new Rectangle("ListBoxItemRectangle", Position, Size, CurBackgroundColor, Filled, 
                 BorderColor, BorderSize, SnapToScreen), this);
 
-            TextBlock = Lightning.Renderer.AddRenderable(new TextBlock("ListBoxItemText", Text, Font, Position, ForegroundColor), this);
+            TextBlock = Lightning.Tree.AddRenderable(new TextBlock("ListBoxItemText", Text, Font, Position, ForegroundColor), this);
 
             Debug.Assert(Rectangle != null);
         }

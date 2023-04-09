@@ -67,8 +67,8 @@ namespace LightningGL
             LightManager.Init();
 
             // maybe move this somewhere else
-            if (GlobalSettings.DebugState.HasFlag(DebugState.DebugViewer)) AddRenderable(new DebugViewer("DebugViewer"));
-            if (GlobalSettings.DebugState.HasFlag(DebugState.DebugConsole)) AddRenderable(new DebugConsole("DebugConsole"));
+            if (GlobalSettings.DebugState.HasFlag(DebugState.DebugViewer)) Tree.AddRenderable(new DebugViewer("DebugViewer"));
+            if (GlobalSettings.DebugState.HasFlag(DebugState.DebugConsole)) Tree.AddRenderable(new DebugConsole("DebugConsole"));
 
             EventsRunning = true;
         }

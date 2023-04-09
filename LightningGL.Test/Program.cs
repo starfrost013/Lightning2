@@ -6,6 +6,6 @@ using LightningGL;
 // © 2022-2023 starfrost
 // See TestScene1.cs for test code
 
-LightningCore.RegisterScene(new TestScene1());
+LightningShared.RegisterScene(new TestScene1());
 
 InitClient(); // Initialise LightningGL

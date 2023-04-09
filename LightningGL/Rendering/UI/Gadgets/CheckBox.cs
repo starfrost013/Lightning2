@@ -95,10 +95,10 @@
         public override void Create()
         {
             // issue: won't update if you modify it again later
-            Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("CheckBoxRectangle", Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen), this);
+            Rectangle = Lightning.Tree.AddRenderable(new Rectangle("CheckBoxRectangle", Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen), this);
 
-            CheckBoxLine1 = Lightning.Renderer.AddRenderable(new Line("CheckBoxLine1", default, default, ForegroundColor, SnapToScreen), this);
-            CheckBoxLine2 = Lightning.Renderer.AddRenderable(new Line("CheckBoxLine2", default, default, ForegroundColor, SnapToScreen), this);
+            CheckBoxLine1 = Lightning.Tree.AddRenderable(new Line("CheckBoxLine1", default, default, ForegroundColor, SnapToScreen), this);
+            CheckBoxLine2 = Lightning.Tree.AddRenderable(new Line("CheckBoxLine2", default, default, ForegroundColor, SnapToScreen), this);
         }
 
         /// <summary>

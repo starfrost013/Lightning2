@@ -144,13 +144,13 @@
 
         public override void Create()
         {
-            Lightning.Renderer.AddRenderable(new Font("Arial.ttf", GlobalSettings.DebugFontSizeLarge, "DebugFontLarge"));
+            Lightning.Tree.AddRenderable(new Font("Arial.ttf", GlobalSettings.DebugFontSizeLarge, "DebugFontLarge"));
 
-            Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("ConsoleRectangle", new(0, 0), new(GlobalSettings.DebugConsoleSizeX, GlobalSettings.DebugConsoleSizeY),
+            Rectangle = Lightning.Tree.AddRenderable(new Rectangle("ConsoleRectangle", new(0, 0), new(GlobalSettings.DebugConsoleSizeX, GlobalSettings.DebugConsoleSizeY),
                 DEFAULT_DEBUG_FOREGROUND_COLOR, true, DEFAULT_DEBUG_BORDER, DEFAULT_DEBUG_BORDER_SIZE, true), this);
-            TextBox = Lightning.Renderer.AddRenderable(new TextBox("ConsoleTextBox", 300, "DebugFont", DEFAULT_TEXTBOX_POSITION, 
+            TextBox = Lightning.Tree.AddRenderable(new TextBox("ConsoleTextBox", 300, "DebugFont", DEFAULT_TEXTBOX_POSITION, 
                 DEFAULT_CONSOLE_TEXTBOX_SIZE, DEFAULT_DEBUG_TEXT_COLOR, DEFAULT_DEBUG_TEXT_BOX_BACKGROUND, true, DEFAULT_DEBUG_BORDER, DEFAULT_DEBUG_BORDER_SIZE), this);
-            ConsoleHeader = Lightning.Renderer.AddRenderable(new TextBlock("ConsoleHeader", "Console", "DebugFontLarge", DEFAULT_CONSOLE_HEADER_POSITION,
+            ConsoleHeader = Lightning.Tree.AddRenderable(new TextBlock("ConsoleHeader", "Console", "DebugFontLarge", DEFAULT_CONSOLE_HEADER_POSITION,
                  DEFAULT_DEBUG_HEADER_COLOR, Color.Transparent), this);
 
             TextBox.HoverColor = DEFAULT_DEBUG_TEXT_BOX_BACKGROUND_HOVER;

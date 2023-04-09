@@ -124,7 +124,7 @@
 
             // Get the font and throw an error if it's invalid
             // we only use this for minimum character spacing
-            Font? font = (Font?)Lightning.Renderer.GetRenderableByName(Font);
+            Font? font = (Font?)Lightning.Tree.GetRenderableByName(Font);
 
             if (font == null
                 || font.Handle == default)

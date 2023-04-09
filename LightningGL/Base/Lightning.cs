@@ -13,11 +13,13 @@
 
         private static bool Initialised { get; set; }
 
-        #region Asset managers (these are here for compatibility)
+        #region Core Content 
 
         public static Renderer Renderer => Client.Renderer;
 
         public static Scene? CurrentScene => Client.CurrentScene;
+
+        public static RenderTree Tree => Client.Tree;
 
         public static LightAssetManager LightManager => Client.LightManager;
 

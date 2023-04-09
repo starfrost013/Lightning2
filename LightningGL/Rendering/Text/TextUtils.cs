@@ -28,7 +28,7 @@
             // call the multiline text function
             if (text.Contains('\n', StringComparison.InvariantCultureIgnoreCase)) return GetLargestTextSize(font, text, foregroundColor);
 
-            if (!Lightning.Renderer.ContainsRenderable(font.Name)) Logger.LogError($"Please load font (Name={font.Name}, Size={font.FontSize}) before trying to use it!", 
+            if (!Lightning.Tree.ContainsRenderable(font.Name)) Logger.LogError($"Please load font (Name={font.Name}, Size={font.FontSize}) before trying to use it!", 
                 81, LoggerSeverity.FatalError);
 
             Vector2 fontSize = new();
@@ -60,7 +60,7 @@
         /// <returns>A <see cref="Vector2"/> containing the size of <paramref name="text"/> in pixels.</returns>
         public static Vector2 GetTextSize(string font, string text, Color foregroundColor)
         {
-            Font? curFont = (Font?)Lightning.Renderer.GetRenderableByName(font);
+            Font? curFont = (Font?)Lightning.Tree.GetRenderableByName(font);
 
             if (curFont == null)
             {
@@ -91,7 +91,7 @@
                 return default; 
             }
 
-            if (!Lightning.Renderer.ContainsRenderable(font.Name)) Logger.LogError($"Please load font (Name={font.Name}, " +
+            if (!Lightning.Tree.ContainsRenderable(font.Name)) Logger.LogError($"Please load font (Name={font.Name}, " +
                 $"Size={font.FontSize}) before trying to use it!", 82, LoggerSeverity.FatalError);
 
             string[] lines = text.Split('\n');
@@ -118,7 +118,7 @@
         /// <returns>A <see cref="Vector2"/> containing the size of <paramref name="text"/> in pixels.</returns>
         internal static Vector2 GetLargestTextSize(string font, string text, Color foregroundColor)
         {
-            Font? curFont = (Font?)Lightning.Renderer.GetRenderableByName(font);
+            Font? curFont = (Font?)Lightning.Tree.GetRenderableByName(font);
 
             if (curFont != null)
             {

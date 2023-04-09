@@ -46,7 +46,7 @@
 
             foreach (Renderable renderable in Lightning.Renderer.Renderables)
             {
-                Lightning.Renderer.RemoveRenderable(renderable);
+                Lightning.Tree.RemoveRenderable(renderable);
             }
         }
 

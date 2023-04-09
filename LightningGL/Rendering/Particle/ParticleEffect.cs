@@ -99,9 +99,9 @@
             //todo: fix stupid hack where we need to load this
             // this will load the texture
 
-            if (Lightning.Renderer.GetRenderableByName(Texture.Name, this) == null)
+            if (Lightning.Tree.GetRenderableByName(Texture.Name, this) == null)
             {
-                Lightning.Renderer.AddRenderable(Texture, this);
+                Lightning.Tree.AddRenderable(Texture, this);
             }
 
             if (!NeedsManualTrigger) Play();
@@ -134,7 +134,7 @@
             }
 
             // remove all the particles we need to remove.
-            foreach (Particle particleToRemove in particlesToRemove) Lightning.Renderer.RemoveRenderable(particleToRemove, this);
+            foreach (Particle particleToRemove in particlesToRemove) Lightning.Tree.RemoveRenderable(particleToRemove, this);
 
             // determine if a new particle set is to be created. check if under max AND if frame skip
             bool createNewParticleSet = (particles.Count < Amount);
@@ -255,7 +255,7 @@
 
             Particle particle = new($"Particle{particleId}", particlePosition, particleId);
 
-            Lightning.Renderer.AddRenderable(particle, this);
+            Lightning.Tree.AddRenderable(particle, this);
         }
 
         /// <summary>
@@ -275,7 +275,7 @@
             if (NeedsManualTrigger
                 && Playing) Playing = false;
 
-            if (forceStop) Lightning.Renderer.RemoveAllChildren(this);
+            if (forceStop) Lightning.Tree.RemoveAllChildren(this);
         }
 
         /// <summary>
@@ -284,7 +284,7 @@
         public override void Destroy()
         {
             Stop(); // all children will be removed by the engine
-            Lightning.Renderer.RemoveRenderable(Texture, this);
+            Lightning.Tree.RemoveRenderable(Texture, this);
         }
     }
 }

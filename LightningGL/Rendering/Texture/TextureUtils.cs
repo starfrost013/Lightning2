@@ -20,7 +20,7 @@ namespace LightningGL
         {
             try
             {
-                Texture? texture = (Texture?)Lightning.Renderer.GetRenderableByName(name);
+                Texture? texture = (Texture?)Lightning.Tree.GetRenderableByName(name);
 
                 if (texture == null)
                 {
@@ -66,7 +66,7 @@ namespace LightningGL
                 clonedTexture.Path = texture.Path;
             }
 
-            if (addToHierarchy) Lightning.Renderer.AddRenderable(clonedTexture, texture.Parent); // this loads it
+            if (addToHierarchy) Lightning.Tree.AddRenderable(clonedTexture, texture.Parent); // this loads it
             return clonedTexture;
         }
     }

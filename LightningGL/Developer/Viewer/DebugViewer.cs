@@ -116,14 +116,14 @@
             Logger.Log("Loading debug font...");
             // Load the debug font.
             // My lazy cleaning up hack makes me not put the debug font as a logical child of the debug viewer.
-            Lightning.Renderer.AddRenderable(new Font("Arial.ttf", GlobalSettings.DebugFontSize, "DebugFont"));
+            Lightning.Tree.AddRenderable(new Font("Arial.ttf", GlobalSettings.DebugFontSize, "DebugFont"));
 
-            DebugText = Lightning.Renderer.AddRenderable(new TextBlock("DebugText", "(PLACEHOLDER)", "DebugFont",
+            DebugText = Lightning.Tree.AddRenderable(new TextBlock("DebugText", "(PLACEHOLDER)", "DebugFont",
                 new((float)GlobalSettings.DebugPositionX, (float)GlobalSettings.DebugPositionY), DebugForeground));
             DebugText.SnapToScreen = true;
             DebugText.Localise = false; // dont localise
             DebugText.ZIndex = ZIndex;
-            DebugRectangle = Lightning.Renderer.AddRenderable(new Rectangle("DebugRectangle", new((float)GlobalSettings.DebugPositionX, (float)GlobalSettings.DebugPositionY),
+            DebugRectangle = Lightning.Tree.AddRenderable(new Rectangle("DebugRectangle", new((float)GlobalSettings.DebugPositionX, (float)GlobalSettings.DebugPositionY),
                 new(GlobalSettings.GraphicsResolutionX, GlobalSettings.GraphicsResolutionY), DebugBackground, true, default, default, true));
             DebugRectangle.ZIndex = ZIndex - 1;
             Enabled = false; // explicitly set to turn off localise text
@@ -173,7 +173,7 @@
                 $"FPS: {Lightning.Renderer.CurFPS:F1} ({Lightning.Renderer.DeltaTime:F2}ms)\n" +
                 $"Renderer: {Lightning.Renderer.GetType().Name}\n" + 
                 $"Frame #{Lightning.Renderer.FrameNumber}\n" +
-                $"Number of renderables: {Lightning.Renderer.CountRenderables()}\n" + // uses recursion so we have to call a method
+                $"Number of renderables: {Lightning.Tree.CountRenderables()}\n" + // uses recursion so we have to call a method
                 $"Number of renderables currently being rendered: {Lightning.Renderer.RenderedLastFrame}\n" +
                 $"Delta time: {Lightning.Renderer.DeltaTime}\n" +
 

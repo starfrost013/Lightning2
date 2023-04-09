@@ -169,9 +169,9 @@ namespace LightningGL
             if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
 
             Text ??= string.Empty;
-            Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("TextBoxRectangle", Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen), this);
-            Cursor = Lightning.Renderer.AddRenderable(new Line("TextBoxLine", default, default, ForegroundColor, SnapToScreen), this);
-            TextBoxText = Lightning.Renderer.AddRenderable(new TextBlock("TextBoxText", Text, Font, Position, ForegroundColor, default), this);
+            Rectangle = Lightning.Tree.AddRenderable(new Rectangle("TextBoxRectangle", Position, Size, CurBackgroundColor, true, BorderColor, BorderSize, SnapToScreen), this);
+            Cursor = Lightning.Tree.AddRenderable(new Line("TextBoxLine", default, default, ForegroundColor, SnapToScreen), this);
+            TextBoxText = Lightning.Tree.AddRenderable(new TextBlock("TextBoxText", Text, Font, Position, ForegroundColor, default), this);
             TextBoxText.SnapToScreen = SnapToScreen;    
             Cursor.SnapToScreen = SnapToScreen;
         }

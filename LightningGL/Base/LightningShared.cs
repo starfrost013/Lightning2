@@ -1,11 +1,11 @@
 ﻿namespace LightningGL
 {
     /// <summary>
-    /// LightningBase
+    /// LightningShared
     /// 
     /// The base class for the Lightning client and server.
     /// </summary>
-    public class LightningCore
+    public class LightningShared
     {
         /// <summary>
         /// The current scene that is being run.
@@ -18,6 +18,11 @@
         public static Renderer Renderer { get; protected set; }
 
         /// <summary>
+        /// The render tree of the application containing all objects.
+        /// </summary>
+        public static RenderTree Tree { get; protected set; }   
+
+        /// <summary>
         /// Determines if the scene manager is running.
         /// </summary>
         internal static bool Initialised { get; set; }
@@ -27,7 +32,7 @@
         /// </summary>
         public static List<Scene> Scenes { get; protected set; }
 
-        static LightningCore()
+        static LightningShared()
         {
             // Initialise SDL renderer as a default.
             Renderer = new SdlRenderer();
@@ -35,6 +40,7 @@
 
             // Initialise all asset managers
             LightManager = new LightAssetManager();
+            Tree = new RenderTree();
         }
 
         #region Asset managers

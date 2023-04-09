@@ -135,13 +135,13 @@
 
             // HACK: Don't make this a child of this so that it does not break everything
             // Make this hack go away in the future
-            Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("ListBoxRectangle", Position, BoxSize, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen));
-            SelectedItemBlock = Lightning.Renderer.AddRenderable(new TextBlock("SelectedItemBlock", string.Empty, Font, Position, ForegroundColor));
+            Rectangle = Lightning.Tree.AddRenderable(new Rectangle("ListBoxRectangle", Position, BoxSize, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen));
+            SelectedItemBlock = Lightning.Tree.AddRenderable(new TextBlock("SelectedItemBlock", string.Empty, Font, Position, ForegroundColor));
 
             // check the font is loaded properly
             Debug.Assert(Font != null);
 
-            Font? itemFont = (Font?)Lightning.Renderer.GetRenderableByName(Font);
+            Font? itemFont = (Font?)Lightning.Tree.GetRenderableByName(Font);
 
             if (itemFont == null)
             {
@@ -160,7 +160,7 @@
             Debug.Assert(Rectangle != null
                 && Font != null);
 
-            Font? itemFont = (Font?)Lightning.Renderer.GetRenderableByName(Font);
+            Font? itemFont = (Font?)Lightning.Tree.GetRenderableByName(Font);
 
             Debug.Assert(itemFont != null, "Font was changed to invalid font after creation of ListBox!!");
 
@@ -213,7 +213,7 @@
 
             // resize the listbox 
             Size = new(Size.X, Size.Y + (BoxSize.Y));
-            Lightning.Renderer.AddRenderable(item, this);
+            Lightning.Tree.AddRenderable(item, this);
 
             // select first item as default, only do this when we add a new item for the first time 
             if (Children.Count == 1) SelectedIndex = 0; 
@@ -225,7 +225,7 @@
         /// <param name="item"></param>
         public void RemoveItem(ListBoxItem item)
         {
-            Lightning.Renderer.RemoveRenderable(item, this);
+            Lightning.Tree.RemoveRenderable(item, this);
 
             // ensure within range
             if (SelectedIndex >= Children.Count) SelectedIndex = Children.Count - 1;
@@ -256,7 +256,7 @@
 
             Rectangle.Color = CurBackgroundColor;
 
-            Font? curFont = (Font?)Lightning.Renderer.GetRenderableByName(Font);
+            Font? curFont = (Font?)Lightning.Tree.GetRenderableByName(Font);
 
             if (curFont == null)
             {

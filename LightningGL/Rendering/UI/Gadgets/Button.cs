@@ -3,8 +3,6 @@
     /// <summary>
     /// Button
     /// 
-    /// June 12, 2022 (modified June 15, 2022: add highlight color)
-    /// 
     /// Defines a button class.
     /// </summary>
     public class Button : Gadget
@@ -57,12 +55,12 @@
             // This is a bit of a hack, but it works for now
             if (CurBackgroundColor == default) CurBackgroundColor = BackgroundColor;
 
-            Rectangle = Lightning.Renderer.AddRenderable(new Rectangle("ButtonRectangle", Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen), this);
+            Rectangle = Lightning.Tree.AddRenderable(new Rectangle("ButtonRectangle", Position, Size, CurBackgroundColor, Filled, BorderColor, BorderSize, SnapToScreen), this);
 
             // hack for now
             Text ??= string.Empty;
 
-            TextBlock = Lightning.Renderer.AddRenderable(new TextBlock("ButtonText", Text, Font, Position, ForegroundColor, default), this);
+            TextBlock = Lightning.Tree.AddRenderable(new TextBlock("ButtonText", Text, Font, Position, ForegroundColor, default), this);
             TextBlock.SnapToScreen = SnapToScreen;
 
             Debug.Assert(Rectangle != null);
@@ -84,7 +82,7 @@
             Rectangle.Color = CurBackgroundColor;
             Rectangle.BorderColor = BorderColor;
 
-            Font? curFont = (Font?)Lightning.Renderer.GetRenderableByName(Font);
+            Font? curFont = (Font?)Lightning.Tree.GetRenderableByName(Font);
 
             // this should NEVER return null because it's been made a fatal error if it is
             Debug.Assert(curFont != null);

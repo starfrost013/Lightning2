@@ -430,6 +430,10 @@ Everything that matters to the api has to go here
 2023.04.03:
 * Implement Texture::AlphaKey
 
+2023.04.05:
+* Remove RelativeZIndex
+* ZIndex sorting now takes into account children of hierarchy
+
 * todo:
 	- setting load order
 	- DEATH to DUPLICATE CODE
