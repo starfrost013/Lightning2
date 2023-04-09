@@ -32,11 +32,11 @@ namespace BasicScene
                 Position = new Vector2(Lightning.Renderer.Settings.Size.X - 128, 300),
             };
 
-            Lightning.Renderer.AddRenderable(Coll1);
-            Lightning.Renderer.AddRenderable(Coll2);
+            Lightning.Tree.AddRenderable(Coll1);
+            Lightning.Tree.AddRenderable(Coll2);
 
             // draw text
-            Lightning.Renderer.AddRenderable(new TextBlock("Text3", "Collision/AABB example (NO correction is being done here) - loaded from package file", "DebugFont", new Vector2(100, 100), Color.White)); // no fonts loaded so we use the debug font
+            Lightning.Tree.AddRenderable(new TextBlock("Text3", "Collision/AABB example (NO correction is being done here) - loaded from package file", "DebugFont", new Vector2(100, 100), Color.White)); // no fonts loaded so we use the debug font
         }
 
         public override void SwitchFrom(Scene newScene)

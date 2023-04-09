@@ -14,12 +14,12 @@
 
         public override void SwitchTo(Scene? oldScene)
         {
-            Lightning.Renderer.AddRenderable(new TextBlock("Text2", "Hello from Scene2", "DebugFont", new(300, 300), Color.PaleTurquoise));
+            Lightning.Tree.AddRenderable(new TextBlock("Text2", "Hello from Scene2", "DebugFont", new(300, 300), Color.PaleTurquoise));
         }
 
         public override void SwitchFrom(Scene newScene)
         {
-            Lightning.Renderer.RemoveRenderableByName("Text2");
+            Lightning.Tree.RemoveRenderableByName("Text2");
         }
 
         public override void Render()

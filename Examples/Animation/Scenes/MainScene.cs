@@ -14,7 +14,7 @@ namespace Animation
         {
             // probably shoud not have called the project animation but oh well
             LightningGL.Animation newAnim = new("Anim1", @"Content\Anim.json");
-            newAnim = Lightning.Renderer.AddRenderable(newAnim);
+            newAnim = Lightning.Tree.AddRenderable(newAnim);
             Texture texture = new("CollidingTexture1", 64, 64)
             {
                 Path = @"Content\CollidingTexture1.png",
@@ -24,7 +24,7 @@ namespace Animation
 
             texture.StartCurrentAnimation();
 
-            Lightning.Renderer.AddRenderable(texture);
+            Lightning.Tree.AddRenderable(texture);
         }
 
         public override void Shutdown()
@@ -34,7 +34,7 @@ namespace Animation
 
         public override void SwitchTo(Scene? oldScene)
         {
-            Lightning.Renderer.AddRenderable(new TextBlock("Animation", "Lightning Animation Example", "DebugFont", new(300, 300), Color.Aquamarine));
+            Lightning.Tree.AddRenderable(new TextBlock("Animation", "Lightning Animation Example", "DebugFont", new(300, 300), Color.Aquamarine));
         }
 
         public override void SwitchFrom(Scene newScene)

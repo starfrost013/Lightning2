@@ -20,10 +20,10 @@
 
         public override void SwitchTo(Scene? oldScene)
         {
-            Lightning.Renderer.AddRenderable(new TextBlock("Text1", "Input example", "DebugFont", new Vector2(100, 100), Color.White)); // no fonts loaded so we use the debug font
-            PressedText = Lightning.Renderer.AddRenderable(new TextBlock("Text2", "Last keypress: ", "DebugFont", new Vector2(100, 120), Color.White)); // no fonts loaded so we use the debug font
-            ClickedText = Lightning.Renderer.AddRenderable(new TextBlock("Text3", "Last mouse click: ", "DebugFont", new Vector2(100, 140), Color.White)); // no fonts loaded so we use the debug font
-            MousePosText = Lightning.Renderer.AddRenderable(new TextBlock("Text4", "Last mouse motion: ", "DebugFont", new Vector2(100, 160), Color.White)); // no fonts loaded so we use the debug font
+            Lightning.Tree.AddRenderable(new TextBlock("Text1", "Input example", "DebugFont", new Vector2(100, 100), Color.White)); // no fonts loaded so we use the debug font
+            PressedText = Lightning.Tree.AddRenderable(new TextBlock("Text2", "Last keypress: ", "DebugFont", new Vector2(100, 120), Color.White)); // no fonts loaded so we use the debug font
+            ClickedText = Lightning.Tree.AddRenderable(new TextBlock("Text3", "Last mouse click: ", "DebugFont", new Vector2(100, 140), Color.White)); // no fonts loaded so we use the debug font
+            MousePosText = Lightning.Tree.AddRenderable(new TextBlock("Text4", "Last mouse motion: ", "DebugFont", new Vector2(100, 160), Color.White)); // no fonts loaded so we use the debug font
         }
 
         public override void SwitchFrom(Scene newScene)

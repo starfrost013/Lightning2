@@ -29,9 +29,9 @@ namespace BasicScene
             texture.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF2.png");
             texture.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF3.png");
             texture.Position = new(200, 200);
-            Lightning.Renderer.AddRenderable(texture);
+            Lightning.Tree.AddRenderable(texture);
 
-            Lightning.Renderer.AddRenderable(new TextBlock("Text1", "Animated texture example", "DebugFont", new(100, 100), Color.White)); // no fonts loaded so we use the debug font
+            Lightning.Tree.AddRenderable(new TextBlock("Text1", "Animated texture example", "DebugFont", new(100, 100), Color.White)); // no fonts loaded so we use the debug font
         }
 
         public override void SwitchFrom(Scene newScene)

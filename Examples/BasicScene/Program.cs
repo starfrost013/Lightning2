@@ -5,7 +5,7 @@
 
 using BasicScene; ;
 
-LightningCore.RegisterScene(new MainScene());
-LightningCore.RegisterScene(new Scene2());
+LightningShared.RegisterScene(new MainScene());
+LightningShared.RegisterScene(new Scene2());
 
 Lightning.InitClient();

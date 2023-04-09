@@ -22,7 +22,7 @@ namespace Settings
 
         public override void SwitchTo(Scene? oldScene)
         {
-            Lightning.Renderer.AddRenderable(new TextBlock("Text1", "Click to add a Local Setting! All settings will be saved to LocalSettings.ini when you exit", "DebugFont",
+            Lightning.Tree.AddRenderable(new TextBlock("Text1", "Click to add a Local Setting! All settings will be saved to LocalSettings.ini when you exit", "DebugFont",
                 new(300, 300), Color.Red));
         }
 

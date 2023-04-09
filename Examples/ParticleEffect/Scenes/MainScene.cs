@@ -27,7 +27,7 @@ namespace BasicScene
                 Path = "Content/ParticleEffect.png",
             };
 
-            Lightning.Renderer.AddRenderable(texture);
+            Lightning.Tree.AddRenderable(texture);
 
             // Create a particle effect.
             ParticleEffect particleEffect = new("ParticleEffect1", texture)
@@ -42,9 +42,9 @@ namespace BasicScene
                 Mode = ParticleMode.Explode,
             };
 
-            Lightning.Renderer.AddRenderable(particleEffect);
+            Lightning.Tree.AddRenderable(particleEffect);
 
-            Lightning.Renderer.AddRenderable(new TextBlock("Text1", "Particle effect example", "DebugFont", new(100, 100), Color.White)); // no fonts loaded so we use the debug font
+            Lightning.Tree.AddRenderable(new TextBlock("Text1", "Particle effect example", "DebugFont", new(100, 100), Color.White)); // no fonts loaded so we use the debug font
         }
 
         public override void SwitchFrom(Scene newScene)

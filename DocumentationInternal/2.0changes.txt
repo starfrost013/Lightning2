@@ -430,9 +430,13 @@ Everything that matters to the api has to go here
 2023.04.03:
 * Implement Texture::AlphaKey
 
-2023.04.05:
+2023.04.06:
 * Remove RelativeZIndex
 * ZIndex sorting now takes into account children of hierarchy
+
+2023.04.09:
+* Move render tree to RenderTree class
+* LightningCore -> LightningShared
 
 * todo:
 	- setting load order

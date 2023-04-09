@@ -36,9 +36,9 @@ namespace BasicScene
             Button1.OnMouseDown += OnMouseDown;
             Button1.OnMouseUp += OnMouseUp;
 
-            Lightning.Renderer.AddRenderable(Button1);
+            Lightning.Tree.AddRenderable(Button1);
 
-            Lightning.Renderer.AddRenderable(new TextBlock("Text1", "UI example", "DebugFont", new(100, 100), Color.White)); // no fonts loaded so we use the debug font
+            Lightning.Tree.AddRenderable(new TextBlock("Text1", "UI example", "DebugFont", new(100, 100), Color.White)); // no fonts loaded so we use the debug font
 
         }
 

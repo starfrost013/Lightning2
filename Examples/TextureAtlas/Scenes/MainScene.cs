@@ -23,9 +23,9 @@
                 Position = new Vector2(200, 200),
             };
 
-            Lightning.Renderer.AddRenderable(Texture);
+            Lightning.Tree.AddRenderable(Texture);
 
-            Lightning.Renderer.AddRenderable(new TextBlock("Text1", "Texture atlas example", "DebugFont", new(200, 364), Color.Green));
+            Lightning.Tree.AddRenderable(new TextBlock("Text1", "Texture atlas example", "DebugFont", new(200, 364), Color.Green));
         }
 
         public override void SwitchFrom(Scene newScene)

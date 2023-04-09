@@ -51,12 +51,12 @@
                 LightColor = Color.Green
             };
 
-            Lightning.Renderer.AddRenderable(newLight);
-            Lightning.Renderer.AddRenderable(newColouredLight);
-            Lightning.Renderer.AddRenderable(newColouredLight2);
-            Lightning.Renderer.AddRenderable(newColouredLight3);
+            Lightning.Tree.AddRenderable(newLight);
+            Lightning.Tree.AddRenderable(newColouredLight);
+            Lightning.Tree.AddRenderable(newColouredLight2);
+            Lightning.Tree.AddRenderable(newColouredLight3);
 
-            Lightning.Renderer.AddRenderable(new TextBlock("Text1", "Lighting example", "DebugFont", new Vector2(100, 100), Color.Black)); // no fonts loaded so we use the debug font
+            Lightning.Tree.AddRenderable(new TextBlock("Text1", "Lighting example", "DebugFont", new Vector2(100, 100), Color.Black)); // no fonts loaded so we use the debug font
         }
 
         public override void SwitchFrom(Scene newScene)

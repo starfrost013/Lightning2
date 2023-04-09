@@ -19,9 +19,9 @@ namespace BasicScene
         {
             // create a texture
             Texture = new("Texture1", 512, 512);
-            Lightning.Renderer.AddRenderable(Texture);
+            Lightning.Tree.AddRenderable(Texture);
 
-            Lightning.Renderer.AddRenderable(new TextBlock("Text1", "Texture API example", "DebugFont", new(0, 550), Color.White)); // no fonts loaded so we use the debug font
+            Lightning.Tree.AddRenderable(new TextBlock("Text1", "Texture API example", "DebugFont", new(0, 550), Color.White)); // no fonts loaded so we use the debug font
         }
 
         public override void SwitchFrom(Scene newScene)
