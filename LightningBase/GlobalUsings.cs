@@ -9,6 +9,12 @@ global using System.Diagnostics.CodeAnalysis;
 global using System.IO;
 global using System.Reflection;
 global using System.Runtime.InteropServices;
+#if X64
+global using System.Runtime.Intrinsics.X86;
+#else
+global using System.Runtime.Intrinsics.Arm;
+#endif
+global using System.Runtime.Versioning;
 global using System.Text;
 global using static LightningBase.SDL;
 global using static LightningBase.SDL_mixer;

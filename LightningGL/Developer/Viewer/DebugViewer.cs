@@ -178,7 +178,7 @@
                 $"Delta time: {Lightning.Renderer.DeltaTime}\n" +
 
                 // these 3 are same line 
-               $"Current camera: {Lightning.Renderer.Settings.Camera.Type} @ {Lightning.Renderer.Settings.Camera.Position} " +
+                $"Current camera: {Lightning.Renderer.Settings.Camera.Type} @ {Lightning.Renderer.Settings.Camera.Position} " +
                 $"(focus delta: {Lightning.Renderer.Settings.Camera.FocusDelta}, shake: {Lightning.Renderer.Settings.Camera.ShakeAmount}" +
                 $"velocity {Lightning.Renderer.Settings.Camera.Velocity}, can move while shaking: {Lightning.Renderer.Settings.Camera.AllowCameraMoveOnShake})\n" +
 
@@ -239,8 +239,9 @@
                 $"SDL {SDL_EXPECTED_MAJOR_VERSION}.{SDL_EXPECTED_MINOR_VERSION}.{SDL_EXPECTED_PATCHLEVEL}\n" +
                 $"SDL_image {SDL_IMAGE_EXPECTED_MAJOR_VERSION}.{SDL_IMAGE_EXPECTED_MINOR_VERSION}.{SDL_IMAGE_EXPECTED_PATCHLEVEL}\n" +
                 $"SDL_mixer {SDL_MIXER_EXPECTED_MAJOR_VERSION}.{SDL_MIXER_EXPECTED_MINOR_VERSION}.{SDL_MIXER_EXPECTED_PATCHLEVEL}\n" +
-                $"{SystemInfo.Cpu.ProcessArchitecture} Lightning on {SystemInfo.Cpu.SystemArchitecture} {SystemInfo.CurOperatingSystem}\n" +
-                $"CPU Capabilities: {SystemInfo.Cpu.Capabilities}\n" +
+                $"CPU Information:\n" +
+                $"CPU: {SystemInfo.Cpu.Name} ({SystemInfo.Cpu.SystemArchitecture} architecture), running {SystemInfo.Cpu.SystemArchitecture} Lightning on operating system: {SystemInfo.CurOperatingSystem}\n" +
+                $"CPU capabilities: {SystemInfo.Cpu.Capabilities}\n" +
                 $"Hardware Threads (NOT cores!): {SystemInfo.Cpu.Threads}\n" +
                 $"Total System RAM: {SystemInfo.SystemRam}MiB\n";
 
