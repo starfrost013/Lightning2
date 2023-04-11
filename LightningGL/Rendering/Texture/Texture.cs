@@ -1,13 +1,11 @@
 ﻿namespace LightningGL
 {
     /// <summary>
-    /// Texture
-    /// 
-    /// February 11, 2022
+    /// Texture Component
     /// 
     /// A texture api allowing modification of individual pixels
     /// </summary>
-    public unsafe class Texture : Renderable
+    public unsafe class Texture : Component
     {
         /// <summary>
         /// Default dummy path for created textures.
@@ -146,7 +144,7 @@
         /// </summary>
         /// <param name="sizeX">The width of the texture in pixels.</param>
         /// <param name="sizeY">The height of the texture in pixels.</param>
-        public Texture(string name, float sizeX, float sizeY, bool isTarget = false, string path = CREATED_TEXTURE_PATH) : base(name)
+        public Texture(float sizeX, float sizeY, bool isTarget = false, string path = CREATED_TEXTURE_PATH)
         {
             CreateTexture(sizeX, sizeY, isTarget, path);
         }

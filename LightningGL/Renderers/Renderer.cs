@@ -235,6 +235,7 @@
                     && !renderable.IsNotRendering
                     && renderable.OnRender != null)
                 {
+                    renderable.DrawComponents();
                     renderable.OnRender?.Invoke();
                     RenderedLastFrame++;
                 }

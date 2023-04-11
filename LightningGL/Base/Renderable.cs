@@ -2,9 +2,7 @@
 {
     /// <summary>
     /// Renderable
-    /// 
-    /// June 12, 2022
-    /// 
+    ///  
     /// Defines a renderable object.
     /// A renderable is an object in Lightning that does
     /// </summary>
@@ -273,6 +271,11 @@
         /// </summary>
         public List<Renderable> Children { get; internal set; }
 
+        /// <summary>
+        /// The components of this Renderable.
+        /// </summary>
+        public List<Component> Components { get; internal set; }    
+
         public Renderable(string name)
         {
             AnimationTimer = new Stopwatch();
@@ -286,6 +289,7 @@
             Name = name;
             _name = Name; // fix compile warnings
             Children = new List<Renderable>();
+            Components = new List<Component>();
         }
 
         /// <summary>
@@ -346,6 +350,31 @@
         }
 
         /// <summary>
+        /// Draws components of this renderable.
+        /// This is always called by the renderer.
+        /// </summary>
+        internal void DrawComponents()
+        {
+            foreach (var component in Components)
+            {
+                component.Draw();
+            }
+        }
+
+        /// <summary>
+        /// Draws components of this renderable.
+        /// NOT RUN if the renderable is not rendered.
+        /// </summary>
+        internal void UpdateComponents()
+        {
+            foreach (var component in Components)
+            {
+                component.Update();
+            }
+        }
+
+
+        /// <summary>
         /// Run each frame REGARDLESS of if the renderable is rendered or not.
         /// </summary>
         public virtual void Update()
@@ -385,6 +414,15 @@
             }
 
             return Children[^1];
+        }
+
+        public virtual T AddComponent<T>() where T : Component, new()
+        {
+            T curT = new();
+
+            Components.Add(curT);
+
+            return curT;
         }
     }
 }

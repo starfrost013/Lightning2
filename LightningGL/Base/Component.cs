@@ -6,8 +6,16 @@ namespace LightningGL
     /// 
     /// A component of a Renderable in Lightning 2.0.
     /// </summary>
-    internal class Component
+    public abstract class Component
     {
+        public virtual Vector2 Size { get; set; }
+
+        public virtual Vector2 Position { get; set; }   
+
+        public virtual Vector2 RenderPosition { get; internal set; }
+
+        public bool Loaded { get; protected set; }
+
         /// <summary>
         /// Called when the renderable is created.
         /// </summary>
