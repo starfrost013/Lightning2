@@ -9,7 +9,7 @@
         {
             Debug.Assert(Lightning.Renderer != null);
 
-            List<T> assets = new List<T>();
+            List<T> assets = new();
 
             foreach (Renderable renderable in Lightning.Renderer.Renderables)
             {

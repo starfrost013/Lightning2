@@ -23,13 +23,12 @@ namespace LightningGL
         /// <summary>
         /// The keyframes of this animation property. See <see cref="AnimationKeyframe"/>
         /// </summary>
-        public List<AnimationKeyframe> Keyframes { get; set; } 
+        public List<AnimationKeyframe> Keyframes = new List<AnimationKeyframe>();
 
         public AnimationProperty(string name, string type)
         {
             Name = name;
             Type = type;
-            Keyframes = new List<AnimationKeyframe>();
         }
     }
 }

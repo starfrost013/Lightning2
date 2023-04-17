@@ -15,7 +15,7 @@ namespace LightningGL
         /// <summary>
         /// The list of properties animated by this animation.
         /// </summary>
-        public List<AnimationProperty> Properties { get; private set; }
+        public List<AnimationProperty> Properties = new();
 
         /// <summary>
         /// Backing field for <see cref="Name"/>
@@ -77,7 +77,6 @@ namespace LightningGL
         /// </summary>
         public Animation(string name, string path) : base(name)
         {
-            Properties = new();
             Path = path;
             Name = name;
             _name = Name; // fix compile warnings

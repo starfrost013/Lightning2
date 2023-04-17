@@ -34,6 +34,7 @@
         /// </summary>
         public static SystemInfoOperatingSystem CurOperatingSystem { get; private set; }
 
+        [RequiresPreviewFeatures]
         /// <summary>
         /// Acquires information about the engine Lightning is running on.
         /// </summary>

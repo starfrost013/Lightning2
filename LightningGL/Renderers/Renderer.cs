@@ -233,10 +233,10 @@
                 // --- THESE TASKS need to be performed ONLY when the renderable is actually being drawn ---
                 if (renderable.IsOnScreen
                     && !renderable.IsNotRendering
-                    && renderable.OnRender != null)
+                    && renderable.OnDraw != null)
                 {
                     renderable.DrawComponents();
-                    renderable.OnRender?.Invoke();
+                    renderable.OnDraw?.Invoke();
                     RenderedLastFrame++;
                 }
 

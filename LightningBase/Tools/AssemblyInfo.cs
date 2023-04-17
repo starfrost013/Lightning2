@@ -1,9 +1,9 @@
 ﻿// This file defines the version information - generated using the AssemblyInfo.tt T4 template in LightningBase.
 // Automatically generated file - do not modify
 
-[assembly: AssemblyVersion("2.0.0.407")]
-[assembly: AssemblyFileVersion("2.0.0.407")]
-[assembly: AssemblyInformationalVersion("2.0.0-rc1 build 407, built 2023-04-09 21:57:47")]
+[assembly: AssemblyVersion("2.0.0.413")]
+[assembly: AssemblyFileVersion("2.0.0.413")]
+[assembly: AssemblyInformationalVersion("2.0.0-rc1 build 413, built 2023-04-15 20:49:42")]
 [assembly: AssemblyTitle("The Lightning Game Engine")]
 
 namespace LightningBase
@@ -13,11 +13,11 @@ namespace LightningBase
 		public const int LIGHTNING_VERSION_MAJOR = 2;
 		public const int LIGHTNING_VERSION_MINOR = 0; 
 		public const int LIGHTNING_VERSION_REVISION = 0;
-		public const int LIGHTNING_VERSION_BUILD = 407;
+		public const int LIGHTNING_VERSION_BUILD = 413;
 		public const string LIGHTNING_VERSION_SPECIFIER = "-rc1";
 		public const string LIGHTNING_VERSION_STRING = "2.0.0-rc1";
-		public const string LIGHTNING_VERSION_BUILD_STRING = "2.0.0.407";
-		public static string LIGHTNING_VERSION_EXTENDED_STRING = "2.0.0-rc1 build 407, built 2023-04-09 21:57:47";
+		public const string LIGHTNING_VERSION_BUILD_STRING = "2.0.0.413";
+		public static string LIGHTNING_VERSION_EXTENDED_STRING = "2.0.0-rc1 build 413, built 2023-04-15 20:49:42";
 	}
 }
 

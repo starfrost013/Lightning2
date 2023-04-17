@@ -1,8 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-// SDKBuild 2.3 for Lightning 2.0
+// SDKBuild 2.4 for Lightning 2.0
 // Very quick and dirty tool to build a Lightning SDK setup file.
-Logger.Init(); // init NCLogging
+
 
 #region Variables
 
@@ -35,9 +35,14 @@ string finalSdkSetupPath = @"SDK\Setup\SDKSetup.exe";
 string finalSdkSetupArgsAllUsers = @"/VERYSILENT /FORCECLOSEAPPLICATIONS /RESTARTAPPLICATIONS /SP-";
 string finalSdkSetupArgsCurrentUser = @"/VERYSILENT /FORCECLOSEAPPLICATIONS /RESTARTAPPLICATIONS /SP- /CURRENTUSER";
 string finalSdkSetupArgs = finalSdkSetupArgsAllUsers;
+string finalSdkLogPath = @"SDKSetup.log";
 Stopwatch stopwatch = Stopwatch.StartNew();
 
 #endregion
+
+Logger.Settings.LogFileName = finalSdkLogPath;
+Logger.Settings.WriteToLog = true; 
+Logger.Init(); // init NCLogging
 
 #region Command line parsing
 for (int argId = 0; argId < args.Length; argId++)
@@ -51,6 +56,14 @@ for (int argId = 0; argId < args.Length; argId++)
         case "-release":
             Logger.Log("Specified Release config (instead of debug)", ConsoleColor.Blue);
             config = "Release";
+            break;
+        case "-profiling":
+            Logger.Log("Specified Profiling config (instead of debug)", ConsoleColor.Blue);
+            config = "Profiling";
+            break;
+        case "-final":
+            Logger.Log("Specified Final config (instead of debug)", ConsoleColor.Blue);
+            config = "Final";
             break;
         case "-norunsetup":
             Logger.Log("Specified that setup will not be run", ConsoleColor.Blue);
@@ -77,9 +90,7 @@ for (int argId = 0; argId < args.Length; argId++)
 
 if (!noTimeBuild) stopwatch.Start();
 
-#pragma warning disable IL3000 // in this case it's never embedded in a single file app (THIS REASONING WILL TURN OUT TO BE WRONG! YAY!)
 FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
-#pragma warning restore IL3000
 
 Logger.Log($"Lightning SDK Builder version {fvi.FileMajorPart}.{fvi.FileMinorPart}.{fvi.FileBuildPart}");
 

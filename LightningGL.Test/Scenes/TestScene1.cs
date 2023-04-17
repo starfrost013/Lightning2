@@ -9,16 +9,16 @@ namespace LightningGL
         /// </summary>
         public TextureAtlas? TextureAtlas1 { get; set; }
 
-        public Texture? Texture1 { get; set; }
+        public Renderable? Texture1 { get; set; }
 
         public TestScene1() : base() { }
 
         public override void Start()
         {
-            Lightning.Tree.AddRenderable(new Font("Arial.ttf", 11, "Arial.11pt"));
-            Lightning.Tree.AddRenderable(new Font("Arial.ttf", 18, "Arial.18pt"));
-            Lightning.Tree.AddRenderable(new Font("Arial.ttf", 24, "Arial.24pt"));
-            Lightning.Tree.AddRenderable(new Font("Arial.ttf", 36, "Arial.36pt"));
+            Tree.AddRenderable(new Font("Arial.ttf", 11, "Arial.11pt"));
+            Tree.AddRenderable(new Font("Arial.ttf", 18, "Arial.18pt"));
+            Tree.AddRenderable(new Font("Arial.ttf", 24, "Arial.24pt"));
+            Tree.AddRenderable(new Font("Arial.ttf", 36, "Arial.36pt"));
 
             Lightning.Renderer.Clear(Color.FromArgb(255, 127, 127, 127));
             Texture1 = new("Texture1", 64, 64);
@@ -231,10 +231,10 @@ namespace LightningGL
             };
 
 
-            Lightning.Tree.AddRenderable(btn1);
-            Lightning.Tree.AddRenderable(listBox1);
-            Lightning.Tree.AddRenderable(textBox1);
-            Lightning.Tree.AddRenderable(checkBox1);
+            Tree.AddRenderable(btn1);
+            Tree.AddRenderable(listBox1);
+            Tree.AddRenderable(textBox1);
+            Tree.AddRenderable(checkBox1);
 
             // you must load a listbox before adding it
             // note this in docs
@@ -244,8 +244,8 @@ namespace LightningGL
             listBox1.AddItem(new("Item4", "Arial.11pt", "zxczxzxzx"));
             listBox1.AddItem(new("Item5", "Arial.11pt", "qasqsdfwqer"));
 
-            Lightning.Tree.AddRenderable(Texture1);
-            Lightning.Tree.AddRenderable(missingTextureTest);
+            Tree.AddRenderable(Texture1);
+            Tree.AddRenderable(missingTextureTest);
 
             missingTextureTest.Position = new(150, 150);
             // bug:

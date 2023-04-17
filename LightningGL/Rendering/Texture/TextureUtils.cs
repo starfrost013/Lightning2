@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace LightningGL
+﻿namespace LightningGL
 {
     /// <summary>
     /// TextureManager

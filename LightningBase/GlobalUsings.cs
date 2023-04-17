@@ -16,6 +16,7 @@ global using System.Runtime.Intrinsics.Arm;
 #endif
 global using System.Runtime.Versioning;
 global using System.Text;
+global using System.Security;
 global using static LightningBase.SDL;
 global using static LightningBase.SDL_mixer;
 #endregion

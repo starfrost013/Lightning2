@@ -60,6 +60,16 @@ namespace LightningGL
                 childId--;
             }
 
+            for (int componentId = 0; componentId < renderable.Components.Count; componentId++)
+            {
+                Component component = renderable.Components[componentId];   
+                component.StopCurrentAnimation();
+                component.OnDestroy();
+
+                renderable.Components.Remove(component);
+                componentId--;
+            }
+
             renderable.StopCurrentAnimation();
             renderable.OnDestroy();
 

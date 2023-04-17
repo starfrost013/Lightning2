@@ -438,6 +438,14 @@ Everything that matters to the api has to go here
 * Move render tree to RenderTree class
 * LightningCore -> LightningShared
 
+2023.04.11:
+* Begin implementing component system
+* Texture etc are now components
+
+2023.04.12:
+* OnRender event -> OnDraw
+* Implement component destroy/render events
+
 * todo:
 	- setting load order
 	- DEATH to DUPLICATE CODE
