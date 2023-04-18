@@ -1136,7 +1136,7 @@ public static class SDL_net
     #endregion UDP Packets
 
     #region UDP Sockets
-    #region IntPtr SDLNet_UDP_Open(short port)
+    #region IntPtr SDLNet_UDP_Open(ushort port)
     /// <summary>
     /// Create a UDP socket 
     /// </summary>
@@ -1206,8 +1206,8 @@ public static class SDL_net
     /// used to send UDP packets from.
     /// </param>
     [DllImport(SDL_NET_NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
-    public static extern IntPtr SDLNet_UDP_Open(short port);
-    #endregion IntPtr SDLNet_UDP_Open(short port)
+    public static extern IntPtr SDLNet_UDP_Open(ushort port);
+    #endregion IntPtr SDLNet_UDP_Open(ushort port)
 
     #region int SDLNet_UDP_Bind(IntPtr sock, int channel, ref IPaddress address)
     /// <summary>
