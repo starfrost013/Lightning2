@@ -73,9 +73,14 @@
         private readonly int DEFAULT_MAX_CREATED_EACH_FRAME_DIVISOR = 150;
 
         /// <summary>
+        /// Renderable used for generating the particle effects.
+        /// </summary>
+        internal Renderable Texture { get; private set; }
+
+        /// <summary>
         /// Texture used for generating the particle effects.
         /// </summary>
-        internal Texture Texture { get; private set; }
+        internal Texture TextureComponent { get; private set; }
 
         /// <summary>
         /// The constructor for the <see cref="ParticleEffect"/> class.
@@ -85,19 +90,20 @@
         public ParticleEffect(string name, Texture texture) : base(name)
         {
             Mode = ParticleMode.Default;
-            Texture = texture;
+            TextureComponent = texture;
+            Texture = new();
         }
 
         public override void Create()
         {
-            Logger.Log($"Loading particle effect at path {Texture.Path}...");
+            Logger.Log($"Loading particle effect at path {TextureComponent.Path}...");
             // don't load it multiple times
-            Texture.SnapToScreen = SnapToScreen;
+            TextureComponent.SnapToScreen = SnapToScreen;
             if (MaxNumberCreatedEachFrame <= 0) MaxNumberCreatedEachFrame = Amount / DEFAULT_MAX_CREATED_EACH_FRAME_DIVISOR;
             //Texture.IsNotRendering = true; // don't draw the texture
 
             //todo: fix stupid hack where we need to load this
-            // this will load the texture
+            // this will load the texture if not already loaded
 
             if (Lightning.Tree.GetRenderableByName(Texture.Name, this) == null)
             {
@@ -109,8 +115,8 @@
 
         public override void Draw()
         {
-            if (Texture == null
-                || !Texture.Loaded)
+            if (TextureComponent == null
+                || !TextureComponent.Loaded)
             {
                 Logger.LogError("Attempted to draw a particle effect without loading it!", 120, LoggerSeverity.FatalError);
                 return;
@@ -205,15 +211,15 @@
                 }
 
                 // Hack to fix culling
-                Size = new(Variance + (Velocity.X * Lifetime) + Texture.Size.X,
-                    Variance + (Velocity.Y * Lifetime) + Texture.Size.Y);
+                Size = new(Variance + (Velocity.X * Lifetime) + TextureComponent.Size.X,
+                    Variance + (Velocity.Y * Lifetime) + TextureComponent.Size.Y);
 
-                Texture.Position = particle.Position;
+                TextureComponent.Position = particle.Position;
 
                 // stupid hack to fix culling
-                if (!SnapToScreen) Texture.RenderPosition = particle.Position - Lightning.Renderer.Settings.Camera.Position;
+                if (!SnapToScreen) TextureComponent.RenderPosition = particle.Position - Lightning.Renderer.Settings.Camera.Position;
 
-                Texture.Draw();
+                TextureComponent.Draw();
             }
         }
 

@@ -1,47 +1,18 @@
-﻿using Newtonsoft.Json.Linq;
-
+﻿
 namespace LightningGL
 {
     /// <summary>
     /// Animation
     /// 
-    /// September 5, 2022
-    /// 
     /// Defines an animation
     /// </summary>
-    public class Animation : Renderable
+    public class Animation : Component
     {
         [JsonProperty]
         /// <summary>
         /// The list of properties animated by this animation.
         /// </summary>
         public List<AnimationProperty> Properties = new();
-
-        /// <summary>
-        /// Backing field for <see cref="Name"/>
-        /// </summary>
-        private string _name;
-
-        /// <summary>
-        /// Name of this animation
-        /// </summary>
-        public override string Name
-        {
-            get
-            {
-                if (_name == null)
-                {
-                    string tempName = Path[..Path.LastIndexOf('.')]; // range operator
-                    return tempName;
-                }
-
-                return _name;
-            }
-            set
-            {
-                _name = value;
-            }
-        }
 
         [JsonIgnore]
         /// <summary>
@@ -75,11 +46,9 @@ namespace LightningGL
         /// <summary>
         /// Constructor for the Animation class
         /// </summary>
-        public Animation(string name, string path) : base(name)
+        public Animation(string path) : base()
         {
             Path = path;
-            Name = name;
-            _name = Name; // fix compile warnings
         }
 
         public override void Create()
@@ -186,13 +155,13 @@ namespace LightningGL
             return true;
         }
 
-        internal void StartAnimationFor(Renderable renderable)
+        internal void StartAnimationFor(Component renderable)
         {
             renderable.AnimationTimer.Restart();
             EventManager.FireOnAnimationStart(renderable);
         }
 
-        internal void StopAnimationFor(Renderable renderable)
+        internal void StopAnimationFor(Component renderable)
         {
             if (!renderable.AnimationTimer.IsRunning) return;
 
@@ -200,7 +169,7 @@ namespace LightningGL
             EventManager.FireOnAnimationStop(renderable);
         }
 
-        internal void UpdateAnimationFor(Renderable renderable)
+        internal void UpdateAnimationFor(Component renderable)
         {
             if (!renderable.AnimationTimer.IsRunning) return;
 

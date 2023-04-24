@@ -36,6 +36,7 @@
             Logger.Init();
         }
 
+        [RequiresPreviewFeatures]
         public static void InitClient()
         {
             try

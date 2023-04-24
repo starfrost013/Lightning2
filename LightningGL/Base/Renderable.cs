@@ -49,7 +49,10 @@
         {
             foreach (var component in Components)
             {
-                component.OnDraw();
+                if (component.IsOnScreen)
+                {
+                    component.OnDraw();
+                }
             }
         }
 
@@ -91,20 +94,38 @@
             return Children[^1];
         }
 
-        public T AddComponent<T>() where T : Component, new()
+        public T AddComponent<T>(T component) where T : Component
         {
-            T curT = new();
+            Components.Add(component);
 
-            Components.Add(curT);
+            component.OnCreate();
+            component.Parent = this;
+            return component;
+        }
 
-            return curT;
+        public T? GetComponent<T>() where T : Component
+        {
+            foreach (var component in Components)
+            {
+                if (component.GetType() == typeof(T))
+                {
+                    return (T)component; 
+                }
+            }
+
+            Logger.Log($"Tried to get invalid component {typeof(T).Name} of Renderable {Name}!");
+            return null;
         }
 
         internal void DestroyComponents()
         {
-            foreach (Component component in Components)
+            for (int componentId = 0; componentId < Components.Count; componentId++)    
             {
+                Component component = Components[componentId];
                 component.OnDestroy();
+
+                Components.Remove(component);
+                componentId--;
             }
         }
     }

@@ -49,6 +49,7 @@
 
         #endregion
 
+        [RequiresPreviewFeatures]
         internal virtual void Init()
         {
             try

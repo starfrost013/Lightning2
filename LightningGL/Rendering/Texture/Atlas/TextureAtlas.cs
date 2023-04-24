@@ -25,13 +25,13 @@
         /// </summary>
         public Vector2 TextureCount { get; init; }
 
-        public TextureAtlas(string name, Vector2 frameSize, Vector2 textureCount) : base(name, (frameSize.X * textureCount.X) + 1, frameSize.Y * textureCount.Y + 1) // + 1 so that we do not set an out of bounds viewport
+        public TextureAtlas(Vector2 frameSize, Vector2 textureCount) : base((frameSize.X * textureCount.X) + 1, frameSize.Y * textureCount.Y + 1) // + 1 so that we do not set an out of bounds viewport
         {
             FrameSize = frameSize;
             TextureCount = textureCount;
         }
 
-        public TextureAtlas(string name, Vector2 frameSize, Vector2 textureCount, string path) : base(name, (frameSize.X * textureCount.X) + 1, frameSize.Y * textureCount.Y + 1) // + 1 so that we do not set an out of bounds viewport
+        public TextureAtlas(Vector2 frameSize, Vector2 textureCount, string path) : base((frameSize.X * textureCount.X) + 1, frameSize.Y * textureCount.Y + 1) // + 1 so that we do not set an out of bounds viewport
         {
             FrameSize = frameSize;
             TextureCount = textureCount;
@@ -59,7 +59,7 @@
             if (Index < 0
                 || Index > maxIndex)
             {
-                Logger.LogError($"Cannot draw invalid TextureAtlas ({Name}, {Path}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)",
+                Logger.LogError($"Cannot draw invalid TextureAtlas ({Path}) frame ({Index} specified, range (0,0 to {FrameSize.X},{FrameSize.Y})!)",
                     47, LoggerSeverity.Error, null, false);
                 return;
             }

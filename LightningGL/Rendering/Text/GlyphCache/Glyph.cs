@@ -9,7 +9,7 @@ namespace LightningGL
     /// </summary>
     internal unsafe class Glyph : Texture
     {
-        public Glyph(string name, int sizeX, int sizeY, bool isTarget = false) : base(name, sizeX, sizeY, isTarget) { }
+        public Glyph(int sizeX, int sizeY, bool isTarget = false) : base(sizeX, sizeY, isTarget) { }
 
         /// <summary>
         /// The friendly name of the font of this glyph.

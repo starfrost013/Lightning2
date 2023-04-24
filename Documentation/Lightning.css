@@ -1,0 +1,69 @@
+/* 4/23/2023 */
+
+*
+{
+    font-family: system-ui;
+    box-sizing: border-box;
+}
+
+div.content
+{
+    display: flex; 
+    flex: 1 1 auto;
+    align-items: stretch;
+}
+
+div.content-main
+{
+    flex: 32%;
+    flex-direction: row;
+}
+
+div.content-page
+{
+    flex: 100%;
+    flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+h1
+{
+    font-weight: bold;
+}
+
+iframe
+{
+    border: 0px;
+    width: 100%;
+}
+
+button
+{
+    border: 0px;
+    background-color: transparent;
+    color: #3636db;
+    display: block;
+    padding: 0;
+    margin: 0;
+}
+
+button:hover
+{
+    color: #00028d;
+    cursor: pointer;
+}
+
+button:active
+{
+    color: #05002e;
+}
+
+button:visited
+{
+    color: #6122d6;
+}

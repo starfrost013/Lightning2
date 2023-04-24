@@ -7,7 +7,7 @@ namespace LightningGL
         /// <summary>
         /// Lazy and stupid. yes, but this is test code
         /// </summary>
-        public TextureAtlas? TextureAtlas1 { get; set; }
+        public Renderable? TextureAtlas1 { get; set; }
 
         public Renderable? Texture1 { get; set; }
 
@@ -21,7 +21,10 @@ namespace LightningGL
             Tree.AddRenderable(new Font("Arial.ttf", 36, "Arial.36pt"));
 
             Lightning.Renderer.Clear(Color.FromArgb(255, 127, 127, 127));
-            Texture1 = new("Texture1", 64, 64);
+            Texture1 = new("Texture1");
+
+            Texture texture1Component = new Texture(64, 64);
+            Texture1.AddComponent(texture1Component);
 
             // Texture API test
             byte r = (byte)Random.Shared.Next(0, 256);
@@ -29,22 +32,24 @@ namespace LightningGL
             byte b = (byte)Random.Shared.Next(0, 256);
             byte a = (byte)Random.Shared.Next(0, 256);
 
-            for (int x = 0; x < Texture1.Size.X; x++)
+            for (int x = 0; x < texture1Component.Size.X; x++)
             {
                 r += (byte)Random.Shared.Next(-5, 5);
                 g += (byte)Random.Shared.Next(-5, 5);
                 b += (byte)Random.Shared.Next(-5, 5);
                 a += (byte)Random.Shared.Next(-5, 5);
 
-                for (int y = 0; y < Texture1.Size.Y; y++) Texture1.SetPixel(x, y, Color.FromArgb(a, r, g, b));
+                for (int y = 0; y < texture1Component.Size.Y; y++) texture1Component.SetPixel(x, y, Color.FromArgb(a, r, g, b));
             }
 
-            Texture1.Unlock();
+            texture1Component.Unlock();
 
-            Texture1.Position = new(0, 0);
-            Texture1.Repeat = new(3, 3);
+            texture1Component.Position = new(0, 0);
+            texture1Component.Repeat = new(3, 3);
 
-            TextureAtlas1 = new("TextureAtlas1", new(64, 64), new(4, 4))
+            TextureAtlas1 = new("TextureAtlas1");
+
+            TextureAtlas textureAtlasComponent1 = new(new(64, 64), new(4, 4))
             {
                 Path = @"Content\TextureAtlasTest.png",
                 Position = new(256, 256)
@@ -52,7 +57,9 @@ namespace LightningGL
 
             Lightning.Tree.AddRenderable(TextureAtlas1);
 
-            AnimatedTexture animatedTexture1 = new("AnimatedTexture1", 256, 256, new(0, 3, 1000));
+            TextureAtlas1.AddComponent(textureAtlasComponent1);
+
+            AnimatedTexture animatedTexture1 = new(256, 256, new(0, 3, 1000));
             animatedTexture1.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF0.png");
             animatedTexture1.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF1.png");
             animatedTexture1.AddFrame(@"Content\AnimTextureTest\AnimTextureTestF2.png");
@@ -60,18 +67,30 @@ namespace LightningGL
 
             animatedTexture1.Position = new(320, 256);
 
-            Lightning.Tree.AddRenderable(animatedTexture1);
+            Renderable animatedTextureRenderable1 = new("AnimatedTexture1");
+
+            animatedTextureRenderable1.AddComponent(animatedTexture1);
+
+            Lightning.Tree.AddRenderable(animatedTextureRenderable1);
 
             LightManager.SetEnvironmentalLight(Color.FromArgb(0, 0, 0, 0));
 
             // todo: particleeffectsettings?
 
-            Texture testEffectTexture = new("testEffectTexture", 16, 16, false, @"Content\Sparkles.png");
-            Texture missingTextureTest = new("DONOTCREATETHISTEXTUREFILE", 128, 128, false, "asdjasdjasjdhasjhsahjasdhjashjasdhsa");
+            Renderable testEffectTexture = new("TestEffectTexture");
 
-            testEffectTexture.Path = @"Content\Sparkles.png";
+            Texture testEffectTextureComponent = new Texture(16, 16, false, @"Content\Sparkles.png");
 
-            ParticleEffect testEffect = new("testEffect", testEffectTexture)
+            testEffectTexture.AddComponent(testEffectTextureComponent);
+
+            Renderable missingTextureTest = new("DONOTCREATETHISTEXTUREFILE");
+
+            missingTextureTest.AddComponent(new Texture(128, 128, false, "asdjasdjasjdhasjhsahjasdhjashjasdhsa")
+            { 
+                Path = @"Content\Sparkles.png",
+            });
+
+            ParticleEffect testEffect = new("testEffect", testEffectTextureComponent)
             {
                 Amount = 100,
                 Lifetime = 500,
@@ -250,36 +269,43 @@ namespace LightningGL
             missingTextureTest.Position = new(150, 150);
             // bug:
             // as it is the same handle, setpixel changes pixel for every single texture 
-            Texture? texture2 = TextureUtils.CloneTexture(Texture1);
 
-            Debug.Assert(texture2 != null);
+            Renderable renderable = new("Texture2");
 
-            for (int x = 0; x < texture2.Size.X; x++)
+            renderable.AddComponent(texture1Component);
+
+            Debug.Assert(texture1Component != null);
+
+            for (int x = 0; x < texture1Component.Size.X; x++)
             {
                 r += (byte)Random.Shared.Next(-5, 5);
                 g += (byte)Random.Shared.Next(-5, 5);
                 b += (byte)Random.Shared.Next(-5, 5);
                 a += (byte)Random.Shared.Next(-5, 5);
 
-                for (int y = 0; y < texture2.Size.Y; y++) texture2.SetPixel(x, y, Color.FromArgb(a, r, g, b));
+                for (int y = 0; y < texture1Component.Size.Y; y++) texture1Component.SetPixel(x, y, Color.FromArgb(a, r, g, b));
             }
 
-            texture2.Unlock();
-            texture2.Position = new(-200, 0);
-            Lightning.Tree.AddRenderable(texture2);
+            texture1Component.Unlock();
+            texture1Component.Position = new(-200, 0);
+            Lightning.Tree.AddRenderable(renderable);
 
-            Lightning.Tree.AddRenderable(animatedTexture1);
+            Lightning.Tree.AddRenderable(animatedTextureRenderable1);
 
             Texture1.ZIndex = -9999999;
 
-            Animation? anim1 = new("anim1", @"Content\Animations\Animation1.json");
+
+            Renderable anim1 = new("anim1");
+
+            Animation? anim1Component = new(@"Content\Animations\Animation1.json");
+
+            anim1Component = anim1.AddComponent(anim1Component);  
+
             anim1 = Lightning.Tree.AddRenderable(anim1);
 
-            Debug.Assert(anim1 != null);
+            Debug.Assert(anim1Component != null);
 
-            Texture1.SetAnimation(anim1);
-
-            Texture1.StartCurrentAnimation();
+            anim1Component.StartCurrentAnimation();
 
             Lightning.Tree.AddRenderable(new Line("Line1", new(500, 300), new(600, 300), Color.FromArgb(255, 255, 255, 255)));
             Lightning.Tree.AddRenderable(new Line("Line2", new(500, 270), new(600, 270), Color.FromArgb(255, 255, 255, 255)));
@@ -340,6 +366,15 @@ namespace LightningGL
 
         public override void Render()
         {
+            Debug.Assert(Texture1 != null
+                && TextureAtlas1 != null);
+
+            TextureAtlas? textureAtlasComponent = TextureAtlas1.GetComponent<TextureAtlas>();
+            Texture? textureComponent = Texture1.GetComponent<Texture>();
+
+            Debug.Assert(textureComponent != null
+                && textureAtlasComponent != null);
+
             // TODO: hack until the old event system is completely deprecated
             SdlRenderer sdlRenderer = (SdlRenderer)Lightning.Renderer;
 
@@ -384,12 +419,12 @@ namespace LightningGL
 
             Debug.Assert(TextureAtlas1 != null);
 
-            TextureAtlas1.Index = 5;
-            TextureAtlas1.Position = new(264, 0);
-            TextureAtlas1.DrawFrame();
-            TextureAtlas1.Index = 1;
-            TextureAtlas1.Position = new(200, 0);
-            TextureAtlas1.DrawFrame();
+            textureAtlasComponent.Index = 5;
+            textureAtlasComponent.Position = new(264, 0);
+            textureAtlasComponent.DrawFrame();
+            textureAtlasComponent.Index = 1;
+            textureAtlasComponent.Position = new(200, 0);
+            textureAtlasComponent.DrawFrame();
 
             // Texture API test
             byte r = (byte)Random.Shared.Next(0, 256);
@@ -397,9 +432,7 @@ namespace LightningGL
             byte b = (byte)Random.Shared.Next(0, 256);
             byte a = (byte)Random.Shared.Next(0, 256);
 
-            if (Texture1 == null) throw new NullReferenceException();
-
-            for (int x = 0; x < Texture1.Size.X; x++)
+            for (int x = 0; x < textureComponent.Size.X; x++)
             {
                 // textureAPI test
                 r += (byte)Random.Shared.Next(-1, 1);
@@ -407,7 +440,7 @@ namespace LightningGL
                 b += (byte)Random.Shared.Next(-1, 1);
                 a += (byte)Random.Shared.Next(-1, 1);
 
-                for (int y = 0; y < Texture1.Size.Y; y++) Texture1.SetPixel(x, y, Color.FromArgb(a, r, g, b));
+                for (int y = 0; y < textureComponent.Size.Y; y++) textureComponent.SetPixel(x, y, Color.FromArgb(a, r, g, b));
             }
         }
     }

@@ -8,7 +8,7 @@ namespace LightningGL
     /// </summary>
     public class Client : LightningShared
     {
-
+        [RequiresPreviewFeatures]
         internal override void Init()
         {
             base.Init();

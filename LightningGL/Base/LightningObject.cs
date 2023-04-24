@@ -197,11 +197,7 @@ namespace LightningGL
         /// </summary>
         internal bool Loaded { get; set; }
 
-        [JsonIgnore]
-        /// <summary>
-        /// The current animation of this Renderable
-        /// </summary>
-        public Animation? CurrentAnimation { get; private set; }
+
 
         /// <summary>
         /// Animation timer.
@@ -229,7 +225,6 @@ namespace LightningGL
         /// </summary>
         public virtual int ZIndex { get; set; }
 
-
         /// <summary>
         /// The parent of this Renderable.
         /// </summary>
@@ -254,46 +249,6 @@ namespace LightningGL
             OnDraw += Draw;
             OnUpdate += Update;
             OnDestroy += Destroy;
-        }
-
-        /// <summary>
-        /// Sets the animation of this Renderable. 
-        /// An error will be raised if the animation is not loaded.
-        /// </summary>
-        /// <param name="animation">The animation to set as the current animation.</param>
-        public virtual void SetAnimation(Animation animation)
-        {
-            if (animation == null
-                || !animation.Loaded)
-            {
-                Logger.LogError("You must load an animation before attaching it to a renderable! The animation will not be set.", 149, LoggerSeverity.Error);
-                return;
-            }
-
-            CurrentAnimation = animation;
-        }
-
-        public virtual void StartCurrentAnimation()
-        {
-            if (CurrentAnimation == null
-                || !CurrentAnimation.Loaded)
-            {
-                Logger.LogError("You must load an animation before playing it! The animation will not be set.", 151, LoggerSeverity.Error);
-                return;
-            }
-
-            CurrentAnimation.StartAnimationFor(this);
-        }
-
-        public virtual void StopCurrentAnimation()
-        {
-            if (CurrentAnimation == null
-                || !CurrentAnimation.Loaded)
-            {
-                return;
-            }
-
-            CurrentAnimation.StopAnimationFor(this);
         }
 
         /// <summary>

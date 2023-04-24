@@ -19,6 +19,7 @@ global using System.Linq;
 global using System.Numerics;
 global using System.Reflection;
 global using System.Runtime.InteropServices;
+global using System.Runtime.Versioning;
 global using static LightningBase.FreeTypeApi;
 global using static LightningBase.SDL;
 global using static LightningBase.SDL_image;

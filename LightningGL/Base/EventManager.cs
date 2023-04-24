@@ -280,29 +280,9 @@ namespace LightningGL
             }
         }
 
-        internal static void FireOnAnimationStart(Renderable? parent = null)
-        {
-            // render all children 
-            List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
+        internal static void FireOnAnimationStart(Component parent) => parent.OnAnimationStart?.Invoke();
 
-            foreach (Renderable renderable in renderables)
-            {
-                renderable.OnAnimationStart?.Invoke();
-                if (renderable.Children.Count > 0) FireOnAnimationStart(renderable);
-            }
-        }
-
-        internal static void FireOnAnimationStop(Renderable? parent = null)
-        {
-            // render all children 
-            List<Renderable> renderables = (parent == null) ? Lightning.Renderer.Renderables : parent.Children;
-
-            foreach (Renderable renderable in renderables)
-            {
-                renderable.OnAnimationStop?.Invoke();
-                if (renderable.Children.Count > 0) FireOnAnimationStop(renderable);
-            }
-        }
+        internal static void FireOnAnimationStop(Component parent) => parent.OnAnimationStop?.Invoke(); 
 
         internal static void FireOnControllerButtonDown(ControllerButton button, Renderable? parent = null)
         {

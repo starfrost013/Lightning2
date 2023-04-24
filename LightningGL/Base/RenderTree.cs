@@ -51,7 +51,6 @@ namespace LightningGL
             for (int childId = 0; childId < renderable.Children.Count; childId++)
             {
                 Renderable child = renderable.Children[childId];
-                child.StopCurrentAnimation();
                 child.OnDestroy();
 
                 if (child.Children.Count > 0) RemoveRenderable(child);
@@ -70,7 +69,6 @@ namespace LightningGL
                 componentId--;
             }
 
-            renderable.StopCurrentAnimation();
             renderable.OnDestroy();
 
             // if there's no parent...

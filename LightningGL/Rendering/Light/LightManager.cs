@@ -30,7 +30,7 @@
             if (Initialised) return; // don't initialise if we already initalised
 
             // move this if it is slower
-            ScreenSpaceMap = new("ScreenSpaceMap", Lightning.Renderer.Settings.Size.X, Lightning.Renderer.Settings.Size.Y)
+            ScreenSpaceMap = new(Lightning.Renderer.Settings.Size.X, Lightning.Renderer.Settings.Size.Y)
             {
                 SnapToScreen = true,
                 NotCullable = true,

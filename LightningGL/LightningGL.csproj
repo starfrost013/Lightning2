@@ -154,6 +154,7 @@
   <ItemGroup>
     <Folder Include="Content\Fonts\" />
     <Folder Include="Properties\" />
+    <Folder Include="Renderers\SDLv2\" />
   </ItemGroup>
 
   <ItemGroup>

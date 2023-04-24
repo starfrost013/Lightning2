@@ -446,6 +446,13 @@ Everything that matters to the api has to go here
 * OnRender event -> OnDraw
 * Implement component destroy/render events
 
+2023.04.18-2023.04.23:
+* Component implementation
+	- Animations are now components
+	- Create and destroy components
+	- Only one component per type
+* Begin working on final HTML/CSS docs
+
 * todo:
 	- setting load order
 	- DEATH to DUPLICATE CODE

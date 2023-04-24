@@ -55,7 +55,7 @@ namespace LightningGL
                     252, LoggerSeverity.Warning, null, true);
 
                 // create an empty glyph such that we don't try and cache this character again
-                Glyph emptyGlyph = new("UndefinedCharGlyph", 1, 1)
+                Glyph emptyGlyph = new(1, 1)
                 {
                     IsEmpty = true,
                 };
@@ -94,7 +94,7 @@ namespace LightningGL
             if (bitmap.width == 0) bitmap.width = 1;
             if (bitmap.rows == 0) bitmap.rows = 1; // create a square for now
 
-            Glyph? glyph = new("Glyph", (int)bitmap.width, (int)bitmap.rows)
+            Glyph? glyph = new((int)bitmap.width, (int)bitmap.rows)
             {
                 GlyphRec = font.Handle.FaceRec->glyph,
                 ForegroundColor = foregroundColor,

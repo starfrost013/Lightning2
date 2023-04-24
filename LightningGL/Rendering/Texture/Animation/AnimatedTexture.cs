@@ -55,7 +55,7 @@
         /// </summary>
         private Texture? CurrentTexture { get; set; }
 
-        public AnimatedTexture(string name, float sizeX, float sizeY, AnimationCycle cycle) : base(name, sizeX, sizeY)
+        public AnimatedTexture(float sizeX, float sizeY, AnimationCycle cycle) : base(sizeX, sizeY)
         {
             Frames = new List<Texture>();
             FramePaths = new List<string>();
@@ -86,10 +86,12 @@
             {
                 string texturePath = FramePaths[frameId];
 
-                Texture newTexture = new($"{Name}Frame{frameId}", Size.X, Size.Y);
-                newTexture.Path = texturePath;
-                newTexture.Position = Position;
-                newTexture.Repeat = Repeat;  // do this in the getter/setter?
+                Texture newTexture = new(Size.X, Size.Y)
+                {
+                    Path = texturePath,
+                    Position = Position,
+                    Repeat = Repeat  // do this in the getter/setter?
+                };
                 newTexture.OnCreate(); // set to create method at creation, but good practice
 
                 if (newTexture.Handle != nint.Zero) Frames.Add(newTexture);

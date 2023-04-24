@@ -240,8 +240,13 @@
                     RenderedLastFrame++;
                 }
 
+                foreach (Component component in renderable.Components)
+                {
+                    component.CurrentAnimation?.UpdateAnimationFor(component); // dont call if no
+                }
+
                 // --- THESE tasks need to be performed when the renderable exists, regardless of if it is being drawn or not ---
-                renderable.CurrentAnimation?.UpdateAnimationFor(renderable); // dont call if no
+
                 renderable.OnUpdate?.Invoke();
 
                 if (renderable.Children.Count > 0) RenderAll(renderable);
