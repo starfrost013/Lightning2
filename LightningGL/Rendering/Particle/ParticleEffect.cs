@@ -91,7 +91,7 @@
         {
             Mode = ParticleMode.Default;
             TextureComponent = texture;
-            Texture = new();
+            Texture = new("Texture");
         }
 
         public override void Create()

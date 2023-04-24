@@ -3,7 +3,7 @@
 
 [assembly: AssemblyVersion("2.0.0.422")]
 [assembly: AssemblyFileVersion("2.0.0.422")]
-[assembly: AssemblyInformationalVersion("2.0.0-rc1 build 422, built 2023-04-24 01:08:58")]
+[assembly: AssemblyInformationalVersion("2.0.0-rc1 build 422, built 2023-04-24 22:11:42")]
 [assembly: AssemblyTitle("The Lightning Game Engine")]
 
 namespace LightningBase
@@ -17,7 +17,7 @@ namespace LightningBase
 		public const string LIGHTNING_VERSION_SPECIFIER = "-rc1";
 		public const string LIGHTNING_VERSION_STRING = "2.0.0-rc1";
 		public const string LIGHTNING_VERSION_BUILD_STRING = "2.0.0.422";
-		public static string LIGHTNING_VERSION_EXTENDED_STRING = "2.0.0-rc1 build 422, built 2023-04-24 01:08:58";
+		public static string LIGHTNING_VERSION_EXTENDED_STRING = "2.0.0-rc1 build 422, built 2023-04-24 22:11:42";
 	}
 }
 
