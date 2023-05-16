@@ -150,12 +150,6 @@ namespace LightningGL
         public virtual bool SnapToScreen { get; set; }
 
         /// <summary>
-        /// The position of this texture.
-        /// Must be valid to draw.
-        /// </summary>
-        public virtual Vector2 Position { get; set; }
-
-        /// <summary>
         /// Determines if this renderable is cullable or not.
         /// </summary>
         public virtual bool NotCullable { get; set; }
@@ -176,7 +170,7 @@ namespace LightningGL
             {
                 // this MAY cause issues if the renderPosition is eve ractually (0,0)
                 // will be fixed in GL version
-                if (_renderPosition == default) return Position;
+                if (_renderPosition == default) return Parent.Position;
                 return _renderPosition;
 
             }
@@ -187,17 +181,9 @@ namespace LightningGL
         }
 
         /// <summary>
-        /// The size of this texture. 
-        /// Does not have to be equal to image size.
-        /// </summary>
-        public virtual Vector2 Size { get; set; }
-
-        /// <summary>
         /// Determines if this Renderable has actually been loaded or not.
         /// </summary>
         internal bool Loaded { get; set; }
-
-
 
         /// <summary>
         /// Animation timer.

@@ -13,7 +13,7 @@ namespace LightningGL
         /// The current animation of this Renderable
         /// </summary>
         public Animation? CurrentAnimation { get; private set; }
-
+            
         public virtual void StartCurrentAnimation()
         {
             if (CurrentAnimation == null

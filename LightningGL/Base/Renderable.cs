@@ -14,6 +14,16 @@
         private string _name;
 
         /// <summary>
+        /// The position of this Renderable.
+        /// </summary>
+        private Vector2 Position { get; set; }
+
+        /// <summary>
+        /// The size of this Renderable.
+        /// </summary>
+        private Vector2 Size { get; set; }
+
+        /// <summary>
         /// The Name of this Renderable.
         /// </summary>
         public virtual string Name
